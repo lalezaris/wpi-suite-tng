@@ -61,7 +61,7 @@
 	
 	<target name="depend.RequirementsManager"
 		depends="depend.Janeway">
-		<ant dir="${dependencies.basedir}/PostBoard"
+		<ant dir="${dependencies.basedir}/RequirementsManager"
 			target="${dependency.target}"
 			inheritAll="false"/>
 	</target>

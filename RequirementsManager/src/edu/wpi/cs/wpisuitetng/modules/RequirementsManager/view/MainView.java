@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 
 /**
@@ -20,8 +22,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
  */
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
+	public final MainTabController mainTabController;
 	
 	public MainView() {
+		MainTabView mainTabView = new MainTabView();
+		mainTabController = new MainTabController(mainTabView);
+		
 		// Simple outline, can be changed later
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
@@ -30,13 +36,12 @@ public class MainView extends JPanel {
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
-		leftPanel.setBorder(BorderFactory.createLineBorder(Color.red, 2));
 		this.add(leftPanel, BorderLayout.LINE_START);
 		
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BorderLayout());
-		rightPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
-		this.add(rightPanel, BorderLayout.LINE_END);
+		this.add(rightPanel, BorderLayout.CENTER);
+		rightPanel.add(mainTabView);
 		
 		TreeView treeView = new TreeView();
 		leftPanel.add(treeView);

@@ -1,6 +1,10 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
 import java.util.ArrayList;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 
 /**
  * Class for storing a Requirement
@@ -13,9 +17,6 @@ import java.util.ArrayList;
  * @version Mar 17, 2013
  *
  */
-import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Requirement extends AbstractModel{
 	private int releaseNumber;

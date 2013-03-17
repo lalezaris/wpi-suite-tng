@@ -43,6 +43,7 @@ public class MainView extends JPanel {
 		this.add(rightPanel, BorderLayout.CENTER);
 		rightPanel.add(mainTabView);
 		
+		// Add requirements tree to the left panel
 		TreeView treeView = new TreeView();
 		leftPanel.add(treeView);
 	}

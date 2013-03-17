@@ -21,7 +21,12 @@ public class Requirement {
 	private ArrayList<Requirement> subRequirements;
 	private String type;
 	
-	//basic contructor: at least name and description are always required
+	/**
+	 * Basic constructor: at least name and description are always required
+	 * 
+	 * @param name
+	 * @param description
+	 */
 	public Requirement(String name, String description){
 		this.releaseNumber = 0;
 		this.status = "New"; //default status is New
@@ -38,8 +43,7 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the releaseNumber
 	 * @return the releaseNumber
 	 */
 	public int getReleaseNumber() {
@@ -47,17 +51,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param releaseNumber: the releaseNumber to set
+	 * Sets the releaseNumber
+	 * @param releaseNumber: sets the releaseNumber 
 	 */
 	public void setReleaseNumber(int releaseNumber) {
 		this.releaseNumber = releaseNumber;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the status
 	 * @return the status
 	 */
 	public String getStatus() {
@@ -65,17 +67,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param status: the status to set
+	 * Sets the status
+	 * @param status: sets the status 
 	 */
 	public void setStatus(String status) {
 		this.status = status;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the priority
 	 * @return the priority
 	 */
 	public String getPriority() {
@@ -83,17 +83,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param priority: the priority to set
+	 * Sets the priority
+	 * @param priority: sets the priority 
 	 */
 	public void setPriority(String priority) {
 		this.priority = priority;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the name
 	 * @return the name
 	 */
 	public String getName() {
@@ -101,17 +99,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param name: the name to set
+	 * Sets the name
+	 * @param name: sets the name 
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the description
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -119,17 +115,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param description: the description to set
+	 * Sets the description
+	 * @param description: sets the description 
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the estimate
 	 * @return the estimate
 	 */
 	public int getEstimate() {
@@ -137,17 +131,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param estimate: the estimate to set
+	 * Sets the estimate
+	 * @param estimate: sets the estimate 
 	 */
 	public void setEstimate(int estimate) {
 		this.estimate = estimate;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the actualEffort
 	 * @return the actualEffort
 	 */
 	public int getActualEffort() {
@@ -155,17 +147,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param actualEffort: the actualEffort to set
+	 * Sets the actualEffort
+	 * @param actualEffort: sets the actualEffort 
 	 */
 	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the subRequirements
 	 * @return the subRequirements
 	 */
 	public ArrayList<Requirement> getSubRequirements() {
@@ -173,17 +163,15 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param subRequirements: the subRequirements to set
+	 * Sets the subRequirements
+	 * @param subRequirements: sets the subRequirements 
 	 */
 	public void setSubRequirements(ArrayList<Requirement> subRequirements) {
 		this.subRequirements = subRequirements;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the type
 	 * @return the type
 	 */
 	public String getType() {
@@ -191,12 +179,14 @@ public class Requirement {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param type: the type to set
+	 * Sets the type
+	 * @param type: sets the type 
 	 */
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	
+
+
 }

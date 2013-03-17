@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Class for storing a Requirement
  *
- * @author Tushar
+ * @author Tushar Narayan
  *
  * @version Mar 17, 2013
  *
@@ -37,14 +37,14 @@ public class Requirement {
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.type = "Requirement"; //
-		/*default type is Requirement:
-		 * 	can be one of Requirement, User Story or Epic
+		/*default type is Requirement, can be one of:
+		 * Requirement, User Story or Epic
 		 * */
 	}
 
 	/**
 	 * Gets the releaseNumber
-	 * @return the releaseNumber
+	 * @return releaseNumber
 	 */
 	public int getReleaseNumber() {
 		return releaseNumber;
@@ -185,8 +185,4 @@ public class Requirement {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	
-
-
 }

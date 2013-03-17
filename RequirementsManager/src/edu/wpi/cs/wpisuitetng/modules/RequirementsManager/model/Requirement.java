@@ -6,11 +6,18 @@ import java.util.ArrayList;
  * Class for storing a Requirement
  *
  * @author Tushar
- *
+ * @edited Michael French
+ * 			EDIT: Made class extend AbstractModel
+ * 			REASON: This class MUST extent AbstractModel in order 
+ * 			to be compatible with the DataStore class
  * @version Mar 17, 2013
  *
  */
-public class Requirement {
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
+public class Requirement extends AbstractModel{
 	private int releaseNumber;
 	private String status;
 	private String priority;
@@ -184,6 +191,30 @@ public class Requirement {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String toJSON() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean identify(Object o) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

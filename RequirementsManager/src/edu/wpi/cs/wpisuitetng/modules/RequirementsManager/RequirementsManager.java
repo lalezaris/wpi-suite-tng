@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+
 import edu.wpi.cs.wpisuitetng.janeway.gui.widgets.KeyboardShortcut;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.ToolbarPanel;
 
 public class RequirementsManager implements IJanewayModule {
 	//initialize tabs

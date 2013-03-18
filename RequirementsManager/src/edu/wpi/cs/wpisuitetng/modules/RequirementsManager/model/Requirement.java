@@ -7,8 +7,6 @@ import com.google.gson.GsonBuilder;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.DefectEvent;
 
 
 /**
@@ -232,6 +230,7 @@ public class Requirement extends AbstractModel{
 		//GsonBuilder builder = new GsonBuilder();
 		//addGsonDependencies(builder);
 		//return builder.create().fromJson(json, Requirement.class);
+		return null;
 	}
 	
 	/**

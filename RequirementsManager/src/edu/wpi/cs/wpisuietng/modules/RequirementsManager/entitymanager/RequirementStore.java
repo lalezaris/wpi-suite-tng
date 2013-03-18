@@ -14,11 +14,6 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.*;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.ChangesetCallback;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.DefectChangeset;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.validators.ValidationIssue;
 
 /**
  * 
@@ -60,7 +55,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new WPISuiteException();
 		}
 		return newRequirement;
-		return null;
 	}
 
 	/*

@@ -15,14 +15,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 /**
  * Insert Description Here
  *
- * @author CDUNKERS
+ * @author CDUNKERS and Joe Spicola
  *
  * @version Mar 17, 2013
  *
  */
 public enum RequirementPriority {
+	UNDECIDED,   // not sure if needed 
 	HIGH,       // requires immediate attention
 	MEDIUM, // requires attention shortly
-	LOW,   // requires attention at some point in the iteration
-	UNDECIDED   // not sure if needed 
+	LOW   // requires attention at some point in the iteration
 }

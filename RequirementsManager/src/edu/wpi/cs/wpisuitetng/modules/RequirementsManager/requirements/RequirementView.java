@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
+ *  Chris Dunkers and Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.defecttracker.tabs.Tab;
 /**
  * Insert Description Here
  *
- * @author CDUNKERS
+ * @author CDUNKERS and Joe Spicola
  *
  * @version Mar 17, 2013
  *

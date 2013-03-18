@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 /**
  * Insert Description Here
  *
- * @author CDUNKERS
+ * @author CDUNKERS and Joe Spicola
  *
  * @version Mar 17, 2013
  *

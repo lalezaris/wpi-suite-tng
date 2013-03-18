@@ -27,7 +27,7 @@ import javax.swing.JTabbedPane;
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
  * It starts out showing the single Dashboard tab.
  *
- * @author Tyler Stone, adapted from Defect Tracker
+ * @author adapted from Defect Tracker
  *
  * @version Mar 17, 2013
  *

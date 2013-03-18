@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
  * Provides convenient public methods for controlling the MainTabView.
  * Keep in mind that this controller is visible as a public field in the module.
  * 
- * @author Tyler Stone - Adapted from Defect Tracker
+ * @author Adapted from Defect Tracker
  *
  * @version Mar 17, 2013
  *

@@ -62,7 +62,7 @@ public class Defect extends AbstractModel {
 	 * @param title the title of the Defect
 	 * @param description the description of the Defect
 	 * @param creator the User who created the Defect
-	 */
+	 */ 
 	public Defect(int id, String title, String description, User creator) {
 		this();
 		this.id = id;

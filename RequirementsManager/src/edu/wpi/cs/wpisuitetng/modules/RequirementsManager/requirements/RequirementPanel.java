@@ -40,10 +40,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPrio
 public class RequirementPanel extends JPanel {
 
 	/** The parent view **/
-	protected RequirementView parent;
+	//protected RequirementView parent;
 	
 	/** The Defect displayed in this panel */
-	protected Requirement model; 
+	//protected Requirement model; 
 
 	/*
 	 * Form elements
@@ -75,16 +75,16 @@ public class RequirementPanel extends JPanel {
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
 	/**
-	 * Constructs a DefectPanel for creating or editing a given Defect.
+	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
-	 * @param parent	The parent DefectView.
+	 * @param parent	The parent RequirementView.
 	 * @param defect	The Defect to edit.
-	 * @param mode		Whether or not the given Defect should be treated as if it already exists 
+	 * @param mode		Whether or not the given Requirement should be treated as if it already exists 
 	 * 					on the server ({@link Mode#EDIT}) or not ({@link Mode#CREATE}).
 	 */
-	public RequirementPanel(RequirementView parent, Requirement requirement) {
-		this.parent = parent;
-		this.model = requirement;
+	public RequirementPanel(/*RequirementView parent, Requirement requirement*/) {
+		//this.parent = parent;
+		//this.model = requirement;
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -213,11 +213,11 @@ public class RequirementPanel extends JPanel {
 //		layout.putConstraint(SpringLayout.EAST, lblStatus, labelWidth, SpringLayout.WEST, lblStatus);
 //		layout.putConstraint(SpringLayout.WEST, cmbStatus, HORIZONTAL_PADDING, SpringLayout.EAST, lblStatus);
 		
-//		layout.putConstraint(SpringLayout.NORTH, txtCreatedDate, VERTICAL_PADDING, SpringLayout.SOUTH, cmbStatus);
-//		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblCreatedDate, 0, SpringLayout.VERTICAL_CENTER, txtCreatedDate);
-//		layout.putConstraint(SpringLayout.WEST, lblCreatedDate, 0, SpringLayout.WEST, lblTitle);
-//		layout.putConstraint(SpringLayout.EAST, lblCreatedDate, labelWidth, SpringLayout.WEST, lblCreatedDate);
-//		layout.putConstraint(SpringLayout.WEST, txtCreatedDate, HORIZONTAL_PADDING, SpringLayout.EAST, lblCreatedDate);
+//		layout.putConstraint(SpringLayout.NORTH, txtEstimate, VERTICAL_PADDING, SpringLayout.SOUTH, cmbStatus);
+//		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblEstimate, 0, SpringLayout.VERTICAL_CENTER, txtCreatedDate);
+//		layout.putConstraint(SpringLayout.WEST, lblEstimate, 0, SpringLayout.WEST, lblTitle);
+//		layout.putConstraint(SpringLayout.EAST, lblEsrimate, labelWidth, SpringLayout.WEST, lblCreatedDate);
+//		layout.putConstraint(SpringLayout.WEST, txtEstimate, HORIZONTAL_PADDING, SpringLayout.EAST, lblCreatedDate);
 		
 		layout.putConstraint(SpringLayout.NORTH, txtCreatedDate, VERTICAL_PADDING, SpringLayout.SOUTH, cmbStatus);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, lblCreatedDate, 0, SpringLayout.VERTICAL_CENTER, txtCreatedDate);
@@ -371,15 +371,6 @@ public class RequirementPanel extends JPanel {
 	 */
 	public RequirementView getParent() {
 		return parent;
-	}
-
-	/**
-	 * Returns the edit {@link Mode} for this DefectPanel.
-	 * 
-	 * @return	The edit {@link Mode} for this DefectPanel.
-	 */
-	public Mode getEditMode() {
-		return editMode;
 	}
 
 	/**

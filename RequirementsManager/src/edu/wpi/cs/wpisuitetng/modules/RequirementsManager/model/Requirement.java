@@ -1,9 +1,14 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
 import java.util.ArrayList;
+
+import com.google.gson.GsonBuilder;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.DefectEvent;
 
 
 /**
@@ -28,6 +33,7 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private String type;
+	private int id;
 	
 	/**
 	 * Basic constructor: at least name and description are always required
@@ -218,7 +224,25 @@ public class Requirement extends AbstractModel{
 		return null;
 	}
 
+	/**
+	 * @param json Json string to parse containing Defect
+	 * @return The Defect given by json
+	 */
+	public static Requirement fromJSON(String json) {
+		//GsonBuilder builder = new GsonBuilder();
+		//addGsonDependencies(builder);
+		//return builder.create().fromJson(json, Requirement.class);
+	}
 	
+	/**
+	 * Add dependencies necessary for Gson to interact with this class
+	 * @param builder Builder to modify
+	 */
+	public static void addGsonDependencies(GsonBuilder builder) {
+		//RequirementEvent.addGsonDependencies(builder);
+	}
 
-
+	public void setId(int id){
+		this.id =id;
+	}
 }

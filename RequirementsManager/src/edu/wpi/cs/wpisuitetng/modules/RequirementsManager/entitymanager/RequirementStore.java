@@ -1,4 +1,4 @@
-package edu.wpi.cs.wpisuietng.modules.RequirementsManager.entitymanager;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.*;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 

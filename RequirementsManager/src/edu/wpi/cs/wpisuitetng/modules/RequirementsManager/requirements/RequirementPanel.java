@@ -26,9 +26,9 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
-
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Panel to display and edit the basic fields for a requirement
  *
@@ -40,10 +40,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPrio
 public class RequirementPanel extends JPanel {
 
 	/** The parent view **/
-	//protected RequirementView parent;
+	protected RequirementView parent;
 	
 	/** The Defect displayed in this panel */
-	//protected Requirement model; 
+	protected Requirement model; 
 
 	/*
 	 * Form elements
@@ -296,21 +296,19 @@ public class RequirementPanel extends JPanel {
 		model.setTitle(requirement.getTitle());
 		model.setReleaseNumber(requirement.getReleaseNumber());
 		model.setDescription(requirement.getDescription());
-		model.setAssignee(requirement.getAssignee());
-		model.setCreator(requirement.getCreator());
-		model.setEstimateDate(requirement.getEstimateDate());
+		model.setEstimate(requirement.getEstimate());
 		model.setCreationDate(requirement.getCreationDate());
 		model.setLastModifiedDate(requirement.getLastModifiedDate());
 		model.setStatus(requirement.getStatus());
 		model.setPriority(requirement.getPriority());
 		
 		updateFields();
-		defectEventListModel.update(requirement);
+		//defectEventListModel.update(requirement);
 		this.revalidate();
 		layout.invalidateLayout(this);
 		layout.layoutContainer(this);
 		this.repaint();
-		parent.refreshScrollPane();
+		//parent.refreshScrollPane();
 	}
 	
 	/**

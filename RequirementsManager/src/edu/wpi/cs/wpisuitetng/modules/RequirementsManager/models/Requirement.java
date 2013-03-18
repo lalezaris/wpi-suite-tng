@@ -1,6 +1,7 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.gson.GsonBuilder;
 
@@ -25,11 +26,12 @@ public class Requirement extends AbstractModel{
 	private int releaseNumber;
 	private String status;
 	private String priority;
-	private String name;
+	private String title;
 	private String description;
 	private int estimate;
 	private int actualEffort;
 	private ArrayList<Requirement> subRequirements;
+	private Date creationDate, lastModifiedDate;
 	private String type;
 	private int id;
 	
@@ -43,7 +45,7 @@ public class Requirement extends AbstractModel{
 		this.releaseNumber = 0;
 		this.status = "New"; //default status is New
 		this.priority = ""; //default priority is blank
-		this.name = name; //name is required
+		this.title = title; //name is required
 		this.description = description; //description is required
 		this.estimate = 0; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
@@ -106,16 +108,16 @@ public class Requirement extends AbstractModel{
 	 * Gets the name
 	 * @return the name
 	 */
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
 	 * Sets the name
 	 * @param name: sets the name 
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	/**
@@ -181,6 +183,54 @@ public class Requirement extends AbstractModel{
 	public void setSubRequirements(ArrayList<Requirement> subRequirements) {
 		this.subRequirements = subRequirements;
 	}
+	
+	/**
+	 * Gets the creation date
+	 * @return the Date this Requirement was created on
+	 */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	/**
+	 * sets the creation date
+	 * @param creationDate the Date this Requirement was created on
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/**
+	 * gets the modified date
+	 * @return the Date this Requirement was last modified on
+	 */
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	/**
+	 * sets the modified list
+	 * @param lastModifiedDate the Date this Requirement was last modified on
+	 */
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+	
+	/**
+	 * Sets the id
+	 * @param id: sets the id 
+	 */
+	public void setId(int id){
+		this.id =id;
+	}
+	
+	/**
+	 * gets the id
+	 * @return id number 
+	 */
+	public int getId(){
+		return id;
+	}
 
 	/**
 	 * Gets the type
@@ -241,7 +291,4 @@ public class Requirement extends AbstractModel{
 		//RequirementEvent.addGsonDependencies(builder);
 	}
 
-	public void setId(int id){
-		this.id =id;
-	}
 }

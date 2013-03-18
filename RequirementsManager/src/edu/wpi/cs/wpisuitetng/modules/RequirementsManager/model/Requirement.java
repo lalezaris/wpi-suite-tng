@@ -9,6 +9,10 @@
  *
  * Contributors:
  *  Tushar Narayan
+ *  Lauren Kahn
+ *  Mike Perrone
+ *  Ned Shelton
+ *  Xia Li
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.RequirementStatus.*;
 
 /**
  * Persistent Model that represents a Requirement.
@@ -29,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  */
 public class Requirement extends AbstractModel{
 	private int releaseNumber;
-	private String status;
+	private RequirementStatus status;
 	private String priority;
 	private String name;
 	private String description;
@@ -41,28 +47,37 @@ public class Requirement extends AbstractModel{
 	
 	
 	/**
-	 * Basic constructor: Constructs a Requirement with the default values.
-	 * At least name and description are always required.
-	 * 
-	 * @param name the name of the Requirement
-	 * @param description the description of the Requirement
+	 * Constructs a new Requirement with default properties
 	 */
-	public Requirement(String name, String description){
-		this.releaseNumber = 0; //default releaseNumber is 0
-		this.status = "New"; //default status is New
-		this.priority = ""; //default priority is blank
-		this.name = name; //name is required
-		this.description = description; //description is required
-		this.estimate = 0; //default estimate set to 0
-		this.actualEffort = 0; //default actualEffort set to 0
-		this.subRequirements = new ArrayList<Requirement>();
-		this.type = "Requirement"; /*default type is Requirement, can be one of:
+	public Requirement(){
+		releaseNumber = 0;
+		status = FUTURE;
+		priority = name = description = "";
+		estimate = actualEffort = 0;
+		subRequirements = new ArrayList<Requirement>();
+		type = "Requirement"; /*default type is Requirement, can be one of:
 		 							* Requirement, User Story or Epic
 		 							* */
+		id = -1; //default id is -1
 	}
 	
-	
 
+	/**
+	 * Constructs a new Requirement with the given properties
+	 * Other properties are the same as the default constructor
+	 * 
+	 * @param id the unique id of the Requirement
+	 * @param name the title of the Requirement
+	 * @param description the description of the Requirement
+	 */ 
+	public Requirement(int id, String name, String description) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+	}
+
+	
 	/**
 	 * Gets the releaseNumber
 	 * @return releaseNumber
@@ -83,7 +98,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the status
 	 * @return the status
 	 */
-	public String getStatus() {
+	public RequirementStatus getStatus() {
 		return status;
 	}
 
@@ -91,7 +106,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the status
 	 * @param status: sets the status 
 	 */
-	public void setStatus(String status) {
+	public void setStatus(RequirementStatus status) {
 		this.status = status;
 	}
 
@@ -207,6 +222,19 @@ public class Requirement extends AbstractModel{
 		this.type = type;
 	}
 
+	/**
+	 * @return the unique id of this Requirement (-1 if this is a new Requirement)
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * @param id the id of this Requirement
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	// note that save and delete don't do anything at the moment, even in the core's models
 	@Override
@@ -234,7 +262,13 @@ public class Requirement extends AbstractModel{
 
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
-		return null;
+		Boolean returnValue = false;
+		if(o instanceof Requirement && id == ((Requirement) o).getId()) {
+			returnValue = true;
+		}
+		if(o instanceof String && Integer.toString(id).equals(o)) {
+			returnValue = true;
+		}
+		return returnValue;
 	}
 }

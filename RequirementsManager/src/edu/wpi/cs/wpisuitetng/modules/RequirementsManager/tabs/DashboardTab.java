@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 /**
  * The basic dashboard for the Requirements Manager Tab.
  *
- * @author Tyler Stone - adapted from Defect Tracker
+ * @author Adapted from Defect Tracker
  *
  * @version Mar 17, 2013
  *

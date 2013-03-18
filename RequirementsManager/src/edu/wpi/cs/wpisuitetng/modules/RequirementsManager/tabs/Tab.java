@@ -20,7 +20,7 @@ import javax.swing.Icon;
  * A wrapper class for MainTabView that can be given to components within that view
  * in order to allow them to easily change their titles and icons.
  * 
- * @author Tyler Stone - Adapted from Defect Tracker
+ * @author Adapted from Defect Tracker
  *
  * @version Mar 17, 2013
  *

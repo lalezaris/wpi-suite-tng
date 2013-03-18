@@ -27,7 +27,7 @@ import javax.swing.JTabbedPane;
 /**
  * This provides a tab component with a close button to the left of the title
  * 
- * @author Tyler Stone - Adapted from Defect Tracker
+ * @author Adapted from Defect Tracker
  *
  * @version Mar 17, 2013
  *

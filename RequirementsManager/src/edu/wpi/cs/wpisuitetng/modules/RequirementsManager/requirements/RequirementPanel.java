@@ -29,17 +29,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.ComboUpdateListener;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectView;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.TagPanel;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.TextUpdateListener;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.comments.NewCommentPanel;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.defectevents.model.DefectEventListModel;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.defectevents.view.DefectEventListCellRenderer;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect; //should be done by another group
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Tag;
-
 /**
  * Panel to display and edit the basic fields for a requirement
  *
@@ -49,16 +38,12 @@ import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Tag;
  *
  */
 public class RequirementPanel extends JPanel {
-	public enum Mode {
-		CREATE,
-		EDIT;
-	}
 
 	/** The parent view **/
 	protected RequirementView parent;
 	
 	/** The Defect displayed in this panel */
-	protected Requirement model; //need to get this from the repository when finished
+	protected Requirement model; 
 
 	/*
 	 * Form elements
@@ -68,7 +53,7 @@ public class RequirementPanel extends JPanel {
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
-	protected JTextField txtEstimateDate;
+	protected JTextField txtEstimate;
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
@@ -76,39 +61,12 @@ public class RequirementPanel extends JPanel {
 	protected JLabel lblCreatedDate;
 	protected JLabel lblModifiedDate;
 	
-	/** The panel containing GUI components for adding tests to requirements */
-	protected TestPanel testPanel;
-	
-	/** A JList containing the change history for the requirements*/
-	protected JList changeSetsList;
-	
-	/** The data model for the ChangeSet list */
-	protected DefectEventListModel defectEventListModel;
-	
-	/** A panel containing GUI components for adding comments to the defect */
-	protected NewCommentPanel commentPanel;
-	
 	/** The layout manager for this panel */
 	protected SpringLayout layout;
 	
-	/*
-	 * Listeners for the form fields
-	 */
-	protected final TextUpdateListener txtTitleListener;
-	protected final TextUpdateListener txtDescriptionListener;
-	protected final TextUpdateListener txtReleaseNumberListener; 
-	protected final ComboUpdateListener cmbStatusListener;
-	protected final ComboUpdateListener cmbPriorityListener;
-	protected final TextUpdateListener txtEstimateDataListener;
-	protected final TextUpdateListener txtCreatorListener;
-	protected final TextUpdateListener txtAssigneeListener;
-
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
-	/** An enum indicating if the form is in create mode or edit mode */
-	protected Mode editMode;
-
 	/*
 	 * Constants used to layout the form
 	 */
@@ -124,10 +82,9 @@ public class RequirementPanel extends JPanel {
 	 * @param mode		Whether or not the given Defect should be treated as if it already exists 
 	 * 					on the server ({@link Mode#EDIT}) or not ({@link Mode#CREATE}).
 	 */
-	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
+	public RequirementPanel(RequirementView parent, Requirement requirement) {
 		this.parent = parent;
 		this.model = requirement;
-		editMode = mode;
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -139,32 +96,6 @@ public class RequirementPanel extends JPanel {
 		// Add all components to this panel
 		addComponents();
 
-		// Add TextUpdateListeners. These check if the text component's text differs from the panel's Defect 
-		// model and highlights them accordingly every time a key is pressed.
-		txtTitleListener = new TextUpdateListener(this, txtTitle);
-		txtTitle.addKeyListener(txtTitleListener);
-		
-		txtTitleListener = new TextUpdateListener(this, txtReleaseNumber);
-		txtTitle.addKeyListener(txtReleaseNumberListener);
-
-		txtDescriptionListener = new TextUpdateListener(this, txtDescription);
-		txtDescription.addKeyListener(txtDescriptionListener);
-		
-		cmbStatusListener = new ComboUpdateListener(this, cmbStatus);
-		cmbStatus.addItemListener(cmbStatusListener);
-		
-		cmbStatusListener = new ComboUpdateListener(this, cmbPriority);
-		cmbStatus.addItemListener(cmbPriorityListener);
-		
-		txtTitleListener = new TextUpdateListener(this, txtEstimateDate);
-		txtTitle.addKeyListener(txtEstimateDateListener);
-
-		txtCreatorListener = new TextUpdateListener(this, txtCreator);
-		txtCreator.addKeyListener(txtCreatorListener);
-
-		txtAssigneeListener = new TextUpdateListener(this, txtAssignee);
-		txtAssignee.addKeyListener(txtAssigneeListener);
-		
 		// prevent tab key from inserting tab characters into the description field
 		txtDescription.addKeyListener(new KeyAdapter() {
 			@Override
@@ -181,7 +112,7 @@ public class RequirementPanel extends JPanel {
 			}
 		});
 		
-		// Populate the form with the contents of the Defect model and update the TextUpdateListeners.
+		// Populate the form with the contents of the Requirements model.
 		updateFields();
 	}
 	
@@ -202,32 +133,19 @@ public class RequirementPanel extends JPanel {
 		for (int i = 0; i < RequirementStatus.values().length; i++) {
 			requirementStatusValues[i] = RequirementStatus.values()[i].toString();
 		}
-		cmbStatus = new JComboBox(defectStatusValues);
+		cmbStatus = new JComboBox(requirementStatusValues);
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
 		for (int i = 0; i < RequirementPriority.values().length; i++) {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		txtEstimateDate = new JTextField(50);
+		txtEstimate = new JTextField(50);
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(20);
 		txtCreator.setEnabled(false);
 		txtAssignee = new JTextField(20);
 		
-		// Construct the tab panel
-		tagPanel = new TagPanel(model);
-		commentPanel = new NewCommentPanel(getModel(), this);
-		requirementEventListModel = new RequirementEventListModel(getModel());
-		changeSetsList = new JList(requirementEventListModel);
-		changeSetsList.setCellRenderer(new RequirementEventListCellRenderer());
-		
-		if (editMode == Mode.CREATE) {
-			cmbStatus.setEnabled(false);
-			cmbPriority.setEnabled(false);
-			commentPanel.setInputEnabled(false);
-		}
-
 		// Set text component names. These names correspond to method names in the Defect model (ex: "Title" => Defect#getTitle()).
 		// These are required for TextUpdateListener to be able to get the correct field from panel's Defect model.
 		txtTitle.setName("Title");
@@ -235,7 +153,7 @@ public class RequirementPanel extends JPanel {
 		txtReleaseNumber.setName("Release Number");
 		cmbStatus.setName("Status");
 		cmbPriority.setName("Priority");
-		txtCreator.setName("Estimate Date");
+		txtCreator.setName("Estimate");
 		txtCreator.setName("Creator");
 		txtAssignee.setName("Assignee");
 		
@@ -245,15 +163,14 @@ public class RequirementPanel extends JPanel {
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 		txtCreator.setMaximumSize(txtCreator.getPreferredSize());
 		txtAssignee.setMaximumSize(txtAssignee.getPreferredSize());
-		tagPanel.setMaximumSize(tagPanel.getPreferredSize());
-
+		
 		// Construct labels for the form fields
 		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
 		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
-		lblEstimateDate = new JLabel("Estimate Date", LABEL_ALIGNMENT);
+		JLabel lblEstimate = new JLabel("Estimate Date", LABEL_ALIGNMENT);
 		lblCreatedDate = new JLabel("", LABEL_ALIGNMENT);
 		lblModifiedDate = new JLabel("", LABEL_ALIGNMENT);
 		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
@@ -326,20 +243,6 @@ public class RequirementPanel extends JPanel {
 		layout.putConstraint(SpringLayout.EAST, lblAssignee, labelWidth, SpringLayout.WEST, lblAssignee);
 		layout.putConstraint(SpringLayout.WEST, txtAssignee, HORIZONTAL_PADDING, SpringLayout.EAST, lblAssignee);
 
-		layout.putConstraint(SpringLayout.NORTH, tagPanel, VERTICAL_PADDING * 3, SpringLayout.NORTH, txtAssignee);
-		layout.putConstraint(SpringLayout.WEST, tagPanel, 0, SpringLayout.WEST, lblTitle);
-		layout.putConstraint(SpringLayout.EAST, tagPanel, 0, SpringLayout.EAST, txtTitle);
-		
-		
-		layout.putConstraint(SpringLayout.NORTH, changeSetsList, VERTICAL_PADDING, SpringLayout.SOUTH, tagPanel);
-		layout.putConstraint(SpringLayout.WEST, changeSetsList, 0, SpringLayout.WEST, lblTitle);
-		layout.putConstraint(SpringLayout.EAST, changeSetsList, 0, SpringLayout.EAST, txtTitle);
-		
-		layout.putConstraint(SpringLayout.NORTH, commentPanel, VERTICAL_PADDING, SpringLayout.SOUTH, changeSetsList);
-		layout.putConstraint(SpringLayout.WEST, commentPanel, 0, SpringLayout.WEST, lblTitle);
-		layout.putConstraint(SpringLayout.EAST, commentPanel, 0, SpringLayout.EAST, txtTitle);
-		layout.putConstraint(SpringLayout.SOUTH, this, VERTICAL_PADDING, SpringLayout.SOUTH, commentPanel);
-
 		// Add all of the components to this panel
 		add(lblTitle);
 		add(txtTitle);
@@ -351,8 +254,8 @@ public class RequirementPanel extends JPanel {
 		add(cmbStatus);
 		add(lblPriority);
 		add(cmbPriority);
-		add(lblEstimateDate);
-		add(txtEstimateDate);
+		add(lblEstimate);
+		add(txtEstimate);
 		add(lblCreatedDate);
 		add(txtCreatedDate);
 		add(lblModifiedDate);
@@ -361,9 +264,6 @@ public class RequirementPanel extends JPanel {
 		add(txtCreator);
 		add(lblAssignee);
 		add(txtAssignee);
-		add(tagPanel);
-		add(changeSetsList);
-		add(commentPanel);
 	}
 
 	/**
@@ -380,31 +280,18 @@ public class RequirementPanel extends JPanel {
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
-		txtEstimateDate.setEnabled(enabled);
+		txtEstimate.setEnabled(enabled);
 		txtAssignee.setEnabled(enabled);
-		tagPanel.setInputEnabled(enabled);
-		commentPanel.setInputEnabled(enabled);
 	}
 	
-	/**
-	 * Updates the RequirementsPanel's model to contain the values of the given Requirement and sets the 
-	 * DefectPanel's editMode to {@link Mode#EDIT}.
-	 * 
-	 * @param requirement	The Requirement which contains the new values for the model.
-	 */
-	protected void updateModel(Requirement requirement) {
-		updateModel(requirement, Mode.EDIT);
-	}
-
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
 	 * @param	requirement	The Requirement which contains the new values for the model.
 	 * @param	mode	The new editMode.
 	 */
-	protected void updateModel(Requirement requirement, Mode mode) {
-		editMode = mode;
-		
+	protected void updateModel(Requirement requirement) {
+	
 		model.setId(requirement.getId());
 		model.setTitle(requirement.getTitle());
 		model.setReleaseNumber(requirement.getReleaseNumber());
@@ -416,7 +303,6 @@ public class RequirementPanel extends JPanel {
 		model.setLastModifiedDate(requirement.getLastModifiedDate());
 		model.setStatus(requirement.getStatus());
 		model.setPriority(requirement.getPriority());
-		tagPanel.updateModel(requirement);
 		
 		updateFields();
 		defectEventListModel.update(requirement);
@@ -459,14 +345,6 @@ public class RequirementPanel extends JPanel {
 			txtAssignee.setText(model.getAssignee().getUsername());
 		}
 		
-		txtTitleListener.checkIfUpdated();
-		txtReleaseNumberListener.checkIfUpdated();
-		txtDescriptionListener.checkIfUpdated();
-		cmbStatusListener.checkIfUpdated();
-		cmbPriorityListener.checkIfUpdated();
-		txtEstimateDate.checkIfUpdated();
-		txtCreatorListener.checkIfUpdated();
-		txtAssigneeListener.checkIfUpdated();
 	}
 
 	/**
@@ -542,13 +420,6 @@ public class RequirementPanel extends JPanel {
 		return txtCreator;
 	}
 	
-	/**
-	 * Returns the list model for the list of DefectChangesets
-	 * @return the list model for the list of DefectChangesets
-	 */
-	public RequirementEventListModel getRequirementEventListModel() {
-		return requirementEventListModel;
-	}
 }
 	
 	

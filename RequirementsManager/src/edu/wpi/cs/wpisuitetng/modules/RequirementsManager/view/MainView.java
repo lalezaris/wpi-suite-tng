@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
+import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
@@ -41,24 +42,28 @@ public class MainView extends JPanel {
 	public MainView() {
 		MainTabView mainTabView = new MainTabView();
 		mainTabController = new MainTabController(mainTabView);
+		JSplitPane splitPane;
 		
 		// Simple outline, can be changed later
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 		
 		// Set up the split panels
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
-		this.add(leftPanel, BorderLayout.LINE_START);
-		
-		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new BorderLayout());
-		this.add(rightPanel, BorderLayout.CENTER);
-		rightPanel.add(mainTabView);
 		
 		// Add requirements tree to the left panel
 		TreeView treeView = new TreeView();
 		leftPanel.add(treeView);
+		
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
+		rightPanel.add(mainTabView);		
+		
+		//new split pane to adjust size
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+
+		//add split pane to main view
+		this.add(splitPane, BorderLayout.CENTER);
 	}
 }

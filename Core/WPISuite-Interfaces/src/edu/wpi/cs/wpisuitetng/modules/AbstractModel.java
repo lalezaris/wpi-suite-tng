@@ -54,5 +54,4 @@ public abstract class AbstractModel implements Model {
 		this.project = p;
 	}
 
-
 }

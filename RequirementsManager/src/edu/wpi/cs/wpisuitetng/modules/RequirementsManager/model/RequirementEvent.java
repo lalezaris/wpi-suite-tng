@@ -12,9 +12,11 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
-import com.google.gson.GsonBuilder;
+import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 
 /**
  * Implementations of this interface represent some kind of event in a requirement.
@@ -32,9 +34,62 @@ public abstract class RequirementEvent extends AbstractModel{
 		CHANGESET
 	};
 	
+	protected Date date = new Date();
+	protected User user = new User("", "", "", -1);
+	
+	
+	/**
+	 * @return The Date when this event happened
+	 */
+	public Date getDate() {
+		return date;
+	}
+	
+	/**
+	 * @param date The Date of the Event to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	/**
+	 * @return The User responsible for this event
+	 */
+	public User getUser() {
+		return user;
+	}
+	
+	/**
+	 * @param user The User responsible for the event to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	/**
 	 * The type of event this is.  Subclasses must specify this in order to be deserialized properly.
 	 */
-	protected EventType type;
+	protected EventType type;	
+
 	
+	//The following methods are not actually being used for our purposes.
+	@Override
+	public void save() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean identify(Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

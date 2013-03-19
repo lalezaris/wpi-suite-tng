@@ -21,14 +21,14 @@ import com.google.gson.Gson;
  * @version Mar 17, 2013
  *
  */
-public class Note extends RequirementEvent{
+public class NoteEvent extends RequirementEvent{
 	private int requirementId;
 	private String body;
 	
 	/**
 	 * Create a Note with default properties.
 	 */
-	public Note() {
+	public NoteEvent() {
 		type = EventType.NOTE;
 		requirementId = -1;
 		body = "";
@@ -41,7 +41,7 @@ public class Note extends RequirementEvent{
 	 * @param defectId the id of the Requirement the Note is associated with
 	 * @param body the message body of the Comment
 	 */
-	public Note(int requirementId, String body) {
+	public NoteEvent(int requirementId, String body) {
 		this();
 		this.requirementId = requirementId;
 		this.body = body;
@@ -77,7 +77,7 @@ public class Note extends RequirementEvent{
 	public String toJSON() {
 		String json;
 		Gson gson = new Gson();
-		json = gson.toJson(this, Note.class);
+		json = gson.toJson(this, NoteEvent.class);
 		return json;
 	}
 
@@ -86,9 +86,9 @@ public class Note extends RequirementEvent{
 	 * @param json JSON string containing a serialized Comment
 	 * @return a Comment deserialized from the given JSON string
 	 */
-	public static Note fromJson(String json) {
+	public static NoteEvent fromJson(String json) {
 		Gson parser = new Gson();
-		return parser.fromJson(json, Note.class);
+		return parser.fromJson(json, NoteEvent.class);
 	}
 
 	@Override

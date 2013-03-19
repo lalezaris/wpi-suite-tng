@@ -81,7 +81,6 @@ public class MainTabController {
 	 */
 	private Tab addRequirementTab(Requirement requirement, Mode mode) {
 		Tab tab = addTab();
-		//TODO: Add a valid constructor for RequirementView
 		RequirementView view = new RequirementView(requirement, mode, tab);
 		tab.setComponent(view);
 		view.requestFocus();

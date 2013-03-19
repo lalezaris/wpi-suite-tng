@@ -428,6 +428,16 @@ public class RequirementPanel extends JPanel {
 		return parent;
 	}
 
+	
+	/**
+	 * Returns the edit {@link Mode} for this DefectPanel.
+	 * 
+	 * @return	The edit {@link Mode} for this DefectPanel.
+	 */
+	public Mode getEditMode() {
+		return editMode;
+	}
+
 	/**
 	 * Returns the model object represented by this view's fields.
 	 * 

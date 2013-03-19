@@ -24,9 +24,8 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-<<<<<<< Updated upstream
 
-=======
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
@@ -34,7 +33,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
->>>>>>> Stashed changes
 
 /**
  * Insert Description Here

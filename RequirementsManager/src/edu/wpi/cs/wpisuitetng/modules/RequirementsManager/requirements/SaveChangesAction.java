@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.SaveDefectController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
 
 /**
  * Action that calls {@link SaveDefectController#save}, default mnemonic key is S.
@@ -26,13 +26,13 @@ import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.SaveDefectController;
 @SuppressWarnings("serial")
 public class SaveChangesAction extends AbstractAction {
 
-	private final SaveDefectController controller;
+	private final SaveRequirementController controller;
 	
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
 	 */
-	public SaveChangesAction(SaveDefectController controller) {
+	public SaveChangesAction(SaveRequirementController controller) {
 		super("Save Changes");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);

@@ -23,7 +23,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
 
 /**
  * Controls the behavior of a given MainTabView.

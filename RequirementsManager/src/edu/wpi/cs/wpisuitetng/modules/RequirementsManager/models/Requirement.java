@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
 
 
 /**
@@ -24,8 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Requirement extends AbstractModel{
 	private int releaseNumber;
-	private String status;
-	private String priority;
+	private RequirementStatus status;
+	private RequirementPriority priority;
 	private String title;
 	private String description;
 	private int estimate;
@@ -43,8 +45,8 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(String name, String description){
 		this.releaseNumber = 0;
-		this.status = "New"; //default status is New
-		this.priority = ""; //default priority is blank
+		this.status = CLOSED; //default status is New
+		this.priority = MEDIUM; //default priority is blank
 		this.title = title; //name is required
 		this.description = description; //description is required
 		this.estimate = 0; //default estimate set to 0
@@ -76,7 +78,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the status
 	 * @return the status
 	 */
-	public String getStatus() {
+	public RequirementStatus getStatus() {
 		return status;
 	}
 
@@ -84,7 +86,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the status
 	 * @param status: sets the status 
 	 */
-	public void setStatus(String status) {
+	public void setStatus(RequirementStatus status) {
 		this.status = status;
 	}
 
@@ -92,7 +94,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the priority
 	 * @return the priority
 	 */
-	public String getPriority() {
+	public RequirementPriority getPriority() {
 		return priority;
 	}
 
@@ -100,7 +102,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the priority
 	 * @param priority: sets the priority 
 	 */
-	public void setPriority(String priority) {
+	public void setPriority(RequirementPriority priority) {
 		this.priority = priority;
 	}
 

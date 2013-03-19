@@ -26,6 +26,14 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
+
 /**
  * Insert Description Here
  *
@@ -38,14 +46,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton saveButton;
-	private DefectPanel mainPanel;
-	private SaveDefectController controller;
+	private RequirementPanel mainPanel;
+	private SaveRequirementController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled = true;
 	
 	/**
-	 * Constructs a new CreateDefectView where the user can enter the data for a new defect.
+	 * Constructs a new CreateRequirementView where the user can enter the data for a new requirement.
 	 * 
 	 */
 	public RequirementView() {
@@ -53,36 +61,36 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
-	 * Constructs a new DefectView where the user can view (and edit) a defect.
+	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
-	 * @param defect	The defect to show.
-	 * @param editMode	The editMode for editing the Defect
-	 * @param tab		The Tab holding this DefectView (can be null)
+	 * @param requirement	The requirement to show.
+	 * @param editMode	The editMode for editing the Requirement
+	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
-	public DefectView(Defect defect, Mode editMode, Tab tab) {
+	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {
 		containingTab = tab;
 		if(containingTab == null) {
 			containingTab = new DummyTab();
 		}
 		
 		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("Create Defect");
+		buttonGroup = new ToolbarGroupView("Create Requirement");
 		
 		containingTab.setIcon(new ImageIcon());
 		if(editMode == Mode.CREATE) {
-			containingTab.setTitle("Create Defect");
-			containingTab.setToolTipText("Create a new defect");
+			containingTab.setTitle("Create Requirement");
+			containingTab.setToolTipText("Create a new requirement");
 		} else {
-			setEditModeDescriptors(defect);
+			setEditModeDescriptors(requirement);
 		}
 		
-		// If this is a new defect, set the creator
-		if (editMode == Mode.CREATE) {
-			defect.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
-		}
+		// If this is a new requirement, set the creator
+		//if (editMode == Mode.CREATE) {
+		//	requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
+		//}
 		
-		// Instantiate the main create defect panel
-		mainPanel = new DefectPanel(this, defect, editMode);
+		// Instantiate the main create requirement panel
+		mainPanel = new RequirementPanel(this, requirement, editMode);
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -99,7 +107,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
-		controller = new SaveDefectController(this);
+		controller = new SaveRequirementController(this);
 
 		// Instantiate the save button and add it to the button panel
 		saveButton = new JButton();
@@ -108,4 +116,64 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		buttonGroup.setPreferredWidth(150);
 	}
 
+	/**
+	 * Sets whether input is enabled for this panel and its children. This should be used instead of 
+	 * JComponent#setEnabled because setEnabled does not affect its children.
+	 * 
+	 * @param enabled	Whether or not input is enabled.
+	 */
+	public void setInputEnabled(boolean enabled) {
+		inputEnabled = enabled;
+
+		saveButton.setEnabled(enabled);
+		mainPanel.setInputEnabled(enabled);
+	}
+	
+	/**
+	 * Returns whether or not input is enabled.
+	 * 
+	 * @return whether or not input is enabled.
+	 */
+	public boolean getInputEnabled() {
+		return inputEnabled;
+	}
+
+	/**
+	 * Returns the main panel with the data fields
+	 * 
+	 * @return the main panel with the data fields
+	 */
+	public JPanel getRequirementPanel() {
+		return mainPanel;
+	}
+	
+	@Override
+	public ToolbarGroupView getGroup() {
+		return buttonGroup;
+	}
+	
+	/**
+	 * @param requirement Set the tab title, tooltip, and group name according to this Requirement
+	 */
+	protected void setEditModeDescriptors(Requirement requirement) {
+		containingTab.setTitle("Requirement #" + requirement.getId());
+		containingTab.setToolTipText("View requirement " + requirement.getTitle());
+		buttonGroup.setName("Edit Requirement");
+	}
+	
+	/**
+	 * Scrolls the scroll pane containing the main panel to the bottom
+	 */
+	public void scrollToBottom() {
+		JScrollBar vBar = mainPanelScrollPane.getVerticalScrollBar();
+		vBar.setValue(vBar.getMaximum());
+	}
+
+	/**
+	 * Revalidates and repaints the scroll pane containing the RequirementPanel
+	 */
+	public void refreshScrollPane() {
+		mainPanelScrollPane.revalidate();
+		mainPanelScrollPane.repaint();
+	}
 }

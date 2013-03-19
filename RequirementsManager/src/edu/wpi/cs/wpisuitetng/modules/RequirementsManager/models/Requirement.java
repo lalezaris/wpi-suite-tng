@@ -49,7 +49,22 @@ public class Requirement extends AbstractModel{
 		this.priority = MEDIUM; //default priority is blank
 		this.title = title; //name is required
 		this.description = description; //description is required
-		this.estimate = 0; //default estimate set to 0
+		this.estimate = ""; //default estimate set to 0
+		this.actualEffort = 0; //default actualEffort set to 0
+		this.subRequirements = new ArrayList<Requirement>();
+		this.type = "Requirement"; //
+		/*default type is Requirement:
+		 * 	can be one of Requirement, User Story or Epic
+		 * */
+	}
+	
+	public Requirement() {
+		this.releaseNumber = 0;
+		this.status = CLOSED; //default status is New
+		this.priority = MEDIUM; //default priority is blank
+		this.title = ""; //name is required
+		this.description = ""; //description is required
+		this.estimate = ""; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.type = "Requirement"; //
@@ -142,7 +157,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the estimate
 	 * @return the estimate
 	 */
-	public int getEstimate() {
+	public String getEstimate() {
 		return estimate;
 	}
 
@@ -150,7 +165,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the estimate
 	 * @param estimate: sets the estimate 
 	 */
-	public void setEstimate(int estimate) {
+	public void setEstimate(String estimate) {
 		this.estimate = estimate;
 	}
 

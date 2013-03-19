@@ -23,12 +23,12 @@ import com.google.gson.Gson;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * This is an event to encapsulate a change to a Requirement.
- */
+ * Persistent Model that holds information about a set of changes to a Requirement.
+ * Every time a Requirement is changed by a user, a RequirementChangeset should be created
+ * containing the changes and the user responsible for making them. */
 public class RequirementChangeset extends RequirementEvent {
 
 	private Map<String, FieldChange<?>> changes;
-
 	
 	/**
 	 * Construct a RequirementChangeset with default properties.
@@ -72,10 +72,5 @@ public class RequirementChangeset extends RequirementEvent {
 		json = gson.toJson(this, RequirementChangeset.class);
 		return json;
 	}
-	
-	
-	
-	
-	
 
 }

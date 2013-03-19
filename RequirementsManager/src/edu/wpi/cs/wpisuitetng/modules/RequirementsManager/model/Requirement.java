@@ -50,10 +50,9 @@ public class Requirement extends AbstractModel{
 	private ArrayList<Requirement> subRequirements;
 	private String type;
 	private int id;
-	//TODO
-	//private User creator, assingee;
-	//private Date creationDate, lostModifiedDate;
-	private List<RequirementEvent> events;
+	private User creator, assingee;
+	private Date creationDate, lostModifiedDate;
+	private List<RequirementEvent> events; //events that happen on a Requirement once its created
 	
 	
 	
@@ -62,7 +61,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(){
 		releaseNumber = 0;
-		status = FUTURE;
+		status = NEW;
 		priority = name = description = "";
 		estimate = actualEffort = 0;
 		subRequirements = new ArrayList<Requirement>();
@@ -247,6 +246,78 @@ public class Requirement extends AbstractModel{
 		this.id = id;
 	}
 
+	/**
+	 * @return the creator
+	 */
+	public User getCreator() {
+		return creator;
+	}
+
+	/**
+	 * @param creator: the creator to set
+	 */
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	/**
+	 * @return the assingee
+	 */
+	public User getAssingee() {
+		return assingee;
+	}
+
+	/**
+	 * @param assingee: the assingee to set
+	 */
+	public void setAssingee(User assingee) {
+		this.assingee = assingee;
+	}
+
+	/**
+	 * @return the creationDate
+	 */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	/**
+	 * @param creationDate: the creationDate to set
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/**
+	 * @return the lostModifiedDate
+	 */
+	public Date getLostModifiedDate() {
+		return lostModifiedDate;
+	}
+
+	/**
+	 * @param lostModifiedDate: the lostModifiedDate to set
+	 */
+	public void setLostModifiedDate(Date lostModifiedDate) {
+		this.lostModifiedDate = lostModifiedDate;
+	}
+
+
+	/**
+	 * @return the list of events (notes, changes) for this Requirement in the order they occurred
+	 */
+	public List<RequirementEvent> getEvents() {
+		return events;
+	}
+
+
+	/**
+	 * @param events: the list of events to set, must be in the order events occurred
+	 */
+	public void setEvents(List<RequirementEvent> events) {
+		this.events = events;
+	}
+	
 	// note that save and delete don't do anything at the moment, even in the core's models
 	@Override
 	public void save() {

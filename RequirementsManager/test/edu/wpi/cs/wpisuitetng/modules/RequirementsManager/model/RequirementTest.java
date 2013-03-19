@@ -13,7 +13,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.RequirementStatus.FUTURE;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.RequirementStatus.NEW;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class RequirementTest {
 	@Test
 	public void testDefaultConstructor() {
 		assertEquals(r1.getReleaseNumber(), 0);
-		assertEquals(r1.getStatus(), FUTURE);
+		assertEquals(r1.getStatus(), NEW);
 		assertEquals(r1.getPriority(), "");
 		assertEquals(r1.getName(), "");
 		assertEquals(r1.getDescription(), "");
@@ -69,7 +69,7 @@ public class RequirementTest {
 	@Test
 	public void testParameterConstructor() {
 		assertEquals(r2.getReleaseNumber(), 0);
-		assertEquals(r2.getStatus(), FUTURE);
+		assertEquals(r2.getStatus(), NEW);
 		assertEquals(r2.getPriority(), "");
 		assertEquals(r2.getName(), "Test Requirement");
 		assertEquals(r2.getDescription(), "This is a test requirement.");

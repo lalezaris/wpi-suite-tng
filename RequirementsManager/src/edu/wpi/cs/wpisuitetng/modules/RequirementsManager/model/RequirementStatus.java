@@ -21,7 +21,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
  *
  */
 public enum RequirementStatus {
-	FUTURE,       // new requirement
+	NEW,       // new requirement
 	INPROGRESS, // work on the requirement has started
 	DONE,   // work on the requirement has been completed
 	ACCEPTED // the work done on the requirement has been checked and accepted

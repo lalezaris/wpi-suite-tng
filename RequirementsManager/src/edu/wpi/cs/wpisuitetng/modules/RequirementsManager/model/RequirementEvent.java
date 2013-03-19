@@ -8,15 +8,18 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tushar
+ *  Tushar Narayan
+ *  Lauren Kahn
+ *  Mike Perrone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
 import java.util.Date;
 
+import com.google.gson.GsonBuilder;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-
 
 /**
  * Implementations of this interface represent some kind of event in a requirement.
@@ -37,6 +40,10 @@ public abstract class RequirementEvent extends AbstractModel{
 	protected Date date = new Date();
 	protected User user = new User("", "", "", -1);
 	
+	/**
+	 * The type of event this is.  Subclasses must specify this in order to be deserialized properly.
+	 */
+	protected EventType type;
 	
 	/**
 	 * @return The Date when this event happened
@@ -64,13 +71,18 @@ public abstract class RequirementEvent extends AbstractModel{
 	 */
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
+	}	
 	
 	/**
-	 * The type of event this is.  Subclasses must specify this in order to be deserialized properly.
+	 * Given a builder, add anything to it that's necessary for Gson to interact with this class.
+	 * 
+	 * @param builder The builder to modify
 	 */
-	protected EventType type;	
+	public static void addGsonDependencies(GsonBuilder builder) {
+		builder.registerTypeAdapter(RequirementEvent.class, new RequirementEventDeserializer());
+		builder.registerTypeAdapter(RequirementChangeset.class, new RequirementChangesetDeserializer());
+	}
+	
 
 	
 	//The following methods are not actually being used for our purposes.
@@ -85,7 +97,9 @@ public abstract class RequirementEvent extends AbstractModel{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	// this model will only be created server side and then retrieved as part of a Defect in the future
+	// so I'm not sure if this is necessary
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub

@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
@@ -19,6 +19,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
+
 /**
  * Controls the behavior of a given MainTabView.
  * Provides convenient public methods for controlling the MainTabView.
@@ -28,11 +33,10 @@ import javax.swing.event.ChangeListener;
  *
  * @version Mar 17, 2013
  *
- * TODO: Add functions for adding various new tabs
  */
 public class MainTabController {
 	
-	private final MainTabView view;
+	MainTabView view;
 	
 	/**
 	 * @param view Create a controller that controls this MainTabView
@@ -68,6 +72,29 @@ public class MainTabController {
 	 */
 	public Tab addTab() {
 		return addTab(null, null, null, null);
+	}
+	
+	/**
+	 * Adds a tab that displays the given requirement in the given mode
+	 * @param requirement The defect to display
+	 * @param mode The Mode to use
+	 */
+	private Tab addRequirementTab(Requirement requirement, Mode mode) {
+		Tab tab = addTab();
+		//TODO: Add a valid constructor for RequirementView
+		RequirementView view = new RequirementView(requirement, mode, tab);
+		tab.setComponent(view);
+		view.requestFocus();
+		return tab;
+	}
+	
+	/**
+	 * Adds a tab that displays the given requirement
+	 * @param defect the requirement to display
+	 * @return The created Tab 
+	 */
+	public Tab addEditRequirementTab(Requirement requirement) {
+		return addRequirementTab(requirement, Mode.EDIT);
 	}
 	
 	/**

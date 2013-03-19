@@ -28,9 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class RequirementChangeset extends RequirementEvent {
 
 	private Map<String, FieldChange<?>> changes;
-	
-	
-	private User user;
+
 	
 	/**
 	 * Construct a RequirementChangeset with default properties.

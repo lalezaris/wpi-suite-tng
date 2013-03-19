@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
 import java.util.Date;
 
+import com.google.gson.GsonBuilder;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -66,6 +68,17 @@ public abstract class RequirementEvent extends AbstractModel{
 		this.user = user;
 	}
 	
+
+	/**
+	 * Given a builder, add anything to it that's necessary for Gson to interact with this class.
+	 * 
+	 * @param builder The builder to modify
+	 *
+	public static void addGsonDependencies(GsonBuilder builder) {
+		builder.registerTypeAdapter(RequirementEvent.class, new RequirementEventDeserializer());
+		builder.registerTypeAdapter(RequirementChangeset.class, new RequirementChangesetDeserializer());
+	}
+	*/
 	
 	/**
 	 * The type of event this is.  Subclasses must specify this in order to be deserialized properly.

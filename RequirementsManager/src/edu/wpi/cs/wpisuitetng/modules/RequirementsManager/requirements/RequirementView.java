@@ -24,13 +24,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.SaveDefectController;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.tabs.DummyTab;
-import edu.wpi.cs.wpisuitetng.modules.defecttracker.tabs.Tab;
+
 
 /**
  * Insert Description Here

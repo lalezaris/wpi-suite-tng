@@ -30,7 +30,7 @@ public class Requirement extends AbstractModel{
 	private RequirementPriority priority;
 	private String title;
 	private String description;
-	private int estimate;
+	private String estimate;
 	private int actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;

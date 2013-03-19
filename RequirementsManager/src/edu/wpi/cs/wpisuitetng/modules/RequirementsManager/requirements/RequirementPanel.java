@@ -26,6 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.ComboUpdateListener;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.TextUpdateListener;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.defect.DefectPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -38,13 +42,18 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  *
  */
 public class RequirementPanel extends JPanel {
+	
+	public enum Mode {
+		CREATE,
+		EDIT;
+	}
 
 	/** The parent view **/
 	protected RequirementView parent;
 	
 	/** The Defect displayed in this panel */
 	protected Requirement model; 
-
+	
 	/*
 	 * Form elements
 	 */
@@ -67,6 +76,20 @@ public class RequirementPanel extends JPanel {
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
+	/** An enum indicating if the form is in create mode or edit mode */
+	protected Mode editMode;
+	
+//	/*
+//	 * Listeners for the form fields
+//	 */
+//	protected final TextUpdateListener txtTitleListener;
+//	protected final TextUpdateListener txtReleaseNumberListener;
+//	protected final TextUpdateListener txtDescriptionListener;
+//	protected final ComboUpdateListener cmbStatusListener;
+//	protected final ComboUpdateListener cmbPrioritysListener;
+//	protected final TextUpdateListener txtCreatorListener;
+//	protected final TextUpdateListener txtAssigneeListener;
+	
 	/*
 	 * Constants used to layout the form
 	 */
@@ -82,9 +105,10 @@ public class RequirementPanel extends JPanel {
 	 * @param mode		Whether or not the given Requirement should be treated as if it already exists 
 	 * 					on the server ({@link Mode#EDIT}) or not ({@link Mode#CREATE}).
 	 */
-	public RequirementPanel(/*RequirementView parent, Requirement requirement*/) {
-		//this.parent = parent;
-		//this.model = requirement;
+	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
+		this.parent = parent;
+		this.model = requirement;
+		editMode = mode;
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -95,6 +119,29 @@ public class RequirementPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
+		
+//		// Add TextUpdateListeners. These check if the text component's text differs from the panel's Defect 
+//		// model and highlights them accordingly every time a key is pressed.
+//		txtTitleListener = new TextUpdateListener(this, txtTitle);
+//		txtTitle.addKeyListener(txtTitleListener);
+//		
+//		txtReleaseNumberListener = new TextUpdateListener(this, txtReleaseNumber);
+//		txtReleaseNumber.addKeyListener(txtTitleListener);
+//
+//		txtDescriptionListener = new TextUpdateListener(this, txtDescription);
+//		txtDescription.addKeyListener(txtDescriptionListener);
+//		
+//		cmbStatusListener = new ComboUpdateListener(this, cmbStatus);
+//		cmbStatus.addItemListener(cmbStatusListener);
+//
+//		cmbPriorityListener = new ComboUpdateListener(this, cmbPriority);
+//		cmbPriority.addItemListener(cmbPriorityListener);
+//
+//		txtCreatorListener = new TextUpdateListener(this, txtCreator);
+//		txtCreator.addKeyListener(txtCreatorListener);
+//
+//		txtAssigneeListener = new TextUpdateListener(this, txtAssignee);
+//		txtAssignee.addKeyListener(txtAssigneeListener);
 
 		// prevent tab key from inserting tab characters into the description field
 		txtDescription.addKeyListener(new KeyAdapter() {
@@ -285,12 +332,22 @@ public class RequirementPanel extends JPanel {
 	}
 	
 	/**
+	 * Updates the RequirementPanel's model to contain the values of the given Requirement and sets the 
+	 * RequirementPanel's editMode to {@link Mode#EDIT}.
+	 * 
+	 * @param defect	The Requirement which contains the new values for the model.
+	 */
+	protected void updateModel(Requirement requirement) {
+		updateModel(requirement, Mode.EDIT);
+	}
+	
+	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
 	 * @param	requirement	The Requirement which contains the new values for the model.
 	 * @param	mode	The new editMode.
 	 */
-	protected void updateModel(Requirement requirement) {
+	protected void updateModel(Requirement requirement, Mode mode) {
 	
 		model.setId(requirement.getId());
 		model.setTitle(requirement.getTitle());
@@ -377,15 +434,15 @@ public class RequirementPanel extends JPanel {
 	 * TODO: Do some basic input verification
 	 * @return the model represented by this view
 	 */
-//	public Requirement getEditedModel() {
-//		Requirement requirement = new Requirement();
-//		requirement.setId(model.getId());
-//		requirement.setTitle(txtTitle.getText());
-//		//requirement.setReleaseNumber(txtReleaseNumber.getText());
-//		requirement.setDescription(txtDescription.getText());
-//		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
-//		requirement.setPriority(RequirementStatus.valueOf((String) cmbPriority.getSelectedItem()));
-//		requirement.setEstimateDate(txtEstimateDate.getText());
+	public Requirement getEditedModel() {
+		Requirement requirement = new Requirement();
+		requirement.setId(model.getId());
+		requirement.setTitle(txtTitle.getText());
+		//requirement.setReleaseNumber(txtReleaseNumber.getText());
+		requirement.setDescription(txtDescription.getText());
+		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
+		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
+		requirement.setEstimate(txtEstimate.getText());
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}
@@ -397,9 +454,9 @@ public class RequirementPanel extends JPanel {
 //			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
 //		}
 //		requirement.setTags(tags);
-//		
-//		return defect;
-//	}
+		
+		return requirement;
+	}
 
 	/**
 	 * Returns the creator text field

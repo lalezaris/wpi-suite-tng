@@ -18,10 +18,16 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.RequirementStatus.*;
 
@@ -44,6 +50,11 @@ public class Requirement extends AbstractModel{
 	private ArrayList<Requirement> subRequirements;
 	private String type;
 	private int id;
+	//TODO
+	//private User creator, assingee;
+	//private Date creationDate, lostModifiedDate;
+	private List<RequirementEvent> events;
+	
 	
 	
 	/**
@@ -259,7 +270,54 @@ public class Requirement extends AbstractModel{
 		json = gson.toJson(this, Requirement.class);
 		return json;
 	}
+	
+	/**
+	 * Converts the given list of Requirements to a JSON string
+	 * @param dlist a list of Requirements
+	 * @return a string in JSON representing the list of Requirements
+	 */
+	public static String toJSON(Requirement[] dlist) {
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(dlist, Requirement.class);
+		return json;
+	}
+	
+	@Override
+	public String toString() {
+		return toJSON();
+	}
 
+	/**
+	 * @param json Json string to parse containing Requirement
+	 * @return The Requirement given by json
+	 */
+	public static Requirement fromJSON(String json) {
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Requirement.class);
+	}
+	
+	/**
+	 * @param json Json string to parse containing Requirement array
+	 * @return The Requirement array given by json
+	 */
+	public static Requirement[] fromJSONArray(String json) {
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Requirement[].class);
+	}
+	
+	/**
+	 * Add dependencies necessary for Gson to interact with this class
+	 * @param builder Builder to modify
+	 */
+	public static void addGsonDependencies(GsonBuilder builder) {
+	//	RequirementEvent.addGsonDependencies(builder);
+	}
+	
+	// interface documentation says this is necessary for the mock database
+	// not sure if this is still needed otherwise
 	@Override
 	public Boolean identify(Object o) {
 		Boolean returnValue = false;

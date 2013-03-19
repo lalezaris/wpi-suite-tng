@@ -33,21 +33,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 public class NewRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
-	private final Requirement requirement;
 	
 	/**
 	 * Create a NewRequirementAction
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
-	public NewRequirementAction(MainTabController controller, Requirement requirement) {
+	public NewRequirementAction(MainTabController controller) {
 		super("New");
+		//TODO: Remove this debug message
+		System.out.println("Entered NewRequirementAction");
 		this.controller = controller;
-		this.requirement = requirement; 
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		controller.addRequirementTab(requirement, Mode.CREATE);
+		//TODO: Remove this debug message
+		System.out.println("action performed: should create new requirement tab");
+		controller.addCreateRequirementTab();
 	}
 }

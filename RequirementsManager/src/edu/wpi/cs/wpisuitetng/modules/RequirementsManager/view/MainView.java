@@ -37,11 +37,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
  */
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
-	public final MainTabController mainTabController;
 	
-	public MainView() {
-		MainTabView mainTabView = new MainTabView();
-		mainTabController = new MainTabController(mainTabView);
+	public MainView(MainTabView mainTabView) {
 		JSplitPane splitPane;
 		
 		// Simple outline, can be changed later

@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
+import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
 
 /**
  * Controls the behavior of a given MainTabView.
@@ -79,7 +80,7 @@ public class MainTabController {
 	 * @param requirement The defect to display
 	 * @param mode The Mode to use
 	 */
-	private Tab addRequirementTab(Requirement requirement, Mode mode) {
+	public Tab addRequirementTab(Requirement requirement, Mode mode) {
 		Tab tab = addTab();
 		RequirementView view = new RequirementView(requirement, mode, tab);
 		tab.setComponent(view);
@@ -95,6 +96,15 @@ public class MainTabController {
 	public Tab addEditRequirementTab(Requirement requirement) {
 		return addRequirementTab(requirement, Mode.EDIT);
 	}
+	
+	/**
+	 * Adds a tab that allows the user to create a new Defect
+	 * @return The created Tab
+	 */
+	public Tab addCreateRequirementTab() {
+		return addRequirementTab(new Requirement(), Mode.CREATE);
+	}
+	
 	
 	/**
 	 * Add a change listener to the view this is controlling.

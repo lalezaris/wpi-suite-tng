@@ -40,7 +40,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 	 * Create a ToolbarPanel.
 	 * @param tabController The MainTabController this view should open tabs with
 	 */
-	public ToolbarPanel(MainTabController tabController, Requirement requirement) {	
+	
+	public ToolbarPanel(MainTabController tabController) {	
 		// Construct the content panel
 		JPanel content = new JPanel();
 		SpringLayout layout  = new SpringLayout();
@@ -49,7 +50,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 		// Construct the new button
 		newRequirement = new JButton("New");
-		newRequirement.setAction(new NewRequirementAction(tabController, requirement));
+		newRequirement.setAction(new NewRequirementAction(tabController));
 
 //		// Construct the edit button
 //		editRequirement = new JButton("Edit");

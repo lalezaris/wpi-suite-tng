@@ -47,14 +47,16 @@ public class SaveRequirementController {
 	 * Save the view's Defect model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
+/*		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
 		panel.getParent().setInputEnabled(false);
 		request = Network.getInstance().makeRequest("requirementtracker/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		request.setBody(panel.getEditedModel().toJSON());
 		request.addObserver(requestObserver);
-		request.send();
+		request.send(); */
+		
+		//TODO: Work with Database guys to get this working!
 	} 
 
 

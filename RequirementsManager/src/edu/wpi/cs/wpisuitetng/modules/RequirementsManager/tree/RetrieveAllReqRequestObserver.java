@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
- * Insert Description Here
+ * Retrieves all of the Requirement Request Observers
  *
  * @author Sam Lalezari
  *
@@ -36,7 +36,7 @@ public class RetrieveAllReqRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/* 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -45,7 +45,7 @@ public class RetrieveAllReqRequestObserver implements RequestObserver {
 
 	}
 
-	/* (non-Javadoc)
+	/* 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -54,7 +54,7 @@ public class RetrieveAllReqRequestObserver implements RequestObserver {
 
 	}
 
-	/* (non-Javadoc)
+	/* 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

@@ -26,8 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 /**
  * Controller for the Reguirement Manager toolbar.
  * 
- * @author Adapted from Defect Tracker
- * @author Arica liu
+ * Adapted from Defect Tracker
+ * @author Arica Liu
  * 
  * @version March 18, 2013
  */
@@ -46,8 +46,12 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 		tabController.addChangeListener(this);
 	}
 
+	/**
+	 * Keeps track of only one toolbar group for the active tab
+	 * 
+	 * @param group the relevant tab group
+	 */
 	private void setRelevantTabGroup(ToolbarGroupView group) {
-		// keep track of only one toolbar group for the active tab
 		if(relevantTabGroup != null) {
 			setRelevant(relevantTabGroup, false);
 		}
@@ -57,6 +61,9 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 		}
 	}
 	
+	/* 
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO: there has to be a cleaner way to do this

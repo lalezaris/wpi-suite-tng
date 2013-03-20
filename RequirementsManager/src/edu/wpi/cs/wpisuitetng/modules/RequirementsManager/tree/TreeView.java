@@ -34,6 +34,11 @@ import javax.swing.tree.TreeNode;
  */
 public class TreeView extends JPanel {
 
+	/**
+	 * Creates the tree view of the requirements
+	 * Commented out parts are not needed in iteration 1 but may be needed in the future
+	 * 
+	 */
 	public TreeView(){
 		this.setLayout(new BorderLayout());
 		

@@ -7,7 +7,6 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    JPage
  *    Arica Liu
  ******************************************************************************/
 
@@ -25,6 +24,8 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 
 /**
+ * Adapted from JPage and the ComboUpdateListener in DefectTracker
+ * 
  * Checks for whether or not the text in a given JComboBox differs from the current model (a Requirement).
  * 
  * Whenever a key is released in the ItemListener's component, checkIfUpdated() is called. This method 
@@ -32,6 +33,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStat
  * compares this value to the component's selection to see if the text differs from the model. If the selection 
  * differs, the style of the component is changed to show that it differs from the relevant field in the model.
  * Otherwise, the component's style is changed to be normal.
+ *
+ * @author Arica Liu
+ *
+ * @version Mar 20, 2013
+ *
  */
 public class ComboUpdateListener implements ItemListener {
 	protected final RequirementPanel panel;
@@ -53,12 +59,16 @@ public class ComboUpdateListener implements ItemListener {
 		this.defaultBorder = component.getBorder();
 	}
 	
+	/* 
+	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		checkIfUpdated();
 	}
 
 	/**
+	 * Commented out part not needed for iteration 1 but may be needed in the future
 	 * Checks if the field differs from the RequirementPanel's model and changes the style of the field accordingly.
 	 */
 	public void checkIfUpdated() {

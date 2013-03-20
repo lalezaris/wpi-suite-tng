@@ -8,7 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS and Joe Spicola
+ *  CDUNKERS
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -77,7 +78,8 @@ public class RequirementPanel extends JPanel {
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
-	 * @param requirement	The Requirement to edit.
+	 * @param parent The parent of the requirement
+	 * @param requirement The Requirement to edit
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement) {
 		this.model = requirement;
@@ -106,8 +108,8 @@ public class RequirementPanel extends JPanel {
 		
 		// Construct all of the components for the form
 		txtTitle = new JTextField(20);
-		txtReleaseNumber = new JTextField(20);
-		txtDescription = new JTextArea(10,50);
+		txtReleaseNumber = new JTextField(12);
+		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setBorder(txtTitle.getBorder());
@@ -142,14 +144,15 @@ public class RequirementPanel extends JPanel {
 		
 		//set values that are used throughout for c
 		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
+		//c.weightx = 1;
 		c.weighty = 0.5;
 		c.insets = new Insets(0,5,0,0);
+		layout.columnWeights = new double[] {.1, .9};
 		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		txtTitle.setFont(txtTitle.getFont().deriveFont(22f));
 		this.add(txtTitle, c);
 		
 		c.gridx = 0;
@@ -214,6 +217,11 @@ public class RequirementPanel extends JPanel {
 	}
 	
 	
+	/**
+	 *Sets if the input is enabled
+	 * 
+	 * @param enabled shows if input is enabled
+	 */
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
 
@@ -226,7 +234,7 @@ public class RequirementPanel extends JPanel {
 		txtActual.setEnabled(enabled);
 	}
 	
-	/**
+	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
 	 * TODO: Do some basic input verification

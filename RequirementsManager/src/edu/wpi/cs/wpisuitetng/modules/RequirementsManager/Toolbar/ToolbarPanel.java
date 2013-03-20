@@ -26,8 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 /**
  * Toolbar Panel for Requirements Manager
  * 
- * @author Tyler Stone
- * @author Arica Liu
+ * @author Tyler Stone and Arica Liu
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends DefaultToolbarView {
@@ -39,6 +38,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 	
 	/**
 	 * Create a ToolbarPanel.
+	 * Commented out parts are not needed for iteration 1 but are needed in the future
+	 * 
 	 * @param tabController The MainTabController this view should open tabs with
 	 */
 	

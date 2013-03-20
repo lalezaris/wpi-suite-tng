@@ -3,8 +3,11 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
+import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
@@ -14,14 +17,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class RequirementListPanel extends JPanel {
 
-	
+	JTextArea list;
 	
 	public RequirementListPanel(RequirementListView parent){
-		add(new JLabel("REQ LIST VIEW"));
+		list = new JTextArea();
+		list.setEditable(false);
+		
+		list.setText("REQ LIST VIEW\n");
+		add(list);
 	}
 	
 	
 	public void addRequirement(Requirement req){
-		add(new JLabel("REQ:" + req.getTitle()));
+		list.append(req.getTitle() + "\n");
+	}
+
+
+	public void clearList() {
+		list.setText("REQ LIST VIEW" + "\n");
 	}
 }

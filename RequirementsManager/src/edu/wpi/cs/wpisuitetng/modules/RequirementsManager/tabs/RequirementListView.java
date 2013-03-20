@@ -41,10 +41,10 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		inputEnabled = true;
 		
 		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("List all Requirements");
+		buttonGroup = new ToolbarGroupView("Requirements List");
 		
 		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("List all Requirements");
+		containingTab.setTitle("Requirements List");
 		
 		
 		// Instantiate the main create requirement panel
@@ -76,6 +76,8 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	
 	
 	public void addRequirements(Requirement[] reqArray){
+		mainPanel.clearList();
+		
 		for(Requirement r : reqArray){
 			mainPanel.addRequirement(r);
 		} 

@@ -50,6 +50,19 @@ public class Requirement extends AbstractModel{
 		this.description = description;
 	}
 	
+	/**
+	 * Constructs a new Requirement with given properties
+	 *  
+	 * @param name
+	 * @param description
+	 */
+	public Requirement(int id, String title, String description){
+		this();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+	}
+	
 	
 	/**
 	 * Basic constructor with default arguments

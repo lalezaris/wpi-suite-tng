@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tushar Narayan
+**************************************************/
 /**
  * 
  */
@@ -9,24 +21,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-import edu.wpi.cs.wpisuietng.modules.RequirementsManager.entitymanager.RequirementStore;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.MockData;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.DefectManager;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Defect;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.DefectEvent;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.DefectStatus;
-//import edu.wpi.cs.wpisuitetng.modules.defecttracker.models.Tag;
-
 import edu.wpi.cs.wpisuitetng.database.Data;
 
 import org.junit.Before;
@@ -135,12 +140,12 @@ public class RequirementStoreTest {
 		
 		assertNotNull(created);
 		
-		assertEquals("New Req", created.getName());
+		assertEquals("New Req", created.getTitle());
 		assertEquals("This is a brand new requirement", created.getDescription());
 		
 		Requirement[] ra = manager.getEntity(defaultSession, ""+created.getId());
 		assertNotNull(ra[0]);
-		assertEquals("New Req", ra[0].getName());
+		assertEquals("New Req", ra[0].getTitle());
 		//manager.getEntity(defaultSession, ""+created.getId());
 		//manager.getEntity(defaultSession, ""+existingReq.getId());
 	}
@@ -155,11 +160,11 @@ public class RequirementStoreTest {
 		
 		
 		for (int i = 0 ; i < all.length ; i ++){
-			System.out.println(all[i].getName());
+			System.out.println(all[i].getTitle());
 		}
 		System.out.println("...and again!");
 		for (int i = 0 ; i < allAgain.length ; i ++){
-			System.out.println(allAgain[i].getName());
+			System.out.println(allAgain[i].getTitle());
 		}
 		assertEquals(all.length, 4);
 		
@@ -198,7 +203,7 @@ public class RequirementStoreTest {
 		
 		System.out.println("deleteAllOutPut");
 		for (int i = 0 ; i < all.length ; i ++){
-			System.out.println(""+ i + ": " + all[i].getName());
+			System.out.println(""+ i + ": " + all[i].getTitle());
 		}
 		
 		
@@ -218,7 +223,7 @@ public class RequirementStoreTest {
 		
 		System.out.println("deleteAllOutPut");
 		for (int i = 0 ; i < all.length ; i ++){
-			System.out.println(all[i].getName());
+			System.out.println(all[i].getTitle());
 		}
 		
 		assertEquals(all.length, 0);

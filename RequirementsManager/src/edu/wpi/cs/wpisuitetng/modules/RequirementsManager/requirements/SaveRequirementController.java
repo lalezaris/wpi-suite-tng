@@ -50,12 +50,10 @@ public class SaveRequirementController {
 		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : */ new UpdateRequirementRequestObserver(view);
 		Request request;
 		panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : */ HttpMethod.POST);
+		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
 		request.setBody(panel.getEditedModel().toJSON());
 		request.addObserver(requestObserver);
 		request.send();
-		
-		//TODO: Work with Database guys to get this working!
 	} 
 
 

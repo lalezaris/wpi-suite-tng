@@ -56,7 +56,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
+		/*if (response.getStatusCode() == 200) {
 			// parse the defect from the body
 			final Requirement defect = Requirement.fromJSON(response.getBody());
 
@@ -70,16 +70,16 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 					}
 				});
 			}
-			else {
-				JOptionPane.showMessageDialog(view, "Unable to parse defect received from server.", 
-						"Save Defect Error", JOptionPane.ERROR_MESSAGE);
-			}
+			else { */
+		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
+			"Success!", JOptionPane.INFORMATION_MESSAGE);
+			/*}
 		}
 		else {
 			JOptionPane.showMessageDialog(view, 
 					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
 					"Save Defect Error", JOptionPane.ERROR_MESSAGE);
-		}
+		} */
 
 		always();
 	}

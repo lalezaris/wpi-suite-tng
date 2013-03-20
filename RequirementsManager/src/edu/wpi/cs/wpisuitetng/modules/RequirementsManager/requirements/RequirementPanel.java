@@ -21,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -42,7 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class RequirementPanel extends JPanel {
 	
-	/** The Defect displayed in this panel */
+	/** The Requirement displayed in this panel */
 	protected Requirement model; 
 	
 	/*
@@ -57,7 +58,7 @@ public class RequirementPanel extends JPanel {
 		
 	/** The layout manager for this panel */
 //	protected SpringLayout layout;
-	protected GridLayout layout;
+	protected GridBagLayout layout;
 	
 	/*
 	 * Constants used to layout the form
@@ -77,9 +78,9 @@ public class RequirementPanel extends JPanel {
 	public RequirementPanel(Requirement requirement) {
 		this.model = requirement;
 		
-		//Use a grid layout manager
-		//layout = new GridLayout(5,2); //7 rows, 4 columns
-		//this.setLayout(layout);
+		//Use a grid bag layout manager
+		layout = new GridBagLayout();
+		this.setLayout(layout);
 		
 		// Add all components to this panel
 		addComponents();
@@ -92,6 +93,9 @@ public class RequirementPanel extends JPanel {
 	 * @param layout the layout manager
 	 */
 	protected void addComponents() {
+		//create a new constrain variable
+		GridBagConstraints c = new GridBagConstraints();
+		
 		// Construct all of the components for the form
 		txtTitle = new JTextField(50);
 		txtReleaseNumber = new JTextField(50);
@@ -126,16 +130,55 @@ public class RequirementPanel extends JPanel {
 		
 		int labelWidth = lblDescription.getPreferredSize().width;
 		
-		this.add(lblTitle);
-		this.add(txtTitle);
-		this.add(lblReleaseNumber);
-		this.add(txtReleaseNumber);
-		this.add(lblDescription);
-		this.add(txtDescription);
-		this.add(lblStatus);
-		this.add(cmbStatus);
-		this.add(lblPriority);
-		this.add(cmbPriority);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		this.add(lblTitle, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		this.add(txtTitle, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		this.add(lblReleaseNumber, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		this.add(txtReleaseNumber, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		this.add(lblDescription, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 2;
+		this.add(txtDescription, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		this.add(lblStatus, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 3;
+		this.add(cmbStatus, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		this.add(lblPriority, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 4;
+		this.add(cmbPriority, c);
 		
 	}
 	

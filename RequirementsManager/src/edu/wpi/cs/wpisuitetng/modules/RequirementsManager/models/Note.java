@@ -1,23 +1,31 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *    Andrew Hurle
- *    Chris Casola
- *    Mike Della Donna
- ******************************************************************************/
+ *  Lauren Kahn
+ *  Michael Perrone
+ *  Xia Li
+ *  Ned Shelton
+**************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.util.Date;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Persistent Model that represents a Comment on a Requirement
+ * Persistent Model that represents a Note on a Requirement
+ * Adapted from the Comment class in DefectTracker
+ *
+ * @author Lauren Kahn
+ *
+ * @version Mar 20, 2013
+ *
  */
 public class Note {
 	private String title;
@@ -25,6 +33,10 @@ public class Note {
 	private User creator, lastModifiedUser;
 	private Date creationDate, lastModifiedDate;
 	
+	/**
+	 * Default constructor for a note
+	 * 
+	 */
 	public Note(){
 		this.title = "";
 		this.body = "";

@@ -178,6 +178,7 @@ public class RequirementPanel extends JPanel {
 		c.weightx = 0;
 		c.weighty = 0.5;
 		//c.insets = new Insets(0,5,10,0);
+		//c.gridwidth = 2;
 		//c.ipadx = 30;
 		c.ipady = 60;
 		c.gridx = 1;

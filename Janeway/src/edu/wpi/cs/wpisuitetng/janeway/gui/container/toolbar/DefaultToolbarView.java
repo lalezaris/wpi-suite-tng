@@ -61,6 +61,7 @@ public class DefaultToolbarView extends JToolBar {
 			add(new Separator(), index);
 		}
 		add(group, index);
+		revalidate();
 		repaint();
 	}
 	

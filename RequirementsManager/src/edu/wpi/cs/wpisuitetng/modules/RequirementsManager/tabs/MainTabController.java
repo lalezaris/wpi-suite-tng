@@ -33,6 +33,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * @version Mar 17, 2013
  *
  */
+/**
+ * @author lty
+ *
+ */
 public class MainTabController {
 	
 	MainTabView view;
@@ -96,13 +100,25 @@ public class MainTabController {
 	}
 	
 	/**
-	 * Adds a tab that allows the user to create a new Defect
+	 * Adds a tab that allows the user to create a new Requirement
 	 * @return The created Tab
 	 */
 	public Tab addCreateRequirementTab() {
 		return addRequirementTab(new Requirement());
 	}
 	
+	
+	/**
+	 * Adds a tab that shows all of the requirements
+	 * @return the created Tab
+	 */
+	public Tab addListTab() {
+		Tab tab = addTab();
+		RequirementListView view = new RequirementListView(tab);
+		tab.setComponent(view);
+		view.requestFocus();
+		return tab;
+	}
 	
 	/**
 	 * Add a change listener to the view this is controlling.

@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
+	private JButton listButton;
 //	private JButton editRequirement;
 //	private JButton deleteRequirement;
 	
@@ -51,6 +52,11 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Construct the new button
 		newRequirement = new JButton("New");
 		newRequirement.setAction(new NewRequirementAction(tabController));
+		
+		//
+		listButton = new JButton("List");
+		listButton.setAction(new ListAction(tabController));
+		
 
 //		// Construct the edit button
 //		editRequirement = new JButton("Edit");
@@ -58,18 +64,19 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Configure the layout of the buttons on the content panel
 		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content);
 		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
-//		layout.putConstraint(SpringLayout.WEST, editRequirement, 10, SpringLayout.EAST, newRequirement);
-//		layout.putConstraint(SpringLayout.VERTICAL_CENTER, editRequirement, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
+		layout.putConstraint(SpringLayout.WEST, listButton, 10, SpringLayout.EAST, newRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listButton, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
 
 		// Add buttons to the content panel
 		content.add(newRequirement);
+		content.add(listButton);
 //		content.add(editRequirement);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);
-
+		
 		// Calculate the width of the toolbar
-		Double toolbarGroupWidth = newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
+		Double toolbarGroupWidth = 2 * newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
 		addGroup(toolbarGroup);
 	}

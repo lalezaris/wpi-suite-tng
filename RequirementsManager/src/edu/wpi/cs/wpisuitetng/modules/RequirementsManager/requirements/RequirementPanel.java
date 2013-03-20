@@ -70,10 +70,7 @@ public class RequirementPanel extends JPanel {
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
-	 * @param parent	The parent RequirementView.
-	 * @param defect	The Defect to edit.
-	 * @param mode		Whether or not the given Requirement should be treated as if it already exists 
-	 * 					on the server ({@link Mode#EDIT}) or not ({@link Mode#CREATE}).
+	 * @param requirement	The Requirement to edit.
 	 */
 	public RequirementPanel(Requirement requirement) {
 		this.model = requirement;
@@ -131,6 +128,7 @@ public class RequirementPanel extends JPanel {
 		int labelWidth = lblDescription.getPreferredSize().width;
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(lblTitle, c);
@@ -179,6 +177,16 @@ public class RequirementPanel extends JPanel {
 		c.gridx = 1;
 		c.gridy = 4;
 		this.add(cmbPriority, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 5;
+		this.add(lblEstimate, c);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 5;
+		this.add(txtEstimate, c);
 		
 	}
 	

@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -16,7 +17,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
  * Class for storing a Requirement
  *
  * @author Tushar Narayan
- * @edited Michael French
+ * Edited: Michael French
  * 			EDIT: Made class extend AbstractModel
  * 			REASON: This class MUST extent AbstractModel in order 
  * 			to be compatible with the DataStore class
@@ -39,7 +40,7 @@ public class Requirement extends AbstractModel{
 	private User creator, assignee; //putting this in to keep track of user
 	
 	/**
-	 * Constructs a new Requirement with given properties
+	 * Constructs a new Requirement with title and description
 	 *  
 	 * @param name
 	 * @param description
@@ -51,7 +52,7 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Constructs a new Requirement with given properties
+	 * Constructs a new Requirement with id, title and description
 	 *  
 	 * @param name
 	 * @param description
@@ -283,10 +284,34 @@ public class Requirement extends AbstractModel{
 		
 	}
 
+	
+	/**
+	 * Converts this Requirement to a JSON string
+	 * @return a string in JSON representing this Requirement
+	 */
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(this, Requirement.class);
+		return json;
+	}	
+	
+	/**
+	 * Converts the given list of Requirements to a JSON string
+	 * @param dlist a list of Requirement
+	 * @return a string in JSON representing the list of Requirements
+	 */
+	public static String toJSON(Requirement[] dlist) {
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(dlist, Requirement.class);
+		return json;
+	}
+	
+	@Override
+	public String toString() {
+		return toJSON();
 	}
 
 	@Override
@@ -296,15 +321,25 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * @param json Json string to parse containing Defect
-	 * @return The Defect given by json
+	 * @param json Json string to parse containing Requirement
+	 * @return The Requirement given by json
 	 */
 	public static Requirement fromJSON(String json) {
-		//GsonBuilder builder = new GsonBuilder();
-		//addGsonDependencies(builder);
-		//return builder.create().fromJson(json, Requirement.class);
-		return null;
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Requirement.class);
 	}
+	
+	/**
+	 * @param json Json string to parse containing Requirement array
+	 * @return The Requirement array given by json
+	 */
+	public static Requirement[] fromJSONArray(String json) {
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Requirement[].class);
+	}
+	
 	
 	/**
 	 * Add dependencies necessary for Gson to interact with this class

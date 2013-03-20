@@ -49,7 +49,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private SaveRequirementController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-	private boolean inputEnabled = true;
+	private boolean inputEnabled;
 	
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
@@ -64,6 +64,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			containingTab = new DummyTab();
 		}
 		
+		inputEnabled = true;
+		
 		// Instantiate the button panel
 		buttonGroup = new ToolbarGroupView("Create Requirement");
 		
@@ -72,7 +74,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new RequirementPanel(requirement);
+		mainPanel = new RequirementPanel(this, requirement);
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -111,6 +113,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	@Override
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;
+	}
+	
+	public void setInputEnabled(boolean enabled) {
+	    inputEnabled = enabled;
+	
+	    saveButton.setEnabled(enabled);
+	    mainPanel.setInputEnabled(enabled);
 	}
 	
 }

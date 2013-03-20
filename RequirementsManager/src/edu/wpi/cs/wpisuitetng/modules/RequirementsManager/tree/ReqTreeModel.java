@@ -8,21 +8,33 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Sam Lalezari
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
+
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
  * Insert Description Here
  *
- * @author CDUNKERS and Joe Spicola
+ * @author Sam Lalezari
  *
- * @version Mar 17, 2013
+ * @version Mar 19, 2013
  *
  */
-public enum RequirementPriority {
-	MEDIUM, // requires attention shortly
-	HIGH,       // requires immediate attention
-	LOW,   // requires attention at some point in the iteration
-	UNDECIDED   // not sure if needed 
+public class ReqTreeModel extends DefaultTreeModel {
+
+	/**
+	 * Enter Description here.
+	 * 
+	 * @param root
+	 * @param tree
+	 */
+	public ReqTreeModel(TreeNode root, JTree tree) {
+		super(root);
+		tree.setModel(this);
+	}
+
 }

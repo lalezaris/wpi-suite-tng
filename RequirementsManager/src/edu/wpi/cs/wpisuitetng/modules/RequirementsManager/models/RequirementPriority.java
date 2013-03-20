@@ -21,8 +21,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  *
  */
 public enum RequirementPriority {
-	MEDIUM, // requires attention shortly
+	UNDECIDED,   // not sure if needed 
 	HIGH,       // requires immediate attention
-	LOW,   // requires attention at some point in the iteration
-	UNDECIDED   // not sure if needed 
+	MEDIUM, // requires attention shortly
+	LOW   // requires attention at some point in the iteration
 }

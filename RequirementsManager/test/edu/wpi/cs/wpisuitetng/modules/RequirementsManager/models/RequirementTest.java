@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -52,11 +54,11 @@ public class RequirementTest {
 	public void testDefaultConstructor() {
 		assertEquals(r1.getReleaseNumber(), 0);
 		assertEquals(r1.getStatus(), NEW);
-		assertEquals(r1.getPriority(), "");
+		assertEquals(r1.getPriority(), MEDIUM);
 		assertEquals(r1.getTitle(), "");
 		assertEquals(r1.getDescription(), "");
-		assertEquals(r1.getEstimate(), 0);
-		assertEquals(r1.getActualEffort(), 0);
+		assertEquals(r1.getEstimate(), "");
+		assertEquals(r1.getActualEffort(), "");
 		assertEquals(r1.getSubRequirements(), new ArrayList<Requirement>());
 	//	assertEquals(r1.getType(), "Requirement");
 		assertEquals(r1.getId(), -1);
@@ -70,11 +72,11 @@ public class RequirementTest {
 	public void testParameterConstructor() {
 		assertEquals(r2.getReleaseNumber(), 0);
 		assertEquals(r2.getStatus(), NEW);
-		assertEquals(r2.getPriority(), "");
+		assertEquals(r2.getPriority(), MEDIUM);
 		assertEquals(r2.getTitle(), "Test Requirement");
 		assertEquals(r2.getDescription(), "This is a test requirement.");
-		assertEquals(r2.getEstimate(), 0);
-		assertEquals(r2.getActualEffort(), 0);
+		assertEquals(r2.getEstimate(), "");
+		assertEquals(r2.getActualEffort(), "");
 		assertEquals(r2.getSubRequirements(), new ArrayList<Requirement>());
 		//assertEquals(r2.getType(), "Requirement");
 		assertEquals(r2.getId(), 10);
@@ -95,8 +97,7 @@ public class RequirementTest {
 	
 	/**
 	 * test for the Identify function
-	 * 
-	 */
+	 * NOT REQUIRED FOR ITERATION 1
 	@Test
 	public void testIdentify(){
 		assertTrue(r1.identify(r1));
@@ -108,5 +109,6 @@ public class RequirementTest {
 		assertFalse(r2.identify(new Object()));
 		assertFalse(r3.identify(null));
 	}
+	*/
 
 }

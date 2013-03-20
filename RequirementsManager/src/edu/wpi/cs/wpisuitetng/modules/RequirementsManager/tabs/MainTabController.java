@@ -21,7 +21,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
@@ -79,9 +78,9 @@ public class MainTabController {
 	 * @param requirement The defect to display
 	 * @param mode The Mode to use
 	 */
-	public Tab addRequirementTab(Requirement requirement, Mode mode) {
+	public Tab addRequirementTab(Requirement requirement) {
 		Tab tab = addTab();
-		RequirementView view = new RequirementView(requirement, mode, tab);
+		RequirementView view = new RequirementView(requirement, tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;
@@ -93,7 +92,7 @@ public class MainTabController {
 	 * @return The created Tab 
 	 */
 	public Tab addEditRequirementTab(Requirement requirement) {
-		return addRequirementTab(requirement, Mode.EDIT);
+		return addRequirementTab(requirement);
 	}
 	
 	/**
@@ -101,7 +100,7 @@ public class MainTabController {
 	 * @return The created Tab
 	 */
 	public Tab addCreateRequirementTab() {
-		return addRequirementTab(new Requirement(), Mode.CREATE);
+		return addRequirementTab(new Requirement());
 	}
 	
 	

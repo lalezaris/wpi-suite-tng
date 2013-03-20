@@ -20,7 +20,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
  * @version Mar 18, 2013
  *
  */
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

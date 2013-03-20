@@ -18,7 +18,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 
 /**

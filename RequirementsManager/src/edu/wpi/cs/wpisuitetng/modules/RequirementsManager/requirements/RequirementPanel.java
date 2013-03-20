@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
-
+import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -58,6 +58,7 @@ public class RequirementPanel extends JPanel {
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
 	protected JTextField txtEstimate;
+	protected JTextField txtActual;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -106,7 +107,7 @@ public class RequirementPanel extends JPanel {
 		// Construct all of the components for the form
 		txtTitle = new JTextField(20);
 		txtReleaseNumber = new JTextField(20);
-		txtDescription = new JTextArea();
+		txtDescription = new JTextArea(10,50);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setBorder(txtTitle.getBorder());
@@ -121,11 +122,12 @@ public class RequirementPanel extends JPanel {
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
 		txtEstimate = new JTextField(12);
+		txtActual = new JTextField(12);
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
-		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
+		cmbPriority.setMaximumSize(cmbPriority.getPreferredSize());
 		
 		// Construct labels for the form fields
 		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
@@ -133,103 +135,72 @@ public class RequirementPanel extends JPanel {
 		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
-		JLabel lblEstimate = new JLabel("Estimate Date:", LABEL_ALIGNMENT);
+		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
 		
 		int labelWidth = lblDescription.getPreferredSize().width;
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		//set values that are used throughout for c
+		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.insets = new Insets(0,5,0,0);
+		
 		c.gridx = 0;
 		c.gridy = 0;
-		this.add(lblTitle, c);
-		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridx = 1;
-		c.gridy = 0;
+		c.gridwidth = 2;
+		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		this.add(txtTitle, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
+		c.gridwidth = 1;
 		this.add(lblReleaseNumber, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 1;
 		this.add(txtReleaseNumber, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(lblDescription, c);
-		
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0;
-		c.weighty = 0.5;
-		//c.insets = new Insets(0,5,10,0);
-		//c.gridwidth = 2;
-		//c.ipadx = 30;
-		c.ipady = 60;
-		c.gridx = 1;
-		c.gridy = 2;
-		this.add(txtDescription, c);
-		
-		//c.fill = GridBagConstraints.BOTH;
-		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		//c.insets = new Insets(0,5,0,0);
-		//c.ipadx = 0;
-		c.ipady = 0;
-		c.gridx = 0;
-		c.gridy = 3;
 		this.add(lblStatus, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 1;
-		c.gridy = 3;
+		c.gridy = 2;
 		this.add(cmbStatus, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 0;
-		c.gridy = 4;
+		c.gridy = 3;
 		this.add(lblPriority, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 3;
+		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
 		this.add(cmbPriority, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
+		c.gridx = 0;
+		c.gridy = 4;
+		this.add(lblDescription, c);
+	
+		c.gridx = 1;
+		c.gridy = 4;
+		this.add(txtDescription, c);
+		
 		c.gridx = 0;
 		c.gridy = 5;
 		this.add(lblEstimate, c);
 		
-		//c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 5;
 		this.add(txtEstimate, c);
+		
+		c.gridx = 0;
+		c.gridy = 6;
+		this.add(lblActual, c);
+		
+		c.gridx = 1;
+		c.gridy = 6;
+		this.add(txtActual, c);
 
 	}
 	
@@ -252,6 +223,7 @@ public class RequirementPanel extends JPanel {
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
 		txtEstimate.setEnabled(enabled);
+		txtActual.setEnabled(enabled);
 	}
 	
 	/**
@@ -269,6 +241,7 @@ public class RequirementPanel extends JPanel {
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimate(txtEstimate.getText());
+		//requirement.setActualEffort(txtActual.getText());
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}

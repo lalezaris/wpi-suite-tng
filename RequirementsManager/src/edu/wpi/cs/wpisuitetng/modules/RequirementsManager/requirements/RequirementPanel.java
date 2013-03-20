@@ -108,8 +108,8 @@ public class RequirementPanel extends JPanel {
 		
 		// Construct all of the components for the form
 		txtTitle = new JTextField(20);
-		txtReleaseNumber = new JTextField(20);
-		txtDescription = new JTextArea(10,50);
+		txtReleaseNumber = new JTextField(12);
+		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setBorder(txtTitle.getBorder());
@@ -144,14 +144,15 @@ public class RequirementPanel extends JPanel {
 		
 		//set values that are used throughout for c
 		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
+		//c.weightx = 1;
 		c.weighty = 0.5;
 		c.insets = new Insets(0,5,0,0);
+		layout.columnWeights = new double[] {.1, .9};
 		
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		txtTitle.setFont(txtTitle.getFont().deriveFont(22f));
 		this.add(txtTitle, c);
 		
 		c.gridx = 0;

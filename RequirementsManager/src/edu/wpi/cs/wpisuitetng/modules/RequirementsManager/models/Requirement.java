@@ -32,7 +32,7 @@ public class Requirement extends AbstractModel{
 	private String title;
 	private String description;
 	private String estimate; //should probably make this an int at some later date
-	private int actualEffort;
+	private String actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;
 	//private String type; //shouldn't need this after revised UML diagram
@@ -76,7 +76,7 @@ public class Requirement extends AbstractModel{
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimate = ""; //default estimate set to 0
-		this.actualEffort = 0; //default actualEffort set to 0
+		this.actualEffort = ""; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = creationDate;
@@ -185,7 +185,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the actualEffort
 	 * @return the actualEffort
 	 */
-	public int getActualEffort() {
+	public String  getActualEffort() {
 		return actualEffort;
 	}
 
@@ -193,7 +193,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the actualEffort
 	 * @param actualEffort: sets the actualEffort 
 	 */
-	public void setActualEffort(int actualEffort) {
+	public void setActualEffort(String actualEffort) {
 		this.actualEffort = actualEffort;
 	}
 

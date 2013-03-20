@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
@@ -22,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveA
  * @author lty
  *
  */
-public class RequirementListView extends JPanel {
+public class RequirementListView extends JPanel implements IToolbarGroupProvider {
 
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton;
@@ -36,17 +37,14 @@ public class RequirementListView extends JPanel {
 	
 	public RequirementListView(Tab tab){
 		containingTab = tab;
-		if(containingTab == null) {
-			containingTab = new DummyTab();
-		}
-		
+
 		inputEnabled = true;
 		
 		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("List all Requirement");
+		buttonGroup = new ToolbarGroupView("List all Requirements");
 		
 		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("List all Requirement");
+		containingTab.setTitle("List all Requirements");
 		
 		
 		// Instantiate the main create requirement panel
@@ -74,9 +72,6 @@ public class RequirementListView extends JPanel {
 		refreshButton.setAction(new RefreshAction(controller));
 		buttonGroup.getContent().add(refreshButton);
 		buttonGroup.setPreferredWidth(150);
-		
-		
-		controller.refreshData();
 	}
 	
 	
@@ -84,6 +79,11 @@ public class RequirementListView extends JPanel {
 		for(Requirement r : reqArray){
 			mainPanel.addRequirement(r);
 		} 
+	}
+	
+	@Override
+	public ToolbarGroupView getGroup() {
+		return buttonGroup;
 	}
 	
 }

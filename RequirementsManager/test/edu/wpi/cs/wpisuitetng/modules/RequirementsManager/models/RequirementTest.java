@@ -13,7 +13,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.RequirementStatus.NEW;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;

@@ -16,13 +16,13 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * Insert Description Here
  *
  * @author CDUNKERS and Joe Spicola
- *
+ * Edited: Tushar Narayan
  * @version Mar 17, 2013
  *
  */
 public enum RequirementStatus {
-	CLOSED,       // new requirements has not been worked on yet
-	OPEN, // requirement that is currently being worked on
+	NEW,       // new requirements has not been worked on yet
+	INPROGRESS, // requirement that is currently being worked on
 	DONE,   // a finished requirement but not tested
 	ACCEPTED   // requirement has passed acceptance tests and been accepted
 	// note that there is no "ASSIGNED" status - this would be redundant since we have an assignee field

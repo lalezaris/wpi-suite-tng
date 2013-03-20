@@ -15,7 +15,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 /**
  * Class for storing a Requirement
  *
- * @author Tushar
+ * @author Tushar Narayan
  * @edited Michael French
  * 			EDIT: Made class extend AbstractModel
  * 			REASON: This class MUST extent AbstractModel in order 
@@ -30,47 +30,45 @@ public class Requirement extends AbstractModel{
 	private RequirementPriority priority;
 	private String title;
 	private String description;
-	private String estimate;
+	private String estimate; //should probably make this an int at some later date
 	private int actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;
-	private String type;
+	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
+	private User creator, assignee; //putting this in to keep track of user
 	
 	/**
-	 * Basic constructor: at least name and description are always required
-	 * 
+	 * Constructs a new Requirement with given properties
+	 *  
 	 * @param name
 	 * @param description
 	 */
-	public Requirement(String name, String description){
-		this.releaseNumber = 0;
-		this.status = CLOSED; //default status is New
-		this.priority = MEDIUM; //default priority is blank
-		this.title = title; //name is required
-		this.description = description; //description is required
-		this.estimate = ""; //default estimate set to 0
-		this.actualEffort = 0; //default actualEffort set to 0
-		this.subRequirements = new ArrayList<Requirement>();
-		this.type = "Requirement"; //
-		/*default type is Requirement:
-		 * 	can be one of Requirement, User Story or Epic
-		 * */
+	public Requirement(String title, String description){
+		this();
+		this.title = title;
+		this.description = description;
 	}
 	
-	public Requirement() {
+	
+	/**
+	 * Basic constructor with default arguments
+	 * 
+	 */
+	public Requirement(){
 		this.releaseNumber = 0;
-		this.status = CLOSED; //default status is New
-		this.priority = MEDIUM; //default priority is blank
+		this.status = NEW; //default status is New
+		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimate = ""; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
-		this.type = "Requirement"; //
-		/*default type is Requirement:
-		 * 	can be one of Requirement, User Story or Epic
-		 * */
+		this.creationDate = new Date();
+		this.lastModifiedDate = creationDate;
+		this.id = -1;
+		this.creator = new User("", "", "", -1);
+		//this.type = "Requirement"; //
 	}
 
 	/**
@@ -249,22 +247,17 @@ public class Requirement extends AbstractModel{
 		return id;
 	}
 
-	/**
-	 * Gets the type
-	 * @return the type
-	 */
-	public String getType() {
+
+	/*
+	 public String getType() {
 		return type;
 	}
 
-	/**
-	 * Sets the type
-	 * @param type: sets the type 
-	 */
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	*/
+	
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub

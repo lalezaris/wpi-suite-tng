@@ -104,8 +104,8 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// Construct all of the components for the form
-		txtTitle = new JTextField(50);
-		txtReleaseNumber = new JTextField(50);
+		txtTitle = new JTextField(20);
+		txtReleaseNumber = new JTextField(20);
 		txtDescription = new JTextArea();
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -120,7 +120,7 @@ public class RequirementPanel extends JPanel {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		txtEstimate = new JTextField(50);
+		txtEstimate = new JTextField(12);
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -133,71 +133,103 @@ public class RequirementPanel extends JPanel {
 		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
-		JLabel lblEstimate = new JLabel("Estimate Date", LABEL_ALIGNMENT);
+		JLabel lblEstimate = new JLabel("Estimate Date:", LABEL_ALIGNMENT);
 		
 		int labelWidth = lblDescription.getPreferredSize().width;
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		c.insets = new Insets(0,5,0,0);
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(lblTitle, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 0;
 		this.add(txtTitle, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(lblReleaseNumber, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 1;
 		this.add(txtReleaseNumber, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 2;
 		this.add(lblDescription, c);
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0;
+		c.weighty = 0.5;
+		//c.insets = new Insets(0,5,10,0);
+		//c.ipadx = 30;
+		c.ipady = 60;
 		c.gridx = 1;
 		c.gridy = 2;
 		this.add(txtDescription, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.NONE;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		//c.insets = new Insets(0,5,0,0);
+		//c.ipadx = 0;
+		c.ipady = 0;
 		c.gridx = 0;
 		c.gridy = 3;
 		this.add(lblStatus, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 3;
 		this.add(cmbStatus, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 4;
 		this.add(lblPriority, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 4;
 		this.add(cmbPriority, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 5;
 		this.add(lblEstimate, c);
 		
-		c.fill = GridBagConstraints.HORIZONTAL;
+		//c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
 		c.gridx = 1;
 		c.gridy = 5;
 		this.add(txtEstimate, c);
-		
+
 	}
 	
 	/**

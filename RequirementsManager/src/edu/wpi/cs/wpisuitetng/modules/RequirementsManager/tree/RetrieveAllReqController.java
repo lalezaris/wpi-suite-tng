@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * Controller to handle retrieving requirements from the server 
  * and displaying them in TreeView
  * 
- * Some code borrowed and modified from RetrieveAllDefectsContoller.java
+ * Some code borrowed and modified from RetrieveAllReqContoller.java
  *
  * @author Sam Lalezari
  *

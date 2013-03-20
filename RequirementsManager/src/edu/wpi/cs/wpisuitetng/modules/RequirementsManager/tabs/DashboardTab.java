@@ -17,8 +17,9 @@ import javax.swing.JPanel;
 
 /**
  * The basic dashboard for the Requirements Manager Tab.
+ * Adapted from Defect Tracker
  *
- * @author Adapted from Defect Tracker
+ * @author Tyler Stone 
  *
  * @version Mar 17, 2013
  *
@@ -26,6 +27,10 @@ import javax.swing.JPanel;
 public class DashboardTab extends JPanel{
 	
 	
+	/**
+	 * Class Constructor
+	 * 
+	 */
 	public DashboardTab() {
 		JLabel testLabel = new JLabel("This is the dashboard panel.");
 		this.add(testLabel);

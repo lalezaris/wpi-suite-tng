@@ -8,7 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS and Joe Spicola
+ *  CDUNKERS
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -77,7 +78,8 @@ public class RequirementPanel extends JPanel {
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
-	 * @param requirement	The Requirement to edit.
+	 * @param parent The parent of the requirement
+	 * @param requirement The Requirement to edit
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement) {
 		this.model = requirement;
@@ -214,6 +216,11 @@ public class RequirementPanel extends JPanel {
 	}
 	
 	
+	/**
+	 *Sets if the input is enabled
+	 * 
+	 * @param enabled shows if input is enabled
+	 */
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
 
@@ -226,7 +233,7 @@ public class RequirementPanel extends JPanel {
 		txtActual.setEnabled(enabled);
 	}
 	
-	/**
+	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
 	 * TODO: Do some basic input verification

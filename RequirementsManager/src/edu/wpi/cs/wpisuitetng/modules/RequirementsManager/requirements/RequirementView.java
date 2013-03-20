@@ -8,7 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers and Joe Spicola
+ *  Chris Dunkers
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -34,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
- * Insert Description Here
+ * Allows users to view Requirements
  *
  * @author CDUNKERS and Joe Spicola
  *
@@ -110,11 +111,19 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return mainPanel;
 	}
 	
+	/* 
+	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
+	 */
 	@Override
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;
 	}
 	
+	/**
+	 * Sets whether the input is enabled
+	 * 
+	 * @param enabled
+	 */
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
 	

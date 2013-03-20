@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 /**
  * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
  * 
- * @author Adapted from Defect Tracker
+ * Adapted from Defect Tracker
  * @author Arica liu
  * 
  * @version March 18, 2013
@@ -45,6 +45,9 @@ public class NewRequirementAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 	
+	/* 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO: Remove this debug message

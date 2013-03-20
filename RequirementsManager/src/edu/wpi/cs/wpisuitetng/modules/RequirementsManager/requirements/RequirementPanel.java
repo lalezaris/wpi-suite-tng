@@ -46,6 +46,9 @@ public class RequirementPanel extends JPanel {
 	/** The Requirement displayed in this panel */
 	protected Requirement model; 
 	
+	/** The parent view **/
+	protected RequirementView parent;
+	
 	/*
 	 * Form elements
 	 */
@@ -55,7 +58,10 @@ public class RequirementPanel extends JPanel {
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
 	protected JTextField txtEstimate;
-		
+	
+	/** A flag indicating if input is enabled on the form */
+	protected boolean inputEnabled;
+	
 	/** The layout manager for this panel */
 //	protected SpringLayout layout;
 	protected GridBagLayout layout;
@@ -72,8 +78,12 @@ public class RequirementPanel extends JPanel {
 	 * 
 	 * @param requirement	The Requirement to edit.
 	 */
-	public RequirementPanel(Requirement requirement) {
+	public RequirementPanel(RequirementView parent, Requirement requirement) {
 		this.model = requirement;
+		this.parent = parent;
+		
+		// Indicate that input is enabled
+		inputEnabled = true;
 		
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
@@ -188,6 +198,57 @@ public class RequirementPanel extends JPanel {
 		c.gridy = 5;
 		this.add(txtEstimate, c);
 		
+	}
+	
+	/**
+	 * Returns the parent RequirementsView.
+	 * 
+	 * @return the parent RequirementsView.
+	 */
+	public RequirementView getParent() {
+		return parent;
+	}
+	
+	
+	protected void setInputEnabled(boolean enabled) {
+		inputEnabled = enabled;
+
+		txtTitle.setEnabled(enabled);
+		txtReleaseNumber.setEnabled(enabled);
+		txtDescription.setEnabled(enabled);
+		cmbStatus.setEnabled(enabled);
+		cmbPriority.setEnabled(enabled);
+		txtEstimate.setEnabled(enabled);
+	}
+	
+	/**
+	 * Returns the model object represented by this view's fields.
+	 * 
+	 * TODO: Do some basic input verification
+	 * @return the model represented by this view
+	 */
+	public Requirement getEditedModel() {
+		Requirement requirement = new Requirement();
+		requirement.setId(model.getId());
+		requirement.setTitle(txtTitle.getText());
+		//requirement.setReleaseNumber(txtReleaseNumber.getText());
+		requirement.setDescription(txtDescription.getText());
+		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
+		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
+		requirement.setEstimate(txtEstimate.getText());
+//		if (!(txtAssignee.getText().equals(""))) {
+//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
+//		}
+//		if (!(txtCreator.getText().equals(""))) {
+//			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
+//		}
+//		HashSet<Tag> tags = new HashSet<Tag>();
+//		for (int i = 0; i < tagPanel.lmTags.getSize(); i++) {
+//			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
+//		}
+//		requirement.setTags(tags);
+		
+		return requirement;
 	}
 	
 }

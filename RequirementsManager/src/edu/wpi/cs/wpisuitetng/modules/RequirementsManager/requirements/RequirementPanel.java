@@ -65,7 +65,7 @@ public class RequirementPanel extends JPanel {
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
-	/** The layout manager for this panel */\
+	/** The layout manager for this panel */
 	protected GridBagLayout layout;
 	
 	/*

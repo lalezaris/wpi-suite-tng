@@ -27,16 +27,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Controls the behavior of a given MainTabView.
  * Provides convenient public methods for controlling the MainTabView.
  * Keep in mind that this controller is visible as a public field in the module.
- * 
- * Adapted from Defect Tracker
+ * Adapted from MainTabController in the project Defect Tracker
  * 
  * @author Tyler Stone 
  *
  * @version Mar 17, 2013
- *
- */
-/**
- * @author lty
  *
  */
 public class MainTabController {

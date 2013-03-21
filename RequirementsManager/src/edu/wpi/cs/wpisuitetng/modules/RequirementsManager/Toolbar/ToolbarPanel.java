@@ -27,14 +27,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
  * Toolbar Panel for Requirements Manager
  * 
  * @author Tyler Stone and Arica Liu
+ * 
+ * @version March 21, 2013 
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
 	private JButton listButton;
-//	private JButton editRequirement;
-//	private JButton deleteRequirement;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -44,6 +44,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	 */
 	
 	public ToolbarPanel(MainTabController tabController) {	
+		
 		// Construct the content panel
 		JPanel content = new JPanel();
 		SpringLayout layout  = new SpringLayout();
@@ -59,9 +60,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listButton.setAction(new ListAction(tabController));
 		
 
-//		// Construct the edit button
-//		editRequirement = new JButton("Edit");
-
 		// Configure the layout of the buttons on the content panel
 		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content);
 		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
@@ -71,7 +69,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Add buttons to the content panel
 		content.add(newRequirement);
 		content.add(listButton);
-//		content.add(editRequirement);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);

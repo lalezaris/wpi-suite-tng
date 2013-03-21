@@ -11,7 +11,11 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 
 /**
+ * Insert Description Here
+ *
  * @author lty
+ *
+ * @version Mar 21, 2013
  *
  */
 public class RefreshAction extends AbstractAction {

@@ -36,7 +36,6 @@ public class TreeView extends JPanel {
 
 	/**
 	 * Creates the tree view of the requirements
-	 * Commented out parts are not needed in iteration 1 but may be needed in the future
 	 * 
 	 */
 	public TreeView(){
@@ -46,38 +45,15 @@ public class TreeView extends JPanel {
 		this.add(titleLabel, BorderLayout.PAGE_START);
 		
 		MutableTreeNode root = new DefaultMutableTreeNode("root");
-		//DefaultTreeModel treeModel = new DefaultTreeModel(root);
-		
+	
 		JTree tree = new JTree();
 		tree.setRootVisible(false);
 		
 		ReqTreeModel treeModel = new ReqTreeModel(root, tree);
-		/*
-		DefaultMutableTreeNode req1 = addRequirement("Req1", treeModel, root);
-		DefaultMutableTreeNode req2 = addRequirement("Req2", treeModel, req1);
-		DefaultMutableTreeNode req3 = addRequirement("Req3", treeModel, root);
-		*/
+
 		this.add(tree, BorderLayout.CENTER);
 		
 		
 	}
 
-	/**
-	 * Adds the requirement name to the given treeModel.
-	 * 
-	 * @param name
-	 * @param model 
-	 * @param parent
-	 * @return 
-	 */
-	/*
-	public DefaultMutableTreeNode addRequirement(String name, TreeModel model, MutableTreeNode parent) {
-		DefaultMutableTreeNode temp = new DefaultMutableTreeNode(name);
-		
-		 ((DefaultTreeModel) model).insertNodeInto(temp, parent, model.getChildCount(parent));
-		
-		return temp;
-		
-	}
-	*/
 }

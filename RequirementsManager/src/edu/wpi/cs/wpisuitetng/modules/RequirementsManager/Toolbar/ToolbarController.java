@@ -25,8 +25,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 
 /**
  * Controller for the Reguirement Manager toolbar.
+ * Adapted from ToolbarController in the project DefectTracker
  * 
- * Adapted from Defect Tracker
  * @author Arica Liu
  * 
  * @version March 18, 2013
@@ -73,7 +73,6 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 			if(selectedComponent instanceof IToolbarGroupProvider) {
 				IToolbarGroupProvider provider = (IToolbarGroupProvider) selectedComponent;
 				setRelevantTabGroup(provider.getGroup());
-				relevantTabGroup.repaint(); //does nothing to fix the save changes not showing up 
 			} else {
 				setRelevantTabGroup(null);
 			}

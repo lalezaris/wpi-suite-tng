@@ -12,7 +12,11 @@ import javax.swing.JTextArea;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
+ * Insert Description Here
+ *
  * @author lty
+ *
+ * @version Mar 21, 2013
  *
  */
 public class RequirementListPanel extends JPanel {

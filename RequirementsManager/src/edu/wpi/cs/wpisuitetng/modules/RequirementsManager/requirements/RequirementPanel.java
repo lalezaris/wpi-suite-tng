@@ -16,7 +16,8 @@ import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
-import java.awt.Font;
+
+import javax.swing.Box;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -59,13 +60,30 @@ public class RequirementPanel extends JPanel {
 	protected JTextArea txtDescription;	
 	protected JTextField txtEstimate;
 	protected JTextField txtActual;
+	protected JTextField txtCreatedDate;
+	protected JTextField txtModifiedDate;
+	protected JTextField txtCreator;
+	protected JTextField txtAssignee;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
 	/** The layout manager for this panel */
-//	protected SpringLayout layout;
 	protected GridBagLayout layout;
+	
+	/** The other panels */
+	protected JPanel panelOverall;
+	protected JPanel panelOne;
+	protected JPanel panelTwo;
+	protected JPanel panelThree;
+	protected JPanel panelFour;
+	
+	/** The layout managers for other panels */
+	protected GridBagLayout layoutOverall;
+	protected GridBagLayout layoutOne;
+	protected GridBagLayout layoutTwo;
+	protected GridBagLayout layoutThree;
+	protected GridBagLayout layoutFour;
 	
 	/*
 	 * Constants used to layout the form
@@ -103,11 +121,19 @@ public class RequirementPanel extends JPanel {
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
-		
+		GridBagConstraints cOverall = new GridBagConstraints();
+		GridBagConstraints cOne = new GridBagConstraints();
+		GridBagConstraints cTwo = new GridBagConstraints();
+		GridBagConstraints cThree = new GridBagConstraints();
+				
 		// Construct all of the components for the form
+		panelOverall = new JPanel();
+		panelOne = new JPanel();
+		panelTwo = new JPanel();
+		panelThree = new JPanel();
 		txtTitle = new JTextField(20);
 		txtReleaseNumber = new JTextField(20);
-		txtDescription = new JTextArea(10,50);
+		txtDescription = new JTextArea(7,75);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setBorder(txtTitle.getBorder());
@@ -123,11 +149,13 @@ public class RequirementPanel extends JPanel {
 		cmbPriority = new JComboBox(requirementPriorityValues);
 		txtEstimate = new JTextField(12);
 		txtActual = new JTextField(12);
+		txtCreator = new JTextField(20);
+		txtAssignee = new JTextField(20);
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
-		cmbPriority.setMaximumSize(cmbPriority.getPreferredSize());
+		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 		
 		// Construct labels for the form fields
 		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
@@ -137,71 +165,189 @@ public class RequirementPanel extends JPanel {
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
+		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
 		
 		int labelWidth = lblDescription.getPreferredSize().width;
 		
-		//set values that are used throughout for c
-		c.anchor = GridBagConstraints.LINE_START;
+		
+		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutOne = new GridBagLayout();
+		panelOne.setLayout(layoutOne);	
+		
+		cOne.anchor = GridBagConstraints.LINE_START; 
+		cOne.gridx = 0;
+		cOne.gridy = 0;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 2;
+		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		panelOne.add(txtTitle, cOne);
+		
+		cOne.gridx = 0;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(lblReleaseNumber, cOne);
+		
+		cOne.gridx = 1;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(txtReleaseNumber, cOne);
+		
+		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutTwo = new GridBagLayout();
+		panelTwo.setLayout(layoutTwo);
+		
+		cTwo.insets = new Insets(10,10,5,0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.gridx = 0;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		panelTwo.add(lblDescription, cTwo);
+		
+		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
+		cTwo.insets = new Insets(0,10,10,0);
+		cTwo.gridx = 0;
+		cTwo.gridy = 1;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		//cTwo.gridwidth = 2;
+		panelTwo.add(txtDescription, cTwo);
+		
+		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutThree = new GridBagLayout();
+		panelThree.setLayout(layoutThree);
+		
+		cThree.insets = new Insets(10,10,5,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblStatus, cThree);
+		
+		cThree.insets = new Insets(5,5,5,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 0;
+		cmbStatus.setSelectedItem(requirementStatusValues[0]);
+		panelThree.add(cmbStatus, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 0;
+		panelThree.add(lblPriority, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 3;
+		cThree.gridy = 0;
+		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
+		panelThree.add(cmbPriority, cThree);
+		
+		cThree.insets = new Insets(5,10,5,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 1;
+		panelThree.add(lblEstimate, cThree);
+		
+		cThree.insets = new Insets(5,5,5,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 1;
+		panelThree.add(txtEstimate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 1;
+		panelThree.add(lblActual, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 3;
+		cThree.gridy = 1;
+		panelThree.add(txtActual, cThree);
+		
+		cThree.insets = new Insets(5,10,10,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 2;
+		panelThree.add(lblCreator, cThree);
+		
+		cThree.insets = new Insets(5,5,10,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 2;
+		panelThree.add(txtCreator, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 2;
+		panelThree.add(lblAssignee, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 3;
+		cThree.gridy = 2;
+		panelThree.add(txtAssignee, cThree);
+		
+
+		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutOverall = new GridBagLayout();
+		panelOverall.setLayout(layoutOverall);
+		//Overall Panel
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		//c.gridcolumn something like this
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelOverall.add(panelOne, cOverall);
+		
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 1;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		//c.gridcolumn something like this
+		panelOverall.add(panelTwo, cOverall);
+		
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 2;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		//c.gridcolumn something like this
+		panelOverall.add(panelThree, cOverall);
+		
+		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		c.weightx = 0.5;
 		c.weighty = 0.5;
-		c.insets = new Insets(0,5,0,0);
-		
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
-		this.add(txtTitle, c);
-		
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 1;
-		this.add(lblReleaseNumber, c);
-		
-		c.gridx = 1;
-		c.gridy = 1;
-		this.add(txtReleaseNumber, c);
-		
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(lblStatus, c);
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		//c.gridcolumn something like this
+		this.add(panelOverall, c);
 		
-		c.gridx = 1;
-		c.gridy = 2;
-		this.add(cmbStatus, c);
 		
-		c.gridx = 0;
-		c.gridy = 3;
-		this.add(lblPriority, c);
-		
-		c.gridx = 1;
-		c.gridy = 3;
-		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
-		this.add(cmbPriority, c);
-		
-		c.gridx = 0;
-		c.gridy = 4;
-		this.add(lblDescription, c);
-	
-		c.gridx = 1;
-		c.gridy = 4;
-		this.add(txtDescription, c);
-		
-		c.gridx = 0;
-		c.gridy = 5;
-		this.add(lblEstimate, c);
-		
-		c.gridx = 1;
-		c.gridy = 5;
-		this.add(txtEstimate, c);
-		
-		c.gridx = 0;
-		c.gridy = 6;
-		this.add(lblActual, c);
-		
-		c.gridx = 1;
-		c.gridy = 6;
-		this.add(txtActual, c);
-
 	}
 	
 	/**
@@ -223,7 +369,6 @@ public class RequirementPanel extends JPanel {
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
 		txtEstimate.setEnabled(enabled);
-		txtActual.setEnabled(enabled);
 	}
 	
 	/**
@@ -236,12 +381,11 @@ public class RequirementPanel extends JPanel {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
-		//requirement.setReleaseNumber(txtReleaseNumber.getText());
+		//requirement.setReleaseNumber(Integer.parseInt(txtReleaseNumber.getText())); //need to catch exception in the save funtion
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimate(txtEstimate.getText());
-		//requirement.setActualEffort(txtActual.getText());
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}

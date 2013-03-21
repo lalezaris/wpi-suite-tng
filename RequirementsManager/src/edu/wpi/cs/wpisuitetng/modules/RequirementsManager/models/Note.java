@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Persistent Model that represents a Comment on a Requirement
+ * Adapted from Comment in the project DefectTracker
  *
  * @author Lauren Kahn
  *

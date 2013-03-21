@@ -1,3 +1,16 @@
+/**
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * 
+ */
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -6,6 +19,14 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 //this is a dummy class
+/**
+ * Insert Description Here
+ *
+ * @author 
+ *
+ * @version Mar 21, 2013
+ *
+ */
 public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 	RetrieveAllRequirementsController r;
 	public RetrieveAllRequirementsRequestObserver(RetrieveAllRequirementsController r){

@@ -36,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStat
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Panel to display and edit the basic fields for a requirement
+ * Adapted from DefectPanel in project DefectTracker
  *
  * @author CDUNKERS and Joe Spicola
  *
@@ -64,8 +65,7 @@ public class RequirementPanel extends JPanel {
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
-	/** The layout manager for this panel */
-//	protected SpringLayout layout;
+	/** The layout manager for this panel */\
 	protected GridBagLayout layout;
 	
 	/*
@@ -144,63 +144,75 @@ public class RequirementPanel extends JPanel {
 		
 		//set values that are used throughout for c
 		c.anchor = GridBagConstraints.LINE_START;
-		//c.weightx = 1;
 		c.weighty = 0.5;
 		c.insets = new Insets(0,5,0,0);
 		layout.columnWeights = new double[] {.1, .9};
 		
+		//set txtTitle variables
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
 		txtTitle.setFont(txtTitle.getFont().deriveFont(22f));
 		this.add(txtTitle, c);
 		
+		//set lblReleaseNumber variables
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 1;
 		this.add(lblReleaseNumber, c);
 		
+		//set txtReleaseNumber variables
 		c.gridx = 1;
 		c.gridy = 1;
 		this.add(txtReleaseNumber, c);
 		
+		//set lblStatus variables
 		c.gridx = 0;
 		c.gridy = 2;
 		this.add(lblStatus, c);
 		
+		//set cmbStatus variables
 		c.gridx = 1;
 		c.gridy = 2;
 		this.add(cmbStatus, c);
 		
+		//set lblPriority variables
 		c.gridx = 0;
 		c.gridy = 3;
 		this.add(lblPriority, c);
 		
+		//set cmbPriority variables
 		c.gridx = 1;
 		c.gridy = 3;
 		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
 		this.add(cmbPriority, c);
 		
+		//set lblDescription variables
 		c.gridx = 0;
 		c.gridy = 4;
 		this.add(lblDescription, c);
 	
+		//set txtDescription variables
 		c.gridx = 1;
 		c.gridy = 4;
 		this.add(txtDescription, c);
 		
+		//set lblEstimate variables
 		c.gridx = 0;
 		c.gridy = 5;
 		this.add(lblEstimate, c);
 		
+		//set txtEstimate variables
 		c.gridx = 1;
 		c.gridy = 5;
 		this.add(txtEstimate, c);
 		
+		//set lblActual variables
 		c.gridx = 0;
 		c.gridy = 6;
 		this.add(lblActual, c);
 		
+		//set txtActual variables
 		c.gridx = 1;
 		c.gridy = 6;
 		this.add(txtActual, c);
@@ -244,23 +256,10 @@ public class RequirementPanel extends JPanel {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
-		//requirement.setReleaseNumber(txtReleaseNumber.getText());
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimate(txtEstimate.getText());
-		//requirement.setActualEffort(txtActual.getText());
-//		if (!(txtAssignee.getText().equals(""))) {
-//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
-//		}
-//		if (!(txtCreator.getText().equals(""))) {
-//			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
-//		}
-//		HashSet<Tag> tags = new HashSet<Tag>();
-//		for (int i = 0; i < tagPanel.lmTags.getSize(); i++) {
-//			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
-//		}
-//		requirement.setTags(tags);
 		
 		return requirement;
 	}

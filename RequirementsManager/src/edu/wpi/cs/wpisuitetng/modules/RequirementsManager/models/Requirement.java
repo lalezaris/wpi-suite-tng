@@ -32,7 +32,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 
 /**
  * Class for storing a Requirement
- * Adapted from Defect class
+ * Adapted from Defect in project DefectManager
  * 
  * @author Tushar Narayan
  * Edited: Michael French
@@ -53,7 +53,6 @@ public class Requirement extends AbstractModel{
 	private String actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;
-	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	
@@ -100,7 +99,6 @@ public class Requirement extends AbstractModel{
 		this.lastModifiedDate = creationDate;
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
-		//this.type = "Requirement"; //
 	}
 
 	/**
@@ -278,17 +276,6 @@ public class Requirement extends AbstractModel{
 	public int getId(){
 		return id;
 	}
-
-
-	/*
-	 public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	*/
 	
 	/*
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
@@ -375,8 +362,6 @@ public class Requirement extends AbstractModel{
 	 * Add dependencies necessary for Gson to interact with this class
 	 * @param builder Builder to modify
 	 */
-	public static void addGsonDependencies(GsonBuilder builder) {
-		//RequirementEvent.addGsonDependencies(builder);
-	}
+	public static void addGsonDependencies(GsonBuilder builder) {}
 
 }

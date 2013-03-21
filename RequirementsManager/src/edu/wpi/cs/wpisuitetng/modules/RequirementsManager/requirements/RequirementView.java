@@ -36,7 +36,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
  * Allows users to view Requirements
- *
+ * Adapted from DefectView in project DefectTracker
+ * 
  * @author CDUNKERS and Joe Spicola
  *
  * @version Mar 17, 2013
@@ -83,11 +84,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-				//SwingUtilities.invokeLater(new Runnable(){
-				//	public void run(){
 						mainPanelScrollPane.repaint();
-				//	}
-				//});
 			}
 		});
 		

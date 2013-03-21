@@ -9,11 +9,13 @@
  *
  * Contributors:
  *  CDUNKERS
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
  * Possible values that a status of a requirement can be set to
+ * Adapted from DefectStatus in project DefectTracker
  *
  * @author CDUNKERS and Joe Spicola
  * Edited: Tushar Narayan

@@ -19,9 +19,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * Controller to handle the saving of a requirement
+ * Adapted from SaveDefectController in project DefectTracker
  * 
  * @author Joe Spicola
- *
+ * Edited by Tyler Stone
+ * 
  * @version Mar 18, 2013
  *
  */
@@ -43,10 +45,10 @@ public class SaveRequirementController {
 	 */
 	public void save() {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
-		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : */ new UpdateRequirementRequestObserver(view);
+		final RequestObserver requestObserver = new UpdateRequirementRequestObserver(view);
 		Request request;
 		panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.PUT);
 		request.setBody(panel.getEditedModel().toJSON());
 		request.addObserver(requestObserver);
 		request.send();

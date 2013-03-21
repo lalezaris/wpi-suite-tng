@@ -8,25 +8,21 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
-/**
- * 
- *
- * @author Spicola
- *
- * @version Mar 18, 2013
- *
- */
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle the saving of a defect
+ * Controller to handle the saving of a requirement
+ * 
+ * @author Joe Spicola
+ *
+ * @version Mar 18, 2013
  *
  */
 public class SaveRequirementController {
@@ -43,19 +39,17 @@ public class SaveRequirementController {
 	}
 
 	/**
-	 * Save the view's Defect model to the server (asynchronous).
+	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
-/*		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
+		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
+		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : */ new UpdateRequirementRequestObserver(view);
 		Request request;
 		panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("requirementtracker/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
+		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
 		request.setBody(panel.getEditedModel().toJSON());
 		request.addObserver(requestObserver);
-		request.send(); */
-		
-		//TODO: Work with Database guys to get this working!
+		request.send();
 	} 
 
 

@@ -8,31 +8,33 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Sam Lalezari
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
- * The basic dashboard for the Requirements Manager Tab.
- * Adapted from Defect Tracker
+ * The Model for the Requirement Tree
  *
- * @author Tyler Stone 
+ * @author Sam Lalezari
  *
- * @version Mar 17, 2013
+ * @version Mar 19, 2013
  *
  */
-public class DashboardTab extends JPanel{
-	
-	
+public class ReqTreeModel extends DefaultTreeModel {
+
 	/**
-	 * Class Constructor
+	 * Class constructor
 	 * 
+	 * @param root the root of the requirement tree
+	 * @param tree the tree of requirements
 	 */
-	public DashboardTab() {
-		JLabel testLabel = new JLabel("This is the dashboard panel.");
-		this.add(testLabel);
+	public ReqTreeModel(TreeNode root, JTree tree) {
+		super(root);
+		tree.setModel(this);
 	}
+
 }

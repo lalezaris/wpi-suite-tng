@@ -88,17 +88,17 @@ public class Requirement extends AbstractModel{
 	 * 
 	 */
 	public Requirement(){
-		this.releaseNumber = 0;
+		this.releaseNumber = 0; //default release number is 0. This will eventually be set from the project's releaseNumber.
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
 		this.description = ""; //description is required
-		this.estimate = ""; //default estimate set to 0
-		this.actualEffort = ""; //default actualEffort set to 0
+		this.estimate = ""; //default estimate set to an empty string
+		this.actualEffort = ""; //default actualEffort set to an empty string
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = creationDate;
-		this.id = -1;
+		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
 		//this.type = "Requirement"; //
 	}

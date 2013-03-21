@@ -19,9 +19,12 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tester class for Requirement.java
@@ -33,21 +36,31 @@ import org.junit.Test;
  */
 public class RequirementTest {
 
-	Requirement r1;
-	Requirement r2;
-	Requirement r2copy;
-	Requirement r3;
+	Date date1, date2;
+	Requirement r1, r2, r2copy, r3, r4;
+	RequirementStatus status1, status2, status3, status4;
+	RequirementPriority priority1, priority2, priority3;
 	
 	@Before
 	public void setUp(){
+		date1 = new Date();
 		r1 = new Requirement();
 		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.");
 		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.");
-		r3 = new Requirement(15, "Test Requirement 2", "This is another test requirement.");	
+		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement.");	
+		r4 = new Requirement("Test Requirement 4", "This is the fourth test requirement.");
+		date2 = new Date();
+		status1 = NEW;
+		status2 = INPROGRESS;
+		status3 = DONE;
+		status4 = ACCEPTED;
+		priority1 = HIGH;
+		priority2 = MEDIUM;
+		priority3 = LOW;
 	}
 	
 	/**
-	 * testing default constructor for Requirement class
+	 * tests default constructor for Requirement class
 	 * 
 	 */
 	@Test
@@ -65,11 +78,11 @@ public class RequirementTest {
 	}
 	
 	/**
-	 * testing constructor with arguments for Requirement class
+	 * tests constructor with id, title, and description parameters for Requirement class
 	 * 
 	 */
 	@Test
-	public void testParameterConstructor() {
+	public void testThreeParameterConstructor() {
 		assertEquals(r2.getReleaseNumber(), 0);
 		assertEquals(r2.getStatus(), NEW);
 		assertEquals(r2.getPriority(), MEDIUM);
@@ -83,32 +96,61 @@ public class RequirementTest {
 	}
 	
 	/**
-	 * test for fromJSON function
+	 * tests constructor with title and description parameters
+	 * also tests the getters and setters
+	 */
+	@Test
+	public void testTwoParameterConstructor(){
+		assertEquals(0, r4.getReleaseNumber());
+		r4.setReleaseNumber(10101);
+		assertEquals(10101, r4.getReleaseNumber());
+		
+		//testing all 4 statuses
+		assertEquals(status1, r4.getStatus());
+		r4.setStatus(status2);
+		assertEquals(status2, r4.getStatus());
+		r4.setStatus(status3);
+		assertEquals(status3, r4.getStatus());
+		r4.setStatus(status4);
+		assertEquals(status4, r4.getStatus());
+		
+		//testing the 3 required priorities
+		assertEquals(priority2, r4.getPriority());
+		r4.setPriority(priority1);
+		assertEquals(priority1, r4.getPriority());
+		r4.setPriority(priority3);
+		assertEquals(priority3, r4.getPriority());
+		
+		assertEquals("Test Requirement 4", r4.getTitle());
+		
+		assertEquals("This is the fourth test requirement.", r4.getDescription());
+		
+		assertEquals("", r4.getEstimate());
+		
+		assertEquals("", r4.getActualEffort());
+		
+		assertEquals(r4.getSubRequirements(), new ArrayList<Requirement>());
+		
+		
+		r4.setCreationDate(date1);
+		assertEquals(date1, r4.getCreationDate());
+		
+		r4.setLastModifiedDate(date2);
+		assertEquals(date2, r4.getLastModifiedDate());
+		
+		assertEquals(-1, r4.getId());
+		r4.setId(42);
+		assertEquals(42, r4.getId());
+	}
+	
+	/**
+	 * test for fromJSON and toJSON functions
 	 * 
 	 */
 	@Test
 	public void testfromJSON() {
 		String json = r3.toJSON();
 		Requirement newRequirement = Requirement.fromJSON(json);
-		//assertTrue(newDefect.getEvents().get(0) instanceof DefectChangeset);
-		//assertTrue(newDefect.getEvents().get(1) instanceof Comment);
 		assertEquals(15, newRequirement.getId());
 	}
-	
-	/**
-	 * test for the Identify function
-	 * NOT REQUIRED FOR ITERATION 1
-	@Test
-	public void testIdentify(){
-		assertTrue(r1.identify(r1));
-		assertTrue(r2.identify(r2copy));
-		assertTrue(r2.identify("10"));
-		assertTrue(r3.identify("15"));
-		assertFalse(r1.identify(r2));
-		assertFalse(r2.identify("20"));
-		assertFalse(r2.identify(new Object()));
-		assertFalse(r3.identify(null));
-	}
-	*/
-
 }

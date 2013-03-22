@@ -149,6 +149,8 @@ public class RequirementPanel extends JPanel {
 		cmbPriority = new JComboBox(requirementPriorityValues);
 		txtEstimate = new JTextField(12);
 		txtActual = new JTextField(12);
+		txtCreatedDate = new JTextField(12);
+		txtModifiedDate = new JTextField(12);
 		txtCreator = new JTextField(20);
 		txtAssignee = new JTextField(20);
 		
@@ -164,7 +166,11 @@ public class RequirementPanel extends JPanel {
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		JLabel lblEUnits = new JLabel("Units", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+		JLabel lblAUnits = new JLabel("Units", LABEL_ALIGNMENT);
+		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
+		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
 		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
 		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
 		
@@ -227,7 +233,7 @@ public class RequirementPanel extends JPanel {
 		layoutThree = new GridBagLayout();
 		panelThree.setLayout(layoutThree);
 		
-		cThree.insets = new Insets(10,10,5,0);
+		cThree.insets = new Insets(10,10,10,0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
@@ -235,78 +241,117 @@ public class RequirementPanel extends JPanel {
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblStatus, cThree);
 		
-		cThree.insets = new Insets(5,5,5,0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 0;
 		cmbStatus.setSelectedItem(requirementStatusValues[0]);
+		cmbStatus.setEnabled(false);
 		panelThree.add(cmbStatus, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 0;
+		cThree.gridx = 0;
+		cThree.gridy = 1;
 		panelThree.add(lblPriority, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 3;
-		cThree.gridy = 0;
+		cThree.gridx = 1;
+		cThree.gridy = 1;
 		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
 		panelThree.add(cmbPriority, cThree);
 		
-		cThree.insets = new Insets(5,10,5,0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
-		cThree.gridy = 1;
+		cThree.gridy = 2;
 		panelThree.add(lblEstimate, cThree);
 		
-		cThree.insets = new Insets(5,5,5,0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
-		cThree.gridy = 1;
+		cThree.gridy = 2;
 		panelThree.add(txtEstimate, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
-		cThree.gridy = 1;
+		cThree.gridy = 2;
+		panelThree.add(lblEUnits, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 3;
 		panelThree.add(lblActual, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 3;
-		cThree.gridy = 1;
-		panelThree.add(txtActual, cThree);
-		
-		cThree.insets = new Insets(5,10,10,0);
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 2;
-		panelThree.add(lblCreator, cThree);
-		
-		cThree.insets = new Insets(5,5,10,0);
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
 		cThree.gridx = 1;
-		cThree.gridy = 2;
-		panelThree.add(txtCreator, cThree);
+		cThree.gridy = 3;
+		panelThree.add(txtActual, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
-		cThree.gridy = 2;
+		cThree.gridy = 3;
+		panelThree.add(lblAUnits, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 4;
+		panelThree.add(lblCreatedDate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 4;
+		txtCreatedDate.setEnabled(false);
+		//txtCreator.setText(model.getCreator().getUsername());
+		panelThree.add(txtCreatedDate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 5;
+		panelThree.add(lblModifiedDate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 5;
+		txtModifiedDate.setEnabled(false);
+		panelThree.add(txtModifiedDate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 6;
+		panelThree.add(lblCreator, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 6;
+		txtCreator.setEnabled(false);
+		//txtCreator.setText(model.getCreator().getUsername());
+		panelThree.add(txtCreator, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 7;
 		panelThree.add(lblAssignee, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 3;
-		cThree.gridy = 2;
+		cThree.gridx = 1;
+		cThree.gridy = 7;
 		panelThree.add(txtAssignee, cThree);
+		
+		//txtCreatedDate.setText(model.getCreationDate().toString());
 		
 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------

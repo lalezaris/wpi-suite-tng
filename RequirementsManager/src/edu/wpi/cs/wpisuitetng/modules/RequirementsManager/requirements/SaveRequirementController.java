@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -28,7 +28,11 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle the saving of a defect
+ * Controller to handle the saving of a requirement
+ * 
+ * @author Joe Spicola
+ *
+ * @version Mar 18, 2013
  *
  */
 public class SaveRequirementController {
@@ -45,7 +49,7 @@ public class SaveRequirementController {
 	}
 
 	/**
-	 * Save the view's Defect model to the server (asynchronous).
+	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();

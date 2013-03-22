@@ -9,11 +9,12 @@
  *
  * Contributors:
  *  CDUNKERS
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
- * Insert Description Here
+ * Possible values that a priority of a requirement can be set to
  *
  * @author CDUNKERS and Joe Spicola
  *

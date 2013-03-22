@@ -28,9 +28,15 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Provides convenient public methods for controlling the MainTabView.
  * Keep in mind that this controller is visible as a public field in the module.
  * 
- * @author Adapted from Defect Tracker
+ * Adapted from Defect Tracker
+ * 
+ * @author Tyler Stone 
  *
  * @version Mar 17, 2013
+ *
+ */
+/**
+ * @author lty
  *
  */
 public class MainTabController {
@@ -38,6 +44,8 @@ public class MainTabController {
 	MainTabView view;
 	
 	/**
+	 * Controls the MainTab
+	 * 
 	 * @param view Create a controller that controls this MainTabView
 	 */
 	public MainTabController(MainTabView view) {
@@ -75,7 +83,7 @@ public class MainTabController {
 	
 	/**
 	 * Adds a tab that displays the given requirement in the given mode
-	 * @param requirement The defect to display
+	 * @param requirement The requirement to display
 	 * @param mode The Mode to use
 	 */
 	public Tab addRequirementTab(Requirement requirement) {
@@ -88,7 +96,7 @@ public class MainTabController {
 	
 	/**
 	 * Adds a tab that displays the given requirement
-	 * @param defect the requirement to display
+	 * @param requirement the requirement to display
 	 * @return The created Tab 
 	 */
 	public Tab addEditRequirementTab(Requirement requirement) {
@@ -96,13 +104,25 @@ public class MainTabController {
 	}
 	
 	/**
-	 * Adds a tab that allows the user to create a new Defect
+	 * Adds a tab that allows the user to create a new Requirement
 	 * @return The created Tab
 	 */
 	public Tab addCreateRequirementTab() {
 		return addRequirementTab(new Requirement());
 	}
 	
+	
+	/**
+	 * Adds a tab that shows all of the requirements
+	 * @return the created Tab
+	 */
+	public Tab addListTab() {
+		Tab tab = addTab();
+		RequirementListView view = new RequirementListView(tab);
+		tab.setComponent(view);
+		view.requestFocus();
+		return tab;
+	}
 	
 	/**
 	 * Add a change listener to the view this is controlling.

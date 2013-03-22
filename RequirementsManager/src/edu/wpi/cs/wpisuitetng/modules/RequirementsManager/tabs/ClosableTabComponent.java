@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -26,8 +26,9 @@ import javax.swing.JTabbedPane;
 
 /**
  * This provides a tab component with a close button to the left of the title
+ * Adapted from Defect Tracker
  * 
- * @author Adapted from Defect Tracker
+ * @author Tyler Stone 
  *
  * @version Mar 17, 2013
  *
@@ -66,6 +67,9 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		add(closeButton);
 	}
 
+	/* 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// close this tab when close button is clicked

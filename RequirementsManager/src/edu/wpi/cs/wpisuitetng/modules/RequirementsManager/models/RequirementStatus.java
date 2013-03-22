@@ -13,7 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
- * Insert Description Here
+ * Possible values that a status of a requirement can be set to
  *
  * @author CDUNKERS and Joe Spicola
  * Edited: Tushar Narayan

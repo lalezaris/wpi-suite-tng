@@ -38,6 +38,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 	
+	/**
+	 * Constructs the Main View Panel
+	 * 
+	 * @param mainTabView
+	 */
 	public MainView(MainTabView mainTabView) {
 		JSplitPane splitPane;
 		

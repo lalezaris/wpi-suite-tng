@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 /**
- * Insert Description Here
+ * The Model for the Requirement Tree
  *
  * @author Sam Lalezari
  *
@@ -27,10 +27,10 @@ import javax.swing.tree.TreeNode;
 public class ReqTreeModel extends DefaultTreeModel {
 
 	/**
-	 * Enter Description here.
+	 * Class constructor
 	 * 
-	 * @param root
-	 * @param tree
+	 * @param root the root of the requirement tree
+	 * @param tree the tree of requirements
 	 */
 	public ReqTreeModel(TreeNode root, JTree tree) {
 		super(root);

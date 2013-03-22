@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -20,7 +20,9 @@ import javax.swing.Icon;
  * A wrapper class for MainTabView that can be given to components within that view
  * in order to allow them to easily change their titles and icons.
  * 
- * @author Adapted from Defect Tracker
+ * Adapted from Defect Tracker
+ * 
+ * @author Tyler Stone 
  *
  * @version Mar 17, 2013
  *
@@ -41,15 +43,27 @@ public class Tab {
 		this.tabComponent = tabComponent;
 	}
 	
+	/**
+	 * Gets the index
+	 * 
+	 * @return the index
+	 */
 	private int getIndex() {
 		return view.indexOfTabComponent(tabComponent);
 	}
 	
+	/**
+	 * Gets the title
+	 * 
+	 * @return the title at an index
+	 */
 	public String getTitle() {
 		return view.getTitleAt(getIndex());
 	}
 	
 	/**
+	 * Sets the title
+	 * 
 	 * @param title Set the title of the Tab to this String
 	 */
 	public void setTitle(String title) {
@@ -57,33 +71,54 @@ public class Tab {
 		tabComponent.invalidate(); // needed to make tab shrink with smaller title
 	}
 	
+	/**
+	 * Gets the icon
+	 * 
+	 * @return the icon at an index
+	 */
 	public Icon getIcon() {
 		return view.getIconAt(getIndex());
 	}
 	
 	/**
+	 * Sets the icon of the tab
+	 * 
 	 * @param icon Set the icon of the Tab to this Icon
 	 */
 	public void setIcon(Icon icon) {
 		view.setIconAt(getIndex(), icon);
 	}
 	
+	/**
+	 * Gets the Tool Tip Text
+	 * 
+	 * @return gets the tool tip text at an index
+	 */
 	public String getToolTipText() {
 		return view.getToolTipTextAt(getIndex());
 	}
 	
 	/**
+	 * Sets the Tool Tip Text
+	 * 
 	 * @param toolTipText Set the tooltip of the Tab to this String
 	 */
 	public void setToolTipText(String toolTipText) {
 		view.setToolTipTextAt(getIndex(), toolTipText);
 	}
 	
+	/**
+	 * Get a Component
+	 * 
+	 * @return Get the Component at an index
+	 */
 	public Component getComponent() {
 		return view.getComponentAt(getIndex());
 	}
 	
 	/**
+	 * Sets the Component
+	 * 
 	 * @param component Set the component contained by this Tab to this Component
 	 */
 	public void setComponent(Component component) {

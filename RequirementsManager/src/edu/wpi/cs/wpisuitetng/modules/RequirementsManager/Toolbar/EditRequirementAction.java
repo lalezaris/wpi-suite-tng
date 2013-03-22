@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 /**
  * Action that calls {@link MainTabController#addEditRequirementTab()}, default mnemonic key is E.
  * 
- * @author Adapted from Defect Tracker
+ * Adapted from Defect Tracker
  * @author Arica liu
  * 
  * @version March 18, 2013
@@ -44,6 +44,9 @@ public class EditRequirementAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
 	
+	/* 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.addEditRequirementTab(requirement);

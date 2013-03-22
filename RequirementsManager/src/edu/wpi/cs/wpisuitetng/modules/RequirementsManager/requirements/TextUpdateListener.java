@@ -1,15 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *    JPage
- *    Arica Liu
- ******************************************************************************/
+ *  Arica Liu
+**************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -26,12 +26,18 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Checks for whether or not the text in a given JTextComponent differs from the current model (a Requirement).
+ * Adapted from JPage
  * 
  * Whenever a key is released in the TextUpdateListener's component, checkIfUpdated() is called. This method 
  * gets the component's name and looks up the value of the relevant field in panel's Requirement model. It then 
  * compares this value to the component's text to see if the text differs from the model. If the text 
  * differs, the style of the component is changed to show that it differs from the relevant field in the model.
  * Otherwise, the component's style is changed to be normal.
+ *
+ * @author Arica Liu
+ *
+ * @version Mar 20, 2013
+ *
  */
 public class TextUpdateListener implements KeyListener {
 	protected final RequirementPanel panel;
@@ -53,23 +59,32 @@ public class TextUpdateListener implements KeyListener {
 		this.defaultBorder = component.getBorder();
 	}
 
+	/* 
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* 
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		checkIfUpdated();
 	}
 
+	/*
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 	}
 
-	/**
+	/**Commented out parts are not needed in iteration 1 but may be needed in the future
 	 * Checks if the field differs from the RequirementPanel's model and changes the style of the field accordingly.
 	 */
 	public void checkIfUpdated() {

@@ -1,3 +1,19 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Dunkers
+ *  Sam Lalezari
+ *  Joe Spicola
+ *  Tyler Stone
+ *  Arica Liu
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager;
 
 import java.awt.event.ActionEvent;
@@ -18,13 +34,25 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 
+/**
+ * Manages the Requirements
+ * Adapted from JanewayModule
+ *
+ * @author Chris Dunkers, Sam Lalezari, Joe Spicola, Tyler Stone, Arica Liu
+ *
+ * @version Mar 20, 2013
+ *
+ */
 public class RequirementsManager implements IJanewayModule {
 	//initialize tabs
 	private List<JanewayTabModel> tabs;
 	public final MainTabController tabController;
 	public ToolbarPanel toolbarPanel;
 	
-	//class constructor
+	/**
+	 * Class Constructor 
+	 * 
+	 */
 	public RequirementsManager() {
 		tabs = new ArrayList<JanewayTabModel>();
 		
@@ -45,13 +73,11 @@ public class RequirementsManager implements IJanewayModule {
 		tabs.add(tab1);
 	}
 	
-	//interface-specific function
 	@Override
 	public String getName() {
 		return "Requirements Manager";
 	}
-	
-	//interface-specific function
+
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;

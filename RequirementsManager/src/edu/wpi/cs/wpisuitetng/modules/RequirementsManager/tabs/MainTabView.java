@@ -27,7 +27,8 @@ import javax.swing.JTabbedPane;
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
  * It starts out showing the single Dashboard tab.
  *
- * @author adapted from Defect Tracker
+ * Adapted from Defect Tracker
+ * @author Tyler Stone 
  *
  * @version Mar 17, 2013
  *
@@ -43,6 +44,9 @@ public class MainTabView extends JTabbedPane {
 		       "Your Dashboard - notifications, etc.");
 	}
 	
+	/* 
+	 * @see javax.swing.JTabbedPane#insertTab(java.lang.String, javax.swing.Icon, java.awt.Component, java.lang.String, int)
+	 */
 	@Override
 	public void insertTab(String title, Icon icon, Component component, String tip, int index) {
 		super.insertTab(title, icon, component, tip, index);
@@ -52,6 +56,9 @@ public class MainTabView extends JTabbedPane {
 		}
 	}
 	
+	/* 
+	 * @see javax.swing.JTabbedPane#removeTabAt(int)
+	 */
 	@Override
 	public void removeTabAt(int index) {
 		// if a tab does not have the close button UI, it cannot be removed
@@ -60,6 +67,9 @@ public class MainTabView extends JTabbedPane {
 		}
 	}
 	
+	/* 
+	 * @see javax.swing.JTabbedPane#setComponentAt(int, java.awt.Component)
+	 */
 	@Override
 	public void setComponentAt(int index, Component component) {
 		super.setComponentAt(index, component);

@@ -1,3 +1,20 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tushar Narayan
+ *  Lauren Kahn
+ *  Ned Shelton
+ *  Michael Perrone
+ *  Xia Li
+ *  Michael French
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
@@ -15,7 +32,8 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 
 /**
  * Class for storing a Requirement
- *
+ * Adapted from Defect class
+ * 
  * @author Tushar Narayan
  * Edited: Michael French
  * 			EDIT: Made class extend AbstractModel
@@ -80,7 +98,7 @@ public class Requirement extends AbstractModel{
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = creationDate;
-		this.id = -1;
+		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		//this.type = "Requirement"; //
@@ -301,12 +319,18 @@ public class Requirement extends AbstractModel{
 	}
 	*/
 	
+	/*
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
@@ -338,11 +362,17 @@ public class Requirement extends AbstractModel{
 		return json;
 	}
 	
+	/* 
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return toJSON();
 	}
 
+	/* 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub

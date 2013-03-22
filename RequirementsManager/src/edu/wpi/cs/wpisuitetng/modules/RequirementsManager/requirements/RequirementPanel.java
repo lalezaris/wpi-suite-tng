@@ -147,8 +147,8 @@ public class RequirementPanel extends JPanel {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		txtEstimate = new JTextField(12);
-		txtActual = new JTextField(12);
+		txtEstimate = new JTextField(3);
+		txtActual = new JTextField(3);
 		txtCreatedDate = new JTextField(12);
 		txtModifiedDate = new JTextField(12);
 		txtCreator = new JTextField(20);
@@ -290,6 +290,7 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 3;
+		txtActual.setEnabled(false);
 		panelThree.add(txtActual, cThree);
 		
 		cThree.weightx = 0.5;

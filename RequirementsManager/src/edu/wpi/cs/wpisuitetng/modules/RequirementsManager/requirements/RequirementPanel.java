@@ -30,7 +30,12 @@ import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 import java.awt.*;
-import java.applet.Applet;
+import javax.swing.JOptionPane;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -61,8 +66,8 @@ public class RequirementPanel extends JPanel {
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
-	protected JFormattedTextField txtEstimate;
-	protected JFormattedTextField txtActual;
+	protected IntegerField txtEstimate;
+	protected IntegerField txtActual;
 	protected JTextField txtCreatedDate;
 	protected JTextField txtModifiedDate;
 	protected JTextField txtCreator;
@@ -151,8 +156,8 @@ public class RequirementPanel extends JPanel {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		txtEstimate = new JFormattedTextField(createFormatter("###"));
-		txtActual = new JFormattedTextField(createFormatter("###"));
+		txtEstimate = new IntegerField(3);
+		txtActual = new IntegerField(3);
 		txtCreatedDate = new JTextField(15);
 		txtModifiedDate = new JTextField(15);
 		txtCreator = new JTextField(15);
@@ -276,6 +281,7 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 2;
+		txtEstimate.setText("0");
 		panelThree.add(txtEstimate, cThree);
 		
 		cThree.fill = GridBagConstraints.NONE;

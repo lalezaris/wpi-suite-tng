@@ -102,7 +102,7 @@ public class RequirementTest {
 	@Test
 	public void testTwoParameterConstructor(){
 		assertEquals(0, r4.getReleaseNumber());
-		r4.setReleaseNumber(10101);
+		r4.setReleaseNumber("10101");
 		assertEquals(10101, r4.getReleaseNumber());
 		
 		//testing all 4 statuses
@@ -125,7 +125,7 @@ public class RequirementTest {
 		
 		assertEquals("This is the fourth test requirement.", r4.getDescription());
 		
-		assertEquals("", r4.getEstimate());
+		assertEquals("", r4.getEstimateEffort());
 		
 		assertEquals("", r4.getActualEffort());
 		

@@ -38,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Allows users to view Requirements
  * Adapted from DefectView in project DefectTracker
  * 
- * @author CDUNKERS and Joe Spicola
+ * @author Chris Dunkers and Joe Spicola
  *
  * @version Mar 17, 2013
  *

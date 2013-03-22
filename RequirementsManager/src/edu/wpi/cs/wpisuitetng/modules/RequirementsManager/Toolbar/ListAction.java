@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 /**
  * Insert Description Here
  *
- * @author 
+ * @author Tianyu Li
  *
  * @version Mar 21, 2013
  *

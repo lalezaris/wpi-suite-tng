@@ -8,6 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
+ * Sam Abradi
  * 
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
@@ -22,9 +23,9 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Insert Description Here
+ * Retrieves all of the requirements from the database 
  *
- * @author 
+ * @author Sam Abradi
  *
  * @version Mar 21, 2013
  *

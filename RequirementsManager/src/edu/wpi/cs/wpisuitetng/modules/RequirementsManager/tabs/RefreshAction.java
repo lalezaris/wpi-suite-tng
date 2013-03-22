@@ -11,9 +11,9 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 
 /**
- * Insert Description Here
+ * Refreshes the data in the text box when the button is pressed
  *
- * @author lty
+ * @author Tianyu Li
  *
  * @version Mar 21, 2013
  *

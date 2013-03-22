@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * Insert Description Here
  *
- * @author 
+ * @author Sam Abradi
  *
  * @version Mar 21, 2013
  *

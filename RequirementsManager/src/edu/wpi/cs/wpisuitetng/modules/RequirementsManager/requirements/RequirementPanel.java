@@ -22,9 +22,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 import java.awt.*;
 import java.applet.Applet;
@@ -58,8 +60,8 @@ public class RequirementPanel extends JPanel {
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
-	protected JTextField txtEstimate;
-	protected JTextField txtActual;
+	protected JFormattedTextField txtEstimate;
+	protected JFormattedTextField txtActual;
 	protected JTextField txtCreatedDate;
 	protected JTextField txtModifiedDate;
 	protected JTextField txtCreator;
@@ -147,12 +149,12 @@ public class RequirementPanel extends JPanel {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		txtEstimate = new JTextField(3);
-		txtActual = new JTextField(3);
-		txtCreatedDate = new JTextField(12);
-		txtModifiedDate = new JTextField(12);
-		txtCreator = new JTextField(20);
-		txtAssignee = new JTextField(20);
+		txtEstimate = new JFormattedTextField(createFormatter("###"));
+		txtActual = new JFormattedTextField(createFormatter("###"));
+		txtCreatedDate = new JTextField(15);
+		txtModifiedDate = new JTextField(15);
+		txtCreator = new JTextField(15);
+		txtAssignee = new JTextField(15);
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -268,12 +270,14 @@ public class RequirementPanel extends JPanel {
 		cThree.gridy = 2;
 		panelThree.add(lblEstimate, cThree);
 		
+		cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 2;
 		panelThree.add(txtEstimate, cThree);
 		
+		cThree.fill = GridBagConstraints.NONE;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
@@ -286,13 +290,16 @@ public class RequirementPanel extends JPanel {
 		cThree.gridy = 3;
 		panelThree.add(lblActual, cThree);
 		
+		cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 3;
 		txtActual.setEnabled(false);
+		txtActual.setText("0");
 		panelThree.add(txtActual, cThree);
 		
+		cThree.fill = GridBagConstraints.NONE;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
@@ -310,7 +317,7 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 4;
 		txtCreatedDate.setEnabled(false);
-		//txtCreator.setText(model.getCreator().getUsername());
+		txtCreatedDate.setText(model.getCreationDate().toString());
 		panelThree.add(txtCreatedDate, cThree);
 		
 		cThree.weightx = 0.5;
@@ -337,7 +344,7 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 6;
 		txtCreator.setEnabled(false);
-		//txtCreator.setText(model.getCreator().getUsername());
+		txtCreator.setText(model.getCreator().getUsername());
 		panelThree.add(txtCreator, cThree);
 		
 		cThree.weightx = 0.5;
@@ -352,9 +359,6 @@ public class RequirementPanel extends JPanel {
 		cThree.gridy = 7;
 		panelThree.add(txtAssignee, cThree);
 		
-		//txtCreatedDate.setText(model.getCreationDate().toString());
-		
-
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutOverall = new GridBagLayout();
@@ -427,11 +431,12 @@ public class RequirementPanel extends JPanel {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
-		//requirement.setReleaseNumber(Integer.parseInt(txtReleaseNumber.getText())); //need to catch exception in the save funtion
+		requirement.setReleaseNumber(txtReleaseNumber.getText()); 
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
-		requirement.setEstimate(txtEstimate.getText());
+		requirement.setEstimateEffort(Integer.parseInt(txtEstimate.getText())); // need to catch an exception for this
+		requirement.setActualEffort(Integer.parseInt(txtActual.getText())); // need to catch an exception for this
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}
@@ -445,6 +450,17 @@ public class RequirementPanel extends JPanel {
 //		requirement.setTags(tags);
 		
 		return requirement;
+	}
+	
+	protected MaskFormatter createFormatter(String s) {
+	    MaskFormatter formatter = null;
+	    try {
+	        formatter = new MaskFormatter(s);
+	    } catch (java.text.ParseException exc) {
+	        System.err.println("formatter is bad: " + exc.getMessage());
+	        System.exit(-1);
+	    }
+	    return formatter;
 	}
 	
 }

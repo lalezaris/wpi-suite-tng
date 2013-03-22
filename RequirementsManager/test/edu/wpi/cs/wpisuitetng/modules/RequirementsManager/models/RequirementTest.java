@@ -57,8 +57,8 @@ public class RequirementTest {
 		assertEquals(r1.getPriority(), MEDIUM);
 		assertEquals(r1.getTitle(), "");
 		assertEquals(r1.getDescription(), "");
-		assertEquals(r1.getEstimate(), "");
-		assertEquals(r1.getActualEffort(), "");
+		assertEquals(r1.getEstimateEffort(), 0);
+		assertEquals(r1.getActualEffort(), 0);
 		assertEquals(r1.getSubRequirements(), new ArrayList<Requirement>());
 	//	assertEquals(r1.getType(), "Requirement");
 		assertEquals(r1.getId(), -1);
@@ -75,8 +75,8 @@ public class RequirementTest {
 		assertEquals(r2.getPriority(), MEDIUM);
 		assertEquals(r2.getTitle(), "Test Requirement");
 		assertEquals(r2.getDescription(), "This is a test requirement.");
-		assertEquals(r2.getEstimate(), "");
-		assertEquals(r2.getActualEffort(), "");
+		assertEquals(r2.getEstimateEffort(), 0);
+		assertEquals(r2.getActualEffort(), 0);
 		assertEquals(r2.getSubRequirements(), new ArrayList<Requirement>());
 		//assertEquals(r2.getType(), "Requirement");
 		assertEquals(r2.getId(), 10);

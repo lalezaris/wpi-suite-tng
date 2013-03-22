@@ -26,13 +26,13 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
  */
 
 public class Requirement extends AbstractModel{
-	private int releaseNumber;
+	private String releaseNumber;
 	private RequirementStatus status;
 	private RequirementPriority priority;
 	private String title;
 	private String description;
-	private String estimate; //should probably make this an int at some later date
-	private String actualEffort;
+	private int estimateEffort; //should probably make this an int at some later date
+	private int actualEffort;
 	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;
 	//private String type; //shouldn't need this after revised UML diagram
@@ -70,18 +70,19 @@ public class Requirement extends AbstractModel{
 	 * 
 	 */
 	public Requirement(){
-		this.releaseNumber = 0;
+		this.releaseNumber = "";
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
 		this.description = ""; //description is required
-		this.estimate = ""; //default estimate set to 0
-		this.actualEffort = ""; //default actualEffort set to 0
+		this.estimateEffort = 0; //default estimate set to 0
+		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = creationDate;
 		this.id = -1;
 		this.creator = new User("", "", "", -1);
+		this.assignee = new User("", "", "", -1);
 		//this.type = "Requirement"; //
 	}
 
@@ -89,7 +90,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the releaseNumber
 	 * @return the releaseNumber
 	 */
-	public int getReleaseNumber() {
+	public String getReleaseNumber() {
 		return releaseNumber;
 	}
 
@@ -97,7 +98,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the releaseNumber
 	 * @param releaseNumber: sets the releaseNumber 
 	 */
-	public void setReleaseNumber(int releaseNumber) {
+	public void setReleaseNumber(String releaseNumber) {
 		this.releaseNumber = releaseNumber;
 	}
 
@@ -169,23 +170,23 @@ public class Requirement extends AbstractModel{
 	 * Gets the estimate
 	 * @return the estimate
 	 */
-	public String getEstimate() {
-		return estimate;
+	public int getEstimateEffort() {
+		return estimateEffort;
 	}
 
 	/**
 	 * Sets the estimate
 	 * @param estimate: sets the estimate 
 	 */
-	public void setEstimate(String estimate) {
-		this.estimate = estimate;
+	public void setEstimateEffort(int estimateEffort) {
+		this.estimateEffort = estimateEffort;
 	}
 
 	/**
 	 * Gets the actualEffort
 	 * @return the actualEffort
 	 */
-	public String  getActualEffort() {
+	public int  getActualEffort() {
 		return actualEffort;
 	}
 
@@ -193,8 +194,36 @@ public class Requirement extends AbstractModel{
 	 * Sets the actualEffort
 	 * @param actualEffort: sets the actualEffort 
 	 */
-	public void setActualEffort(String actualEffort) {
+	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
+	}
+	
+	/**
+	 * @return the user who created this Requirement
+	 */
+	public User getCreator() {
+		return creator;
+	}
+
+	/**
+	 * @param creator the user who created this Requirement
+	 */
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+	
+	/**
+	 * @return the user who is assigned to this Requirement
+	 */
+	public User getAssignee() {
+		return assignee;
+	}
+
+	/**
+	 * @param assignee the user who is assigned to this Requirement
+	 */
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 
 	/**

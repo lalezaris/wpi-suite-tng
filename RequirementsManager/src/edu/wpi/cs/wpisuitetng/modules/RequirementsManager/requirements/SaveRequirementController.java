@@ -20,6 +20,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
  * @version Mar 18, 2013
  *
  */
+import javax.swing.JOptionPane;
+
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -51,9 +53,9 @@ public class SaveRequirementController {
 		Request request;
 		panel.getParent().setInputEnabled(false);
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
-		request.setBody(panel.getEditedModel().toJSON());
-		request.addObserver(requestObserver);
-		request.send();
+			request.setBody(panel.getEditedModel().toJSON());
+			request.addObserver(requestObserver);
+			request.send();
 	} 
 
 

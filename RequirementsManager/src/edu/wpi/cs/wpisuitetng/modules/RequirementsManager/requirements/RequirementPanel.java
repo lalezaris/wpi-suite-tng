@@ -395,9 +395,7 @@ public class RequirementPanel extends JPanel {
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		//c.gridcolumn something like this
-		this.add(panelOverall, c);
-		
-		
+		this.add(panelOverall, c);		
 	}
 	
 	/**

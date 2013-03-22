@@ -8,7 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tushar Narayan
+ * Chris Hanna
+ * Tushar Narayan
 **************************************************/
 /**
  * 
@@ -38,19 +39,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Chris
+ * Tests RequirementStore.java
+ *
+ * @author Chris Hanna
+ *
+ * @version Mar 21, 2013
  *
  */
 public class RequirementStoreTest {
-
-	/*
-	MockData db;
-	RequirementStore reqStore;
-	Session adminSession;
-	Project testProject;
-	User admin;
-	String ssid;
-	*/
 	
 	MockData db;
 	User existingUser;
@@ -87,7 +83,6 @@ public class RequirementStoreTest {
 		newReq = new Requirement("New Req", "This is a brand new requirement");
 		
 		db = new MockData(new HashSet<Object>());
-		//db.save(existingReq, testProject);
 		db.save(existingUser);
 		db.save(otherReq, otherProject);
 		db.save(admin);
@@ -104,20 +99,6 @@ public class RequirementStoreTest {
 		manager.makeEntity(defaultSession, rB.toJSON());
 		manager.makeEntity(defaultSession, rC.toJSON());
 		manager.makeEntity(defaultSession, rD.toJSON());
-		/*
-		User admin = new User("admin", "admin", "password", 5);
-		admin.setRole(Role.ADMIN);
-		testProject = new Project("test", "1");
-		ssid = "local";
-		adminSession = new Session(admin, testProject, ssid);
-		
-		db = new MockData(new HashSet<Object>());
-		//db.save(existingDefect, testProject);
-		//db.save(existingUser);
-		//db.save(otherDefect, otherProject);
-		db.save(admin);
-		reqStore = new RequirementStore(db);
-		*/
 	}
 	
 	@Test
@@ -146,8 +127,6 @@ public class RequirementStoreTest {
 		Requirement[] ra = manager.getEntity(defaultSession, ""+created.getId());
 		assertNotNull(ra[0]);
 		assertEquals("New Req", ra[0].getTitle());
-		//manager.getEntity(defaultSession, ""+created.getId());
-		//manager.getEntity(defaultSession, ""+existingReq.getId());
 	}
 	
 	@Test
@@ -187,10 +166,6 @@ public class RequirementStoreTest {
 		
 		assertEquals(didWeCatch, true);
 		
-		//boolean b2 = manager.deleteEntity(defaultSession, "" + existingReq.getId());
-		
-		
-		
 	}
 	
 	@Test
@@ -228,11 +203,5 @@ public class RequirementStoreTest {
 		assertEquals(all.length, 0);
 		
 	}
-	
-	//@Test
-	//public void GetEntity() throws NotFoundException{
-	
-		
-	//}
 	
 }

@@ -16,7 +16,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 /**
  * Possible values that a priority of a requirement can be set to
  *
- * @author Chris Dunkers and Joe Spicola
+ * @author Chris Dunkers
+ * @author Joe Spicola
  *
  * @version Mar 17, 2013
  *

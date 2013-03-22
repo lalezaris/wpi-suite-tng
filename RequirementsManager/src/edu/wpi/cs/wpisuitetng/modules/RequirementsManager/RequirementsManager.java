@@ -38,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
  * Manages the Requirements
  * Adapted from JanewayModule in the project DefectTracker
  *
- * @author Chris Dunkers, Sam Lalezari, Joe Spicola, Tyler Stone, Arica Liu
+ * @author Tyler Stone
  *
  * @version Mar 20, 2013
  *

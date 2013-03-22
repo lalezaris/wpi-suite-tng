@@ -9,7 +9,7 @@
  *
  * Contributors:
  * Sam Abradi
- * 
+ * Michael French
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 

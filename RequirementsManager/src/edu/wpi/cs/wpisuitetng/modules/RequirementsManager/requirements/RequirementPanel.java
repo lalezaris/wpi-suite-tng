@@ -38,7 +38,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
  *
- * @author Chris Dunkers and Joe Spicola
+ * @author Chris Dunkers 
+ * @author Joe Spicola
  *
  * @version Mar 17, 2013
  *

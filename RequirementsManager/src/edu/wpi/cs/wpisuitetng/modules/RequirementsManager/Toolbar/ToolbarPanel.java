@@ -26,7 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 /**
  * Toolbar Panel for Requirements Manager
  * 
- * @author Tyler Stone and Arica Liu
+ * @author Tyler Stone 
+ * @author Arica Liu
  * 
  * @version March 21, 2013 
  */

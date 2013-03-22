@@ -35,10 +35,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
  * Adapted from Defect in project DefectManager
  * 
  * @author Tushar Narayan
- * Edited: Michael French
- * 			EDIT: Made class extend AbstractModel
- * 			REASON: This class MUST extent AbstractModel in order 
- * 			to be compatible with the DataStore class
+ * 
  * @version Mar 17, 2013
  *
  */

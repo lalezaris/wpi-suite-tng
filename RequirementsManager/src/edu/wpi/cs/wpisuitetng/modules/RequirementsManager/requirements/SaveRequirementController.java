@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Joe Spicola
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -22,7 +23,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * Adapted from SaveDefectController in project DefectTracker
  * 
  * @author Joe Spicola
- * Edited by Tyler Stone
  * 
  * @version Mar 18, 2013
  *

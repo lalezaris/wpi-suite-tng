@@ -9,6 +9,10 @@
  *
  * Contributors:
  *  Arica Liu
+ *  Tianyu Li
+ *  Mike Perrone
+ *  Chris Hanna
+ *  
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
@@ -20,7 +24,8 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 
 /**
- * Insert Description Here
+ * The action that the "List" button is registered to. 
+ * This switches the current tab to the list of all requirements tab
  *
  * @author Tianyu Li
  *
@@ -45,6 +50,11 @@ public class ListAction extends AbstractAction {
 	}
 
 	
+	/**
+	 * Enter Description here.
+	 * 
+	 * @param controller
+	 */
 	public ListAction(MainTabController controller) {
 		super("List");
 		//TODO: Remove this debug message

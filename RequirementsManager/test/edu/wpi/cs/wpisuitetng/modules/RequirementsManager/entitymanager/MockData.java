@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Tushar Narayan
+ *  Chris Hanna
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
@@ -26,6 +27,11 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 
 /**
  * A mock data implementation for server-side testing. 
+ *
+ * @author Tushar Narayan
+ *
+ * @version Mar 21, 2013
+ *
  */
 public class MockData implements Data {
 

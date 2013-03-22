@@ -8,19 +8,19 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- * 
+ * Sam Abradi
+ * Michael French
  */
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
-//this is a dummy class
 /**
- * Insert Description Here
+ * Takes a response to a request, and passes it to the controller that it was instantiated with
  *
  * @author Sam Abradi
  *

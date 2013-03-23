@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
@@ -72,6 +73,8 @@ public class RequirementPanel extends JPanel {
 	protected JTextField txtModifiedDate;
 	protected JTextField txtCreator;
 	protected JTextField txtAssignee;
+	protected JButton saveRequirementTop;
+	protected JButton saveRequirementBottom;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -167,6 +170,12 @@ public class RequirementPanel extends JPanel {
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		
+		/**Save Button*/
+		saveRequirementTop = new JButton("Save");
+		saveRequirementTop.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+		saveRequirementBottom = new JButton("Save");
+		saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -199,13 +208,22 @@ public class RequirementPanel extends JPanel {
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		panelOne.add(saveRequirementTop, cOne);
+		
+		cOne.anchor = GridBagConstraints.LINE_START; 
+		cOne.gridx = 0;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
 		
 		cOne.gridx = 2;
-		cOne.gridy = 0;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
@@ -213,14 +231,14 @@ public class RequirementPanel extends JPanel {
 		panelOne.add(lblTitleError, cOne);
 		
 		cOne.gridx = 0;
-		cOne.gridy = 1;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblReleaseNumber, cOne);
 		
 		cOne.gridx = 1;
-		cOne.gridy = 1;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
@@ -386,6 +404,12 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 7;
 		panelThree.add(txtAssignee, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 8;
+		panelThree.add(saveRequirementBottom, cThree);
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -482,6 +506,12 @@ public class RequirementPanel extends JPanel {
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
+		if (!(txtAssignee.getText().equals(""))) {
+			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
+		}
+		if (!(txtCreator.getText().equals(""))) {
+			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
+		}
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}

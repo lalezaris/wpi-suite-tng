@@ -44,15 +44,15 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
  */
 
 public class Requirement extends AbstractModel{
+	private String title;
 	private String releaseNumber;
+	private String description;
 	private RequirementStatus status;
 	private RequirementPriority priority;
-	private String title;
-	private String description;
-	private int estimateEffort; //should probably make this an int at some later date
+	private int estimateEffort; 
 	private int actualEffort;
-	private ArrayList<Requirement> subRequirements;
 	private Date creationDate, lastModifiedDate;
+	private ArrayList<Requirement> subRequirements;
 	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
@@ -70,16 +70,17 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title and description
+	 * Constructs a new Requirement with id, title, description and creator
 	 *  
 	 * @param name
 	 * @param description
 	 */
-	public Requirement(int id, String title, String description){
+	public Requirement(int id, String title, String description, User creator){
 		this();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.creator = creator;
 	}
 	
 	

@@ -39,7 +39,7 @@ public class SaveChangesAction extends AbstractAction {
 	 * @param controller When the action is performed, controller.save will be called
 	 */
 	public SaveChangesAction(SaveRequirementController controller) {
-		super("Save Changes");
+		super("Save");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}

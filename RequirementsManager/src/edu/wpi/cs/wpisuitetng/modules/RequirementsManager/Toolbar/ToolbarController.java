@@ -25,8 +25,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 
 /**
  * Controller for the Reguirement Manager toolbar.
+ * Adapted from ToolbarController in the project DefectTracker
  * 
- * Adapted from Defect Tracker
  * @author Arica Liu
  * 
  * @version March 18, 2013

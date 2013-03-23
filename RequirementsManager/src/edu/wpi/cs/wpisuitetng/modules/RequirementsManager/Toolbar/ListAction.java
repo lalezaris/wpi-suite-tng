@@ -1,6 +1,19 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Arica Liu
+ *  Tianyu Li
+ *  Mike Perrone
+ *  Chris Hanna
+ *  
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.event.ActionEvent;
@@ -11,7 +24,12 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 
 /**
- * @author lty
+ * The action that the "List" button is registered to. 
+ * This switches the current tab to the list of all requirements tab
+ *
+ * @author Tianyu Li
+ *
+ * @version Mar 21, 2013
  *
  */
 public class ListAction extends AbstractAction {

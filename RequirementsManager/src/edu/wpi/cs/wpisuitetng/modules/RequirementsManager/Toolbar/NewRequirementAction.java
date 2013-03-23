@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 /**
  * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
  * 
- * Adapted from Defect Tracker
+ * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica liu
  * 
  * @version March 18, 2013

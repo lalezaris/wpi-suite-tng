@@ -32,17 +32,13 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 
 /**
  * Class for storing a Requirement
- * Adapted from Defect class
+ * Adapted from Defect in project DefectManager
  * 
  * @author Tushar Narayan
- * Edited: Michael French
- * 			EDIT: Made class extend AbstractModel
- * 			REASON: This class MUST extent AbstractModel in order 
- * 			to be compatible with the DataStore class
+ * 
  * @version Mar 17, 2013
  *
  */
-
 public class Requirement extends AbstractModel{
 	private String title;
 	private String releaseNumber;

@@ -31,10 +31,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @version Mar 20, 2013
  *
  */
-
-/**
- *
- */
 public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	private final RequirementView view;

@@ -125,4 +125,12 @@ public class Tab {
 		view.setComponentAt(getIndex(), component);
 	}
 	
+	public int getThisIndex() {
+		return view.indexOfTabComponent(tabComponent);
+	}
+	
+	public MainTabView getView() {
+		return view;
+	}
+	
 }

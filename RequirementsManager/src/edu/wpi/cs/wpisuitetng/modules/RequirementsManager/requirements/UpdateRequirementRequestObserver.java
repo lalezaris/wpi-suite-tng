@@ -76,8 +76,8 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				});
 			}
 			else { */
-		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
-			"Success!", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
+//			"Success!", JOptionPane.INFORMATION_MESSAGE);
 			/*}
 		}
 		else {

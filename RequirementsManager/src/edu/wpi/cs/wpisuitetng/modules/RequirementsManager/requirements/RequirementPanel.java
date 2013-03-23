@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
  *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Panel to display and edit the basic fields for a requirement
  *
- * @author CDUNKERS and Joe Spicola
+ * @author Chris Dunkers and Joe Spicola
  *
  * @version Mar 17, 2013
  *
@@ -75,6 +75,10 @@ public class RequirementPanel extends JPanel {
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
+	
+	/**Error labels*/
+	JLabel lblTitleError = new JLabel("Must have a title", LABEL_ALIGNMENT);
+	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -200,6 +204,14 @@ public class RequirementPanel extends JPanel {
 		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
 		
+		cOne.gridx = 2;
+		cOne.gridy = 0;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		lblTitleError.setVisible(false);
+		panelOne.add(lblTitleError, cOne);
+		
 		cOne.gridx = 0;
 		cOne.gridy = 1;
 		cOne.weightx = 0.5;
@@ -227,6 +239,15 @@ public class RequirementPanel extends JPanel {
 		cTwo.weighty = 0.5;
 		panelTwo.add(lblDescription, cTwo);
 		
+		cTwo.insets = new Insets(10,10,5,0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.gridx = 1;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		lblDescriptionError.setVisible(false);
+		panelTwo.add(lblDescriptionError, cTwo);
+
 		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
 		cTwo.insets = new Insets(0,10,10,0);
 		cTwo.gridx = 0;
@@ -281,7 +302,7 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 2;
-		txtEstimate.setText("0");
+		//txtEstimate.setText("0");
 		panelThree.add(txtEstimate, cThree);
 		
 		cThree.fill = GridBagConstraints.NONE;
@@ -303,7 +324,7 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 3;
 		txtActual.setEnabled(false);
-		txtActual.setText("0");
+		//txtActual.setText("0");
 		panelThree.add(txtActual, cThree);
 		
 		cThree.fill = GridBagConstraints.NONE;
@@ -431,6 +452,20 @@ public class RequirementPanel extends JPanel {
 		txtEstimate.setEnabled(enabled);
 	}
 	
+	/**
+	 * checks to see if it is an empty string returns -1 if the string is less than 0 or blank and returns the integer value otherwise
+	 * 
+	 * @param intf the IntergerField in question
+	 * @return the integer that is either -1 or the integer value of the string
+	 */
+	protected int getValue(IntegerField intf){
+		if(intf.getText().equals(null) || intf.getText().equals("")){
+			return -1;
+		} else {
+			return Integer.parseInt(intf.getText());
+		}		
+	}
+	
 	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
@@ -445,8 +480,8 @@ public class RequirementPanel extends JPanel {
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
-		requirement.setEstimateEffort(Integer.parseInt(txtEstimate.getText())); // need to catch an exception for this
-		requirement.setActualEffort(Integer.parseInt(txtActual.getText())); // need to catch an exception for this
+		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
+		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}
@@ -462,17 +497,29 @@ public class RequirementPanel extends JPanel {
 		return requirement;
 	}
 	
-	protected MaskFormatter createFormatter(String s) {
-	    MaskFormatter formatter = null;
-	    try {
-	        formatter = new MaskFormatter(s);
-	    } catch (java.text.ParseException exc) {
-	        System.err.println("formatter is bad: " + exc.getMessage());
-	        System.exit(-1);
-	    }
-	    return formatter;
+	/**
+	 * Checks to make sure the title and description are filled in 
+	 * 
+	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise 
+	 */
+	public int checkRequiredFields(){
+		if((txtTitle.getText().equals(null) || txtTitle.getText().equals("")) && 
+				(txtDescription.getText().equals(null) || txtDescription.getText().equals(""))){
+			lblTitleError.setVisible(true);
+			lblDescriptionError.setVisible(true);
+			return 3;
+		} else if(txtTitle.getText().equals(null) || txtTitle.getText().equals("")){
+			lblTitleError.setVisible(true);
+			lblDescriptionError.setVisible(false);
+			return 2; 
+		} else if(txtDescription.getText().equals(null) || txtDescription.getText().equals("")){
+			lblDescriptionError.setVisible(true);
+			lblTitleError.setVisible(false);
+			return 1;
+		} else 
+			return 0;
 	}
-	
+		
 }
 	
 	

@@ -12,14 +12,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
-/**
- * A JTextField which only accepts integers 
- *
- * @author Chris Dunkers
- *
- * @version Mar 22, 2013
- *
- */
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -28,8 +20,12 @@ import javax.swing.text.PlainDocument;
 
 /**
  * A JTextField that accepts only integers.
+ * 
+ * Aquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  *
  * @author Chris Dunkers
+ * 
+ * @version Mar 22, 2013
  */
 public class IntegerField extends JTextField {
 

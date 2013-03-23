@@ -131,4 +131,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	    mainPanel.setInputEnabled(enabled);
 	}
 	
+	public Tab getTab() {
+		return containingTab;
+	}
+	
 }

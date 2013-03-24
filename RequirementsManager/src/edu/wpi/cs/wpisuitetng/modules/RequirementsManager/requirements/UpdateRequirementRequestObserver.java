@@ -57,7 +57,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		/*if (response.getStatusCode() == 200) {
+		
 			// parse the requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 
@@ -66,21 +66,12 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						//view.setEditModeDescriptors(requirement);
+						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+						view.setEditModeDescriptors(requirement);
 					}
 				});
 			}
-			else { */
-//		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
-//			"Success!", JOptionPane.INFORMATION_MESSAGE);
-			/*}
-		}
-		else {
-			JOptionPane.showMessageDialog(view, 
-					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-					"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
-		} */
+			
 
 		always();
 	}

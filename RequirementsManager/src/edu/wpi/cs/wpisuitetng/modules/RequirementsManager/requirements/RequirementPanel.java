@@ -54,6 +54,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  *
  */
 public class RequirementPanel extends JPanel {
+	public enum Mode {
+		CREATE,
+		EDIT;
+	}
 	
 	/** The Requirement displayed in this panel */
 	protected Requirement model; 
@@ -81,6 +85,9 @@ public class RequirementPanel extends JPanel {
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
+	/** The data model for the ChangeSet list */
+	//protected RequirementEventListModel requirementEventListModel;
+	
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
@@ -102,6 +109,9 @@ public class RequirementPanel extends JPanel {
 	protected GridBagLayout layoutThree;
 	protected GridBagLayout layoutFour;
 	
+	/** An enum indicating if the form is in create mode or edit mode */
+	protected Mode editMode;
+	
 	/*
 	 * Constants used to layout the form
 	 */
@@ -115,9 +125,10 @@ public class RequirementPanel extends JPanel {
 	 * @param parent The parent of the requirement
 	 * @param requirement The Requirement to edit
 	 */
-	public RequirementPanel(RequirementView parent, Requirement requirement) {
+	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
 		this.parent = parent;
+		editMode = mode;
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -295,7 +306,6 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 0;
 		cmbStatus.setSelectedItem(requirementStatusValues[0]);
-		cmbStatus.setEnabled(false);
 		panelThree.add(cmbStatus, cThree);
 		
 		cThree.weightx = 0.5;
@@ -343,7 +353,6 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 3;
-		txtActual.setEnabled(false);
 		//txtActual.setText("0");
 		panelThree.add(txtActual, cThree);
 		
@@ -450,6 +459,12 @@ public class RequirementPanel extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		//c.gridcolumn something like this
 		this.add(panelOverall, c);		
+		
+		//depending on the mode, disable certain components
+		if (editMode == Mode.CREATE) {
+			cmbStatus.setEnabled(false);
+			txtActual.setEnabled(false);
+		}
 	}
 	
 	/**
@@ -476,6 +491,43 @@ public class RequirementPanel extends JPanel {
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
 		txtEstimate.setEnabled(enabled);
+	}
+	
+	/**
+	 * Updates the RequirementPanel's model to contain the values of the given Requirement and sets the 
+	 * RequirementPanel's editMode to {@link Mode#EDIT}.
+	 * 
+	 * @param requirement	The Requirement which contains the new values for the model.
+	 */
+	protected void updateModel(Requirement requirement) {
+		updateModel(requirement, Mode.EDIT);
+	}
+	
+	/**
+	 * Updates the DefectPanel's model to contain the values of the given Defect.
+	 * 
+	 * @param	defect	The Defect which contains the new values for the model.
+	 * @param	mode	The new editMode.
+	 */
+	protected void updateModel(Requirement requirement, Mode mode) {
+		editMode = mode;
+		
+		model.setId(requirement.getId());
+		model.setTitle(requirement.getTitle());
+		model.setDescription(requirement.getDescription());
+		model.setAssignee(requirement.getAssignee());
+		model.setCreator(requirement.getCreator());
+		model.setCreationDate(requirement.getCreationDate());
+		model.setLastModifiedDate(requirement.getLastModifiedDate());
+		model.setStatus(requirement.getStatus());
+		
+		updateFields();
+		//requirementEventListModel.update(requirement);
+		this.revalidate();
+		layout.invalidateLayout(this);
+		layout.layoutContainer(this);
+		this.repaint();
+		parent.refreshScrollPane();
 	}
 	
 	/**
@@ -550,6 +602,32 @@ public class RequirementPanel extends JPanel {
 			return 1;
 		} else 
 			return 0;
+	}
+	
+	private void updateFields() {
+		txtTitle.setText(model.getTitle());
+		txtDescription.setText(model.getDescription());
+		for (int i = 0; i < cmbStatus.getItemCount(); i++) {
+			if (model.getStatus() == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
+				cmbStatus.setSelectedIndex(i);
+			}
+		}
+		if (editMode == Mode.EDIT) {
+			txtCreatedDate.setText(model.getCreationDate().toString());
+			txtModifiedDate.setText(model.getLastModifiedDate().toString());
+		}
+		if (model.getCreator() != null) {
+			txtCreator.setText(model.getCreator().getUsername());
+		}
+		if (model.getAssignee() != null) {
+			txtAssignee.setText(model.getAssignee().getUsername());
+		}
+		
+		//txtTitleListener.checkIfUpdated();
+		//txtDescriptionListener.checkIfUpdated();
+		//cmbStatusListener.checkIfUpdated();
+		//txtCreatorListener.checkIfUpdated();
+		//txtAssigneeListener.checkIfUpdated();
 	}
 		
 }

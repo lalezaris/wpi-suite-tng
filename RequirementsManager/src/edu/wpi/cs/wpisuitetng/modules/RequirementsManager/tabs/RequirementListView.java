@@ -82,7 +82,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new RetrieveAllRequirementsController(this);
-
+		controller.refreshData();
 		// Instantiate the save button and add it to the button panel
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(controller));

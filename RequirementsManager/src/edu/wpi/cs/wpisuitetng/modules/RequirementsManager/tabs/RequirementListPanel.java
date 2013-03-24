@@ -15,11 +15,19 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
@@ -34,22 +42,31 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 public class RequirementListPanel extends JPanel {
 
 	JTextArea list;
-	
+	JTable table;
+	JScrollPane scrollPane;
 	public RequirementListPanel(RequirementListView parent){
-		list = new JTextArea();
-		list.setEditable(false);
 		
-		list.setText("REQ LIST VIEW\n");
-		add(list);
+		super(new GridLayout(1,1));
+		
+
+		TableModel model = new RequirementTable();
+		
+		table = new JTable(model);
+		
+		scrollPane = new JScrollPane(table);
+		table.setFillsViewportHeight(true);
+		
+		add(scrollPane);
 	}
 	
 	
 	public void addRequirement(Requirement req){
-		list.append(req.getTitle() + "\n");
+		((RequirementTable)table.getModel()).addRow(req);
+		table.updateUI();
 	}
 
 
 	public void clearList() {
-		list.setText("REQ LIST VIEW" + "\n");
+		((RequirementTable)table.getModel()).clear();
 	}
 }

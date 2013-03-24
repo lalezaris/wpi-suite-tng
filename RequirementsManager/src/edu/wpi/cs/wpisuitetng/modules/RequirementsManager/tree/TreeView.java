@@ -48,7 +48,7 @@ public class TreeView extends JPanel {
 		JLabel titleLabel = new JLabel("<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
 		
-		MutableTreeNode root = new DefaultMutableTreeNode("root");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
 		//DefaultTreeModel treeModel = new DefaultTreeModel(root);
 		
 		JTree tree = new JTree();

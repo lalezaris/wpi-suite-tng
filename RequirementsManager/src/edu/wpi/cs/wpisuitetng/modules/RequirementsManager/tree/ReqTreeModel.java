@@ -13,7 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -28,6 +30,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 @SuppressWarnings({"serial"})
 public class ReqTreeModel extends DefaultTreeModel {
+	
+	DefaultMutableTreeNode root;
 
 	/**
 	 * Class constructor
@@ -35,9 +39,10 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * @param root the root of the requirement tree
 	 * @param tree the tree of requirements
 	 */
-	public ReqTreeModel(TreeNode root, JTree tree) {
+	public ReqTreeModel(MutableTreeNode root, JTree tree) {
 		super(root);
 		tree.setModel(this);
+		this.root = (DefaultMutableTreeNode) root;
 	}
 
 	public void fillTree(Requirement[] reqs){
@@ -46,7 +51,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		ReqTreeNode temp = null;
 		for (int i = 0; i < requirements.length; i++){
 			temp = new ReqTreeNode(requirements[i]);
-			this.insertNodeInto(temp, null, i);
+			this.insertNodeInto(temp, root, i);
 		}
 	}
 	

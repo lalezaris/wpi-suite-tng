@@ -35,7 +35,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
-	private JButton listButton;
+//	private JButton listButton;
+	private JButton newIteration;
+	private JButton listIteration;
 //	private JButton editRequirement;
 //	private JButton deleteRequirement;
 	
@@ -49,39 +51,50 @@ public class ToolbarPanel extends DefaultToolbarView {
 	public ToolbarPanel(MainTabController tabController) {	
 		// Construct the content panel
 		JPanel content = new JPanel();
+		JPanel content2 = new JPanel();
 		SpringLayout layout  = new SpringLayout();
 		content.setLayout(layout);
 		content.setOpaque(false);
+		content2.setLayout(layout);
+		content2.setOpaque(false);
 
-		// Construct the new button
-		newRequirement = new JButton("New");
+		// Construct the buttons
+		newIteration = new JButton("Create Iteration");
+		newIteration.setAction(new NewIterationAction(tabController));
+		
+		listIteration = new JButton("List Iterations");
+	//	newIteration.setAction(new NewRequirementAction(tabController));
+		
+		newRequirement = new JButton("Create Requirement");
 		newRequirement.setAction(new NewRequirementAction(tabController));
 		
-		//
-		listButton = new JButton("List");
-		listButton.setAction(new ListAction(tabController));
+//		listButton = new JButton("List Requirements");
+//		listButton.setAction(new ListAction(tabController));
 		
-
-//		// Construct the edit button
-//		editRequirement = new JButton("Edit");
-
 		// Configure the layout of the buttons on the content panel
-		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content);
-		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
-		layout.putConstraint(SpringLayout.WEST, listButton, 10, SpringLayout.EAST, newRequirement);
-		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listButton, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
-
+		layout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, content);
+		layout.putConstraint(SpringLayout.WEST, newIteration, 8, SpringLayout.WEST, content);
+		layout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.EAST, newIteration);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listIteration, 0, SpringLayout.VERTICAL_CENTER, newIteration);
+		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content2);
+		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content2);
+		
 		// Add buttons to the content panel
-		content.add(newRequirement);
-		content.add(listButton);
-//		content.add(editRequirement);
+		content.add(newIteration);
+		content.add(listIteration);
+		content2.add(newRequirement);
+//		content.add(listButton);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
-		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);
+		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Iteration", content);
+		ToolbarGroupView toolbarGroup2 = new ToolbarGroupView("Requirement", content2);
 		
 		// Calculate the width of the toolbar
-		Double toolbarGroupWidth = 2 * newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
+		Double toolbarGroupWidth = newIteration.getPreferredSize().getWidth() + listIteration.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
+		Double toolbarGroupWidth2 = newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
+		toolbarGroup2.setPreferredWidth(toolbarGroupWidth2.intValue());
 		addGroup(toolbarGroup);
+		addGroup(toolbarGroup2);
 	}
 }

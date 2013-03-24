@@ -49,7 +49,6 @@ public class TreeView extends JPanel {
 		this.add(titleLabel, BorderLayout.PAGE_START);
 		
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
-		//DefaultTreeModel treeModel = new DefaultTreeModel(root);
 		
 		JTree tree = new JTree();
 		tree.setRootVisible(false);

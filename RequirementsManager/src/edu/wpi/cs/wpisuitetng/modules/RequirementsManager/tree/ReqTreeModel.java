@@ -19,6 +19,9 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
  * The Model for the Requirement Tree
@@ -32,6 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 public class ReqTreeModel extends DefaultTreeModel {
 	
 	DefaultMutableTreeNode root;
+	RetrieveAllRequirementsController controller;
 
 	/**
 	 * Class constructor
@@ -41,8 +45,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 */
 	public ReqTreeModel(MutableTreeNode root, JTree tree) {
 		super(root);
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+		controller = new RetrieveAllRequirementsController(this);
+		
 		tree.setModel(this);
 		this.root = (DefaultMutableTreeNode) root;
+		controller.refreshData();
 	}
 
 	public void fillTree(Requirement[] reqs){

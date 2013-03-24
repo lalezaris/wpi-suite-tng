@@ -10,17 +10,16 @@
  * Contributors:
  * Sam Abradi
  * Michael French
+ * Sam Lalezari
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
-
-import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;;
 
 /**
  * Retrieves all of the requirements from the database 
@@ -50,6 +49,7 @@ public class RetrieveAllRequirementsController {
 	 * Sends a request for all of the Requirements
 	 */
 	public void refreshData() {		
+		//System.out.println(Network.getInstance().getDefaultNetworkConfiguration());
 		final RequestObserver requestObserver = new RetrieveAllRequirementsRequestObserver(this);
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /*is this ok? ->*/ HttpMethod.GET);

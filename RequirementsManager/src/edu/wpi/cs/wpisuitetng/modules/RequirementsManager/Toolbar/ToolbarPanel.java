@@ -35,9 +35,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
-//	private JButton listButton;
-//	private JButton editRequirement;
-//	private JButton deleteRequirement;
+	private JButton editRequirement;
+	private JButton deleteRequirement;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -56,31 +55,37 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Construct the new button
 		newRequirement = new JButton("New");
 		newRequirement.setAction(new NewRequirementAction(tabController));
-		
-		//
-//		listButton = new JButton("List");
-//		listButton.setAction(new ListAction(tabController));
-		
 
-//		// Construct the edit button
-//		editRequirement = new JButton("Edit");
+		// Construct the edit button
+		editRequirement = new JButton("Edit");
+		//editRequirement.setAction(new EditRequirementAction(tabController));
+		
+		deleteRequirement = new JButton("Delete");
+		//deleteRequirement.setAction(new DeleteRequirementAction(tabController));
+		
 
 		// Configure the layout of the buttons on the content panel
 		layout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, content);
 		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
-//		layout.putConstraint(SpringLayout.WEST, listButton, 10, SpringLayout.EAST, newRequirement);
-//		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listButton, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
-
+		layout.putConstraint(SpringLayout.WEST, editRequirement, 10, SpringLayout.EAST, newRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, editRequirement, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
+		layout.putConstraint(SpringLayout.WEST, deleteRequirement, 10, SpringLayout.EAST, editRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, deleteRequirement, 0, SpringLayout.VERTICAL_CENTER, editRequirement);
+		
+		editRequirement.setEnabled(false);
+		deleteRequirement.setEnabled(false);
+		
 		// Add buttons to the content panel
 		content.add(newRequirement);
-//		content.add(listButton);
-//		content.add(editRequirement);
+		content.add(editRequirement);
+		content.add(deleteRequirement);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);
 		
 		// Calculate the width of the toolbar
-		Double toolbarGroupWidth = 1 * newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
+		Double toolbarGroupWidth = 3 * newRequirement.getPreferredSize().getWidth() + 50; // 50 accounts for margins between the buttons
+
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
 		addGroup(toolbarGroup);
 	}

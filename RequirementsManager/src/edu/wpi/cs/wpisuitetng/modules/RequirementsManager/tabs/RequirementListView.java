@@ -1,6 +1,18 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tianyu Li
+ *  Mike Perrone
+ *  Chris Hanna
+ *  
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
@@ -20,7 +32,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequi
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsRequestObserver;
 
 /**
- * @author lty
+ * The primary JPanel for the list of all requirements tab
+ *
+ * @author Tianyu Li
+ *
+ * @version Mar 21, 2013
  *
  */
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
@@ -66,7 +82,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new RetrieveAllRequirementsController(this);
-
+		controller.refreshData();
 		// Instantiate the save button and add it to the button panel
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(controller));

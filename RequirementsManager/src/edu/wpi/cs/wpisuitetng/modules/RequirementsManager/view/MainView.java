@@ -32,7 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 /**
  * Main View Panel class for our Requirements Manager
  * 
- * @author Tyler Stone, Sam Lalezari
+ * @author Tyler Stone
+ * @author Sam Lalezari
  *
  */
 @SuppressWarnings("serial")

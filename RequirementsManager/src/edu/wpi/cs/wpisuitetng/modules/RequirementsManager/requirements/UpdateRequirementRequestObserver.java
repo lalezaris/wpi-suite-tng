@@ -31,10 +31,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @version Mar 20, 2013
  *
  */
-
-/**
- *
- */
 public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	private final RequirementView view;
@@ -76,8 +72,8 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				});
 			}
 			else { */
-		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
-			"Success!", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
+//			"Success!", JOptionPane.INFORMATION_MESSAGE);
 			/*}
 		}
 		else {

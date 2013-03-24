@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
  *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
@@ -16,13 +16,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 /**
  * Possible values that a priority of a requirement can be set to
  *
- * @author CDUNKERS and Joe Spicola
+ * @author Chris Dunkers
+ * @author Joe Spicola
  *
  * @version Mar 17, 2013
  *
  */
 public enum RequirementPriority {
-	UNDECIDED,   // not sure if needed 
+	BLANK,   // not sure if needed 
 	HIGH,       // requires immediate attention
 	MEDIUM, // requires attention shortly
 	LOW   // requires attention at some point in the iteration

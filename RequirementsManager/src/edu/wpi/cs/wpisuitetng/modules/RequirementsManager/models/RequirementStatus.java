@@ -8,15 +8,19 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
+ *  Joe Spicola
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
  * Possible values that a status of a requirement can be set to
+ * Adapted from DefectStatus in project DefectTracker
  *
- * @author CDUNKERS and Joe Spicola
- * Edited: Tushar Narayan
+ * @author Chris Dunkers 
+ * @author Joe Spicola
+ * 
  * @version Mar 17, 2013
  *
  */

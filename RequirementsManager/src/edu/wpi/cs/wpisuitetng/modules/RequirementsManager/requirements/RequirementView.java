@@ -36,8 +36,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
  * Allows users to view Requirements
- *
- * @author CDUNKERS and Joe Spicola
+ * Adapted from DefectView in project DefectTracker
+ * 
+ * @author Chris Dunkers 
+ * @author Joe Spicola
  *
  * @version Mar 17, 2013
  *
@@ -129,6 +131,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	    saveButton.setEnabled(enabled);
 	    mainPanel.setInputEnabled(enabled);
+	}
+	
+	public Tab getTab() {
+		return containingTab;
 	}
 	
 }

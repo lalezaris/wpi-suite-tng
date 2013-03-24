@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
  * Retrieves all of the Requirement Request Observers
+ * Adapted from GetMessageRequestObserver in the project PostBoard
  *
  * @author Sam Lalezari
  *

@@ -9,19 +9,25 @@
  *
  * Contributors:
  *  Joe Spicola
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+
+
+import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-
+import javax.swing.JTabbedPane;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 /**
  * Controller to handle the saving of a requirement
+ * Adapted from SaveDefectController in project DefectTracker
  * 
  * @author Joe Spicola
- *
+ * 
  * @version Mar 18, 2013
  *
  */
@@ -45,11 +51,17 @@ public class SaveRequirementController {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
 		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : */ new UpdateRequirementRequestObserver(view);
 		Request request;
-		panel.getParent().setInputEnabled(false);
+		//panel.getParent().setInputEnabled(false);
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
-		request.setBody(panel.getEditedModel().toJSON());
-		request.addObserver(requestObserver);
-		request.send();
+		if(panel.checkRequiredFields() > 0){} 
+		else {
+			request.setBody(panel.getEditedModel().toJSON());
+			request.addObserver(requestObserver);
+			request.send();
+			//close tab
+			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+			
+		}
 	} 
 
 

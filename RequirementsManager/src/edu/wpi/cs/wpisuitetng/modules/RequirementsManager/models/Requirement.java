@@ -32,27 +32,23 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 
 /**
  * Class for storing a Requirement
- * Adapted from Defect class
+ * Adapted from Defect in project DefectManager
  * 
  * @author Tushar Narayan
- * Edited: Michael French
- * 			EDIT: Made class extend AbstractModel
- * 			REASON: This class MUST extent AbstractModel in order 
- * 			to be compatible with the DataStore class
+ * 
  * @version Mar 17, 2013
  *
  */
-
 public class Requirement extends AbstractModel{
-	private int releaseNumber;
+	private String title;
+	private String releaseNumber;
+	private String description;
 	private RequirementStatus status;
 	private RequirementPriority priority;
-	private String title;
-	private String description;
-	private String estimate; //should probably make this an int at some later date
-	private String actualEffort;
-	private ArrayList<Requirement> subRequirements;
+	private int estimateEffort; 
+	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
+	private ArrayList<Requirement> subRequirements;
 	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
@@ -70,16 +66,17 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title and description
+	 * Constructs a new Requirement with id, title, description and creator
 	 *  
 	 * @param name
 	 * @param description
 	 */
-	public Requirement(int id, String title, String description){
+	public Requirement(int id, String title, String description, User creator){
 		this();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.creator = creator;
 	}
 	
 	
@@ -88,18 +85,19 @@ public class Requirement extends AbstractModel{
 	 * 
 	 */
 	public Requirement(){
-		this.releaseNumber = 0; //default release number is 0. This will eventually be set from the project's releaseNumber.
+		this.releaseNumber = "";
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
 		this.description = ""; //description is required
-		this.estimate = ""; //default estimate set to an empty string
-		this.actualEffort = ""; //default actualEffort set to an empty string
+		this.estimateEffort = 0; //default estimate set to 0
+		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = creationDate;
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
+		this.assignee = new User("", "", "", -1);
 		//this.type = "Requirement"; //
 	}
 
@@ -107,7 +105,7 @@ public class Requirement extends AbstractModel{
 	 * Gets the releaseNumber
 	 * @return the releaseNumber
 	 */
-	public int getReleaseNumber() {
+	public String getReleaseNumber() {
 		return releaseNumber;
 	}
 
@@ -115,7 +113,7 @@ public class Requirement extends AbstractModel{
 	 * Sets the releaseNumber
 	 * @param releaseNumber: sets the releaseNumber 
 	 */
-	public void setReleaseNumber(int releaseNumber) {
+	public void setReleaseNumber(String releaseNumber) {
 		this.releaseNumber = releaseNumber;
 	}
 
@@ -187,23 +185,23 @@ public class Requirement extends AbstractModel{
 	 * Gets the estimate
 	 * @return the estimate
 	 */
-	public String getEstimate() {
-		return estimate;
+	public int getEstimateEffort() {
+		return estimateEffort;
 	}
 
 	/**
 	 * Sets the estimate
 	 * @param estimate: sets the estimate 
 	 */
-	public void setEstimate(String estimate) {
-		this.estimate = estimate;
+	public void setEstimateEffort(int estimateEffort) {
+		this.estimateEffort = estimateEffort;
 	}
 
 	/**
 	 * Gets the actualEffort
 	 * @return the actualEffort
 	 */
-	public String  getActualEffort() {
+	public int  getActualEffort() {
 		return actualEffort;
 	}
 
@@ -211,8 +209,36 @@ public class Requirement extends AbstractModel{
 	 * Sets the actualEffort
 	 * @param actualEffort: sets the actualEffort 
 	 */
-	public void setActualEffort(String actualEffort) {
+	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
+	}
+	
+	/**
+	 * @return the user who created this Requirement
+	 */
+	public User getCreator() {
+		return creator;
+	}
+
+	/**
+	 * @param creator the user who created this Requirement
+	 */
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+	
+	/**
+	 * @return the user who is assigned to this Requirement
+	 */
+	public User getAssignee() {
+		return assignee;
+	}
+
+	/**
+	 * @param assignee the user who is assigned to this Requirement
+	 */
+	public void setAssignee(User assignee) {
+		this.assignee = assignee;
 	}
 
 	/**

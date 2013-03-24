@@ -45,10 +45,10 @@ public class RequirementTest {
 	public void setUp(){
 		date1 = new Date();
 		r1 = new Requirement();
-		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.");
-		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.");
-		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement.");	
-		r4 = new Requirement("Test Requirement 4", "This is the fourth test requirement.");
+		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
+		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
+		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement." , new User("", "", "", -1));	
+		r4 = new Requirement(20, "Test Requirement 4", "This is the fourth test requirement.", new User("", "", "", -1));
 		date2 = new Date();
 		status1 = NEW;
 		status2 = INPROGRESS;
@@ -70,8 +70,8 @@ public class RequirementTest {
 		assertEquals(r1.getPriority(), MEDIUM);
 		assertEquals(r1.getTitle(), "");
 		assertEquals(r1.getDescription(), "");
-		assertEquals(r1.getEstimate(), "");
-		assertEquals(r1.getActualEffort(), "");
+		assertEquals(r1.getEstimateEffort(), 0);
+		assertEquals(r1.getActualEffort(), 0);
 		assertEquals(r1.getSubRequirements(), new ArrayList<Requirement>());
 	//	assertEquals(r1.getType(), "Requirement");
 		assertEquals(r1.getId(), -1);
@@ -88,8 +88,8 @@ public class RequirementTest {
 		assertEquals(r2.getPriority(), MEDIUM);
 		assertEquals(r2.getTitle(), "Test Requirement");
 		assertEquals(r2.getDescription(), "This is a test requirement.");
-		assertEquals(r2.getEstimate(), "");
-		assertEquals(r2.getActualEffort(), "");
+		assertEquals(r2.getEstimateEffort(), 0);
+		assertEquals(r2.getActualEffort(), 0);
 		assertEquals(r2.getSubRequirements(), new ArrayList<Requirement>());
 		//assertEquals(r2.getType(), "Requirement");
 		assertEquals(r2.getId(), 10);
@@ -102,7 +102,7 @@ public class RequirementTest {
 	@Test
 	public void testTwoParameterConstructor(){
 		assertEquals(0, r4.getReleaseNumber());
-		r4.setReleaseNumber(10101);
+		r4.setReleaseNumber("10101");
 		assertEquals(10101, r4.getReleaseNumber());
 		
 		//testing all 4 statuses
@@ -125,7 +125,7 @@ public class RequirementTest {
 		
 		assertEquals("This is the fourth test requirement.", r4.getDescription());
 		
-		assertEquals("", r4.getEstimate());
+		assertEquals("", r4.getEstimateEffort());
 		
 		assertEquals("", r4.getActualEffort());
 		

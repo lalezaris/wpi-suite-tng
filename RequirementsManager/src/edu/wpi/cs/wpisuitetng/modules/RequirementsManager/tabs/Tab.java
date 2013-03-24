@@ -20,7 +20,7 @@ import javax.swing.Icon;
  * A wrapper class for MainTabView that can be given to components within that view
  * in order to allow them to easily change their titles and icons.
  * 
- * Adapted from Defect Tracker
+ * Adapted from DummyTab in the project DefectTracker
  * 
  * @author Tyler Stone 
  *
@@ -123,6 +123,14 @@ public class Tab {
 	 */
 	public void setComponent(Component component) {
 		view.setComponentAt(getIndex(), component);
+	}
+	
+	public int getThisIndex() {
+		return view.indexOfTabComponent(tabComponent);
+	}
+	
+	public MainTabView getView() {
+		return view;
 	}
 	
 }

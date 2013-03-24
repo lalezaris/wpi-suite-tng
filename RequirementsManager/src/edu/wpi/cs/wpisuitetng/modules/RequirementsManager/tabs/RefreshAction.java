@@ -1,6 +1,18 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tianyu Li
+ *  Mike Perrone
+ *  Chris Hanna
+ *  
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.event.ActionEvent;
@@ -11,7 +23,12 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 
 /**
- * @author lty
+ * The action that is called by the refresh button that sends a message 
+ * to the RetrieveAllRequirementsController.
+ *
+ * @author Tianyu Li
+ *
+ * @version Mar 21, 2013
  *
  */
 public class RefreshAction extends AbstractAction {

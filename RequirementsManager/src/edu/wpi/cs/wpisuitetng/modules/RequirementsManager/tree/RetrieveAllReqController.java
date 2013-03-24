@@ -19,10 +19,8 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle retrieving requirements from the server 
- * and displaying them in TreeView
- * 
- * Some code borrowed and modified from RetrieveAllReqContoller.java
+ * Controller to handle retrieving requirements from the server and displaying them in TreeView
+ * Adapted from GetMessageRequestObserver in the project PostBoard
  *
  * @author Sam Lalezari
  *

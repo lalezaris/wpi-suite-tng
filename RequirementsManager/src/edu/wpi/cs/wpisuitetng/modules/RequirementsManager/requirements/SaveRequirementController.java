@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 /**
  * Controller to handle the saving of a requirement
@@ -62,7 +63,7 @@ public class SaveRequirementController {
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			
+			DashboardTab.refreshRequirements();
 		}
 	} 
 

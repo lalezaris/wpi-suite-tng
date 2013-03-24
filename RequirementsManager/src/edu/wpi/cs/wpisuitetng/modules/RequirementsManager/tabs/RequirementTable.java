@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class RequirementTable extends AbstractTableModel {
 
-	private String[] columnNames = {"Name", "Description", "Status", "Priority", "Estimate", "Assigned"};
+	private String[] columnNames = {"ID", "Name", "Description", "Status", "Priority", "Estimate", "Assigned"};
     private ArrayList<Object[]> data = new ArrayList<Object[]>();
 
     public int getColumnCount() {
@@ -40,12 +40,13 @@ public class RequirementTable extends AbstractTableModel {
     }
     
     public void addRow(Requirement req){
-    	Object[] r = {req.getTitle() ,
+    	Object[] r = {req.getId() ,
+    			req.getTitle() ,
     			req.getDescription() ,
     			req.getStatus() ,
     			req.getPriority() ,
     			req.getEstimateEffort() ,
-    			req.getAssignee()};
+    			req.getAssignee().getUsername()};
     	addRow(r);
     }
     

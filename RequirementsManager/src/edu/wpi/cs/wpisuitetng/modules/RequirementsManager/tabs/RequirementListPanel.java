@@ -22,6 +22,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -38,6 +42,8 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
  * The innermost JPanel for the list of all requirements tab, which displays the requirement's information
@@ -47,7 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveA
  * @version Mar 21, 2013
  *
  */
-public class RequirementListPanel extends JPanel {
+public class RequirementListPanel extends JPanel{
 
 	private JTextArea list;
 	private JTable table;
@@ -70,11 +76,36 @@ public class RequirementListPanel extends JPanel {
 //		buttonGroup = new ToolbarGroupView("Requirements List");
 				
 		panel = new JPanel();
+		
+		//Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://localhost:8080/WPISuite/"));
 		retrieveController = new RetrieveAllRequirementsController(this);
-
+		
+		
+		
 		TableModel model = new RequirementTable();
 		
 		table = new JTable(model);
+		table.getTableHeader().setReorderingAllowed(false);
+		for (int i = 0 ; i < 7 ; i ++){
+			TableColumn column = table.getColumnModel().getColumn(i);
+		    if (i == 0) {
+		    	column.setPreferredWidth(30); // ID
+		    } else if (i == 1) {
+		        column.setPreferredWidth(100); //NAME COLUMN
+		    } else if (i == 2) {
+		    	column.setPreferredWidth(550); //DESC COLUMN
+		    } else if (i == 3) {
+		    	column.setPreferredWidth(90); //DESC STATUS
+		    } else if (i == 4) {
+		    	column.setPreferredWidth(90); //DESC PRIORITY
+		    } else if (i == 5) {
+		    	column.setPreferredWidth(30); //DESC ESTIMATE
+		    } else if (i == 6) {
+		    	column.setPreferredWidth(100); //ASSIGNEE
+		    }
+		}
+		
+		
 		
 		scrollPane = new JScrollPane(table);
 		
@@ -95,7 +126,7 @@ public class RequirementListPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		c.weighty = 0.5;
+		c.weighty = 0;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(refreshButton, c);
@@ -105,14 +136,14 @@ public class RequirementListPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridwidth = 2;
+		c.weighty = 0;
+		c.gridwidth = 1;
 //		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(scrollPane, c);
 		
 		
 		
-		this.setLayout(new BorderLayout());
+		//this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(panel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		
@@ -127,12 +158,29 @@ public class RequirementListPanel extends JPanel {
 			}
 		});
 		
-		this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		this.add(mainPanelScrollPane);
 		
-		
+//		final JPanel p = this;
+//		p.addHierarchyListener(new HierarchyListener() {
+//
+//			@Override
+//			public void hierarchyChanged(HierarchyEvent e) {
+//				// TODO Auto-generated method stub
+//				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
+//						&& p.isShowing())
+//				{
+//					System.out.println("Dashboard Gained View");
+//					retrieveController.refreshData();
+//				}
+//					
+//			}
+//			
+//		});
 		//this.add(panel);
 		
 	}
+	
+
 	
 	
 	public void addRequirement(Requirement req){
@@ -149,8 +197,18 @@ public class RequirementListPanel extends JPanel {
 	public void addRequirements(Requirement[] requirements) {
 		clearList();
 		
-		for(Requirement r : requirements){
-			addRequirement(r);
-		} 
+		//for(Requirement r : requirements){
+		//	addRequirement(r);
+		//}
+		
+		for (int i = requirements.length -1; i > -1 ; i --){
+			addRequirement(requirements[i]);
+		}
 	}
+
+	public void refreshList(){
+		retrieveController.refreshData();
+	}
+
+
 }

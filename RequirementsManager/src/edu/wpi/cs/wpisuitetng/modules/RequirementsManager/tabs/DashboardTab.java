@@ -12,8 +12,12 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
  * The basic dashboard for the Requirements Manager Tab.
@@ -26,13 +30,16 @@ import javax.swing.JPanel;
  */
 public class DashboardTab extends JPanel{
 	
-	
+	RequirementListPanel requirementListPanel;
 	/**
 	 * Class Constructor
 	 * 
 	 */
 	public DashboardTab() {
-		JLabel testLabel = new JLabel("This is the dashboard panel.");
-		this.add(testLabel);
+		super (new GridLayout(1,1));
+		//JLabel testLabel = new JLabel("This is the dashboard panel.");
+		//this.add(testLabel);
+		requirementListPanel = new RequirementListPanel();
+		this.add(requirementListPanel);
 	}
 }

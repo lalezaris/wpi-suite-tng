@@ -109,18 +109,6 @@ public class MainTabController {
 	
 	
 	/**
-	 * Adds a tab that shows all of the requirements
-	 * @return the created Tab
-	 */
-	public Tab addListTab() {
-		Tab tab = addTab();
-		RequirementListView view = new RequirementListView(tab);
-		tab.setComponent(view);
-		view.requestFocus();
-		return tab;
-	}
-	
-	/**
 	 * Add a change listener to the view this is controlling.
 	 * @param listener the ChangeListener that should receive ChangeEvents
 	 */

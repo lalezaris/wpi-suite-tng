@@ -45,7 +45,7 @@ public class ListAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
-		controller.addListTab();
+		//controller.addListTab();
 		
 	}
 

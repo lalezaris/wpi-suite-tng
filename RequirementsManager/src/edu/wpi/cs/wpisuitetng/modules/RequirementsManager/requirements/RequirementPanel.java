@@ -629,7 +629,10 @@ public class RequirementPanel extends JPanel {
 		//txtCreatorListener.checkIfUpdated();
 		//txtAssigneeListener.checkIfUpdated();
 	}
-		
+
+	public Mode getEditMode() {
+		return editMode;
+	}
 }
 	
 	

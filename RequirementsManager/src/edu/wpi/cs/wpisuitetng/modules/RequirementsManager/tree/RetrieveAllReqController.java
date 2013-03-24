@@ -49,7 +49,7 @@ public class RetrieveAllReqController {
 	 * 
 	 */
 	public void refreshData(){
-		//TODO finish writing code
+		//TODO finish writing code, check string in makeRequest()
 		final RequestObserver requestObserver = new RetrieveAllReqRequestObserver(this);
 		Request request;
 		request = Network.getInstance().makeRequest("RequirementsManager/models", HttpMethod.GET);

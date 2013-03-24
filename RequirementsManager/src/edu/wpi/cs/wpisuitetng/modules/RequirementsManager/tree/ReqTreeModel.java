@@ -16,6 +16,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+
 /**
  * The Model for the Requirement Tree
  *
@@ -24,6 +26,7 @@ import javax.swing.tree.TreeNode;
  * @version Mar 19, 2013
  *
  */
+@SuppressWarnings({"serial"})
 public class ReqTreeModel extends DefaultTreeModel {
 
 	/**
@@ -37,4 +40,14 @@ public class ReqTreeModel extends DefaultTreeModel {
 		tree.setModel(this);
 	}
 
+	public void fillTree(Requirement[] reqs){
+		Requirement[] requirements = reqs;
+		
+		ReqTreeNode temp = null;
+		for (int i = 0; i < requirements.length; i++){
+			temp = new ReqTreeNode(requirements[i]);
+			this.insertNodeInto(temp, null, i);
+		}
+	}
+	
 }

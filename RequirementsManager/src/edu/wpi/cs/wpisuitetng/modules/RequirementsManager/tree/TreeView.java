@@ -24,6 +24,8 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+
 /**
  *	TreeView class shows requirements with parents and children in a tree.
  *
@@ -32,6 +34,7 @@ import javax.swing.tree.TreeNode;
  * @version Mar 18, 2013
  *
  */
+@SuppressWarnings("serial")
 public class TreeView extends JPanel {
 
 	/**
@@ -52,6 +55,13 @@ public class TreeView extends JPanel {
 		tree.setRootVisible(false);
 		
 		ReqTreeModel treeModel = new ReqTreeModel(root, tree);
+		
+		Requirement[] reqs = new Requirement[1];
+		reqs[0] = new Requirement("Requirement 1", "no");
+		treeModel.fillTree(reqs);
+		
+		//ReqTreeNode node1 = new ReqTreeNode(new Requirement("Requirement 1", "No"));
+		//treeModel.insertNodeInto(node1, root, treeModel.getChildCount(root));
 		/*
 		DefaultMutableTreeNode req1 = addRequirement("Req1", treeModel, root);
 		DefaultMutableTreeNode req2 = addRequirement("Req2", treeModel, req1);

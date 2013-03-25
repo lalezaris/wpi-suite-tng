@@ -10,6 +10,7 @@
  * Contributors:
  * Sam Abradi
  * Michael French
+ * Sam Lalezari
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
@@ -56,7 +57,7 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
-		System.out.print("ERRORRRRRRRR!!!!!!!! (yeah, there was a response error)");
+		System.out.println("Response Error: " + iReq.getResponse().getStatusCode());
 		
 	}
 

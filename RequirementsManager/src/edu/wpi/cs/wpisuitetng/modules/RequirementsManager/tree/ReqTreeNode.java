@@ -30,6 +30,7 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 	protected Requirement req = null;
 	
 	public ReqTreeNode(Requirement req){
+		super(req.getTitle());
 		this.req = req;
 	}
 	

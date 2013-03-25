@@ -43,24 +43,33 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * @param root the root of the requirement tree
 	 * @param tree the tree of requirements
 	 */
-	public ReqTreeModel(MutableTreeNode root, JTree tree) {
+	public ReqTreeModel(MutableTreeNode root) {
 		super(root);
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		controller = new RetrieveAllRequirementsController(this);
 		
-		tree.setModel(this);
+		//tree.setModel(this);
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
 	}
 
 	public void fillTree(Requirement[] reqs){
+		System.out.println("Filling the tree");
 		Requirement[] requirements = reqs;
-		
+		int[] indices = new int[reqs.length];
 		ReqTreeNode temp = null;
+		
 		for (int i = 0; i < requirements.length; i++){
 			temp = new ReqTreeNode(requirements[i]);
 			this.insertNodeInto(temp, root, i);
+			indices[i]=i;
+			System.out.println("Added node");
 		}
+		//this.fireTreeNodesChanged(this, null, indices, reqs);
+	}
+	
+	public void refreshTree(){
+		controller.refreshData();
 	}
 	
 }

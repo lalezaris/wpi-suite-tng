@@ -49,7 +49,6 @@ public class RetrieveAllRequirementsController {
 	 * Sends a request for all of the Requirements
 	 */
 	public void refreshData() {		
-		//System.out.println(Network.getInstance().getDefaultNetworkConfiguration());
 		final RequestObserver requestObserver = new RetrieveAllRequirementsRequestObserver(this);
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /*is this ok? ->*/ HttpMethod.GET);

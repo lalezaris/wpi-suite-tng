@@ -8,12 +8,18 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Tyler
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
-
-
+/**
+ * Insert Description Here
+ *
+ * @author Tyler, adapted from Defect Tracker
+ *
+ * @version Mar 24, 2013
+ *
+ */
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
@@ -24,26 +30,18 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * A RequestObserver for a Request to update a Requirement.
- *
- * @author Tyler Stone
- *
- * @version Mar 20, 2013
- *
+ * An Observer for a Request to create a Requirement.
  */
-/**
- * A RequestObserver for a Request to update a Requirement.
- */
-public class UpdateRequirementRequestObserver implements RequestObserver {
+public class CreateRequirementRequestObserver implements RequestObserver {
 
 	private final RequirementView view;
 
 	/**
-	 * Constructs a new UpdateRequirementRequestObserver
+	 * Constructs a new CreateRequirementRequestObserver
 	 * 
 	 * @param view	The RequirementView that will be affected by any updates.
 	 */
-	public UpdateRequirementRequestObserver(RequirementView view) {
+	public CreateRequirementRequestObserver(RequirementView view) {
 		this.view = view;
 	}
 
@@ -55,9 +53,11 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
+
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
+
+		if (response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 
@@ -72,13 +72,13 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				});
 			}
 			else {
-				JOptionPane.showMessageDialog(view, "Unable to parse requirement received from server.", 
+				JOptionPane.showMessageDialog(view,	"Unable to parse defect received from server.", 
 						"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else {
 			JOptionPane.showMessageDialog(view, 
-					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
+					"Received " + iReq.getResponse().getStatusCode() + " status from server: " + iReq.getResponse().getStatusMessage(), 
 					"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 		}
 
@@ -87,6 +87,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
+		System.out.println("Error: " + iReq.getResponse().getBody());
 		JOptionPane.showMessageDialog(view, 
 				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
@@ -95,6 +96,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
+		System.out.println("Fail: " + iReq.getResponse().getBody());
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 		always();
@@ -107,7 +109,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				view.setInputEnabled(true);
+				view.setInputEnabled(true);				
 			}
 		});
 	}

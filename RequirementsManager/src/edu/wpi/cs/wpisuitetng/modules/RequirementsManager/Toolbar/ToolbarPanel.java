@@ -20,6 +20,7 @@ import javax.swing.SpringLayout;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 
@@ -35,9 +36,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
-	private JButton listButton;
-//	private JButton editRequirement;
-//	private JButton deleteRequirement;
+	private JButton editRequirement;
+	private JButton deleteRequirement;
+	
+	private int selectedRequirement;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -57,31 +59,53 @@ public class ToolbarPanel extends DefaultToolbarView {
 		newRequirement = new JButton("New");
 		newRequirement.setAction(new NewRequirementAction(tabController));
 		
-		//
-		listButton = new JButton("List");
-		listButton.setAction(new ListAction(tabController));
+		// Construct the edit button
+		editRequirement = new JButton("Edit");
+		//editRequirement.setAction(new EditRequirementAction(tabController));
+		
+		deleteRequirement = new JButton("Delete");
+		//deleteRequirement.setAction(new DeleteRequirementAction(tabController));
 		
 
-//		// Construct the edit button
-//		editRequirement = new JButton("Edit");
-
 		// Configure the layout of the buttons on the content panel
-		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content);
+		layout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, content);
 		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
-		layout.putConstraint(SpringLayout.WEST, listButton, 10, SpringLayout.EAST, newRequirement);
-		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listButton, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
-
+		layout.putConstraint(SpringLayout.WEST, editRequirement, 10, SpringLayout.EAST, newRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, editRequirement, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
+		layout.putConstraint(SpringLayout.WEST, deleteRequirement, 10, SpringLayout.EAST, editRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, deleteRequirement, 0, SpringLayout.VERTICAL_CENTER, editRequirement);
+		
+		editRequirement.setEnabled(false);
+		deleteRequirement.setEnabled(false);
+		
 		// Add buttons to the content panel
 		content.add(newRequirement);
-		content.add(listButton);
-//		content.add(editRequirement);
+		content.add(editRequirement);
+		content.add(deleteRequirement);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);
 		
 		// Calculate the width of the toolbar
-		Double toolbarGroupWidth = 2 * newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
+		Double toolbarGroupWidth = 3 * newRequirement.getPreferredSize().getWidth() + 50; // 50 accounts for margins between the buttons
+
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
 		addGroup(toolbarGroup);
+	}
+	
+	public void setSelectedRequirement(int selectedRequirement) {
+		this.selectedRequirement = selectedRequirement;
+		
+		if (selectedRequirement < 0) {
+			editRequirement.setEnabled(false);
+			deleteRequirement.setEnabled(false);
+		} else {
+			editRequirement.setEnabled(true);
+			deleteRequirement.setEnabled(true);
+		}
+	}
+	
+	public int getSelectedRequirement() {
+		return selectedRequirement;
 	}
 }

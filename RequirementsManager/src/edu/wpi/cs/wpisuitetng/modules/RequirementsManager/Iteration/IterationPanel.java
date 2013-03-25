@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
- *  Joe Spicola
+ *  Tushar Narayan
+ *  Arica Liu
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -40,16 +40,17 @@ import javax.swing.text.PlainDocument;
 
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationPriority;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 
 /**
  * Panel to display and edit the basic fields for a Iteration
  * Adapted from DefectPanel in project DefectTracker
  *
- * @author Chris Dunkers 
- * @author Joe Spicola
+ * @author Tushar Narayan 
+ * @author Arica Liu
  *
  * @version Mar 17, 2013
  *

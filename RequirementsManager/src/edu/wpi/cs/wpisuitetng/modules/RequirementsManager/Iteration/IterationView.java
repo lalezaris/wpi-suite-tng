@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -27,8 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveIterationController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
@@ -38,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from DefectView in project DefectTracker
  * 
  * @author Arica Liu
+ * @author Tushar Narayan
  *
  * @version Mar 24, 2013
  *

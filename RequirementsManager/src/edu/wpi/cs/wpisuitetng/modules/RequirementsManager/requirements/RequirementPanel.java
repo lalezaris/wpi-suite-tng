@@ -26,11 +26,13 @@ import javax.swing.JPanel;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 import java.awt.*;
+
 import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -43,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTabsView;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -70,6 +73,7 @@ public class RequirementPanel extends JPanel {
 	 */
 	protected JTextField txtTitle;
 	protected JTextField txtReleaseNumber;
+	protected JTextField txtIteration;	
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
@@ -81,6 +85,7 @@ public class RequirementPanel extends JPanel {
 	protected JTextField txtAssignee;
 	protected JButton saveRequirementTop;
 	protected JButton saveRequirementBottom;
+	protected RequirementTabsView RTabsView;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -89,8 +94,8 @@ public class RequirementPanel extends JPanel {
 	//protected RequirementEventListModel requirementEventListModel;
 	
 	/**Error labels*/
-	JLabel lblTitleError = new JLabel("Must have a title", LABEL_ALIGNMENT);
-	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
+	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
+	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -100,14 +105,14 @@ public class RequirementPanel extends JPanel {
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
 	protected JPanel panelThree;
-	protected JPanel panelFour;
+	protected JPanel panelTabs;
 	
 	/** The layout managers for other panels */
 	protected GridBagLayout layoutOverall;
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
 	protected GridBagLayout layoutThree;
-	protected GridBagLayout layoutFour;
+	protected GridBagLayout layoutTabs;
 	
 	/** An enum indicating if the form is in create mode or edit mode */
 	protected Mode editMode;
@@ -160,8 +165,10 @@ public class RequirementPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
+		panelTabs = new JPanel();
 		txtTitle = new JTextField(20);
 		txtReleaseNumber = new JTextField(12);
+		txtIteration = new JTextField(12);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -182,10 +189,11 @@ public class RequirementPanel extends JPanel {
 		txtModifiedDate = new JTextField(15);
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
+		RTabsView = new RequirementTabsView();
 		
 		/**Save Button*/
-		saveRequirementTop = new JButton("Save");
-		saveRequirementTop.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+//		saveRequirementTop = new JButton("Save");
+//		saveRequirementTop.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
 		saveRequirementBottom = new JButton("Save");
 		saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
 		
@@ -197,6 +205,7 @@ public class RequirementPanel extends JPanel {
 		// Construct labels for the form fields
 		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
+		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
 		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
@@ -221,41 +230,57 @@ public class RequirementPanel extends JPanel {
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panelOne.add(saveRequirementTop, cOne);
-		
-		cOne.anchor = GridBagConstraints.LINE_START; 
-		cOne.gridx = 0;
-		cOne.gridy = 1;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
+
+//		cOne.anchor = GridBagConstraints.LINE_START; 
+//		cOne.gridx = 0;
+//		cOne.gridy = 0;
+//		cOne.weightx = 0.5;
+//		cOne.weighty = 0.5;
+//		cOne.gridwidth = 1;
+//		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
+//		saveRequirementTop.setVisible(false);
+//		panelOne.add(saveRequirementTop, cOne);
 		
 		cOne.gridx = 2;
-		cOne.gridy = 1;
+		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		lblTitleError.setVisible(false);
+		lblTitleError.setForeground(Color.RED);
 		panelOne.add(lblTitleError, cOne);
 		
 		cOne.gridx = 0;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblReleaseNumber, cOne);
 		
 		cOne.gridx = 1;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(txtReleaseNumber, cOne);
+		
+		cOne.gridx = 0;
+		cOne.gridy = 2;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(lblIteration, cOne);
+		
+		cOne.gridx = 1;
+		cOne.gridy = 2;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(txtIteration, cOne);
 		
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -277,16 +302,18 @@ public class RequirementPanel extends JPanel {
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		lblDescriptionError.setVisible(false);
+		lblDescriptionError.setForeground(Color.RED);
 		panelTwo.add(lblDescriptionError, cTwo);
 
+		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
 		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
 		cTwo.insets = new Insets(0,10,10,0);
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		//cTwo.gridwidth = 2;
-		panelTwo.add(txtDescription, cTwo);
+		cTwo.gridwidth = 2;
+		panelTwo.add(scrollPaneDescription, cTwo);
 		
 		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -298,13 +325,14 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 0;
-		cThree.anchor = GridBagConstraints.LINE_START;
+		cThree.anchor = GridBagConstraints.LINE_END;
 		panelThree.add(lblStatus, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbStatus.setSelectedItem(requirementStatusValues[0]);
 		panelThree.add(cmbStatus, cThree);
 		
@@ -312,12 +340,14 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 1;
+		cThree.anchor = GridBagConstraints.LINE_END;
 		panelThree.add(lblPriority, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 1;
+		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
 		panelThree.add(cmbPriority, cThree);
 		
@@ -325,6 +355,7 @@ public class RequirementPanel extends JPanel {
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 2;
+		cThree.anchor = GridBagConstraints.LINE_END;
 		panelThree.add(lblEstimate, cThree);
 		
 		cThree.fill = GridBagConstraints.HORIZONTAL;
@@ -333,14 +364,15 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 2;
 		//txtEstimate.setText("0");
+		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
 		
-		cThree.fill = GridBagConstraints.NONE;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 2;
-		panelThree.add(lblEUnits, cThree);
+//		cThree.fill = GridBagConstraints.NONE;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 2;
+//		cThree.gridy = 2;
+//		panelThree.add(lblEUnits, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -356,12 +388,12 @@ public class RequirementPanel extends JPanel {
 		//txtActual.setText("0");
 		panelThree.add(txtActual, cThree);
 		
-		cThree.fill = GridBagConstraints.NONE;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 3;
-		panelThree.add(lblAUnits, cThree);
+//		cThree.fill = GridBagConstraints.NONE;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 2;
+//		cThree.gridy = 3;
+//		panelThree.add(lblAUnits, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -422,6 +454,19 @@ public class RequirementPanel extends JPanel {
 		cThree.gridy = 8;
 		panelThree.add(saveRequirementBottom, cThree);
 		
+		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutTabs = new GridBagLayout();
+		panelTabs.setLayout(layoutTabs);
+		
+		cOverall.fill = GridBagConstraints.BOTH;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelTabs.add(RTabsView, cOverall);
+		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutOverall = new GridBagLayout();
@@ -450,6 +495,16 @@ public class RequirementPanel extends JPanel {
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		//c.gridcolumn something like this
 		panelOverall.add(panelThree, cOverall);
+		
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 1;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		cOverall.fill = GridBagConstraints.BOTH;
+//		cOverall.gridheight = 3;
+//		cOverall.gridwidth = 3;
+		panelOverall.add(panelTabs, cOverall);
 		
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		c.weightx = 0.5;

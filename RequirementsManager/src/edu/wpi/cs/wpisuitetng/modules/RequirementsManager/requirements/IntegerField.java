@@ -1,15 +1,4 @@
-/**************************************************
- * This file was developed for CS3733: Software Engineering
- * The course was taken at Worcester Polytechnic Institute.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html 
- *
- * Contributors:
- *  CDUNKERS
-**************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import javax.swing.JTextField;
@@ -23,7 +12,7 @@ import javax.swing.text.PlainDocument;
  * 
  * Aquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  *
- * @author Chris Dunkers
+ * @author 
  * 
  * @version Mar 22, 2013
  */

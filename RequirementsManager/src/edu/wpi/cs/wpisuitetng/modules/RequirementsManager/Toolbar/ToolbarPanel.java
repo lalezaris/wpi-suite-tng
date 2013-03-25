@@ -14,6 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
+import java.awt.Component;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -38,7 +40,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton newRequirement;
 	private JButton editRequirement;
 	private JButton deleteRequirement;
-	
+	private JButton listAllRequirements;
 	private int selectedRequirement;
 	
 	/**
@@ -66,7 +68,10 @@ public class ToolbarPanel extends DefaultToolbarView {
 		deleteRequirement = new JButton("Delete");
 		//deleteRequirement.setAction(new DeleteRequirementAction(tabController));
 		
-
+		//construct the list button
+		listAllRequirements = new JButton("List Requirements");
+		listAllRequirements.setAction(new ListAction(tabController));
+		
 		// Configure the layout of the buttons on the content panel
 		layout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, content);
 		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content);
@@ -74,6 +79,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, editRequirement, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
 		layout.putConstraint(SpringLayout.WEST, deleteRequirement, 10, SpringLayout.EAST, editRequirement);
 		layout.putConstraint(SpringLayout.VERTICAL_CENTER, deleteRequirement, 0, SpringLayout.VERTICAL_CENTER, editRequirement);
+		layout.putConstraint(SpringLayout.WEST, listAllRequirements, 10, SpringLayout.EAST, deleteRequirement);
+		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listAllRequirements, 0, SpringLayout.VERTICAL_CENTER, deleteRequirement);
 		
 		editRequirement.setEnabled(false);
 		deleteRequirement.setEnabled(false);
@@ -82,13 +89,19 @@ public class ToolbarPanel extends DefaultToolbarView {
 		content.add(newRequirement);
 		content.add(editRequirement);
 		content.add(deleteRequirement);
-		
+		content.add(listAllRequirements);
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroup = new ToolbarGroupView("Home", content);
 		
 		// Calculate the width of the toolbar
-		Double toolbarGroupWidth = 3 * newRequirement.getPreferredSize().getWidth() + 50; // 50 accounts for margins between the buttons
-
+		//Double toolbarGroupWidth = 3 * newRequirement.getPreferredSize().getWidth() + 50; // 50 accounts for margins between the buttons
+		
+		//Chris Hanna changed the above calculation to this one...
+		Double toolbarGroupWidth = 0.0;
+		for (Component b : content.getComponents()){
+			toolbarGroupWidth += b.getPreferredSize().getWidth() + 20;
+		}
+		
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
 		addGroup(toolbarGroup);
 	}

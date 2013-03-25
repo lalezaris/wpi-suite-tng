@@ -11,6 +11,7 @@
  *  Tianyu Li
  *  Mike Perrone
  *  Chris Hanna
+ *  Tyler Stone
  *  
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
@@ -63,6 +64,7 @@ public class RequirementListPanel extends JPanel{
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	
+	private int selectedRequirement;
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton;
@@ -77,6 +79,7 @@ public class RequirementListPanel extends JPanel{
 				
 		panel = new JPanel();
 		
+		//TODO: if we have more time, we should have some sort of local storage unit for all requirements
 		//Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://localhost:8080/WPISuite/"));
 		retrieveController = new RetrieveAllRequirementsController(this);
 		
@@ -85,6 +88,8 @@ public class RequirementListPanel extends JPanel{
 		TableModel model = new RequirementTable();
 		
 		table = new JTable(model);
+		table.addMouseListener(new RequirementTableEventListener(this));
+		
 		table.getTableHeader().setReorderingAllowed(false);
 		for (int i = 0 ; i < 7 ; i ++){
 			TableColumn column = table.getColumnModel().getColumn(i);
@@ -209,6 +214,16 @@ public class RequirementListPanel extends JPanel{
 	public void refreshList(){
 		retrieveController.refreshData();
 	}
-
-
+	
+	public JTable getTable() {
+		return table;
+	}
+	
+	public void setSelectedRequirement(int selectedRequirement) {
+		this.selectedRequirement = selectedRequirement;
+	}
+	
+	public int getSelectedRequirement() {
+		return selectedRequirement;
+	}
 }

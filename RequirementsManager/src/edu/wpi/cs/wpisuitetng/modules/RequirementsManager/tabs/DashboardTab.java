@@ -83,4 +83,14 @@ public class DashboardTab extends JPanel{
 	public static void refreshRequirements(){
 		staticReqListPanel.refreshList();
 	}
+	
+	/**
+	 * This allows us to reference the selected requirement and return it for use with 
+	 * the toolbar.
+	 * 
+	 * @return the static list panel
+	 */
+	public static RequirementListPanel getDashboardListPanel() {
+		return staticReqListPanel;
+	}
 }

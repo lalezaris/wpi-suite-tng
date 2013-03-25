@@ -20,6 +20,7 @@ import javax.swing.SpringLayout;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.*;
 
@@ -38,6 +39,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton editRequirement;
 	private JButton deleteRequirement;
 	
+	private int selectedRequirement;
+	
 	/**
 	 * Create a ToolbarPanel.
 	 * Commented out parts are not needed for iteration 1 but are needed in the future
@@ -55,7 +58,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Construct the new button
 		newRequirement = new JButton("New");
 		newRequirement.setAction(new NewRequirementAction(tabController));
-
+		
 		// Construct the edit button
 		editRequirement = new JButton("Edit");
 		//editRequirement.setAction(new EditRequirementAction(tabController));
@@ -88,5 +91,21 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 		toolbarGroup.setPreferredWidth(toolbarGroupWidth.intValue());
 		addGroup(toolbarGroup);
+	}
+	
+	public void setSelectedRequirement(int selectedRequirement) {
+		this.selectedRequirement = selectedRequirement;
+		
+		if (selectedRequirement < 0) {
+			editRequirement.setEnabled(false);
+			deleteRequirement.setEnabled(false);
+		} else {
+			editRequirement.setEnabled(true);
+			deleteRequirement.setEnabled(true);
+		}
+	}
+	
+	public int getSelectedRequirement() {
+		return selectedRequirement;
 	}
 }

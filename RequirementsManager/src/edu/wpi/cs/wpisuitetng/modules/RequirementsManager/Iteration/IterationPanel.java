@@ -52,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IntegerField
  * @author Tushar Narayan
  * @author Arica Liu
  *
- * @version Mar 25, 2013
+ * @version Mar 26, 2013
  *
  */
 public class IterationPanel extends JPanel {
@@ -86,15 +86,11 @@ public class IterationPanel extends JPanel {
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
-	protected JPanel panelThree;
-	protected JPanel panelFour;
 	
 	/** The layout managers for other panels */
 	protected GridBagLayout layoutOverall;
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
-	protected GridBagLayout layoutThree;
-	protected GridBagLayout layoutFour;
 	
 	/*
 	 * Constants used to layout the form
@@ -121,7 +117,7 @@ public class IterationPanel extends JPanel {
 		this.setLayout(layout);
 		
 		// Add all components to this panel
-		addComponents();	
+		addComponents();
 	}
 	
 	/**
@@ -135,32 +131,29 @@ public class IterationPanel extends JPanel {
 		GridBagConstraints cOverall = new GridBagConstraints();
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
-		GridBagConstraints cThree = new GridBagConstraints();
 				
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
-		panelThree = new JPanel();
+
 		txtIterationNumber = new IntegerField(3);
 		txtStartDate = new JTextField(15);
 		txtEndDate = new JTextField(15);
 		
-		/**Save Button*/
+		//Save Button
 		saveIterationTop = new JButton("Save");
 		saveIterationTop.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		saveIterationBottom = new JButton("Save");
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		
 		// set maximum widths of components so they are not stretched
-		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
+//		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
 		
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("Iteration Number:", LABEL_ALIGNMENT);
 		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
 		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
-		
-//		int labelWidth = lblDescription.getPreferredSize().width;
 		
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -190,7 +183,6 @@ public class IterationPanel extends JPanel {
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtIterationNumber, cOne);
 		
 		cOne.gridx = 4;
@@ -201,95 +193,46 @@ public class IterationPanel extends JPanel {
 		lblIterationNumberError.setVisible(false);
 		panelOne.add(lblIterationNumberError, cOne);
 		
-		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
+		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
-		layoutThree = new GridBagLayout();
-		panelThree.setLayout(layoutThree);
+		layoutTwo = new GridBagLayout();
+		panelTwo.setLayout(layoutTwo);
 		
-		cThree.insets = new Insets(10,10,10,0);
-		cThree.gridx = 0;
-		cThree.gridy = 0;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblStartDate, cThree);
+		cTwo.insets = new Insets(10,10,10,0);
+		cTwo.gridx = 0;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.anchor = GridBagConstraints.LINE_START;
+		panelTwo.add(lblStartDate, cTwo);
 		
-		cThree.gridx = 1;
-		cThree.gridy = 0;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cOne.gridwidth = 1;
-		panelThree.add(txtStartDate, cThree);
-//		
-//		cThree.fill = GridBagConstraints.HORIZONTAL;
-//		cThree.weightx = 0.5;
-//		cThree.weighty = 0.5;
-//		cThree.gridx = 1;
-//		cThree.gridy = 2;
-//		//txtEstimate.setText("0");
-//		panelThree.add(txtEstimate, cThree);
-//		
-//		cThree.fill = GridBagConstraints.NONE;
-//		cThree.weightx = 0.5;
-//		cThree.weighty = 0.5;
-//		cThree.gridx = 2;
-//		cThree.gridy = 2;
-//		panelThree.add(lblEUnits, cThree);
-//		
-//		cThree.weightx = 0.5;
-//		cThree.weighty = 0.5;
-//		cThree.gridx = 0;
-//		cThree.gridy = 3;
-//		panelThree.add(lblActual, cThree);
-//		
-//		cThree.fill = GridBagConstraints.HORIZONTAL;
-//		cThree.weightx = 0.5;
-//		cThree.weighty = 0.5;
-//		cThree.gridx = 1;
-//		cThree.gridy = 3;
-//		txtActual.setEnabled(false);
-//		//txtActual.setText("0");
-//		panelThree.add(txtActual, cThree);
-//		
-//		cThree.fill = GridBagConstraints.NONE;
-//		cThree.weightx = 0.5;
-//		cThree.weighty = 0.5;
-//		cThree.gridx = 2;
-//		cThree.gridy = 3;
-//		panelThree.add(lblAUnits, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 4;
-		panelThree.add(lblStartDate, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 4;
+		cTwo.gridx = 2;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		txtStartDate.setEnabled(true);
-		txtStartDate.setText(model.getStartDate().toString());
-		panelThree.add(txtStartDate, cThree);
+	//	txtStartDate.setText(model.getStartDate().toString());
+		panelTwo.add(txtStartDate, cTwo);
 		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 5;
-		panelThree.add(lblEndDate, cThree);
+		cTwo.gridx = 0;
+		cTwo.gridy = 1;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		panelTwo.add(lblEndDate, cTwo);
 		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 5;
-		txtEndDate.setEnabled(false);
-		panelThree.add(txtEndDate, cThree);
+		cTwo.gridx = 2;
+		cTwo.gridy = 1;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		txtEndDate.setEnabled(true);
+		panelTwo.add(txtEndDate, cTwo);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 8;
-		panelThree.add(saveIterationBottom, cThree);
+		cTwo.gridx = 0;
+		cTwo.gridy = 5;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		panelTwo.add(saveIterationBottom, cTwo);
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -311,14 +254,6 @@ public class IterationPanel extends JPanel {
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		//c.gridcolumn something like this
 		panelOverall.add(panelTwo, cOverall);
-		
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 2;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		//c.gridcolumn something like this
-		panelOverall.add(panelThree, cOverall);
 		
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		c.weightx = 0.5;

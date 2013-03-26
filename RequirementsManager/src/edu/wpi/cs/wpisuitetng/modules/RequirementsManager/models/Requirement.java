@@ -52,6 +52,7 @@ public class Requirement extends AbstractModel{
 	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
+	private HistoryLog history;
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -99,6 +100,7 @@ public class Requirement extends AbstractModel{
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		//this.type = "Requirement"; //
+		this.history = new HistoryLog();
 	}
 
 	/**
@@ -303,6 +305,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Sets the history
+	 * @param id: sets the history log 
+	 */
+	public void setHistory(HistoryLog history){
+		this.history = history;
+	}
+	
+	/**
+	 * gets the history
+	 * @return history log 
+	 */
+	public HistoryLog getHistory(){
+		return this.history;
 	}
 
 

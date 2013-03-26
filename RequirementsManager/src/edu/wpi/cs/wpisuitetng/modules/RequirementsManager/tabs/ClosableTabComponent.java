@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -75,7 +76,14 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		// close this tab when close button is clicked
 		final int index = tabbedPane.indexOfTabComponent(this);
 		if(index > -1) {
-			tabbedPane.remove(index);
+			int buttons = JOptionPane.showConfirmDialog(
+				    null,
+				    "Are you sure you want to exit? Your changes will not be saved.",
+				    "Warning",
+				    JOptionPane.YES_NO_OPTION);
+			if (buttons == JOptionPane.YES_OPTION) {
+			 tabbedPane.remove(index);
+			}			
 		}
 	}
 	

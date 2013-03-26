@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -107,7 +107,8 @@ public class RequirementPanel extends JPanel {
 	protected JPanel panelThree;
 	protected JPanel panelTabs;
 	
-	/** The layout managers for other panels */
+	/** The layout managers for  
+	 *  other panels */
 	protected GridBagLayout layoutOverall;
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;

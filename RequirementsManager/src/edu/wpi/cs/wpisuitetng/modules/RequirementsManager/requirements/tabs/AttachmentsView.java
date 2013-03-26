@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Dunkers
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Component;
 

@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.SpringLayout;
 import java.awt.*;
+
 import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -42,7 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 //import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IntegerField;
 
 /**
  * Panel to display and edit the basic fields for a Iteration
@@ -64,7 +65,7 @@ public class IterationPanel extends JPanel {
 	/*
 	 * Form elements
 	 */
-	protected JTextField txtIterationNumber;
+	protected IntegerField txtIterationNumber;
 	protected JTextField txtStartDate;
 	protected JTextField txtEndDate;
 	protected JButton saveIterationTop;
@@ -75,7 +76,8 @@ public class IterationPanel extends JPanel {
 	
 	/**Error labels*/
 	JLabel lblIterationNumberError = new JLabel("Must have a iteration number", LABEL_ALIGNMENT);
-//	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
+	JLabel lblStartDateError = new JLabel("Must have a start date", LABEL_ALIGNMENT);
+	JLabel lblEndDateError = new JLabel("Must have a end date", LABEL_ALIGNMENT);
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -140,27 +142,9 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
-		txtIterationNumber = new JTextField(12);
-//		txtDescription = new JTextArea(10,35);
-//		txtDescription.setLineWrap(true);
-//		txtDescription.setWrapStyleWord(true);
-//		txtDescription.setBorder(txtTitle.getBorder());
-//		String[] iterationStatusValues = new String[IterationStatus.values().length];
-//		for (int i = 0; i < IterationStatus.values().length; i++) {
-//			iterationStatusValues[i] = IterationStatus.values()[i].toString();
-//		}
-//		cmbStatus = new JComboBox(iterationStatusValues);
-//		String[] iterationPriorityValues = new String[IterationPriority.values().length];
-//		for (int i = 0; i < IterationPriority.values().length; i++) {
-//			iterationPriorityValues[i] = IterationPriority.values()[i].toString();
-//		}
-//		cmbPriority = new JComboBox(iterationPriorityValues);
-//		txtEstimate = new IntegerField(3);
-//		txtActual = new IntegerField(3);
+		txtIterationNumber = new IntegerField(3);
 		txtStartDate = new JTextField(15);
 		txtEndDate = new JTextField(15);
-//		txtCreator = new JTextField(15);
-//		txtAssignee = new JTextField(15);
 		
 		/**Save Button*/
 		saveIterationTop = new JButton("Save");
@@ -169,9 +153,7 @@ public class IterationPanel extends JPanel {
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		
 		// set maximum widths of components so they are not stretched
-//		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
-//		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
-//		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
+		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
 		
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("Iteration Number:", LABEL_ALIGNMENT);
@@ -199,63 +181,25 @@ public class IterationPanel extends JPanel {
 		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
-		cOne.gridwidth = 2;
+		cOne.gridwidth = 1;
 		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
-		panelOne.add(txtIterationNumber, cOne);
+		panelOne.add(lblIterationNumber, cOne);
 		
 		cOne.gridx = 2;
 		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		lblTitleError.setVisible(false);
-		panelOne.add(lblTitleError, cOne);
+		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		panelOne.add(txtIterationNumber, cOne);
 		
-		cOne.gridx = 0;
-		cOne.gridy = 2;
+		cOne.gridx = 4;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		panelOne.add(lblReleaseNumber, cOne);
-		
-		cOne.gridx = 1;
-		cOne.gridy = 2;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		panelOne.add(txtReleaseNumber, cOne);
-		
-		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
-//		layoutTwo = new GridBagLayout();
-//		panelTwo.setLayout(layoutTwo);
-//		
-//		cTwo.insets = new Insets(10,10,5,0);
-//		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		cTwo.gridx = 0;
-//		cTwo.gridy = 0;
-//		cTwo.weightx = 0.5;
-//		cTwo.weighty = 0.5;
-//		panelTwo.add(lblDescription, cTwo);
-//		
-//		cTwo.insets = new Insets(10,10,5,0);
-//		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		cTwo.gridx = 1;
-//		cTwo.gridy = 0;
-//		cTwo.weightx = 0.5;
-//		cTwo.weighty = 0.5;
-//		lblDescriptionError.setVisible(false);
-//		panelTwo.add(lblDescriptionError, cTwo);
-//
-//		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
-//		cTwo.insets = new Insets(0,10,10,0);
-//		cTwo.gridx = 0;
-//		cTwo.gridy = 1;
-//		cTwo.weightx = 0.5;
-//		cTwo.weighty = 0.5;
-//		//cTwo.gridwidth = 2;
-//		panelTwo.add(txtDescription, cTwo);
+		lblIterationNumberError.setVisible(false);
+		panelOne.add(lblIterationNumberError, cOne);
 		
 		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -263,129 +207,83 @@ public class IterationPanel extends JPanel {
 		panelThree.setLayout(layoutThree);
 		
 		cThree.insets = new Insets(10,10,10,0);
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 0;
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
 		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblStatus, cThree);
+		panelThree.add(lblStartDate, cThree);
 		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 0;
-		cmbStatus.setSelectedItem(iterationStatusValues[0]);
-		cmbStatus.setEnabled(false);
-		panelThree.add(cmbStatus, cThree);
-		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 1;
-		panelThree.add(lblPriority, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 1;
-		cmbPriority.setSelectedItem(iterationPriorityValues[2]);
-		panelThree.add(cmbPriority, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 2;
-		panelThree.add(lblEstimate, cThree);
-		
-		cThree.fill = GridBagConstraints.HORIZONTAL;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 2;
-		//txtEstimate.setText("0");
-		panelThree.add(txtEstimate, cThree);
-		
-		cThree.fill = GridBagConstraints.NONE;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 2;
-		panelThree.add(lblEUnits, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 3;
-		panelThree.add(lblActual, cThree);
-		
-		cThree.fill = GridBagConstraints.HORIZONTAL;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 3;
-		txtActual.setEnabled(false);
-		//txtActual.setText("0");
-		panelThree.add(txtActual, cThree);
-		
-		cThree.fill = GridBagConstraints.NONE;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 3;
-		panelThree.add(lblAUnits, cThree);
+		cOne.gridwidth = 1;
+		panelThree.add(txtStartDate, cThree);
+//		
+//		cThree.fill = GridBagConstraints.HORIZONTAL;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 1;
+//		cThree.gridy = 2;
+//		//txtEstimate.setText("0");
+//		panelThree.add(txtEstimate, cThree);
+//		
+//		cThree.fill = GridBagConstraints.NONE;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 2;
+//		cThree.gridy = 2;
+//		panelThree.add(lblEUnits, cThree);
+//		
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 0;
+//		cThree.gridy = 3;
+//		panelThree.add(lblActual, cThree);
+//		
+//		cThree.fill = GridBagConstraints.HORIZONTAL;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 1;
+//		cThree.gridy = 3;
+//		txtActual.setEnabled(false);
+//		//txtActual.setText("0");
+//		panelThree.add(txtActual, cThree);
+//		
+//		cThree.fill = GridBagConstraints.NONE;
+//		cThree.weightx = 0.5;
+//		cThree.weighty = 0.5;
+//		cThree.gridx = 2;
+//		cThree.gridy = 3;
+//		panelThree.add(lblAUnits, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 4;
-		panelThree.add(lblCreatedDate, cThree);
+		panelThree.add(lblStartDate, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 4;
-		txtCreatedDate.setEnabled(false);
-		txtCreatedDate.setText(model.getCreationDate().toString());
-		panelThree.add(txtCreatedDate, cThree);
+		txtStartDate.setEnabled(true);
+		txtStartDate.setText(model.getStartDate().toString());
+		panelThree.add(txtStartDate, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 5;
-		panelThree.add(lblModifiedDate, cThree);
+		panelThree.add(lblEndDate, cThree);
 		
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 5;
-		txtModifiedDate.setEnabled(false);
-		panelThree.add(txtModifiedDate, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 6;
-		panelThree.add(lblCreator, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 6;
-		txtCreator.setEnabled(false);
-		txtCreator.setText(model.getCreator().getUsername());
-		panelThree.add(txtCreator, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 7;
-		panelThree.add(lblAssignee, cThree);
-		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 7;
-		panelThree.add(txtAssignee, cThree);
+		txtEndDate.setEnabled(false);
+		panelThree.add(txtEndDate, cThree);
 
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -449,13 +347,11 @@ public class IterationPanel extends JPanel {
 	 */
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
-
-		txtTitle.setEnabled(enabled);
-		txtReleaseNumber.setEnabled(enabled);
-		txtDescription.setEnabled(enabled);
-		cmbStatus.setEnabled(enabled);
-		cmbPriority.setEnabled(enabled);
-		txtEstimate.setEnabled(enabled);
+		
+		txtIterationNumber.setEnabled(enabled);
+//		cmbStatus.setEnabled(enabled);
+//		cmbPriority.setEnabled(enabled);
+//		txtEstimate.setEnabled(enabled);
 	}
 	
 	/**
@@ -479,21 +375,13 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		iteration iteration = new Iteration();
-		iteration.setId(model.getId());
-		iteration.setTitle(txtTitle.getText());
-		iteration.setReleaseNumber(txtReleaseNumber.getText()); 
-		iteration.setDescription(txtDescription.getText());
-		iteration.setStatus(IterationStatus.valueOf((String) cmbStatus.getSelectedItem()));
-		iteration.setPriority(IterationPriority.valueOf((String) cmbPriority.getSelectedItem()));
-		iteration.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
-		iteration.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
-		if (!(txtAssignee.getText().equals(""))) {
-			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		}
-		if (!(txtCreator.getText().equals(""))) {
-			iteration.setCreator(new User("", txtCreator.getText(), "", -1));
-		}
+		Iteration iteration = new Iteration(0, null, null);
+		iteration.setIterationNumber(getValue(txtIterationNumber)); 
+//		iteration.setDescription(txtDescription.getText());
+//		iteration.setStatus(IterationStatus.valueOf((String) cmbStatus.getSelectedItem()));
+//		iteration.setPriority(IterationPriority.valueOf((String) cmbPriority.getSelectedItem()));
+//		iteration.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
+//		iteration.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 //		if (!(txtAssignee.getText().equals(""))) {
 //			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}
@@ -515,18 +403,14 @@ public class IterationPanel extends JPanel {
 	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise 
 	 */
 	public int checkRequiredFields(){
-		if((txtTitle.getText().equals(null) || txtTitle.getText().equals("")) && 
-				(txtDescription.getText().equals(null) || txtDescription.getText().equals(""))){
-			lblTitleError.setVisible(true);
-			lblDescriptionError.setVisible(true);
+		if(getValue(txtIterationNumber) < 0){
+			lblIterationNumberError.setVisible(true);
 			return 3;
-		} else if(txtTitle.getText().equals(null) || txtTitle.getText().equals("")){
-			lblTitleError.setVisible(true);
-			lblDescriptionError.setVisible(false);
+		} else if(txtStartDate.getText().equals(null) || txtStartDate.getText().equals("")){
+			lblStartDateError.setVisible(true);
 			return 2; 
-		} else if(txtDescription.getText().equals(null) || txtDescription.getText().equals("")){
-			lblDescriptionError.setVisible(true);
-			lblTitleError.setVisible(false);
+		} else if(txtEndDate.getText().equals(null) || txtEndDate.getText().equals("")){
+			lblEndDateError.setVisible(true);
 			return 1;
 		} else 
 			return 0;

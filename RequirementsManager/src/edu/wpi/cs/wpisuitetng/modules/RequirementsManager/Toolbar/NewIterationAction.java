@@ -38,7 +38,7 @@ public class NewIterationAction extends AbstractAction {
 	 * @param controller When the action is performed, controller.addNewIterationTab() is called
 	 */
 	public NewIterationAction(MainTabController controller) {
-		super("Create Requirement");
+		super("Create Iteration");
 		//TODO: Remove this debug message
 		System.out.println("Entered NewIterationAction");
 		this.controller = controller;

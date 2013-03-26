@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -38,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from DefectView in project DefectTracker
  * 
  * @author Arica Liu
+ * @author Tushar Narayan
  *
  * @version Mar 24, 2013
  *

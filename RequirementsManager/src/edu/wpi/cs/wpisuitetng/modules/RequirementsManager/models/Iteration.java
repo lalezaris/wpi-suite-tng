@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
 
 
 /**
@@ -31,20 +32,20 @@ public class Iteration extends AbstractModel{
 	private int iterationNumber;
 	private Date startDate, endDate;
 	private List<Integer> requirements;
+	private IterationStatus status;
 	
 	/**
 	 * @param iterationNumber
 	 * @param startDate
 	 * @param endDate
-	 * @param requirements
 	 */
-	public Iteration(int iterationNumber, Date startDate, Date endDate
-	) {
+	public Iteration(int iterationNumber, Date startDate, Date endDate) {
 		super();
 		this.iterationNumber = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.requirements = new ArrayList<Integer>();
+		this.status = NEW;
 	}
 
 	/**
@@ -52,6 +53,13 @@ public class Iteration extends AbstractModel{
 	 */
 	public int getIterationNumber() {
 		return this.iterationNumber;
+	}
+	
+	/**
+	 * @param iterationNumber the iterationNumber to set
+	 */
+	public void setIterationNumber(int iterationNumber) {
+		this.iterationNumber = iterationNumber;
 	}
 	
 	/**
@@ -97,12 +105,19 @@ public class Iteration extends AbstractModel{
 	}
 
 	/**
-	 * @param iterationNumber the iterationNumber to set
+	 * @return the status
 	 */
-	public void setIterationNumber(int iterationNumber) {
-		this.iterationNumber = iterationNumber;
+	public IterationStatus getStatus() {
+		return status;
 	}
-	
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(IterationStatus status) {
+		this.status = status;
+	}
+
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub

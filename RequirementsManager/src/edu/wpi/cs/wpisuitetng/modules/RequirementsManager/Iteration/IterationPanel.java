@@ -8,8 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
- *  Joe Spicola
+ *  Arica Liu
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -38,24 +37,19 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.PlainDocument;
 
-
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 
 /**
  * Panel to display and edit the basic fields for a Iteration
  * Adapted from DefectPanel in project DefectTracker
  *
- * @author Chris Dunkers 
- * @author Joe Spicola
+ * @author Arica Liu
  *
- * @version Mar 17, 2013
+ * @version Mar 25, 2013
  *
  */
 public class IterationPanel extends JPanel {
-	
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
 	
@@ -65,17 +59,9 @@ public class IterationPanel extends JPanel {
 	/*
 	 * Form elements
 	 */
-	protected JTextField txtTitle;
-	protected JTextField txtReleaseNumber;
-	protected JComboBox cmbStatus;
-	protected JComboBox cmbPriority;
-	protected JTextArea txtDescription;	
-	protected IntegerField txtEstimate;
-	protected IntegerField txtActual;
-	protected JTextField txtCreatedDate;
-	protected JTextField txtModifiedDate;
-	protected JTextField txtCreator;
-	protected JTextField txtAssignee;
+	protected JTextField txtIterationNumber;
+	protected JTextField txtStartDate;
+	protected JTextField txtEndDate;
 	protected JButton saveIterationTop;
 	protected JButton saveIterationBottom;
 	
@@ -83,8 +69,8 @@ public class IterationPanel extends JPanel {
 	protected boolean inputEnabled;
 	
 	/**Error labels*/
-	JLabel lblTitleError = new JLabel("Must have a title", LABEL_ALIGNMENT);
-	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
+	JLabel lblIterationNumberError = new JLabel("Must have a iteration number", LABEL_ALIGNMENT);
+//	JLabel lblDescriptionError = new JLabel("Must have a description", LABEL_ALIGNMENT);
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -128,8 +114,7 @@ public class IterationPanel extends JPanel {
 		this.setLayout(layout);
 		
 		// Add all components to this panel
-		addComponents();
-		
+		addComponents();	
 	}
 	
 	/**
@@ -150,17 +135,16 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
-		txtTitle = new JTextField(20);
-		txtReleaseNumber = new JTextField(12);
-		txtDescription = new JTextArea(10,35);
-		txtDescription.setLineWrap(true);
-		txtDescription.setWrapStyleWord(true);
-		txtDescription.setBorder(txtTitle.getBorder());
-		String[] iterationStatusValues = new String[IterationStatus.values().length];
-		for (int i = 0; i < IterationStatus.values().length; i++) {
-			iterationStatusValues[i] = IterationStatus.values()[i].toString();
-		}
-		cmbStatus = new JComboBox(iterationStatusValues);
+		txtIterationNumber = new JTextField(12);
+//		txtDescription = new JTextArea(10,35);
+//		txtDescription.setLineWrap(true);
+//		txtDescription.setWrapStyleWord(true);
+//		txtDescription.setBorder(txtTitle.getBorder());
+//		String[] iterationStatusValues = new String[IterationStatus.values().length];
+//		for (int i = 0; i < IterationStatus.values().length; i++) {
+//			iterationStatusValues[i] = IterationStatus.values()[i].toString();
+//		}
+//		cmbStatus = new JComboBox(iterationStatusValues);
 //		String[] iterationPriorityValues = new String[IterationPriority.values().length];
 //		for (int i = 0; i < IterationPriority.values().length; i++) {
 //			iterationPriorityValues[i] = IterationPriority.values()[i].toString();
@@ -168,8 +152,8 @@ public class IterationPanel extends JPanel {
 //		cmbPriority = new JComboBox(iterationPriorityValues);
 //		txtEstimate = new IntegerField(3);
 //		txtActual = new IntegerField(3);
-//		txtCreatedDate = new JTextField(15);
-//		txtModifiedDate = new JTextField(15);
+		txtStartDate = new JTextField(15);
+		txtEndDate = new JTextField(15);
 //		txtCreator = new JTextField(15);
 //		txtAssignee = new JTextField(15);
 		
@@ -180,26 +164,16 @@ public class IterationPanel extends JPanel {
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		
 		// set maximum widths of components so they are not stretched
-		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
-		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
-		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
+//		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
+//		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
+//		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 		
 		// Construct labels for the form fields
-		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
-		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
-		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
-		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
-		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
-		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
-		JLabel lblEUnits = new JLabel("Units", LABEL_ALIGNMENT);
-		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		JLabel lblAUnits = new JLabel("Units", LABEL_ALIGNMENT);
-		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
-		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
-		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
-		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
+		JLabel lblIterationNumber = new JLabel("Iteration Number:", LABEL_ALIGNMENT);
+		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
+		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
 		
-		int labelWidth = lblDescription.getPreferredSize().width;
+//		int labelWidth = lblDescription.getPreferredSize().width;
 		
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -223,7 +197,7 @@ public class IterationPanel extends JPanel {
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
-		panelOne.add(txtTitle, cOne);
+		panelOne.add(txtIterationNumber, cOne);
 		
 		cOne.gridx = 2;
 		cOne.gridy = 1;
@@ -249,34 +223,34 @@ public class IterationPanel extends JPanel {
 		
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
-		layoutTwo = new GridBagLayout();
-		panelTwo.setLayout(layoutTwo);
-		
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cTwo.gridx = 0;
-		cTwo.gridy = 0;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		panelTwo.add(lblDescription, cTwo);
-		
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cTwo.gridx = 1;
-		cTwo.gridy = 0;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		lblDescriptionError.setVisible(false);
-		panelTwo.add(lblDescriptionError, cTwo);
-
-		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
-		cTwo.insets = new Insets(0,10,10,0);
-		cTwo.gridx = 0;
-		cTwo.gridy = 1;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		//cTwo.gridwidth = 2;
-		panelTwo.add(txtDescription, cTwo);
+//		layoutTwo = new GridBagLayout();
+//		panelTwo.setLayout(layoutTwo);
+//		
+//		cTwo.insets = new Insets(10,10,5,0);
+//		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+//		cTwo.gridx = 0;
+//		cTwo.gridy = 0;
+//		cTwo.weightx = 0.5;
+//		cTwo.weighty = 0.5;
+//		panelTwo.add(lblDescription, cTwo);
+//		
+//		cTwo.insets = new Insets(10,10,5,0);
+//		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+//		cTwo.gridx = 1;
+//		cTwo.gridy = 0;
+//		cTwo.weightx = 0.5;
+//		cTwo.weighty = 0.5;
+//		lblDescriptionError.setVisible(false);
+//		panelTwo.add(lblDescriptionError, cTwo);
+//
+//		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
+//		cTwo.insets = new Insets(0,10,10,0);
+//		cTwo.gridx = 0;
+//		cTwo.gridy = 1;
+//		cTwo.weightx = 0.5;
+//		cTwo.weighty = 0.5;
+//		//cTwo.gridwidth = 2;
+//		panelTwo.add(txtDescription, cTwo);
 		
 		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager

@@ -26,8 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from SaveIterationController in project IterationsManager
  * 
  * @author Tushar Narayan
+ * @author Arica Liu
  * 
- * @version Mar 25, 2013
+ * @version Mar 26, 2013
  *
  */
 public class SaveIterationController {
@@ -51,7 +52,7 @@ public class SaveIterationController {
 		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : */ new UpdateIterationRequestObserver(view);
 		Request request;
 		//panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("Iterationsmanager/Iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		request = Network.getInstance().makeRequest("RequirementsManager/Iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
 		if(panel.checkRequiredFields() > 0){} 
 		else {
 			request.setBody(panel.getEditedModel().toJSON());

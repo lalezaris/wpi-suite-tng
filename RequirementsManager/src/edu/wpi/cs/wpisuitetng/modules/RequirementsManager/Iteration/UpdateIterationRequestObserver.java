@@ -12,8 +12,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
-
-
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 

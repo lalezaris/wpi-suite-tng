@@ -14,6 +14,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.JPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
@@ -67,9 +70,12 @@ public class IterationPanel extends JPanel {
 	 */
 	protected IntegerField txtIterationNumber;
 	protected JTextField txtStartDate;
+	protected JButton selectStartDate = new JButton("Select");
 	protected JTextField txtEndDate;
+	protected JButton selectEndDate = new JButton("Select");
 	protected JButton saveIterationTop;
 	protected JButton saveIterationBottom;
+	protected JFrame f = new JFrame();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -215,6 +221,25 @@ public class IterationPanel extends JPanel {
 	//	txtStartDate.setText(model.getStartDate().toString());
 		panelTwo.add(txtStartDate, cTwo);
 		
+		cTwo.gridx = 4;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
+		panelTwo.add(selectStartDate, cTwo);
+		
+		selectStartDate.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent ae)
+            {
+                DatePicker dp = new DatePicker(f);
+                Point bP = selectStartDate.getLocationOnScreen();
+                dp.d.setLocation(bP.x, bP.y + selectStartDate.getHeight()); 
+                dp.d.setVisible(true);
+                txtStartDate.setText(dp.setPickedDate());
+            }
+        });
+		
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
@@ -227,6 +252,25 @@ public class IterationPanel extends JPanel {
 		cTwo.weighty = 0.5;
 		txtEndDate.setEnabled(true);
 		panelTwo.add(txtEndDate, cTwo);
+		
+		cTwo.gridx = 4;
+		cTwo.gridy = 1;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
+		panelTwo.add(selectEndDate, cTwo);
+		
+		selectEndDate.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent ae)
+            {
+                DatePicker dp = new DatePicker(f);
+                Point bP = selectEndDate.getLocationOnScreen();
+                dp.d.setLocation(bP.x, bP.y + selectEndDate.getHeight()); 
+                dp.d.setVisible(true);
+                txtEndDate.setText(dp.setPickedDate());
+            }
+        });
 
 		cTwo.gridx = 0;
 		cTwo.gridy = 5;

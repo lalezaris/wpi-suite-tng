@@ -12,12 +12,11 @@
 */
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -53,7 +52,7 @@ public class RetrieveAllIterationsController {
     public void refreshData() {	
 	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
 	Request request;
-	request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
+	request = Network.getInstance().makeRequest("requirementsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
 	request.addObserver(requestObserver);
 	request.send();
 	System.out.println("SENT REFRESH REQUEST");

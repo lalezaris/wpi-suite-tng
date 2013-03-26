@@ -508,6 +508,10 @@ public class RequirementPanel extends JPanel {
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
+		//TO ADD: iterate over the list of notes from the gui and add them to the requirement
+		//for (int i = 0; i <= *number of notes*; i++){
+			//requirement.addNote(*note i*);
+		//}
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}

@@ -52,7 +52,7 @@ public class SaveIterationController {
 		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : */ new UpdateIterationRequestObserver(view);
 		Request request;
 		//panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("RequirementsManager/Iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		request = Network.getInstance().makeRequest("requirementsmanager/iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
 		if(panel.checkRequiredFields() > 0){} 
 		else {
 			request.setBody(panel.getEditedModel().toJSON());

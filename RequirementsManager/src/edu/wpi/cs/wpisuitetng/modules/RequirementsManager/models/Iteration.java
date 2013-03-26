@@ -14,6 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,8 +79,19 @@ public class Iteration extends AbstractModel{
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartDate(String startDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
+		Date convertedDate = null;
+		try {
+			convertedDate = dateFormat.parse(startDate);
+		} catch (ParseException e) {
+			System.out.println("Error converting string to date!");
+			e.printStackTrace();
+		} 
+		// TODO: Delete error message
+		System.out.println("Converted string to date : " + convertedDate);
+		
+		this.startDate = convertedDate;
 	}
 
 	/**
@@ -91,8 +104,19 @@ public class Iteration extends AbstractModel{
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndDate(String endDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
+		Date convertedDate = null;
+		try {
+			convertedDate = dateFormat.parse(endDate);
+		} catch (ParseException e) {
+			System.out.println("Error converting string to date!");
+			e.printStackTrace();
+		} 
+		// TODO: Delete error message
+		System.out.println("Converted string to date : " + convertedDate);
+		
+		this.endDate = convertedDate;
 	}
 
 	/**

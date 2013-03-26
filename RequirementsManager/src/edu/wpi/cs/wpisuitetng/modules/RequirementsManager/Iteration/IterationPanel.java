@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.swing.Box;
@@ -356,11 +359,8 @@ public class IterationPanel extends JPanel {
 	public Iteration getEditedModel() {
 		Iteration iteration = new Iteration(0, null, null);
 		iteration.setIterationNumber(getValue(txtIterationNumber)); 
-//		iteration.setDescription(txtDescription.getText());
-//		iteration.setStatus(IterationStatus.valueOf((String) cmbStatus.getSelectedItem()));
-//		iteration.setPriority(IterationPriority.valueOf((String) cmbPriority.getSelectedItem()));
-//		iteration.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
-//		iteration.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
+		iteration.setStartDate(txtStartDate.getText());
+		iteration.setEndDate(txtEndDate.getText());
 //		if (!(txtAssignee.getText().equals(""))) {
 //			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}

@@ -135,4 +135,7 @@ public class IterationView extends JPanel implements IToolbarGroupProvider {
 		return containingTab;
 	}
 	
+    public void addIterations(Iteration[] iterations){
+	//so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
+    }
 }

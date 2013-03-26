@@ -23,6 +23,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class IterationStore implements EntityManager<Iteration> {
 	Data db;
 	
+
+	public IterationStore(Data data){
+	    db = data;
+	}
 	/* The commented out part of the code is not needed for iteration 1 but may be needed in the future
 	 * 
 	 * takes a string that is the JSON-ified representation of Requirement, and a session (project)
@@ -185,4 +189,4 @@ public class IterationStore implements EntityManager<Iteration> {
 
 }
 
-}
+

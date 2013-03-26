@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
+
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
 
@@ -34,6 +36,8 @@ public class Iteration extends AbstractModel{
 	private List<Integer> requirements;
 	private IterationStatus status;
 	
+	private int id;
+	
 	/**
 	 * @param iterationNumber
 	 * @param startDate
@@ -47,6 +51,7 @@ public class Iteration extends AbstractModel{
 		this.requirements = new ArrayList<Integer>();
 		this.status = NEW;
 	}
+	public Iteration(){}
 
 	/**
 	 * @return the iterationNumber
@@ -140,5 +145,42 @@ public class Iteration extends AbstractModel{
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * Sets the id
+	 * @param id: sets the id 
+	 */
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	/**
+	 * @param json Json string to parse containing Iteration
+	 * @return The Iteration given by json
+	 */
+	public static Iteration fromJSON(String json) {
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Iteration.class);
+	}
+	
+	/**
+	 * @param json Json string to parse containing Requirement array
+	 * @return The Requirement array given by json
+	 */
+	public static Iteration[] fromJSONArray(String json) {
+		GsonBuilder builder = new GsonBuilder();
+		addGsonDependencies(builder);
+		return builder.create().fromJson(json, Iteration[].class);
+	}
+	
+	
+	/**
+	 * Add dependencies necessary for Gson to interact with this class
+	 * @param builder Builder to modify
+	 */
+	public static void addGsonDependencies(GsonBuilder builder) {
+		//RequirementEvent.addGsonDependencies(builder);
 	}
 }

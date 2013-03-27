@@ -51,7 +51,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		controller = new RetrieveAllRequirementsController(this);
 		
-		//tree.setModel(this);
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
 	}
@@ -60,23 +59,17 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		System.out.println("Filling the tree");
 		Requirement[] requirements = reqs;
-//		int[] indices = new int[reqs.length];
 		ReqTreeNode temp = null;
+		
 		this.root.removeAllChildren();
 		this.reload();
 		
 		for (int i = 0; i < requirements.length; i++){
-			temp = new ReqTreeNode(requirements[i]);
-			
-					this.insertNodeInto(temp, root, i);
-					nodes.add(temp);
-				
-			
-			
-//			indices[i]=i;
+			temp = new ReqTreeNode(requirements[i]);		
+			this.insertNodeInto(temp, root, i);
+			nodes.add(temp);
 			System.out.println("Added node");
 		}
-		//this.fireTreeNodesChanged(this, null, indices, reqs);
 	}
 	
 	public void refreshTree(){

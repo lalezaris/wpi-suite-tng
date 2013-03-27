@@ -27,22 +27,22 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 public class Note {
-	private String title;
+	//private String title;
 	private String body;
-	private User creator, lastModifiedUser;
-	private Date creationDate, lastModifiedDate;
+	private String creator;
+	private Date creationDate;
 	
 	/**
 	 * Creates a Note with the default values
 	 * 
 	 */
 	public Note(){
-		this.title = "";
+		//this.title = ""; do we need this?
 		this.body = "";
-		this.creator = new User("","","",-1);
-		this.lastModifiedUser = creator;
+		this.creator = "[USER UNKNOWN]";
+		//this.lastModifiedUser = creator;  //notes cannot be modified once created
 		this.creationDate = new Date();
-		this.lastModifiedDate = new Date();
+		//this.lastModifiedDate = new Date();
 	}
 	/**
 	 * Create a Note with the given properties.
@@ -51,9 +51,9 @@ public class Note {
 	 * @param user the User who created the Note
 	 * @param body the message body of the Note
 	 */
-	public Note(String title, String body, User creator) {
+	public Note(/*String title, */String body, String creator) {
 		this();
-		this.title = title;
+		//this.title = title;
 		this.body = body;
 		this.creator = creator;
 	}
@@ -63,18 +63,18 @@ public class Note {
 	 * Gets the title
 	 * @return the title
 	 */
-	public String getTitle() {
+	/*public String getTitle() {
 		return title;
-	}
+	}*/
 
 
 	/**
 	 * Sets the title
 	 * @param title: sets the title 
 	 */
-	public void setTitle(String title) {
+	/*public void setTitle(String title) {
 		this.title = title;
-	}
+	}*/
 
 
 	/**
@@ -99,7 +99,7 @@ public class Note {
 	 * Gets the creator
 	 * @return the creator
 	 */
-	public User getCreator() {
+	public String getCreator() {
 		return creator;
 	}
 
@@ -108,18 +108,18 @@ public class Note {
 	 * Gets the lastModifiedUser
 	 * @return the lastModifiedUser
 	 */
-	public User getLastModifiedUser() {
+	/*public User getLastModifiedUser() {
 		return lastModifiedUser;
-	}
+	}*/
 
 
 	/**
 	 * Sets the lastModifiedUser
 	 * @param lastModifiedUser: sets the lastModifiedUser 
 	 */
-	public void setLastModifiedUser(User lastModifiedUser) {
+	/*public void setLastModifiedUser(User lastModifiedUser) {
 		this.lastModifiedUser = lastModifiedUser;
-	}
+	}*/
 
 
 	/**
@@ -144,16 +144,16 @@ public class Note {
 	 * Gets the lastModifiedDate
 	 * @return the lastModifiedDate
 	 */
-	public Date getLastModifiedDate() {
+	/*public Date getLastModifiedDate() {
 		return lastModifiedDate;
-	}
+	}*/
 
 
 	/**
 	 * Sets the lastModifiedDate
 	 * @param lastModifiedDate: sets the lastModifiedDate 
 	 */
-	public void setLastModifiedDate(Date lastModifiedDate) {
+	/*public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
-	}
+	}*/
 }

@@ -14,6 +14,8 @@
  *  Michael Perrone
  *  Xia Li
  *  Michael French
+ *  Evan Polekoff
+ *  Ned Shelton
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -36,12 +38,17 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
  * 
  * @author Tushar Narayan
  * 
- * @version Mar 17, 2013
+ *  Mar 17, 2013
+ * 
+ * @edited Michael French
+ * added Notes functionality
+ * @version Mar 23, 2013
  *
  */
 public class Requirement extends AbstractModel{
 	private String title;
 	private String releaseNumber;
+	private int iteration;
 	private String description;
 	private RequirementStatus status;
 	private RequirementPriority priority;
@@ -52,6 +59,7 @@ public class Requirement extends AbstractModel{
 	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
+	private ArrayList<Note> notes; //the list of notes on this requirement
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -63,6 +71,7 @@ public class Requirement extends AbstractModel{
 		this();
 		this.title = title;
 		this.description = description;
+		this.notes = new ArrayList<Note>();
 	}
 	
 	/**
@@ -77,6 +86,22 @@ public class Requirement extends AbstractModel{
 		this.title = title;
 		this.description = description;
 		this.creator = creator;
+		this.notes = new ArrayList<Note>();
+	}
+	
+	/**
+	 * Constructs a new Requirement with id, title, description and creator, and ArrayList of notes
+	 *  
+	 * @param name
+	 * @param description
+	 */
+	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes){
+		this();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.creator = creator;
+		this.notes = notes;
 	}
 	
 	
@@ -86,6 +111,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(){
 		this.releaseNumber = "";
+		this.iteration = 0;
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
@@ -99,7 +125,41 @@ public class Requirement extends AbstractModel{
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		//this.type = "Requirement"; //
+		this.notes = new ArrayList<Note>();
 	}
+	
+	/**
+	 * Adds a note to the requirement
+	 * @return the note added
+	 */
+	public Note addNote(Note n){
+		notes.add(n);
+		return n;
+	}
+	
+	/**
+	 * retrieves the arraylist of notes
+	 * @return ArrayList<Note>
+	 */
+	public ArrayList<Note> getNotes(){
+		return notes;
+	}
+	/**
+	 * Counts how many notes are attached to the requirement
+	 * @return amount of notes in this requirement
+	 */
+	public int countNotes(){
+		return notes.size();
+	}
+	/**
+	 * replaces the ArrayList in this requirement with the given list
+	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT
+	 */
+	public void updateNotes(ArrayList<Note> n){
+		this.notes = n;
+	}
+	
+	//note to json?
 
 	/**
 	 * Gets the releaseNumber
@@ -303,6 +363,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Sets the iteration
+	 * @param iteration: sets the iteration 
+	 */
+	public void setIteration(int iteration){
+		this.iteration = iteration;
+	}
+	
+	/**
+	 * gets the iteration
+	 * @return iteration number 
+	 */
+	public int getIteration(){
+		return iteration;
 	}
 
 

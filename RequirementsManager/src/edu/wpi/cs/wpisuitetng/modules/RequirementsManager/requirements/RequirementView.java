@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -61,7 +62,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param editMode	The editMode for editing the Requirement
 	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
-	public RequirementView(Requirement requirement, Tab tab) {
+	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {
 		containingTab = tab;
 		if(containingTab == null) {
 			containingTab = new DummyTab();
@@ -70,14 +71,24 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		inputEnabled = true;
 		
 		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("Create Requirement");
+//		buttonGroup = new ToolbarGroupView("Create Requirement");
 		
 		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("Create Requirement");
+		if(editMode == Mode.CREATE) {
+			containingTab.setTitle("Create Requirement");
+			containingTab.setToolTipText("Create a new requirement");
+		} else {
+			setEditModeDescriptors(requirement);
+		}
 		
+		// If this is a new requirement, set the creator
+		if (editMode == Mode.CREATE) {
+			requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
+		}
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new RequirementPanel(this, requirement);
+		mainPanel = new RequirementPanel(this, requirement, editMode);
+		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -97,10 +108,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		controller = new SaveRequirementController(this);
 
 		// Instantiate the save button and add it to the button panel
-		saveButton = new JButton();
-		saveButton.setAction(new SaveChangesAction(controller));
-		buttonGroup.getContent().add(saveButton);
-		buttonGroup.setPreferredWidth(150);
+//		saveButton = new JButton();
+//		saveButton.setAction(new SaveChangesAction(controller));
+//		buttonGroup.getContent().add(saveButton);
+//		buttonGroup.setPreferredWidth(150);
 	}
 
 
@@ -122,6 +133,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
+	 * @param defect Set the tab title, tooltip, and group name according to this Defect
+	 */
+	protected void setEditModeDescriptors(Requirement requirement) {
+		containingTab.setTitle("Requirement #" + requirement.getId());
+		containingTab.setToolTipText("View requirement " + requirement.getTitle());
+		//buttonGroup.setName("Edit Requirement");
+	}
+	
+	/**
 	 * Sets whether the input is enabled
 	 * 
 	 * @param enabled
@@ -129,7 +149,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
 	
-	    saveButton.setEnabled(enabled);
+	    //saveButton.setEnabled(enabled);
 	    mainPanel.setInputEnabled(enabled);
 	}
 	
@@ -137,4 +157,11 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return containingTab;
 	}
 	
+	/**
+	 * Revalidates and repaints the scroll pane containing the DefectPanel
+	 */
+	public void refreshScrollPane() {
+		mainPanelScrollPane.revalidate();
+		mainPanelScrollPane.repaint();
+	}
 }

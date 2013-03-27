@@ -64,7 +64,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new RequirementListPanel(this);
+		//mainPanel = new RequirementListPanel(this);
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -81,7 +81,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
-		controller = new RetrieveAllRequirementsController(this);
+		//controller = new RetrieveAllRequirementsController(this);
 		controller.refreshData();
 		// Instantiate the save button and add it to the button panel
 		refreshButton = new JButton("Refresh");
@@ -92,11 +92,13 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	
 	
 	public void addRequirements(Requirement[] reqArray){
-		mainPanel.clearList();
 		
-		for(Requirement r : reqArray){
-			mainPanel.addRequirement(r);
-		} 
+		//THIS DOES NOTHING BECAUSE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGH
+		//mainPanel.clearList();
+		
+		//for(Requirement r : reqArray){
+		//	mainPanel.addRequirement(r);
+		//} 
 	}
 	
 	@Override

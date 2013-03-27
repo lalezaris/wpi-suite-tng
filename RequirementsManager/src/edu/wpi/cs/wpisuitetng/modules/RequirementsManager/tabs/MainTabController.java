@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
+ *  Arica Liu
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
@@ -19,8 +20,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
@@ -30,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from MainTabController in the project Defect Tracker
  * 
  * @author Tyler Stone 
+ * @author Arica Liu
  *
  * @version Mar 17, 2013
  *
@@ -81,12 +86,36 @@ public class MainTabController {
 	 * @param requirement The requirement to display
 	 * @param mode The Mode to use
 	 */
-	public Tab addRequirementTab(Requirement requirement) {
+	public Tab addRequirementTab(Requirement requirement, Mode mode) {
 		Tab tab = addTab();
-		RequirementView view = new RequirementView(requirement, tab);
+		RequirementView view = new RequirementView(requirement, mode, tab);
 		tab.setComponent(view);
 		view.requestFocus();
+		
 		return tab;
+	}
+	
+	
+	/**
+	 * Adds a tab that displays the list of all requirements
+	 * @return the tab that has a the table of requirements on it
+	 */
+	public Tab addListRequirementTab() {
+		//if (RequirementListPanel.isListPanelAlreadyOpen()){
+			//this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+			//RequirementListPanel.getListPanel().getContainingTab().getView().removeTabAt(
+			//		RequirementListPanel.getListPanel().getContainingTab().getThisIndex());
+			//RequirementListPanel.closeListPanel();
+		//} 
+		
+		
+		
+		Tab tab = addTab();
+		RequirementListPanel panel = new RequirementListPanel(tab, this);
+		tab.setComponent(panel);
+		panel.requestFocus();
+		return tab;
+		
 	}
 	
 	/**
@@ -95,7 +124,7 @@ public class MainTabController {
 	 * @return The created Tab 
 	 */
 	public Tab addEditRequirementTab(Requirement requirement) {
-		return addRequirementTab(requirement);
+		return addRequirementTab(requirement, Mode.EDIT);
 	}
 	
 	/**
@@ -103,21 +132,9 @@ public class MainTabController {
 	 * @return The created Tab
 	 */
 	public Tab addCreateRequirementTab() {
-		return addRequirementTab(new Requirement());
+		return addRequirementTab(new Requirement(), Mode.CREATE);
 	}
 	
-	
-	/**
-	 * Adds a tab that shows all of the requirements
-	 * @return the created Tab
-	 */
-	public Tab addListTab() {
-		Tab tab = addTab();
-		RequirementListView view = new RequirementListView(tab);
-		tab.setComponent(view);
-		view.requestFocus();
-		return tab;
-	}
 	
 	/**
 	 * Add a change listener to the view this is controlling.
@@ -180,5 +197,13 @@ public class MainTabController {
 				view.removeTabAt(clickedIndex);
 			}
 		}
+	}
+
+	public Tab addNewIterationTab() {
+		Tab tab = addTab();
+		IterationView view = new IterationView(new Iteration(0, null, null), tab);
+		tab.setComponent(view);
+		view.requestFocus();
+		return tab;
 	}
 }

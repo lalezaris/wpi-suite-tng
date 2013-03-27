@@ -8,11 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Arica Liu
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
-
-
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
@@ -26,27 +24,27 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * A RequestObserver for a Request to update a Requirement.
  *
- * @author Tyler Stone
+ * @author Arica Liu
  *
- * @version Mar 20, 2013
+ * @version Mar 26, 2013
  *
  */
-/**
- * A RequestObserver for a Request to update a Requirement.
- */
-public class UpdateRequirementRequestObserver implements RequestObserver {
+public class SaveIterationRequestObserver implements RequestObserver {
 
-	private final RequirementView view;
+	private final IterationView view;
 
 	/**
-	 * Constructs a new UpdateRequirementRequestObserver
+	 * Constructs a new UpdateIterationRequestObserver
 	 * 
-	 * @param view	The RequirementView that will be affected by any updates.
+	 * @param view	The Iteration View that will be affected by any updates.
 	 */
-	public UpdateRequirementRequestObserver(RequirementView view) {
+	public SaveIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 
+	/* Commented out part not needed for iteration 1 but may be needed in the future
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request
@@ -57,46 +55,52 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
-			// parse the Requirement from the body
-			final Requirement requirement = Requirement.fromJSON(response.getBody());
+		/*if (response.getStatusCode() == 200) {
+			// parse the requirement from the body
+			final Iteration requirement = Requirement.fromJSON(response.getBody());
 
-			// make sure the Requirement isn't null
+			// make sure the requirement isn't null
 			if (requirement != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						view.setEditModeDescriptors(requirement);
+						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+						//view.setEditModeDescriptors(requirement);
 					}
 				});
 			}
-			else {
-				JOptionPane.showMessageDialog(view, "Unable to parse requirement received from server.", 
-						"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
-			}
+			else { */
+//		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
+//			"Success!", JOptionPane.INFORMATION_MESSAGE);
+			/*}
 		}
 		else {
 			JOptionPane.showMessageDialog(view, 
 					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
 					"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
-		}
+		} */
 
 		always();
 	}
 
+	/* 
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
 				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+				"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		always();
 	}
 
+	/* 
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 
-				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+				"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		always();
 	}
 

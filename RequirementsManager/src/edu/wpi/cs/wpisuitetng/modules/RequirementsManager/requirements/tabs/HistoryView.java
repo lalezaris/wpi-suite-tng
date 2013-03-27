@@ -9,22 +9,25 @@
  *
  * Contributors:
  *  Chris Dunkers
- *  Joe Spicola
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
+
+import java.awt.Component;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
- * Possible values that a priority of a requirement can be set to
+ * Insert Description Here
  *
  * @author Chris Dunkers
- * @author Joe Spicola
  *
- * @version Mar 17, 2013
+ * @version Mar 25, 2013
  *
  */
-public enum RequirementPriority {
-//	null,   // not sure if needed 
-	HIGH,       // requires immediate attention
-	MEDIUM, // requires attention shortly
-	LOW   // requires attention at some point in the iteration
+public class HistoryView extends JPanel {
+	public HistoryView() {
+		JLabel historyLabel = new JLabel("History");
+		this.add(historyLabel);
+	}
 }

@@ -181,7 +181,9 @@ public class RequirementPanel extends JPanel{
 		GridBagConstraints cThree = new GridBagConstraints();
 		
 		
-//		Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
+		//Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
+		
+		Integer[] iterationsValues = {null, 1,2,3,4,5};
 		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
@@ -191,7 +193,7 @@ public class RequirementPanel extends JPanel{
 		panelTabs = new JPanel();
 		txtTitle = new JPlaceholderTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
-		cmbIteration = new JComboBox(/*iterationValues*/);
+		cmbIteration = new JComboBox(iterationsValues);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -781,6 +783,46 @@ public class RequirementPanel extends JPanel{
 			JComboBox cb = (JComboBox)iterations.getSource();
 			System.out.println(cb.getSelectedItem());
 			
+			Boolean enabled = true;
+			Boolean runThatForLoop = false;
+			RequirementStatus setTo = RequirementStatus.OPEN;
+			
+			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != null){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = false;
+				runThatForLoop = true;
+				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == null){
+				setTo = model.getStatus();
+				enabled = true;
+				runThatForLoop = true;
+				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == null){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != null){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = true;//TODO: This may not be correct.
+				runThatForLoop = true;
+				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			
+			if(runThatForLoop){
+				for (int i = 0; i < cmbStatus.getItemCount(); i++) {
+					System.out.println("For Loop Iteration: " + i);
+					if (setTo == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
+						cmbStatus.setSelectedIndex(i);
+						System.out.println("Found Index!");
+					}
+				}
+			}
+			runThatForLoop = false;
+			cmbStatus.setEnabled(enabled);
 		}
 
 	}

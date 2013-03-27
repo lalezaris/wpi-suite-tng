@@ -28,7 +28,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  *	TreeView class shows requirements with parents and children in a tree.
@@ -42,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 public class TreeView extends JPanel {
 
 	JButton refreshButton;
-	JTree tree;
+	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
 	/**
@@ -66,16 +68,20 @@ public class TreeView extends JPanel {
 		});
 		this.add(refreshButton, BorderLayout.SOUTH);
 		
-
-		
-		
-		root = new DefaultMutableTreeNode("root");
+		root = new DefaultMutableTreeNode(ConfigManager.getConfig().getProjectName());
 		treeModel = new ReqTreeModel(root);
 		
 		tree = new JTree(treeModel);
 		
-		// TODO setRootVisible(false) hides the root and all of its leaves (requirements), look for a fix
-		//tree.setRootVisible(false);
+		/**
+	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
+	    do {
+//	       if (currentNode.getLevel()==1) 
+	            tree.expandPath(new TreePath(currentNode.getPath()));
+	       currentNode = currentNode.getNextNode();
+	       }
+	    while (currentNode != null);
+	    */
 		
 		//Updates the tree view when it is first focused
 		final TreeView tv = this;
@@ -85,7 +91,6 @@ public class TreeView extends JPanel {
 			public void hierarchyChanged(HierarchyEvent e) {
 				if (HierarchyEvent.SHOWING_CHANGED != 0 && tv.isShowing())
 				{
-					System.out.println("Dashboard Gained View");
 					treeModel.refreshTree();
 				}
 
@@ -96,7 +101,15 @@ public class TreeView extends JPanel {
 		this.add(tree, BorderLayout.CENTER);
 		
 		
-		
+	}
+	
+	public static void expandAll(){
+		 int row = 0;
+		    while (row < tree.getRowCount()) {
+		      tree.expandRow(row);
+		      row++;
+		      }	
+	
 	}
 
 }

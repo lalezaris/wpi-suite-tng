@@ -39,6 +39,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	DefaultMutableTreeNode root;
 	RetrieveAllRequirementsController controller;
 	LinkedList<ReqTreeNode> nodes = new LinkedList<ReqTreeNode>();
+	
 
 	/**
 	 * Class constructor
@@ -55,6 +56,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 		controller.refreshData();
 	}
 
+	/**
+	 * Fills the tree with requirements given in the array. 
+	 * Clears the existing tree first, so that there are no duplicates
+	 * 
+	 * @param reqs
+	 */
 	public void fillTree(Requirement[] reqs){
 		
 		System.out.println("Filling the tree");
@@ -63,13 +70,17 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		this.root.removeAllChildren();
 		this.reload();
-		
+		for(int j = 0; j < 1; j++){
+			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode("Iteration"+j);
+			this.insertNodeInto(tempIt, root, j);
 		for (int i = 0; i < requirements.length; i++){
 			temp = new ReqTreeNode(requirements[i]);		
-			this.insertNodeInto(temp, root, i);
+			this.insertNodeInto(temp, tempIt, i+j);
 			nodes.add(temp);
 			System.out.println("Added node");
 		}
+		}
+		TreeView.expandAll();
 	}
 	
 	public void refreshTree(){

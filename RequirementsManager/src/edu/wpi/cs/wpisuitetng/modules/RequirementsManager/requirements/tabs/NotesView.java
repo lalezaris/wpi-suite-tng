@@ -71,6 +71,10 @@ public class NotesView extends JPanel {
 		
 	}
 	
+	public NotesView(ArrayList<Note> notes){
+		this.notes = notes;
+	}
+	
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the SpringLayout manager.

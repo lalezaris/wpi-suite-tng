@@ -100,6 +100,7 @@ public class RequirementPanel extends JPanel {
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
 	
+	
 	/** NotesView for updating notes **/
 	private NotesView n = new NotesView();
 	
@@ -151,6 +152,9 @@ public class RequirementPanel extends JPanel {
 		this.model = requirement;
 		this.parent = parent;
 		editMode = mode;
+		
+		//get the list of notes from the given requirement
+//		n.setNotesList(requirement.getNotes());
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -608,6 +612,8 @@ public class RequirementPanel extends JPanel {
 		model.setPriority(requirement.getPriority());
 		model.setEstimateEffort(requirement.getEstimateEffort());
 		model.setActualEffort(requirement.getActualEffort());
+		requirement.updateNotes(this.getNotesArrayList());
+		model.updateNotes(requirement.getNotes());
 		
 		updateFields();
 		//requirementEventListModel.update(requirement);
@@ -649,12 +655,12 @@ public class RequirementPanel extends JPanel {
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
-		//TO ADD: iterate over the list of notes from the gui and add them to the requirement
-		//for (int i = 0; i <= *number of notes*; i++){
-			//requirement.addNote(*note i*);
-		//}
+		
 		//this.setNotesArrayList(n.getNotesList());
-		requirement.updateNotes(this.getNotesArrayList());
+		requirement.updateNotes(n.getNotesList());
+		System.out.println("list given: " + n.getNotesList().toString());
+		System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
+		//System.out.println(requirement.toJSON());
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -673,7 +679,8 @@ public class RequirementPanel extends JPanel {
 //			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
 //		}
 //		requirement.setTags(tags);
-		
+		System.out.println("list given: " + n.getNotesList().toString());
+		System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
 		return requirement;
 	}
 	
@@ -729,7 +736,7 @@ public class RequirementPanel extends JPanel {
 		if (model.getAssignee() != null) {
 			txtAssignee.setText(model.getAssignee().getUsername());
 		}
-		
+		n.setNotesList(model.getNotes());
 
 		//txtTitleListener.checkIfUpdated();
 		//txtDescriptionListener.checkIfUpdated();

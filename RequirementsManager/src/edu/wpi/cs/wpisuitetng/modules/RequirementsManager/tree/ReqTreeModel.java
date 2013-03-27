@@ -21,6 +21,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
@@ -39,7 +40,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	DefaultMutableTreeNode root;
 	RetrieveAllRequirementsController controller;
 	LinkedList<ReqTreeNode> nodes = new LinkedList<ReqTreeNode>();
-	
+	int count = 0;
 
 	/**
 	 * Class constructor
@@ -67,6 +68,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		System.out.println("Filling the tree");
 		Requirement[] requirements = reqs;
 		ReqTreeNode temp = null;
+		count = 0;
 		
 		this.root.removeAllChildren();
 		this.reload();
@@ -74,10 +76,15 @@ public class ReqTreeModel extends DefaultTreeModel {
 			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode("Iteration"+j);
 			this.insertNodeInto(tempIt, root, j);
 		for (int i = 0; i < requirements.length; i++){
-			temp = new ReqTreeNode(requirements[i]);		
-			this.insertNodeInto(temp, tempIt, i+j);
-			nodes.add(temp);
-			System.out.println("Added node");
+			if(requirements[i].getStatus() == RequirementStatus.DELETED)
+				System.out.println("Requirement has Deleted Status");
+			else{
+				temp = new ReqTreeNode(requirements[i]);		
+				this.insertNodeInto(temp, tempIt, count);
+				nodes.add(temp);
+				System.out.println("Added node");
+				count++;
+			}
 		}
 		}
 		TreeView.expandAll();

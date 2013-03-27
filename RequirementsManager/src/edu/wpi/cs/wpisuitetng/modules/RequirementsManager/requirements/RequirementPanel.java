@@ -52,6 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPrio
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 //import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 /**
  * Panel to display and edit the basic fields for a requirement
@@ -97,7 +98,7 @@ public class RequirementPanel extends JPanel {
 	protected JTextField txtAssignee;
 	protected JButton saveRequirementTop;
 	protected JButton saveRequirementBottom;
-	//protected RequirementTabsView RTabsView;
+	protected RequirementTabsView RTabsView;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -174,7 +175,7 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cThree = new GridBagConstraints();
 		
 		
-		Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
+//		Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
 		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
@@ -184,7 +185,7 @@ public class RequirementPanel extends JPanel {
 		panelTabs = new JPanel();
 		txtTitle = new JPlaceholderTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
-		cmbIteration = new JComboBox(iterationValues);
+		cmbIteration = new JComboBox(/*iterationValues*/);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -205,7 +206,7 @@ public class RequirementPanel extends JPanel {
 		txtModifiedDate = new JTextField(15);
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
-		//RTabsView = new RequirementTabsView();
+		RTabsView = new RequirementTabsView();
 		
 		/**Save Button*/
 //		saveRequirementTop = new JButton("Save");
@@ -475,13 +476,13 @@ public class RequirementPanel extends JPanel {
 		layoutTabs = new GridBagLayout();
 		panelTabs.setLayout(layoutTabs);
 		
-//		cOverall.fill = GridBagConstraints.BOTH;
-//		cOverall.weightx = 0.5;
-//		cOverall.weighty = 0.5;
-//		cOverall.gridx = 0;
-//		cOverall.gridy = 0;
-//		cOverall.anchor = GridBagConstraints.LINE_START;
-//		panelTabs.add(RTabsView, cOverall);
+		cOverall.fill = GridBagConstraints.BOTH;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelTabs.add(RTabsView, cOverall);
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager

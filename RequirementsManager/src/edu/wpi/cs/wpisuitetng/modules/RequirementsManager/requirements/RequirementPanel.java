@@ -135,7 +135,6 @@ public class RequirementPanel extends JPanel {
 		this.model = requirement;
 		this.parent = parent;
 		editMode = mode;
-		
 		// Indicate that input is enabled
 		inputEnabled = true;
 		
@@ -520,6 +519,12 @@ public class RequirementPanel extends JPanel {
 		if (editMode == Mode.CREATE) {
 			cmbStatus.setEnabled(false);
 			txtActual.setEnabled(false);
+		}
+		
+		//depending on the status, disable certain components
+		if (model.getStatus() == RequirementStatus.INPROGRESS ||
+				model.getStatus() == RequirementStatus.DONE) {
+			txtEstimate.setEnabled(false);
 		}
 	}
 	

@@ -87,7 +87,33 @@ public class MainTabController {
 		RequirementView view = new RequirementView(requirement, mode, tab);
 		tab.setComponent(view);
 		view.requestFocus();
+		
+		
+		
 		return tab;
+	}
+	
+	
+	/**
+	 * Adds a tab that displays the list of all requirements
+	 * @return the tab that has a the table of requirements on it
+	 */
+	public Tab addListRequirementTab() {
+		//if (RequirementListPanel.isListPanelAlreadyOpen()){
+			//this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+			//RequirementListPanel.getListPanel().getContainingTab().getView().removeTabAt(
+			//		RequirementListPanel.getListPanel().getContainingTab().getThisIndex());
+			//RequirementListPanel.closeListPanel();
+		//} 
+		
+		
+		
+		Tab tab = addTab();
+		RequirementListPanel panel = new RequirementListPanel(tab, this);
+		tab.setComponent(panel);
+		panel.requestFocus();
+		return tab;
+		
 	}
 	
 	/**

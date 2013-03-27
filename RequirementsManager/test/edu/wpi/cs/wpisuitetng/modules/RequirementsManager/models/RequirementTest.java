@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
  *  Ned Shelton
+ *  Evan Polekoff
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -38,7 +39,7 @@ public class RequirementTest {
 
 	Date date1, date2;
 	Requirement r1, r2, r2copy, r3, r4;
-	RequirementStatus status1, status2, status3, status4;
+	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
 	
 	@Before
@@ -52,8 +53,9 @@ public class RequirementTest {
 		date2 = new Date();
 		status1 = NEW;
 		status2 = INPROGRESS;
-		status3 = DONE;
-		status4 = ACCEPTED;
+		status3 = OPEN;
+		status4 = COMPLETE;
+		status5 = DELETED;
 		priority1 = HIGH;
 		priority2 = MEDIUM;
 		priority3 = LOW;

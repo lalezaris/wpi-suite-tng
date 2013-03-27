@@ -54,6 +54,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  *
  */
 public class RequirementPanel extends JPanel {
+	
+
 	public enum Mode {
 		CREATE,
 		EDIT;
@@ -632,6 +634,14 @@ public class RequirementPanel extends JPanel {
 
 	public Mode getEditMode() {
 		return editMode;
+	}
+	
+	/**
+	 * Gets the model
+	 * @return the model
+	 */
+	public Requirement getModel() {
+		return model;
 	}
 }
 	

@@ -78,10 +78,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
 		} else {
-			//setEditModeDescriptors(requirement);
+			setEditModeDescriptors(requirement);
 		}
 		
-		// If this is a new defect, set the creator
+		// If this is a new requirement, set the creator
 		if (editMode == Mode.CREATE) {
 			requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
 		}

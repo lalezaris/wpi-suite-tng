@@ -28,7 +28,9 @@ public class ListIterationAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println("fetch iterations...");
-		Iteration[] i = Refresher.getInstance().getInstantIterations();
+		Iteration[] i = new Iteration[0];
+		//Refresher.getInstance().getInstantIterations(); 
+		
 		System.out.println("here are the iterations...");
 		for (int j = 0; j < i.length; j ++)
 			System.out.println(""+j + ":" + i[j].getIterationNumber());

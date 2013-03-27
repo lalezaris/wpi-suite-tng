@@ -66,7 +66,7 @@ public class SaveRequirementController {
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
 			//Refresher.getInstance().refresh(reqArray, mode)
 			System.out.println("SAVE REQUIREMENT");
-			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 		}
+		//Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 	} 
 }

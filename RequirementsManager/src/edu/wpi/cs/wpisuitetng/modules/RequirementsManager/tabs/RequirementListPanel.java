@@ -43,6 +43,7 @@ import javax.swing.table.TableModel;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
@@ -212,12 +213,12 @@ public class RequirementListPanel extends JPanel{
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
 				// TODO Auto-generated method stub
-				//if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
-				//		&& p.isShowing())
-				if (HierarchyEvent.SHOWING_CHANGED != 0 && p.isShowing())
+				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
+						&& p.isShowing())
+				//if (HierarchyEvent.SHOWING_CHANGED != 0 && p.isShowing())
 				{
 					
-					refreshList();
+					Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
 				}
 					
 			}

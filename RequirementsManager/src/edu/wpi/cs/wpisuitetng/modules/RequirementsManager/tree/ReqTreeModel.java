@@ -86,6 +86,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
 					"Iteration" + j);
 			this.insertNodeInto(tempIt, root, j);
+
 			System.out.println("Added iteration");
 			// Loop through List of Requirment ID
 			for (int k = 0; k < iterations[j].getRequirements().size(); k++) {

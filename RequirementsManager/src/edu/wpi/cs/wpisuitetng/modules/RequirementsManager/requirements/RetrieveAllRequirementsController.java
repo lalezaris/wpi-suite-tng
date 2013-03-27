@@ -54,7 +54,7 @@ public class RetrieveAllRequirementsController {
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /*is this ok? ->*/ HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
-		System.out.println("SENT REFRESH REQUEST");
+		//System.out.println("SENT REFRESH REQUEST");
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class RetrieveAllRequirementsController {
 			// save the data
 			this.data = Requirements;
 			//this.view.addRequirements(Requirements);
-			System.out.println("Refresher = "+ (Refresher.getInstance() != null));
+			//System.out.println("Refresher = "+ (Refresher.getInstance() != null));
 			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
 		else {

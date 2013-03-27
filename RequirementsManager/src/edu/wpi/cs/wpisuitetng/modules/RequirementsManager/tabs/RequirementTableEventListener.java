@@ -38,8 +38,12 @@ public class RequirementTableEventListener extends MouseAdapter {
    
         if (row >= 0) {
         	//reqID goes from object > string > int
-            int reqID = Integer.parseInt( requirementListPanel.getTable().getValueAt(row, 0).toString() );
-            //send back to the panel
+        	
+            //int reqID = Integer.parseInt( requirementListPanel.getTable().getValueAt(row, 0).toString() );
+            //Chris Hanna changed the above line to the following. This removes complexity
+        	int reqID =((RequirementTable)requirementListPanel.getTable().getModel()).getRowID(row);
+        	
+        	//send back to the panel
             requirementListPanel.setSelectedRequirement(reqID);
         }
     }

@@ -192,10 +192,12 @@ public class NotesView extends JPanel {
 		String list = "";
 		for (int i = notes.size() - 1; i >= 0; i--){
 			if (i > 0){
-				list = list + ">" + notes.get(i).getCreator() + 
+				list = list + ">[" + notes.get(i).getCreationDate().toString() + "] " + 
+						notes.get(i).getCreator() + 
 						": " + notes.get(i).getBody() + "\n \n";
 			}else{
-				list = list + ">" + notes.get(i).getCreator() + 
+				list = list + ">[" + notes.get(i).getCreationDate().toString() + "] "
+						+ notes.get(i).getCreator() + 
 						": " + notes.get(i).getBody();
 			}
 		}

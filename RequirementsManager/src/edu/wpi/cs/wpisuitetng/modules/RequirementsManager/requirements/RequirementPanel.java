@@ -16,6 +16,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import javax.swing.JPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -64,7 +67,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Requ
  * @version Mar 17, 2013
  *
  */
-public class RequirementPanel extends JPanel {
+public class RequirementPanel extends JPanel{
 	
 
 	public enum Mode {
@@ -217,6 +220,12 @@ public class RequirementPanel extends JPanel {
 //		saveRequirementTop.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
 		saveRequirementBottom = new JButton("Save");
 		saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+		
+		
+		/**Iteration Listener*/
+		
+		cmbIteration.addActionListener(new IterationListener());
+		
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -758,6 +767,24 @@ public class RequirementPanel extends JPanel {
 	public Requirement getModel() {
 		return model;
 	}
+	
+	
+	
+	public class IterationListener implements ActionListener {
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent iterations) {
+			JComboBox cb = (JComboBox)iterations.getSource();
+			System.out.println(cb.getSelectedItem());
+			
+		}
+
+	}
+
 	
 }
 	

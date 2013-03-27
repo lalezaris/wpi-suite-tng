@@ -20,8 +20,11 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -40,9 +43,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 	
 	DefaultMutableTreeNode root;
 	RetrieveAllRequirementsController controller;
+	RetrieveAllIterationsControllerTree itController;
 	LinkedList<ReqTreeNode> nodes = new LinkedList<ReqTreeNode>();
-	int count = 0;
-
+	int count;
+	int id;
+	Iteration[] iterations;
 	/**
 	 * Class constructor
 	 * 
@@ -53,6 +58,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		super(root);
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		controller = new RetrieveAllRequirementsController(RefresherMode.TREE);
+		itController = new RetrieveAllIterationsControllerTree(this);
 		
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
@@ -68,31 +74,55 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		System.out.println("Filling the tree");
 		Requirement[] requirements = reqs;
+//		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		ReqTreeNode temp = null;
 		count = 0;
+		id = 0;
 		
 		this.root.removeAllChildren();
 		this.reload();
-		for(int j = 0; j < 1; j++){
-			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode("Iteration"+j);
+		// Loop through all the iterations
+		for (int j = 0; j < iterations.length; j++) {
+			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
+					"Iteration" + j);
 			this.insertNodeInto(tempIt, root, j);
-		for (int i = 0; i < requirements.length; i++){
-			if(requirements[i].getStatus() == RequirementStatus.DELETED)
-				System.out.println("Requirement has Deleted Status");
-			else{
-				temp = new ReqTreeNode(requirements[i]);		
-				this.insertNodeInto(temp, tempIt, count);
-				nodes.add(temp);
-				System.out.println("Added node");
-				count++;
+			System.out.println("Added iteration");
+			// Loop through List of Requirment ID
+			for (int k = 0; k < iterations[j].getRequirements().size(); k++) {
+				id = iterations[j].getRequirements().get(k);
+				// Loop through all the requirements
+				for (int i = 0; i < requirements.length; i++) {
+					// If requirements status is DELETED, do nothing, otherwise
+					// add to tree
+					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id)
+						System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
+					else {
+						temp = new ReqTreeNode(requirements[i]);
+						this.insertNodeInto(temp, tempIt, count);
+						nodes.add(temp);
+						System.out.println("Added node");
+						count++;
+					}
+				}
 			}
-		}
 		}
 		TreeView.expandAll();
 	}
 	
 	public void refreshTree(){
 		controller.refreshData();
+		itController.refreshData();
+	}
+
+	/**
+	 * Enter description here.
+	 * 
+	 * @param iterations
+	 */
+	public void addIterations(Iteration[] iterations) {
+		// TODO Auto-generated method stub
+		this.iterations = iterations;
+		
 	}
 	
 }

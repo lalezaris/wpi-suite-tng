@@ -25,6 +25,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * 
  * @version Mar 17, 2013
  *
+ * Chris Hanna added DELETED on March26, 2013
  */
 public enum RequirementStatus {
 	NEW,       // new requirements has not been worked on yet

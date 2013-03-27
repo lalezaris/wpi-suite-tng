@@ -88,6 +88,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		// Instantiate the main create requirement panel
 		mainPanel = new RequirementPanel(this, requirement, editMode);
+		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);

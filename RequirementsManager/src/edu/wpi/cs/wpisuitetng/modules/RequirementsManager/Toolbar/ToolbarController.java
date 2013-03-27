@@ -73,7 +73,7 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 			if(selectedComponent instanceof IToolbarGroupProvider) {
 				IToolbarGroupProvider provider = (IToolbarGroupProvider) selectedComponent;
 				setRelevantTabGroup(provider.getGroup());
-				relevantTabGroup.repaint(); //does nothing to fix the save changes not showing up 
+				//relevantTabGroup.repaint(); //does nothing to fix the save changes not showing up 
 			} else {
 				setRelevantTabGroup(null);
 			}

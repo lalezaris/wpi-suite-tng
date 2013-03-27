@@ -92,11 +92,13 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	
 	
 	public void addRequirements(Requirement[] reqArray){
-		mainPanel.clearList();
 		
-		for(Requirement r : reqArray){
-			mainPanel.addRequirement(r);
-		} 
+		//THIS DOES NOTHING BECAUSE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGH
+		//mainPanel.clearList();
+		
+		//for(Requirement r : reqArray){
+		//	mainPanel.addRequirement(r);
+		//} 
 	}
 	
 	@Override

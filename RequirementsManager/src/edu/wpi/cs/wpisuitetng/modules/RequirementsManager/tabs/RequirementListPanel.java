@@ -42,7 +42,9 @@ import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -84,15 +86,15 @@ public class RequirementListPanel extends JPanel{
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	
-	private int selectedRequirement;
-	
 	private ToolbarGroupView buttonGroup;
-	private JButton refreshButton;
+	private JButton refreshButton, deleteButton;
+	private final MainTabController tabController;
 	private Tab containingTab;
 	
-	public RequirementListPanel(Tab parentTab){
-		
+	public RequirementListPanel(Tab parentTab, MainTabController tabController){
 		super(new GridLayout());
+		
+		this.tabController = tabController;
 		
 		//set the onlyListPanel
 		if (RequirementListPanel.onlyListPanel == null){
@@ -122,12 +124,13 @@ public class RequirementListPanel extends JPanel{
 		TableModel model = new RequirementTable();
 		
 		table = new JTable(model);
-		table.addMouseListener(new RequirementTableEventListener(this));
+		table.addMouseListener(new RetrieveRequirementController(this));
 		
 		table.getTableHeader().setReorderingAllowed(false);
 		for (int i = 0 ; i < 7 ; i ++){
 			TableColumn column = table.getColumnModel().getColumn(i);
-		    if (i == 0) {
+		
+			if (i == 0) {
 		    	column.setPreferredWidth(30); // ID
 		    } else if (i == 1) {
 		        column.setPreferredWidth(100); //NAME COLUMN
@@ -154,6 +157,9 @@ public class RequirementListPanel extends JPanel{
 		//retrieveController.refreshData();
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));
+		
+		deleteButton = new JButton("Delete");
+		
 //		buttonGroup.getContent().add(refreshButton);
 //		buttonGroup.setPreferredWidth(150);
 		GridBagConstraints c = new GridBagConstraints();
@@ -173,10 +179,11 @@ public class RequirementListPanel extends JPanel{
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(refreshButton, c);
 		
+		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridwidth = 1;
@@ -227,9 +234,9 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	
-	public void addRequirement(Requirement req){
+	private void addRequirement(Requirement req){
 		((RequirementTable)table.getModel()).addRow(req);
-		table.updateUI();
+		
 	}
 
 
@@ -241,9 +248,15 @@ public class RequirementListPanel extends JPanel{
 	public void addRequirements(Requirement[] requirements) {
 		clearList();
 
-		for (int i = requirements.length -1; i > -1 ; i --){
-			addRequirement(requirements[i]);
+		//addRequirement(requirements[0]);
+		
+		for (int i = requirements.length -1; i > -1; i --){
+			if (requirements[i].getStatus() != RequirementStatus.DELETED){
+				addRequirement(requirements[i]);
+			}
 		}
+		
+		table.updateUI();
 	}
 
 	public void refreshList(){
@@ -258,11 +271,7 @@ public class RequirementListPanel extends JPanel{
 		return containingTab;
 	}
 	
-	public void setSelectedRequirement(int selectedRequirement) {
-		this.selectedRequirement = selectedRequirement;
-	}
-	
-	public int getSelectedRequirement() {
-		return selectedRequirement;
+	public MainTabController getTabController() {
+		return tabController;
 	}
 }

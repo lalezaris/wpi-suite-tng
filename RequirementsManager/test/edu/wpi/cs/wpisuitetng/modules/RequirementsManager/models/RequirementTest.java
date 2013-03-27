@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
  *  Ned Shelton
+ *  Evan Polekoff
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -38,7 +39,7 @@ public class RequirementTest {
 
 	Date date1, date2;
 	Requirement r1, r2, r2copy, r3, r4;
-	RequirementStatus status1, status2, status3, status4;
+	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
 	
 	@Before
@@ -52,8 +53,9 @@ public class RequirementTest {
 		date2 = new Date();
 		status1 = NEW;
 		status2 = INPROGRESS;
-		status3 = DONE;
-		status4 = ACCEPTED;
+		status3 = OPEN;
+		status4 = COMPLETE;
+		status5 = DELETED;
 		priority1 = HIGH;
 		priority2 = MEDIUM;
 		priority3 = LOW;
@@ -65,7 +67,7 @@ public class RequirementTest {
 	 */
 	@Test
 	public void testDefaultConstructor() {
-		assertEquals(r1.getReleaseNumber(), 0);
+		assertEquals(r1.getReleaseNumber(), "");
 		assertEquals(r1.getStatus(), NEW);
 		assertEquals(r1.getPriority(), MEDIUM);
 		assertEquals(r1.getTitle(), "");
@@ -83,7 +85,7 @@ public class RequirementTest {
 	 */
 	@Test
 	public void testThreeParameterConstructor() {
-		assertEquals(r2.getReleaseNumber(), 0);
+		assertEquals(r2.getReleaseNumber(), "");
 		assertEquals(r2.getStatus(), NEW);
 		assertEquals(r2.getPriority(), MEDIUM);
 		assertEquals(r2.getTitle(), "Test Requirement");
@@ -101,9 +103,9 @@ public class RequirementTest {
 	 */
 	@Test
 	public void testTwoParameterConstructor(){
-		assertEquals(0, r4.getReleaseNumber());
+		assertEquals("", r4.getReleaseNumber());
 		r4.setReleaseNumber("10101");
-		assertEquals(10101, r4.getReleaseNumber());
+		assertEquals("10101", r4.getReleaseNumber());
 		
 		//testing all 4 statuses
 		assertEquals(status1, r4.getStatus());
@@ -125,9 +127,9 @@ public class RequirementTest {
 		
 		assertEquals("This is the fourth test requirement.", r4.getDescription());
 		
-		assertEquals("", r4.getEstimateEffort());
+		assertEquals(0, r4.getEstimateEffort());
 		
-		assertEquals("", r4.getActualEffort());
+		assertEquals(0, r4.getActualEffort());
 		
 		assertEquals(r4.getSubRequirements(), new ArrayList<Requirement>());
 		
@@ -138,7 +140,7 @@ public class RequirementTest {
 		r4.setLastModifiedDate(date2);
 		assertEquals(date2, r4.getLastModifiedDate());
 		
-		assertEquals(-1, r4.getId());
+		assertEquals(20, r4.getId());
 		r4.setId(42);
 		assertEquals(42, r4.getId());
 	}

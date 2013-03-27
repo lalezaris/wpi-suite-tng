@@ -45,6 +45,8 @@ import javax.swing.text.PlainDocument;
 
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
@@ -52,7 +54,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStat
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
-
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -94,7 +95,7 @@ public class RequirementPanel extends JPanel {
 	protected JTextField txtAssignee;
 	protected JButton saveRequirementTop;
 	protected JButton saveRequirementBottom;
-	//protected RequirementTabsView RTabsView;
+	protected RequirementTabsView RTabsView;
 	
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
@@ -176,8 +177,9 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
 		
-		Integer[] iterationValues = {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
-				
+		
+//		Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
+		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
@@ -186,7 +188,7 @@ public class RequirementPanel extends JPanel {
 		panelTabs = new JPanel();
 		txtTitle = new JPlaceholderTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
-		cmbIteration = new JComboBox(iterationValues);
+		cmbIteration = new JComboBox(/*iterationValues*/);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -208,6 +210,7 @@ public class RequirementPanel extends JPanel {
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
+		RTabsView = new RequirementTabsView(n);
 		
 		/**Save Button*/
 //		saveRequirementTop = new JButton("Save");
@@ -366,7 +369,7 @@ public class RequirementPanel extends JPanel {
 		cThree.gridx = 1;
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
-		cmbPriority.setSelectedItem(requirementPriorityValues[2]);
+		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
 		panelThree.add(cmbPriority, cThree);
 		
 		cThree.weightx = 0.5;
@@ -477,13 +480,13 @@ public class RequirementPanel extends JPanel {
 		layoutTabs = new GridBagLayout();
 		panelTabs.setLayout(layoutTabs);
 		
-//		cOverall.fill = GridBagConstraints.BOTH;
-//		cOverall.weightx = 0.5;
-//		cOverall.weighty = 0.5;
-//		cOverall.gridx = 0;
-//		cOverall.gridy = 0;
-//		cOverall.anchor = GridBagConstraints.LINE_START;
-//		panelTabs.add(RTabsView, cOverall);
+		cOverall.fill = GridBagConstraints.BOTH;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelTabs.add(RTabsView, cOverall);
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -594,12 +597,17 @@ public class RequirementPanel extends JPanel {
 		
 		model.setId(requirement.getId());
 		model.setTitle(requirement.getTitle());
+		model.setReleaseNumber(requirement.getReleaseNumber());
+		model.setIteration(requirement.getIteration());
 		model.setDescription(requirement.getDescription());
 		model.setAssignee(requirement.getAssignee());
 		model.setCreator(requirement.getCreator());
 		model.setCreationDate(requirement.getCreationDate());
 		model.setLastModifiedDate(requirement.getLastModifiedDate());
 		model.setStatus(requirement.getStatus());
+		model.setPriority(requirement.getPriority());
+		model.setEstimateEffort(requirement.getEstimateEffort());
+		model.setActualEffort(requirement.getActualEffort());
 		
 		updateFields();
 		//requirementEventListModel.update(requirement);
@@ -634,7 +642,8 @@ public class RequirementPanel extends JPanel {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
-		requirement.setReleaseNumber(txtReleaseNumber.getText()); 
+		requirement.setReleaseNumber(txtReleaseNumber.getText());
+//		requirement.setIteration((Integer) cmbIteration.getSelectedItem());
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));

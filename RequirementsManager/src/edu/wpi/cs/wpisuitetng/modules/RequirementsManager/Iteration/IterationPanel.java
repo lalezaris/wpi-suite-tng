@@ -17,39 +17,18 @@ import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 
-import javax.swing.Box;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.text.MaskFormatter;
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.SpringLayout;
 import java.awt.*;
 
-import javax.swing.JOptionPane;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
-
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 
 /**
  * Panel to display and edit the basic fields for a Iteration
@@ -84,10 +63,10 @@ public class IterationPanel extends JPanel {
 	protected boolean inputEnabled;
 
 	/**Error labels*/
-	JLabel lblIterationNumberError = new JLabel("Must have a iteration number", LABEL_ALIGNMENT);
-	JLabel lblStartDateError = new JLabel("Must have a start date", LABEL_ALIGNMENT);
-	JLabel lblEndDateError = new JLabel("Must have a end date", LABEL_ALIGNMENT);
-	JLabel lblDateError = new JLabel("The start date should be before the end date!", LABEL_ALIGNMENT);
+	JLabel lblIterationNumberError = new JLabel("ERROR: Must have a iteration number", LABEL_ALIGNMENT);
+	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
+	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
+	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -185,6 +164,7 @@ public class IterationPanel extends JPanel {
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		lblDateError.setVisible(false);
+		lblDateError.setForeground(Color.RED);
 		panelOne.add(lblDateError, cOne);
 
 		cOne.anchor = GridBagConstraints.LINE_START; 
@@ -208,6 +188,7 @@ public class IterationPanel extends JPanel {
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
+		lblDateError.setForeground(Color.RED);
 		lblIterationNumberError.setVisible(false);
 		panelOne.add(lblIterationNumberError, cOne);
 
@@ -258,6 +239,7 @@ public class IterationPanel extends JPanel {
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 1;
 		lblStartDateError.setVisible(false);
+		lblDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
 
 		cTwo.gridx = 0;
@@ -297,6 +279,7 @@ public class IterationPanel extends JPanel {
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 1;
+		lblDateError.setForeground(Color.RED);
 		lblEndDateError.setVisible(false);
 		panelTwo.add(lblEndDateError, cTwo);
 

@@ -12,6 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
+import java.util.LinkedList;
+
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -36,6 +38,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	
 	DefaultMutableTreeNode root;
 	RetrieveAllRequirementsController controller;
+	LinkedList<ReqTreeNode> nodes = new LinkedList<ReqTreeNode>();
 
 	/**
 	 * Class constructor
@@ -54,15 +57,23 @@ public class ReqTreeModel extends DefaultTreeModel {
 	}
 
 	public void fillTree(Requirement[] reqs){
+		
 		System.out.println("Filling the tree");
 		Requirement[] requirements = reqs;
-		int[] indices = new int[reqs.length];
+//		int[] indices = new int[reqs.length];
 		ReqTreeNode temp = null;
+		this.root.removeAllChildren();
+		this.reload();
 		
 		for (int i = 0; i < requirements.length; i++){
 			temp = new ReqTreeNode(requirements[i]);
-			this.insertNodeInto(temp, root, i);
-			indices[i]=i;
+			
+					this.insertNodeInto(temp, root, i);
+					nodes.add(temp);
+				
+			
+			
+//			indices[i]=i;
 			System.out.println("Added node");
 		}
 		//this.fireTreeNodesChanged(this, null, indices, reqs);

@@ -70,7 +70,7 @@ public class RetrieveAllIterationsControllerTree {
 	    // save the data
 		
 	    this.data = Iterations;
-//	    Refresher.getInstance().refreshIterations(Iterations, view);
+	    Refresher.getInstance().setLastKnownIterations(Iterations);
 	    this.view.addIterations(Iterations);
 	}
 	else {

@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -52,7 +53,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
+		Refresher.getInstance().refreshIterationsFromServer(null);
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
 		/*if (response.getStatusCode() == 200) {

@@ -59,11 +59,11 @@ public class Refresher {
 		this.iterationController.refreshData();
 	}
 	
-	synchronized public Iteration[] getInstantIterations() throws InterruptedException
+	synchronized public Iteration[] getInstantIterations() 
 	{
 		 
-		this.iterationsSet = false;
-		this.refreshIterationsFromServer(null);
+		//this.iterationsSet = false;
+		//this.refreshIterationsFromServer(null);
 		
 		//while (!this.iterationsSet){}
 		return this.lastKnownIterations;
@@ -85,8 +85,14 @@ public class Refresher {
 		}
 		this.lastKnownIterations = iterations;
 		this.iterationsSet = true;
-		
+		tree.fillTree(null);
 	
+	}
+
+
+	public void setLastKnownIterations(Iteration[] iterations) {
+		this.lastKnownIterations = iterations;
+		
 	}
 	
 	

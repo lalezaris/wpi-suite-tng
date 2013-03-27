@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * The Model for the Requirement Tree
  *
  * @author Sam Lalezari
- *
+ * CHris Hanna changed this on Mar 27,2013
  * @version Mar 19, 2013
  *
  */
@@ -48,6 +48,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	int count;
 	int id;
 	Iteration[] iterations;
+	Requirement[] requirements;
 	/**
 	 * Class constructor
 	 * 
@@ -73,18 +74,24 @@ public class ReqTreeModel extends DefaultTreeModel {
 	public void fillTree(Requirement[] reqs){
 		
 		System.out.println("Filling the tree");
-		Requirement[] requirements = reqs;
+		if (reqs != null){
+			requirements = reqs;
+		}
 //		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		ReqTreeNode temp = null;
 		count = 0;
 		id = 0;
+		
+		//CHris Hanna added this line
+		this.iterations = Refresher.getInstance().getInstantIterations();
+		
 		
 		this.root.removeAllChildren();
 		this.reload();
 		// Loop through all the iterations
 		for (int j = 0; j < iterations.length; j++) {
 			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
-					"Iteration" + j);
+					"Iteration" + iterations[j].getIterationNumber());
 			this.insertNodeInto(tempIt, root, j);
 
 			System.out.println("Added iteration");

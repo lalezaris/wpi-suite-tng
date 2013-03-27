@@ -55,7 +55,7 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
     @Override
 	public void responseError(IRequest iReq) {
 	// TODO Auto-generated method stub
-	System.out.print("ERRORRRRRRRR!!!!!!!! (yeah, there was a response error)");
+	System.out.print("Response Error");
 	
     }
     

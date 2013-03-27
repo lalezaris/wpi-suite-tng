@@ -64,7 +64,9 @@ public class SaveRequirementController {
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			RequirementListPanel.refreshListPanel();
+			//Refresher.getInstance().refresh(reqArray, mode)
+			System.out.println("SAVE REQUIREMENT");
+			Refresher.getInstance().refreshFromServer(RefresherMode.ALL);
 		}
 	} 
 }

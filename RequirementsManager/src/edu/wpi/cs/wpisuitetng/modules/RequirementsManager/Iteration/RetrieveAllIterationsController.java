@@ -17,6 +17,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -67,9 +68,10 @@ public class RetrieveAllIterationsController {
     public void receivedData(Iteration[] Iterations) {	
 	if (Iterations.length > 0) {
 	    // save the data
-		IterationView.setAllIterations(Iterations);
+		
 	    this.data = Iterations;
-	    this.view.addIterations(Iterations);
+	    Refresher.getInstance().refreshIterations(Iterations, view);
+	    //this.view.addIterations(Iterations);
 	}
 	else {
 	    // do nothing, there are no Iterations

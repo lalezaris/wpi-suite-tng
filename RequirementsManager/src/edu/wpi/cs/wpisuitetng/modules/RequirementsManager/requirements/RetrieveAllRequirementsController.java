@@ -72,7 +72,7 @@ public class RetrieveAllRequirementsController {
 			this.data = Requirements;
 			//this.view.addRequirements(Requirements);
 			System.out.println("Refresher = "+ (Refresher.getInstance() != null));
-			Refresher.getInstance().refresh(Requirements, refreshMode);
+			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
 		else {
 			// do nothing, there are no Requirements

@@ -70,9 +70,6 @@ public class RequirementPanel extends JPanel {
 	/** The parent view **/
 	protected RequirementView parent;
 	
-	/** The ArrayList of Notes**/
-	protected ArrayList<Note> notes;
-	
 	/*
 	 * Form elements
 	 */
@@ -91,6 +88,9 @@ public class RequirementPanel extends JPanel {
 	protected JButton saveRequirementTop;
 	protected JButton saveRequirementBottom;
 	protected RequirementTabsView RTabsView;
+	
+	/** The ArrayList of Notes**/
+	protected ArrayList<Note> notes = new ArrayList<Note>();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -625,6 +625,8 @@ public class RequirementPanel extends JPanel {
 		//for (int i = 0; i <= *number of notes*; i++){
 			//requirement.addNote(*note i*);
 		//}
+		
+		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
@@ -699,38 +701,7 @@ public class RequirementPanel extends JPanel {
 		return editMode;
 	}
 	
-	/**
-	 * returns the ArrayList of notes in the current view
-	 * @return the ArrayList of notes
-	 */
-	public ArrayList<Note> getNotesList(){
-		return notes;
-	}
-	
-	/**
-	 * adds a Note to the ArrayList of notes
-	 * @param n
-	 * @return n
-	 */
-	public Note addNoteToList(Note n){
-		notes.add(n);
-		return n;
-	}
-	
-	/**
-	 * iterates through the notes in the ArrayList and makes 
-	 * it into a printable string
-	 * @return notes in the form of a String
-	 */
-	public String notesListToString(){
-		String list = "";
-		for (int i = 0; i < notes.size(); i++){
-			list = list + ">" + notes.get(i).getCreator().getName() + 
-					": " + notes.get(i).getBody() + "\n";
-		}
-		
-		return list;
-	}
+	//TODO: Getter and Setter for Notes
 }
 	
 	

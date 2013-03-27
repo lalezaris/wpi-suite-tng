@@ -17,6 +17,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -24,9 +25,11 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.AddNoteController;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * Tab panel for adding and viewing notes
  *
@@ -40,12 +43,14 @@ public class NotesView extends JPanel {
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
 	
-	protected JPanel panelOverall;
-	protected GridBagLayout layoutOverall;
+	//protected JPanel panelOverall;
 	
 	protected JTextArea txtNotes;
 	protected JTextArea txtNotesSaved;
 	protected JButton addNote;
+	
+	/** The ArrayList of Notes**/
+	protected ArrayList<Note> notes = new ArrayList<Note>();
 	
 	/*
 	 * Constants used to layout the form
@@ -74,12 +79,12 @@ public class NotesView extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// Construct all of the components for the form
-		panelOverall = new JPanel();
+		//panelOverall = new JPanel();
 		
-		txtNotes = new JTextArea(3, 40);
+		txtNotes = new JTextArea(4, 40);
 		txtNotes.setLineWrap(true);
 		//txtNotes.setBorder(txtTitle.getBorder()); TODO: Set borders
-		txtNotesSaved = new JTextArea(3, 40);
+		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
 		//txtNotesSaved.setBorder(txtTitle.getBorder()); TODO: Set borders
 		JLabel lblNotes = new JLabel("Notes:", LABEL_ALIGNMENT);
@@ -121,14 +126,65 @@ public class NotesView extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
-		txtNotesSaved.setText(/*printNotesList()*/"");
+		txtNotesSaved.setText(notesListToString());
 		txtNotesSaved.setEnabled(false);
 		this.add(scrollPaneNotesSaved, c);
 		//add completed notes here...
 
 	}
-	/*
+	
+	public void setTxtNotesSaved() {
+		txtNotesSaved.setText(notesListToString());
+	}
+	
+	public void setTxtNotes(){
+		txtNotes.setText("");
+	}
 	public String getNoteString(){
-		txtNotes.getText();
-	}*/
+		return txtNotes.getText();
+	}
+	
+	/**
+	 * returns the ArrayList of notes in the current view
+	 * @return the ArrayList of notes
+	 */
+	public ArrayList<Note> getNotesList(){
+		return notes;
+	}
+	
+	/**
+	 * adds a Note to the ArrayList of notes
+	 * @param n
+	 * @return n
+	 */
+	public Note addNoteToList(Note n){
+		notes.add(n);
+		//System.out.println("Note Added");
+		//System.out.println(n.getBody());
+		return n;
+	}
+	
+	/**
+	 * iterates through the notes in the ArrayList and makes 
+	 * it into a printable string
+	 * @return notes in the form of a String
+	 */
+	public String notesListToString(){
+		String list = "";
+		for (int i = 0; i < notes.size(); i++){
+			list = list + ">" + notes.get(i).getCreator().getName() + 
+					": " + notes.get(i).getBody() + "\n";
+		}
+		
+		return list;
+	}
+	
+	public Note stringToNote(String s){
+		Note note = new Note(s, new User("","","",1)); //TODO: Pull user info
+		return note;
+	}
+	
+	public void repaintNote() {
+		this.repaint();
+	}
 }

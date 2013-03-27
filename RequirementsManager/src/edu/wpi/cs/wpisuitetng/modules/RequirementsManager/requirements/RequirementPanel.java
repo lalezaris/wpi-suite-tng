@@ -619,11 +619,22 @@ public class RequirementPanel extends JPanel {
 	private void updateFields() {
 		txtTitle.setText(model.getTitle());
 		txtDescription.setText(model.getDescription());
+		txtReleaseNumber.setText(model.getReleaseNumber());
+		txtEstimate.setText( String.valueOf(model.getEstimateEffort()) );
+		txtActual.setText( String.valueOf(model.getActualEffort()) );
+		
 		for (int i = 0; i < cmbStatus.getItemCount(); i++) {
 			if (model.getStatus() == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
 				cmbStatus.setSelectedIndex(i);
 			}
 		}
+		
+		for (int i = 0; i < cmbPriority.getItemCount(); i++) {
+			if (model.getPriority() == RequirementPriority.valueOf((String) cmbPriority.getItemAt(i))) {
+				cmbPriority.setSelectedIndex(i);
+			}
+		}
+		
 		if (editMode == Mode.EDIT) {
 			txtCreatedDate.setText(model.getCreationDate().toString());
 			txtModifiedDate.setText(model.getLastModifiedDate().toString());
@@ -635,6 +646,7 @@ public class RequirementPanel extends JPanel {
 			txtAssignee.setText(model.getAssignee().getUsername());
 		}
 		
+
 		//txtTitleListener.checkIfUpdated();
 		//txtDescriptionListener.checkIfUpdated();
 		//cmbStatusListener.checkIfUpdated();

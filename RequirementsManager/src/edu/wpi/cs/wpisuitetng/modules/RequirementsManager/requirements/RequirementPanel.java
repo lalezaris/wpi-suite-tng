@@ -10,6 +10,8 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Evan Polekoff
+ *  Ned Shelton
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -46,6 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 //import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 /**
@@ -152,7 +155,7 @@ public class RequirementPanel extends JPanel {
 		
 		// Add all components to this panel
 		addComponents();
-		
+		updateFields();
 	}
 	
 	/**
@@ -183,9 +186,9 @@ public class RequirementPanel extends JPanel {
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		txtDescription.setBorder(txtTitle.getBorder());
-		String[] requirementStatusValues = new String[RequirementStatus.values().length];
-		for (int i = 0; i < RequirementStatus.values().length; i++) {
-			requirementStatusValues[i] = RequirementStatus.values()[i].toString();
+		String[] requirementStatusValues = RequirementStatusLists.getList(model.getStatus());
+		for (int i = 0; i < requirementStatusValues.length; i++) {
+			requirementStatusValues[i] = RequirementStatusLists.getList(model.getStatus())[i];
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
@@ -571,7 +574,7 @@ public class RequirementPanel extends JPanel {
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
-	 * @param	defect	The Requirement which contains the new values for the model.
+	 * @param	requirement	The requirement which contains the new values for the model.
 	 * @param	mode	The new editMode.
 	 */
 	protected void updateModel(Requirement requirement, Mode mode) {
@@ -743,6 +746,7 @@ public class RequirementPanel extends JPanel {
 	public Requirement getModel() {
 		return model;
 	}
+	
 }
 	
 	

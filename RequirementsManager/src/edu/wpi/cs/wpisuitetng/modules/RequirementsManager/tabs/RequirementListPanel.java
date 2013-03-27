@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -85,11 +86,6 @@ public class RequirementListPanel extends JPanel{
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	
-	private int selectedRequirement;
-	
-	//not the best way to let every class know that this panel was double clicked
-	
-	
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, deleteButton;
 	private final MainTabController tabController;
@@ -97,6 +93,7 @@ public class RequirementListPanel extends JPanel{
 	
 	public RequirementListPanel(Tab parentTab, MainTabController tabController){
 		super(new GridLayout());
+		
 		this.tabController = tabController;
 		
 		//set the onlyListPanel
@@ -127,7 +124,7 @@ public class RequirementListPanel extends JPanel{
 		TableModel model = new RequirementTable();
 		
 		table = new JTable(model);
-		table.addMouseListener(new RequirementTableEventListener(this));
+		table.addMouseListener(new RetrieveRequirementController(this));
 		
 		table.getTableHeader().setReorderingAllowed(false);
 		for (int i = 0 ; i < 7 ; i ++){
@@ -249,7 +246,7 @@ public class RequirementListPanel extends JPanel{
 
 
 	public void addRequirements(Requirement[] requirements) {
-		//clearList();
+		clearList();
 
 		//addRequirement(requirements[0]);
 		
@@ -274,11 +271,7 @@ public class RequirementListPanel extends JPanel{
 		return containingTab;
 	}
 	
-	public void setSelectedRequirement(int selectedRequirement) {
-		this.selectedRequirement = selectedRequirement;
-	}
-	
-	public int getSelectedRequirement() {
-		return selectedRequirement;
+	public MainTabController getTabController() {
+		return tabController;
 	}
 }

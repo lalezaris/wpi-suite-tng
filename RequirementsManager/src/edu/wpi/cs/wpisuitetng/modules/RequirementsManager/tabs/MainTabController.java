@@ -88,8 +88,6 @@ public class MainTabController {
 		tab.setComponent(view);
 		view.requestFocus();
 		
-		
-		
 		return tab;
 	}
 	

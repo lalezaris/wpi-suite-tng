@@ -70,7 +70,7 @@ public class RequirementTable extends AbstractTableModel {
     
     public int getRowID(int row)
     {
-    	return Integer.parseInt((String)getValueAt(row, 0));
+    	return Integer.parseInt( getValueAt(row, 0).toString() );
     
     }
  

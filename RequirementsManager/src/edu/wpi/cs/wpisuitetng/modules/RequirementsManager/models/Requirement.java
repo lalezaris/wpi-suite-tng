@@ -14,6 +14,8 @@
  *  Michael Perrone
  *  Xia Li
  *  Michael French
+ *  Evan Polekoff
+ *  Ned Shelton
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 

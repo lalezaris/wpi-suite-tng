@@ -246,7 +246,7 @@ public class RequirementListPanel extends JPanel{
 
 
 	public void addRequirements(Requirement[] requirements) {
-		//clearList();
+		clearList();
 
 		//addRequirement(requirements[0]);
 		

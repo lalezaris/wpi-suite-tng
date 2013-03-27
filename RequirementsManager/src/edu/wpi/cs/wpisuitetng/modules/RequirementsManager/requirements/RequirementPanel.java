@@ -12,12 +12,17 @@
  *  Joe Spicola
  *  Evan Polekoff
  *  Ned Shelton
+ *  Lauren Kahn
+ *  Michael Perrone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -649,6 +654,14 @@ public class RequirementPanel extends JPanel {
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+		try {
+			requirement.setCreationDate(sdf.parse(txtCreatedDate.getText()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
 		//TO ADD: iterate over the list of notes from the gui and add them to the requirement
 		//for (int i = 0; i <= *number of notes*; i++){
 			//requirement.addNote(*note i*);

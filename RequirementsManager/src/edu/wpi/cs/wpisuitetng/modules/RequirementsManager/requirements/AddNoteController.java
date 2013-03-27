@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
+ * Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -21,9 +21,9 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Insert Description Here
+ * Button to add a note, and update display
  *
- * @author Spicola
+ * @author Joe Spicola
  *
  * @version Mar 26, 2013
  *
@@ -42,7 +42,7 @@ public class AddNoteController implements ActionListener {
 		view.addNoteToList(view.stringToNote(view.getNoteString()));
 		view.setTxtNotesSaved();
 		view.setTxtNotes();
-		view.repaint();
+		//view.repaint();
 		
 		//when button is pressed
 		//pull from txtNotes

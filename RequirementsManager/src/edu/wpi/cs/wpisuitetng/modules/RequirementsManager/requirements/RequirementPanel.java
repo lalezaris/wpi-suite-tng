@@ -47,6 +47,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 /**
  * Panel to display and edit the basic fields for a requirement
@@ -91,6 +92,9 @@ public class RequirementPanel extends JPanel {
 	
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
+	
+	/** NotesView for updating notes **/
+	private NotesView n = new NotesView();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -195,7 +199,8 @@ public class RequirementPanel extends JPanel {
 		txtModifiedDate = new JTextField(15);
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
-		RTabsView = new RequirementTabsView();
+		n.setNotesList(this.getNotesArrayList());
+		RTabsView = new RequirementTabsView(n);
 		
 		/**Save Button*/
 //		saveRequirementTop = new JButton("Save");
@@ -625,7 +630,8 @@ public class RequirementPanel extends JPanel {
 		//for (int i = 0; i <= *number of notes*; i++){
 			//requirement.addNote(*note i*);
 		//}
-		
+		//this.setNotesArrayList(n.getNotesList());
+		requirement.updateNotes(this.getNotesArrayList());
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -702,6 +708,13 @@ public class RequirementPanel extends JPanel {
 	}
 	
 	//TODO: Getter and Setter for Notes
+	public ArrayList<Note> getNotesArrayList() {
+		return notes;
+	}
+	
+	public void setNotesArrayList(ArrayList<Note> aln) {
+		notes = aln;
+	}
 }
 	
 	

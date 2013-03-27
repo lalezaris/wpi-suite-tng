@@ -154,6 +154,10 @@ public class NotesView extends JPanel {
 		return notes;
 	}
 	
+	public void setNotesList(ArrayList<Note> aln){
+		this.notes = aln;
+	}
+	
 	/**
 	 * adds a Note to the ArrayList of notes
 	 * @param n

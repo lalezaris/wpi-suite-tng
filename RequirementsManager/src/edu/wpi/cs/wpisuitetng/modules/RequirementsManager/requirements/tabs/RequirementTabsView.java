@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Chris Dunkers
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -29,14 +30,14 @@ import javax.swing.JTabbedPane;
  *
  */
 public class RequirementTabsView extends JTabbedPane {
-	
-	public RequirementTabsView() {
+
+	public RequirementTabsView(NotesView n) {
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 		addTab("History", new ImageIcon(), new HistoryView(),
 			       "History");
-		addTab("Notes", new ImageIcon(), new NotesView(),
+		addTab("Notes", new ImageIcon(), /*new NotesView()*/ n,
 		       "Notes");
 		addTab("Attachments", new ImageIcon(), new AttachmentsView(),
 			       "Attachments");

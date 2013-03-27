@@ -137,7 +137,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	protected void setEditModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("Requirement #" + requirement.getId());
 		containingTab.setToolTipText("View requirement " + requirement.getTitle());
-		buttonGroup.setName("Edit Requirement");
+		//buttonGroup.setName("Edit Requirement");
 	}
 	
 	/**

@@ -17,9 +17,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class NoteTest {
 	
 	Requirement req = new Requirement();
-	Note note1 = new Note("this is note 1", new User("","","",0));
-	Note note2 = new Note("this is note 2", new User("","","",0));
-	Note note3 = new Note("this is note 3", new User("","","",0));
+	Note note1 = new Note("this is note 1", "");
+	Note note2 = new Note("this is note 2", "");
+	Note note3 = new Note("this is note 3", "");
 	ArrayList<Note> notes = new ArrayList<Note>();
 	
 	@Before

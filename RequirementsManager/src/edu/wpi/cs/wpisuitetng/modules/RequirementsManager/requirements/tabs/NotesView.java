@@ -25,6 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
@@ -34,8 +35,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Tab panel for adding and viewing notes
  *
  * @author Joe Spicola
+ * @edited Michael French
  *
- * @version Mar 25, 2013
+ * @version Mar 27, 2013
  *
  */
 public class NotesView extends JPanel {
@@ -169,21 +171,50 @@ public class NotesView extends JPanel {
 	 * it into a printable string
 	 * @return notes in the form of a String
 	 */
-	public String notesListToString(){
+	//earliest note on top v
+	/*public String notesListToString(){
 		String list = "";
 		for (int i = 0; i < notes.size(); i++){
-			list = list + ">" + notes.get(i).getCreator().getName() + 
-					": " + notes.get(i).getBody() + "\n";
+			if (i < notes.size() -1){
+				list = list + ">" + notes.get(i).getCreator() + 
+						": " + notes.get(i).getBody() + "\n \n";
+			}else{
+				list = list + ">" + notes.get(i).getCreator() + 
+						": " + notes.get(i).getBody();
+			}
+		}
+		
+		return list;
+	}*/
+	
+	//earliest note on bottom v
+	public String notesListToString(){
+		String list = "";
+		for (int i = notes.size() - 1; i >= 0; i--){
+			if (i > 0){
+				list = list + ">" + notes.get(i).getCreator() + 
+						": " + notes.get(i).getBody() + "\n \n";
+			}else{
+				list = list + ">" + notes.get(i).getCreator() + 
+						": " + notes.get(i).getBody();
+			}
 		}
 		
 		return list;
 	}
 	
+	/**
+	 * takes the given string and converts it to a Note, 
+	 * setting it's creator as the current user
+	 * @param s
+	 * @return
+	 */
 	public Note stringToNote(String s){
-		Note note = new Note(s, new User("","","",1)); //TODO: Pull user info
+		Note note = new Note(s, ConfigManager.getConfig().getUserName()); //TODO: Pull user info
 		return note;
 	}
 	
+	//repaint the Note
 	public void repaintNote() {
 		this.repaint();
 	}

@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Note {
 	//private String title;
 	private String body;
-	private User creator;
+	private String creator;
 	private Date creationDate;
 	
 	/**
@@ -39,7 +39,7 @@ public class Note {
 	public Note(){
 		//this.title = ""; do we need this?
 		this.body = "";
-		this.creator = new User("","","",-1);
+		this.creator = "[USER UNKNOWN]";
 		//this.lastModifiedUser = creator;  //notes cannot be modified once created
 		this.creationDate = new Date();
 		//this.lastModifiedDate = new Date();
@@ -51,7 +51,7 @@ public class Note {
 	 * @param user the User who created the Note
 	 * @param body the message body of the Note
 	 */
-	public Note(/*String title, */String body, User creator) {
+	public Note(/*String title, */String body, String creator) {
 		this();
 		//this.title = title;
 		this.body = body;
@@ -99,7 +99,7 @@ public class Note {
 	 * Gets the creator
 	 * @return the creator
 	 */
-	public User getCreator() {
+	public String getCreator() {
 		return creator;
 	}
 

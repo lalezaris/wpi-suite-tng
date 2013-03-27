@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
@@ -61,6 +62,7 @@ public class MainView extends JPanel {
 		
 		// Add requirements tree to the left panel
 		treeView = new TreeView();
+//		JScrollPane scrollPane = new JScrollPane(treeView);
 		leftPanel.add(treeView);
 		
 		JPanel rightPanel = new JPanel();

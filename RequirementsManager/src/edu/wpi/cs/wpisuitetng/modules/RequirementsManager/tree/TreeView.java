@@ -22,6 +22,7 @@ import java.awt.event.HierarchyListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -54,7 +55,6 @@ public class TreeView extends JPanel {
 	 */
 	public TreeView(){
 		this.setLayout(new BorderLayout());
-		
 		JLabel titleLabel = new JLabel("<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
 	
@@ -73,16 +73,6 @@ public class TreeView extends JPanel {
 		
 		tree = new JTree(treeModel);
 		
-		/**
-	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
-	    do {
-//	       if (currentNode.getLevel()==1) 
-	            tree.expandPath(new TreePath(currentNode.getPath()));
-	       currentNode = currentNode.getNextNode();
-	       }
-	    while (currentNode != null);
-	    */
-		
 		//Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -98,7 +88,8 @@ public class TreeView extends JPanel {
 
 		});
 
-		this.add(tree, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(tree);
+		this.add(scrollPane, BorderLayout.CENTER);
 		
 		
 	}

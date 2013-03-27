@@ -14,8 +14,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +24,6 @@ import com.google.gson.GsonBuilder;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
 
-
 /**
  * Class for storing an iteration.
  * 
@@ -36,12 +33,12 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteratio
 public class Iteration extends AbstractModel{
 	private int iterationNumber;
 	private Date startDate, endDate;
-	private List<Integer> requirements;
+	private List<Integer> iterations;
 	private IterationStatus status;
 	
-	private int id;
-	
 	/**
+	 * Constructor for Iteration.
+	 * 
 	 * @param iterationNumber
 	 * @param startDate
 	 * @param endDate
@@ -51,10 +48,21 @@ public class Iteration extends AbstractModel{
 		this.iterationNumber = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.requirements = new ArrayList<Integer>();
+		this.iterations = new ArrayList<Integer>();
 		this.status = NEW;
 	}
-	public Iteration(){}
+	
+	/**
+	 * Basic constructor with default arguments
+	 * 
+	 */
+	public Iteration() {
+		this.iterationNumber = 0;
+		this.startDate = new Date();
+		this.endDate = new Date();
+		this.iterations = new ArrayList<Integer>();
+		this.status = NEW;
+	}
 
 	/**
 	 * @return the iterationNumber
@@ -99,17 +107,17 @@ public class Iteration extends AbstractModel{
 	}
 
 	/**
-	 * @return the requirements
+	 * @return the iterations
 	 */
-	public List<Integer> getRequirements() {
-		return requirements;
+	public List<Integer> getIterations() {
+		return iterations;
 	}
 
 	/**
-	 * @param requirements the requirements to set
+	 * @param iterations the iterations to set
 	 */
-	public void setRequirements(List<Integer> requirements) {
-		this.requirements = requirements;
+	public void setIterations(List<Integer> iterations) {
+		this.iterations = iterations;
 	}
 
 	/**
@@ -147,9 +155,9 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
-	 * Converts the given list of Requirements to a JSON string
-	 * @param dlist a list of Requirement
-	 * @return a string in JSON representing the list of Requirements
+	 * Converts the given list of Iterations to a JSON string
+	 * @param dlist a list of Iteration
+	 * @return a string in JSON representing the list of Iterations
 	 */
 	public static String toJSON(Iteration[] dlist) {
 		String json;
@@ -173,14 +181,6 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
-	 * Sets the id
-	 * @param id: sets the id 
-	 */
-	public void setId(int id){
-		this.id = id;
-	}
-	
-	/**
 	 * @param json Json string to parse containing Iteration
 	 * @return The Iteration given by json
 	 */
@@ -191,8 +191,8 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
-	 * @param json Json string to parse containing Requirement array
-	 * @return The Requirement array given by json
+	 * @param json Json string to parse containing Iteration array
+	 * @return The Iteration array given by json
 	 */
 	public static Iteration[] fromJSONArray(String json) {
 		GsonBuilder builder = new GsonBuilder();

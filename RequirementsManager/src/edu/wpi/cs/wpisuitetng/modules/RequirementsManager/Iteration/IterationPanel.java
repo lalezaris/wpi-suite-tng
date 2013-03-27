@@ -111,8 +111,7 @@ public class IterationPanel extends JPanel {
 
 	/**
 	 * Adds the components to the panel and places constraints on them
-	 * for the SpringLayout manager.
-	 * @param layout the layout manager
+	 * for the GridBagLayout manager.
 	 */
 	protected void addComponents() {
 		//create a new constrain variable
@@ -331,7 +330,7 @@ public class IterationPanel extends JPanel {
 
 
 	/**
-	 *Sets if the input is enabled
+	 * Sets if the input is enabled
 	 * 
 	 * @param enabled shows if input is enabled
 	 */
@@ -339,9 +338,8 @@ public class IterationPanel extends JPanel {
 		inputEnabled = enabled;
 
 		txtIterationNumber.setEnabled(enabled);
-		//		cmbStatus.setEnabled(enabled);
-		//		cmbPriority.setEnabled(enabled);
-		//		txtEstimate.setEnabled(enabled);
+		txtStartDate.setEnabled(enabled);
+		txtEndDate.setEnabled(enabled);
 	}
 
 	/**
@@ -361,11 +359,10 @@ public class IterationPanel extends JPanel {
 	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
-	 * TODO: Do some basic input verification
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration(0, null, null);
+		Iteration iteration = new Iteration();
 		iteration.setIterationNumber(getValue(txtIterationNumber)); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
@@ -385,9 +382,9 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Checks to make sure the title and description are filled in 
+	 * Checks to make sure that all of the fields are correctly filled in.  
 	 * 
-	 * @return 2 if required fields missing, 1 if startDate >= endDate, 0 otherwise
+	 * @return 2 if required fields are missing, 1 if startDate >= endDate, 0 otherwise
 	 */
 	public int checkRequiredFields(){
 		// TODO: Any non-null string is currently accepted
@@ -464,19 +461,26 @@ public class IterationPanel extends JPanel {
 		}
 	}
 
-private Date StringToDate(String aDate) {
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
-	Date convertedDate = null;
-	try {
-		convertedDate = dateFormat.parse(aDate);
-	} catch (ParseException e) {
-		System.out.println("Error converting string to date!");
-		e.printStackTrace();
-	} 
-	// TODO: Delete error message
-	System.out.println("Converted string to date : " + convertedDate);
-	return convertedDate;
-}
+
+	/**
+	 * Convert a String to Date.
+	 * 
+	 * @param aDate the String to be converted.
+	 * @return the Date after conversion.
+	 */
+	private Date StringToDate(String aDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
+		Date convertedDate = null;
+		try {
+			convertedDate = dateFormat.parse(aDate);
+		} catch (ParseException e) {
+			System.out.println("Error converting string to date!");
+			e.printStackTrace();
+		} 
+		// TODO: Delete error message
+		System.out.println("Converted string to date : " + convertedDate);
+		return convertedDate;
+	}
 }
 
 

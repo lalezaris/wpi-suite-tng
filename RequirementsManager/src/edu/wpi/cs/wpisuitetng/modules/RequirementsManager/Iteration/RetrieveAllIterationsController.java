@@ -11,7 +11,6 @@
 * Sam Abradi
 */
 
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.JOptionPane;
@@ -82,7 +81,7 @@ public class RetrieveAllIterationsController {
      * error occurs retrieving the Iterations from the server.
      */
     public void errorReceivingData(String error) {
-	//JOptionPane.showMessageDialog(view, "An error occurred retrieving Requirements from the server. " + error,
+	//JOptionPane.showMessageDialog(view, "An error occurred retrieving Iterations from the server. " + error,
 	//"Error Communicating with Server", JOptionPane.ERROR_MESSAGE);
     }
     

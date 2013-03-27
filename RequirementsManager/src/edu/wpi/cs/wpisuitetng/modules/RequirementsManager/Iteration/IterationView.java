@@ -10,7 +10,7 @@
  * Contributors:
  *  Arica Liu
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
@@ -52,15 +52,13 @@ public class IterationView extends JPanel {
 	public static Iteration[] getAllIterations(){
 		return IterationView.allIterations;
 	}
-	
-	
 	private JButton saveButton;
 	private IterationPanel mainPanel;
 	private SaveIterationController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;
-	
+
 	/**
 	 * Constructs a new IterationView where the user can view (and edit) a iteration.
 	 * 
@@ -72,32 +70,31 @@ public class IterationView extends JPanel {
 		if(containingTab == null) {
 			containingTab = new DummyTab();
 		}
-		
+
 		inputEnabled = true;
-		
+
 		containingTab.setIcon(new ImageIcon());
 		containingTab.setTitle("Create Iteration");
-		
+
 		// Instantiate the main create iteration panel
 		mainPanel = new IterationPanel(this, iteration);
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
 				//SwingUtilities.invokeLater(new Runnable(){
 				//	public void run(){
-						mainPanelScrollPane.repaint();
+				mainPanelScrollPane.repaint();
 				//	}
 				//});
 			}
 		});
-		
+
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveIterationController(this);
-	//	controller.save();
 	}
 
 
@@ -109,7 +106,7 @@ public class IterationView extends JPanel {
 	public JPanel getIterationPanel() {
 		return mainPanel;
 	}
-	
+
 
 	/**
 	 * Sets whether the input is enabled
@@ -117,17 +114,21 @@ public class IterationView extends JPanel {
 	 * @param enabled
 	 */
 	public void setInputEnabled(boolean enabled) {
-	    inputEnabled = enabled;
-	
-	    saveButton.setEnabled(enabled);
-	    mainPanel.setInputEnabled(enabled);
+		inputEnabled = enabled;
+
+		saveButton.setEnabled(enabled);
+		mainPanel.setInputEnabled(enabled);
 	}
-	
+
+	/**
+	 * Returns containingTab
+	 * @return containingTab
+	 */
 	public Tab getTab() {
 		return containingTab;
 	}
-	
-    public void addIterations(Iteration[] iterations){
-	//so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
-    }
+
+	public void addIterations(Iteration[] iterations){
+		//so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
+	}
 }

@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * A RequestObserver for a Request to update a Requirement.
+ * A RequestObserver for a Request to update a Iteration.
  *
  * @author Arica Liu
  *
@@ -56,28 +56,28 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
 		/*if (response.getStatusCode() == 200) {
-			// parse the requirement from the body
-			final Iteration requirement = Requirement.fromJSON(response.getBody());
+			// parse the iteration from the body
+			final Iteration iteration = Iteration.fromJSON(response.getBody());
 
-			// make sure the requirement isn't null
-			if (requirement != null) {
+			// make sure the iteration isn't null
+			if (iteration != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						//view.setEditModeDescriptors(requirement);
+						//((IterationPanel) view.getIterationPanel()).updateModel(Iteration);
+						//view.setEditModeDescriptors(iteration);
 					}
 				});
 			}
 			else { */
-//		JOptionPane.showMessageDialog(view, "Successfully saved new requirement to server.", 
+//		JOptionPane.showMessageDialog(view, "Successfully saved new iteration to server.", 
 //			"Success!", JOptionPane.INFORMATION_MESSAGE);
 			/*}
 		}
 		else {
 			JOptionPane.showMessageDialog(view, 
 					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-					"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+					"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		} */
 
 		always();

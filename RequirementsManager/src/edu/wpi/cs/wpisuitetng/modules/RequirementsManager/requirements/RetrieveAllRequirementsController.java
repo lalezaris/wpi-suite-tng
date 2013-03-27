@@ -16,7 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class RetrieveAllRequirementsController {
 	/** The search Requirements view */
-	protected RequirementListView view;
+	protected RequirementListPanel view;
 
 	/** The Requirements data retrieved from the server */
 	protected Requirement[] data = null;
@@ -42,7 +42,7 @@ public class RetrieveAllRequirementsController {
 	 * 
 	 * @param view the search Requirements view
 	 */
-	public RetrieveAllRequirementsController(RequirementListView view) {
+	public RetrieveAllRequirementsController(RequirementListPanel view) {
 		this.view = view;
 	}
 

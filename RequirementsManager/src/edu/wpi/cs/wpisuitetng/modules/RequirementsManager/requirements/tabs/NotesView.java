@@ -18,11 +18,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.AddNoteController;
 /**
  * Tab panel for adding and viewing notes
  *
@@ -41,6 +45,7 @@ public class NotesView extends JPanel {
 	
 	protected JTextArea txtNotes;
 	protected JTextArea txtNotesSaved;
+	protected JButton addNote;
 	
 	/*
 	 * Constants used to layout the form
@@ -67,7 +72,6 @@ public class NotesView extends JPanel {
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
-		GridBagConstraints cOverall = new GridBagConstraints();
 		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
@@ -75,11 +79,14 @@ public class NotesView extends JPanel {
 		txtNotes = new JTextArea(3, 40);
 		txtNotes.setLineWrap(true);
 		//txtNotes.setBorder(txtTitle.getBorder()); TODO: Set borders
-		txtNotesSaved = new JTextArea(4, 40);
+		txtNotesSaved = new JTextArea(3, 40);
 		txtNotesSaved.setLineWrap(true);
 		//txtNotesSaved.setBorder(txtTitle.getBorder()); TODO: Set borders
 		JLabel lblNotes = new JLabel("Notes:", LABEL_ALIGNMENT);
 		
+		addNote = new JButton("Add Note");
+		//addNote.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+		addNote.addActionListener(new AddNoteController(this));
 		//c.insets = new Insets(40,10,5,10);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.weightx = 0.5;
@@ -87,6 +94,13 @@ public class NotesView extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(lblNotes, c);
+		
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.gridx = 1;
+		c.gridy = 0;
+		this.add(addNote, c);
 		
 		c.insets = new Insets(20,10,10,0);
 		JScrollPane scrollPaneNotes = new JScrollPane(txtNotes);
@@ -96,6 +110,7 @@ public class NotesView extends JPanel {
 		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
+		c.gridwidth = 2;
 		this.add(scrollPaneNotes, c);
 					
 		JScrollPane scrollPaneNotesSaved = new JScrollPane(txtNotesSaved);
@@ -105,10 +120,15 @@ public class NotesView extends JPanel {
 		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 2;
-		txtNotesSaved.setText("This is a default note \n \n This is trying to get extra space");
+		c.gridwidth = 2;
+		txtNotesSaved.setText(/*printNotesList()*/"");
 		txtNotesSaved.setEnabled(false);
 		this.add(scrollPaneNotesSaved, c);
 		//add completed notes here...
 
 	}
+	/*
+	public String getNoteString(){
+		txtNotes.getText();
+	}*/
 }

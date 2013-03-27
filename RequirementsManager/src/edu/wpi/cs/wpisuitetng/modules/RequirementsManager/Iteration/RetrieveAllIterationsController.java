@@ -12,12 +12,11 @@
 */
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

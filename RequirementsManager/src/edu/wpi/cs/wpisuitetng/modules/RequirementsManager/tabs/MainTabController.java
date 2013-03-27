@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
+ *  Arica Liu
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
@@ -32,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from MainTabController in the project Defect Tracker
  * 
  * @author Tyler Stone 
+ * @author Arica Liu
  *
  * @version Mar 17, 2013
  *

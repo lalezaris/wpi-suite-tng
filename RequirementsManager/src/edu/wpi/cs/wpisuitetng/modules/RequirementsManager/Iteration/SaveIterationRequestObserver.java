@@ -8,11 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Arica Liu
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
-
-
 
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
@@ -26,12 +24,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * A RequestObserver for a Request to update a Requirement.
  *
- * @author Tyler Stone
+ * @author Arica Liu
  *
- * @version Mar 20, 2013
+ * @version Mar 26, 2013
  *
  */
-public class UpdateIterationRequestObserver implements RequestObserver {
+public class SaveIterationRequestObserver implements RequestObserver {
 
 	private final IterationView view;
 
@@ -40,7 +38,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 	 * 
 	 * @param view	The Iteration View that will be affected by any updates.
 	 */
-	public UpdateIterationRequestObserver(IterationView view) {
+	public SaveIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 

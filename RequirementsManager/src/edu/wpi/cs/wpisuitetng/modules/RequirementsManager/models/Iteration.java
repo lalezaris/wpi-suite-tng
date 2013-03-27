@@ -14,10 +14,13 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -137,8 +140,30 @@ public class Iteration extends AbstractModel{
 	
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(this, Iteration.class);
+		return json;
+	}
+	
+	/**
+	 * Converts the given list of Requirements to a JSON string
+	 * @param dlist a list of Requirement
+	 * @return a string in JSON representing the list of Requirements
+	 */
+	public static String toJSON(Iteration[] dlist) {
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(dlist, Iteration.class);
+		return json;
+	}
+	
+	/* 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return toJSON();
 	}
 	
 	@Override
@@ -181,6 +206,6 @@ public class Iteration extends AbstractModel{
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		//RequirementEvent.addGsonDependencies(builder);
+//		IterationEvent.addGsonDependencies(builder);
 	}
 }

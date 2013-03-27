@@ -140,7 +140,7 @@ public class RequirementTest {
 		r4.setLastModifiedDate(date2);
 		assertEquals(date2, r4.getLastModifiedDate());
 		
-		assertEquals(-1, r4.getId());
+		assertEquals(20, r4.getId());
 		r4.setId(42);
 		assertEquals(42, r4.getId());
 	}

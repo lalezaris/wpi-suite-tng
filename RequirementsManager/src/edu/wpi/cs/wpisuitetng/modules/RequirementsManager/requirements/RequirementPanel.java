@@ -81,7 +81,7 @@ public class RequirementPanel extends JPanel {
 	/*
 	 * Form elements
 	 */
-	protected JTextField txtTitle;
+	protected JPlaceholderTextField txtTitle;
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected JComboBox cmbStatus;
@@ -171,7 +171,7 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
 		
-		Integer[] iterationValues = {null,10,20,30,40};
+		Integer[] iterationValues = {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
 				
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
@@ -179,7 +179,7 @@ public class RequirementPanel extends JPanel {
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
 		panelTabs = new JPanel();
-		txtTitle = new JTextField(20);
+		txtTitle = new JPlaceholderTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
 		cmbIteration = new JComboBox(iterationValues);
 		txtDescription = new JTextArea(10,35);

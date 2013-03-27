@@ -1,22 +1,7 @@
-/**************************************************
- * This file was developed for CS3733: Software Engineering
- * The course was taken at Worcester Polytechnic Institute.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html 
- *
- * Contributors:
- *  Michael French
- *  Sam Abradi
- *  Evan Polekoff
- *  Tianyu Li
-**************************************************/
+/**
+ * 
+ */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
-
-import java.util.Date;
-import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -26,31 +11,21 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
-import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Stores the Requirements in the database
- * Adapted from DefectManager
- * 
- * @author Michael French
- *
- * @version Mar 20, 2013
+ * @author Sam Abradi
  *
  */
-public class RequirementStore implements EntityManager<Requirement>{
+public class IterationStore implements EntityManager<Iteration> {
 	Data db;
-	ModelMapper updateMapper;
-	/**
-	 * Class constructor to store requirement data
-	 * 
-	 * @param data the Data instance to use
-	 */
-	public RequirementStore(Data data){
-		db = data;
-		updateMapper = new ModelMapper();
+	
+
+	public IterationStore(Data data){
+	    db = data;
 	}
 	/* The commented out part of the code is not needed for iteration 1 but may be needed in the future
 	 * 
@@ -61,12 +36,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Requirement makeEntity(Session s, String content)
+	public Iteration makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
-		final Requirement newRequirement = Requirement.fromJSON(content);	//still need to get fromJSON working, then this will work
+		final Iteration newIteration = Iteration.fromJSON(content);	//still need to get fromJSON working, then this will work
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
-		newRequirement.setId(Count() + 1);
+		newIteration.setId(Count() + 1);
 		/*
 		List<ValidationIssue> issues = validator.validate(s, newRequirement, Mode.CREATE);
 		if(issues.size() > 0) {
@@ -77,10 +52,10 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new BadRequestException();
 		}
 */
-		if(!db.save(newRequirement, s.getProject())) {
+		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
 		}
-		return newRequirement;
+		return newIteration;
 	}
 
 	/*
@@ -89,22 +64,22 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Requirement[] getEntity(Session s, String id) throws NotFoundException {
+	public Iteration[] getEntity(Session s, String id) throws NotFoundException {
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
 			throw new NotFoundException();
 		}
-		Requirement[] requirements = null;
+		Iteration[] iterations = null;
 		try {
-			requirements = db.retrieve(Requirement.class, "id", intId, s.getProject()).toArray(new Requirement[0]);
+			iterations = db.retrieve(Iteration.class, "id", intId, s.getProject()).toArray(new Iteration[0]);
 		} catch (WPISuiteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(requirements.length < 1 || requirements[0] == null) {
+		if(iterations.length < 1 || iterations[0] == null) {
 			throw new NotFoundException();
 		}
-		return requirements;
+		return iterations;
 	}
 
 	/*
@@ -112,41 +87,17 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public Requirement[] getAll(Session s) throws WPISuiteException {
-		return db.retrieveAll(new Requirement("FU","UU"), s.getProject()).toArray(new Requirement[0]);
+	public Iteration[] getAll(Session s) throws WPISuiteException {
+		return db.retrieveAll(new Iteration(), s.getProject()).toArray(new Iteration[0]);
 	}
 
 	/* Not necessary for iteration 1 but may be needed in the future
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public Requirement update(Session s, String content)
+	public Iteration update(Session s, String content)
 			throws WPISuiteException {
-		
-		//get requirement user wants to update
-		Requirement req = Requirement.fromJSON(content);
-		
-		//get requirement from server
-		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
-		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
-			throw new WPISuiteException("ID not found");
-		} 
-		Requirement serverReq = (Requirement) oldRequirements.get(0);
-		
-		Date originalLastModified = serverReq.getLastModifiedDate();
-		
-		// copy values to old defect and fill in our changeset appropriately
-		updateMapper.map(req, serverReq);
-		
-		//apply the changes
-		if(!db.save(serverReq, s.getProject())) {
-			throw new WPISuiteException();
-		}
-		
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
-		
-		return serverReq;
+		return null;
 	}
 
 	/*
@@ -155,7 +106,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
-	public void save(Session s, Requirement model) throws WPISuiteException {
+	public void save(Session s, Iteration model) throws WPISuiteException {
 		db.save(model, s.getProject());
 	}
 
@@ -201,7 +152,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Requirement("",""), s.getProject());
+		db.deleteAll(new Iteration(), s.getProject());
 		
 	}
 
@@ -212,7 +163,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	public int Count() {
 		// TODO: there must be a faster way to do this with db4o
 		// note that this is not project-specific - ids are unique across projects
-		return db.retrieveAll(new Requirement("foo", "foo")).size();
+		return db.retrieveAll(new Iteration()).size();
 	}
 
 	/* 
@@ -237,3 +188,5 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 
 }
+
+

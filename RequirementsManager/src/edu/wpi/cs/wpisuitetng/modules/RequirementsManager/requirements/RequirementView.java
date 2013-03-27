@@ -78,16 +78,17 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
 		} else {
-			//setEditModeDescriptors(requirement);
+			setEditModeDescriptors(requirement);
 		}
 		
-		// If this is a new defect, set the creator
+		// If this is a new requirement, set the creator
 		if (editMode == Mode.CREATE) {
 			requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
 		}
 		
 		// Instantiate the main create requirement panel
 		mainPanel = new RequirementPanel(this, requirement, editMode);
+		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -137,7 +138,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	protected void setEditModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("Requirement #" + requirement.getId());
 		containingTab.setToolTipText("View requirement " + requirement.getTitle());
-		buttonGroup.setName("Edit Requirement");
+		//buttonGroup.setName("Edit Requirement");
 	}
 	
 	/**

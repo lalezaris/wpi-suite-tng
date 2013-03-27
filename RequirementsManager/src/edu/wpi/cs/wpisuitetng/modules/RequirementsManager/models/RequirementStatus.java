@@ -11,6 +11,8 @@
  *  Chris Dunkers
  *  Joe Spicola
  *  Tushar Narayan
+ *  Evan Polekoff
+ *  Ned Shelton
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -23,13 +25,13 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * 
  * @version Mar 17, 2013
  *
+ * Chris Hanna added DELETED on March26, 2013
  */
 public enum RequirementStatus {
 	NEW,       // new requirements has not been worked on yet
 	INPROGRESS, // requirement that is currently being worked on
-	DONE,   // a finished requirement but not tested
-	ACCEPTED,   // requirement has passed acceptance tests and been accepted
-	DELETED // note that there is no "ASSIGNED" status - this would be redundant since we have an assignee field
+	OPEN,	// requirement is ready to be worked on but is not assigned to an iteration yet.
+	COMPLETE,   // a finished requirement but not tested
+	DELETED		// requirement has been deleted from the list.
 }
-	
 		

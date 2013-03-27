@@ -8,63 +8,60 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Joe Spicola
- *  Tyler Stone
+ *  Tushar Narayan
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
-
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import javax.swing.JTabbedPane;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
+
 /**
- * Controller to handle the saving of a requirement
- * Adapted from SaveDefectController in project DefectTracker
+ * Controller to handle the saving of an iteration
+ * Adapted from SaveIterationController in project IterationsManager
  * 
- * @author Joe Spicola
+ * @author Tushar Narayan
+ * @author Arica Liu
  * 
- * @version Mar 18, 2013
+ * @version Mar 26, 2013
  *
  */
-public class SaveRequirementController {
+public class SaveIterationController {
 
 	/** The view object containing the request fields */
-	protected RequirementView view;
+	protected IterationView view;
 
 	/**
 	 * Construct a new handler for the given view
 	 * @param view the view containing the request fields
 	 */
-	public SaveRequirementController(RequirementView view) {
+	public SaveIterationController(IterationView view) {
 		this.view = view;
 	}
 
 	/**
-	 * Save the view's Requirement model to the server (asynchronous).
+	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
+		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
+		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : */ new SaveIterationRequestObserver(view);
 		Request request;
 		//panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-		if(panel.checkRequiredFields() > 0){} 
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		if(panel.checkRequiredFields() > 0){
+		} 
 		else {
 			request.setBody(panel.getEditedModel().toJSON());
 			request.addObserver(requestObserver);
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			RequirementListPanel.refreshListPanel();
+			
 		}
 	} 
 }

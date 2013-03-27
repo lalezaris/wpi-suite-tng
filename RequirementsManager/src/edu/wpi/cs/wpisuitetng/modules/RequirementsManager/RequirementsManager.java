@@ -29,6 +29,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
@@ -71,6 +72,9 @@ public class RequirementsManager implements IJanewayModule {
 		
 		//add to the list of tabs
 		tabs.add(tab1);
+		
+		//tabController.addEditRequirementTab(new Requirement());
+		//tabController.addCreateRequirementTab();
 	}
 	
 	@Override

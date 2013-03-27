@@ -23,7 +23,7 @@ import javax.swing.Icon;
  * Adapted from DummyTab in the project DefectTracker
  * 
  * @author Tyler Stone 
- *
+ * @contributors Chris Hanna Mar 27, 2013. Fixed bug related to closing a tab. 
  * @version Mar 17, 2013
  *
  */
@@ -67,8 +67,11 @@ public class Tab {
 	 * @param title Set the title of the Tab to this String
 	 */
 	public void setTitle(String title) {
-		view.setTitleAt(getIndex(), title);
-		tabComponent.invalidate(); // needed to make tab shrink with smaller title
+		
+		if (getIndex() > -1){
+			view.setTitleAt(getIndex(), title);
+			tabComponent.invalidate(); // needed to make tab shrink with smaller title
+		} else System.out.println("Blank ID. title");
 	}
 	
 	/**
@@ -104,7 +107,9 @@ public class Tab {
 	 * @param toolTipText Set the tooltip of the Tab to this String
 	 */
 	public void setToolTipText(String toolTipText) {
-		view.setToolTipTextAt(getIndex(), toolTipText);
+		if (getIndex() > -1){
+			view.setToolTipTextAt(getIndex(), toolTipText);
+		} else System.out.println("Blank ID. Tooltip");
 	}
 	
 	/**

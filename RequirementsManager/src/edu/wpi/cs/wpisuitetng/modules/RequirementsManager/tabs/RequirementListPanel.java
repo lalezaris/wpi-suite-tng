@@ -28,6 +28,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -41,8 +42,11 @@ import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
@@ -56,6 +60,24 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  */
 public class RequirementListPanel extends JPanel{
 
+	private static RequirementListPanel onlyListPanel;
+	public static boolean isListPanelAlreadyOpen(){
+		System.out.println("Panel Already Exists: " + (onlyListPanel!=null));
+		return (onlyListPanel != null);
+	}
+	public static RequirementListPanel getListPanel(){
+		return onlyListPanel;
+	}
+	public static void closeListPanel(){
+		onlyListPanel = null;
+	}
+	public static void refreshListPanel(){
+		if (onlyListPanel != null){
+			onlyListPanel.refreshList();
+		}
+	}
+	
+	
 	private JTextArea list;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -64,15 +86,29 @@ public class RequirementListPanel extends JPanel{
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	
-	private int selectedRequirement;
-	
 	private ToolbarGroupView buttonGroup;
-	private JButton refreshButton;
+	private JButton refreshButton, deleteButton;
+	private final MainTabController tabController;
+	private Tab containingTab;
 	
-	
-	public RequirementListPanel(){
-		
+	public RequirementListPanel(Tab parentTab, MainTabController tabController){
 		super(new GridLayout());
+		
+		this.tabController = tabController;
+		
+		//set the onlyListPanel
+		if (RequirementListPanel.onlyListPanel == null){
+			RequirementListPanel.onlyListPanel = this;
+		}
+		
+		containingTab = parentTab;
+		if(containingTab == null) {
+			containingTab = new DummyTab();
+		}
+		containingTab.setIcon(new ImageIcon());
+		containingTab.setTitle("Requirement List");
+		containingTab.setToolTipText("View all Requirements");
+
 		
 		// Instantiate the button panel
 //		buttonGroup = new ToolbarGroupView("Requirements List");
@@ -88,12 +124,13 @@ public class RequirementListPanel extends JPanel{
 		TableModel model = new RequirementTable();
 		
 		table = new JTable(model);
-		table.addMouseListener(new RequirementTableEventListener(this));
+		table.addMouseListener(new RetrieveRequirementController(this));
 		
 		table.getTableHeader().setReorderingAllowed(false);
 		for (int i = 0 ; i < 7 ; i ++){
 			TableColumn column = table.getColumnModel().getColumn(i);
-		    if (i == 0) {
+		
+			if (i == 0) {
 		    	column.setPreferredWidth(30); // ID
 		    } else if (i == 1) {
 		        column.setPreferredWidth(100); //NAME COLUMN
@@ -120,12 +157,18 @@ public class RequirementListPanel extends JPanel{
 		//retrieveController.refreshData();
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));
+		
+		deleteButton = new JButton("Delete");
+		
 //		buttonGroup.getContent().add(refreshButton);
 //		buttonGroup.setPreferredWidth(150);
 		GridBagConstraints c = new GridBagConstraints();
 		
 		layout = new GridBagLayout();
+		
 		panel.setLayout(layout);
+		
+		
 		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
@@ -136,10 +179,11 @@ public class RequirementListPanel extends JPanel{
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(refreshButton, c);
 		
+		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridwidth = 1;
@@ -165,32 +209,34 @@ public class RequirementListPanel extends JPanel{
 		
 		this.add(mainPanelScrollPane);
 		
-//		final JPanel p = this;
-//		p.addHierarchyListener(new HierarchyListener() {
-//
-//			@Override
-//			public void hierarchyChanged(HierarchyEvent e) {
-//				// TODO Auto-generated method stub
-//				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
-//						&& p.isShowing())
-//				{
-//					System.out.println("Dashboard Gained View");
-//					retrieveController.refreshData();
-//				}
-//					
-//			}
-//			
-//		});
-		//this.add(panel);
+		
+		//Did this panel come into view?
+		final JPanel p = this;
+		p.addHierarchyListener(new HierarchyListener() {
+
+			@Override
+			public void hierarchyChanged(HierarchyEvent e) {
+				// TODO Auto-generated method stub
+				//if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
+				//		&& p.isShowing())
+				if (HierarchyEvent.SHOWING_CHANGED != 0 && p.isShowing())
+				{
+					
+					refreshList();
+				}
+					
+			}
+			
+		});
+		
+		
 		
 	}
 	
-
 	
-	
-	public void addRequirement(Requirement req){
+	private void addRequirement(Requirement req){
 		((RequirementTable)table.getModel()).addRow(req);
-		table.updateUI();
+		
 	}
 
 
@@ -201,14 +247,16 @@ public class RequirementListPanel extends JPanel{
 
 	public void addRequirements(Requirement[] requirements) {
 		clearList();
+
+		//addRequirement(requirements[0]);
 		
-		//for(Requirement r : requirements){
-		//	addRequirement(r);
-		//}
-		
-		for (int i = requirements.length -1; i > -1 ; i --){
-			addRequirement(requirements[i]);
+		for (int i = requirements.length -1; i > -1; i --){
+			if (requirements[i].getStatus() != RequirementStatus.DELETED){
+				addRequirement(requirements[i]);
+			}
 		}
+		
+		table.updateUI();
 	}
 
 	public void refreshList(){
@@ -219,11 +267,11 @@ public class RequirementListPanel extends JPanel{
 		return table;
 	}
 	
-	public void setSelectedRequirement(int selectedRequirement) {
-		this.selectedRequirement = selectedRequirement;
+	public Tab getContainingTab() {
+		return containingTab;
 	}
 	
-	public int getSelectedRequirement() {
-		return selectedRequirement;
+	public MainTabController getTabController() {
+		return tabController;
 	}
 }

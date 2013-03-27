@@ -14,7 +14,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -23,7 +28,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  *	TreeView class shows requirements with parents and children in a tree.
  *
@@ -32,8 +40,13 @@ import javax.swing.tree.TreeNode;
  * @version Mar 18, 2013
  *
  */
+@SuppressWarnings("serial")
 public class TreeView extends JPanel {
 
+	JButton refreshButton;
+	static JTree tree;
+	DefaultMutableTreeNode root;
+	ReqTreeModel treeModel;
 	/**
 	 * Creates the tree view of the requirements
 	 * Commented out parts are not needed in iteration 1 but may be needed in the future
@@ -44,40 +57,59 @@ public class TreeView extends JPanel {
 		
 		JLabel titleLabel = new JLabel("<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
+	
+		// Creates refresh button located at the bottom of the screen
+		// TODO eventually get rid of this so it refreshes automatically
+		refreshButton = new JButton("Refresh Tree");
+		refreshButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				treeModel.refreshTree();
+			}
+		});
+		this.add(refreshButton, BorderLayout.SOUTH);
 		
-		MutableTreeNode root = new DefaultMutableTreeNode("root");
-		//DefaultTreeModel treeModel = new DefaultTreeModel(root);
+		root = new DefaultMutableTreeNode(ConfigManager.getConfig().getProjectName());
+		treeModel = new ReqTreeModel(root);
 		
-		JTree tree = new JTree();
-		tree.setRootVisible(false);
+		tree = new JTree(treeModel);
 		
-		ReqTreeModel treeModel = new ReqTreeModel(root, tree);
-		/*
-		DefaultMutableTreeNode req1 = addRequirement("Req1", treeModel, root);
-		DefaultMutableTreeNode req2 = addRequirement("Req2", treeModel, req1);
-		DefaultMutableTreeNode req3 = addRequirement("Req3", treeModel, root);
-		*/
+		/**
+	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
+	    do {
+//	       if (currentNode.getLevel()==1) 
+	            tree.expandPath(new TreePath(currentNode.getPath()));
+	       currentNode = currentNode.getNextNode();
+	       }
+	    while (currentNode != null);
+	    */
+		
+		//Updates the tree view when it is first focused
+		final TreeView tv = this;
+		tv.addHierarchyListener(new HierarchyListener() {
+
+			@Override
+			public void hierarchyChanged(HierarchyEvent e) {
+				if (HierarchyEvent.SHOWING_CHANGED != 0 && tv.isShowing())
+				{
+					treeModel.refreshTree();
+				}
+
+			}
+
+		});
+
 		this.add(tree, BorderLayout.CENTER);
 		
 		
 	}
-
-	/**
-	 * Adds the requirement name to the given treeModel.
-	 * 
-	 * @param name
-	 * @param model 
-	 * @param parent
-	 * @return 
-	 */
-	/*
-	public DefaultMutableTreeNode addRequirement(String name, TreeModel model, MutableTreeNode parent) {
-		DefaultMutableTreeNode temp = new DefaultMutableTreeNode(name);
-		
-		 ((DefaultTreeModel) model).insertNodeInto(temp, parent, model.getChildCount(parent));
-		
-		return temp;
-		
+	
+	public static void expandAll(){
+		 int row = 0;
+		    while (row < tree.getRowCount()) {
+		      tree.expandRow(row);
+		      row++;
+		      }	
+	
 	}
-	*/
+
 }

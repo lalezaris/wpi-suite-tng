@@ -21,28 +21,28 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
+ * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica liu
  * 
- * @version March 18, 2013
+ * @version March 24, 2013
  */
 @SuppressWarnings("serial")
-public class NewRequirementAction extends AbstractAction {
+public class NewIterationAction extends AbstractAction {
 
 	private final MainTabController controller;
 	
 	/**
-	 * Create a NewRequirementAction
-	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * Create a NewIterationAction
+	 * @param controller When the action is performed, controller.addNewIterationTab() is called
 	 */
-	public NewRequirementAction(MainTabController controller) {
-		super("Create Requirement");
+	public NewIterationAction(MainTabController controller) {
+		super("Create Iteration");
 		//TODO: Remove this debug message
-		System.out.println("Entered NewRequirementAction");
+		System.out.println("Entered NewIterationAction");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 	
 	/* 
@@ -51,7 +51,7 @@ public class NewRequirementAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//TODO: Remove this debug message
-		System.out.println("action performed: should create new requirement tab");
-		controller.addCreateRequirementTab();
+		System.out.println("action performed: should create new iteration tab");
+		controller.addNewIterationTab();
 	}
 }

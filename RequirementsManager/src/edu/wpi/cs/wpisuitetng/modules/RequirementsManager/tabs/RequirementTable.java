@@ -44,8 +44,14 @@ public class RequirementTable extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int col) {
-        
-    	return data.get(row)[col];
+
+    	if (col < getColumnCount() && row < getRowCount() && col > -1 && row > -1){
+    	if (col == 5 && (Integer)data.get(row)[col] == -1)
+    		return "";
+    	
+    		return data.get(row)[col];
+    	}
+    	else return "null";
     }
     
     public void addRow(Requirement req){
@@ -73,5 +79,6 @@ public class RequirementTable extends AbstractTableModel {
     	return Integer.parseInt( getValueAt(row, 0).toString() );
     
     }
- 
+    
+    
 }

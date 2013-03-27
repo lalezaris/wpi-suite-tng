@@ -44,9 +44,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * @version Mar 24, 2013
  *
  */
-public class IterationView extends JPanel implements IToolbarGroupProvider {
+public class IterationView extends JPanel {
 	
-	private ToolbarGroupView buttonGroup;
+	
 	private JButton saveButton;
 	private IterationPanel mainPanel;
 	private SaveIterationController controller;
@@ -67,9 +67,6 @@ public class IterationView extends JPanel implements IToolbarGroupProvider {
 		}
 		
 		inputEnabled = true;
-		
-		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("Create Iteration");
 		
 		containingTab.setIcon(new ImageIcon());
 		containingTab.setTitle("Create Iteration");
@@ -94,12 +91,6 @@ public class IterationView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveIterationController(this);
 	//	controller.save();
-
-		// Instantiate the save button and add it to the button panel
-		saveButton = new JButton();
-		saveButton.setAction(new SaveChangesAction(controller));
-		buttonGroup.getContent().add(saveButton);
-		buttonGroup.setPreferredWidth(150);
 	}
 
 
@@ -112,14 +103,7 @@ public class IterationView extends JPanel implements IToolbarGroupProvider {
 		return mainPanel;
 	}
 	
-	/* 
-	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
-	 */
-	@Override
-	public ToolbarGroupView getGroup() {
-		return buttonGroup;
-	}
-	
+
 	/**
 	 * Sets whether the input is enabled
 	 * 

@@ -67,6 +67,7 @@ public class RetrieveAllIterationsController {
     public void receivedData(Iteration[] Iterations) {	
 	if (Iterations.length > 0) {
 	    // save the data
+		IterationView.setAllIterations(Iterations);
 	    this.data = Iterations;
 	    this.view.addIterations(Iterations);
 	}

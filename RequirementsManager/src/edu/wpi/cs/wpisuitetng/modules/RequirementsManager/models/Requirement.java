@@ -48,6 +48,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 public class Requirement extends AbstractModel{
 	private String title;
 	private String releaseNumber;
+	private int iteration;
 	private String description;
 	private RequirementStatus status;
 	private RequirementPriority priority;
@@ -110,6 +111,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(){
 		this.releaseNumber = "";
+		this.iteration = 0;
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
@@ -361,6 +363,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Sets the iteration
+	 * @param iteration: sets the iteration 
+	 */
+	public void setIteration(int iteration){
+		this.iteration = iteration;
+	}
+	
+	/**
+	 * gets the iteration
+	 * @return iteration number 
+	 */
+	public int getIteration(){
+		return iteration;
 	}
 
 

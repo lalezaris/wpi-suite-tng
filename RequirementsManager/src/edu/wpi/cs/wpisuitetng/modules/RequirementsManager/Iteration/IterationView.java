@@ -45,6 +45,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  *
  */
 public class IterationView extends JPanel {
+	private static Iteration[] allIterations;
+	public static void setAllIterations(Iteration[] allIterations){
+		IterationView.allIterations = allIterations;
+	}
+	public static Iteration[] getAllIterations(){
+		return IterationView.allIterations;
+	}
 	
 	
 	private JButton saveButton;

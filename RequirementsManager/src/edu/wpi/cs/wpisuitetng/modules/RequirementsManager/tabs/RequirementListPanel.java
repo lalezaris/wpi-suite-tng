@@ -87,13 +87,17 @@ public class RequirementListPanel extends JPanel{
 	
 	private int selectedRequirement;
 	
+	//not the best way to let every class know that this panel was double clicked
+	
+	
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, deleteButton;
+	private final MainTabController tabController;
 	private Tab containingTab;
 	
-	public RequirementListPanel(Tab parentTab){
-		
+	public RequirementListPanel(Tab parentTab, MainTabController tabController){
 		super(new GridLayout());
+		this.tabController = tabController;
 		
 		//set the onlyListPanel
 		if (RequirementListPanel.onlyListPanel == null){

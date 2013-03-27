@@ -45,6 +45,10 @@ public class RequirementTableEventListener extends MouseAdapter {
         	
         	//send back to the panel
             requirementListPanel.setSelectedRequirement(reqID);
+            
+            if (evt.getClickCount() == 2) {
+                
+            }
         }
     }
 

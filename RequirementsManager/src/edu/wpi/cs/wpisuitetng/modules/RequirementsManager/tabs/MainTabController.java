@@ -109,7 +109,7 @@ public class MainTabController {
 		
 		
 		Tab tab = addTab();
-		RequirementListPanel panel = new RequirementListPanel(tab);
+		RequirementListPanel panel = new RequirementListPanel(tab, this);
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;

@@ -16,13 +16,15 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Insert Description Here
+ * Tab panel for adding and viewing notes
  *
  * @author Joe Spicola
  *
@@ -70,40 +72,42 @@ public class NotesView extends JPanel {
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		
-		txtNotes = new JTextArea(4, 40);
+		txtNotes = new JTextArea(3, 40);
 		txtNotes.setLineWrap(true);
 		//txtNotes.setBorder(txtTitle.getBorder()); TODO: Set borders
-		txtNotesSaved = new JTextArea(1, 40);
+		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
 		//txtNotesSaved.setBorder(txtTitle.getBorder()); TODO: Set borders
 		JLabel lblNotes = new JLabel("Notes:", LABEL_ALIGNMENT);
 		
 		//c.insets = new Insets(40,10,5,10);
-		c.anchor = GridBagConstraints.LINE_START;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.weightx = 0.5;
-		c.weighty = 0.5;
+		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(lblNotes, c);
 		
-		//c.insets = new Insets(0,50,10,0);
+		c.insets = new Insets(20,10,10,0);
+		JScrollPane scrollPaneNotes = new JScrollPane(txtNotes);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 1;
-		this.add(txtNotes, c);
+		this.add(scrollPaneNotes, c);
 					
+		JScrollPane scrollPaneNotesSaved = new JScrollPane(txtNotesSaved);
 		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 2;
-		txtNotesSaved.setText("This is a default note \n \n \n This is trying to get extra space");
+		txtNotesSaved.setText("This is a default note \n \n This is trying to get extra space");
 		txtNotesSaved.setEnabled(false);
-		this.add(txtNotesSaved, c);
+		this.add(scrollPaneNotesSaved, c);
 		//add completed notes here...
 
 	}

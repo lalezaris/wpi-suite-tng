@@ -147,6 +147,13 @@ public class Requirement extends AbstractModel{
 	public int countNotes(){
 		return notes.size();
 	}
+	/**
+	 * replaces the ArrayList in this requirement with the given list
+	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT
+	 */
+	public void updateNotes(ArrayList<Note> n){
+		this.notes = n;
+	}
 	
 	//note to json?
 

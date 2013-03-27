@@ -12,7 +12,7 @@
 */
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import javax.swing.JOptionPane;
 
@@ -31,19 +31,19 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @version Mar 21, 2013
  *
  */
-public class RetrieveAllIterationsController {
+public class RetrieveAllIterationsControllerTree {
     /** The search Iterations view */
-    protected IterationView view;
+    protected ReqTreeModel view;
     
     /** The Iterations data retrieved from the server */
     protected Iteration[] data = null;
     
     /**
-     * Constructs a new RetrieveAllIterationsController
+     * Constructs a new RetrieveAllIterationsControllerTree
      *
      * @param view the search Iterations view
      */
-    public RetrieveAllIterationsController(IterationView view) {
+    public RetrieveAllIterationsControllerTree(ReqTreeModel view) {
 	this.view = view;
     }
     
@@ -51,7 +51,7 @@ public class RetrieveAllIterationsController {
      * Sends a request for all of the Iterations
      */
     public void refreshData() {	
-	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
+	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserverTree(this);
 	Request request;
 	request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
 	request.addObserver(requestObserver);
@@ -60,7 +60,7 @@ public class RetrieveAllIterationsController {
     }
 
     /**
-     * This method is called by the {@link RetrieveAllIterationsRequestObserver} when the
+     * This method is called by the {@link RetrieveAllIterationsRequestObserverTree} when the
      * response is received
      *
      * @param Iterations an array of Iterations returned by the server
@@ -70,9 +70,8 @@ public class RetrieveAllIterationsController {
 	    // save the data
 		
 	    this.data = Iterations;
-	    
-	    Refresher.getInstance().refreshIterations(Iterations, view);
-	    //this.view.addIterations(Iterations);
+//	    Refresher.getInstance().refreshIterations(Iterations, view);
+	    this.view.addIterations(Iterations);
 	}
 	else {
 	    // do nothing, there are no Iterations
@@ -81,7 +80,7 @@ public class RetrieveAllIterationsController {
     }
     
     /**
-     * This method is called by the {@link RetrieveAllIterationsRequestObserver} when an
+     * This method is called by the {@link RetrieveAllIterationsRequestObserverTree} when an
      * error occurs retrieving the Iterations from the server.
      */
     public void errorReceivingData(String error) {

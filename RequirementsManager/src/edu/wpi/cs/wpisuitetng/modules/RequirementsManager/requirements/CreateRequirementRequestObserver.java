@@ -60,7 +60,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		if (response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
-
+			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 			// make sure the Requirement isn't null
 			if (requirement != null) {
 				SwingUtilities.invokeLater(new Runnable() {

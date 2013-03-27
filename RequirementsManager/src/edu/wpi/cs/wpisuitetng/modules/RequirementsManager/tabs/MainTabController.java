@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
+ *  Arica Liu
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
@@ -19,9 +20,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
@@ -31,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
  * Adapted from MainTabController in the project Defect Tracker
  * 
  * @author Tyler Stone 
+ * @author Arica Liu
  *
  * @version Mar 17, 2013
  *
@@ -193,5 +197,13 @@ public class MainTabController {
 				view.removeTabAt(clickedIndex);
 			}
 		}
+	}
+
+	public Tab addNewIterationTab() {
+		Tab tab = addTab();
+		IterationView view = new IterationView(new Iteration(0, null, null), tab);
+		tab.setComponent(view);
+		view.requestFocus();
+		return tab;
 	}
 }

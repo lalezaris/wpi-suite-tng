@@ -470,6 +470,13 @@ public class RequirementPanel extends JPanel {
 			cmbStatus.setEnabled(false);
 			txtActual.setEnabled(false);
 		}
+
+		// depending on the status and sub-requirements, disable certain components
+		if (model.getStatus() == RequirementStatus.INPROGRESS
+				|| model.getStatus() == RequirementStatus.COMPLETE
+				|| model.getSubRequirements().size() != 0) {
+			txtEstimate.setEnabled(false);
+		}
 	}
 	
 	/**

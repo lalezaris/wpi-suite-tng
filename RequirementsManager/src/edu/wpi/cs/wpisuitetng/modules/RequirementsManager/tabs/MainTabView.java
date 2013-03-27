@@ -41,12 +41,25 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 @SuppressWarnings("serial")
 public class MainTabView extends JTabbedPane {
 	
+	private RequirementListPanel table;
+	
 	public MainTabView() {
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 		addTab("Dashboard", new ImageIcon(), new DashboardTab(),
 		       "Your Dashboard - notifications, etc.");
+		
+		
+		//this.table = new RequirementListPanel();
+	}
+	
+	public void createTableModel(MainTabController controller){
+		this.table = new RequirementListPanel(controller);
+	}
+	
+	public RequirementListPanel getTableModel(){
+		return this.table;
 	}
 	
 	/* 

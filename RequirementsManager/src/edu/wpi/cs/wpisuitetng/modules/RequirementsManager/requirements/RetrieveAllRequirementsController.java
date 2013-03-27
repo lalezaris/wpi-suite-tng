@@ -31,19 +31,18 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class RetrieveAllRequirementsController {
-	/** The search Requirements view */
-	protected RequirementListPanel view;
-
 	/** The Requirements data retrieved from the server */
 	protected Requirement[] data = null;
 
+	protected RefresherMode refreshMode;
+	
 	/**
 	 * Constructs a new RetrieveAllRequirementsController
 	 * 
 	 * @param view the search Requirements view
 	 */
-	public RetrieveAllRequirementsController(RequirementListPanel view) {
-		this.view = view;
+	public RetrieveAllRequirementsController(RefresherMode refreshMode) {
+		this.refreshMode = refreshMode;
 	}
 
 	/**
@@ -65,10 +64,15 @@ public class RetrieveAllRequirementsController {
 	 * @param Requirements an array of Requirements returned by the server
 	 */
 	public void receivedData(Requirement[] Requirements) {	
+		
+		System.out.println("Entered recieve. Requirements = " + (Requirements != null));
+		
 		if (Requirements.length > 0) {
 			// save the data
 			this.data = Requirements;
-			this.view.addRequirements(Requirements);
+			//this.view.addRequirements(Requirements);
+			System.out.println("Refresher = "+ (Refresher.getInstance() != null));
+			Refresher.getInstance().refresh(Requirements, refreshMode);
 		}
 		else {
 			// do nothing, there are no Requirements

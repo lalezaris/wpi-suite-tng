@@ -43,6 +43,7 @@ import javax.swing.table.TableModel;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
@@ -91,7 +92,7 @@ public class RequirementListPanel extends JPanel{
 	private final MainTabController tabController;
 	private Tab containingTab;
 	
-	public RequirementListPanel(Tab parentTab, MainTabController tabController){
+	public RequirementListPanel(MainTabController tabController){
 		super(new GridLayout());
 		
 		this.tabController = tabController;
@@ -101,13 +102,7 @@ public class RequirementListPanel extends JPanel{
 			RequirementListPanel.onlyListPanel = this;
 		}
 		
-		containingTab = parentTab;
-		if(containingTab == null) {
-			containingTab = new DummyTab();
-		}
-		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("Requirement List");
-		containingTab.setToolTipText("View all Requirements");
+		
 
 		
 		// Instantiate the button panel
@@ -117,11 +112,12 @@ public class RequirementListPanel extends JPanel{
 		
 		//TODO: if we have more time, we should have some sort of local storage unit for all requirements
 		//Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://localhost:8080/WPISuite/"));
-		retrieveController = new RetrieveAllRequirementsController(this);
+		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		
 		
 		
-		TableModel model = new RequirementTable();
+
+		TableModel model = new RequirementTableModel();
 		
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));
@@ -146,7 +142,6 @@ public class RequirementListPanel extends JPanel{
 		    	column.setPreferredWidth(100); //ASSIGNEE
 		    }
 		}
-		
 		
 		
 		scrollPane = new JScrollPane(table);
@@ -233,15 +228,25 @@ public class RequirementListPanel extends JPanel{
 		
 	}
 	
+	public void setTab(Tab tab)
+	{
+		containingTab = tab;
+		if(containingTab == null) {
+			containingTab = new DummyTab();
+		}
+		containingTab.setIcon(new ImageIcon());
+		containingTab.setTitle("Requirement List");
+		containingTab.setToolTipText("View all Requirements");
+	}
 	
 	private void addRequirement(Requirement req){
-		((RequirementTable)table.getModel()).addRow(req);
+		((RequirementTableModel)table.getModel()).addRow(req);
 		
 	}
 
 
 	public void clearList() {
-		((RequirementTable)table.getModel()).clear();
+		((RequirementTableModel)table.getModel()).clear();
 	}
 
 

@@ -74,6 +74,8 @@ public class MainTabController {
 		return new Tab(view, view.getTabComponentAt(index));
 	}
 	
+
+	
 	/**
 	 * @return Same as addTab(null, null, null, null)
 	 */
@@ -111,7 +113,9 @@ public class MainTabController {
 		
 		
 		Tab tab = addTab();
-		RequirementListPanel panel = new RequirementListPanel(tab, this);
+		RequirementListPanel panel = view.getTableModel();
+		panel.setTab(tab);
+		//RequirementListPanel panel = new RequirementListPanel(tab, this, view.getTableModel());
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;

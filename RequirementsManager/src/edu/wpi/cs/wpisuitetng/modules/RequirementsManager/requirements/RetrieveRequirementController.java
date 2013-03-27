@@ -20,7 +20,7 @@ import javax.swing.JTable;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTable;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -49,7 +49,7 @@ public class RetrieveRequirementController extends MouseAdapter {
         	//reqID goes from object > string > int
             //int reqID = Integer.parseInt( requirementListPanel.getTable().getValueAt(row, 0).toString() );
             //Chris Hanna changed the above line to the following. This removes complexity
-        	selectedRequirement = ((RequirementTable)requirementListPanel.getTable().getModel()).getRowID(row);
+        	selectedRequirement = ((RequirementTableModel)requirementListPanel.getTable().getModel()).getRowID(row);
             
             if (evt.getClickCount() == 2) {
 				Request request;

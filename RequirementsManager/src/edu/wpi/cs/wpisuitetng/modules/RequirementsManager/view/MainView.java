@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.JSplitPane;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
@@ -39,6 +40,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 	
+	TreeView treeView;
+	Refresher refresher;
+	MainTabView view;
 	/**
 	 * Constructs the Main View Panel
 	 * 
@@ -46,7 +50,7 @@ public class MainView extends JPanel {
 	 */
 	public MainView(MainTabView mainTabView) {
 		JSplitPane splitPane;
-		
+		this.view = mainTabView;
 		// Simple outline, can be changed later
 		this.setLayout(new BorderLayout());
 		
@@ -56,7 +60,7 @@ public class MainView extends JPanel {
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
 		
 		// Add requirements tree to the left panel
-		TreeView treeView = new TreeView();
+		treeView = new TreeView();
 		leftPanel.add(treeView);
 		
 		JPanel rightPanel = new JPanel();
@@ -66,7 +70,16 @@ public class MainView extends JPanel {
 		//new split pane to adjust size
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
 
+		
+		
+		
+		
 		//add split pane to main view
 		this.add(splitPane, BorderLayout.CENTER);
+	}
+	
+	public void makeRefresher(){
+		System.out.println("MainView make refresher");
+		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel());
 	}
 }

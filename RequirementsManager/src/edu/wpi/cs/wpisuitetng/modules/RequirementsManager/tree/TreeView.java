@@ -111,5 +111,9 @@ public class TreeView extends JPanel {
 		      }	
 	
 	}
+	
+	public ReqTreeModel getTreeModel(){
+		return treeModel;
+	}
 
 }

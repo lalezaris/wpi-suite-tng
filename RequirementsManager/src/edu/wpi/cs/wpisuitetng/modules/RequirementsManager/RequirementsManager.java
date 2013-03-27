@@ -60,8 +60,13 @@ public class RequirementsManager implements IJanewayModule {
 		MainTabView mainTabView = new MainTabView();
 		tabController = new MainTabController(mainTabView);
 		
+		mainTabView.createTableModel(tabController);
+		System.out.println("TableModel = " + (mainTabView.getTableModel()!=null));
+		
 		//new main panel
 		MainView mainView = new MainView(mainTabView);
+		
+		mainView.makeRefresher();
 		
 		//new toolbar panel
 		toolbarPanel = new ToolbarPanel(tabController);

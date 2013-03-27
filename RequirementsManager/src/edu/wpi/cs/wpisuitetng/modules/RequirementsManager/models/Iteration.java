@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -79,19 +80,8 @@ public class Iteration extends AbstractModel{
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(String startDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
-		Date convertedDate = null;
-		try {
-			convertedDate = dateFormat.parse(startDate);
-		} catch (ParseException e) {
-			System.out.println("Error converting string to date!");
-			e.printStackTrace();
-		} 
-		// TODO: Delete error message
-		System.out.println("Converted string to date : " + convertedDate);
-		
-		this.startDate = convertedDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	/**
@@ -104,19 +94,8 @@ public class Iteration extends AbstractModel{
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(String endDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
-		Date convertedDate = null;
-		try {
-			convertedDate = dateFormat.parse(endDate);
-		} catch (ParseException e) {
-			System.out.println("Error converting string to date!");
-			e.printStackTrace();
-		} 
-		// TODO: Delete error message
-		System.out.println("Converted string to date : " + convertedDate);
-		
-		this.endDate = convertedDate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	/**
@@ -161,8 +140,30 @@ public class Iteration extends AbstractModel{
 	
 	@Override
 	public String toJSON() {
-		// TODO Auto-generated method stub
-		return null;
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(this, Iteration.class);
+		return json;
+	}
+	
+	/**
+	 * Converts the given list of Requirements to a JSON string
+	 * @param dlist a list of Requirement
+	 * @return a string in JSON representing the list of Requirements
+	 */
+	public static String toJSON(Iteration[] dlist) {
+		String json;
+		Gson gson = new Gson();
+		json = gson.toJson(dlist, Iteration.class);
+		return json;
+	}
+	
+	/* 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return toJSON();
 	}
 	
 	@Override
@@ -205,6 +206,6 @@ public class Iteration extends AbstractModel{
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		//RequirementEvent.addGsonDependencies(builder);
+//		IterationEvent.addGsonDependencies(builder);
 	}
 }

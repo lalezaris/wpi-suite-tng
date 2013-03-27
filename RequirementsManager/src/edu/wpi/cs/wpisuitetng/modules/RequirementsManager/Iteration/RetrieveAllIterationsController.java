@@ -52,7 +52,7 @@ public class RetrieveAllIterationsController {
     public void refreshData() {	
 	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
 	Request request;
-	request = Network.getInstance().makeRequest("requirementsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
+	request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
 	request.addObserver(requestObserver);
 	request.send();
 	System.out.println("SENT REFRESH REQUEST");

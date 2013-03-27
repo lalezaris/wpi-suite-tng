@@ -93,6 +93,7 @@ public class IterationView extends JPanel implements IToolbarGroupProvider {
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveIterationController(this);
+	//	controller.save();
 
 		// Instantiate the save button and add it to the button panel
 		saveButton = new JButton();

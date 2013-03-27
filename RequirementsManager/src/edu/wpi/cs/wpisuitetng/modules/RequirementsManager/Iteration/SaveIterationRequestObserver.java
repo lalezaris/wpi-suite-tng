@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @version Mar 26, 2013
  *
  */
-public class UpdateIterationRequestObserver implements RequestObserver {
+public class SaveIterationRequestObserver implements RequestObserver {
 
 	private final IterationView view;
 
@@ -38,7 +38,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 	 * 
 	 * @param view	The Iteration View that will be affected by any updates.
 	 */
-	public UpdateIterationRequestObserver(IterationView view) {
+	public SaveIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 

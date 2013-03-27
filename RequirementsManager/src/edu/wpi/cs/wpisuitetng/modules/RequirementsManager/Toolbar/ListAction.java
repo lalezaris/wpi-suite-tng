@@ -22,6 +22,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 
 /**
  * The action that the "List" button is registered to. 
@@ -43,16 +44,16 @@ public class ListAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-		//controller.addListTab();
+		
+		
+		controller.addListRequirementTab();
 		
 	}
 
 	
 	public ListAction(MainTabController controller) {
-		super("List");
-		//TODO: Remove this debug message
+		super("List Requirements");
+		
 		System.out.println("Entered ListAction");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);

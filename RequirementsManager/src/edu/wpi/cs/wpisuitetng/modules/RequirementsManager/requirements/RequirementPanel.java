@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 import javax.swing.JPanel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.Box;
@@ -42,6 +43,7 @@ import javax.swing.text.PlainDocument;
 
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -67,6 +69,9 @@ public class RequirementPanel extends JPanel {
 	
 	/** The parent view **/
 	protected RequirementView parent;
+	
+	/** The ArrayList of Notes**/
+	protected ArrayList<Note> notes;
 	
 	/*
 	 * Form elements
@@ -692,6 +697,39 @@ public class RequirementPanel extends JPanel {
 
 	public Mode getEditMode() {
 		return editMode;
+	}
+	
+	/**
+	 * returns the ArrayList of notes in the current view
+	 * @return the ArrayList of notes
+	 */
+	public ArrayList<Note> getNotesList(){
+		return notes;
+	}
+	
+	/**
+	 * adds a Note to the ArrayList of notes
+	 * @param n
+	 * @return n
+	 */
+	public Note addNoteToList(Note n){
+		notes.add(n);
+		return n;
+	}
+	
+	/**
+	 * iterates through the notes in the ArrayList and makes 
+	 * it into a printable string
+	 * @return notes in the form of a String
+	 */
+	public String notesListToString(){
+		String list = "";
+		for (int i = 0; i < notes.size(); i++){
+			list = list + ">" + notes.get(i).getCreator().getName() + 
+					": " + notes.get(i).getBody() + "\n";
+		}
+		
+		return list;
 	}
 }
 	

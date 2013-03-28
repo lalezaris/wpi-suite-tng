@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 
 /**
  * Manages the Requirements
@@ -59,9 +60,10 @@ public class RequirementsManager implements IJanewayModule {
 		
 		MainTabView mainTabView = new MainTabView();
 		tabController = new MainTabController(mainTabView);
+		TreeView treeView = new TreeView(tabController);
 		
 		//new main panel
-		MainView mainView = new MainView(mainTabView);
+		MainView mainView = new MainView(mainTabView, treeView);
 		
 		//new toolbar panel
 		toolbarPanel = new ToolbarPanel(tabController);

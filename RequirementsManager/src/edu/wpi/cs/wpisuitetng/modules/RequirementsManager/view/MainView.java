@@ -44,7 +44,7 @@ public class MainView extends JPanel {
 	 * 
 	 * @param mainTabView
 	 */
-	public MainView(MainTabView mainTabView) {
+	public MainView(MainTabView mainTabView, TreeView treeView) {
 		JSplitPane splitPane;
 		
 		// Simple outline, can be changed later
@@ -56,7 +56,6 @@ public class MainView extends JPanel {
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
 		
 		// Add requirements tree to the left panel
-		TreeView treeView = new TreeView();
 		leftPanel.add(treeView);
 		
 		JPanel rightPanel = new JPanel();

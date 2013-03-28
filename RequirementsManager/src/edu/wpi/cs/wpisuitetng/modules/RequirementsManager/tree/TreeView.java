@@ -32,6 +32,7 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 /**
  *	TreeView class shows requirements with parents and children in a tree.
  *
@@ -47,13 +48,17 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
+	MainTabController tabController;
+	
 	/**
 	 * Creates the tree view of the requirements
 	 * Commented out parts are not needed in iteration 1 but may be needed in the future
 	 * 
 	 */
-	public TreeView(){
+	public TreeView(MainTabController tabController){
 		this.setLayout(new BorderLayout());
+		
+		this.tabController = tabController;
 		
 		JLabel titleLabel = new JLabel("<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
@@ -66,12 +71,15 @@ public class TreeView extends JPanel {
 				treeModel.refreshTree();
 			}
 		});
+		
 		this.add(refreshButton, BorderLayout.SOUTH);
 		
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig().getProjectName());
 		treeModel = new ReqTreeModel(root);
 		
 		tree = new JTree(treeModel);
+		
+		tree.addMouseListener(new RetrieveRequirementController(this));
 		
 		/**
 	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
@@ -110,6 +118,14 @@ public class TreeView extends JPanel {
 		      row++;
 		      }	
 	
+	}
+	
+	public JTree getTree() {
+		return tree;
+	}
+
+	public MainTabController getTabController() {
+		return tabController;
 	}
 
 }

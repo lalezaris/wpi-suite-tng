@@ -38,4 +38,8 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 		return this.req.getTitle();
 	}
 	
+	public Requirement getRequirement() {
+		return req;
+	}
+	
 }

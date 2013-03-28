@@ -81,7 +81,7 @@ public class RequirementPanel extends JPanel {
 	/*
 	 * Form elements
 	 */
-	protected JPlaceholderTextField txtTitle;
+	protected JTextField txtTitle; //JPlaceholderTextField
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected JComboBox cmbStatus;
@@ -89,8 +89,8 @@ public class RequirementPanel extends JPanel {
 	protected JTextArea txtDescription;	
 	protected IntegerField txtEstimate;
 	protected IntegerField txtActual;
-	protected JTextField txtCreatedDate;
-	protected JTextField txtModifiedDate;
+	protected JLabel txtCreatedDate;
+	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
 	protected JTextField txtAssignee;
 	protected JButton saveRequirementTop;
@@ -141,6 +141,12 @@ public class RequirementPanel extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
+	/*
+	 * Values for the iteration combo box
+	 */
+	//Iteration[] iterationValues = Refresher.getInstance().getInstantIterations();
+	Integer[] iterationValues = {1,2,3,4,5};
+	
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
@@ -177,18 +183,15 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
 		
-		
-//		Iteration[] iterationValues = IterationView.getAllIterations();// {null,10,20,30,40}; //what if a iteration was created during editing, can we refresh the list??? 
-		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
 		panelTabs = new JPanel();
-		txtTitle = new JPlaceholderTextField("Title", 20);
+		txtTitle = new JTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
-		cmbIteration = new JComboBox(/*iterationValues*/);
+		cmbIteration = new JComboBox(iterationValues);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -205,8 +208,8 @@ public class RequirementPanel extends JPanel {
 		cmbPriority = new JComboBox(requirementPriorityValues);
 		txtEstimate = new IntegerField(3);
 		txtActual = new IntegerField(3);
-		txtCreatedDate = new JTextField(15);
-		txtModifiedDate = new JTextField(15);
+		txtCreatedDate = new JLabel();
+		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
@@ -643,12 +646,13 @@ public class RequirementPanel extends JPanel {
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
-//		requirement.setIteration((Integer) cmbIteration.getSelectedItem());
+		requirement.setIteration((Integer) cmbIteration.getSelectedItem());
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
+		requirement.setCreationDate(model.getCreationDate());
 		//TO ADD: iterate over the list of notes from the gui and add them to the requirement
 		//for (int i = 0; i <= *number of notes*; i++){
 			//requirement.addNote(*note i*);
@@ -706,7 +710,11 @@ public class RequirementPanel extends JPanel {
 		txtReleaseNumber.setText(model.getReleaseNumber());
 		txtEstimate.setText( String.valueOf(model.getEstimateEffort()) );
 		txtActual.setText( String.valueOf(model.getActualEffort()) );
-		
+		for (int i = 0; i < cmbIteration.getItemCount(); i++) {
+			if (model.getIteration() == iterationValues[i]) {
+				cmbIteration.setSelectedIndex(i);
+			}
+		}
 		for (int i = 0; i < cmbStatus.getItemCount(); i++) {
 			if (model.getStatus() == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
 				cmbStatus.setSelectedIndex(i);

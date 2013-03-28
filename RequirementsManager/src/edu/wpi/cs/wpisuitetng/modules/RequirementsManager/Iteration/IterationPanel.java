@@ -51,12 +51,13 @@ public class IterationPanel extends JPanel {
 	 * Form elements
 	 */
 	protected IntegerField txtIterationNumber;
-	protected JTextField txtStartDate;
-	protected JButton selectStartDate = new JButton("Select");
-	protected JTextField txtEndDate;
-	protected JButton selectEndDate = new JButton("Select");
+	protected JLabel txtStartDate;
+	protected JButton selectStartDate = new JButton("Select Start Date");
+	protected JLabel txtEndDate;
+	protected JButton selectEndDate = new JButton(" Select End Date ");
 	protected JButton saveIterationTop;
 	protected JButton saveIterationBottom;
+	protected JButton cancelIterationBottom;
 	protected JFrame f = new JFrame();
 
 	/** A flag indicating if input is enabled on the form */
@@ -127,14 +128,16 @@ public class IterationPanel extends JPanel {
 		panelTwo = new JPanel();
 
 		txtIterationNumber = new IntegerField(3);
-		txtStartDate = new JTextField(15);
-		txtEndDate = new JTextField(15);
+		txtStartDate = new JLabel("");
+		txtEndDate = new JLabel("");
 
 		//Save Button
 //		saveIterationTop = new JButton("Save");
 //		saveIterationTop.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		saveIterationBottom = new JButton("Save");
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
+		cancelIterationBottom = new JButton("Cancel");
+		cancelIterationBottom.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
 
 		// set maximum widths of components so they are not stretched
 		//		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
@@ -197,6 +200,7 @@ public class IterationPanel extends JPanel {
 		layoutTwo = new GridBagLayout();
 		panelTwo.setLayout(layoutTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_END;
 		cTwo.insets = new Insets(10,10,10,0);
 		cTwo.gridx = 0;
 		cTwo.gridy = 0;
@@ -205,6 +209,7 @@ public class IterationPanel extends JPanel {
 		cTwo.anchor = GridBagConstraints.LINE_START;
 		panelTwo.add(lblStartDate, cTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 2;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
@@ -242,12 +247,14 @@ public class IterationPanel extends JPanel {
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_END;
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		panelTwo.add(lblEndDate, cTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 2;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
@@ -289,7 +296,13 @@ public class IterationPanel extends JPanel {
 		cTwo.weighty = 0.5;
 		panelTwo.add(saveIterationBottom, cTwo);
 		
-		cTwo.gridx = 1;
+		cTwo.gridx = 2;
+		cTwo.gridy = 2;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		panelTwo.add(cancelIterationBottom, cTwo);
+		
+		cTwo.gridx = 3;
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;

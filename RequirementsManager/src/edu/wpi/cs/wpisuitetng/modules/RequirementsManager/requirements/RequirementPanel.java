@@ -93,8 +93,9 @@ public class RequirementPanel extends JPanel {
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
 	protected JTextField txtAssignee;
-	protected JButton saveRequirementTop;
 	protected JButton saveRequirementBottom;
+	protected JButton cancelRequirementBottom;
+	protected JButton deleteRequirementBottom;
 	protected RequirementTabsView RTabsView;
 	
 	/** The ArrayList of Notes**/
@@ -121,6 +122,7 @@ public class RequirementPanel extends JPanel {
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
 	protected JPanel panelThree;
+	protected JPanel panelButtons;
 	protected JPanel panelTabs;
 	
 	/** The layout managers for  
@@ -129,6 +131,7 @@ public class RequirementPanel extends JPanel {
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
 	protected GridBagLayout layoutThree;
+	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 	
 	/** An enum indicating if the form is in create mode or edit mode */
@@ -182,12 +185,14 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
+		GridBagConstraints cButtons = new GridBagConstraints();
 		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
+		panelButtons = new JPanel();
 		panelTabs = new JPanel();
 		txtTitle = new JTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
@@ -220,6 +225,10 @@ public class RequirementPanel extends JPanel {
 //		saveRequirementTop.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
 		saveRequirementBottom = new JButton("Save");
 		saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
+		deleteRequirementBottom = new JButton("Delete");
+		deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
+		cancelRequirementBottom = new JButton("Cancel");
+		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -472,11 +481,29 @@ public class RequirementPanel extends JPanel {
 		cThree.gridy = 7;
 		panelThree.add(txtAssignee, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 8;
-		panelThree.add(saveRequirementBottom, cThree);
+		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutButtons = new GridBagLayout();
+		panelButtons.setLayout(layoutButtons);
+				
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 0;
+		cButtons.gridy = 8;
+		panelButtons.add(saveRequirementBottom, cButtons);
+		
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 2;
+		cButtons.gridy = 8;
+		deleteRequirementBottom.setVisible(false);
+		panelButtons.add(deleteRequirementBottom, cButtons);
+		
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 1;
+		cButtons.gridy = 8;
+		panelButtons.add(cancelRequirementBottom, cButtons);
 		
 		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -519,6 +546,14 @@ public class RequirementPanel extends JPanel {
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		//c.gridcolumn something like this
 		panelOverall.add(panelThree, cOverall);
+		
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 3;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		//c.gridcolumn something like this
+		panelOverall.add(panelButtons, cOverall);
 		
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
@@ -730,6 +765,7 @@ public class RequirementPanel extends JPanel {
 		if (editMode == Mode.EDIT) {
 			txtCreatedDate.setText(model.getCreationDate().toString());
 			txtModifiedDate.setText(model.getLastModifiedDate().toString());
+			deleteRequirementBottom.setVisible(true);
 		}
 		if (model.getCreator() != null) {
 			txtCreator.setText(model.getCreator().getUsername());

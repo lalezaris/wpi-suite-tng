@@ -111,7 +111,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 				DefaultMutableTreeNode node = null;
 				
 				for (int r = 0 ; r < requirements.length; r ++){
-					if (reqId == requirements[r].getId()){
+					if (reqId == requirements[r].getId() && requirements[r].getStatus() != RequirementStatus.DELETED){
 						System.out.println("Iter" + iterations[j].getId() + " has Req" + requirements[r].getId());
 						if (node == null)
 							node = new DefaultMutableTreeNode(requirements[r]);

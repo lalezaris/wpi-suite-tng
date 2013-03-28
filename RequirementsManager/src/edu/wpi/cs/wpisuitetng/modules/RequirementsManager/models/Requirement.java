@@ -125,7 +125,7 @@ public class Requirement extends AbstractModel{
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
-		this.lastModifiedDate = creationDate;
+		this.lastModifiedDate = new Date();
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);

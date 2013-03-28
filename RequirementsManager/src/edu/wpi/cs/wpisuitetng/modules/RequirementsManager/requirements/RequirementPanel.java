@@ -783,8 +783,10 @@ public class RequirementPanel extends JPanel{
 			JComboBox cb = (JComboBox)iterations.getSource();
 			System.out.println(cb.getSelectedItem());
 			
+			int i;//For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
 			Boolean runThatForLoop = false;
+			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
 			
 			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != null){
@@ -793,19 +795,19 @@ public class RequirementPanel extends JPanel{
 				runThatForLoop = true;
 				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
-			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == null){
+			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == null){
 				setTo = model.getStatus();
 				enabled = true;
 				runThatForLoop = true;
 				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
-			if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == null){
+			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == null){
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
 				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
-			if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != null){
+			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != null){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;//TODO: This may not be correct.
 				runThatForLoop = true;
@@ -813,12 +815,18 @@ public class RequirementPanel extends JPanel{
 			}
 			
 			if(runThatForLoop){
-				for (int i = 0; i < cmbStatus.getItemCount(); i++) {
+				for (i = 0; i < cmbStatus.getItemCount(); i++) {
 					System.out.println("For Loop Iteration: " + i);
 					if (setTo == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
 						cmbStatus.setSelectedIndex(i);
+						listHasStatus = true;
 						System.out.println("Found Index!");
 					}
+				}
+				if(!listHasStatus){
+					cmbStatus.addItem(setTo.toString());
+					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
+					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
 				}
 			}
 			runThatForLoop = false;

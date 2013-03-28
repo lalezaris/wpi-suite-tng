@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
@@ -227,6 +228,28 @@ public class RequirementStoreTest {
 		
 		assertEquals(all.length, 0);
 		
+	}
+	
+	
+	@Test
+	public void update() throws Exception{
+		Requirement here = new Requirement();
+		Note n = new Note();
+		n.setBody("ONE");
+		here.addNote(n);
+		System.out.println("test:" + here.toJSON());
+		
+		here = manager.makeEntity(defaultSession, here.toJSON());
+		
+		System.out.println("now update...");
+		
+		Note n2 = new Note();
+		n.setBody("TWO");
+		here.addNote(n2);
+		
+		here = manager.update(defaultSession, here.toJSON());
+		
+		System.out.println("test2:" + here.toJSON());
 	}
 	
 	//@Test

@@ -102,7 +102,7 @@ public class RequirementPanel extends JPanel {
 	
 	
 	/** NotesView for updating notes **/
-	private NotesView n = new NotesView();
+	private NotesView n; //= new NotesView();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -154,7 +154,8 @@ public class RequirementPanel extends JPanel {
 		editMode = mode;
 		
 		//get the list of notes from the given requirement
-//		n.setNotesList(requirement.getNotes());
+		n = new NotesView(model);
+		//n.setNotesList(model.getNotes());
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -658,9 +659,9 @@ public class RequirementPanel extends JPanel {
 		
 		//this.setNotesArrayList(n.getNotesList());
 		requirement.updateNotes(n.getNotesList());
-		System.out.println("list given: " + n.getNotesList().toString());
-		System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
-		//System.out.println(requirement.toJSON());
+		//System.out.println("list given: " + n.getNotesList().toString());
+		//System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
+		
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -679,8 +680,10 @@ public class RequirementPanel extends JPanel {
 //			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
 //		}
 //		requirement.setTags(tags);
-		System.out.println("list given: " + n.getNotesList().toString());
-		System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
+		//System.out.println("list given: " + n.getNotesList().toString());
+		//System.out.println("list in the fucking requirement: " + requirement.getNotes().toString());
+		System.out.println("the result of getEditedModel:");
+		System.out.println(requirement.toJSON());
 		return requirement;
 	}
 	

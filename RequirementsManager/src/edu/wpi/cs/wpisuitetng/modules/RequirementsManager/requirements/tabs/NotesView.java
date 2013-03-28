@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.AddNoteController;
@@ -61,10 +62,12 @@ public class NotesView extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
-	public NotesView() {
+	public NotesView(Requirement req) {
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		this.setLayout(layout);
+		
+		setNotesList(req.getNotes());
 		
 		// Add all components to this panel
 		addComponents();
@@ -124,6 +127,8 @@ public class NotesView extends JPanel {
 		c.gridwidth = 2;
 		this.add(scrollPaneNotes, c);
 					
+		//notes = 
+		
 		JScrollPane scrollPaneNotesSaved = new JScrollPane(txtNotesSaved);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
@@ -133,6 +138,7 @@ public class NotesView extends JPanel {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		txtNotesSaved.setText(notesListToString());
+		//System.out.println("Current Notes: /n" + notesListToString());
 		txtNotesSaved.setEnabled(false);
 		this.add(scrollPaneNotesSaved, c);
 		//add completed notes here...

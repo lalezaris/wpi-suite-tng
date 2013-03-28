@@ -59,7 +59,9 @@ public class SaveRequirementController {
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(panel.checkRequiredFields() > 0){} 
 		else {
-			request.setBody(panel.getEditedModel().toJSON());
+			String JsonRequest = panel.getEditedModel().toJSON();
+			request.setBody(JsonRequest);
+			System.out.println("Sending REQ to server:" +JsonRequest );
 			request.addObserver(requestObserver);
 			request.send();
 			//close tab

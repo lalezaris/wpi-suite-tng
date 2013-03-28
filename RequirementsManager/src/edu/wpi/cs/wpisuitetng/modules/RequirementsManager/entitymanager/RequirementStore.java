@@ -138,6 +138,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		// copy values to old defect and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 		
+		serverReq.setIterationId(req.getIterationId());
+		
 		//apply the changes
 		if(!db.save(serverReq, s.getProject())) {
 			throw new WPISuiteException();

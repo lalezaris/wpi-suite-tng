@@ -71,7 +71,7 @@ public class RetrieveAllIterationsControllerTree {
 		
 	    this.data = Iterations;
 	    Refresher.getInstance().setLastKnownIterations(Iterations);
-	    this.view.addIterations(Iterations);
+	    this.view.addIterations(Refresher.getInstance().getInstantIterations());
 	}
 	else {
 	    // do nothing, there are no Iterations

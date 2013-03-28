@@ -61,8 +61,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 		controller = new RetrieveAllRequirementsController(RefresherMode.TREE);
 		itController = new RetrieveAllIterationsControllerTree(this);
 		
+		
+
+		
+		
 		this.root = (DefaultMutableTreeNode) root;
-		controller.refreshData();
+		//controller.refreshData();
 	}
 
 	/**
@@ -92,28 +96,63 @@ public class ReqTreeModel extends DefaultTreeModel {
 		// Loop through all the iterations
 		for (int j = 0; j < iterations.length; j++) {
 			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
-					"Iteration" + iterations[j].getIterationNumber());
-			this.insertNodeInto(tempIt, root, j);
-
-			System.out.println("Added iteration");
+					iterations[j]);
+			this.insertNodeInto(tempIt, root, 0);
+			count++;
+			
+			System.out.println("Added iteration with ID = " + iterations[j].getId());
 			// Loop through List of Requirment ID
-			for (int k = 0; k < iterations[j].getRequirements().size(); k++) {
-				id = iterations[j].getRequirements().get(k);
-				// Loop through all the requirements
-				for (int i = 0; i < requirements.length; i++) {
-					// If requirements status is DELETED, do nothing, otherwise
-					// add to tree
-					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id) {
-						//System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
-				}	else {
-						temp = new ReqTreeNode(requirements[i]);
-						this.insertNodeInto(temp, tempIt, count);
-						nodes.add(temp);
-						//System.out.println("Added node");
-						count++;
+
+			
+			for (int k = 0 ; k < iterations[j].getRequirements().size(); k++){
+				
+				int reqId = iterations[j].getRequirements().get(k);
+				
+				DefaultMutableTreeNode node = null;
+				
+				for (int r = 0 ; r < requirements.length; r ++){
+					if (reqId == requirements[r].getId()){
+						System.out.println("Iter" + iterations[j].getId() + " has Req" + requirements[r].getId());
+						if (node == null)
+							node = new DefaultMutableTreeNode(requirements[r]);
+						else node.add(new DefaultMutableTreeNode(requirements[r]));
+						//this.insertNodeInto(reqNode, tempIt, count);
+						//count++;
+						
 					}
+					
 				}
+				if (node != null){
+					this.insertNodeInto(node, tempIt, 0);
+					
+					count++;
+				}
+				
 			}
+			
+			
+//			for (int k = 0; k < iterations[j].getRequirements().size(); k++) {
+//				id = iterations[j].getRequirements().get(k);
+//				// Loop through all the requirements
+//				for (int i = 0; i < requirements.length; i++) {
+//					// If requirements status is DELETED, do nothing, otherwise
+//					// add to tree
+//					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id) {
+//						//System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
+//				}	else {
+//						
+//						temp = new ReqTreeNode(requirements[i]);
+//						System.out.println("Tree: Adding Req"+requirements[i].getId() + " to Iter" + iterations[j].getId());
+//						System.out.println("temp = " + (temp != null) + ", tempIT = " + (tempIt != null) + ", count = " + count);
+//						nodes.add(temp);
+//						System.out.println("nodes.add");
+//						this.insertNodeInto(temp, tempIt, count);
+//						
+//						//System.out.println("Added node");
+//						count++;
+//					}
+//				}
+//			}
 		}
 		TreeView.expandAll();
 	}

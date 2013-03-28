@@ -50,6 +50,7 @@ public class MainTabController {
 	 */
 	public MainTabController(MainTabView view) {
 		this.view = view;
+		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
@@ -57,6 +58,13 @@ public class MainTabController {
 			}
 		});
 	}
+	
+	//hack. Sorry.
+	public static MainTabController getController(){
+		return staticView;
+	}
+	private static MainTabController staticView;
+	
 	
 	/**
 	 * Adds a tab.

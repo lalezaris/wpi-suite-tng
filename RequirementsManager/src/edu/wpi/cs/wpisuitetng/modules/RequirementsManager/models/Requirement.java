@@ -48,6 +48,7 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirem
 public class Requirement extends AbstractModel{
 	private String title;
 	private String releaseNumber;
+	private int iterationId; //hacking about
 	private Iteration iteration;
 	private String description;
 	private RequirementStatus status;
@@ -60,6 +61,8 @@ public class Requirement extends AbstractModel{
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
+	
+	
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -112,6 +115,8 @@ public class Requirement extends AbstractModel{
 	public Requirement(){
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
+		this.iterationId = -1; //still hacking around
+		
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
@@ -370,7 +375,14 @@ public class Requirement extends AbstractModel{
 	 * @param iteration: sets the iteration 
 	 */
 	public void setIteration(Iteration iteration){
-		this.iteration = iteration;
+		if (this.iteration != null){
+			this.iteration.removeRequirement(this.getId());
+		}
+			this.iteration = iteration;
+			this.iterationId = this.iteration.getId();
+			
+			this.iteration.addRequirement(this.getId());
+			
 	}
 	
 	/**
@@ -381,7 +393,13 @@ public class Requirement extends AbstractModel{
 		return iteration;
 	}
 
+	public int getIterationId(){
+		return this.iterationId;
+	}
 
+	public void setIterationId(int id){
+		this.iterationId = id;
+	}
 	/*
 	 public String getType() {
 		return type;
@@ -417,9 +435,14 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toJSON() {
+		
+		//this.iterationId = this.iteration.getId();
+		this.iteration = null; //dont mind all this hackage
+
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(this, Requirement.class);
+
 		return json;
 	}	
 	
@@ -440,7 +463,8 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return toJSON();
+		//return toJSON();
+		return this.getTitle();
 	}
 
 	/* 

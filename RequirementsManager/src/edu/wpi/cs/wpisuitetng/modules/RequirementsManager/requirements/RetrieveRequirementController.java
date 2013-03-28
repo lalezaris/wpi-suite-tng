@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTableModel;
@@ -71,6 +72,7 @@ public class RetrieveRequirementController extends MouseAdapter {
 	 */
 	public void showRequirement(Requirement requirement) {
 		// Make a new defect view to display the defect that was received
+		requirement.setIteration(Iteration.getIterationById(requirement.getIterationId()));
 		requirementListPanel.getTabController().addEditRequirementTab(requirement);
 	}
 	

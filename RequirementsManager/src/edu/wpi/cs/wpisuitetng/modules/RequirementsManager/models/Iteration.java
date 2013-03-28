@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
 
 
@@ -41,8 +42,26 @@ public class Iteration extends AbstractModel{
 		if (backlog == null){
 			backlog = new Iteration();
 			backlog.setIterationNumber(-1);
+			backlog.setRequirements(new ArrayList<Integer>());
 		}
 		return backlog;
+	}
+	
+	public static Iteration getIterationById(int id){
+		
+		System.out.println("Fetching Iteration by ID = " + id);
+		Iteration[] allIterations = Refresher.getInstance().getInstantIterations();
+		System.out.println("Found Some Iterations...");
+		for (Iteration i : allIterations){
+			System.out.println("Found Iteration ID = " + i.getId());
+			if (i.getId() == id)
+			{
+				System.out.println("Success");
+				return i;
+			}
+		}
+		System.out.println("Iteration Not Found");
+		return getBacklog();
 	}
 	
 	private int iterationNumber;
@@ -69,6 +88,7 @@ public class Iteration extends AbstractModel{
 	}
 	public Iteration(){}
 
+	
 	/**
 	 * @return the iterationNumber
 	 */
@@ -124,6 +144,30 @@ public class Iteration extends AbstractModel{
 	public void setRequirements(List<Integer> requirements) {
 		this.requirements = requirements;
 	}
+	
+	/**
+	 * Assign a requirement to this iteration
+	 * @param requirement
+	 */
+	public void addRequirement(Integer requirement){
+		if (!this.requirements.contains(requirement)){
+			this.requirements.add(requirement);
+		}
+	}
+	
+	/**
+	 * Unassigns a requirement from this iteration
+	 * @param requirement
+	 */
+	public void removeRequirement(Integer requirement) {
+		System.out.println("removing requirement from iteration");
+		if (requirement != null 
+				&& this.requirements != null 
+				&& this.requirements.contains(requirement)){
+			System.out.println("removing requirement from iteration");
+			this.requirements.remove(requirement);
+		}
+	}
 
 	/**
 	 * @return the status
@@ -177,7 +221,10 @@ public class Iteration extends AbstractModel{
 	@Override
 	public String toString() {
 		//return toJSON();
-		return "Iteration " + this.getIterationNumber();
+		if (this.iterationNumber == Iteration.getBacklog().iterationNumber)
+			return "Backlog";
+		else
+			return "Iteration " + this.getIterationNumber();
 	}
 
 	
@@ -193,6 +240,11 @@ public class Iteration extends AbstractModel{
 	 */
 	public void setId(int id){
 		this.id = id;
+	
+	}
+
+	public int getId(){
+		return this.id;
 	}
 	
 	/**
@@ -223,6 +275,7 @@ public class Iteration extends AbstractModel{
 	public static void addGsonDependencies(GsonBuilder builder) {
 //		IterationEvent.addGsonDependencies(builder);
 	}
+
 	
 
 }

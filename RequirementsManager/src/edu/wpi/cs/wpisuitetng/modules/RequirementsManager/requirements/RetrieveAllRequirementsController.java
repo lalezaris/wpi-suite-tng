@@ -72,6 +72,12 @@ public class RetrieveAllRequirementsController {
 			this.data = Requirements;
 			//this.view.addRequirements(Requirements);
 			//System.out.println("Refresher = "+ (Refresher.getInstance() != null));
+			//ALL TEH HAX
+			for (int i = 0 ; i < Requirements.length; i ++){
+				System.out.println("Fixing broken Iteration link. Think ID = " + Requirements[i].getIterationId());
+				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
+			}
+			
 			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
 		else {

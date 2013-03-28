@@ -83,5 +83,6 @@ public class MainView extends JPanel {
 	public void makeRefresher(){
 		System.out.println("MainView make refresher");
 		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel());
+		refresher.refreshIterationsFromServer(null);
 	}
 }

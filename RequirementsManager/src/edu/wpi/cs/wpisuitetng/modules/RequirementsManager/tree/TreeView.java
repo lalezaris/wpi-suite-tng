@@ -18,6 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,7 +35,9 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 /**
  *	TreeView class shows requirements with parents and children in a tree.
  *
@@ -88,6 +93,58 @@ public class TreeView extends JPanel {
 
 		});
 
+		
+		MouseListener ml = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				int selRow = tree.getRowForLocation(e.getX(), e.getY());
+				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+				if(selRow != -1) {
+					if(e.getClickCount() == 1) {
+						//mySingleClick(selRow, selPath);
+					}
+				else if(e.getClickCount() == 2) {
+					//myDoubleClick(selRow, selPath);
+						System.out.println("Click on tree at path = " + selPath);
+						RetrieveRequirementControllerTree controller = 
+							new RetrieveRequirementControllerTree(
+							new IRetrieveRequirementController(){
+								boolean isRequirement = true;
+								@Override
+								public void runWhenRecieved(
+										Requirement r) {
+									System.out.println("Response from table click");
+									if (this.isRequirement){
+										System.out.println("we know we click on requirement" + r.getId());
+										r.setIteration(Iteration.getIterationById(r.getIterationId()));
+										MainTabController.getController().addEditRequirementTab(r);
+									}
+								}
+
+								@Override
+								public int getID() {
+									TreePath path = tree.getSelectionPath();
+									DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+									Object selectedObject = selectedNode.getUserObject();
+									if (selectedObject instanceof Requirement){
+										System.out.println("clicking on " + ((Requirement)selectedObject).getId());
+										return ((Requirement)selectedObject).getId();
+									}
+									else{
+										this.isRequirement = false;
+										return -1;
+									}
+								}
+								
+							});
+						controller.retrieve();
+					}
+				}
+			}
+		};
+			tree.addMouseListener(ml);
+		
+		
+		
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
 		

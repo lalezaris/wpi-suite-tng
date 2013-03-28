@@ -62,22 +62,6 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  */
 public class RequirementListPanel extends JPanel{
 
-	private static RequirementListPanel onlyListPanel;
-	public static boolean isListPanelAlreadyOpen(){
-		System.out.println("Panel Already Exists: " + (onlyListPanel!=null));
-		return (onlyListPanel != null);
-	}
-	public static RequirementListPanel getListPanel(){
-		return onlyListPanel;
-	}
-	public static void closeListPanel(){
-		onlyListPanel = null;
-	}
-	public static void refreshListPanel(){
-		if (onlyListPanel != null){
-			onlyListPanel.refreshList();
-		}
-	}
 	
 	
 	private JTextArea list;
@@ -98,21 +82,9 @@ public class RequirementListPanel extends JPanel{
 		
 		this.tabController = tabController;
 		
-		//set the onlyListPanel
-		if (RequirementListPanel.onlyListPanel == null){
-			RequirementListPanel.onlyListPanel = this;
-		}
-		
-		
-
-		
-		// Instantiate the button panel
-//		buttonGroup = new ToolbarGroupView("Requirements List");
-				
+	
 		panel = new JPanel();
 		
-		//TODO: if we have more time, we should have some sort of local storage unit for all requirements
-		//Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://localhost:8080/WPISuite/"));
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		
 		
@@ -123,26 +95,7 @@ public class RequirementListPanel extends JPanel{
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));
 		
-		table.getTableHeader().setReorderingAllowed(false);
-		for (int i = 0 ; i < 7 ; i ++){
-			TableColumn column = table.getColumnModel().getColumn(i);
-		
-			if (i == 0) {
-		    	column.setPreferredWidth(30); // ID
-		    } else if (i == 1) {
-		        column.setPreferredWidth(100); //NAME COLUMN
-		    } else if (i == 2) {
-		    	column.setPreferredWidth(550); //DESC COLUMN
-		    } else if (i == 3) {
-		    	column.setPreferredWidth(90); //DESC STATUS
-		    } else if (i == 4) {
-		    	column.setPreferredWidth(90); //DESC PRIORITY
-		    } else if (i == 5) {
-		    	column.setPreferredWidth(30); //DESC ESTIMATE
-		    } else if (i == 6) {
-		    	column.setPreferredWidth(100); //ASSIGNEE
-		    }
-		}
+		((RequirementTableModel)table.getModel()).setColumnWidths(table);
 		
 		
 		scrollPane = new JScrollPane(table);
@@ -265,18 +218,30 @@ public class RequirementListPanel extends JPanel{
 		table.updateUI();
 	}
 
+	/**
+	 * Demand a refresh command. This may be depreciated... Please hold.
+	 */
 	public void refreshList(){
 		retrieveController.refreshData();
 	}
 	
+	/**
+	 * @return the panel's JTable of Requirements
+	 */
 	public JTable getTable() {
 		return table;
 	}
 	
+	/**
+	 * @return the tab that this panel is being displayed in
+	 */
 	public Tab getContainingTab() {
 		return containingTab;
 	}
 	
+	/**
+	 * @return the mainTabController
+	 */
 	public MainTabController getTabController() {
 		return tabController;
 	}

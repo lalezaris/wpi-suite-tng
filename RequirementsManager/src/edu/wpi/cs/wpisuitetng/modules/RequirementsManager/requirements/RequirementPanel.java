@@ -652,6 +652,7 @@ public class RequirementPanel extends JPanel {
 		
 		//System.out.println("Iteration picked: "+ cmbIteration.getSelectedItem());
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
+		
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));

@@ -87,6 +87,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		
 		this.root.removeAllChildren();
+		
 		this.reload();
 		// Loop through all the iterations
 		for (int j = 0; j < iterations.length; j++) {
@@ -102,13 +103,13 @@ public class ReqTreeModel extends DefaultTreeModel {
 				for (int i = 0; i < requirements.length; i++) {
 					// If requirements status is DELETED, do nothing, otherwise
 					// add to tree
-					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id)
-						System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
-					else {
+					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id) {
+						//System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
+				}	else {
 						temp = new ReqTreeNode(requirements[i]);
 						this.insertNodeInto(temp, tempIt, count);
 						nodes.add(temp);
-						System.out.println("Added node");
+						//System.out.println("Added node");
 						count++;
 					}
 				}

@@ -84,6 +84,9 @@ public class RequirementPanel extends JPanel {
 	protected JPlaceholderTextField txtTitle;
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
+	protected Iteration[] knownIterations;
+	
+	
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
@@ -188,7 +191,10 @@ public class RequirementPanel extends JPanel {
 		panelTabs = new JPanel();
 		txtTitle = new JPlaceholderTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
-		cmbIteration = new JComboBox(/*iterationValues*/);
+		//cmbIteration = new JComboBox(/*iterationValues*/);
+		knownIterations = Refresher.getInstance().getInstantIterations();
+		cmbIteration = new JComboBox<Iteration>(knownIterations);
+		
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -643,7 +649,9 @@ public class RequirementPanel extends JPanel {
 		requirement.setId(model.getId());
 		requirement.setTitle(txtTitle.getText());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
-//		requirement.setIteration((Integer) cmbIteration.getSelectedItem());
+		
+		//System.out.println("Iteration picked: "+ cmbIteration.getSelectedItem());
+		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
@@ -710,6 +718,13 @@ public class RequirementPanel extends JPanel {
 		for (int i = 0; i < cmbStatus.getItemCount(); i++) {
 			if (model.getStatus() == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
 				cmbStatus.setSelectedIndex(i);
+			}
+		}
+		
+		for (int i = 0; i < cmbIteration.getItemCount(); i++) {
+			if (model.getIteration().toString().equals(knownIterations[i].toString()) ){
+				cmbIteration.setSelectedIndex(i);
+				
 			}
 		}
 		

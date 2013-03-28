@@ -34,6 +34,17 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteratio
  * @author Tushar Narayan
  */
 public class Iteration extends AbstractModel{
+	
+	private static Iteration backlog;
+	
+	public static Iteration getBacklog(){
+		if (backlog == null){
+			backlog = new Iteration();
+			backlog.setIterationNumber(-1);
+		}
+		return backlog;
+	}
+	
 	private int iterationNumber;
 	private Date startDate, endDate;
 	private List<Integer> requirements;
@@ -53,6 +64,8 @@ public class Iteration extends AbstractModel{
 		this.endDate = endDate;
 		this.requirements = new ArrayList<Integer>();
 		this.status = NEW;
+		
+	
 	}
 	public Iteration(){}
 
@@ -163,8 +176,10 @@ public class Iteration extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return toJSON();
+		//return toJSON();
+		return "Iteration " + this.getIterationNumber();
 	}
+
 	
 	@Override
 	public Boolean identify(Object o) {
@@ -208,4 +223,6 @@ public class Iteration extends AbstractModel{
 	public static void addGsonDependencies(GsonBuilder builder) {
 //		IterationEvent.addGsonDependencies(builder);
 	}
+	
+
 }

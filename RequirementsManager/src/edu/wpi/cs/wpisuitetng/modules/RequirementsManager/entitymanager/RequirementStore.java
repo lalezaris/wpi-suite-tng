@@ -15,6 +15,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
+import java.io.Console;
 import java.util.Date;
 import java.util.List;
 
@@ -126,6 +127,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
 		
+		//System.out.println("req:" + content);
+		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
@@ -133,13 +136,18 @@ public class RequirementStore implements EntityManager<Requirement>{
 		} 
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 		
+		
+		
 		Date originalLastModified = serverReq.getLastModifiedDate();
 		
 		// copy values to old defect and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
-		
+
 		serverReq.setIterationId(req.getIterationId());
 		
+		//update the Notes List
+		serverReq.updateNotes(req.getNotes());
+	
 		//apply the changes
 		if(!db.save(serverReq, s.getProject())) {
 			throw new WPISuiteException();

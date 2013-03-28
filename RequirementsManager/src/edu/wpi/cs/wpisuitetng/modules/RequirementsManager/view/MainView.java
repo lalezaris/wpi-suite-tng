@@ -61,8 +61,10 @@ public class MainView extends JPanel {
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
 		
 		// Add requirements tree to the left panel
+
 		treeView = new TreeView();
 //		JScrollPane scrollPane = new JScrollPane(treeView);
+
 		leftPanel.add(treeView);
 		
 		JPanel rightPanel = new JPanel();

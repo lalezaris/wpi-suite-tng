@@ -53,6 +53,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
+	
 	/**
 	 * Creates the tree view of the requirements
 	 * Commented out parts are not needed in iteration 1 but may be needed in the future
@@ -60,6 +61,7 @@ public class TreeView extends JPanel {
 	 */
 	public TreeView(){
 		this.setLayout(new BorderLayout());
+		
 		JLabel titleLabel = new JLabel("<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
 	
@@ -71,6 +73,7 @@ public class TreeView extends JPanel {
 				treeModel.refreshTree();
 			}
 		});
+		
 		this.add(refreshButton, BorderLayout.SOUTH);
 		
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig().getProjectName());
@@ -78,6 +81,19 @@ public class TreeView extends JPanel {
 		
 		tree = new JTree(treeModel);
 		
+		tree.addMouseListener(new RetrieveRequirementController(this));
+		
+		/**
+	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
+	    do {
+//	       if (currentNode.getLevel()==1) 
+	            tree.expandPath(new TreePath(currentNode.getPath()));
+	       currentNode = currentNode.getNextNode();
+	       }
+	    while (currentNode != null);
+	    */
+		
+
 		//Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -159,9 +175,13 @@ public class TreeView extends JPanel {
 		      }	
 	
 	}
-	
+
 	public ReqTreeModel getTreeModel(){
 		return treeModel;
+	}
+
+	public JTree getTree() {
+		return tree;
 	}
 
 }

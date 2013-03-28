@@ -8,9 +8,6 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
- *  Joe Spicola
- *  Tushar Narayan
  *  Evan Polekoff
  *  Ned Shelton
 **************************************************/

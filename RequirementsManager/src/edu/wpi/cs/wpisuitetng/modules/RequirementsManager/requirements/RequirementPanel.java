@@ -16,6 +16,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import javax.swing.JPanel;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -64,7 +67,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Requ
  * @version Mar 17, 2013
  *
  */
-public class RequirementPanel extends JPanel {
+public class RequirementPanel extends JPanel{
 	
 
 	public enum Mode {
@@ -189,7 +192,7 @@ public class RequirementPanel extends JPanel {
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
 		GridBagConstraints cButtons = new GridBagConstraints();
-		
+
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
@@ -234,6 +237,12 @@ public class RequirementPanel extends JPanel {
 		deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
 		cancelRequirementBottom = new JButton("Cancel");
 		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
+		
+		
+		/**Iteration Listener*/
+		
+		cmbIteration.addActionListener(new IterationListener());
+		
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -818,6 +827,72 @@ public class RequirementPanel extends JPanel {
 	public Requirement getModel() {
 		return model;
 	}
+	
+	
+	
+	public class IterationListener implements ActionListener {
+
+		/* (non-Javadoc)
+		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+		 */
+
+		@Override
+		public void actionPerformed(ActionEvent iterations) {
+			JComboBox cb = (JComboBox)iterations.getSource();
+			System.out.println(cb.getSelectedItem());
+			
+			int i;//For loop counter, also used directly below the for loop.
+			Boolean enabled = true;
+			Boolean runThatForLoop = false;
+			Boolean listHasStatus = false;
+			RequirementStatus setTo = RequirementStatus.OPEN;
+			
+			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
+				setTo = model.getStatus();
+				enabled = false;
+				runThatForLoop = true;
+				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = false;
+				runThatForLoop = true;
+				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = true;
+				runThatForLoop = true;
+				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
+			}
+			
+			if(runThatForLoop){
+				for (i = 0; i < cmbStatus.getItemCount(); i++) {
+					System.out.println("For Loop Iteration: " + i);
+					if (setTo == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
+						cmbStatus.setSelectedIndex(i);
+						listHasStatus = true;
+						System.out.println("Found Index!");
+					}
+				}
+				if(!listHasStatus){
+					cmbStatus.addItem(setTo.toString());
+					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
+					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
+				}
+			}
+			runThatForLoop = false;
+			cmbStatus.setEnabled(enabled);
+		}
+
+	}
+
 	
 }
 	

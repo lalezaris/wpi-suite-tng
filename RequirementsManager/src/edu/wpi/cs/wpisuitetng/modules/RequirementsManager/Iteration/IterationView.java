@@ -54,7 +54,6 @@ public class IterationView extends JPanel {
 	}
 	
 	
-	private JButton saveButton;
 	private IterationPanel mainPanel;
 	private SaveIterationController controller;
 	final JScrollPane mainPanelScrollPane;
@@ -118,8 +117,6 @@ public class IterationView extends JPanel {
 	 */
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
-	
-	    saveButton.setEnabled(enabled);
 	    mainPanel.setInputEnabled(enabled);
 	}
 	

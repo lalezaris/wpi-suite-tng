@@ -96,7 +96,7 @@ public class Refresher {
 		}
 		setLastKnownIterations(iterations);
 		this.iterationsSet = true;
-		tree.fillTree(null);
+		tree.refreshTree();
 	
 	}
 

@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
 
 /**
@@ -96,10 +96,8 @@ public class TreeView extends JPanel {
 		MouseListener ml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 
-				if (selRow != -1) {
-				} else if (e.getClickCount() == 2) {
+				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree controller = new RetrieveRequirementControllerTree(
 							new IRetrieveRequirementController() {
 								boolean isRequirement = true;

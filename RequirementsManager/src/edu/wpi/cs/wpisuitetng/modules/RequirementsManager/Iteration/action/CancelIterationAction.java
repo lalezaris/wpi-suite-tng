@@ -10,11 +10,13 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 
 /**
  * Cancels an iteration action

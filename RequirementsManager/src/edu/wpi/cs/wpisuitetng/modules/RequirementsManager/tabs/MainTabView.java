@@ -21,6 +21,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.ClosableTabComponent;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTab;
+
 /**
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
  * It starts out showing the single Dashboard tab.

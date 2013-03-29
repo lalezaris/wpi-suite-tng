@@ -12,8 +12,10 @@
 */
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.RetrieveAllIterationsRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Network;

@@ -25,8 +25,8 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 

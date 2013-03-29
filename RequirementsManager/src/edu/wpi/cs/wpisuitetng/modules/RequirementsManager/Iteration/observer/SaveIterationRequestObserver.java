@@ -10,11 +10,12 @@
  * Contributors:
  *  Arica Liu
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

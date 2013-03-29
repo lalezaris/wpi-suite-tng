@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListAct
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
  * Toolbar Panel for Requirements Manager

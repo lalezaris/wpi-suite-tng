@@ -74,6 +74,8 @@ public class IterationPanel extends JPanel {
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
+	JLabel lblIterationNumberError2 = new JLabel("ERROR: The iteration number already exists", LABEL_ALIGNMENT);
+	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -176,6 +178,10 @@ public class IterationPanel extends JPanel {
 		lblIterationNumberError.setForeground(Color.RED);
 		lblIterationNumberError.setVisible(false);
 		panelOne.add(lblIterationNumberError, cOne);
+
+		lblIterationNumberError2.setForeground(Color.RED);
+		lblIterationNumberError2.setVisible(false);
+		panelOne.add(lblIterationNumberError2, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -291,6 +297,10 @@ public class IterationPanel extends JPanel {
 		lblDateError.setVisible(false);
 		lblDateError.setForeground(Color.RED);
 		panelTwo.add(lblDateError, cTwo);
+		
+		lblDateOverlapError.setVisible(false);
+		lblDateOverlapError.setForeground(Color.RED);
+		panelTwo.add(lblDateOverlapError, cTwo);
 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -374,8 +384,8 @@ public class IterationPanel extends JPanel {
 	/**
 	 * Checks to make sure that all the fields are correctly filled in.
 	 * 
-	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 3 if iterations overlap,
-	 *  0 otherwise
+	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 3 if iteration number already exists,
+	 * 4 if dates overlap, 0 otherwise
 	 */
 	public int checkRequiredFields(){
 		if((getValue(txtIterationNumber) < 0)
@@ -387,6 +397,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		} else if((getValue(txtIterationNumber) < 0)
 				&&
@@ -395,6 +407,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2; 
 		} else if((getValue(txtIterationNumber) < 0)
 				&&
@@ -403,6 +417,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		} else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
 				&&
@@ -411,6 +427,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
 		else if((txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
@@ -418,6 +436,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
 		else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
@@ -425,6 +445,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
 		else if ((getValue(txtIterationNumber) < 0)){
@@ -432,6 +454,8 @@ public class IterationPanel extends JPanel {
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
+			lblIterationNumberError2.setVisible(false);
+			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
 		else{
@@ -442,12 +466,12 @@ public class IterationPanel extends JPanel {
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);
 				lblDateError.setVisible(true);
+				lblIterationNumberError2.setVisible(false);
+				lblDateOverlapError.setVisible(false);
 				return 1;
 			}
 			else{
-				if (ValidateFields(startDate, endDate))
-					return 0;
-				else return 3;
+				return (ValidateFields(startDate, endDate));
 			}
 		}
 	}
@@ -457,14 +481,22 @@ public class IterationPanel extends JPanel {
 	 * 
 	 * @param startDate The start date of the input iteration
 	 * @param endDate The end date of the input iteration
-	 * @return A boolean indicating if the inputs are okay
+	 * @return 3 if iteration number already exists, 4 if dates overlap, 0 otherwise
 	 */
-	private boolean ValidateFields(Date startDate, Date endDate) {
+	private int ValidateFields(Date startDate, Date endDate) {
 		System.out.println("HELLO DERE" + (Refresher.getInstance() != null));
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		int idNum = getValue(txtIterationNumber);
 		for (int i = 1; i < array.length; i++) {
-			if(idNum == array[i].getIterationNumber()) return false;
+			if(idNum == array[i].getIterationNumber()) {
+				lblIterationNumberError.setVisible(false);
+				lblStartDateError.setVisible(false);
+				lblEndDateError.setVisible(false);
+				lblDateError.setVisible(false);
+				lblIterationNumberError2.setVisible(true);
+				lblDateOverlapError.setVisible(false);
+				return 3;
+			}
 
 			else if (((startDate.after(array[i].getStartDate())) &&
 					(endDate.before(array[i].getEndDate())))
@@ -476,19 +508,24 @@ public class IterationPanel extends JPanel {
 									(startDate.before(array[i].getEndDate())))
 									||
 									((startDate.before(array[i].getStartDate())) &&
-											(endDate.after(array[i].getEndDate())))
-					)
-					{
+											(endDate.after(array[i].getEndDate())))){
 				if ((startDate.equals(array[i].getEndDate())) ||
 						(endDate.equals(array[i].getStartDate()))) {
 					continue;
 				}
-				else 
-					return false;
+				else {
+					lblIterationNumberError.setVisible(false);
+					lblStartDateError.setVisible(false);
+					lblEndDateError.setVisible(false);
+					lblDateError.setVisible(false);
+					lblIterationNumberError2.setVisible(false);
+					lblDateOverlapError.setVisible(true);
+					return 4;
+				}
 			}
 			else continue;
 		}
-		return true;
+		return 0;
 	}
 	/**
 	 * Convert a String to Date. 

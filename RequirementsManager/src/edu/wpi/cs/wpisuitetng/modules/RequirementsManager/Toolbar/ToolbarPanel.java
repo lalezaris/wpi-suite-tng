@@ -22,6 +22,10 @@ import javax.swing.SpringLayout;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIterationAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 
 /**
@@ -37,12 +41,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 	private JButton newRequirement;
 	private JButton listAllRequirements;
-	private int selectedRequirement;
-//	private JButton listButton;
 	private JButton newIteration;
 	private JButton listIteration;
-//	private JButton editRequirement;
-//	private JButton deleteRequirement;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -50,7 +50,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 	 * 
 	 * @param tabController The MainTabController this view should open tabs with
 	 */
-	
 	public ToolbarPanel(MainTabController tabController) {	
 		// Construct the content panel
 		JPanel iterationContent = new JPanel();
@@ -91,27 +90,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 		iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.EAST, newIteration);
 		iterationLayout.putConstraint(SpringLayout.VERTICAL_CENTER, listIteration, 0, SpringLayout.VERTICAL_CENTER, newIteration);
 
-		//editRequirement.setEnabled(false);
-		//deleteRequirement.setEnabled(false);
-		
 		// Add buttons to the content panel
 		requirementContent.add(newRequirement);
 		requirementContent.add(listAllRequirements);
-//		listButton = new JButton("List Requirements");
-//		listButton.setAction(new ListAction(tabController));
 		
-//		// Configure the layout of the buttons on the content panel
-//		layout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, content);
-//		layout.putConstraint(SpringLayout.WEST, newIteration, 8, SpringLayout.WEST, content);
-//		layout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.EAST, newIteration);
-//		layout.putConstraint(SpringLayout.VERTICAL_CENTER, listIteration, 0, SpringLayout.VERTICAL_CENTER, newIteration);
-//		layout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, content2);
-//		layout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, content2);
-//		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
 		iterationContent.add(listIteration);
-//		content.add(listButton);
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
@@ -119,8 +104,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		
 		// Calculate the width of the toolbar
-		//Double toolbarGroupWidth = 3 * newRequirement.getPreferredSize().getWidth() + 50; // 50 accounts for margins between the buttons
-		
 		//Chris Hanna changed the above calculation to this one...
 		Double iterationGroupWidth = 0.0;
 		for (Component b : iterationContent.getComponents()){
@@ -131,18 +114,11 @@ public class ToolbarPanel extends DefaultToolbarView {
 		for (Component b : requirementContent.getComponents()){
 			requirementGroupWidth += b.getPreferredSize().getWidth() + 20;
 		}
-		
-		//Double toolbarGroupWidthIteration = newIteration.getPreferredSize().getWidth() + listIteration.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
-		//Double toolbarGroupWidthRequirement = newRequirement.getPreferredSize().getWidth() + 40; // 40 accounts for margins between the buttons
-		
+
 		toolbarGroupIteration.setPreferredWidth(iterationGroupWidth.intValue());
 		toolbarGroupRequirement.setPreferredWidth(requirementGroupWidth.intValue());
 		
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
-	}
-	
-	public int getSelectedRequirement() {
-		return selectedRequirement;
 	}
 }

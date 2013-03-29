@@ -12,10 +12,12 @@
 */
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.RetrieveAllIterationsRequestObserverTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -81,9 +83,8 @@ public class RetrieveAllIterationsControllerTree {
      * This method is called by the {@link RetrieveAllIterationsRequestObserverTree} when an
      * error occurs retrieving the Iterations from the server.
      */
-    public void errorReceivingData(String error) {
-	//JOptionPane.showMessageDialog(view, "An error occurred retrieving Requirements from the server. " + error,
-	//"Error Communicating with Server", JOptionPane.ERROR_MESSAGE);
+    public void errorReceivingData(String error) { 
+    	// TODO: Improve implementation
     }
     
 }

@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
- * Insert Description Here
+ * A tree node for the requirement tree
  *
  * @author Sam Lalezari
  *
@@ -34,10 +34,16 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 		this.req = req;
 	}
 	
+	/**
+	 * @return the name of the requirement within the node
+	 */
 	public String getName(){
 		return this.req.getTitle();
 	}
 	
+	/** 
+	 * @return the requirement within the node
+	 */
 	public Requirement getRequirement() {
 		return req;
 	}

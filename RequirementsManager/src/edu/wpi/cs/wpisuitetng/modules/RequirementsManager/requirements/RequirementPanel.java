@@ -837,6 +837,10 @@ public class RequirementPanel extends JPanel{
 			JComboBox cb = (JComboBox)iterations.getSource();
 			System.out.println(cb.getSelectedItem());
 			
+			changeStatus(cb);
+		}
+
+		public void changeStatus(JComboBox cb){
 			int i;//For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
 			Boolean runThatForLoop = false;
@@ -886,7 +890,7 @@ public class RequirementPanel extends JPanel{
 			runThatForLoop = false;
 			cmbStatus.setEnabled(enabled);
 		}
-
+		
 	}
 
 	

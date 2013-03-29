@@ -193,7 +193,7 @@ public class RequirementPanel extends JPanel{
 		txtTitle = new JTextField("Title", 20);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
-		cmbIteration = new JComboBox<Iteration>(knownIterations);
+		cmbIteration = new JComboBox(knownIterations);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);

@@ -45,7 +45,6 @@ public class MainView extends JPanel {
 	public MainView(MainTabView mainTabView) {
 		JSplitPane splitPane;
 		this.view = mainTabView;
-		// Simple outline, can be changed later
 		this.setLayout(new BorderLayout());
 		
 		// Set up the split panels
@@ -56,8 +55,6 @@ public class MainView extends JPanel {
 		// Add requirements tree to the left panel
 
 		treeView = new TreeView();
-//		JScrollPane scrollPane = new JScrollPane(treeView);
-
 		leftPanel.add(treeView);
 		
 		JPanel rightPanel = new JPanel();
@@ -66,10 +63,6 @@ public class MainView extends JPanel {
 		
 		//new split pane to adjust size
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-
-		
-		
-		
 		
 		//add split pane to main view
 		this.add(splitPane, BorderLayout.CENTER);

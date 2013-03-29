@@ -462,26 +462,33 @@ public class IterationPanel extends JPanel {
 	private boolean ValidateFields(Date startDate, Date endDate) {
 		System.out.println("HELLO DERE" + (Refresher.getInstance() != null));
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
-			int idNum = getValue(txtIterationNumber);
-			for (int i = 1; i < array.length; i++) {
-				if(idNum == array[i].getIterationNumber()) return false;
-				
-				else if (((startDate.before(array[i].getStartDate())) &&
-						(endDate.after(array[i].getEndDate()))) ||
-						((startDate.after(array[i].getStartDate())) &&
-						(endDate.before(array[i].getEndDate()))) ||
-						((startDate.before(array[i].getEndDate())) &&
-						(endDate.after(array[i].getEndDate())))) {
-					if ((startDate.equals(array[i].getEndDate())) ||
-							(endDate.equals(array[i].getStartDate()))) {
-						continue;
-					}
-					else 
-						return false;
+		int idNum = getValue(txtIterationNumber);
+		for (int i = 1; i < array.length; i++) {
+			if(idNum == array[i].getIterationNumber()) return false;
+
+			else if (((startDate.after(array[i].getStartDate())) &&
+					(endDate.before(array[i].getEndDate())))
+					||
+					((startDate.before(array[i].getStartDate())) &&
+							(endDate.after(array[i].getStartDate())))
+							||
+							((startDate.after(array[i].getStartDate())) &&
+									(startDate.before(array[i].getEndDate())))
+									||
+									((startDate.before(array[i].getStartDate())) &&
+											(endDate.after(array[i].getEndDate())))
+					)
+					{
+				if ((startDate.equals(array[i].getEndDate())) ||
+						(endDate.equals(array[i].getStartDate()))) {
+					continue;
 				}
-				else continue;
+				else 
+					return false;
 			}
-			return true;
+			else continue;
+		}
+		return true;
 	}
 	/**
 	 * Convert a String to Date. 

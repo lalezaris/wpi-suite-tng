@@ -20,6 +20,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -463,8 +464,9 @@ public class IterationPanel extends JPanel {
  * @return The resulting Date.
  */
 private Date StringToDate(String aDate) {
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
-	Date convertedDate = null;
+	System.out.println(aDate);
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date convertedDate = new Date();
 	try {
 		convertedDate = dateFormat.parse(aDate);
 	} catch (ParseException e) {

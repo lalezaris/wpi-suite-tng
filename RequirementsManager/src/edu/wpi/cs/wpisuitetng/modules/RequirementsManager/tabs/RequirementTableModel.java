@@ -4,15 +4,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 
 /**
  * @author Chris Hanna

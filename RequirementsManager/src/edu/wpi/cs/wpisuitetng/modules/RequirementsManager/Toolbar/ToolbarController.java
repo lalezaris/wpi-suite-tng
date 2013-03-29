@@ -14,8 +14,10 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.Component;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarController;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;

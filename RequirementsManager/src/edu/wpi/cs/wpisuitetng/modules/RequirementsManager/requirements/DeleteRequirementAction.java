@@ -13,11 +13,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
-
-import javax.swing.Action;
 
 /**
  * Insert Description Here

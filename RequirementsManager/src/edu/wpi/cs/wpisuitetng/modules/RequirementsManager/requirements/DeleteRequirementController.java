@@ -12,10 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.SaveIterationRequestObserver;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.DELETED;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;

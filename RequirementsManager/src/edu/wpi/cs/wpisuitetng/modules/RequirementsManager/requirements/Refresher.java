@@ -11,7 +11,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllI
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTable;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 
 /**

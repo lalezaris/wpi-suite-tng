@@ -20,8 +20,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
  * @version Mar 24, 2013
  *
  */
-import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.Request;

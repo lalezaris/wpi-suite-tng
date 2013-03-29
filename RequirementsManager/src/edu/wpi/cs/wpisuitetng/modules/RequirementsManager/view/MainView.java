@@ -15,19 +15,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.BorderFactory;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 

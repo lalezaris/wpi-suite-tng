@@ -12,14 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
-import java.awt.GridLayout;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
  * The basic dashboard for the Requirements Manager Tab.

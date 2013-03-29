@@ -18,8 +18,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveRequirementController;
-
 /**
  * Adapted from JPage
  * Action that calls {@link SaveRequirementController#save}, default mnemonic key is S.

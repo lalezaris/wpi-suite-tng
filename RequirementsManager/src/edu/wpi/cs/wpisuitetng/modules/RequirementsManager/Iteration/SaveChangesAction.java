@@ -18,8 +18,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.SaveIterationController;
-
 /**
  * Adapted from requirements.SaveChangesAction.java
  *	

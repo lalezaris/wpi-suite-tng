@@ -14,9 +14,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
-import javax.swing.JOptionPane;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.*;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;

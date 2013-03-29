@@ -3,8 +3,6 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;

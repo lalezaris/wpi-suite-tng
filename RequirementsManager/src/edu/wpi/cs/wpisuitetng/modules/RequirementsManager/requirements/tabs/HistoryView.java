@@ -12,8 +12,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
-import java.awt.Component;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 

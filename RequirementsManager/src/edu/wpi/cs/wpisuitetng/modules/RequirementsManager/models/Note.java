@@ -16,7 +16,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.util.Date;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Persistent Model that represents a Comment on a Requirement

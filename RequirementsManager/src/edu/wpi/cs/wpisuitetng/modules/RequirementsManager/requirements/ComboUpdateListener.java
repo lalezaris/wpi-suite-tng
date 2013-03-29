@@ -17,13 +17,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.border.Border;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 
 /**
  * Adapted from JPage and the ComboUpdateListener in DefectTracker

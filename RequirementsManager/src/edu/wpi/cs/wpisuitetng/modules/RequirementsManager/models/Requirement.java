@@ -19,6 +19,9 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.MEDIUM;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.NEW;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,10 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
 
 
 /**

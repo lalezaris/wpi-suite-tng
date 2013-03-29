@@ -20,12 +20,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
  * Controls the behavior of a given MainTabView.

@@ -14,8 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.NEW;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +25,6 @@ import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
 
 
 /**

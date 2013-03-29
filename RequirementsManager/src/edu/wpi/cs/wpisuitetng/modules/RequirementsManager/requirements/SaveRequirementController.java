@@ -14,18 +14,11 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 
-import javax.swing.JOptionPane;
-
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-import javax.swing.JTabbedPane;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 /**
  * Controller to handle the saving of a requirement
  * Adapted from SaveDefectController in project DefectTracker

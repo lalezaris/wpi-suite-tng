@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;

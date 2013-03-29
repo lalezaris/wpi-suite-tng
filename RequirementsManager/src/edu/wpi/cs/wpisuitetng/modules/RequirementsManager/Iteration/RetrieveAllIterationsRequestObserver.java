@@ -19,7 +19,8 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Takes a response to a request, and passes it to the controller that it was instantiated with
+ * Takes a response to a request, and passes it to the controller
+ * that it was instantiated with.
  *
  * @author Sam Abradi
  *

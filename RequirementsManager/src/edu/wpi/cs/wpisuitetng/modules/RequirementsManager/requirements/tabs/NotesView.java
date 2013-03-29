@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.GridBagConstraints;
@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.AddNoteController;
+
 /**
  * Tab panel for adding and viewing notes
  *
@@ -38,19 +39,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.AddNoteCo
  *
  */
 public class NotesView extends JPanel {
-	
+
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
-	
-	//protected JPanel panelOverall;
-	
+
 	protected JTextArea txtNotes;
 	protected JTextArea txtNotesSaved;
 	protected JButton addNote;
-	
+
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
-	
+
 	/*
 	 * Constants used to layout the form
 	 */
@@ -62,18 +61,18 @@ public class NotesView extends JPanel {
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		this.setLayout(layout);
-		
+
 		setNotesList(req.getNotes());
-		
+
 		// Add all components to this panel
 		addComponents();
-		
+
 	}
-	
+
 	public NotesView(ArrayList<Note> notes){
 		this.notes = notes;
 	}
-	
+
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the SpringLayout manager.
@@ -82,36 +81,33 @@ public class NotesView extends JPanel {
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
-		
-		// Construct all of the components for the form
-		//panelOverall = new JPanel();
-		
+
+
+		//TODO: Set borders
+
+		/* begin panel styling */
 		txtNotes = new JTextArea(4, 40);
 		txtNotes.setLineWrap(true);
-		//txtNotes.setBorder(txtTitle.getBorder()); TODO: Set borders
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
-		//txtNotesSaved.setBorder(txtTitle.getBorder()); TODO: Set borders
 		JLabel lblNotes = new JLabel("Notes:", LABEL_ALIGNMENT);
-		
+
 		addNote = new JButton("Add Note");
-		//addNote.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
 		addNote.addActionListener(new AddNoteController(this));
-		//c.insets = new Insets(40,10,5,10);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 0;
 		this.add(lblNotes, c);
-		
+
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridx = 1;
 		c.gridy = 0;
 		this.add(addNote, c);
-		
+
 		c.insets = new Insets(20,10,10,0);
 		JScrollPane scrollPaneNotes = new JScrollPane(txtNotes);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -122,9 +118,7 @@ public class NotesView extends JPanel {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		this.add(scrollPaneNotes, c);
-					
-		//notes = 
-		
+
 		JScrollPane scrollPaneNotesSaved = new JScrollPane(txtNotesSaved);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
@@ -134,24 +128,33 @@ public class NotesView extends JPanel {
 		c.gridy = 2;
 		c.gridwidth = 2;
 		txtNotesSaved.setText(notesListToString());
-		//System.out.println("Current Notes: /n" + notesListToString());
 		txtNotesSaved.setEnabled(false);
 		this.add(scrollPaneNotesSaved, c);
-		//add completed notes here...
+		/* end panel styling */
 
 	}
-	
+
+	/**
+	 * Set the notes textbox with the notes list
+	 */
 	public void setTxtNotesSaved() {
 		txtNotesSaved.setText(notesListToString());
 	}
 	
+	/**
+	 * Initialize the notes textarea
+	 */
 	public void setTxtNotes(){
 		txtNotes.setText("");
 	}
+	
+	/**
+	 * @return txtNotes in string format
+	 */
 	public String getNoteString(){
 		return txtNotes.getText();
 	}
-	
+
 	/**
 	 * returns the ArrayList of notes in the current view
 	 * @return the ArrayList of notes
@@ -159,11 +162,14 @@ public class NotesView extends JPanel {
 	public ArrayList<Note> getNotesList(){
 		return notes;
 	}
-	
+
+	/**
+	 * @param aln arraylist of notes
+	 */
 	public void setNotesList(ArrayList<Note> aln){
 		this.notes = aln;
 	}
-	
+
 	/**
 	 * adds a Note to the ArrayList of notes
 	 * @param n
@@ -171,32 +177,14 @@ public class NotesView extends JPanel {
 	 */
 	public Note addNoteToList(Note n){
 		notes.add(n);
-		//System.out.println("Note Added");
-		//System.out.println(n.getBody());
 		return n;
 	}
-	
+
 	/**
 	 * iterates through the notes in the ArrayList and makes 
 	 * it into a printable string
 	 * @return notes in the form of a String
 	 */
-	//earliest note on top v
-	/*public String notesListToString(){
-		String list = "";
-		for (int i = 0; i < notes.size(); i++){
-			if (i < notes.size() -1){
-				list = list + ">" + notes.get(i).getCreator() + 
-						": " + notes.get(i).getBody() + "\n \n";
-			}else{
-				list = list + ">" + notes.get(i).getCreator() + 
-						": " + notes.get(i).getBody();
-			}
-		}
-		
-		return list;
-	}*/
-	
 	//earliest note on bottom v
 	public String notesListToString(){
 		String list = "";
@@ -211,22 +199,24 @@ public class NotesView extends JPanel {
 						": " + notes.get(i).getBody();
 			}
 		}
-		
+
 		return list;
 	}
-	
+
 	/**
 	 * takes the given string and converts it to a Note, 
 	 * setting it's creator as the current user
 	 * @param s
-	 * @return
+	 * @return note the new note object converted from the string
 	 */
 	public Note stringToNote(String s){
 		Note note = new Note(s, ConfigManager.getConfig().getUserName()); //TODO: Pull user info
 		return note;
 	}
-	
-	//repaint the Note
+
+	/**
+	 * Repaint the Note
+	 */
 	public void repaintNote() {
 		this.repaint();
 	}

@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Retrieves all of the iterations from the database
+ * Retrieves all the iterations from the database.
  *
  * @author Sam Abradi
  *

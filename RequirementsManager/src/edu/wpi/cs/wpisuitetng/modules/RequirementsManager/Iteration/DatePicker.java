@@ -1,5 +1,14 @@
 /**
- * 
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tushar Narayan 
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -17,8 +26,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * Used in IterationPanel as a date selector component.
+ * 
  * @author tnarayan
  *
+ * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */
 public class DatePicker {  
 
@@ -76,10 +88,11 @@ public class DatePicker {
 		d.pack();
 		d.setLocationRelativeTo(parent);
 		displayDate();
-		//d.setVisible(true);
-
 	}
 
+	/**
+	 * Function to display date on GUI.
+	 */
 	public void displayDate() {
 		for (int x = 7; x < button.length; x++)
 			button[x].setText("");
@@ -92,9 +105,13 @@ public class DatePicker {
 			button[x].setText("" + day);
 		l.setText(sdf.format(cal.getTime()));
 		d.setTitle("Date Picker");
-
 	}
 
+	/**
+	 * Return the picked date as a string.
+	 * 
+	 * @return A string representing the input date.
+	 */
 	public String setPickedDate() {
 		if (day.equals(""))
 			return day;
@@ -103,5 +120,4 @@ public class DatePicker {
 		cal.set(year, month, Integer.parseInt(day));
 		return sdf.format(cal.getTime());
 	}
-
 }

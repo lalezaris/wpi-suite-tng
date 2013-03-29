@@ -52,8 +52,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		db = data;
 		updateMapper = new ModelMapper();
 	}
-	/* The commented out part of the code is not needed for iteration 1 but may be needed in the future
-	 * 
+	/* 
 	 * takes a string that is the JSON-ified representation of Requirement, and a session (project)
 	 * returns the requirement in object form
 	 * also puts the object in the DB indexable by ID
@@ -67,16 +66,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
-		/*
-		List<ValidationIssue> issues = validator.validate(s, newRequirement, Mode.CREATE);
-		if(issues.size() > 0) {
-			// TODO: pass errors to client through exception
-			for (ValidationIssue issue : issues) {
-				System.out.println("Validation issue: " + issue.getMessage());
-			}
-			throw new BadRequestException();
-		}
-*/
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -108,7 +97,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 	}
 
 	/*
-	 * literally returns an array of all requirements in the DB
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -116,7 +104,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return db.retrieveAll(new Requirement("FU","UU"), s.getProject()).toArray(new Requirement[0]);
 	}
 
-	/* Not necessary for iteration 1 but may be needed in the future
+	/*
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override

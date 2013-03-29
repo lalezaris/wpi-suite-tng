@@ -97,5 +97,4 @@ public class Note {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
 }

@@ -81,7 +81,7 @@ public class TreeView extends JPanel {
 		
 		tree = new JTree(treeModel);
 		
-		tree.addMouseListener(new RetrieveRequirementController(this));
+		//tree.addMouseListener(new RetrieveRequirementController(this));
 		
 		/**
 	    DefaultMutableTreeNode currentNode = root;//.getNextNode();

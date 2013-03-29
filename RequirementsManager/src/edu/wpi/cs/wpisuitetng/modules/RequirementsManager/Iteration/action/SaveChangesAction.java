@@ -8,46 +8,49 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tianyu Li
- *  Mike Perrone
- *  Chris Hanna
- *  
+ *  Tushar Narayan
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 
 /**
- * The action that is called by the refresh button that sends a message 
- * to the RetrieveAllRequirementsController.
+ * Adapted from requirements.SaveChangesAction.java
+ *	
+ * @author Tushar Narayan
  *
- * @author Tianyu Li
- *
- * @version Mar 21, 2013
+ * @version Mar 25, 2013
  *
  */
-public class RefreshAction extends AbstractAction {
+public class SaveChangesAction extends AbstractAction {
 
-	private final RetrieveAllRequirementsController controller;
+	private final SaveIterationController controller;
 	
-	public RefreshAction(RetrieveAllRequirementsController controller){
-		super("Refresh");
+	/**
+	 * Create a SaveChangesAction
+	 * @param controller When the action is performed, controller.save will be called
+	 */
+	public SaveChangesAction(SaveIterationController controller) {
+		super("Save");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
-	/* (non-Javadoc)
+	/* 
+	 * Calls the controller to save the action
+	 * @param arg0 the action event to perform
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		controller.refreshData();
+	public void actionPerformed(ActionEvent arg0) {
+		
+		controller.save();
 	}
 
 }

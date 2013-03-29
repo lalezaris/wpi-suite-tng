@@ -10,7 +10,7 @@
  * Contributors:
  *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.awt.FlowLayout;
 import java.awt.Insets;
@@ -69,6 +69,8 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 	}
 
 	/* 
+	 * Action performed to close tab component
+	 * @param arg0 the ActionEvent being performed
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

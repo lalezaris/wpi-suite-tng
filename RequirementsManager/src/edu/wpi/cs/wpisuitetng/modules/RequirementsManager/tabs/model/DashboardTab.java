@@ -10,7 +10,7 @@
  * Contributors:
  *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,7 +32,6 @@ public class DashboardTab extends JPanel{
 	 * 
 	 */
 	public DashboardTab() {
-		//super (new GridLayout(1,1));
 		JLabel testLabel = new JLabel("This is the dashboard panel.");
 		this.add(testLabel);
 		

@@ -11,38 +11,36 @@
  *  Arica Liu
 **************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
+ * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica liu
  * 
- * @version March 24, 2013
+ * @version March 18, 2013
  */
 @SuppressWarnings("serial")
-public class NewIterationAction extends AbstractAction {
+public class NewRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
 	
 	/**
-	 * Create a NewIterationAction
-	 * @param controller When the action is performed, controller.addNewIterationTab() is called
+	 * Create a NewRequirementAction
+	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
-	public NewIterationAction(MainTabController controller) {
-		super("Create Iteration");
-		//TODO: Remove this debug message
-		System.out.println("Entered NewIterationAction");
+	public NewRequirementAction(MainTabController controller) {
+		super("Create Requirement");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 	
 	/* 
@@ -50,8 +48,6 @@ public class NewIterationAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO: Remove this debug message
-		System.out.println("action performed: should create new iteration tab");
-		controller.addNewIterationTab();
+		controller.addCreateRequirementTab();
 	}
 }

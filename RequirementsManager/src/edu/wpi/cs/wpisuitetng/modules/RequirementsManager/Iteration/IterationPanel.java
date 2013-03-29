@@ -30,8 +30,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.CancelIterationAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -129,6 +134,7 @@ public class IterationPanel extends JPanel {
 		txtIterationNumber = new IntegerField(3);
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
+
 
 		// Buttons for "Save" and "Cancel"
 		saveIterationBottom = new JButton("Save");
@@ -270,13 +276,13 @@ public class IterationPanel extends JPanel {
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		panelTwo.add(saveIterationBottom, cTwo);
-		
+
 		cTwo.gridx = 2;
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		panelTwo.add(cancelIterationBottom, cTwo);
-		
+
 		cTwo.gridx = 3;
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
@@ -362,29 +368,16 @@ public class IterationPanel extends JPanel {
 		iteration.setIterationNumber(getValue(txtIterationNumber)); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
-		//		if (!(txtAssignee.getText().equals(""))) {
-		//			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		//		}
-		//		if (!(txtCreator.getText().equals(""))) {
-		//			iteration.setCreator(new User("", txtCreator.getText(), "", -1));
-		//		}
-		//		HashSet<Tag> tags = new HashSet<Tag>();
-		//		for (int i = 0; i < tagPanel.lmTags.getSize(); i++) {
-		//			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
-		//		}
-		//		iteration.setTags(tags);
-
 		return iteration;
 	}
 
 	/**
 	 * Checks to make sure that all the fields are correctly filled in.
 	 * 
-	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 0 otherwise.
+	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 3 if iterations overlap,
+	 *  0 otherwise
 	 */
 	public int checkRequiredFields(){
-		// TODO: Any non-null string is currently accepted
-		// (except in the case of all three fields being not null)
 		if((getValue(txtIterationNumber) < 0)
 				&&
 				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
@@ -452,30 +445,63 @@ public class IterationPanel extends JPanel {
 				return 1;
 			}
 			else{
-				return 0;
+				if (ValidateFields(startDate, endDate))
+					return 0;
+				else return 3;
 			}
 		}
 	}
 
-/**
- * Convert a String to Date. 
- * 
- * @param aDate The string to be converted.
- * @return The resulting Date.
- */
-private Date StringToDate(String aDate) {
-	System.out.println(aDate);
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	Date convertedDate = new Date();
-	try {
-		convertedDate = dateFormat.parse(aDate);
-	} catch (ParseException e) {
-		System.out.println("Error converting string to date!");
-		e.printStackTrace();
-	} 
-	System.out.println("Converted string to date : " + convertedDate);
-	return convertedDate;
-}
+	/**
+	 * Validate iteration against currently existing iterations.
+	 * 
+	 * @param startDate The start date of the input iteration
+	 * @param endDate The end date of the input iteration
+	 * @return A boolean indicating if the inputs are okay
+	 */
+	private boolean ValidateFields(Date startDate, Date endDate) {
+		System.out.println("HELLO DERE" + (Refresher.getInstance() != null));
+		Iteration[] array = Refresher.getInstance().getInstantIterations();
+			int idNum = getValue(txtIterationNumber);
+			for (int i = 1; i < array.length; i++) {
+				if(idNum == array[i].getIterationNumber()) return false;
+				
+				else if (((startDate.before(array[i].getStartDate())) &&
+						(endDate.after(array[i].getEndDate()))) ||
+						((startDate.after(array[i].getStartDate())) &&
+						(endDate.before(array[i].getEndDate()))) ||
+						((startDate.before(array[i].getEndDate())) &&
+						(endDate.after(array[i].getEndDate())))) {
+					if ((startDate.equals(array[i].getEndDate())) ||
+							(endDate.equals(array[i].getStartDate()))) {
+						continue;
+					}
+					else 
+						return false;
+				}
+				else continue;
+			}
+			return true;
+	}
+	/**
+	 * Convert a String to Date. 
+	 * 
+	 * @param aDate The string to be converted.
+	 * @return The resulting Date.
+	 */
+	private Date StringToDate(String aDate) {
+		System.out.println(aDate);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		Date convertedDate = new Date();
+		try {
+			convertedDate = dateFormat.parse(aDate);
+		} catch (ParseException e) {
+			System.out.println("Error converting string to date!");
+			e.printStackTrace();
+		} 
+		System.out.println("Converted string to date : " + convertedDate);
+		return convertedDate;
+	}
 }
 
 

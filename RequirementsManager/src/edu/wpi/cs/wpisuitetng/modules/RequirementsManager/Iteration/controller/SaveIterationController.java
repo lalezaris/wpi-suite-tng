@@ -10,8 +10,12 @@
  * Contributors:
  *  Tushar Narayan
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.SaveIterationRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -45,10 +49,11 @@ public class SaveIterationController {
 	 */
 	public void save() {
 		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
-		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : */ new SaveIterationRequestObserver(view);
+		final RequestObserver requestObserver = new SaveIterationRequestObserver(view);
 		Request request;
-		//panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
+		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
+		
 		if(panel.checkRequiredFields() > 0){
 		} 
 		else {

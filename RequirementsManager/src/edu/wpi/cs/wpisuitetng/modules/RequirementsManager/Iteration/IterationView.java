@@ -19,9 +19,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
  * Allows users to view a iteration.
@@ -75,17 +76,12 @@ public class IterationView extends JPanel {
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-				//SwingUtilities.invokeLater(new Runnable(){
-				//	public void run(){
-						mainPanelScrollPane.repaint();
-				//	}
-				//});
+				mainPanelScrollPane.repaint();
 			}
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveIterationController(this);
-	//	controller.save();
 	}
 
 
@@ -124,6 +120,6 @@ public class IterationView extends JPanel {
      * @param iterations Iterations to be added.
      */
     public void addIterations(Iteration[] iterations){
-	//so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
+	//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
     }
 }

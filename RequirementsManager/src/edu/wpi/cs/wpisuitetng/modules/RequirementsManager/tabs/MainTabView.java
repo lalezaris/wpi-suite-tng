@@ -21,7 +21,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
-//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DashboardTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.ClosableTabComponent;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTab;
 
 /**
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
@@ -44,9 +46,6 @@ public class MainTabView extends JTabbedPane {
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 		addTab("Dashboard", new ImageIcon(), new DashboardTab(),
 		       "Your Dashboard - notifications, etc.");
-		
-		
-		//this.table = new RequirementListPanel();
 	}
 	
 	public void createTableModel(MainTabController controller){
@@ -58,6 +57,13 @@ public class MainTabView extends JTabbedPane {
 	}
 	
 	/* 
+	 * Inserts tab
+	 * @param title title of tab
+	 * @param icon icon for tab
+	 * @param component component for tab
+	 * @param tip tooltip for tab
+	 * @param index index for tab
+	 * 
 	 * @see javax.swing.JTabbedPane#insertTab(java.lang.String, javax.swing.Icon, java.awt.Component, java.lang.String, int)
 	 */
 	@Override
@@ -70,6 +76,8 @@ public class MainTabView extends JTabbedPane {
 	}
 	
 	/* 
+	 * Removes tab at index
+	 * @param index index of tab to remove
 	 * @see javax.swing.JTabbedPane#removeTabAt(int)
 	 */
 	@Override
@@ -81,12 +89,16 @@ public class MainTabView extends JTabbedPane {
 	}
 	
 	/* 
+	 * Sets component  to an index
+	 * @param index index of component
+	 * @param component component to set
 	 * @see javax.swing.JTabbedPane#setComponentAt(int, java.awt.Component)
 	 */
 	@Override
 	public void setComponentAt(int index, Component component) {
 		super.setComponentAt(index, component);
-		fireStateChanged(); // hack to make sure toolbar knows if component changes
+		fireStateChanged(); 
+		//TODO: improve functionality for making sure toolbar knows if component changes
 	}
 	
 }

@@ -10,14 +10,16 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
+
 /**
- * Insert Description Here
+ * Cancels an iteration action
  *
  * @author CDUNKERS
  *
@@ -35,7 +37,6 @@ public class CancelIterationAction extends AbstractAction {
 	public CancelIterationAction(CancelIterationController controller) {
 		super("Cancel");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 

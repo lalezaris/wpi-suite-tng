@@ -14,14 +14,14 @@
  *  Chris Hanna
  *  
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
  * The action that the "List" button is registered to. 

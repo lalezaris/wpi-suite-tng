@@ -9,40 +9,39 @@
  *
  * Contributors:
  *  Arica Liu
+ *  Tyler Stone
 **************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addEditRequirementTab()}, default mnemonic key is E.
+ * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
  * 
- * Adapted from SearchDefectsAction form the project DefectTracker
+ * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica liu
  * 
- * @version March 18, 2013
+ * @version March 24, 2013
  */
 @SuppressWarnings("serial")
-public class EditRequirementAction extends AbstractAction {
+public class NewIterationAction extends AbstractAction {
 
 	private final MainTabController controller;
-	private final Requirement requirement;
+	
 	/**
-	 * Create a EditRequirementAction
-	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * Create a NewIterationAction
+	 * @param controller When the action is performed, controller.addNewIterationTab() is called
 	 */
-	public EditRequirementAction(MainTabController controller, Requirement requirement) {
-		super("Edit");
+	public NewIterationAction(MainTabController controller) {
+		super("Create Iteration");
 		this.controller = controller;
-		this.requirement = requirement;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 	
 	/* 
@@ -50,7 +49,6 @@ public class EditRequirementAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		controller.addEditRequirementTab(requirement);
+		controller.addNewIterationTab();
 	}
-
 }

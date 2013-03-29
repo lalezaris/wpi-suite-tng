@@ -67,15 +67,12 @@ public class RetrieveAllRequirementsController {
 	 */
 	public void receivedData(Requirement[] Requirements) {	
 		
-		System.out.println("Entered recieve. Requirements = " + (Requirements != null));
-		
 		if (Requirements.length > 0) {
 			// save the data
 			this.data = Requirements;
 			
 			//TODO: improve implementation
 			for (int i = 0 ; i < Requirements.length; i ++){
-				System.out.println("Fixing broken Iteration link. Think ID = " + Requirements[i].getIterationId());
 				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
 			}
 			
@@ -91,7 +88,6 @@ public class RetrieveAllRequirementsController {
 	 * This method is called by the {@link RetrieveAllRequirementsRequestObserver} when an
 	 * error occurs retrieving the Requirements from the server.
 	 */
-	public void errorReceivingData(String error) {
-	}
+	public void errorReceivingData(String error) { }
 
 }

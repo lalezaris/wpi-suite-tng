@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStat
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveAllIterationsControllerTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
@@ -46,6 +47,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	int id;
 	Iteration[] iterations;
 	Requirement[] requirements;
+	
 	/**
 	 * Class constructor
 	 * 
@@ -57,10 +59,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		controller = new RetrieveAllRequirementsController(RefresherMode.TREE);
 		itController = new RetrieveAllIterationsControllerTree(this);
-		
-		
-
-		
 		
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
@@ -78,15 +76,13 @@ public class ReqTreeModel extends DefaultTreeModel {
 		if (reqs != null){
 			requirements = reqs;
 		}
-//		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
+		
 		ReqTreeNode temp = null;
 		count = 0;
 		id = 0;
 		
 		//CHris Hanna added this line
 		this.iterations = Refresher.getInstance().getInstantIterations();
-		
-		
 		this.root.removeAllChildren();
 		
 		this.reload();
@@ -98,8 +94,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 			count++;
 			
 			System.out.println("Added iteration with ID = " + iterations[j].getId());
-			// Loop through List of Requirment ID
-
 			
 			for (int k = 0 ; k < iterations[j].getRequirements().size(); k++){
 				
@@ -113,9 +107,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 						if (node == null)
 							node = new DefaultMutableTreeNode(requirements[r]);
 						else node.add(new DefaultMutableTreeNode(requirements[r]));
-						//this.insertNodeInto(reqNode, tempIt, count);
-						//count++;
-						
 					}
 					
 				}
@@ -126,30 +117,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 				}
 				
 			}
-			
-			
-//			for (int k = 0; k < iterations[j].getRequirements().size(); k++) {
-//				id = iterations[j].getRequirements().get(k);
-//				// Loop through all the requirements
-//				for (int i = 0; i < requirements.length; i++) {
-//					// If requirements status is DELETED, do nothing, otherwise
-//					// add to tree
-//					if (requirements[i].getStatus() == RequirementStatus.DELETED || requirements[i].getId() != id) {
-//						//System.out.println("Requirement has Deleted Status or is not contained in Iteration " + j);
-//				}	else {
-//						
-//						temp = new ReqTreeNode(requirements[i]);
-//						System.out.println("Tree: Adding Req"+requirements[i].getId() + " to Iter" + iterations[j].getId());
-//						System.out.println("temp = " + (temp != null) + ", tempIT = " + (tempIt != null) + ", count = " + count);
-//						nodes.add(temp);
-//						System.out.println("nodes.add");
-//						this.insertNodeInto(temp, tempIt, count);
-//						
-//						//System.out.println("Added node");
-//						count++;
-//					}
-//				}
-//			}
 		}
 		TreeView.expandAll();
 	}
@@ -160,12 +127,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 	}
 
 	/**
-	 * Enter description here.
+	 * Add iterations to the tree
 	 * 
 	 * @param iterations
 	 */
 	public void addIterations(Iteration[] iterations) {
-		// TODO Auto-generated method stub
 		this.iterations = iterations;
 		this.fillTree(null);
 	}

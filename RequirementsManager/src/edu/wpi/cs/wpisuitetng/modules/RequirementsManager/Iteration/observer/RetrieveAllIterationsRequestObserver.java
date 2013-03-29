@@ -10,8 +10,9 @@
  * Contributors:
  * Sam Abradi
  */
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -33,6 +34,11 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	this.r = r;
     }
     
+    /* 
+     * Responds to retrieving all iterations
+     * @param iReq The IRequest to respond to
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+     */
     @Override
 	public void responseSuccess(IRequest iReq) {
 	// cast observable to request
@@ -53,6 +59,10 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	}
     }
     
+    /* Response with an error if there is a problem retrieving all iterations
+     * @param iReq the IRequest to respond to
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+     */
     @Override
 	public void responseError(IRequest iReq) {
 	// TODO Auto-generated method stub
@@ -60,6 +70,12 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	
     }
     
+    /* 
+     * Required by the RequestObserver but currently does not do anything at this time
+     * @param iReq the IRequest to respond to
+     * @parm exception the Exception that is causing the failure
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+     */
     @Override
 	public void fail(IRequest iReq, Exception exception) {
 	// TODO Auto-generated method stub

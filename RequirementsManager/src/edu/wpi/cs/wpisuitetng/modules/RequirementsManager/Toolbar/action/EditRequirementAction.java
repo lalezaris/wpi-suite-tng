@@ -11,38 +11,38 @@
  *  Arica Liu
 **************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
+ * Action that calls {@link MainTabController#addEditRequirementTab()}, default mnemonic key is E.
  * 
- * Adapted from CreateDefectAction in the project Defect Tracker
+ * Adapted from SearchDefectsAction form the project DefectTracker
  * @author Arica liu
  * 
  * @version March 18, 2013
  */
 @SuppressWarnings("serial")
-public class NewRequirementAction extends AbstractAction {
+public class EditRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
-	
+	private final Requirement requirement;
 	/**
-	 * Create a NewRequirementAction
+	 * Create a EditRequirementAction
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
-	public NewRequirementAction(MainTabController controller) {
-		super("Create Requirement");
-		//TODO: Remove this debug message
-		System.out.println("Entered NewRequirementAction");
+	public EditRequirementAction(MainTabController controller, Requirement requirement) {
+		super("Edit");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+		this.requirement = requirement;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
 	
 	/* 
@@ -50,8 +50,7 @@ public class NewRequirementAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO: Remove this debug message
-		System.out.println("action performed: should create new requirement tab");
-		controller.addCreateRequirementTab();
+		controller.addEditRequirementTab(requirement);
 	}
+
 }

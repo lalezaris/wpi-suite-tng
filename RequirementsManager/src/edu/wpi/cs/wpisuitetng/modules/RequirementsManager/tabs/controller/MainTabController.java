@@ -12,7 +12,7 @@
  *  Arica Liu
 **************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,6 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
  * Controls the behavior of a given MainTabView.
@@ -58,7 +61,12 @@ public class MainTabController {
 		});
 	}
 	
-	//hack. Sorry.
+	//TODO: improve implementation
+	/**
+	 * Gets MainTabController
+	 * 
+	 * @return staticView 
+	 */
 	public static MainTabController getController(){
 		return staticView;
 	}
@@ -84,6 +92,7 @@ public class MainTabController {
 
 	
 	/**
+	 * Adds a tab
 	 * @return Same as addTab(null, null, null, null)
 	 */
 	public Tab addTab() {
@@ -110,19 +119,9 @@ public class MainTabController {
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
-		//if (RequirementListPanel.isListPanelAlreadyOpen()){
-			//this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			//RequirementListPanel.getListPanel().getContainingTab().getView().removeTabAt(
-			//		RequirementListPanel.getListPanel().getContainingTab().getThisIndex());
-			//RequirementListPanel.closeListPanel();
-		//} 
-		
-		
-		
 		Tab tab = addTab();
 		RequirementListPanel panel = view.getTableModel();
 		panel.setTab(tab);
-		//RequirementListPanel panel = new RequirementListPanel(tab, this, view.getTableModel());
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;
@@ -210,6 +209,11 @@ public class MainTabController {
 		}
 	}
 
+	/**
+	 * Adds new iteration tab
+	 * 
+	 * @return Tab returns the new iteration tab
+	 */
 	public Tab addNewIterationTab() {
 		Tab tab = addTab();
 		IterationView view = new IterationView(new Iteration(0, null, null), tab);

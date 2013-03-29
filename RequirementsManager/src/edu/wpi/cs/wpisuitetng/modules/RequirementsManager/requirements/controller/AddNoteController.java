@@ -38,7 +38,6 @@ public class AddNoteController implements ActionListener {
 		view.addNoteToList(view.stringToNote(view.getNoteString()));
 		view.setTxtNotesSaved();
 		view.setTxtNotes();
-		System.out.println(view.getNotesList().toString());
 	}
 }
 

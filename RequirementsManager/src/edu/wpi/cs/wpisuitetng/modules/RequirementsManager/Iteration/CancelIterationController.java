@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 
 /**
- * Insert Description Here
+ * Controller for the iteration action
  *
  * @author CDUNKERS
  *

@@ -70,21 +70,21 @@ public class RetrieveAllIterationsController {
 	    this.data = Iterations;
 	    
 	    Refresher.getInstance().refreshIterations(Iterations, view);
-	    //this.view.addIterations(Iterations);
 	}
 	else {
 	    // do nothing, there are no Iterations
 	}
 	
     }
+
+	/**
+	 * TODO: proper implementation
+	 * 
+	 * @param string
+	 */
+	public void errorReceivingData(String string) {
+		
+	}
     
-    /**
-     * This method is called by the {@link RetrieveAllIterationsRequestObserver} when an
-     * error occurs retrieving the Iterations from the server.
-     */
-    public void errorReceivingData(String error) {
-	//JOptionPane.showMessageDialog(view, "An error occurred retrieving Requirements from the server. " + error,
-	//"Error Communicating with Server", JOptionPane.ERROR_MESSAGE);
-    }
     
 }

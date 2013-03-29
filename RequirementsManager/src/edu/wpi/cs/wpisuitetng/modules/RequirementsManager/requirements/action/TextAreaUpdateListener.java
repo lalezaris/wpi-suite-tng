@@ -21,6 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+
 /**
  * Adapted from JPage and the ComboUpdateListener in DefectTracker
  * 

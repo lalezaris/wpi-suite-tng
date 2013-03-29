@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+
 /**
  * Controller to handle the saving of a requirement
  * Adapted from SaveDefectController in project DefectTracker
@@ -52,7 +53,6 @@ public class SaveRequirementController {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
-		//panel.getParent().setInputEnabled(false);
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(panel.checkRequiredFields() > 0){} 
 		else {
@@ -63,9 +63,7 @@ public class SaveRequirementController {
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			//Refresher.getInstance().refresh(reqArray, mode)
 			System.out.println("SAVE REQUIREMENT");
 		}
-		//Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 	} 
 }

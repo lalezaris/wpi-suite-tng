@@ -69,6 +69,8 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 	}
 
 	/* 
+	 * Action performed to close tab component
+	 * @param arg0 the ActionEvent being performed
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

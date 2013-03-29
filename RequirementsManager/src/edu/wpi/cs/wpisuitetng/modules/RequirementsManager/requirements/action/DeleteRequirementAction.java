@@ -37,7 +37,6 @@ public class DeleteRequirementAction extends AbstractAction {
 	public DeleteRequirementAction(DeleteRequirementController controller) {
 		super("Delete");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 

@@ -43,6 +43,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	}
 
 	/* Commented out part not needed for iteration 1 but may be needed in the future
+	 * @param iReq the request to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -55,35 +56,12 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		Refresher.getInstance().refreshIterationsFromServer(null);
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		/*if (response.getStatusCode() == 200) {
-			// parse the iteration from the body
-			final Iteration iteration = Iteration.fromJSON(response.getBody());
-
-			// make sure the iteration isn't null
-			if (iteration != null) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						//((IterationPanel) view.getIterationPanel()).updateModel(iteration);
-						//view.setEditModeDescriptors(iteration);
-					}
-				});
-			}
-			else { */
-//		JOptionPane.showMessageDialog(view, "Successfully saved new iteration to server.", 
-//			"Success!", JOptionPane.INFORMATION_MESSAGE);
-			/*}
-		}
-		else {
-			JOptionPane.showMessageDialog(view, 
-					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-					"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
-		} */
-
 		always();
 	}
 
 	/* 
+	 * Responds with an error if unable to save iteration
+	 * @param iReq the IRequest to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -95,6 +73,9 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	}
 
 	/* 
+	 * Displays a fail message if unable to save iteration
+	 * @param iReq the request to respond to
+	 * @param exception the exception that causes the failure to save iteration
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

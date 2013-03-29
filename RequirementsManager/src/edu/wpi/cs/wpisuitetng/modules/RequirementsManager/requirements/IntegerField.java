@@ -1,4 +1,3 @@
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import javax.swing.JTextField;
@@ -10,10 +9,8 @@ import javax.swing.text.PlainDocument;
 /**
  * A JTextField that accepts only integers.
  * 
- * Aquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
+ * @author aquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  *
- * @author 
- * 
  * @version Mar 22, 2013
  */
 public class IntegerField extends JTextField {

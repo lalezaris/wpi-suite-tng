@@ -45,10 +45,9 @@ public class SaveIterationController {
 	 */
 	public void save() {
 		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
-		final RequestObserver requestObserver = /* (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : */ new SaveIterationRequestObserver(view);
+		final RequestObserver requestObserver = new SaveIterationRequestObserver(view);
 		Request request;
-		//panel.getParent().setInputEnabled(false);
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /* (panel.getEditMode() == Mode.CREATE) ? */ HttpMethod.PUT /* HttpMethod.POST */);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
 		if(panel.checkRequiredFields() > 0){
 		} 
 		else {

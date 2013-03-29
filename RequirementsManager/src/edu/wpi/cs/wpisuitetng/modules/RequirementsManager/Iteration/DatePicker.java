@@ -1,4 +1,4 @@
-/**
+/**************************************************
  * This file was developed for CS3733: Software Engineering
  * The course was taken at Worcester Polytechnic Institute.
  *
@@ -8,8 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tushar Narayan 
- */
+ *  Tushar Narayan
+**************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
@@ -41,6 +42,12 @@ public class DatePicker {
 	JDialog d;
 	JButton[] button = new JButton[49];
 
+	
+	/**
+	 * Constructs a new DatePicker object
+	 * 
+	 * @param parent the JFrame to display the DatePicker object in
+	 */
 	public DatePicker(JFrame parent) {  
 		d = new JDialog();
 		d.setModal(true);

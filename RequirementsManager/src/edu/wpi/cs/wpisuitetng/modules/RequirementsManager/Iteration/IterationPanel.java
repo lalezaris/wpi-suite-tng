@@ -130,6 +130,7 @@ public class IterationPanel extends JPanel {
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
+
 		// Buttons for "Save" and "Cancel"
 		saveIterationBottom = new JButton("Save");
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
@@ -362,18 +363,6 @@ public class IterationPanel extends JPanel {
 		iteration.setIterationNumber(getValue(txtIterationNumber)); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
-		//		if (!(txtAssignee.getText().equals(""))) {
-		//			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		//		}
-		//		if (!(txtCreator.getText().equals(""))) {
-		//			iteration.setCreator(new User("", txtCreator.getText(), "", -1));
-		//		}
-		//		HashSet<Tag> tags = new HashSet<Tag>();
-		//		for (int i = 0; i < tagPanel.lmTags.getSize(); i++) {
-		//			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
-		//		}
-		//		iteration.setTags(tags);
-
 		return iteration;
 	}
 

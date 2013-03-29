@@ -45,8 +45,6 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	private Tab containingTab;
 	private boolean inputEnabled;
 	
-	
-	
 	public RequirementListView(Tab tab){
 		containingTab = tab;
 
@@ -68,16 +66,11 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-				//SwingUtilities.invokeLater(new Runnable(){
-				//	public void run(){
 						mainPanelScrollPane.repaint();
-				//	}
-				//});
 			}
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
-		//controller = new RetrieveAllRequirementsController(this);
 		controller.refreshData();
 		// Instantiate the save button and add it to the button panel
 		refreshButton = new JButton("Refresh");
@@ -86,17 +79,9 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		buttonGroup.setPreferredWidth(150);
 	}
 	
-	
-	public void addRequirements(Requirement[] reqArray){
-		
-		//THIS DOES NOTHING BECAUSE AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGH
-		//mainPanel.clearList();
-		
-		//for(Requirement r : reqArray){
-		//	mainPanel.addRequirement(r);
-		//} 
-	}
-	
+	/* Gets ToolbarGroupView
+	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
+	 */
 	@Override
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;

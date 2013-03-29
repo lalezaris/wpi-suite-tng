@@ -20,7 +20,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @author Tushar Narayan
  * @author Arica Liu
  *
- * @version Mar 26, 2013
+ * @version Mar 29, 2013
  *
  */
 public class IterationPanel extends JPanel {
@@ -370,7 +369,6 @@ public class IterationPanel extends JPanel {
 	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
-	 * TODO: Do some basic input verification
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
@@ -384,8 +382,11 @@ public class IterationPanel extends JPanel {
 	/**
 	 * Checks to make sure that all the fields are correctly filled in.
 	 * 
-	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 3 if iteration number already exists,
-	 * 4 if dates overlap, 0 otherwise
+	 * @return	1 if startDate >= endDate,
+	 * 			2 if field(s) are missing,
+	 * 			3 if iteration number already exists,
+	 * 			4 if dates overlap,
+	 * 			0 otherwise
 	 */
 	public int checkRequiredFields(){
 		if((getValue(txtIterationNumber) < 0)
@@ -497,7 +498,6 @@ public class IterationPanel extends JPanel {
 				lblDateOverlapError.setVisible(false);
 				return 3;
 			}
-
 			else if (((startDate.after(array[i].getStartDate())) &&
 					(endDate.before(array[i].getEndDate())))
 					||
@@ -527,6 +527,7 @@ public class IterationPanel extends JPanel {
 		}
 		return 0;
 	}
+	
 	/**
 	 * Convert a String to Date. 
 	 * 
@@ -534,7 +535,6 @@ public class IterationPanel extends JPanel {
 	 * @return The resulting Date.
 	 */
 	private Date StringToDate(String aDate) {
-		System.out.println(aDate);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Date convertedDate = new Date();
 		try {
@@ -543,7 +543,6 @@ public class IterationPanel extends JPanel {
 			System.out.println("Error converting string to date!");
 			e.printStackTrace();
 		} 
-		System.out.println("Converted string to date : " + convertedDate);
 		return convertedDate;
 	}
 }

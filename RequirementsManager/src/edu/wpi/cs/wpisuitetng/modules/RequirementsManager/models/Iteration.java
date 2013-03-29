@@ -32,10 +32,34 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher
  * 
  * @author Arica Liu
  * @author Tushar Narayan
+ * @author Michael Perrone
  */
 public class Iteration extends AbstractModel{
 	
 	private static Iteration backlog;
+	private int iterationNumber;
+	private Date startDate, endDate;
+	private List<Integer> requirements;
+	private IterationStatus status;
+	
+	private int id;
+	
+	/**
+	 * @param iterationNumber
+	 * @param startDate
+	 * @param endDate
+	 */
+	public Iteration(int iterationNumber, Date startDate, Date endDate) {
+		super();
+		this.iterationNumber = iterationNumber;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.requirements = new ArrayList<Integer>();
+		this.status = NEW;
+		
+	
+	}
+	public Iteration(){}
 	
 	public static Iteration getBacklog(){
 		if (backlog == null){
@@ -62,31 +86,6 @@ public class Iteration extends AbstractModel{
 		System.out.println("Iteration Not Found");
 		return getBacklog();
 	}
-	
-	private int iterationNumber;
-	private Date startDate, endDate;
-	private List<Integer> requirements;
-	private IterationStatus status;
-	
-	private int id;
-	
-	/**
-	 * @param iterationNumber
-	 * @param startDate
-	 * @param endDate
-	 */
-	public Iteration(int iterationNumber, Date startDate, Date endDate) {
-		super();
-		this.iterationNumber = iterationNumber;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.requirements = new ArrayList<Integer>();
-		this.status = NEW;
-		
-	
-	}
-	public Iteration(){}
-
 	
 	/**
 	 * @return the iterationNumber
@@ -160,12 +159,7 @@ public class Iteration extends AbstractModel{
 	 */
 	public void removeRequirement(Integer requirement) {
 		System.out.println("removing requirement from iteration");
-		if (requirement != null 
-				&& this.requirements != null 
-				&& this.requirements.contains(requirement)){
-			System.out.println("removing requirement from iteration");
-			this.requirements.remove(requirement);
-		}
+		this.requirements.remove(requirement);
 	}
 
 	/**

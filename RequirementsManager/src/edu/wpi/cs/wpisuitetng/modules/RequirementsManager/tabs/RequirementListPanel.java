@@ -49,8 +49,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveR
  */
 public class RequirementListPanel extends JPanel{
 
-	
-	
 	private JTextArea list;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -65,47 +63,23 @@ public class RequirementListPanel extends JPanel{
 	private Tab containingTab;
 	
 	public RequirementListPanel(MainTabController tabController){
-		super(new GridLayout());
-		
+		super(new GridLayout());	
 		this.tabController = tabController;
-		
-	
-		panel = new JPanel();
-		
+		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		
-		
-		
-
-		TableModel model = new RequirementTableModel();
-		
+		TableModel model = new RequirementTableModel();		
 		table = new JTable(model);
-		table.addMouseListener(new RetrieveRequirementController(this));
-		
-		((RequirementTableModel)table.getModel()).setColumnWidths(table);
-		
-		
+		table.addMouseListener(new RetrieveRequirementController(this));		
+		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
-		
-		//table.setFillsViewportHeight(true);
-		
-		
-		//retrieveController.refreshData();
 		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(retrieveController));
-		
+		refreshButton.setAction(new RefreshAction(retrieveController));	
 		deleteButton = new JButton("Delete");
 		
-//		buttonGroup.getContent().add(refreshButton);
-//		buttonGroup.setPreferredWidth(150);
-		GridBagConstraints c = new GridBagConstraints();
-		
-		layout = new GridBagLayout();
-		
-		panel.setLayout(layout);
-		
-		
-		
+		GridBagConstraints c = new GridBagConstraints();	
+		layout = new GridBagLayout();	
+		panel.setLayout(layout);	
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -113,8 +87,7 @@ public class RequirementListPanel extends JPanel{
 		c.weighty = 0;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panel.add(refreshButton, c);
-		
+		panel.add(refreshButton, c);		
 		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -123,23 +96,15 @@ public class RequirementListPanel extends JPanel{
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridwidth = 1;
-//		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(scrollPane, c);
 		
-		
-		
-		//this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(panel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-				//SwingUtilities.invokeLater(new Runnable(){
-				//	public void run(){
 						mainPanelScrollPane.repaint();
-				//	}
-				//});
 			}
 		});
 		
@@ -150,25 +115,27 @@ public class RequirementListPanel extends JPanel{
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
+			/* Shows changes to hierarchy
+			 * @param e HierarchyEvent to respond to
+			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
+			 */
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
-				// TODO Auto-generated method stub
 				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
 						&& p.isShowing())
-				//if (HierarchyEvent.SHOWING_CHANGED != 0 && p.isShowing())
 				{
-					
+
 					Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
 				}
-					
+
 			}
-			
+
 		});
-		
-		
-		
+
+
+
 	}
-	
+
 	public void setTab(Tab tab)
 	{
 		containingTab = tab;
@@ -192,10 +159,7 @@ public class RequirementListPanel extends JPanel{
 
 
 	public void addRequirements(Requirement[] requirements) {
-		clearList();
-
-		//addRequirement(requirements[0]);
-		
+		clearList();		
 		for (int i = requirements.length -1; i > -1; i --){
 			if (requirements[i].getStatus() != RequirementStatus.DELETED){
 				addRequirement(requirements[i]);

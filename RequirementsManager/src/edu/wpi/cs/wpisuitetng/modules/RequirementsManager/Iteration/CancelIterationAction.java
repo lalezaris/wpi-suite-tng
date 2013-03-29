@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 /**
- * Insert Description Here
+ * Cancels an iteration action
  *
  * @author CDUNKERS
  *
@@ -35,7 +35,6 @@ public class CancelIterationAction extends AbstractAction {
 	public CancelIterationAction(CancelIterationController controller) {
 		super("Cancel");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 

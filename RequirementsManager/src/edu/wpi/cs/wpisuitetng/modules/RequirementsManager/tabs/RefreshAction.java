@@ -41,12 +41,12 @@ public class RefreshAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
-	/* (non-Javadoc)
+	/* Action performed by controller to refresh data
+	 * @param e ActionEvent to perform refresh of data
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		controller.refreshData();
 	}
 

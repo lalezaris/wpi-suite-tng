@@ -75,17 +75,12 @@ public class IterationView extends JPanel {
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-				//SwingUtilities.invokeLater(new Runnable(){
-				//	public void run(){
-						mainPanelScrollPane.repaint();
-				//	}
-				//});
+				mainPanelScrollPane.repaint();
 			}
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveIterationController(this);
-	//	controller.save();
 	}
 
 
@@ -114,6 +109,6 @@ public class IterationView extends JPanel {
 	}
 	
     public void addIterations(Iteration[] iterations){
-	//so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
+	//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
     }
 }

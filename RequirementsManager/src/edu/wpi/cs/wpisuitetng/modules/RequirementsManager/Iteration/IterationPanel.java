@@ -134,15 +134,10 @@ public class IterationPanel extends JPanel {
 		txtEndDate = new JLabel("");
 
 		//Save Button
-//		saveIterationTop = new JButton("Save");
-//		saveIterationTop.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		saveIterationBottom = new JButton("Save");
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		cancelIterationBottom = new JButton("Cancel");
 		cancelIterationBottom.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
-
-		// set maximum widths of components so they are not stretched
-		//		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
 
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("Iteration Number:", LABEL_ALIGNMENT);
@@ -153,24 +148,6 @@ public class IterationPanel extends JPanel {
 		//Use a grid bag layout manager
 		layoutOne = new GridBagLayout();
 		panelOne.setLayout(layoutOne);	
-
-//		cOne.anchor = GridBagConstraints.LINE_START; 
-//		cOne.gridx = 0;
-//		cOne.gridy = 0;
-//		cOne.weightx = 0.5;
-//		cOne.weighty = 0.5;
-//		cOne.gridwidth = 1;
-//		cOne.insets = new Insets(10,10,10,0); //top,left,bottom,right
-//		panelOne.add(saveIterationTop, cOne);
-
-//		cOne.gridx = 2;
-//		cOne.gridy = 0;
-//		cOne.weightx = 0.5;
-//		cOne.weighty = 0.5;
-//		cOne.gridwidth = 1;
-//		lblDateError.setVisible(false);
-//		lblDateError.setForeground(Color.RED);
-//		panelOne.add(lblDateError, cOne);
 
 		cOne.anchor = GridBagConstraints.LINE_START; 
 		cOne.gridx = 0;
@@ -218,7 +195,6 @@ public class IterationPanel extends JPanel {
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 1;
 		txtStartDate.setEnabled(true);
-		//	txtStartDate.setText(model.getStartDate().toString());
 		panelTwo.add(txtStartDate, cTwo);
 
 		cTwo.gridx = 4;
@@ -363,9 +339,6 @@ public class IterationPanel extends JPanel {
 		inputEnabled = enabled;
 
 		txtIterationNumber.setEnabled(enabled);
-		//		cmbStatus.setEnabled(enabled);
-		//		cmbPriority.setEnabled(enabled);
-		//		txtEstimate.setEnabled(enabled);
 	}
 
 	/**
@@ -393,18 +366,6 @@ public class IterationPanel extends JPanel {
 		iteration.setIterationNumber(getValue(txtIterationNumber)); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
-		//		if (!(txtAssignee.getText().equals(""))) {
-		//			iteration.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		//		}
-		//		if (!(txtCreator.getText().equals(""))) {
-		//			iteration.setCreator(new User("", txtCreator.getText(), "", -1));
-		//		}
-		//		HashSet<Tag> tags = new HashSet<Tag>();
-		//		for (int i = 0; i < tagPanel.lmTags.getSize(); i++) {
-		//			tags.add(new Tag((String)tagPanel.lmTags.get(i)));
-		//		}
-		//		iteration.setTags(tags);
-
 		return iteration;
 	}
 

@@ -58,7 +58,12 @@ public class MainTabController {
 		});
 	}
 	
-	//hack. Sorry.
+	//TODO: improve implementation
+	/**
+	 * Gets MainTabController
+	 * 
+	 * @return staticView 
+	 */
 	public static MainTabController getController(){
 		return staticView;
 	}
@@ -84,6 +89,7 @@ public class MainTabController {
 
 	
 	/**
+	 * Adds a tab
 	 * @return Same as addTab(null, null, null, null)
 	 */
 	public Tab addTab() {
@@ -110,19 +116,9 @@ public class MainTabController {
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
-		//if (RequirementListPanel.isListPanelAlreadyOpen()){
-			//this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			//RequirementListPanel.getListPanel().getContainingTab().getView().removeTabAt(
-			//		RequirementListPanel.getListPanel().getContainingTab().getThisIndex());
-			//RequirementListPanel.closeListPanel();
-		//} 
-		
-		
-		
 		Tab tab = addTab();
 		RequirementListPanel panel = view.getTableModel();
 		panel.setTab(tab);
-		//RequirementListPanel panel = new RequirementListPanel(tab, this, view.getTableModel());
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;
@@ -210,6 +206,11 @@ public class MainTabController {
 		}
 	}
 
+	/**
+	 * Adds new iteration tab
+	 * 
+	 * @return Tab returns the new iteration tab
+	 */
 	public Tab addNewIterationTab() {
 		Tab tab = addTab();
 		IterationView view = new IterationView(new Iteration(0, null, null), tab);

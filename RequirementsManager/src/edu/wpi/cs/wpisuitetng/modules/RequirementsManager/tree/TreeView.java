@@ -77,19 +77,6 @@ public class TreeView extends JPanel {
 		
 		tree = new JTree(treeModel);
 		
-		//tree.addMouseListener(new RetrieveRequirementController(this));
-		
-		/**
-	    DefaultMutableTreeNode currentNode = root;//.getNextNode();
-	    do {
-//	       if (currentNode.getLevel()==1) 
-	            tree.expandPath(new TreePath(currentNode.getPath()));
-	       currentNode = currentNode.getNextNode();
-	       }
-	    while (currentNode != null);
-	    */
-		
-
 		//Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {

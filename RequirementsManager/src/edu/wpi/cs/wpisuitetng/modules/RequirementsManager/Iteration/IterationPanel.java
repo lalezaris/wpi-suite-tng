@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.buttonactions.RequirementButtonController;
 
 /**
  * Panel to display and edit the basic fields for a Iteration
@@ -58,8 +59,8 @@ public class IterationPanel extends JPanel {
 	protected JLabel txtEndDate;
 	protected JButton selectEndDate = new JButton(" Select End Date ");
 	protected JButton saveIterationTop;
-	protected JButton saveIterationBottom;
-	protected JButton cancelIterationBottom;
+	protected JButton saveIteration;
+	protected JButton cancelIteration;
 	protected JFrame f = new JFrame();
 
 	/** A flag indicating if input is enabled on the form */
@@ -136,10 +137,12 @@ public class IterationPanel extends JPanel {
 		//Save Button
 //		saveIterationTop = new JButton("Save");
 //		saveIterationTop.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
-		saveIterationBottom = new JButton("Save");
-		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
-		cancelIterationBottom = new JButton("Cancel");
-		cancelIterationBottom.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
+		saveIteration = new JButton("Save");
+		saveIteration.addActionListener(new IterationButtonController(this.getParent()));
+//		saveIteration.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
+		cancelIteration = new JButton("Cancel");
+		cancelIteration.addActionListener(new IterationButtonController(this.getParent()));
+//		cancelIteration.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
 
 		// set maximum widths of components so they are not stretched
 		//		txtIterationNumber.setMaximumSize(txtIterationNumber.getPreferredSize());
@@ -296,13 +299,13 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		panelTwo.add(saveIterationBottom, cTwo);
+		panelTwo.add(saveIteration, cTwo);
 		
 		cTwo.gridx = 2;
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		panelTwo.add(cancelIterationBottom, cTwo);
+		panelTwo.add(cancelIteration, cTwo);
 		
 		cTwo.gridx = 3;
 		cTwo.gridy = 2;

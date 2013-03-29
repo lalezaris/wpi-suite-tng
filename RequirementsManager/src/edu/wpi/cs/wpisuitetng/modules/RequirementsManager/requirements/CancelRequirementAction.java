@@ -16,8 +16,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+
 /**
- * Insert Description Here
+ * Action fired by cancel button
  *
  * @author CDUNKERS
  *
@@ -35,7 +37,6 @@ public class CancelRequirementAction extends AbstractAction {
 	public CancelRequirementAction(CancelRequirementController controller) {
 		super("Cancel");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 

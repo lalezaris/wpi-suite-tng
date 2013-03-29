@@ -8,28 +8,32 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Joe Spicola
+ *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.DELETED;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
-
 /**
- * Insert Description Here
- *
- * @author CDUNKERS
- *
- * @version Mar 27, 2013
+ * Controller to handle the saving of a requirement
+ * Adapted from SaveDefectController in project DefectTracker
+ * 
+ * @author Joe Spicola
+ * 
+ * @version Mar 18, 2013
  *
  */
-public class DeleteRequirementController {
-	
+public class SaveRequirementController {
+
 	/** The view object containing the request fields */
 	protected RequirementView view;
 
@@ -37,14 +41,14 @@ public class DeleteRequirementController {
 	 * Construct a new handler for the given view
 	 * @param view the view containing the request fields
 	 */
-	public DeleteRequirementController(RequirementView view) {
+	public SaveRequirementController(RequirementView view) {
 		this.view = view;
 	}
 
 	/**
-	 * Save the view's Iteration model to the server (asynchronous).
+	 * Save the view's Requirement model to the server (asynchronous).
 	 */
-	public void delete() {
+	public void save() {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
@@ -52,14 +56,16 @@ public class DeleteRequirementController {
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(panel.checkRequiredFields() > 0){} 
 		else {
-			Requirement delRequirement = panel.getEditedModel();
-			delRequirement.setStatus(DELETED);
-			request.setBody(delRequirement.toJSON());
+			String JsonRequest = panel.getEditedModel().toJSON();
+			request.setBody(JsonRequest);
+			System.out.println("Sending REQ to server:" +JsonRequest );
 			request.addObserver(requestObserver);
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-			System.out.println("DELETE REQUIREMENT");
+			//Refresher.getInstance().refresh(reqArray, mode)
+			System.out.println("SAVE REQUIREMENT");
 		}
+		//Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 	} 
 }

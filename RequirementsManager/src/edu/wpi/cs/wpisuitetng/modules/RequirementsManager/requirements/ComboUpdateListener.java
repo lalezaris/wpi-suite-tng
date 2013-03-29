@@ -72,43 +72,7 @@ public class ComboUpdateListener implements ItemListener {
 	 */
 	public void checkIfUpdated() {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
-
-		// TODO: Need getModel() method in RequirementPanel
-		// Get the base String to compare to the text of the JTextComponent
-//		try {
-//			// Get the field from the Requirement model that corresponds with the name of component.
-//			// For instance, if the component's name is "Title" Requirement#getStatus() will be called.
-//			Object field = panel.getModel().getClass().getDeclaredMethod("get" + component.getName()).invoke(panel.getModel());
-//			
-//			// If field is null, set base to an empty String.
-//			if (field == null) {
-//				base = "";
-//			}
-//			// If field is an instance of String, set base to that String.
-//			else if (field instanceof String) {
-//				base = (String) field;
-//			}
-//			// If field is an instance of User, set base to its username.
-//			else if (field instanceof RequirementStatus) {
-//				base = ((RequirementStatus) field).toString();
-//			}
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoSuchMethodException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
+		
 		// Compare base to the component's text to determine whether or not to highlight the field.
 		if (base.equals((String) component.getSelectedItem())) {
 			component.setBackground(Color.WHITE);

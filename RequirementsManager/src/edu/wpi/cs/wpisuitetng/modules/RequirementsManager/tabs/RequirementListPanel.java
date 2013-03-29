@@ -36,8 +36,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
 
 /**
  * The innermost JPanel for the list of all requirements tab, which displays the requirement's information

@@ -16,8 +16,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+
 /**
- * Insert Description Here
+ * The action that is fired when the delete button is pressed
  *
  * @author CDUNKERS
  *

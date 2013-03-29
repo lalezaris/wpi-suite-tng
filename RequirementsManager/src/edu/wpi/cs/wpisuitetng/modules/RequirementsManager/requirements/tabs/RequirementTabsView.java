@@ -38,6 +38,5 @@ public class RequirementTabsView extends JTabbedPane {
 		       "Notes");
 		addTab("Attachments", new ImageIcon(), new AttachmentsView(),
 			       "Attachments");
-		
 	}
 }

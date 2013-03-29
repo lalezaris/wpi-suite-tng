@@ -11,10 +11,15 @@
  * Sam Abradi
  * Michael French
  */
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
+
+import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAllRequirementsRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -52,7 +57,6 @@ public class RetrieveAllRequirementsController {
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /*is this ok? ->*/ HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
-		//System.out.println("SENT REFRESH REQUEST");
 	}
 
 	/**
@@ -68,9 +72,8 @@ public class RetrieveAllRequirementsController {
 		if (Requirements.length > 0) {
 			// save the data
 			this.data = Requirements;
-			//this.view.addRequirements(Requirements);
-			//System.out.println("Refresher = "+ (Refresher.getInstance() != null));
-			//ALL TEH HAX
+			
+			//TODO: improve implementation
 			for (int i = 0 ; i < Requirements.length; i ++){
 				System.out.println("Fixing broken Iteration link. Think ID = " + Requirements[i].getIterationId());
 				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
@@ -89,8 +92,6 @@ public class RetrieveAllRequirementsController {
 	 * error occurs retrieving the Requirements from the server.
 	 */
 	public void errorReceivingData(String error) {
-		//JOptionPane.showMessageDialog(view, "An error occurred retrieving Requirements from the server. " + error, 
-				//"Error Communicating with Server", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.C
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -460,6 +460,7 @@ public class IterationPanel extends JPanel {
 	 * @return A boolean indicating if the inputs are okay
 	 */
 	private boolean ValidateFields(Date startDate, Date endDate) {
+		System.out.println("HELLO DERE" + (Refresher.getInstance() != null));
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 			int idNum = getValue(txtIterationNumber);
 			for (int i = 1; i < array.length; i++) {

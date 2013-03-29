@@ -10,11 +10,13 @@
  * Contributors:
  *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.awt.Component;
 
 import javax.swing.Icon;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 
 /**
  * A wrapper class for MainTabView that can be given to components within that view

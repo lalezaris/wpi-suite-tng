@@ -10,7 +10,7 @@
  * Contributors:
  *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

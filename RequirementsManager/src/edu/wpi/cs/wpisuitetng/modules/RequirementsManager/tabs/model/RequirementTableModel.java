@@ -11,7 +11,7 @@
  *  Chris Hanna
  *  
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.util.ArrayList;
 

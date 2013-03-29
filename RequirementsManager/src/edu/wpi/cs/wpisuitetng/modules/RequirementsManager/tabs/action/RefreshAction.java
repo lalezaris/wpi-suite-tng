@@ -13,7 +13,7 @@
  *  Chris Hanna
  *  
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;

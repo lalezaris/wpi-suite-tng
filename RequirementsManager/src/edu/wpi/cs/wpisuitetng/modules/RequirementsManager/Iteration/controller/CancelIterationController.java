@@ -10,7 +10,9 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 
 
 /**

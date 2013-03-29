@@ -21,9 +21,9 @@ import javax.swing.tree.MutableTreeNode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
@@ -63,7 +63,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		
 		this.root = (DefaultMutableTreeNode) root;
-		//controller.refreshData();
+		controller.refreshData();
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	public void addIterations(Iteration[] iterations) {
 		// TODO Auto-generated method stub
 		this.iterations = iterations;
-		
+		this.fillTree(null);
 	}
 	
 }

@@ -24,8 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 
 /**
- * Allows users to view a iteration
- * Adapted from DefectView in project DefectTracker
+ * Allows users to view a iteration.
+ * Adapted from DefectView in project DefectTracker.
  * 
  * @author Arica Liu
  * @author Tushar Narayan
@@ -104,10 +104,20 @@ public class IterationView extends JPanel {
 	    mainPanel.setInputEnabled(enabled);
 	}
 	
+	/**
+	 * Returns containgTab.
+	 * 
+	 * @return containingTab.
+	 */
 	public Tab getTab() {
 		return containingTab;
 	}
 	
+    /**
+     * This function will be used in future iterations.
+     * 
+     * @param iterations Iterations to be added.
+     */
     public void addIterations(Iteration[] iterations){
 	//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
     }

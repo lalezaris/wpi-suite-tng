@@ -10,7 +10,7 @@
  * Contributors:
  * Joe Spicola
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 
 /**
- * Button to add a note, and update display
+ * Controller to add a note, and update display
  *
  * @author Joe Spicola
  *
@@ -40,17 +40,6 @@ public class AddNoteController implements ActionListener {
 		view.setTxtNotesSaved();
 		view.setTxtNotes();
 		System.out.println(view.getNotesList().toString());
-		//view.repaint();
-		
-		//when button is pressed
-		//pull from txtNotes
-		//push to arrayList
-		//refresh tab
-		
-		// Send a request to the core to save this message
-		//final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.GET); // GET == read
-		//request.addObserver(new GetMessagesRequestObserver(this)); // add an observer to process the response
-		//request.send(); // send the request
 	}
 }
 

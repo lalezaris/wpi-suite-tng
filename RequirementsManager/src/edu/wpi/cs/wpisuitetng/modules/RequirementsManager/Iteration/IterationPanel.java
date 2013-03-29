@@ -20,6 +20,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,8 +34,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 
 /**
- * Panel to display and edit the basic fields for a Iteration
- * Adapted from DefectPanel in project DefectTracker
+ * Panel to display and edit the basic fields for a Iteration.
+ * Adapted from DefectPanel in project DefectTracker.
  *
  * @author Tushar Narayan
  * @author Arica Liu
@@ -46,12 +47,10 @@ public class IterationPanel extends JPanel {
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
 
-	/** The parent view **/
+	/** The parent view */
 	protected IterationView parent;
 
-	/*
-	 * Form elements
-	 */
+	/** Form elements */
 	protected IntegerField txtIterationNumber;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
@@ -84,9 +83,7 @@ public class IterationPanel extends JPanel {
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
 
-	/*
-	 * Constants used to layout the form
-	 */
+	/** Constants used to layout the form */
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
@@ -114,11 +111,11 @@ public class IterationPanel extends JPanel {
 
 	/**
 	 * Adds the components to the panel and places constraints on them
-	 * for the SpringLayout manager.
-	 * @param layout the layout manager
+	 * using the GridBagLayout manager.
+	 * @param layout The layout manager.
 	 */
 	protected void addComponents() {
-		//create a new constrain variable
+		// Create new constraint variables
 		GridBagConstraints c = new GridBagConstraints();
 		GridBagConstraints cOverall = new GridBagConstraints();
 		GridBagConstraints cOne = new GridBagConstraints();
@@ -133,7 +130,8 @@ public class IterationPanel extends JPanel {
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
-		//Save Button
+
+		// Buttons for "Save" and "Cancel"
 		saveIterationBottom = new JButton("Save");
 		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
 		cancelIterationBottom = new JButton("Cancel");
@@ -145,7 +143,7 @@ public class IterationPanel extends JPanel {
 		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		//Use a GridGagLayout manager
 		layoutOne = new GridBagLayout();
 		panelOne.setLayout(layoutOne);	
 
@@ -298,7 +296,6 @@ public class IterationPanel extends JPanel {
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
-		//c.gridcolumn something like this
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelOne, cOverall);
 
@@ -307,7 +304,6 @@ public class IterationPanel extends JPanel {
 		cOverall.gridx = 0;
 		cOverall.gridy = 1;
 		cOverall.anchor = GridBagConstraints.LINE_START;
-		//c.gridcolumn something like this
 		panelOverall.add(panelTwo, cOverall);
 
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
@@ -316,7 +312,6 @@ public class IterationPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		//c.gridcolumn something like this
 		this.add(panelOverall, c);		
 	}
 
@@ -331,9 +326,9 @@ public class IterationPanel extends JPanel {
 
 
 	/**
-	 *Sets if the input is enabled
+	 * Set certain input fields to Enabled or Not Enabled.
 	 * 
-	 * @param enabled shows if input is enabled
+	 * @param enabled A boolean indicating if the fields need to be enabled or not.
 	 */
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
@@ -342,10 +337,12 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * checks to see if it is an empty string returns -1 if the string is less than 0 or blank and returns the integer value otherwise
+	 * Checks to see if the given IntegerField is empty.  
 	 * 
-	 * @param intf the IntergerField in question
-	 * @return the integer that is either -1 or the integer value of the string
+	 * @param intf The IntergerField passed in.
+	 * @return -1 if the string is less than 0 or blank;
+	 * 		   the integer value otherwise.
+	 * 
 	 */
 	protected int getValue(IntegerField intf){
 		if(intf.getText().equals(null) || intf.getText().equals("")){
@@ -370,9 +367,9 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Checks to make sure the title and description are filled in 
+	 * Checks to make sure that all the fields are correctly filled in.
 	 * 
-	 * @return 2 if required fields missing, 1 if startDate >= endDate, 0 otherwise
+	 * @return 2 if field(s) are missing, 1 if startDate >= endDate, 0 otherwise.
 	 */
 	public int checkRequiredFields(){
 		// TODO: Any non-null string is currently accepted
@@ -449,16 +446,22 @@ public class IterationPanel extends JPanel {
 		}
 	}
 
+/**
+ * Convert a String to Date. 
+ * 
+ * @param aDate The string to be converted.
+ * @return The resulting Date.
+ */
 private Date StringToDate(String aDate) {
-	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy"); 
-	Date convertedDate = null;
+	System.out.println(aDate);
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	Date convertedDate = new Date();
 	try {
 		convertedDate = dateFormat.parse(aDate);
 	} catch (ParseException e) {
 		System.out.println("Error converting string to date!");
 		e.printStackTrace();
 	} 
-	// TODO: Delete error message
 	System.out.println("Converted string to date : " + convertedDate);
 	return convertedDate;
 }

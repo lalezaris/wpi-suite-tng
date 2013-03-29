@@ -20,7 +20,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 

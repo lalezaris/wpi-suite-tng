@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvide
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -129,7 +130,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	/**
 	 * @param defect Set the tab title, tooltip, and group name according to this Defect
 	 */
-	protected void setEditModeDescriptors(Requirement requirement) {
+	public void setEditModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("Requirement #" + requirement.getId());
 		containingTab.setToolTipText("View requirement " + requirement.getTitle());
 		//buttonGroup.setName("Edit Requirement");

@@ -19,7 +19,8 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Takes a response to a request, and passes it to the controller that it was instantiated with
+ * Takes a response to a request, and passes it to the controller
+ * that it was instantiated with.
  *
  * @author Sam Abradi
  *
@@ -57,7 +58,7 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	}
     }
     
-    /* Respons with an error if there is a problem retrieving all iterations
+    /* Response with an error if there is a problem retrieving all iterations
      * @param iReq the IRequest to respond to
      * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
      */

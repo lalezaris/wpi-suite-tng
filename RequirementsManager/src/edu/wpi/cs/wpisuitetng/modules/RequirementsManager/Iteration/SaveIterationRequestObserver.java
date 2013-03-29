@@ -15,14 +15,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * A RequestObserver for a Request to update a Requirement.
+ * A RequestObserver for a Request to update a Iteration.
  *
  * @author Arica Liu
  *
@@ -61,7 +61,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 
 	/* 
 	 * Responds with an error if unable to save iteration
-	 * @parm iReq the IRequest to respond to
+	 * @param iReq the IRequest to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override

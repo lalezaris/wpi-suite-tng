@@ -37,6 +37,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -230,6 +237,10 @@ public class RequirementPanel extends JPanel{
 		/**Iteration Listener*/
 		
 		cmbIteration.addActionListener(new IterationListener());
+		
+		/**Estimate Listener*/
+		
+		txtEstimate.addActionListener(new EstimateListener());
 		
 		
 		// set maximum widths of components so they are not stretched
@@ -622,7 +633,7 @@ public class RequirementPanel extends JPanel{
 	 * 
 	 * @param requirement	The Requirement which contains the new values for the model.
 	 */
-	protected void updateModel(Requirement requirement) {
+	public void updateModel(Requirement requirement) {
 		updateModel(requirement, Mode.EDIT);
 	}
 	
@@ -837,6 +848,10 @@ public class RequirementPanel extends JPanel{
 			JComboBox cb = (JComboBox)iterations.getSource();
 			System.out.println(cb.getSelectedItem());
 			
+			changeStatus(cb);
+		}
+
+		public void changeStatus(JComboBox cb){
 			int i;//For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
 			Boolean runThatForLoop = false;
@@ -886,8 +901,37 @@ public class RequirementPanel extends JPanel{
 			runThatForLoop = false;
 			cmbStatus.setEnabled(enabled);
 		}
-
+		
 	}
+	
+	public class EstimateListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent estimate) {
+			Boolean enabled = false;
+			
+			JTextField contents = (JTextField) estimate.getSource();
+			try{
+				if(Integer.parseInt(contents.getText()) > 0){
+					enabled = true;
+					System.out.println("it's greater  than 0");
+				}
+				else{
+					enabled = false;
+					System.out.println("it's less  than 0");
+				}
+			}
+			catch( NullPointerException e){
+				enabled = false;
+				System.out.println("Nothing entered");
+			}
+			cmbIteration.setEnabled(enabled);
+		}
+		
+	}
+
+
+
 
 	
 }

@@ -8,34 +8,40 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+	Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+
 /**
- * Insert Description Here
+ * Adapted from JPage
+ * Action that calls {@link SaveRequirementController#save}, default mnemonic key is S.
+ *	
+ * @author Tyler Stone
  *
- * @author CDUNKERS
- *
- * @version Mar 27, 2013
+ * @version Mar 20, 2013
  *
  */
-public class DeleteRequirementAction extends AbstractAction {
+@SuppressWarnings("serial")
+public class SaveChangesAction extends AbstractAction {
 
-	private final DeleteRequirementController controller;
+	private final SaveRequirementController controller;
 	
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
 	 */
-	public DeleteRequirementAction(DeleteRequirementController controller) {
-		super("Delete");
+	public SaveChangesAction(SaveRequirementController controller) {
+		super("Save");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 
@@ -43,7 +49,8 @@ public class DeleteRequirementAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		controller.delete();
+		System.out.println("Hit Save Button");
+		controller.save();
 	}
 
 }

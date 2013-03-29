@@ -1,8 +1,17 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note.*;
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Michael Perrone
+**************************************************/
 
 import static org.junit.Assert.*;
 
@@ -12,24 +21,27 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-
 public class NoteTest {
-	
-	Requirement req = new Requirement();
-	Note note1 = new Note("this is note 1", "");
-	Note note2 = new Note("this is note 2", "");
-	Note note3 = new Note("this is note 3", "");
-	ArrayList<Note> notes = new ArrayList<Note>();
-	
+
+	Requirement req;
+	Note note1;
+	Note note2;
+	Note note3;
+	ArrayList<Note> notes;
+
 	@Before
 	public void setUp(){
+		req = new Requirement();
+		note1  = new Note("this is note 1", "");
+		note2 = new Note("this is note 2", "");
+		note3 = new Note("this is note 3", "");
+		notes = new ArrayList<Note>();
 		System.out.println("SETUP!!!!");
 		notes.add(note1);
 		notes.add(note2);
 		notes.add(note3);
 	}
-	
+
 	@Test
 	public void testAddNote(){
 		System.out.println("adding note 1");
@@ -40,15 +52,21 @@ public class NoteTest {
 		req.addNote(note3);
 		assertEquals(req.getNotes(), notes);
 	}
-	
+
 	@Test
 	public void testArrayLists(){
 		assertEquals(notes.get(0), note1);
 		assertEquals(notes.get(1), note2);
 		assertEquals(notes.get(2), note3);
-		
-		
 	}
-	
+
+	@Test
+	public void testNoteConstructor(){
+		Note n = new Note("contents","name");
+		assertEquals(n.getBody(), "contents");
+		assertEquals(n.getCreator(), "name");
+		assertTrue(java.lang.Math.abs(new Date().getTime() - n.getCreationDate().getTime()) < 100);
+	}
+
 
 }

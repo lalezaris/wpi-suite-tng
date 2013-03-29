@@ -15,14 +15,14 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Retrieves all of the iterations from the database
+ * Retrieves all the iterations from the database.
  *
  * @author Sam Abradi
  *
@@ -76,4 +76,15 @@ public class RetrieveAllIterationsController {
 	}
 	
     }
+
+	/**
+	 * TODO: proper implementation
+	 * 
+	 * @param string
+	 */
+	public void errorReceivingData(String string) {
+		
+	}
+    
+    
 }

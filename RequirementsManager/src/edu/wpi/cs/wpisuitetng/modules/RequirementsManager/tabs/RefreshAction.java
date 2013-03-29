@@ -20,7 +20,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 
 /**
  * The action that is called by the refresh button that sends a message 

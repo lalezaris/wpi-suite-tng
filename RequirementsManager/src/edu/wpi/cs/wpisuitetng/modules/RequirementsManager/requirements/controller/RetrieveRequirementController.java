@@ -10,7 +10,7 @@
  * Contributors:
  *  Tyler
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.MouseAdapter;
 
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;

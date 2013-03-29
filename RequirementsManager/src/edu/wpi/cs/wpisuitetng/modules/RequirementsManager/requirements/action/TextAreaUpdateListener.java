@@ -1,4 +1,4 @@
-/*******************************************************************************
+/**************************************************
  * This file was developed for CS3733: Software Engineering
  * The course was taken at Worcester Polytechnic Institute.
  *
@@ -8,20 +8,19 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *    Arica Liu
- ******************************************************************************/
-
-
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+ *  Spicola
+**************************************************/
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 /**
  * Adapted from JPage and the ComboUpdateListener in DefectTracker
  * 
@@ -33,18 +32,18 @@ import javax.swing.border.Border;
  * differs, the style of the component is changed to show that it differs from the relevant field in the model.
  * Otherwise, the component's style is changed to be normal.
  *
- * @author Arica Liu
+ * @author Joe Spicola
  *
- * @version Mar 20, 2013
+ * @version Mar 26, 2013
  *
  */
-public class ComboUpdateListener implements ItemListener {
+public class TextAreaUpdateListener implements ItemListener {
 	protected final RequirementPanel panel;
-	protected final JComboBox component;
+	protected final JTextArea component;
 	protected final Border defaultBorder;
 	
 	/**
-	 * Constructs a ComboUpdateListener.
+	 * Constructs a TextAreaUpdateListener.
 	 * 
 	 * @param panel			The RequirementPanel which contains the JTextComponent.
 	 * @param component		The JComboBox which will have its selection compared to the model. The name 
@@ -52,7 +51,7 @@ public class ComboUpdateListener implements ItemListener {
 	 * 						"get". For instance: for the method "getStatus", the name of the 
 	 * 						JComboBox must be "Status".
 	 */
-	public ComboUpdateListener(RequirementPanel panel, JComboBox component) {
+	public TextAreaUpdateListener(RequirementPanel panel, JTextArea component) {
 		this.panel = panel;
 		this.component = component;
 		this.defaultBorder = component.getBorder();
@@ -73,44 +72,8 @@ public class ComboUpdateListener implements ItemListener {
 	public void checkIfUpdated() {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
 
-		// TODO: Need getModel() method in RequirementPanel
-		// Get the base String to compare to the text of the JTextComponent
-//		try {
-//			// Get the field from the Requirement model that corresponds with the name of component.
-//			// For instance, if the component's name is "Title" Requirement#getStatus() will be called.
-//			Object field = panel.getModel().getClass().getDeclaredMethod("get" + component.getName()).invoke(panel.getModel());
-//			
-//			// If field is null, set base to an empty String.
-//			if (field == null) {
-//				base = "";
-//			}
-//			// If field is an instance of String, set base to that String.
-//			else if (field instanceof String) {
-//				base = (String) field;
-//			}
-//			// If field is an instance of User, set base to its username.
-//			else if (field instanceof RequirementStatus) {
-//				base = ((RequirementStatus) field).toString();
-//			}
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SecurityException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoSuchMethodException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 		// Compare base to the component's text to determine whether or not to highlight the field.
-		if (base.equals((String) component.getSelectedItem())) {
+		if (base.equals((String) component.getSelectedText())) {
 			component.setBackground(Color.WHITE);
 			component.setBorder(defaultBorder);
 		}
@@ -119,4 +82,5 @@ public class ComboUpdateListener implements ItemListener {
 			component.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		}
 	}
+
 }

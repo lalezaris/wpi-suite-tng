@@ -10,11 +10,13 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 
 /**
- * Insert Description Here
+ * Controller that handles the cancel requirement action
  *
  * @author CDUNKERS
  *

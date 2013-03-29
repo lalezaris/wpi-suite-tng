@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 
 /**
@@ -56,11 +56,14 @@ public class Iteration extends AbstractModel{
 		this.endDate = endDate;
 		this.requirements = new ArrayList<Integer>();
 		this.status = NEW;
-		
-	
 	}
+	
 	public Iteration(){}
 	
+	
+	/**
+	 * @returns the backlog for the given project
+	 */
 	public static Iteration getBacklog(){
 		if (backlog == null){
 			backlog = new Iteration();
@@ -70,8 +73,12 @@ public class Iteration extends AbstractModel{
 		return backlog;
 	}
 	
+	/**
+	 * Gets an iteration by the designated ID number
+	 * 
+	 * @param id the id of the 
+	 */
 	public static Iteration getIterationById(int id){
-		
 		System.out.println("Fetching Iteration by ID = " + id);
 		Iteration[] allIterations = Refresher.getInstance().getInstantIterations();
 		System.out.println("Found Some Iterations...");

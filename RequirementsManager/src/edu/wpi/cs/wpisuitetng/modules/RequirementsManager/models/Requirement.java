@@ -48,7 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Requirement extends AbstractModel{
 	private String title;
 	private String releaseNumber;
-	private int iterationId; //hacking about
+	private int iterationId; //TODO: refactor to improve implementation
 	private Iteration iteration;
 	private String description;
 	private RequirementStatus status;
@@ -57,7 +57,6 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private ArrayList<Requirement> subRequirements;
-	//private String type; //shouldn't need this after revised UML diagram
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
@@ -129,7 +128,6 @@ public class Requirement extends AbstractModel{
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
-		//this.type = "Requirement"; //
 		this.notes = new ArrayList<Note>();
 	}
 	
@@ -163,8 +161,6 @@ public class Requirement extends AbstractModel{
 	public void updateNotes(ArrayList<Note> n){
 		this.notes = n;
 	}
-	
-	//note to json?
 
 	/**
 	 * Gets the releaseNumber
@@ -400,15 +396,6 @@ public class Requirement extends AbstractModel{
 	public void setIterationId(int id){
 		this.iterationId = id;
 	}
-	/*
-	 public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	*/
 	
 	/*
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
@@ -436,8 +423,7 @@ public class Requirement extends AbstractModel{
 	@Override
 	public String toJSON() {
 		
-		//this.iterationId = this.iteration.getId();
-		this.iteration = null; //dont mind all this hackage
+		this.iteration = null; //TODO: less hacking
 
 		String json;
 		Gson gson = new Gson();
@@ -463,7 +449,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		//return toJSON();
 		return this.getTitle();
 	}
 
@@ -502,7 +487,7 @@ public class Requirement extends AbstractModel{
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		//RequirementEvent.addGsonDependencies(builder);
+		
 	}
 
 }

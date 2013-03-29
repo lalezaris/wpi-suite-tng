@@ -10,10 +10,10 @@
  * Contributors:
  *  Tyler
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 /**
- * Insert Description Here
+ * The request observer for a create request to the server
  *
  * @author Tyler, adapted from Defect Tracker
  *
@@ -24,6 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -45,6 +49,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		this.view = view;
 	}
 
+	/**
+	 * @param iReq the request
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request

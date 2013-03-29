@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
 **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
@@ -26,10 +27,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Allows the user to pick the date for an iteration
+ * Used in IterationPanel as a date selector component.
  * 
  * @author tnarayan
  *
+ * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */
 public class DatePicker {  
 
@@ -93,13 +95,10 @@ public class DatePicker {
 		d.pack();
 		d.setLocationRelativeTo(parent);
 		displayDate();
-		//d.setVisible(true);
-
 	}
 
 	/**
-	 * Displays the date in the DatePicker frame
-	 * 
+	 * Function to display date on GUI.
 	 */
 	public void displayDate() {
 		for (int x = 7; x < button.length; x++)
@@ -113,13 +112,12 @@ public class DatePicker {
 			button[x].setText("" + day);
 		l.setText(sdf.format(cal.getTime()));
 		d.setTitle("Date Picker");
-
 	}
 
 	/**
-	 * Sets the picked date
+	 * Return the picked date as a string.
 	 * 
-	 * @return String the date that is picked
+	 * @return A string representing the input date.
 	 */
 	public String setPickedDate() {
 		if (day.equals(""))
@@ -129,5 +127,4 @@ public class DatePicker {
 		cal.set(year, month, Integer.parseInt(day));
 		return sdf.format(cal.getTime());
 	}
-
 }

@@ -85,7 +85,8 @@ public class TextUpdateListener implements KeyListener {
 		// TODO Auto-generated method stub
 	}
 
-	/**Commented out parts are not needed in iteration 1 but may be needed in the future
+	/**
+	 * Commented out parts are not needed in iteration 1 but may be needed in the future
 	 * Checks if the field differs from the RequirementPanel's model and changes the style of the field accordingly.
 	 */
 	public void checkIfUpdated() {

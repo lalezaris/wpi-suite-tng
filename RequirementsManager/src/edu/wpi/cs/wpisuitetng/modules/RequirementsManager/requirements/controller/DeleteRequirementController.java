@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Insert Description Here
+ * Controller that handles the delete requirement action
  *
  * @author CDUNKERS
  *

@@ -46,9 +46,6 @@ public class RetrieveRequirementController extends MouseAdapter {
         int row = requirementListPanel.getTable().rowAtPoint(evt.getPoint());
    
         if (row >= 0) {
-        	//reqID goes from object > string > int
-            //int reqID = Integer.parseInt( requirementListPanel.getTable().getValueAt(row, 0).toString() );
-            //Chris Hanna changed the above line to the following. This removes complexity
         	selectedRequirement = ((RequirementTableModel)requirementListPanel.getTable().getModel()).getRowID(row);
             
             if (evt.getClickCount() == 2) {

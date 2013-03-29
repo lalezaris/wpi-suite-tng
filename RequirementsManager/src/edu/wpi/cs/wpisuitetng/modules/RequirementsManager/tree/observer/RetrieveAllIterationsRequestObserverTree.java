@@ -33,6 +33,10 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 	this.r = r;
     }
     
+    /* Respond to the request
+     * @param iReq Request to respond to
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+     */
     @Override
 	public void responseSuccess(IRequest iReq) {
 	// cast observable to request
@@ -53,16 +57,23 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 	}
     }
     
+    /* Responds when there is an error
+     * @param iReq IRequest that has an error to respond to
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+     */
     @Override
 	public void responseError(IRequest iReq) {
-	// TODO Auto-generated method stub
 	System.out.print("Response Error");
 	
     }
     
+    /* Responds where there is a failure
+     * @param iReq IRequest to respond to the failure
+     * @param exception exception causing the failure
+     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+     */
     @Override
 	public void fail(IRequest iReq, Exception exception) {
-	// TODO Auto-generated method stub
 	
     }
 }

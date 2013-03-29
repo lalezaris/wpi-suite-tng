@@ -242,7 +242,6 @@ public class RequirementPanel extends JPanel{
 		
 		txtEstimate.addActionListener(new EstimateListener());
 		
-		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -326,6 +325,11 @@ public class RequirementPanel extends JPanel{
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
+		if(model.getEstimateEffort() > 0)
+			cmbIteration.setEnabled(true);
+		else
+			cmbIteration.setEnabled(false);
+		
 		panelOne.add(cmbIteration, cOne);
 		
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
@@ -929,9 +933,6 @@ public class RequirementPanel extends JPanel{
 		}
 		
 	}
-
-
-
 
 	
 }

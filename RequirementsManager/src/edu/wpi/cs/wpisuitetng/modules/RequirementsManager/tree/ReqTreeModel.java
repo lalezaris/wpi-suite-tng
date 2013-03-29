@@ -63,7 +63,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		
 		this.root = (DefaultMutableTreeNode) root;
-		//controller.refreshData();
+		controller.refreshData();
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	public void addIterations(Iteration[] iterations) {
 		// TODO Auto-generated method stub
 		this.iterations = iterations;
-		
+		this.fillTree(null);
 	}
 	
 }

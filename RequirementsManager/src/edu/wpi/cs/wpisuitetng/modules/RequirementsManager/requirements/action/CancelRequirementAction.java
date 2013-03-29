@@ -19,7 +19,7 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 
 /**
- * Action fired by cancel button
+ * Action fired by cancel button.
  *
  * @author CDUNKERS
  *

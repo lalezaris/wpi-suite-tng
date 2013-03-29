@@ -22,6 +22,8 @@ import javax.swing.JTextField;
  * A text field that supports placeholder text. The placeholder text
  * is displayed in a gray font and it is removed when the text field
  * gains focus.
+ * 
+ * @author Chris Casola
  */
 @SuppressWarnings("serial")
 public class JPlaceholderTextField extends JTextField {

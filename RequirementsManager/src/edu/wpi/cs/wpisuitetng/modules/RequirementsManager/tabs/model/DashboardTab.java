@@ -25,20 +25,12 @@ import javax.swing.JPanel;
  *
  */
 public class DashboardTab extends JPanel{
-	
-	
 	/**
-	 * Class Constructor
+	 * Class Constructor for Dashboard.
 	 * 
 	 */
 	public DashboardTab() {
 		JLabel testLabel = new JLabel("This is the dashboard panel.");
 		this.add(testLabel);
-		
-		
 	}
-	
-	
-	
-	
 }

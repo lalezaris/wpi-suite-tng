@@ -21,11 +21,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
+ * The action that the "List Iterations" button is registered to. 
+ * 
  * @author Chris Hanna
  */
 public class ListIterationAction extends AbstractAction {
-
-	
+	/**
+	 * Constructor for ListIterationAction
+	 * 
+	 * @param n The button name
+	 */
 	public ListIterationAction(String n){
 		super(n);
 	}
@@ -45,5 +50,4 @@ public class ListIterationAction extends AbstractAction {
 			System.out.println(""+j + ":" + i[j].getIterationNumber());
 		System.out.println("done finding iterations...");
 	}
-
 }

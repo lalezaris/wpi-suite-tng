@@ -121,6 +121,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 		TreeView.expandAll();
 	}
 	
+	/**
+	 * Refresh the tree.
+	 */
 	public void refreshTree(){
 		controller.refreshData();
 		itController.refreshData();

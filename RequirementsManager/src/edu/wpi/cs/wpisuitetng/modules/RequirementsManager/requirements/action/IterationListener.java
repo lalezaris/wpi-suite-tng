@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 /**
- * Listen for an action performed within the iteration combo box
+ * Listen for an action performed within the iteration combo box.
  * 
  * @author Ned Shelton
  *

@@ -296,7 +296,7 @@ public class IterationPanel extends JPanel {
 		lblDateError.setVisible(false);
 		lblDateError.setForeground(Color.RED);
 		panelTwo.add(lblDateError, cTwo);
-		
+
 		lblDateOverlapError.setVisible(false);
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
@@ -462,7 +462,7 @@ public class IterationPanel extends JPanel {
 		else{
 			Date startDate = StringToDate(txtStartDate.getText());
 			Date endDate = StringToDate(txtEndDate.getText());
-			if (startDate.compareTo(endDate) >= 0) {
+			if (startDate.compareTo(endDate) > 0) {
 				lblIterationNumberError.setVisible(false);
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);
@@ -472,7 +472,7 @@ public class IterationPanel extends JPanel {
 				return 1;
 			}
 			else{
-				return (ValidateFields(startDate, endDate));
+				return (ValidateFields());
 			}
 		}
 	}
@@ -482,10 +482,13 @@ public class IterationPanel extends JPanel {
 	 * 
 	 * @param startDate The start date of the input iteration
 	 * @param endDate The end date of the input iteration
-	 * @return 3 if iteration number already exists, 4 if dates overlap, 0 otherwise
+	 * @return	3 if iteration number already exists,
+	 * 			4 if dates overlap,
+	 * 			0 otherwise
 	 */
-	private int ValidateFields(Date startDate, Date endDate) {
-		System.out.println("HELLO DERE" + (Refresher.getInstance() != null));
+	public int ValidateFields() {
+		Date startDate = StringToDate(txtStartDate.getText());
+		Date endDate = StringToDate(txtEndDate.getText());
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		int idNum = getValue(txtIterationNumber);
 		for (int i = 1; i < array.length; i++) {
@@ -498,36 +501,30 @@ public class IterationPanel extends JPanel {
 				lblDateOverlapError.setVisible(false);
 				return 3;
 			}
-			else if (((startDate.after(array[i].getStartDate())) &&
-					(endDate.before(array[i].getEndDate())))
+			else if ((endDate.before(array[i].getStartDate()))
 					||
-					((startDate.before(array[i].getStartDate())) &&
-							(endDate.after(array[i].getStartDate())))
-							||
-							((startDate.after(array[i].getStartDate())) &&
-									(startDate.before(array[i].getEndDate())))
-									||
-									((startDate.before(array[i].getStartDate())) &&
-											(endDate.after(array[i].getEndDate())))){
-				if ((startDate.equals(array[i].getEndDate())) ||
-						(endDate.equals(array[i].getStartDate()))) {
-					continue;
-				}
-				else {
-					lblIterationNumberError.setVisible(false);
-					lblStartDateError.setVisible(false);
-					lblEndDateError.setVisible(false);
-					lblDateError.setVisible(false);
-					lblIterationNumberError2.setVisible(false);
-					lblDateOverlapError.setVisible(true);
-					return 4;
-				}
+					(startDate.after(array[i].getEndDate()))
+					||
+					(startDate.equals(array[i].getEndDate()))
+					||
+					(endDate.equals(array[i].getStartDate())))
+			{
+				continue;
 			}
-			else continue;
+			else
+			{
+				lblIterationNumberError.setVisible(false);
+				lblStartDateError.setVisible(false);
+				lblEndDateError.setVisible(false);
+				lblDateError.setVisible(false);
+				lblIterationNumberError2.setVisible(false);
+				lblDateOverlapError.setVisible(true);
+				return 4;
+			}
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Convert a String to Date. 
 	 * 

@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 
 /**
- * Controller to add a note, and update display
+ * Controller to add a note, and update the display.
  *
  * @author Joe Spicola
  *

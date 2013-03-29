@@ -24,19 +24,18 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 
 /**
+ * A Refresher refreshes the tree view.
+ * 
  * @author Chris Hanna
  *
  */
 public class Refresher {
-
 	private static Refresher instance;
-	
 	
 	public static Refresher getInstance(){
 		System.out.println("Fetching Refresher: " + (instance != null));
 		return instance;
 	}
-	
 	
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
@@ -46,7 +45,6 @@ public class Refresher {
 	
 	private Iteration[] lastKnownIterations;
 	private boolean iterationsSet;
-	
 	
 	public Refresher(ReqTreeModel tree, RequirementListPanel table)
 	{
@@ -64,7 +62,6 @@ public class Refresher {
 	{
 		this.reqController = new RetrieveAllRequirementsController(mode);
 		this.reqController.refreshData();
-		
 	}
 	
 	/**
@@ -106,7 +103,6 @@ public class Refresher {
 		}
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TREE)
 			tree.fillTree(reqArray);
-		
 	}
 
 	/**
@@ -127,7 +123,6 @@ public class Refresher {
 		setLastKnownIterations(iterations);
 		this.iterationsSet = true;
 		tree.refreshTree();
-	
 	}
 
 	/**

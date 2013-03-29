@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 /**
+ * A enum type to support Refresher.
+ * 
  * @author Chris Hanna
  *
  */

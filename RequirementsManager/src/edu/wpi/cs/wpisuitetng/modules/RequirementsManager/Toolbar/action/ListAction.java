@@ -33,23 +33,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  *
  */
 public class ListAction extends AbstractAction {
-
 	private final MainTabController controller;
-	
-	
 	
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		
 		controller.addListRequirementTab();
-		
 	}
 
-	
 	public ListAction(MainTabController controller) {
 		super("List Requirements");
 		

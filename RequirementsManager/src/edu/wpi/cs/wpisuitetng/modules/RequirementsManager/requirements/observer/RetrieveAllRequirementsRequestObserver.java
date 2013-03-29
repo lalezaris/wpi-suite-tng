@@ -57,7 +57,6 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
-	
 		System.out.print("Response Error: " + iReq.getBody() + "  ::  " + iReq.toString() );
 		
 	}

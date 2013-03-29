@@ -35,11 +35,9 @@ public class AddNoteController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("ITWORKEDHOLYCRAP");
 		view.addNoteToList(view.stringToNote(view.getNoteString()));
 		view.setTxtNotesSaved();
 		view.setTxtNotes();
-		System.out.println(view.getNotesList().toString());
 	}
 }
 

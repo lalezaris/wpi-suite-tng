@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 
 /**

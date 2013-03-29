@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -21,6 +21,8 @@ import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.border.Border;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 
 /**
  * Adapted from JPage and the ComboUpdateListener in DefectTracker

@@ -37,6 +37,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
@@ -625,7 +629,7 @@ public class RequirementPanel extends JPanel{
 	 * 
 	 * @param requirement	The Requirement which contains the new values for the model.
 	 */
-	protected void updateModel(Requirement requirement) {
+	public void updateModel(Requirement requirement) {
 		updateModel(requirement, Mode.EDIT);
 	}
 	

@@ -24,10 +24,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;

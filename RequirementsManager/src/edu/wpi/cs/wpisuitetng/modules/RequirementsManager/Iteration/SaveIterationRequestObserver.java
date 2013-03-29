@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;

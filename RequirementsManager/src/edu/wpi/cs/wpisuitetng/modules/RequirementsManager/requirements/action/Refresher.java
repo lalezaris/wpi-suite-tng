@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 
 import java.util.ArrayList;

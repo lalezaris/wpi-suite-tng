@@ -10,34 +10,33 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 
 /**
- * The action that is fired when the delete button is pressed
+ * Action fired by cancel button
  *
  * @author CDUNKERS
  *
  * @version Mar 27, 2013
  *
  */
-public class DeleteRequirementAction extends AbstractAction {
+public class CancelRequirementAction extends AbstractAction {
 
-	private final DeleteRequirementController controller;
+	private final CancelRequirementController controller;
 	
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
 	 */
-	public DeleteRequirementAction(DeleteRequirementController controller) {
-		super("Delete");
+	public CancelRequirementAction(CancelRequirementController controller) {
+		super("Cancel");
 		this.controller = controller;
-		//putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
 	/* 
@@ -45,7 +44,8 @@ public class DeleteRequirementAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		controller.delete();
+		controller.cancel();
 	}
 
 }
+

@@ -130,7 +130,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	/**
 	 * @param defect Set the tab title, tooltip, and group name according to this Defect
 	 */
-	protected void setEditModeDescriptors(Requirement requirement) {
+	public void setEditModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("Requirement #" + requirement.getId());
 		containingTab.setToolTipText("View requirement " + requirement.getTitle());
 		//buttonGroup.setName("Edit Requirement");

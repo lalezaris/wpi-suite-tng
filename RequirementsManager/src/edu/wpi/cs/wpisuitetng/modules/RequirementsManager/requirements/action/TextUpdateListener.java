@@ -11,7 +11,7 @@
  *  Arica Liu
 **************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -22,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**

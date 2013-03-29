@@ -238,6 +238,10 @@ public class RequirementPanel extends JPanel{
 		
 		cmbIteration.addActionListener(new IterationListener());
 		
+		/**Estimate Listener*/
+		
+		txtEstimate.addActionListener(new EstimateListener());
+		
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -899,6 +903,35 @@ public class RequirementPanel extends JPanel{
 		}
 		
 	}
+	
+	public class EstimateListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent estimate) {
+			Boolean enabled = false;
+			
+			JTextField contents = (JTextField) estimate.getSource();
+			try{
+				if(Integer.parseInt(contents.getText()) > 0){
+					enabled = true;
+					System.out.println("it's greater  than 0");
+				}
+				else{
+					enabled = false;
+					System.out.println("it's less  than 0");
+				}
+			}
+			catch( NullPointerException e){
+				enabled = false;
+				System.out.println("Nothing entered");
+			}
+			cmbIteration.setEnabled(enabled);
+		}
+		
+	}
+
+
+
 
 	
 }

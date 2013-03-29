@@ -13,6 +13,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -60,6 +61,7 @@ public class NotesView extends JPanel {
 	public NotesView(Requirement req) {
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
+		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
 
 		setNotesList(req.getNotes());
@@ -90,11 +92,13 @@ public class NotesView extends JPanel {
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
-		JLabel lblNotes = new JLabel("Notes:", LABEL_ALIGNMENT);
+		JLabel lblNotes = new JLabel("Enter Note:", LABEL_ALIGNMENT);
+		JLabel lblNotesSaved = new JLabel("Saved Notes:", LABEL_ALIGNMENT);
 
 		addNote = new JButton("Add Note");
 		addNote.addActionListener(new AddNoteController(this));
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		
+		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridx = 0;
@@ -108,7 +112,6 @@ public class NotesView extends JPanel {
 		c.gridy = 0;
 		this.add(addNote, c);
 
-		c.insets = new Insets(20,10,10,0);
 		JScrollPane scrollPaneNotes = new JScrollPane(txtNotes);
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
@@ -118,17 +121,27 @@ public class NotesView extends JPanel {
 		c.gridy = 1;
 		c.gridwidth = 2;
 		this.add(scrollPaneNotes, c);
-
+		
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.NONE;
+		c.insets = new Insets(5,0,5,0);
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.gridx = 0;
+		c.gridy = 2;
+		this.add(lblNotesSaved, c);
+		
 		JScrollPane scrollPaneNotesSaved = new JScrollPane(txtNotesSaved);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.gridwidth = 2;
 		txtNotesSaved.setText(notesListToString());
 		txtNotesSaved.setEnabled(false);
+		txtNotesSaved.setForeground(Color.BLACK);
 		this.add(scrollPaneNotesSaved, c);
 		/* end panel styling */
 

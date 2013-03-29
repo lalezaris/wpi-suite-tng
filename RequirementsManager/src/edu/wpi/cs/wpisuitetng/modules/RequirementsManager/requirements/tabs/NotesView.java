@@ -141,7 +141,7 @@ public class NotesView extends JPanel {
 		c.gridwidth = 2;
 		txtNotesSaved.setText(notesListToString());
 		txtNotesSaved.setEnabled(false);
-		txtNotesSaved.setForeground(Color.BLACK);
+		txtNotesSaved.setDisabledTextColor(Color.BLACK);
 		this.add(scrollPaneNotesSaved, c);
 		/* end panel styling */
 

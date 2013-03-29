@@ -16,7 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * Insert Description Here
+ * The jPanel for all requirement history
+ * TODO: implementation
  *
  * @author Chris Dunkers
  *

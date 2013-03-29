@@ -26,7 +26,6 @@ import java.util.Date;
  *
  */
 public class Note {
-	//private String title;
 	private String body;
 	private String creator;
 	private Date creationDate;
@@ -36,12 +35,9 @@ public class Note {
 	 * 
 	 */
 	public Note(){
-		//this.title = ""; do we need this?
 		this.body = "";
 		this.creator = "[USER UNKNOWN]";
-		//this.lastModifiedUser = creator;  //notes cannot be modified once created
 		this.creationDate = new Date();
-		//this.lastModifiedDate = new Date();
 	}
 	/**
 	 * Create a Note with the given properties.
@@ -50,30 +46,11 @@ public class Note {
 	 * @param user the User who created the Note
 	 * @param body the message body of the Note
 	 */
-	public Note(/*String title, */String body, String creator) {
+	public Note(String body, String creator) {
 		this();
-		//this.title = title;
 		this.body = body;
 		this.creator = creator;
 	}
-
-	
-	/**
-	 * Gets the title
-	 * @return the title
-	 */
-	/*public String getTitle() {
-		return title;
-	}*/
-
-
-	/**
-	 * Sets the title
-	 * @param title: sets the title 
-	 */
-	/*public void setTitle(String title) {
-		this.title = title;
-	}*/
 
 
 	/**
@@ -104,24 +81,6 @@ public class Note {
 
 
 	/**
-	 * Gets the lastModifiedUser
-	 * @return the lastModifiedUser
-	 */
-	/*public User getLastModifiedUser() {
-		return lastModifiedUser;
-	}*/
-
-
-	/**
-	 * Sets the lastModifiedUser
-	 * @param lastModifiedUser: sets the lastModifiedUser 
-	 */
-	/*public void setLastModifiedUser(User lastModifiedUser) {
-		this.lastModifiedUser = lastModifiedUser;
-	}*/
-
-
-	/**
 	 * Gets the creationDate
 	 * @return the creationDate
 	 */
@@ -137,22 +96,4 @@ public class Note {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
-
-	/**
-	 * Gets the lastModifiedDate
-	 * @return the lastModifiedDate
-	 */
-	/*public Date getLastModifiedDate() {
-		return lastModifiedDate;
-	}*/
-
-
-	/**
-	 * Sets the lastModifiedDate
-	 * @param lastModifiedDate: sets the lastModifiedDate 
-	 */
-	/*public void setLastModifiedDate(Date lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}*/
 }

@@ -1,6 +1,15 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Sam Abradi
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -16,6 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
+ * Stores the iteration in the database
+ * Adapted from defect tracker
+ * 
  * @author Sam Abradi
  *
  */
@@ -26,10 +38,10 @@ public class IterationStore implements EntityManager<Iteration> {
 	public IterationStore(Data data){
 	    db = data;
 	}
-	/* The commented out part of the code is not needed for iteration 1 but may be needed in the future
-	 * 
-	 * takes a string that is the JSON-ified representation of Iteration, and a session (project)
-	 * returns the iteration in object form
+	
+	/**
+	 * takes a string that is the JSON-ified representation of Requirement, and a session (project)
+	 * returns the requirement in object form
 	 * also puts the object in the DB indexable by ID
 	 *
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
@@ -41,16 +53,6 @@ public class IterationStore implements EntityManager<Iteration> {
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newIteration.setId(Count() + 1);
-		/*
-		List<ValidationIssue> issues = validator.validate(s, newIteration, Mode.CREATE);
-		if(issues.size() > 0) {
-			// TODO: pass errors to client through exception
-			for (ValidationIssue issue : issues) {
-				System.out.println("Validation issue: " + issue.getMessage());
-			}
-			throw new BadRequestException();
-		}
-*/
 		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
 		}

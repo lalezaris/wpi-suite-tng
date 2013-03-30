@@ -240,22 +240,18 @@ public class RequirementPanel extends JPanel{
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 		
 		// Construct labels for the form fields
-		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
 		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
 		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
-		JLabel lblEUnits = new JLabel("Units", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		JLabel lblAUnits = new JLabel("Units", LABEL_ALIGNMENT);
 		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
 		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
 		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
 		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
 		
-		int labelWidth = lblDescription.getPreferredSize().width;
 		
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -397,7 +393,7 @@ public class RequirementPanel extends JPanel{
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
-		cThree.gridy = 2;
+		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
 		
@@ -411,8 +407,8 @@ public class RequirementPanel extends JPanel{
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 3;
+		cThree.gridx = 3;
+		cThree.gridy = 1;
 		panelThree.add(txtActual, cThree);
 		
 		cThree.weightx = 0.5;

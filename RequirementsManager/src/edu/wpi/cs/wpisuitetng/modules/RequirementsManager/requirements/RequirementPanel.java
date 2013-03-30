@@ -15,6 +15,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,11 +24,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -78,8 +81,6 @@ public class RequirementPanel extends JPanel{
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected Iteration[] knownIterations;
-	
-	
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
@@ -93,6 +94,7 @@ public class RequirementPanel extends JPanel{
 	protected JButton cancelRequirementBottom;
 	protected JButton deleteRequirementBottom;
 	protected RequirementTabsView RTabsView;
+	protected JSplitPane splitPane;
 	
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
@@ -109,7 +111,8 @@ public class RequirementPanel extends JPanel{
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
 	
 	/** The layout manager for this panel */
-	protected GridBagLayout layout;
+//	protected GridBagLayout layout;
+	protected BorderLayout layout;
 	
 	/** The other panels */
 	protected JPanel panelOverall;
@@ -161,7 +164,8 @@ public class RequirementPanel extends JPanel{
 		inputEnabled = true;
 		
 		//Use a grid bag layout manager
-		layout = new GridBagLayout();
+		//layout = new GridBagLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
 		
 		// Add all components to this panel
@@ -542,23 +546,43 @@ public class RequirementPanel extends JPanel{
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelButtons, cOverall);
 		
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 1;
-		cOverall.gridy = 0;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		cOverall.fill = GridBagConstraints.BOTH;
-		cOverall.gridheight = 4;
-		cOverall.gridwidth = 4;
-		panelOverall.add(panelTabs, cOverall);
+//		cOverall.weightx = 0.5;
+//		cOverall.weighty = 0.5;
+//		cOverall.gridx = 1;
+//		cOverall.gridy = 0;
+//		cOverall.anchor = GridBagConstraints.LINE_START;
+//		cOverall.fill = GridBagConstraints.BOTH;
+//		cOverall.gridheight = 4;
+//		cOverall.gridwidth = 4;
+//		panelOverall.add(panelTabs, cOverall);
 		
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(panelOverall, c);		
+		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.LINE_AXIS));
+//		GridBagConstraints cLeft = new GridBagConstraints();
+//		
+//		cLeft.weightx = 0.5;
+//		cLeft.weighty = 0.5;
+//		cLeft.gridx = 0;
+//		cLeft.gridy = 3;
+//		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
+		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
+		leftPanel.setMaximumSize(panelOverall.getSize());
+		leftPanel.setMinimumSize(panelOverall.getSize());
+		leftPanel.add(panelOverall);
+		
+		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+		this.add(splitPane, BorderLayout.CENTER);
+//		c.weightx = 0.5;
+//		c.weighty = 0.5;
+//		c.gridx = 0;
+//		c.gridy = 0;
+//		c.anchor = GridBagConstraints.FIRST_LINE_START;
+//		this.add(panelOverall, c);		
 		
 		//depending on the mode, disable certain components
 		if (editMode == Mode.CREATE) {

@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -37,6 +38,7 @@ public class CancelIterationAction extends AbstractAction {
 	public CancelIterationAction(CancelIterationController controller) {
 		super("Cancel");
 		this.controller = controller;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 	}
 	
 	/* 

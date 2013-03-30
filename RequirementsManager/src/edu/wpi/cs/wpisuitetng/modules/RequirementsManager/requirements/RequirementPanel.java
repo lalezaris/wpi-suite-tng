@@ -119,6 +119,7 @@ public class RequirementPanel extends JPanel{
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
 	protected JPanel panelThree;
+	protected JPanel panelFour;
 	protected JPanel panelButtons;
 	protected JPanel panelTabs;
 	
@@ -128,6 +129,7 @@ public class RequirementPanel extends JPanel{
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
 	protected GridBagLayout layoutThree;
+	protected GridBagLayout layoutFour;
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 	
@@ -140,11 +142,6 @@ public class RequirementPanel extends JPanel{
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-	
-	/*
-	 * Values for the iteration combo box
-	 */
-	Integer[] iterationValues = {1,2,3,4,5};
 	
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
@@ -159,6 +156,9 @@ public class RequirementPanel extends JPanel{
 		
 		//get the list of notes from the given requirement
 		n = new NotesView(model);
+		// a = new AttachmentsView(model);
+		//h = new HistoryView(model);
+		//u = new UsersView(model);
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -185,6 +185,7 @@ public class RequirementPanel extends JPanel{
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
+		GridBagConstraints cFour = new GridBagConstraints();
 		GridBagConstraints cButtons = new GridBagConstraints();
 
 		// Construct all of the components for the form
@@ -192,6 +193,7 @@ public class RequirementPanel extends JPanel{
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
+		panelFour = new JPanel();
 		panelButtons = new JPanel();
 		panelTabs = new JPanel();
 		txtTitle = new JTextField("Title", 20);
@@ -273,9 +275,9 @@ public class RequirementPanel extends JPanel{
 		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
 		
-		cOne.insets = new Insets(0,10,0,0);
-		cOne.gridx = 0;
-		cOne.gridy = 1;
+		cOne.insets = new Insets(5,0,0,0);
+		cOne.gridx = 2;
+		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0;
 		cOne.gridwidth = 1;
@@ -285,33 +287,35 @@ public class RequirementPanel extends JPanel{
 		
 		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
 		cOne.gridx = 0;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblReleaseNumber, cOne);
 		
 		cOne.gridx = 1;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(txtReleaseNumber, cOne);
 		
 		cOne.gridx = 0;
-		cOne.gridy = 3;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblIteration, cOne);
 		
 		cOne.gridx = 1;
-		cOne.gridy = 3;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		if(model.getEstimateEffort() > 0)
+		if(model.getEstimateEffort() > 0) {
 			cmbIteration.setEnabled(true);
+			cmbIteration.setBackground(Color.WHITE);
+		}
 		else
 			cmbIteration.setEnabled(false);
 		
@@ -350,7 +354,7 @@ public class RequirementPanel extends JPanel{
 		cTwo.gridwidth = 2;
 		panelTwo.add(scrollPaneDescription, cTwo);
 		
-		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
+		//Panel Three - panel below panel two -------------------------------------------------------------------------------------
 				//Use a grid bag layout manager
 		layoutThree = new GridBagLayout();
 		panelThree.setLayout(layoutThree);
@@ -384,6 +388,7 @@ public class RequirementPanel extends JPanel{
 		cThree.gridy = 0;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
+		cmbPriority.setBackground(Color.WHITE);
 		panelThree.add(cmbPriority, cThree);
 			
 		cThree.weightx = 0.5;
@@ -414,66 +419,74 @@ public class RequirementPanel extends JPanel{
 		cThree.gridx = 3;
 		cThree.gridy = 1;
 		panelThree.add(txtActual, cThree);
+
+		//Panel Four - panel below panel three -------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
 		
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 2;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblCreatedDate, cThree);
+		layoutFour = new GridBagLayout();
+		panelFour.setLayout(layoutFour);
+		
+		cFour.insets = new Insets(10,10,10,0);
+		
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 0;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblCreatedDate, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 2;
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 0;
 		txtCreatedDate.setEnabled(false);
 		txtCreatedDate.setText(model.getCreationDate().toString());
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreatedDate, cThree);
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtCreatedDate, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 3;
-		panelThree.add(lblModifiedDate, cThree);
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 1;
+		panelFour.add(lblModifiedDate, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 3;
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 1;
 		txtModifiedDate.setEnabled(false);
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtModifiedDate, cThree);
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtModifiedDate, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 4;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblCreator, cThree);
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 2;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblCreator, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 4;
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 2;
 		txtCreator.setEnabled(false);
 		txtCreator.setText(model.getCreator().getUsername());
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreator, cThree);
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtCreator, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 5;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblAssignee, cThree);
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 3;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblAssignee, cFour);
 				
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 5;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtAssignee, cThree);
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 3;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtAssignee, cFour);
 
 
 		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
@@ -484,20 +497,20 @@ public class RequirementPanel extends JPanel{
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 0;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		panelButtons.add(saveRequirementBottom, cButtons);
 		
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 2;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		deleteRequirementBottom.setVisible(false);
 		panelButtons.add(deleteRequirementBottom, cButtons);
 		
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 1;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		panelButtons.add(cancelRequirementBottom, cButtons);
 		
 		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
@@ -543,6 +556,13 @@ public class RequirementPanel extends JPanel{
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
 		cOverall.gridy = 3;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelOverall.add(panelFour, cOverall);
+		
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 4;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelButtons, cOverall);
 		
@@ -864,6 +884,7 @@ public class RequirementPanel extends JPanel{
 			}
 			runThatForLoop = false;
 			cmbStatus.setEnabled(enabled);
+			cmbStatus.setBackground(Color.WHITE);
 		}
 		
 	}
@@ -890,6 +911,7 @@ public class RequirementPanel extends JPanel{
 				System.out.println("Nothing entered");
 			}
 			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
 		}
 		
 	}

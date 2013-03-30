@@ -39,6 +39,8 @@ public class RequirementTest {
 
 	Date date1, date2;
 	Requirement r1, r2, r2copy, r3, r4;
+	Requirement r5, r6;
+	ArrayList<Note> testNotes;
 	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
 	
@@ -59,6 +61,9 @@ public class RequirementTest {
 		priority1 = HIGH;
 		priority2 = MEDIUM;
 		priority3 = LOW;
+		r5 = new Requirement("Test Title", "Test Description");
+		testNotes = new ArrayList<Note>();
+		r6 = new Requirement(42, "Test Title 2", "Test Description 2", new User("", "", "", -1), testNotes);
 	}
 	
 	/**
@@ -154,5 +159,42 @@ public class RequirementTest {
 		String json = r3.toJSON();
 		Requirement newRequirement = Requirement.fromJSON(json);
 		assertEquals(15, newRequirement.getId());
+	}
+	
+	@Test
+	public void testNote(){
+		Note testNote1 = new Note("New Note Body", "New User");
+		r5.addNote(testNote1);
+		ArrayList<Note> containsTestNote1 = new ArrayList<Note>();
+		containsTestNote1.add(testNote1);
+		assertEquals(r5.getNotes(), containsTestNote1);
+		assertEquals(r5.countNotes(), 1);
+		assertEquals(r6.countNotes(), 0);
+		testNotes.add(new Note("First Note Body", "First Note Person"));
+		testNotes.add(new Note("Second Note Body", "Second Note Person"));
+		assertEquals(r6.countNotes(), 2);
+		assertEquals(r5.getNotes(), containsTestNote1);
+		r5.updateNotes(testNotes);
+		assertEquals(r5.getNotes(), testNotes);
+		assertEquals(r5.countNotes(), 2);
+	}
+	
+	@Test
+	public void testMoreSetters(){
+		r5.setTitle("This has to be a title string!");
+		assertEquals(r5.getTitle(), "This has to be a title string!");
+		r5.setDescription("And this must be a description string...");
+		assertEquals(r5.getDescription(), "And this must be a description string...");
+		r6.setEstimateEffort(100);
+		r6.setActualEffort(50);
+		assertEquals(r6.getEstimateEffort(), 100);
+		assertEquals(r6.getActualEffort(), 50);
+		User testUser1 = new User("t1", "t2", "", -1);
+		User testUser2 = new User("t3", "t4", "", -3);
+		r6.setCreator(testUser1);
+		assertEquals(r6.getCreator(), testUser1);
+		r6.setAssignee(testUser2);
+		assertEquals(r6.getAssignee(), testUser2);
+		
 	}
 }

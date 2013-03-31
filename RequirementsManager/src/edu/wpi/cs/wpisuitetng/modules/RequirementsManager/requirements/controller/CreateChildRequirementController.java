@@ -16,6 +16,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
@@ -41,19 +43,25 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class CreateChildRequirementController {
 		
 	private final RequirementView view;
+	private Requirement requirement;
 
-	public CreateChildRequirementController(RequirementView view) {
+	public CreateChildRequirementController(RequirementView view, Requirement requirement) {
 		this.view = view;
+		this.requirement = requirement;
 	}
 
 	/**
 	 * Serve up the child requirement
 	 */
 	public void viewChild() {
-		Request request;
-		//request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + selectedRequirement, HttpMethod.GET);
-		//request.addObserver(new RetrieveRequirementRequestObserver(this));
-		//request.send();
+		Icon icon = null; //TODO where do I get the parent's icon from?
+		System.out.println("Creating child requirement tab view here.");
+		Requirement childRequirement = new Requirement();
+		childRequirement.setIteration(requirement.getIteration());
+		childRequirement.setReleaseNumber(requirement.getReleaseNumber());
+		//type?
+		childRequirement.setStatus(requirement.getStatus());
+		this.view.getTab().getView().addTab(requirement.getTitle() + ": child requirement", icon, null, "Create child requirement for:" + requirement.getTitle());
 	} 
 	
 	public void showRequirement(Requirement requirement) {

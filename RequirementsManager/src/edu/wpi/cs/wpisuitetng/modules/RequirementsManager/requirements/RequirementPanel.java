@@ -228,7 +228,7 @@ public class RequirementPanel extends JPanel{
 		cancelRequirementBottom = new JButton("Cancel");
 		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
 		createChildRequirement = new JButton("Add Child Requirement");
-		createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
+		createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent(), model)));
 		
 		/**Iteration Listener*/
 		

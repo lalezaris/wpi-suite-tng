@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  * @version Mar 31, 2013
  *
  */
-public class User extends AbstractModel {
+public class ProjectUser extends AbstractModel {
 
 	private String name;
 	private String userName;
@@ -39,7 +39,7 @@ public class User extends AbstractModel {
 	 * @param id
 	 * @param permissions
 	 */
-	public User(String name, String userName, int id, PermissionsLevel permissions) {
+	public ProjectUser(String name, String userName, int id, PermissionsLevel permissions) {
 		super();
 		this.name = name;
 		this.userName = userName;
@@ -115,7 +115,7 @@ public class User extends AbstractModel {
 	public String toJSON() {
 		String json;
 		Gson gson = new Gson();
-		json = gson.toJson(this, User.class);
+		json = gson.toJson(this, ProjectUser.class);
 
 		return json;
 	}	
@@ -125,10 +125,10 @@ public class User extends AbstractModel {
 	 * @param ulist a list of Users
 	 * @return a string in JSON representing the list of Users
 	 */
-	public static String toJSON(User[] ulist) {
+	public static String toJSON(ProjectUser[] ulist) {
 		String json;
 		Gson gson = new Gson();
-		json = gson.toJson(ulist, User.class);
+		json = gson.toJson(ulist, ProjectUser.class);
 		return json;
 	}
 	
@@ -145,20 +145,20 @@ public class User extends AbstractModel {
 	 * @param json Json string to parse containing User
 	 * @return The User given by json
 	 */
-	public static User fromJSON(String json) {
+	public static ProjectUser fromJSON(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);
-		return builder.create().fromJson(json, User.class);
+		return builder.create().fromJson(json, ProjectUser.class);
 	}
 	
 	/**
 	 * @param json Json string to parse containing User array
 	 * @return The User array given by json
 	 */
-	public static User[] fromJSONArray(String json) {
+	public static ProjectUser[] fromJSONArray(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);
-		return builder.create().fromJson(json, User[].class);
+		return builder.create().fromJson(json, ProjectUser[].class);
 	}
 	
 	

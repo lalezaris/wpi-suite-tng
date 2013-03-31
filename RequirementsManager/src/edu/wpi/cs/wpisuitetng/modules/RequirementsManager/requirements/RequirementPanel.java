@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +34,7 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.PermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
@@ -47,6 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ProjectUser;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -576,8 +579,29 @@ public class RequirementPanel extends JPanel{
 				|| model.getSubRequirements().size() != 0) {
 			txtEstimate.setEnabled(false);
 		}
+
+
+		//depending on the user's permission, disable certain components
+		ProjectUser testUser=new ProjectUser("Ned Shelton", "Ned",24601, PermissionsLevel.ADMIN);
+		PermissionsLevel pLevel = testUser.getPermissions();
+		switch (pLevel){
+		case NONE:
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
+					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			break;
+		case UPDATE: break;
+		
+		case ADMIN:
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
+					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			break;
+		}
 	}
-	
+	private void disableStuff(JComponent[] components){
+		for(JComponent com:components){
+			com.setEnabled(false);
+		}
+	}
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -874,7 +898,6 @@ public class RequirementPanel extends JPanel{
 		
 	}
 
-	
 }
 	
 	

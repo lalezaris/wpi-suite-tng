@@ -7,11 +7,11 @@ import org.junit.Test;
 
 public class UserTest {
 
-	User u;
+	ProjectUser u;
 	
 	@Before
 	public void setUp() throws Exception {
-		u = new User("name", "username", 134567, PermissionsLevel.NONE);
+		u = new ProjectUser("name", "username", 134567, PermissionsLevel.NONE);
 	}
 
 	@Test

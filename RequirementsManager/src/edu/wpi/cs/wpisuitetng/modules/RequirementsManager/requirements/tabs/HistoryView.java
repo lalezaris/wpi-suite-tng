@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Chris Dunkers
+ *  Sam Lalezari
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 

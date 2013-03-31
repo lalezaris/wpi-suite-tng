@@ -10,6 +10,7 @@
  * Contributors:
  *  Tyler Stone
  *  Arica Liu
+ *  Tushar Narayan
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
@@ -105,12 +106,28 @@ public class MainTabController {
 	 * @param mode The Mode to use
 	 */
 	public Tab addRequirementTab(Requirement requirement, Mode mode) {
-		Tab tab = addTab();
-		RequirementView view = new RequirementView(requirement, mode, tab);
-		tab.setComponent(view);
-		view.requestFocus();
-		
-		return tab;
+		/*
+		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",
+		 * get the id of the Requirement, and check if a tab with that title
+		 * already exists.
+		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
+		 * Switch focus to that tab, or go ahead and create a new one.
+		 */
+		String requirementTitle = requirement.getTitle();
+		int checkTabIndex = view.indexOfTab("Requirement " + requirementTitle);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			
+			return null;
+		}
+		else{
+			Tab tab = addTab();
+			RequirementView view = new RequirementView(requirement, mode, tab);
+			tab.setComponent(view);
+			view.requestFocus();
+
+			return tab;
+		}
 	}
 	
 	
@@ -119,6 +136,7 @@ public class MainTabController {
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
+		//already brings focus to list tab if it was opened previously
 		Tab tab = addTab();
 		RequirementListPanel panel = view.getTableModel();
 		panel.setTab(tab);

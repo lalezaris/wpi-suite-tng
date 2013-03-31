@@ -1,5 +1,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
 
+/**
+ * @Author: Michael French
+ * @Collaborators: Evan Polekoff, Sam Abradi
+ * 
+ * @version Mar 31, 2013
+ */
+
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;

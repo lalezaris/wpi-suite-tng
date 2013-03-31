@@ -62,12 +62,12 @@ public class RetrieveRequirementController extends MouseAdapter {
 	}
 	
 	/**
-	 * Called by {@link RetrieveDefectRequestObserver} when the response
+	 * Called by {@link RetrieveRequirementRequestObserver} when the response
 	 * is received from the server.
 	 * @param defect the defect that was retrieved
 	 */
 	public void showRequirement(Requirement requirement) {
-		// Make a new defect view to display the defect that was received
+		// Make a new requirement view to display the requirement that was received
 		requirement.setIteration(Iteration.getIterationById(requirement.getIterationId()));
 		requirementListPanel.getTabController().addEditRequirementTab(requirement);
 	}

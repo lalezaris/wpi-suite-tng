@@ -41,9 +41,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Ca
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -93,6 +95,7 @@ public class RequirementPanel extends JPanel{
 	protected JButton cancelRequirementBottom;
 	protected JButton deleteRequirementBottom;
 	protected RequirementTabsView RTabsView;
+	protected JButton createChildRequirement;
 	
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
@@ -224,7 +227,8 @@ public class RequirementPanel extends JPanel{
 		deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
 		cancelRequirementBottom = new JButton("Cancel");
 		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
-		
+		createChildRequirement = new JButton("Add Child Requirement");
+		createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
 		
 		/**Iteration Listener*/
 		
@@ -481,6 +485,13 @@ public class RequirementPanel extends JPanel{
 		layoutButtons = new GridBagLayout();
 		panelButtons.setLayout(layoutButtons);
 				
+		
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 0;
+		cButtons.gridy = 6;
+		panelButtons.add(createChildRequirement, cButtons);
+		
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 0;

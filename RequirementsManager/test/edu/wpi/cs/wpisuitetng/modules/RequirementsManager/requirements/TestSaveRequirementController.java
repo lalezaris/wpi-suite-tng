@@ -13,7 +13,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  *
  */
 public class TestSaveRequirementController {
-	SaveRequirementController controller;
+	/*SaveRequirementController controller;
 	RequirementView view;
 	
 	@Before
@@ -23,6 +23,6 @@ public class TestSaveRequirementController {
 		Requirement tempReq = new Requirement();
 		view = new RequirementView(tempReq, RequirementPanel.Mode.CREATE, null);
 		controller = new SaveRequirementController(view);
-	}
+	}*/
 	
 }

@@ -501,13 +501,9 @@ public class IterationPanel extends JPanel {
 				lblDateOverlapError.setVisible(false);
 				return 3;
 			}
-			else if ((endDate.before(array[i].getStartDate()))
+			else if ((endDate.compareTo(array[i].getStartDate()) <= 0)
 					||
-					(startDate.after(array[i].getEndDate()))
-					||
-					(startDate.equals(array[i].getEndDate()))
-					||
-					(endDate.equals(array[i].getStartDate())))
+					(startDate.compareTo(array[i].getEndDate())) >= 0)
 			{
 				continue;
 			}

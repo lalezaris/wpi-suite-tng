@@ -13,18 +13,21 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 
 /**
  * The jPanel for all requirement history
  * TODO: implementation
  *
  * @author Chris Dunkers
+ * @author Sam Lalezari
  *
- * @version Mar 25, 2013
+ * @version Mar 31, 2013
  *
  */
 @SuppressWarnings("serial")
@@ -34,19 +37,16 @@ public class HistoryView extends JPanel {
 		JPanel historyList = new JPanel();		
 		historyList.setLayout(new BoxLayout(historyList, BoxLayout.PAGE_AXIS));
 		
-		JLabel historyLabel = new JLabel("History");
-		historyList.add(historyLabel);
+//		JLabel historyLabel = new JLabel("History");
+//		historyList.add(historyLabel);
 		
 		for(int i = 0; i < 5; i++){
 		HistoryObject obj = new HistoryObject();
 		historyList.add(obj);
 		}
 		
-
+		// TODO: scrollPane does not work yet
 		JScrollPane scrollPane = new JScrollPane(historyList);
 		this.add(scrollPane);
-		
-		
-		
 	}
 }

@@ -13,8 +13,10 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * The jPanel for all requirement history
@@ -25,15 +27,25 @@ import javax.swing.JPanel;
  * @version Mar 25, 2013
  *
  */
+@SuppressWarnings("serial")
 public class HistoryView extends JPanel {
 	public HistoryView() {
+
+		JPanel historyList = new JPanel();		
+		historyList.setLayout(new BoxLayout(historyList, BoxLayout.PAGE_AXIS));
 		
 		JLabel historyLabel = new JLabel("History");
-		this.add(historyLabel);
+		historyList.add(historyLabel);
 		
+		for(int i = 0; i < 5; i++){
 		HistoryObject obj = new HistoryObject();
+		historyList.add(obj);
+		}
 		
-		this.add(obj);
+
+		JScrollPane scrollPane = new JScrollPane(historyList);
+		this.add(scrollPane);
+		
 		
 		
 	}

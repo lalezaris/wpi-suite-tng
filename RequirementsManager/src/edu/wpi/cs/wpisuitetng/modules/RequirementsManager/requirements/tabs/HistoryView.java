@@ -27,7 +27,14 @@ import javax.swing.JPanel;
  */
 public class HistoryView extends JPanel {
 	public HistoryView() {
+		
 		JLabel historyLabel = new JLabel("History");
 		this.add(historyLabel);
+		
+		HistoryObject obj = new HistoryObject();
+		
+		this.add(obj);
+		
+		
 	}
 }

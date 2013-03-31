@@ -114,7 +114,8 @@ public class MainTabController {
 		 * Switch focus to that tab, or go ahead and create a new one.
 		 */
 		String requirementTitle = requirement.getTitle();
-		int checkTabIndex = view.indexOfTab("Requirement " + requirementTitle);
+		int requirementId = requirement.getId();
+		int checkTabIndex = view.indexOfTab("Requirement #" + requirementId + " - " + requirementTitle);
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
 			

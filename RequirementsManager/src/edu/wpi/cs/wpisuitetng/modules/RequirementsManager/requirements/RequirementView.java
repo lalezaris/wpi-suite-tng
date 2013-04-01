@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -119,8 +120,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param defect Set the tab title, tooltip, and group name according to this Defect
 	 */
 	public void setEditModeDescriptors(Requirement requirement) {
-		containingTab.setTitle("Requirement #" + requirement.getId());
-		containingTab.setToolTipText("View requirement " + requirement.getTitle());
+		containingTab.setTitle("Requirement #" + requirement.getId() + " - " + requirement.getTitle());
+		containingTab.setToolTipText("View requirement #" + requirement.getId() + " - " + requirement.getTitle());
 	}
 	
 	/**

@@ -53,7 +53,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  * @author Chris Dunkers 
  * @author Joe Spicola
- *
+ * @author Ned Shelton
+ * @author Michael Perrone
+ * @author Evan Polekoff
  * @version Mar 17, 2013
  *
  */

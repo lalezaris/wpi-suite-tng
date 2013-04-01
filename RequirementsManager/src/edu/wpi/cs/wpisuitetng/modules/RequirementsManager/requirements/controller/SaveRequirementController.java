@@ -36,22 +36,22 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class SaveRequirementController {
 
 	/** The view object containing the request fields */
-	protected RequirementView view;
+	private RequirementView view;
 
 	/**
 	 * Construct a new handler for the given view
 	 * @param view the view containing the request fields
 	 */
 	public SaveRequirementController(RequirementView view) {
-		this.view = view;
+		this.setView(view);
 	}
 
 	/**
 	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
+		final RequirementPanel panel = (RequirementPanel) getView().getRequirementPanel();
+		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(getView()) : new UpdateRequirementRequestObserver(getView());
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(panel.checkRequiredFields() > 0){} 
@@ -62,8 +62,22 @@ public class SaveRequirementController {
 			request.addObserver(requestObserver);
 			request.send();
 			//close tab
-			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+			this.getView().getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
 			System.out.println("SAVE REQUIREMENT");
 		}
+	}
+
+	/**
+	 * @return the view
+	 */
+	public RequirementView getView() {
+		return view;
+	}
+
+	/**
+	 * @param view the view to set
+	 */
+	public void setView(RequirementView view) {
+		this.view = view;
 	} 
 }

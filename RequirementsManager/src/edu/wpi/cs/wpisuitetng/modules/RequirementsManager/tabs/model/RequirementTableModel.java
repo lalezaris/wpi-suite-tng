@@ -28,8 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class RequirementTableModel extends AbstractTableModel {
 
-	private String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned"};
-    private ArrayList<Object[]> data = new ArrayList<Object[]>();
+	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned"};
+    protected ArrayList<Object[]> data = new ArrayList<Object[]>();
 
     
     /* Gets column count

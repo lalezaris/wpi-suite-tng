@@ -488,14 +488,12 @@ public class RequirementPanel extends JPanel{
 		//Use a grid bag layout manager
 		layoutButtons = new GridBagLayout();
 		panelButtons.setLayout(layoutButtons);
-				
-		
-		cButtons.weightx = 0.5;
-		cButtons.weighty = 0.5;
-		cButtons.gridx = 0;
-		cButtons.gridy = 6;
 		
 		if (editMode == Mode.EDIT) { 
+			cButtons.weightx = 0.5;
+			cButtons.weighty = 0.5;
+			cButtons.gridx = 0;
+			cButtons.gridy = 6;
 			panelButtons.add(createChildRequirement, cButtons);
 		}
 		

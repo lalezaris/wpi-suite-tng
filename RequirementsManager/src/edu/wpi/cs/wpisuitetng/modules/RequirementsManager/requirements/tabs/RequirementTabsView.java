@@ -30,12 +30,14 @@ public class RequirementTabsView extends JTabbedPane {
 
 	public RequirementTabsView(NotesView n) {
 		
+		HistoryView historyView = new HistoryView();
+		historyView.setMaximumSize(historyView.getPreferredSize());
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 		addTab("Notes", new ImageIcon(), /*new NotesView()*/ n,
 		       "Notes");
-		addTab("History", new ImageIcon(), new HistoryView(),
+		addTab("History", new ImageIcon(), historyView,
 			       "History");
 		//addTab("Attachments", new ImageIcon(), new AttachmentsView(),
 			//       "Attachments");

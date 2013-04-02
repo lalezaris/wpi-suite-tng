@@ -511,7 +511,9 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
 		cOverall.anchor = GridBagConstraints.LINE_START;
-		panelTabs.add(RTabsView, cOverall);
+		//TODO  Fix RTabsView
+		//		panelTabs.add(RTabsView, cOverall);
+
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -765,6 +767,10 @@ public class RequirementPanel extends JPanel{
 	//TODO: Getter and Setter for Notes
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
+	}
+	
+	public NotesView getN(){
+		return n;
 	}
 	
 	public void setNotesArrayList(ArrayList<Note> aln) {

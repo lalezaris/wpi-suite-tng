@@ -34,7 +34,7 @@ public class CreateChildRequirementAction extends AbstractAction{
 		this.controller = controller;
 	}
 	
-	/* 
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent arg0) {

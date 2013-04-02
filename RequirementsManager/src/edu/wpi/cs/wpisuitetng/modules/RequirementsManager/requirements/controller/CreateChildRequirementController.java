@@ -14,7 +14,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
@@ -48,8 +47,6 @@ public class CreateChildRequirementController {
 		childRequirement.setParentRequirementId(parentRequirement.getId());
 		showRequirement(childRequirement);
 		
-		//((RequirementPanel) view.getRequirementPanel()).updateModel(childRequirement);
-		//view.setEditModeDescriptors(childRequirement);
 	} 
 	
 	public void showRequirement(Requirement childRequirement) {

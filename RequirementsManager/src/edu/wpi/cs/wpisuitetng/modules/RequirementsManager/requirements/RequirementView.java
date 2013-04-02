@@ -105,7 +105,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * 
 	 * @param requirement
 	 */
-	private void setChildModeDescriptors(Requirement requirement) {
+	public void setChildModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("New Child Requirement");
 		containingTab.setToolTipText("Create a new child requirement");
 	}

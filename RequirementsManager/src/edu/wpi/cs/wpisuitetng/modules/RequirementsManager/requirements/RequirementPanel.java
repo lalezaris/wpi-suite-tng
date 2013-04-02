@@ -17,11 +17,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -238,7 +241,7 @@ public class RequirementPanel extends JPanel{
 		
 		/**Estimate Listener*/
 		
-		txtEstimate.addActionListener(new EstimateListener());
+		txtEstimate.addKeyListener(new EstimateListener());
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -579,30 +582,23 @@ public class RequirementPanel extends JPanel{
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		
 		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.LINE_AXIS));
-//		GridBagConstraints cLeft = new GridBagConstraints();
-//		
-//		cLeft.weightx = 0.5;
-//		cLeft.weighty = 0.5;
-//		cLeft.gridx = 0;
-//		cLeft.gridy = 3;
-//		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
-		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
-		leftPanel.setMaximumSize(panelOverall.getSize());
-		leftPanel.setMinimumSize(panelOverall.getSize());
-		leftPanel.add(panelOverall);
+		leftPanel.setLayout(new GridBagLayout());
+		GridBagConstraints cPane = new GridBagConstraints();
+		
+		cPane.anchor = GridBagConstraints.FIRST_LINE_START;
+		cPane.weightx = 0.1;
+		cPane.weighty = 0.1;
+		cPane.gridx = 0;
+		cPane.gridy = 0;
+		leftPanel.add(panelOverall,cPane);
 		
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
 		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+//		splitPane.setResizeWeight(0.5);
+		splitPane.setDividerLocation(0.5);
 		this.add(splitPane, BorderLayout.CENTER);
-//		c.weightx = 0.5;
-//		c.weighty = 0.5;
-//		c.gridx = 0;
-//		c.gridy = 0;
-//		c.anchor = GridBagConstraints.FIRST_LINE_START;
-//		this.add(panelOverall, c);		
 		
 		//depending on the mode, disable certain components
 		if (editMode == Mode.CREATE) {
@@ -842,31 +838,35 @@ public class RequirementPanel extends JPanel{
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
 			
+			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
 			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = model.getStatus();
 				enabled = false;
 				runThatForLoop = true;
 				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Change the status to In Progress automatically when the req is assigned to an iteration.
 			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = false;
 				runThatForLoop = true;
 				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Change the status to Open automatically when the backlog is selected.
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
 				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;
 				runThatForLoop = true;
 				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
-			
+			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {
 					System.out.println("For Loop Iteration: " + i);
@@ -889,29 +889,43 @@ public class RequirementPanel extends JPanel{
 		
 	}
 	
-	public class EstimateListener implements ActionListener {
+	public class EstimateListener implements KeyListener {
+
+		public void actionPerformed(ActionEvent estimate) {
+			
+		}
 
 		@Override
-		public void actionPerformed(ActionEvent estimate) {
+		public void keyTyped(KeyEvent e) {
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
 			
-			JTextField contents = (JTextField) estimate.getSource();
 			try{
-				if(Integer.parseInt(contents.getText()) > 0){
+				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
+					enabled = false;
+				}
+				else if(Integer.parseInt(txtEstimate.getText()) > 0){
 					enabled = true;
-					System.out.println("it's greater  than 0");
 				}
 				else{
 					enabled = false;
-					System.out.println("it's less  than 0");
 				}
 			}
-			catch( NullPointerException e){
+			catch(NumberFormatException exception){
 				enabled = false;
-				System.out.println("Nothing entered");
 			}
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);
+			
 		}
 		
 	}

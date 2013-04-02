@@ -589,6 +589,7 @@ public class RequirementPanel extends JPanel{
 		if (editMode == Mode.CHILD) {
 			cmbIteration.setEnabled(false);
 			txtReleaseNumber.setEnabled(false);
+			cmbStatus.setEnabled(false);
 		}
 
 		// depending on the status and sub-requirements, disable certain components

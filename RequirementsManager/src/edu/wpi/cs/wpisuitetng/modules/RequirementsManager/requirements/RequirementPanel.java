@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.PermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
@@ -49,7 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ProjectUser;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -582,8 +582,8 @@ public class RequirementPanel extends JPanel{
 
 
 		//depending on the user's permission, disable certain components
-		ProjectUser testUser=new ProjectUser("Ned Shelton", "Ned",24601, PermissionsLevel.ADMIN);
-		PermissionsLevel pLevel = testUser.getPermissions();
+		UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.ADMIN);
+		RMPermissionsLevel pLevel = testUser.getPermissions();
 		switch (pLevel){
 		case NONE:
 			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
@@ -707,9 +707,9 @@ public class RequirementPanel extends JPanel{
 		requirement.setCreationDate(model.getCreationDate());
 		requirement.updateNotes(n.getNotesList());
 		
-		if (!(txtAssignee.getText().equals(""))) {
-			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		}
+//		if (!(txtAssignee.getText().equals(""))) {
+//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
+//		}
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
 		}
@@ -776,9 +776,9 @@ public class RequirementPanel extends JPanel{
 		if (model.getCreator() != null) {
 			txtCreator.setText(model.getCreator().getUsername());
 		}
-		if (model.getAssignee() != null) {
-			txtAssignee.setText(model.getAssignee().getUsername());
-		}
+//		if (model.getAssignee() != null) {
+//			txtAssignee.setText(model.getAssignee().getUsername());
+//		}
 		n.setNotesList(model.getNotes());
 	}
 

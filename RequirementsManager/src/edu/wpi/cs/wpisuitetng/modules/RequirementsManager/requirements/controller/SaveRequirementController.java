@@ -54,8 +54,7 @@ public class SaveRequirementController {
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-		if(panel.checkRequiredFields() > 0){} 
-		else {
+		if(panel.checkRequiredFields() == 0){
 			String JsonRequest = panel.getEditedModel().toJSON();
 			request.setBody(JsonRequest);
 			System.out.println("Sending REQ to server:" +JsonRequest );
@@ -64,6 +63,6 @@ public class SaveRequirementController {
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
 			System.out.println("SAVE REQUIREMENT");
-		}
+		} 
 	} 
 }

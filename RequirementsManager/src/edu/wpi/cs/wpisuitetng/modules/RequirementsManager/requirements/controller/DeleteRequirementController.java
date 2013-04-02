@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.DELETED;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -53,16 +54,16 @@ public class DeleteRequirementController {
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-		if(panel.checkRequiredFields() > 0){} 
-		else {
+		if(panel.checkRequiredFields() == 0){
 			Requirement delRequirement = panel.getEditedModel();
-			delRequirement.setStatus(DELETED);
+			delRequirement.setStatus(RequirementStatus.DELETED);
 			request.setBody(delRequirement.toJSON());
 			request.addObserver(requestObserver);
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
 			System.out.println("DELETE REQUIREMENT");
-		}
+		} 
+
 	} 
 }

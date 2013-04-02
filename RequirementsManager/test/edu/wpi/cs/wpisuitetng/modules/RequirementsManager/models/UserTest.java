@@ -7,25 +7,23 @@ import org.junit.Test;
 
 public class UserTest {
 
-	ProjectUser u;
+	UserPermission u;
 	
 	@Before
 	public void setUp() throws Exception {
-		u = new ProjectUser("name", "username", 134567, PermissionsLevel.NONE);
+		u = new UserPermission("username", RMPermissionsLevel.NONE);
 	}
 
 	@Test
 	public void testConstructor() {
-		assertEquals(u.getId(),134567);
-		assertEquals(u.getName(),"name");
-		assertEquals(u.getUserName(),"username");
-		assertEquals(u.getPermissions(),PermissionsLevel.NONE);
+		assertEquals(u.getUsername(),"username");
+		assertEquals(u.getPermissions(),RMPermissionsLevel.NONE);
 	}
 	
 	@Test
 	public void testChangePermissionsLevel(){
-		u.setPermissions(PermissionsLevel.ADMIN);
-		assertEquals(u.getPermissions(), PermissionsLevel.ADMIN);
+		u.setPermissions(RMPermissionsLevel.ADMIN);
+		assertEquals(u.getPermissions(), RMPermissionsLevel.ADMIN);
 	}
 
 }

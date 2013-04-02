@@ -58,7 +58,8 @@ public class Requirement extends AbstractModel{
 	private Date creationDate, lastModifiedDate;
 	private ArrayList<Requirement> subRequirements;
 	private int id;
-	private User creator, assignee; //putting this in to keep track of user
+	private User creator;
+	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	
 	
@@ -127,7 +128,7 @@ public class Requirement extends AbstractModel{
 		this.lastModifiedDate = new Date();
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
-		this.assignee = new User("", "", "", -1);
+		this.assignee = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
 	}
 	
@@ -291,15 +292,20 @@ public class Requirement extends AbstractModel{
 	/**
 	 * @return the user who is assigned to this Requirement
 	 */
-	public User getAssignee() {
+	public ArrayList<String> getAssignee() {
 		return assignee;
 	}
 
 	/**
 	 * @param assignee the user who is assigned to this Requirement
 	 */
-	public void setAssignee(User assignee) {
+	public void setAssignee(ArrayList<String> assignee) {
 		this.assignee = assignee;
+	}
+	
+	public String addNote(String assignedTo){
+		assignee.add(assignedTo);
+		return assignedTo;
 	}
 
 	/**

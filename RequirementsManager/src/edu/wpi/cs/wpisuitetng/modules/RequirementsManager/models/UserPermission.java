@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Insert Description Here
@@ -25,60 +26,54 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
  * @version Mar 31, 2013
  *
  */
-public class ProjectUser extends AbstractModel {
+public class UserPermission extends AbstractModel {
 
-	private String name;
-	private String userName;
-	private int id;
-	private PermissionsLevel permissions;
+	private String username;
+	private RMPermissionsLevel permissions;
 	
 	
 	/**
-	 * @param name
+	 * @param user
 	 * @param userName
 	 * @param id
 	 * @param permissions
 	 */
-	public ProjectUser(String name, String userName, int id, PermissionsLevel permissions) {
+	public UserPermission(String username, RMPermissionsLevel permissions) {
 		super();
-		this.name = name;
-		this.userName = userName;
-		this.id = id;
+		this.username = username;
 		this.permissions = permissions;
 	}	
 	
 	/**
-	 * @return the name
+	 * Default Constructor 
+	 * 
+	 * @param username
+	 * @param permissions
 	 */
-	public String getName() {
-		return name;
+	public UserPermission() {
+		super();
+		this.username = "";
+		this.permissions = RMPermissionsLevel.NONE;
 	}
-
+	
 	/**
-	 * @return the userName
+	 * @return the Username
 	 */
-	public String getUserName() {
-		return userName;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
+	public String getUsername() {
+		return username;
 	}
 
 	/**
 	 * @return the permissions
 	 */
-	public PermissionsLevel getPermissions() {
+	public RMPermissionsLevel getPermissions() {
 		return permissions;
 	}
 
 	/**
 	 * @param permissions: the permissions to set
 	 */
-	public void setPermissions(PermissionsLevel permissions) {
+	public void setPermissions(RMPermissionsLevel permissions) {
 		this.permissions = permissions;
 	}
 	
@@ -115,7 +110,7 @@ public class ProjectUser extends AbstractModel {
 	public String toJSON() {
 		String json;
 		Gson gson = new Gson();
-		json = gson.toJson(this, ProjectUser.class);
+		json = gson.toJson(this, UserPermission.class);
 
 		return json;
 	}	
@@ -125,10 +120,10 @@ public class ProjectUser extends AbstractModel {
 	 * @param ulist a list of Users
 	 * @return a string in JSON representing the list of Users
 	 */
-	public static String toJSON(ProjectUser[] ulist) {
+	public static String toJSON(UserPermission[] ulist) {
 		String json;
 		Gson gson = new Gson();
-		json = gson.toJson(ulist, ProjectUser.class);
+		json = gson.toJson(ulist, UserPermission.class);
 		return json;
 	}
 	
@@ -145,20 +140,20 @@ public class ProjectUser extends AbstractModel {
 	 * @param json Json string to parse containing User
 	 * @return The User given by json
 	 */
-	public static ProjectUser fromJSON(String json) {
+	public static UserPermission fromJSON(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);
-		return builder.create().fromJson(json, ProjectUser.class);
+		return builder.create().fromJson(json, UserPermission.class);
 	}
 	
 	/**
 	 * @param json Json string to parse containing User array
 	 * @return The User array given by json
 	 */
-	public static ProjectUser[] fromJSONArray(String json) {
+	public static UserPermission[] fromJSONArray(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);
-		return builder.create().fromJson(json, ProjectUser[].class);
+		return builder.create().fromJson(json, UserPermission[].class);
 	}
 	
 	

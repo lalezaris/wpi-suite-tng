@@ -193,8 +193,8 @@ public class RequirementTest {
 		User testUser2 = new User("t3", "t4", "", -3);
 		r6.setCreator(testUser1);
 		assertEquals(r6.getCreator(), testUser1);
-		r6.setAssignee(testUser2);
-		assertEquals(r6.getAssignee(), testUser2);
+//		r6.setAssignee(testUser2);
+//		assertEquals(r6.getAssignee(), testUser2);
 		
 	}
 }

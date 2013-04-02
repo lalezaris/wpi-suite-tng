@@ -57,7 +57,7 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private int parentRequirementId;
-	private ArrayList<Requirement> subRequirements;
+	private ArrayList<Integer> subRequirementIds;
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
@@ -121,7 +121,7 @@ public class Requirement extends AbstractModel{
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
-		this.subRequirements = new ArrayList<Requirement>();
+		this.subRequirementIds = new ArrayList<Integer>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
 		this.parentRequirementId = -1; //-1 parent requirement id means no parent
@@ -303,19 +303,19 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Gets the subRequirements
-	 * @return the subRequirements
+	 * Gets the subRequirementIds
+	 * @return the subRequirementIds
 	 */
-	public ArrayList<Requirement> getSubRequirements() {
-		return subRequirements;
+	public ArrayList<Integer> getSubRequirementIds() {
+		return subRequirementIds;
 	}
 
 	/**
-	 * Sets the subRequirements
-	 * @param subRequirements: sets the subRequirements 
+	 * Sets the subRequirementIds
+	 * @param subRequirementIds: sets the subRequirementIds
 	 */
-	public void setSubRequirements(ArrayList<Requirement> subRequirements) {
-		this.subRequirements = subRequirements;
+	public void setSubRequirementIds(ArrayList<Integer> subRequirementIds) {
+		this.subRequirementIds = subRequirementIds;
 	}
 	
 	/**

@@ -595,7 +595,7 @@ public class RequirementPanel extends JPanel{
 		// depending on the status and sub-requirements, disable certain components
 		if (model.getStatus() == RequirementStatus.INPROGRESS
 				|| model.getStatus() == RequirementStatus.COMPLETE
-				|| model.getSubRequirements().size() != 0) {
+				|| model.getSubRequirementIds().size() != 0) {
 			txtEstimate.setEnabled(false);
 		}
 	}
@@ -660,6 +660,7 @@ public class RequirementPanel extends JPanel{
 		model.setActualEffort(requirement.getActualEffort());
 		requirement.updateNotes(this.getNotesArrayList());
 		model.updateNotes(requirement.getNotes());
+		model.setParentRequirementId(requirement.getParentRequirementId());
 		
 		updateFields();
 		this.revalidate();
@@ -704,6 +705,8 @@ public class RequirementPanel extends JPanel{
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
 		requirement.updateNotes(n.getNotesList());
+		
+		requirement.setParentRequirementId(model.getParentRequirementId());
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));

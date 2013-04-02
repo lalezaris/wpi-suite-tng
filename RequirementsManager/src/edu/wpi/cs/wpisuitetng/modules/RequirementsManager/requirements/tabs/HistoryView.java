@@ -13,7 +13,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,25 +39,26 @@ import javax.swing.border.Border;
 @SuppressWarnings("serial")
 public class HistoryView extends JScrollPane {	
 
+	/**
+	 * HistoryView Constructor
+	 * 
+	 */
 	public HistoryView() {
-		super();
-
-		JPanel historyList = new JPanel();	
-		historyList.setLayout(new BoxLayout(historyList, BoxLayout.PAGE_AXIS));
 		
-		this.setViewportView(historyList);
+		int numObjects = 50; // NUMBER OF HistoryObjects to add
 		
-//		JLabel historyLabel = new JLabel("History");
-//		historyList.add(historyLabel);
+		JPanel historyListPanel = new JPanel();	
+		JPanel historyListContainerPanel = new JPanel(); // Holds historyListPanel in the NORTH part of BorderLayout 
+														 // so the HistoryObjects don't automatically fill the whole space
+		this.setViewportView(historyListContainerPanel);
+		historyListPanel.setLayout(new BoxLayout(historyListPanel, BoxLayout.Y_AXIS));
+		historyListContainerPanel.setLayout(new BorderLayout());
+		historyListContainerPanel.add(historyListPanel, BorderLayout.NORTH);
 		
-		for(int i = 0; i <100; i++){
+		for(int i = 0; i <numObjects; i++){
 		HistoryObject obj = new HistoryObject();
-		historyList.add(obj);
+		historyListPanel.add(obj);
 		}
-		
-		// TODO: scrollPane does not work yet. 
-		// The Tab container scales to fit all the objects, need to fix.
-//		JScrollPane scrollPane = new JScrollPane(historyList);
-		
+				
 	}
 }

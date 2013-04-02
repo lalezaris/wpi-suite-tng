@@ -56,12 +56,11 @@ public class Requirement extends AbstractModel{
 	private int estimateEffort; 
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
+	private int parentRequirementId;
 	private ArrayList<Requirement> subRequirements;
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
-	
-	
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -350,6 +349,20 @@ public class Requirement extends AbstractModel{
 		this.lastModifiedDate = lastModifiedDate;
 	}
 	
+	/**
+	 * @return the parentRequirementId
+	 */
+	public int getParentRequirementId() {
+		return parentRequirementId;
+	}
+
+	/**
+	 * @param parentRequirementId the parentRequirementId to set
+	 */
+	public void setParentRequirementId(int parentRequirementId) {
+		this.parentRequirementId = parentRequirementId;
+	}
+
 	/**
 	 * Sets the id
 	 * @param id: sets the id 

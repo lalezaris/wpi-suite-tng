@@ -47,9 +47,9 @@ public class CreateChildRequirementController {
 	private Requirement parentRequirement;
 	private Requirement childRequirement;
 	
-	public CreateChildRequirementController(RequirementView view, Requirement requirement) {
+	public CreateChildRequirementController(RequirementView view, Requirement parentRequirement) {
 		this.view = view;
-		this.parentRequirement = requirement;
+		this.parentRequirement = parentRequirement;
 		this.childRequirement = new Requirement();
 	}
 
@@ -57,19 +57,19 @@ public class CreateChildRequirementController {
 	 * Serve up the child requirement
 	 */
 	public void viewChild() {
-		Icon icon = null; //TODO where do I get the parent's icon from?
 		System.out.println("Creating child requirement tab view here.");
 		childRequirement.setIteration(parentRequirement.getIteration());
 		childRequirement.setReleaseNumber(parentRequirement.getReleaseNumber());
-		//type?
+		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
 		childRequirement.setStatus(parentRequirement.getStatus());
+		childRequirement.setParentRequirementId(parentRequirement.getId());
 		showRequirement(childRequirement);
 	} 
 	
-	public void showRequirement(Requirement requirement) {
+	public void showRequirement(Requirement childRequirement) {
 		// Make a new requirement view to display the requirement that was received
-		requirement.setIteration(Iteration.getIterationById(requirement.getIterationId()));
-		MainTabController.getController().addEditRequirementTab(requirement);
+		childRequirement.setIteration(Iteration.getIterationById(childRequirement.getIterationId()));
+		MainTabController.getController().addEditRequirementTab(childRequirement);
 	}
 	
 }

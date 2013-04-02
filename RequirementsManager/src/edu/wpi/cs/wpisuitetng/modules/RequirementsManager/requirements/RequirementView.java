@@ -103,7 +103,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * 
 	 * @return the main panel with the data fields
 	 */
-	public JPanel getRequirementPanel() {
+	public RequirementPanel getRequirementPanel() {
 		return mainPanel;
 	}
 	

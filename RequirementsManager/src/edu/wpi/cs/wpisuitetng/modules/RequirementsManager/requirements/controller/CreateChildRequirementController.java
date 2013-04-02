@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -42,12 +43,14 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class CreateChildRequirementController {
 		
-	private final RequirementView view;
-	private Requirement requirement;
-
+	private RequirementView view;
+	private Requirement parentRequirement;
+	private Requirement childRequirement;
+	
 	public CreateChildRequirementController(RequirementView view, Requirement requirement) {
 		this.view = view;
-		this.requirement = requirement;
+		this.parentRequirement = requirement;
+		this.childRequirement = new Requirement();
 	}
 
 	/**
@@ -56,19 +59,17 @@ public class CreateChildRequirementController {
 	public void viewChild() {
 		Icon icon = null; //TODO where do I get the parent's icon from?
 		System.out.println("Creating child requirement tab view here.");
-		Requirement childRequirement = new Requirement();
-		childRequirement.setIteration(requirement.getIteration());
-		childRequirement.setReleaseNumber(requirement.getReleaseNumber());
+		childRequirement.setIteration(parentRequirement.getIteration());
+		childRequirement.setReleaseNumber(parentRequirement.getReleaseNumber());
 		//type?
-		childRequirement.setStatus(requirement.getStatus());
-		this.view.getTab().getView().addTab(requirement.getTitle() + ": child requirement", icon, null, "Create child requirement for:" + requirement.getTitle());
+		childRequirement.setStatus(parentRequirement.getStatus());
+		showRequirement(childRequirement);
 	} 
 	
 	public void showRequirement(Requirement requirement) {
-		final RequirementListPanel requirementListPanel = (RequirementListPanel) view.getRequirementPanel();
 		// Make a new requirement view to display the requirement that was received
 		requirement.setIteration(Iteration.getIterationById(requirement.getIterationId()));
-		requirementListPanel.getTabController().addEditRequirementTab(requirement);
+		MainTabController.getController().addEditRequirementTab(requirement);
 	}
 	
 }

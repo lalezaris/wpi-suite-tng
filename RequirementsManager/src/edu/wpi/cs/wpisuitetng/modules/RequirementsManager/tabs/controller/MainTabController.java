@@ -44,6 +44,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class MainTabController {
 	
 	MainTabView view;
+
+	private static MainTabController staticView;
 	
 	/**
 	 * Controls the MainTab
@@ -70,7 +72,6 @@ public class MainTabController {
 	public static MainTabController getController(){
 		return staticView;
 	}
-	private static MainTabController staticView;
 	
 	
 	/**

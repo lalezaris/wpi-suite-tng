@@ -103,16 +103,17 @@ public class RequirementTableModel extends AbstractTableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     @Override
-    public Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col) {
 
-    	if (col < getColumnCount() && row < getRowCount() && col > -1 && row > -1){
-    	if (col == 5 && (Integer)data.get(row)[col] == -1)
-    		return "";
-    	
-    		return data.get(row)[col];
-    	}
-    	else return "null";
-    }
+		if (col < getColumnCount() && row < getRowCount() && col > -1
+				&& row > -1) {
+			if (col == 5 && (Integer) data.get(row)[col] == -1)
+				return "";
+
+			return data.get(row)[col];
+		} else
+			return "null";
+	}
     
     /**
      * Adds a row to a requirement

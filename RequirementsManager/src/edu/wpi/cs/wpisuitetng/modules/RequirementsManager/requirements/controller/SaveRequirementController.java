@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class SaveRequirementController {
 
 	/** The view object containing the request fields */
-	private RequirementView view;
+	protected RequirementView view;
 
 	/**
 	 * Construct a new handler for the given view

@@ -17,6 +17,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -579,30 +580,23 @@ public class RequirementPanel extends JPanel{
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		
 		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.LINE_AXIS));
-//		GridBagConstraints cLeft = new GridBagConstraints();
-//		
-//		cLeft.weightx = 0.5;
-//		cLeft.weighty = 0.5;
-//		cLeft.gridx = 0;
-//		cLeft.gridy = 3;
-//		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
-		leftPanel.setAlignmentX(LEFT_ALIGNMENT);
-		leftPanel.setMaximumSize(panelOverall.getSize());
-		leftPanel.setMinimumSize(panelOverall.getSize());
-		leftPanel.add(panelOverall);
+		leftPanel.setLayout(new GridBagLayout());
+		GridBagConstraints cPane = new GridBagConstraints();
+		
+		cPane.anchor = GridBagConstraints.FIRST_LINE_START;
+		cPane.weightx = 0.1;
+		cPane.weighty = 0.1;
+		cPane.gridx = 0;
+		cPane.gridy = 0;
+		leftPanel.add(panelOverall,cPane);
 		
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
 		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+//		splitPane.setResizeWeight(0.5);
+		splitPane.setDividerLocation(0.5);
 		this.add(splitPane, BorderLayout.CENTER);
-//		c.weightx = 0.5;
-//		c.weighty = 0.5;
-//		c.gridx = 0;
-//		c.gridy = 0;
-//		c.anchor = GridBagConstraints.FIRST_LINE_START;
-//		this.add(panelOverall, c);		
 		
 		//depending on the mode, disable certain components
 		if (editMode == Mode.CREATE) {

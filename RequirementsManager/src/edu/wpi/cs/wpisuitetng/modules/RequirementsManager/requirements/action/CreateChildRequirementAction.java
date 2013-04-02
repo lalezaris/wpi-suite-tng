@@ -32,7 +32,6 @@ public class CreateChildRequirementAction extends AbstractAction{
 	public CreateChildRequirementAction(CreateChildRequirementController controller){
 		super("Create a child Requirement");
 		this.controller = controller;
-		System.out.println("Hello. Action I am.");
 	}
 	
 	/* 

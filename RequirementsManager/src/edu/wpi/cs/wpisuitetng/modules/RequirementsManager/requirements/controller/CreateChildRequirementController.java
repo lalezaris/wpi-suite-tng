@@ -42,13 +42,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class CreateChildRequirementController {
-		
-	private RequirementView view;
+
 	private Requirement parentRequirement;
 	private Requirement childRequirement;
 	
-	public CreateChildRequirementController(RequirementView view, Requirement parentRequirement) {
-		this.view = view;
+	public CreateChildRequirementController(Requirement parentRequirement) {
 		this.parentRequirement = parentRequirement;
 		this.childRequirement = new Requirement();
 	}
@@ -64,6 +62,9 @@ public class CreateChildRequirementController {
 		childRequirement.setStatus(parentRequirement.getStatus());
 		childRequirement.setParentRequirementId(parentRequirement.getId());
 		showRequirement(childRequirement);
+		
+		//((RequirementPanel) view.getRequirementPanel()).updateModel(childRequirement);
+		//view.setEditModeDescriptors(childRequirement);
 	} 
 	
 	public void showRequirement(Requirement childRequirement) {

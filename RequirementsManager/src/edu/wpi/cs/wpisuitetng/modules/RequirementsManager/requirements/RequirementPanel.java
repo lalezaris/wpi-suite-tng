@@ -64,7 +64,8 @@ public class RequirementPanel extends JPanel{
 
 	public enum Mode {
 		CREATE,
-		EDIT;
+		EDIT,
+		CHILD;
 	}
 	
 	/** The Requirement displayed in this panel */
@@ -227,8 +228,11 @@ public class RequirementPanel extends JPanel{
 		deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
 		cancelRequirementBottom = new JButton("Cancel");
 		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
-		createChildRequirement = new JButton("Add Child Requirement");
-		createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent(), model)));
+		
+		if (editMode == Mode.EDIT) {
+			createChildRequirement = new JButton("Add Child Requirement");
+			createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(model)));
+		}
 		
 		/**Iteration Listener*/
 		
@@ -490,7 +494,10 @@ public class RequirementPanel extends JPanel{
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 0;
 		cButtons.gridy = 6;
-		panelButtons.add(createChildRequirement, cButtons);
+		
+		if (editMode == Mode.EDIT) { 
+			panelButtons.add(createChildRequirement, cButtons);
+		}
 		
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
@@ -576,9 +583,14 @@ public class RequirementPanel extends JPanel{
 		this.add(panelOverall, c);		
 		
 		//depending on the mode, disable certain components
-		if (editMode == Mode.CREATE) {
+		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			cmbStatus.setEnabled(false);
 			txtActual.setEnabled(false);
+		}
+		
+		if (editMode == Mode.CHILD) {
+			cmbIteration.setEnabled(false);
+			txtReleaseNumber.setEnabled(false);
 		}
 
 		// depending on the status and sub-requirements, disable certain components
@@ -701,7 +713,6 @@ public class RequirementPanel extends JPanel{
 			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
 		}
 		
-		System.out.println("the result of getEditedModel:");
 		System.out.println(requirement.toJSON());
 		return requirement;
 	}

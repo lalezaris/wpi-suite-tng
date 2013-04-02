@@ -130,6 +130,13 @@ public class MainTabController {
 	}
 	
 	/**
+	 * 
+	 */
+	public Tab addChildRequirementTab(Requirement requirement) {
+		return addRequirementTab(requirement, Mode.CHILD);
+	}
+	
+	/**
 	 * Adds a tab that displays the given requirement
 	 * @param requirement the requirement to display
 	 * @return The created Tab 

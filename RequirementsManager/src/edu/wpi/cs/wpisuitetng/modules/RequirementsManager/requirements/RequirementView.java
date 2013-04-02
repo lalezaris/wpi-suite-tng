@@ -70,12 +70,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if(editMode == Mode.CREATE) {
 			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
+		} else if (editMode == Mode.CHILD){
+			setChildModeDescriptors(requirement);
 		} else {
 			setEditModeDescriptors(requirement);
 		}
 		
 		// If this is a new requirement, set the creator
-		if (editMode == Mode.CREATE) {
+		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
 		}
 		
@@ -95,6 +97,17 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
+	}
+
+	
+	/**
+	 * Tooltip info for new child requirement
+	 * 
+	 * @param requirement
+	 */
+	private void setChildModeDescriptors(Requirement requirement) {
+		containingTab.setTitle("New Child Requirement");
+		containingTab.setToolTipText("Create a new child requirement");
 	}
 
 

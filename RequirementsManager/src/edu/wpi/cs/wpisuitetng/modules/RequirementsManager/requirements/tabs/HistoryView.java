@@ -31,22 +31,27 @@ import javax.swing.border.Border;
  *
  */
 @SuppressWarnings("serial")
-public class HistoryView extends JPanel {
-	public HistoryView() {
+public class HistoryView extends JScrollPane {	
 
-		JPanel historyList = new JPanel();		
+	public HistoryView() {
+		super();
+
+		JPanel historyList = new JPanel();	
 		historyList.setLayout(new BoxLayout(historyList, BoxLayout.PAGE_AXIS));
+		
+		this.setViewportView(historyList);
 		
 //		JLabel historyLabel = new JLabel("History");
 //		historyList.add(historyLabel);
 		
-		for(int i = 0; i < 5; i++){
+		for(int i = 0; i <100; i++){
 		HistoryObject obj = new HistoryObject();
 		historyList.add(obj);
 		}
 		
-		// TODO: scrollPane does not work yet
-		JScrollPane scrollPane = new JScrollPane(historyList);
-		this.add(scrollPane);
+		// TODO: scrollPane does not work yet. 
+		// The Tab container scales to fit all the objects, need to fix.
+//		JScrollPane scrollPane = new JScrollPane(historyList);
+		
 	}
 }

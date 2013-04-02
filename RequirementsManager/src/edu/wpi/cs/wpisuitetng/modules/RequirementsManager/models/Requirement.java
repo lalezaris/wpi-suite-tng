@@ -504,4 +504,14 @@ public class Requirement extends AbstractModel{
 		
 	}
 
+	/**
+	 * Check if this requirement is at the top of its hierarchy
+	 * 
+	 * @return true if requirement is at the top of its hierarchy, false if it has a parent
+	 */
+	public boolean isTopLevelRequirement(){
+		if(this.getParentRequirementId() == -1)
+			return true;
+		else return false;
+	}
 }

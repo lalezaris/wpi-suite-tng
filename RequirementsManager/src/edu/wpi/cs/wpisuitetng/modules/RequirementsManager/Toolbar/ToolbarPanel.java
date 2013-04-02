@@ -87,7 +87,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listAllRequirements.setAction(new ListAction(tabController));
 		
 		//construct the edit user permissions button
-		editUserPermissions = new JButton("Create Requirement");
+		editUserPermissions = new JButton("Edit User Permissions");
 		editUserPermissions.setAction(new EditUserPermissionsAction(tabController));
 		
 		// Configure the layout of the buttons on the content panel
@@ -119,7 +119,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
 		ToolbarGroupView toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
-		ToolbarGroupView toolbarGroupUserPermission = new ToolbarGroupView("Edit User's Permissions", userPermissionContent);
+		ToolbarGroupView toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
 		
 		// Calculate the width of the toolbar
 		//Chris Hanna changed the above calculation to this one...

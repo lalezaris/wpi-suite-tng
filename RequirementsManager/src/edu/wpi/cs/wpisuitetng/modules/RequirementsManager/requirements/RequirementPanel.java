@@ -12,7 +12,8 @@
  *  Joe Spicola
  *  Evan Polekoff
  *  Ned Shelton
-**************************************************/
+ *  Tushar Narayan
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.Color;
@@ -60,20 +61,20 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 public class RequirementPanel extends JPanel{
-	
+
 
 	public enum Mode {
 		CREATE,
 		EDIT,
 		CHILD;
 	}
-	
+
 	/** The Requirement displayed in this panel */
 	protected Requirement model; 
-	
+
 	/** The parent view **/
 	protected RequirementView parent;
-	
+
 	/*
 	 * Form elements
 	 */
@@ -81,8 +82,8 @@ public class RequirementPanel extends JPanel{
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected Iteration[] knownIterations;
-	
-	
+
+
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
@@ -97,24 +98,24 @@ public class RequirementPanel extends JPanel{
 	protected JButton deleteRequirementBottom;
 	protected RequirementTabsView RTabsView;
 	protected JButton createChildRequirement;
-	
+
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
-	
-	
+
+
 	/** NotesView for updating notes **/
 	private NotesView n; //= new NotesView();
-	
+
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
-	
+
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
-	
+
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
-	
+
 	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
@@ -122,7 +123,7 @@ public class RequirementPanel extends JPanel{
 	protected JPanel panelThree;
 	protected JPanel panelButtons;
 	protected JPanel panelTabs;
-	
+
 	/** The layout managers for  
 	 *  other panels */
 	protected GridBagLayout layoutOverall;
@@ -131,22 +132,22 @@ public class RequirementPanel extends JPanel{
 	protected GridBagLayout layoutThree;
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
-	
+
 	/** An enum indicating if the form is in create mode or edit mode */
 	protected Mode editMode;
-	
+
 	/*
 	 * Constants used to layout the form
 	 */
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-	
+
 	/*
 	 * Values for the iteration combo box
 	 */
 	Integer[] iterationValues = {1,2,3,4,5};
-	
+
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
@@ -157,22 +158,22 @@ public class RequirementPanel extends JPanel{
 		this.model = requirement;
 		this.parent = parent;
 		editMode = mode;
-		
+
 		//get the list of notes from the given requirement
 		n = new NotesView(model);
-		
+
 		// Indicate that input is enabled
 		inputEnabled = true;
-		
+
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		this.setLayout(layout);
-		
+
 		// Add all components to this panel
 		addComponents();
 		updateFields();
 	}
-	
+
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the SpringLayout manager.
@@ -220,7 +221,7 @@ public class RequirementPanel extends JPanel{
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
 		RTabsView = new RequirementTabsView(n);
-		
+
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
 		saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
@@ -228,25 +229,29 @@ public class RequirementPanel extends JPanel{
 		deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
 		cancelRequirementBottom = new JButton("Cancel");
 		cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
-		
+
 		if (editMode == Mode.EDIT) {
-			createChildRequirement = new JButton("Add Child Requirement");
-			createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(model)));
+			if(model.getStatus() == RequirementStatus.NEW ||
+					model.getStatus() == RequirementStatus.OPEN ||
+					model.getStatus() == RequirementStatus.INPROGRESS){
+				createChildRequirement = new JButton("Add Child Requirement");
+				createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(model)));
+			}
 		}
-		
+
 		/**Iteration Listener*/
-		
+
 		cmbIteration.addActionListener(new IterationListener());
-		
+
 		/**Estimate Listener*/
-		
+
 		txtEstimate.addActionListener(new EstimateListener());
-		
+
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
-		
+
 		// Construct labels for the form fields
 		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
@@ -262,9 +267,9 @@ public class RequirementPanel extends JPanel{
 		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
 		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
 		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
-		
+
 		int labelWidth = lblDescription.getPreferredSize().width;
-		
+
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutOne = new GridBagLayout();
@@ -280,7 +285,7 @@ public class RequirementPanel extends JPanel{
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
-		
+
 		cOne.insets = new Insets(0,10,0,0);
 		cOne.gridx = 0;
 		cOne.gridy = 1;
@@ -290,7 +295,7 @@ public class RequirementPanel extends JPanel{
 		lblTitleError.setVisible(false);
 		lblTitleError.setForeground(Color.RED);
 		panelOne.add(lblTitleError, cOne);
-		
+
 		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
 		cOne.gridx = 0;
 		cOne.gridy = 2;
@@ -298,21 +303,21 @@ public class RequirementPanel extends JPanel{
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblReleaseNumber, cOne);
-		
+
 		cOne.gridx = 1;
 		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(txtReleaseNumber, cOne);
-		
+
 		cOne.gridx = 0;
 		cOne.gridy = 3;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblIteration, cOne);
-		
+
 		cOne.gridx = 1;
 		cOne.gridy = 3;
 		cOne.weightx = 0.5;
@@ -322,14 +327,14 @@ public class RequirementPanel extends JPanel{
 			cmbIteration.setEnabled(true);
 		else
 			cmbIteration.setEnabled(false);
-		
+
 		panelOne.add(cmbIteration, cOne);
-		
+
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutTwo = new GridBagLayout();
 		panelTwo.setLayout(layoutTwo);
-		
+
 		cTwo.insets = new Insets(10,10,5,0);
 		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cTwo.gridx = 0;
@@ -337,7 +342,7 @@ public class RequirementPanel extends JPanel{
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		panelTwo.add(lblDescription, cTwo);
-		
+
 		cTwo.insets = new Insets(10,10,5,0);
 		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cTwo.gridx = 1;
@@ -357,12 +362,12 @@ public class RequirementPanel extends JPanel{
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 2;
 		panelTwo.add(scrollPaneDescription, cTwo);
-		
+
 		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
-				//Use a grid bag layout manager
+		//Use a grid bag layout manager
 		layoutThree = new GridBagLayout();
 		panelThree.setLayout(layoutThree);
-				
+
 		cThree.insets = new Insets(10,10,10,0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -370,7 +375,7 @@ public class RequirementPanel extends JPanel{
 		cThree.gridy = 0;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblStatus, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -378,14 +383,14 @@ public class RequirementPanel extends JPanel{
 		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbStatus.setSelectedItem(requirementStatusValues[0]);
 		panelThree.add(cmbStatus, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
 		cThree.gridy = 0;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblPriority, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 3;
@@ -393,14 +398,14 @@ public class RequirementPanel extends JPanel{
 		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
 		panelThree.add(cmbPriority, cThree);
-			
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblEstimate, cThree);
-			
+
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -408,28 +413,28 @@ public class RequirementPanel extends JPanel{
 		cThree.gridy = 2;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
-		
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 2;
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblActual, cThree);
-			
+
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 3;
 		panelThree.add(txtActual, cThree);
-		
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 2;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblCreatedDate, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -438,13 +443,13 @@ public class RequirementPanel extends JPanel{
 		txtCreatedDate.setText(model.getCreationDate().toString());
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtCreatedDate, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 3;
 		panelThree.add(lblModifiedDate, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -452,14 +457,14 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate.setEnabled(false);
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtModifiedDate, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 4;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblCreator, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -468,14 +473,14 @@ public class RequirementPanel extends JPanel{
 		txtCreator.setText(model.getCreator().getUsername());
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtCreator, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 5;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblAssignee, cThree);
-				
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -488,39 +493,43 @@ public class RequirementPanel extends JPanel{
 		//Use a grid bag layout manager
 		layoutButtons = new GridBagLayout();
 		panelButtons.setLayout(layoutButtons);
-		
+
 		if (editMode == Mode.EDIT) { 
-			cButtons.weightx = 0.5;
-			cButtons.weighty = 0.5;
-			cButtons.gridx = 0;
-			cButtons.gridy = 6;
-			panelButtons.add(createChildRequirement, cButtons);
+			if(model.getStatus() == RequirementStatus.NEW ||
+					model.getStatus() == RequirementStatus.OPEN ||
+					model.getStatus() == RequirementStatus.INPROGRESS){
+				cButtons.weightx = 0.5;
+				cButtons.weighty = 0.5;
+				cButtons.gridx = 0;
+				cButtons.gridy = 6;
+				panelButtons.add(createChildRequirement, cButtons);
+			}
 		}
-		
+
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 0;
 		cButtons.gridy = 8;
 		panelButtons.add(saveRequirementBottom, cButtons);
-		
+
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 2;
 		cButtons.gridy = 8;
 		deleteRequirementBottom.setVisible(false);
 		panelButtons.add(deleteRequirementBottom, cButtons);
-		
+
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 1;
 		cButtons.gridy = 8;
 		panelButtons.add(cancelRequirementBottom, cButtons);
-		
+
 		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutTabs = new GridBagLayout();
 		panelTabs.setLayout(layoutTabs);
-		
+
 		cOverall.fill = GridBagConstraints.BOTH;
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
@@ -528,7 +537,7 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridy = 0;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelTabs.add(RTabsView, cOverall);
-		
+
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutOverall = new GridBagLayout();
@@ -540,28 +549,28 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridy = 0;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelOne, cOverall);
-		
+
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
 		cOverall.gridy = 1;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelTwo, cOverall);
-		
+
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
 		cOverall.gridy = 2;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelThree, cOverall);
-		
+
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
 		cOverall.gridy = 3;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelButtons, cOverall);
-		
+
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 1;
@@ -571,7 +580,7 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridheight = 4;
 		cOverall.gridwidth = 4;
 		panelOverall.add(panelTabs, cOverall);
-		
+
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		c.weightx = 0.5;
 		c.weighty = 0.5;
@@ -579,13 +588,13 @@ public class RequirementPanel extends JPanel{
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(panelOverall, c);		
-		
+
 		//depending on the mode, disable certain components
 		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			cmbStatus.setEnabled(false);
 			txtActual.setEnabled(false);
 		}
-		
+
 		if (editMode == Mode.CHILD) {
 			cmbIteration.setEnabled(false);
 			txtReleaseNumber.setEnabled(false);
@@ -599,7 +608,7 @@ public class RequirementPanel extends JPanel{
 			txtEstimate.setEnabled(false);
 		}
 	}
-	
+
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -608,8 +617,8 @@ public class RequirementPanel extends JPanel{
 	public RequirementView getParent() {
 		return parent;
 	}
-	
-	
+
+
 	/**
 	 *Sets if the input is enabled
 	 * 
@@ -625,7 +634,7 @@ public class RequirementPanel extends JPanel{
 		cmbPriority.setEnabled(enabled);
 		txtEstimate.setEnabled(enabled);
 	}
-	
+
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement and sets the 
 	 * RequirementPanel's editMode to {@link Mode#EDIT}.
@@ -635,7 +644,7 @@ public class RequirementPanel extends JPanel{
 	public void updateModel(Requirement requirement) {
 		updateModel(requirement, Mode.EDIT);
 	}
-	
+
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
@@ -644,7 +653,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	protected void updateModel(Requirement requirement, Mode mode) {
 		editMode = mode;
-		
+
 		model.setId(requirement.getId());
 		model.setTitle(requirement.getTitle());
 		model.setReleaseNumber(requirement.getReleaseNumber());
@@ -661,7 +670,7 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(this.getNotesArrayList());
 		model.updateNotes(requirement.getNotes());
 		model.setParentRequirementId(requirement.getParentRequirementId());
-		
+
 		updateFields();
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -669,7 +678,7 @@ public class RequirementPanel extends JPanel{
 		this.repaint();
 		parent.refreshScrollPane();
 	}
-	
+
 	/**
 	 * checks to see if it is an empty string returns -1 if the string is less than 0 or blank and returns the integer value otherwise
 	 * 
@@ -683,7 +692,7 @@ public class RequirementPanel extends JPanel{
 			return Integer.parseInt(intf.getText());
 		}		
 	}
-	
+
 	/**Commented out parts are not needed for iteration 1 but may be needed in the future
 	 * Returns the model object represented by this view's fields.
 	 * 
@@ -697,7 +706,7 @@ public class RequirementPanel extends JPanel{
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
 
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
-		
+
 		requirement.setDescription(txtDescription.getText());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
@@ -705,20 +714,20 @@ public class RequirementPanel extends JPanel{
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
 		requirement.updateNotes(n.getNotesList());
-		
+
 		requirement.setParentRequirementId(model.getParentRequirementId());
-		
+
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
 		}
-		
+
 		System.out.println(requirement.toJSON());
 		return requirement;
 	}
-	
+
 	/**
 	 * Checks to make sure the title and description are filled in 
 	 * 
@@ -741,7 +750,7 @@ public class RequirementPanel extends JPanel{
 		} else 
 			return 0;
 	}
-	
+
 	private void updateFields() {
 		txtTitle.setText(model.getTitle());
 		txtDescription.setText(model.getDescription());
@@ -754,20 +763,20 @@ public class RequirementPanel extends JPanel{
 				cmbStatus.setSelectedIndex(i);
 			}
 		}
-		
+
 		for (int i = 0; i < cmbIteration.getItemCount(); i++) {
 			if (model.getIteration().toString().equals(knownIterations[i].toString()) ){
 				cmbIteration.setSelectedIndex(i);
-				
+
 			}
 		}
-		
+
 		for (int i = 0; i < cmbPriority.getItemCount(); i++) {
 			if (model.getPriority() == RequirementPriority.valueOf((String) cmbPriority.getItemAt(i))) {
 				cmbPriority.setSelectedIndex(i);
 			}
 		}
-		
+
 		if (editMode == Mode.EDIT) {
 			txtCreatedDate.setText(model.getCreationDate().toString());
 			txtModifiedDate.setText(model.getLastModifiedDate().toString());
@@ -785,16 +794,16 @@ public class RequirementPanel extends JPanel{
 	public Mode getEditMode() {
 		return editMode;
 	}
-	
+
 	//TODO: Getter and Setter for Notes
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
 	}
-	
+
 	public void setNotesArrayList(ArrayList<Note> aln) {
 		notes = aln;
 	}
-	
+
 	/**
 	 * Gets the model
 	 * 
@@ -803,8 +812,8 @@ public class RequirementPanel extends JPanel{
 	public Requirement getModel() {
 		return model;
 	}
-	
-	
+
+
 	//TODO: class exists in action package, refactor
 	public class IterationListener implements ActionListener {
 		/* (non-Javadoc)
@@ -815,7 +824,7 @@ public class RequirementPanel extends JPanel{
 		public void actionPerformed(ActionEvent iterations) {
 			JComboBox cb = (JComboBox)iterations.getSource();
 			System.out.println(cb.getSelectedItem());
-			
+
 			changeStatus(cb);
 		}
 
@@ -825,7 +834,7 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-			
+
 			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = model.getStatus();
 				enabled = false;
@@ -850,7 +859,7 @@ public class RequirementPanel extends JPanel{
 				runThatForLoop = true;
 				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
-			
+
 			if(runThatForLoop){
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {
 					System.out.println("For Loop Iteration: " + i);
@@ -869,15 +878,15 @@ public class RequirementPanel extends JPanel{
 			runThatForLoop = false;
 			cmbStatus.setEnabled(enabled);
 		}
-		
+
 	}
-	
+
 	public class EstimateListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent estimate) {
 			Boolean enabled = false;
-			
+
 			JTextField contents = (JTextField) estimate.getSource();
 			try{
 				if(Integer.parseInt(contents.getText()) > 0){
@@ -895,11 +904,11 @@ public class RequirementPanel extends JPanel{
 			}
 			cmbIteration.setEnabled(enabled);
 		}
-		
+
 	}
 
-	
+
 }
-	
-	
+
+
 

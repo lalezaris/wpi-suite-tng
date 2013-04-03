@@ -229,10 +229,17 @@ public class MainTabController {
 	 * @return Tab returns the edit user tab
 	 */
 	public Tab addEditUserPermissionsTab() {
-		Tab tab = addTab();
-		UserPermissionView view = new UserPermissionView(tab);
-		tab.setComponent(view);
-		view.requestFocus();
-		return tab;
+		String checkTab = "Edit User Permissions";
+		int checkTabIndex = view.indexOfTab(checkTab);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			return null;
+		} else {
+			Tab tab = addTab();
+			UserPermissionView view = new UserPermissionView(tab);
+			tab.setComponent(view);
+			view.requestFocus();
+			return tab;
+		}
 	}
 }

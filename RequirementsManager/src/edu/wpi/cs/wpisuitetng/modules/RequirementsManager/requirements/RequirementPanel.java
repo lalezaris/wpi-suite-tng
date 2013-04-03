@@ -102,7 +102,7 @@ public class RequirementPanel extends JPanel{
 	
 	
 	/** NotesView for updating notes **/
-	private NotesView n; //= new NotesView();
+	private NotesView notesView; //= new NotesView();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -158,7 +158,7 @@ public class RequirementPanel extends JPanel{
 		editMode = mode;
 		
 		//get the list of notes from the given requirement
-		n = new NotesView(model);
+		notesView = new NotesView(model);
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -217,8 +217,8 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
-		n.setNotesList(this.getNotesArrayList());
-		RTabsView = new RequirementTabsView(n);
+		notesView.setNotesList(this.getNotesArrayList());
+		RTabsView = new RequirementTabsView(notesView);
 		
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -582,19 +582,19 @@ public class RequirementPanel extends JPanel{
 
 
 		//depending on the user's permission, disable certain components
-		UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.ADMIN);
+		UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.NONE);
 		RMPermissionsLevel pLevel = testUser.getPermissions();
 		switch (pLevel){
 		case NONE:
 			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
-					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(), 
+					notesView.getTextArea(),saveRequirementBottom, deleteRequirementBottom, cancelRequirementBottom});
 			break;
-		case UPDATE: break;
-		
-		case ADMIN:
+		case UPDATE: 
 			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
-					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
-			break;
+				txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+		
+		case ADMIN: break;
 		}
 	}
 	private void disableStuff(JComponent[] components){
@@ -705,7 +705,7 @@ public class RequirementPanel extends JPanel{
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
-		requirement.updateNotes(n.getNotesList());
+		requirement.updateNotes(notesView.getNotesList());
 		
 //		if (!(txtAssignee.getText().equals(""))) {
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -779,7 +779,7 @@ public class RequirementPanel extends JPanel{
 //		if (model.getAssignee() != null) {
 //			txtAssignee.setText(model.getAssignee().getUsername());
 //		}
-		n.setNotesList(model.getNotes());
+		notesView.setNotesList(model.getNotes());
 	}
 
 	public Mode getEditMode() {

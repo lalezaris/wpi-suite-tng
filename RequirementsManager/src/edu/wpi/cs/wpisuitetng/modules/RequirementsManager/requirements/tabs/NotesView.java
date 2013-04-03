@@ -233,4 +233,19 @@ public class NotesView extends JPanel {
 	public void repaintNote() {
 		this.repaint();
 	}
+	
+	
+	/**
+	 * @return returns the button which will save a note
+	 */
+	public JButton getSaveButton(){
+		return this.addNote;
+	}
+	
+	/**
+	 * @return returns the text area which is used to write the note 
+	 */
+	public JTextArea getTextArea(){
+		return this.txtNotes;
+	}
 }

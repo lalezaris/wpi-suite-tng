@@ -344,6 +344,11 @@ public class RequirementPanel extends JPanel{
 			cmbIteration.setEnabled(true);
 			cmbStatus.setEnabled(true);
 		}
+		
+		else if(model.getStatus() == RequirementStatus.INPROGRESS)
+			deleteRequirementBottom.setEnabled(false);
+		else
+			deleteRequirementBottom.setEnabled(true);
 		//Allow the iteration of a completed requirement to be changed.
 		/*else if(model.getStatus() == RequirementStatus.COMPLETE){
 			cmbIteration.setEnabled(true);

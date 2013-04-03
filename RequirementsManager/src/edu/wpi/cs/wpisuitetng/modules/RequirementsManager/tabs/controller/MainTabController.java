@@ -133,10 +133,7 @@ public class MainTabController {
 	}
 	
 	public Tab addRequirementTab(Requirement requirement, RequirementView parentView, Mode mode) {
-		Tab newTab = addRequirementTab(requirement, mode);
-		((RequirementView) newTab.getComponent()).setParentView(parentView);
-		
-		return newTab;
+		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 	
 	
@@ -159,7 +156,10 @@ public class MainTabController {
 	 * 
 	 */
 	public Tab addChildRequirementTab(Requirement requirement, RequirementView parentView) {
-		return addRequirementTab(requirement, parentView, Mode.CHILD);
+		Tab newTab = addRequirementTab(requirement, Mode.CHILD);
+		((RequirementView) newTab.getComponent()).setParentView(parentView);
+		
+		return newTab;
 	}
 	
 	/**

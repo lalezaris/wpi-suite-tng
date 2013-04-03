@@ -34,6 +34,7 @@ public class CreateChildRequirementController {
 	
 	public CreateChildRequirementController(RequirementView view) {
 		this.view = view;
+
 		this.childRequirement = new Requirement();
 	}
 

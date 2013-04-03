@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tyler
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 /**
@@ -26,10 +26,13 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
@@ -75,13 +78,35 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 					public void run() {
 						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						view.setEditModeDescriptors(requirement);
-						
-						/**PSEUDOCODE PLEASE DELETE 
-						 * view.getParentView().getRequirementPanel().getModel.addChildRequirement()
-						 
-						Requiremtn = view.getParentView().getRequirementPanel().getUneditedModel
-						Requirement.addChilde
-						*/
+
+						//to deal with child Requirements
+						//we need to update their parent Requirement
+						RequirementView parentView = view.getParentView();
+						if(parentView != null){
+							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
+
+							//get the EDITED model currently displayed, and just add the child to it
+							parentPanel.getModel().addChildRequirement(requirement.getId());
+
+							/*next get the UNEDITED model and save that to Database with the child
+							 * this ensures that the child is added in both places,
+							 * and doesn't require the parent Requirement to be explicitly
+							 * saved again by the user if they don't want to
+							 */
+							Requirement uneditedParent = parentPanel.getUneditedModel();
+							Requirement uneditedParentWithChild = uneditedParent;
+							uneditedParentWithChild.addChildRequirement(requirement.getId());
+
+							//now to save the uneditedPanelWithChild to database
+							String JsonRequest = uneditedParentWithChild.toJSON();
+							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);
+							Request request;
+							request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.PUT);
+							request.setBody(JsonRequest);
+							System.out.println("Sending REQ to server:" +JsonRequest );
+							request.addObserver(requestObserver);
+							request.send();
+						}
 					}
 				});
 			}

@@ -59,8 +59,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param editMode	The editMode for editing the Requirement
 	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
-	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {
+	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
 		containingTab = tab;
+		this.parentView = null;
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();

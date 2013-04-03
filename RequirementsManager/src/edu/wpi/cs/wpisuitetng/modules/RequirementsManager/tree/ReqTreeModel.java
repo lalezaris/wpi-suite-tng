@@ -45,7 +45,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 	DefaultMutableTreeNode root;
 	RetrieveAllRequirementsController controller;
 	RetrieveAllIterationsControllerTree itController;
-	RetrieveAllChildRequirementsController crcontroller;
 	LinkedList<ReqTreeNode> nodes = new LinkedList<ReqTreeNode>();
 	int count;
 	int id;
@@ -73,8 +72,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
-		crcontroller = new RetrieveAllChildRequirementsController();
-	}
+		}
 
 	/**
 	 * Fills the tree with requirements given in the array. Clears the existing

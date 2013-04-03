@@ -193,8 +193,18 @@ public class TestHistoryLog {
 		req4.updateNotes(notes2);
 		
 		aChange.updateChangeFromDiff(req3, req4);
-		//System.out.println("\n" + aChange.getChange());
 		assertEquals("Title changed from title3 to title4.\nSub Requirement title2 removed\nSub Requirement title3 added\n1 note added.\n", aChange.getChange());
+	}
+	
+	@Test
+	public void testGetters(){
+		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));
+		System.out.println(aChange.getDate());
+		System.out.println(aChange.getId());
+		System.out.println(aChange.getUserName());
+		
+		assertEquals(aChange.getUserName(), "TwilightSparkle");
+		assertEquals(aChange.getId(), 47);
 	}
 	
 }

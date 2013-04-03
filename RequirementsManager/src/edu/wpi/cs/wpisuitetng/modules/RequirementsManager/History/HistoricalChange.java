@@ -130,8 +130,27 @@ public class HistoricalChange extends AbstractModel{
 
 	@Override
 	public String toJSON() {
-		
 		return null;
+	}
+
+	public String getDate() {
+		return date.toGMTString();
+	}
+
+	public int getIdOfChangedObject() {
+		return idOfChangedObject;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getUserName() {
+		return user.getName();
+	}
+	
+	public String getChange(){
+		return change;
 	}
 
 	@Override
@@ -140,8 +159,6 @@ public class HistoricalChange extends AbstractModel{
 		return null;
 	}
 	
-	public String getChange(){
-		return change;
-	}
+	
 	
 }

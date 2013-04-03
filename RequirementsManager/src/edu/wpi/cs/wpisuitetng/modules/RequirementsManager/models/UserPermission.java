@@ -31,6 +31,7 @@ public class UserPermission extends AbstractModel {
 	private String username;
 	private RMPermissionsLevel permissions;
 	private int id;
+	private String message;
 	
 	/**
 	 * @param userName
@@ -85,8 +86,13 @@ public class UserPermission extends AbstractModel {
 		return this.id;
 	}
 	
+	public String getMessage(){
+		return this.message;
+	}
 	
-	
+	public void setMessage(String message){
+		this.message = message;
+	}
 
 	/*
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()

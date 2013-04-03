@@ -31,14 +31,14 @@ public class UpdatePermissionObserver implements RequestObserver{
 
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
+		//if (response.getStatusCode() == 200) {
 			// parse the Requirement from the body
 			final UserPermission per = UserPermission.fromJSON(response.getBody());
 
 			System.out.println("Got Per: " + per.getUsername() + " has " + per.getPermissions());
 		
 			panel.addPermission(per);
-		}
+		//}
 
 
 	}

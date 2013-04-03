@@ -14,6 +14,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.util.Date;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
@@ -113,23 +117,43 @@ ModelMapper updateMapper;
 		//get requirement user wants to update
 		UserPermission per = UserPermission.fromJSON(content);
 		
-		System.out.println("per:" + content);
+		
+		String line = per.getMessage();
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("outPerm.txt", true)));
+		    out.println(line + System.getProperty("line.separator"));
+		    out.close();
+			//FileWriter fstream = new FileWriter("outPerm.txt");
+			//BufferedWriter out = new BufferedWriter(fstream);
+			//out.write(line);
+			//Close the output stream
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//LOG THE CHANGE
+		
+		
+		
+		//System.out.println("per:" + content);
 		
 		//get requirement from server
 		List<Model> oldPerms = db.retrieve(UserPermission.class, "id", per.getId(), s.getProject());
-		System.out.println("YAY!!!" + oldPerms.size());
+		//System.out.println("YAY!!!" + oldPerms.size());
 		
 		if(oldPerms.size() < 1 || oldPerms.get(0) == null) {
-			System.out.println("Perm not found");
+			//System.out.println("Perm not found");
 			throw new WPISuiteException("ID not found");
 		} 
 		
-		System.out.println("WHOO!!!");
+		//System.out.println("WHOO!!!");
 		UserPermission serverPer = (UserPermission) oldPerms.get(0);
 		
-		System.out.println("WICKED!!!");
+		//System.out.println("WICKED!!!");
 		
-		System.out.println("serverper: " + serverPer.toJSON());
+		//System.out.println("serverper: " + serverPer.toJSON());
 		
 		//Date originalLastModified = serverPer.getLastModifiedDate();
 		

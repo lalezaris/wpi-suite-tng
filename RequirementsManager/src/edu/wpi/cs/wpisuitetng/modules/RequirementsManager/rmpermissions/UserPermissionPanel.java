@@ -17,8 +17,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -35,9 +37,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.N
 
 import com.google.gson.GsonBuilder;
 
+import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -255,7 +260,7 @@ public class UserPermissionPanel extends JPanel{
 			this.gotUsers = true;
 			
 			for (int i = 0 ; i < all.length ; i ++)
-				System.out.println("USER:" + all[i].getName());
+				System.out.println("USER:" + all[i].getName() );
 			
 			setUpUsersDisplay();
 		}		
@@ -281,10 +286,18 @@ public class UserPermissionPanel extends JPanel{
 				for (int j = 0 ; j < selected.size() ; j ++){
 					System.out.println("IS " + this.allPermissions[i].getUsername() + " = TO " + (String)selected.get(j));
 					if ( ((String)selected.get(j)).equals(this.allPermissions[i].getUsername())){
+						
+						String me = ConfigManager.getConfig().getUserName();
+						Date now = new Date();
+						
+						String m = "[" + DateFormat.getDateTimeInstance().format(now) + "] CHANGE: " + me + " changed " + this.allPermissions[i].getUsername() + 
+								" status from " + this.allPermissions[i].getPermissions() + " to " + level ;
+						this.allPermissions[i].setMessage(m);
+						
 						this.allPermissions[i].setPermissions(level);
 						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);
 						
-						System.out.println("Saving Perm " + this.allPermissions[i].getId() + " , "+ this.allPermissions[i].getUsername() + " has " + this.allPermissions[i].getPermissions());
+						//System.out.println("Saving Perm " + this.allPermissions[i].getId() + " , "+ this.allPermissions[i].getUsername() + " has " + this.allPermissions[i].getPermissions());
 						
 					}
 					
@@ -298,18 +311,24 @@ public class UserPermissionPanel extends JPanel{
 		
 		protected void addPermission(UserPermission perm){
 			ArrayList<UserPermission> all2 = new ArrayList<UserPermission>();
-			boolean hasID = false;
+			//boolean hasID = false;
 			for (int i =0 ; i < this.allPermissions.length ; i ++){
 				all2.add(this.allPermissions[i]);
-				if (all2.get(i).getId() == perm.getId())
-					hasID = true;
+				//if (all2.get(i).getId() == perm.getId())
+					//hasID = true;
 			}
-			if (!hasID)
+			//if (!hasID)
+			if (!all2.contains(perm))
 				all2.add(perm);
 			this.allPermissions =  new UserPermission[all2.size()];
 			for (int i = 0 ; i < this.allPermissions.length;i++){
 				this.allPermissions[i] = all2.get(i);
 			}
+			
+			System.out.println("ADDING PERM\nhere are all the perms");
+			for (int i = 0 ; i < this.allPermissions.length ; i ++)
+				System.out.println("PERM:" + this.allPermissions[i].getUsername());
+			
 		}
 		
 		
@@ -348,11 +367,17 @@ public class UserPermissionPanel extends JPanel{
 					}
 					
 					if (!hasPermission){
-						System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
-						controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.NONE)
-								, PermissionSaveMode.NEW);
+						//System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
 						
-						none.add(this.allUsers[i].getName());
+						if (this.allUsers[i].getRole() == Role.ADMIN){
+							controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.ADMIN)
+							, PermissionSaveMode.NEW);
+							admin.add(this.allUsers[i].getName());
+						} else {
+							controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.NONE)
+									, PermissionSaveMode.NEW);
+							none.add(this.allUsers[i].getName());
+						}
 					}
 					
 					

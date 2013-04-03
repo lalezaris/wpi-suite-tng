@@ -605,8 +605,9 @@ public class RequirementPanel extends JPanel{
 
 		// depending on the status and sub-requirements, disable certain components
 		if (model.getStatus() == RequirementStatus.INPROGRESS
-				|| model.getStatus() == RequirementStatus.COMPLETE
-				|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
+				|| model.getStatus() == RequirementStatus.COMPLETE){
+			//TODO: uncomment the next line once busy waiting issue is fixed
+				//|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
 			txtEstimate.setEnabled(false);
 		}
 	}

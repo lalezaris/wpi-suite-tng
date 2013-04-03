@@ -39,7 +39,7 @@ public class RetrieveAllChildRequirementsController {
 	
 	public RetrieveAllChildRequirementsController() {
 		this.receivedResponse = false; //used for busy waiting
-		childRequirementData = new ArrayList<Requirement>();
+		this.childRequirementData = new ArrayList<Requirement>();
 	}
 	
 	/**
@@ -51,19 +51,21 @@ public class RetrieveAllChildRequirementsController {
 		sendRequest();
 		
 		/* Busy wait to receive response from server */
-		while (!receivedResponse) { }
+		/* TODO: This busy waiting breaks stuff. Need to fix this. But how?
+		 * Can we possibly implement something from the Refresher here? 
+		 * */
+		while (!this.receivedResponse) { }
 		
 		/* loop through each returned requirement and check if the parent id
 		 * is equal to the requirement id. If so, it is added to the child 
 		 * requirement array.
 		 */
-		int numChildren = 0;
-		for (int i = 0 ; i < rawRequirementData.length; i ++) {
-			if (rawRequirementData[i].getParentRequirementId() == reqID) {
-				childRequirementData.add(rawRequirementData[i]);
+		for (int i = 0 ; i < this.rawRequirementData.length; i ++) {
+			if (this.rawRequirementData[i].getParentRequirementId() == reqID) {
+				this.childRequirementData.add(this.rawRequirementData[i]);
 			}
 		}
-		return childRequirementData;
+		return this.childRequirementData;
 	}
 	
 	/**
@@ -98,7 +100,7 @@ public class RetrieveAllChildRequirementsController {
 			// do nothing, there are no Requirements
 		}
 		
-		receivedResponse = true;
+		this.receivedResponse = true;
 	}
 
 	/**

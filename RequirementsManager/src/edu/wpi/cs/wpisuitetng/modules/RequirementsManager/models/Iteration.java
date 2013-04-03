@@ -33,11 +33,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @author Arica Liu
  * @author Tushar Narayan
  * @author Michael Perrone
+ * @edited Michael French
+ * 
  */
 public class Iteration extends AbstractModel{
 	
 	private static Iteration backlog;
-	private int iterationNumber;
+	private String iterationName;
 	private Date startDate, endDate;
 	private List<Integer> requirements;
 	private IterationStatus status;
@@ -49,9 +51,9 @@ public class Iteration extends AbstractModel{
 	 * @param startDate
 	 * @param endDate
 	 */
-	public Iteration(int iterationNumber, Date startDate, Date endDate) {
+	public Iteration(String iterationNumber, Date startDate, Date endDate) {
 		super();
-		this.iterationNumber = iterationNumber;
+		this.iterationName = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.requirements = new ArrayList<Integer>();
@@ -67,7 +69,7 @@ public class Iteration extends AbstractModel{
 	public static Iteration getBacklog(){
 		if (backlog == null){
 			backlog = new Iteration();
-			backlog.setIterationNumber(-1);
+			backlog.setIterationName("Backlog");
 			backlog.setRequirements(new ArrayList<Integer>());
 		}
 		return backlog;
@@ -97,15 +99,15 @@ public class Iteration extends AbstractModel{
 	/**
 	 * @return the iterationNumber
 	 */
-	public int getIterationNumber() {
-		return this.iterationNumber;
+	public String getIterationName() {
+		return this.iterationName;
 	}
 	
 	/**
 	 * @param iterationNumber the iterationNumber to set
 	 */
-	public void setIterationNumber(int iterationNumber) {
-		this.iterationNumber = iterationNumber;
+	public void setIterationName(String iterationNumber) {
+		this.iterationName = iterationNumber;
 	}
 	
 	/**
@@ -221,10 +223,10 @@ public class Iteration extends AbstractModel{
 	@Override
 	public String toString() {
 		//return toJSON();
-		if (this.iterationNumber == Iteration.getBacklog().iterationNumber)
-			return "Backlog";
+		if (this.iterationName == Iteration.getBacklog().iterationName)
+			return this.getIterationName();
 		else
-			return "Iteration " + this.getIterationNumber();
+			return "Iteration " + this.getIterationName();
 	}
 
 	

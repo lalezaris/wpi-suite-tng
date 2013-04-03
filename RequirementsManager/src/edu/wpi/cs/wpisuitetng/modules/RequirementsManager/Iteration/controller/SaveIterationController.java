@@ -55,8 +55,6 @@ public class SaveIterationController {
 		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
 		
 		if(panel.checkRequiredFields() > 0){
-			if (panel.ValidateFields() > 0) {
-			}
 		} 
 		else {
 			request.setBody(panel.getEditedModel().toJSON());

@@ -79,6 +79,7 @@ public class RequirementPanel extends JPanel{
 
 	/** The Requirement displayed in this panel */
 	protected Requirement model; 
+	protected final Requirement uneditedModel;
 
 	/** The parent view **/
 	protected RequirementView parent;
@@ -174,6 +175,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
+		this.uneditedModel = requirement;
 		this.parent = parent;
 		editMode = mode;
 
@@ -259,7 +261,7 @@ public class RequirementPanel extends JPanel{
 					model.getStatus() == RequirementStatus.OPEN ||
 					model.getStatus() == RequirementStatus.INPROGRESS){
 				createChildRequirement = new JButton("Add Child Requirement");
-				createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(model)));
+				createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
 			}
 		}
 
@@ -980,7 +982,7 @@ public class RequirementPanel extends JPanel{
 	public Mode getEditMode() {
 		return editMode;
 	}
-
+	
 	//TODO: Getter and Setter for Notes
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
@@ -988,6 +990,13 @@ public class RequirementPanel extends JPanel{
 
 	public void setNotesArrayList(ArrayList<Note> aln) {
 		notes = aln;
+	}
+	
+	/**
+	 * @return the unedited requirement model
+	 */
+	public Requirement getUneditedModel() {
+		return uneditedModel;
 	}
 
 	/**

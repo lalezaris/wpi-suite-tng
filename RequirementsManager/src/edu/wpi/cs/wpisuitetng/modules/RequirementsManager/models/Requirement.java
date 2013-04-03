@@ -60,6 +60,7 @@ public class Requirement extends AbstractModel{
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
+	private ArrayList<Integer> childIDs;
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -104,6 +105,14 @@ public class Requirement extends AbstractModel{
 		this.notes = notes;
 	}
 	
+	/**
+	 * Constructs a new requirement including list of children ids
+	 */
+	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes, ArrayList<Integer> childIDs) {
+		this(id, title, description, creator, notes);
+		this.childIDs = childIDs;
+	}
+	
 	
 	/**
 	 * Basic constructor with default arguments
@@ -127,6 +136,30 @@ public class Requirement extends AbstractModel{
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		this.notes = new ArrayList<Note>();
+		this.childIDs = new ArrayList<Integer>();
+	}
+	
+	/**
+	 * Add a child id to the requirement
+	 * 
+	 * @param childID the id to add to the list of children
+	 */
+	public void addChildRequirement(int childID) {
+		childIDs.add(childID);
+	}
+	
+	/**
+	 * @return a list of child ids
+	 */
+	public ArrayList<Integer> getChildRequirementIds() {
+		return childIDs;
+	}
+	
+	/**
+	 * @return the number of children that the requirement has
+	 */
+	public int getNumChildren() {
+		return childIDs.size();
 	}
 	
 	/**

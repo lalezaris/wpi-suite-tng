@@ -132,6 +132,13 @@ public class MainTabController {
 		}
 	}
 	
+	public Tab addRequirementTab(Requirement requirement, RequirementView parentView, Mode mode) {
+		Tab newTab = addRequirementTab(requirement, mode);
+		((RequirementView) newTab.getComponent()).setParentView(parentView);
+		
+		return newTab;
+	}
+	
 	
 	/**
 	 * Adds a tab that displays the list of all requirements
@@ -151,8 +158,8 @@ public class MainTabController {
 	/**
 	 * 
 	 */
-	public Tab addChildRequirementTab(Requirement requirement) {
-		return addRequirementTab(requirement, Mode.CHILD);
+	public Tab addChildRequirementTab(Requirement requirement, RequirementView parentView) {
+		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 	
 	/**

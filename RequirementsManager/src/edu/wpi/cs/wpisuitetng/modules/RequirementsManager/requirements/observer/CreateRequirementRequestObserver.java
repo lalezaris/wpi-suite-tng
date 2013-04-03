@@ -75,6 +75,13 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 					public void run() {
 						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						view.setEditModeDescriptors(requirement);
+						
+						/**PSEUDOCODE PLEASE DELETE 
+						 * view.getParentView().getRequirementPanel().getModel.addChildRequirement()
+						 
+						Requiremtn = view.getParentView().getRequirementPanel().getUneditedModel
+						Requirement.addChilde
+						*/
 					}
 				});
 			}

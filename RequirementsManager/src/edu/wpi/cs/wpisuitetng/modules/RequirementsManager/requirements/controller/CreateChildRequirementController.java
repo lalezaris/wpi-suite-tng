@@ -16,6 +16,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
@@ -29,9 +31,11 @@ public class CreateChildRequirementController {
 
 	private Requirement parentRequirement;
 	private Requirement childRequirement;
+	private RequirementView view;
 	
-	public CreateChildRequirementController(Requirement parentRequirement) {
-		this.parentRequirement = parentRequirement;
+	public CreateChildRequirementController(RequirementView view) {
+		this.view = view;
+		this.parentRequirement = ((RequirementPanel) view.getRequirementPanel()).getModel();
 		this.childRequirement = new Requirement();
 	}
 
@@ -39,20 +43,18 @@ public class CreateChildRequirementController {
 	 * Serve up the child requirement
 	 */
 	public void viewChild() {
-		System.out.println("Creating child requirement tab view here.");
 		childRequirement.setIteration(parentRequirement.getIteration());
 		childRequirement.setReleaseNumber(parentRequirement.getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
 		childRequirement.setStatus(parentRequirement.getStatus());
 		childRequirement.setParentRequirementId(parentRequirement.getId());
 		showRequirement(childRequirement);
-		
 	} 
 	
 	public void showRequirement(Requirement childRequirement) {
 		// Make a new requirement view to display the requirement that was received
 		childRequirement.setIteration(Iteration.getIterationById(childRequirement.getIterationId()));
-		MainTabController.getController().addChildRequirementTab(childRequirement);
+		MainTabController.getController().addChildRequirementTab(childRequirement, view);
 	}
 	
 }

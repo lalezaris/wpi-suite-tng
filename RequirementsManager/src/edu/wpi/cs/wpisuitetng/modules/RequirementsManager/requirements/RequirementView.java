@@ -50,6 +50,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;
+	private RequirementView parentView; //add to default constructor
 	
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
@@ -99,7 +100,19 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 	}
-
+	
+	/**
+	 * Constructor that allows user to send a parent view for reference
+	 * 
+	 * @param requirement
+	 * @param editMode
+	 * @param tab
+	 * @param parentView
+	 */
+	public RequirementView(Requirement requirement, Mode editMode, Tab tab, RequirementView parentView) {
+		this(requirement, editMode, tab);
+		this.parentView = parentView;
+	}
 	
 	/**
 	 * Tooltip info for new child requirement
@@ -161,5 +174,22 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public void refreshScrollPane() {
 		mainPanelScrollPane.revalidate();
 		mainPanelScrollPane.repaint();
+	}
+
+
+	/**
+	 * set the parentview of this requirementview
+	 * 
+	 * @param parentView the parent requirement view
+	 */
+	public void setParentView(RequirementView parentView) {
+		this.parentView = parentView;
+	}
+	
+	/**
+	 * @return the parent's requirementview
+	 */
+	public RequirementView getParentView() {
+		return parentView;
 	}
 }

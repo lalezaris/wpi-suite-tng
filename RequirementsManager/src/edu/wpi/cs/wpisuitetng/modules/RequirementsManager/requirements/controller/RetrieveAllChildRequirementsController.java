@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAllRequirementsRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAllChildRequirementsRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

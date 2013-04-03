@@ -10,9 +10,10 @@
  * Contributors:
  *  Tyler
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;

@@ -82,7 +82,7 @@ public class RequirementPanel extends JPanel{
 	/*
 	 * Form elements
 	 */
-	protected JTextField txtTitle; //JPlaceholderTextField
+	protected JPlaceholderTextField txtTitle; //JPlaceholderTextField
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected Iteration[] knownIterations;
@@ -201,7 +201,7 @@ public class RequirementPanel extends JPanel{
 		panelFour = new JPanel();
 		panelButtons = new JPanel();
 		panelTabs = new JPanel();
-		txtTitle = new JTextField("Title", 20);
+		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
 		cmbIteration = new JComboBox(knownIterations);
@@ -253,7 +253,7 @@ public class RequirementPanel extends JPanel{
 		// Construct labels for the form fields
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
 		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
-		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
+		JLabel lblDescription = new JLabel("Description: *", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
@@ -277,7 +277,7 @@ public class RequirementPanel extends JPanel{
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
-		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
 		
 		cOne.insets = new Insets(5,0,0,0);
@@ -708,12 +708,12 @@ public class RequirementPanel extends JPanel{
 	public Requirement getEditedModel() {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
-		requirement.setTitle(txtTitle.getText());
+		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
 
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
 		
-		requirement.setDescription(txtDescription.getText());
+		requirement.setDescription(txtDescription.getText().trim());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
@@ -739,16 +739,18 @@ public class RequirementPanel extends JPanel{
 	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise 
 	 */
 	public int checkRequiredFields(){
-		if((txtTitle.getText().equals(null) || txtTitle.getText().equals("")) && 
-				(txtDescription.getText().equals(null) || txtDescription.getText().equals(""))){
+		String tempTitle = txtTitle.getText().trim();
+		String tempDesc = txtDescription.getText().trim();
+		if((tempTitle.equals(null) || tempTitle.equals("")) && 
+				(tempDesc.equals(null) || tempDesc.equals(""))){
 			lblTitleError.setVisible(true);
 			lblDescriptionError.setVisible(true);
 			return 3;
-		} else if(txtTitle.getText().equals(null) || txtTitle.getText().equals("")){
+		} else if(tempTitle.equals(null) || tempTitle.equals("")){
 			lblTitleError.setVisible(true);
 			lblDescriptionError.setVisible(false);
 			return 2; 
-		} else if(txtDescription.getText().equals(null) || txtDescription.getText().equals("")){
+		} else if(tempDesc.equals(null) || tempDesc.equals("")){
 			lblDescriptionError.setVisible(true);
 			lblTitleError.setVisible(false);
 			return 1;
@@ -757,7 +759,8 @@ public class RequirementPanel extends JPanel{
 	}
 	
 	private void updateFields() {
-		txtTitle.setText(model.getTitle());
+		if(!(model.getTitle().equals(null) || model.getTitle().equals("")))
+			txtTitle.setText(model.getTitle());
 		txtDescription.setText(model.getDescription());
 		txtReleaseNumber.setText(model.getReleaseNumber());
 		txtEstimate.setText( String.valueOf(model.getEstimateEffort()) );

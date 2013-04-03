@@ -338,6 +338,18 @@ public class RequirementPanel extends JPanel{
 			saveRequirementBottom.setEnabled(false);
 		}
 		
+		//Move the requirement to the backlog if it is set to OPEN.
+		if(model.getStatus() == RequirementStatus.OPEN){
+			model.setIteration(Iteration.getBacklog());
+			cmbIteration.setEnabled(true);
+			cmbStatus.setEnabled(true);
+		}
+		//Allow the iteration of a completed requirement to be changed.
+		/*else if(model.getStatus() == RequirementStatus.COMPLETE){
+			cmbIteration.setEnabled(true);
+			cmbStatus.setSelectedIndex(2);
+		}*/
+		
 		panelOne.add(cmbIteration, cOne);
 		
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
@@ -862,29 +874,37 @@ public class RequirementPanel extends JPanel{
 				setTo = model.getStatus();
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
 			//Change the status to In Progress automatically when the req is assigned to an iteration.
 			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
 			//Change the status to Open automatically when the backlog is selected.
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
 			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;
 				runThatForLoop = true;
-				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//If you are changing the iteration of a complete requirement, set it to INPROGRESS
+			/*else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() != knownIterations[0] && cb.getSelectedItem() != model.getIteration()){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = false;
+				runThatForLoop = true;
+			}
+			//If you are changing the iteration of a complete requirement to the backlog, set it to OPEN
+			else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == knownIterations[0]){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+			}*/
 			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {

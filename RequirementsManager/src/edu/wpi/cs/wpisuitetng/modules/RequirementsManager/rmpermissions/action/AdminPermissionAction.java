@@ -21,6 +21,9 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+
 /**
  * The controller for the button to move a object to the None Permissions list
  *
@@ -32,12 +35,14 @@ import javax.swing.JList;
 public class AdminPermissionAction extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
+	protected UserPermissionPanel panel;
 	
-	public AdminPermissionAction(JList noneUsers,JList updateUsers,JList adminUsers){
+	public AdminPermissionAction(JList noneUsers,JList updateUsers,JList adminUsers,UserPermissionPanel panel){
 //		this.projectUsers = projectUsers;
 		this.noneUsers = noneUsers;
 		this.updateUsers = updateUsers;
 		this.adminUsers = adminUsers;
+		this.panel = panel;
 	} 
 	
 	/* 
@@ -47,6 +52,7 @@ public class AdminPermissionAction extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		
 		//gets the selected items from the none and admin lists
+		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
 		List<String> selectedUpdateUsers = updateUsers.getSelectedValuesList();
 		
@@ -79,6 +85,11 @@ public class AdminPermissionAction extends AbstractAction {
 		
 		//Assign the new model	
 		updateUsers.setModel(newUpdateModel);
+		
+		//send the changes to the database
+		allSelectedUsers.addAll(selectedUpdateUsers);
+		allSelectedUsers.addAll(selectedNoneUsers);
+		panel.updatePermissions(allSelectedUsers, RMPermissionsLevel.ADMIN);
 
 		//update the list for Admin users to contain the selected items and convert it to a new default list model
 		allAdminUsers.addAll(selectedNoneUsers);

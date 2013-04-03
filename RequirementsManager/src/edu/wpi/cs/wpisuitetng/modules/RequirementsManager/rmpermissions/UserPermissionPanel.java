@@ -28,9 +28,24 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.AdminPermissionAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdatePermissionAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.NonePermissionAction;
+
+import com.google.gson.GsonBuilder;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+
 
 /**
  * The panel displayed when editing the permissions for the project users
@@ -40,19 +55,22 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.N
  * @version Apr 1, 2013
  *
  */
-public class UserPermissionPanel extends JPanel {
+public class UserPermissionPanel extends JPanel{
 	
+	protected User[] allUsers;
+	protected UserPermission[] allPermissions;
+	protected boolean gotUsers, gotPermissions;
+		
 	/* the parent view*/
 	protected UserPermissionView view;
 	
 	/* the List's that will display the usernames*/
-//	protected JList projectUsers;
 	protected JList noneUsers;
 	protected JList updateUsers;
 	protected JList adminUsers;
+
 	
 	/* the Default list models for the lists*/
-//	DefaultListModel projectUsersList;
 	DefaultListModel noneUsersList;
 	DefaultListModel updateUsersList;
 	DefaultListModel adminUsersList;
@@ -61,13 +79,18 @@ public class UserPermissionPanel extends JPanel {
 	protected JButton btnNone;
 	protected JButton btnUpdate;
 	protected JButton btnAdmin;
-	protected JButton updateBtn;
 	
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
+	//TODO: get rid of
+	/* the Arrays which store the usernames for each permission*/
+//	Object[] listAll = {};//"1", "2","3", "4","5", "6","7", "8"};
+//	Object[] listNone = {};
+//	Object[] listUpdate = {};
+//	Object[] listAdmin = {};
 
 	/**
 	 * Constructor
@@ -75,7 +98,13 @@ public class UserPermissionPanel extends JPanel {
 	 * @param view the parent view of this panel
 	 */
 	public UserPermissionPanel(UserPermissionView view){
+		//this.allUsers = Refresher.getInstance().getUsers(new UsersObserver(this));
+		Refresher.getInstance().getObjects(new UsersObserver(this), "core/user", "");
+		Refresher.getInstance().getObjects(new PermissionsObserver(this), "requirementsmanager/permissions", "");
 		this.view = view;
+		
+		this.gotUsers = false;
+		this.gotPermissions = false;
 		
 		addComponents();
 	}
@@ -85,23 +114,25 @@ public class UserPermissionPanel extends JPanel {
 		JPanel listPanel = new JPanel();
 		
 		/*initialize all of the components to be displayed*/
-//		projectUsersList = new DefaultListModel();
-//		projectUser = new JList(projectUsersList);
 		noneUsersList = new DefaultListModel();
 		noneUsers = new JList(noneUsersList);
 		updateUsersList = new DefaultListModel();
 		updateUsers = new JList(updateUsersList);
 		adminUsersList = new DefaultListModel();
 		adminUsers = new JList(adminUsersList);
+
+		//TODO: get rid of
+		noneUsers = new JList<Object>();
+		updateUsers = new JList<Object>();
+		adminUsers = new JList<Object>();
 		
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton(" Move to None ");
-		btnNone.addActionListener(new NonePermissionAction(noneUsers,updateUsers,adminUsers));
+		btnNone.addActionListener(new NonePermissionAction(noneUsers,updateUsers,adminUsers,this));
 		btnUpdate = new JButton("Move to Update");
-		btnUpdate.addActionListener(new UpdatePermissionAction(noneUsers,updateUsers,adminUsers));
+		btnUpdate.addActionListener(new UpdatePermissionAction(noneUsers,updateUsers,adminUsers,this));
 		btnAdmin = new JButton("Move to Admin ");
-		btnAdmin.addActionListener(new AdminPermissionAction(noneUsers,updateUsers,adminUsers));
-		updateBtn = new JButton("Update Users");
+		btnAdmin.addActionListener(new AdminPermissionAction(noneUsers,updateUsers,adminUsers,this));
 		
 		/*labels for the components*/
 //		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
@@ -119,24 +150,6 @@ public class UserPermissionPanel extends JPanel {
 		listPanel.setLayout(layoutPanel);
 		
 		/*add all of the components to the listPanel*/
-//		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		cPanel.gridx = 0;
-//		cPanel.gridy = 0;
-//		cPanel.weightx = 0.5;
-//		cPanel.weighty = 0.5;
-//		cPanel.gridwidth = 1;
-//		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-//		listPanel.add(lblProjectUsers, cPanel);
-//		
-//		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		cPanel.gridx = 0;
-//		cPanel.gridy = 1;
-//		cPanel.weightx = 0.5;
-//		cPanel.weighty = 0.5;
-//		cPanel.gridheight = 3;
-//		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-//		listPanel.add(projectUsers, cPanel);
-		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
 		cPanel.gridy = 1;
@@ -228,4 +241,163 @@ public class UserPermissionPanel extends JPanel {
 		this.add(listPanel, c);
 	}
 	
+		protected void setAllPermissions(UserPermission[] all){
+			this.allPermissions = all;
+			for (int i = 0 ; i < all.length ; i ++)
+				System.out.println("PERMISSION:" + all[i].getUsername() + " has " + all[i].getPermissions());
+
+			this.gotPermissions = true;
+			setUpUsersDisplay();
+		}
+		
+		protected void setAllusers(User[] all){
+			this.allUsers = all;
+			this.gotUsers = true;
+			
+			for (int i = 0 ; i < all.length ; i ++)
+				System.out.println("USER:" + all[i].getName());
+			
+			setUpUsersDisplay();
+		}		
+		
+		/**
+		 * @param selected the selected names
+		 * @param level the new permission level to put those names at
+		 */
+		public void updatePermissions(List<String> selected, RMPermissionsLevel level){
+			SavePermissionsController controller = new SavePermissionsController(this);
+
+			
+			
+			
+			System.out.println("calling update");
+			for (int i = 0 ; i < selected.size() ; i ++)
+				System.out.println("SEL:" + ((String)selected.get(i)));
+			
+			//This loop goes through the selected names, and all the permissions
+			//and if there is a match, it updates that permission to LEVEL (an input to this function)
+			//and saves the permission
+			for (int i = 0 ; i < this.allPermissions.length ; i ++){
+				for (int j = 0 ; j < selected.size() ; j ++){
+					System.out.println("IS " + this.allPermissions[i].getUsername() + " = TO " + (String)selected.get(j));
+					if ( ((String)selected.get(j)).equals(this.allPermissions[i].getUsername())){
+						this.allPermissions[i].setPermissions(level);
+						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);
+						
+						System.out.println("Saving Perm " + this.allPermissions[i].getId() + " , "+ this.allPermissions[i].getUsername() + " has " + this.allPermissions[i].getPermissions());
+						
+					}
+					
+				}
+			}
+			
+			//controller.save(permission, PermissionSaveMode.UPDATE);
+			
+			
+		}
+		
+		protected void addPermission(UserPermission perm){
+			ArrayList<UserPermission> all2 = new ArrayList<UserPermission>();
+			boolean hasID = false;
+			for (int i =0 ; i < this.allPermissions.length ; i ++){
+				all2.add(this.allPermissions[i]);
+				if (all2.get(i).getId() == perm.getId())
+					hasID = true;
+			}
+			if (!hasID)
+				all2.add(perm);
+			this.allPermissions =  new UserPermission[all2.size()];
+			for (int i = 0 ; i < this.allPermissions.length;i++){
+				this.allPermissions[i] = all2.get(i);
+			}
+		}
+		
+		
+		protected void setUpUsersDisplay(){
+			System.out.println("Setting up Users");
+			List<String> none = new ArrayList<String>();
+			List<String> admin = new ArrayList<String>();
+			List<String> view = new ArrayList<String>();
+			List<String> update = new ArrayList<String>();
+			
+			SavePermissionsController controller = new SavePermissionsController(this);
+			
+			if (this.gotUsers && this.gotPermissions){
+				
+				
+				for (int i = 0 ; i < this.allUsers.length ; i ++){
+					
+					
+					boolean hasPermission = false;
+					for (int j = 0 ; j < this.allPermissions.length ; j ++){
+						
+						if (this.allUsers[i].getName().equals(this.allPermissions[j].getUsername())){
+							hasPermission = true;
+							
+							switch (this.allPermissions[j].getPermissions()){
+								case ADMIN: admin.add(this.allUsers[i].getName());
+								break;
+								case UPDATE: update.add(this.allUsers[i].getName());
+								break;
+								case NONE: none.add(this.allUsers[i].getName());
+								break;
+							}
+							
+						}
+						
+					}
+					
+					if (!hasPermission){
+						System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
+						controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.NONE)
+								, PermissionSaveMode.NEW);
+						
+						none.add(this.allUsers[i].getName());
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			this.noneUsersList = getNewModel(none);
+			this.updateUsersList = getNewModel(update);
+			this.adminUsersList = getNewModel(admin);
+			
+			noneUsers.setModel(this.noneUsersList);
+			updateUsers.setModel(this.updateUsersList);
+			adminUsers.setModel(this.adminUsersList);
+		}
+		
+		
+		
+		/**
+		 * The function takes a DefaultListModel and converts it to a list of string
+		 * 
+		 * @param model the model to be converted
+		 * @return a list of the items in the model
+		 */
+		private List<String> getAllElementsInModel(DefaultListModel model){
+			List<String> modelElements = new ArrayList<String>();
+			for(int i = 0; i < model.getSize(); i++){
+				modelElements.add((String)model.getElementAt(i));
+			}
+			return modelElements;
+		}
+		
+		/**
+		 * the function takes in a List and takes all of the elements from the list and adds them to the default list model
+		 * 
+		 * @param newElements a list of the elements to be put into the model
+		 * @return the model with the given elements
+		 */
+		private DefaultListModel getNewModel(List<String> newElements){
+			DefaultListModel newModel = new DefaultListModel();
+			for(int i = 0; i < newElements.size(); i++){
+				newModel.addElement((Object)newElements.get(i));
+			}
+			return newModel;
+		}
+		
 }

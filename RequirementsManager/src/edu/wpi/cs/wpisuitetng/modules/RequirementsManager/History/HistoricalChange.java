@@ -32,6 +32,12 @@ public class HistoricalChange extends AbstractModel{
 	}
 	
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR){
+		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		boolean changedSubReqs = false;
+		int reqsRemoved = 0;
+		int reqsAdded = 0;
+		
+		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
 			change += "Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".\n";
@@ -74,9 +80,23 @@ public class HistoricalChange extends AbstractModel{
 		
 		//TODO: come back to this
 		//compare sub-requirements [We'll come back to this]
-		//if (oldR.getSubRequirements() != newR.getSubRequirements()){//if old and new are not the same
-			//change += "Title changed from " + oldR.getEstimateEffort() + " to " + newR.getEstimateEffort() + ".\n";
-		//}
+		for (int i = 0; i < oldR.getSubRequirements().size(); i++){
+			if (i < newR.getSubRequirements().size()){
+				if (!newR.getSubRequirements().contains(oldR.getSubRequirements().get(i))){
+					changedSubReqs = true;
+					change += "Sub Requirement " + oldR.getSubRequirements().get(i).getTitle() + " removed\n";					
+				}
+			}else{
+				changedSubReqs = true;
+			}
+		}
+		for (int i = 0; i < newR.getSubRequirements().size(); i++){
+				if (!oldR.getSubRequirements().contains(newR.getSubRequirements().get(i))){
+					changedSubReqs = true;
+					change += "Sub Requirement " + newR.getSubRequirements().get(i).getTitle() + " added\n";					
+				}
+		}
+		
 		
 		//change += compareSubReqs(oldR, newR);?
 		
@@ -86,6 +106,13 @@ public class HistoricalChange extends AbstractModel{
 		
 		//TODO: come back to this
 		//compare notes lists
+		if (notesDifference != 0){//if old and new are not the same
+			if (notesDifference == 1){
+				change += notesDifference + " note added.\n";
+			}else{
+				change += notesDifference + " notes added.\n";
+			}
+		}
 		//change += compareNotesLists(oldR, newR);
 			
 	}

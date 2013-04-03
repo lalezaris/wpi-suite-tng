@@ -64,6 +64,5 @@ public class SaveIterationController {
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
 			
 		}
-		
 	} 
 }

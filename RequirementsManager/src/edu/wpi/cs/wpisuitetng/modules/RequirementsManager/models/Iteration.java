@@ -224,7 +224,7 @@ public class Iteration extends AbstractModel{
 	public String toString() {
 		//return toJSON();
 		if (this.iterationName == Iteration.getBacklog().iterationName)
-			return "";
+			return this.getIterationName();
 		else
 			return "Iteration " + this.getIterationName();
 	}

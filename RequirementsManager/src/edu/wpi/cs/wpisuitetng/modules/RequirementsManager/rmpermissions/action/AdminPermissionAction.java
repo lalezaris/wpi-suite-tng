@@ -45,44 +45,57 @@ public class AdminPermissionAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-//		List<String> selectedProjectUsers = projectUsers.getSelectedValuesList();
+		
+		//gets the selected items from the none and admin lists
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
 		List<String> selectedUpdateUsers = updateUsers.getSelectedValuesList();
 		
-//		DefaultListModel projectListModel = (DefaultListModel) projectUsers.getModel();
+		//gets all model for each of the list
 		DefaultListModel noneListModel = (DefaultListModel) noneUsers.getModel();
 		DefaultListModel updateListModel = (DefaultListModel) updateUsers.getModel();
 		DefaultListModel adminListModel = (DefaultListModel) adminUsers.getModel();
 		
-//		List<String> allProjectUsers = this.getAllElementsInModel(projectListModel);
+		//gets the list of items in each of the lists from the model
 		List<String> allNoneUsers = this.getAllElementsInModel(noneListModel);
 		List<String> allUpdateUsers = this.getAllElementsInModel(updateListModel);
 		List<String> allAdminUsers = this.getAllElementsInModel(adminListModel);
 		
-//		List<String> newProjectUsers = allProjectUsers;
-//		newProjectUsers.removeAll(selectedProjectUsers);
-//		DefaultListModel newProjectModel = this.getNewModel(newProjectUsers);
-//		projectUsers.setModel(newProjectModel);
-		
+		//remove the selected items from the none total list 
 		List<String> newNoneUsers = allNoneUsers;
 		newNoneUsers.removeAll(selectedNoneUsers);
+		
+		//create a new model with the remaining items
 		DefaultListModel newNoneModel = this.getNewModel(newNoneUsers);
+		
+		//Assign the new model	
 		noneUsers.setModel(newNoneModel);
 		
+		//remove the selected items from the update total list 
 		List<String> newUpdateUsers = allUpdateUsers;
 		newUpdateUsers.removeAll(selectedUpdateUsers);
+		
+		//create a new model with the remaining items
 		DefaultListModel newUpdateModel = this.getNewModel(newUpdateUsers);
+		
+		//Assign the new model	
 		updateUsers.setModel(newUpdateModel);
 
-//		allAdminUsers.addAll(selectedProjectUsers);
+		//update the list for Admin users to contain the selected items and convert it to a new default list model
 		allAdminUsers.addAll(selectedNoneUsers);
 		allAdminUsers.addAll(selectedUpdateUsers);
 		DefaultListModel newAdminModel = this.getNewModel(allAdminUsers);
-					
+
+		//Assign the new model	
 		adminUsers.setModel(newAdminModel);	
 	}
 	
 	
+	/**
+	 * The function takes a DefaultListModel and converts it to a list of string
+	 * 
+	 * @param model the model to be converted
+	 * @return a list of the items in the model
+	 */
 	private List<String> getAllElementsInModel(DefaultListModel model){
 		List<String> modelElements = new ArrayList<String>();
 		for(int i = 0; i < model.getSize(); i++){
@@ -91,6 +104,12 @@ public class AdminPermissionAction extends AbstractAction {
 		return modelElements;
 	}
 	
+	/**
+	 * the function takes in a List and takes all of the elements from the list and adds them to the default list model
+	 * 
+	 * @param newElements a list of the elements to be put into the model
+	 * @return the model with the given elements
+	 */
 	private DefaultListModel getNewModel(List<String> newElements){
 		DefaultListModel newModel = new DefaultListModel();
 		for(int i = 0; i < newElements.size(); i++){

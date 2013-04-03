@@ -13,9 +13,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 
 
 /**
@@ -26,10 +30,11 @@ import javax.swing.JTabbedPane;
  * @version Mar 25, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RequirementTabsView extends JTabbedPane {
 
 	public RequirementTabsView(NotesView n) {
-		
+
 		HistoryView historyView = new HistoryView();
 		historyView.setMaximumSize(historyView.getPreferredSize());
 		setTabPlacement(TOP);

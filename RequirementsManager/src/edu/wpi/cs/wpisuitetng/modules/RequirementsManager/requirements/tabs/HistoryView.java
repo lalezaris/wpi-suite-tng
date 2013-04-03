@@ -41,7 +41,7 @@ public class HistoryView extends JPanel {
 	public HistoryView() {
 		super(new BorderLayout());
 		
-		int numObjects = 100; // NUMBER OF HistoryObjects to add
+		int numObjects = 50; // NUMBER OF HistoryObjects to add
 		
 		listModel = new DefaultListModel<HistoryObject>();		
 		

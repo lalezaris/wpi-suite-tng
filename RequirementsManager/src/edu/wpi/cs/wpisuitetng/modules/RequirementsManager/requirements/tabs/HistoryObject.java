@@ -47,6 +47,10 @@ public class HistoryObject extends JPanel {
 		this.setUp();
 	}
 
+	@Override
+	public String toString(){
+		return "#"+this.id+" - "+date+" at "+time+" by "+user+ '\n' +changes;
+	}
 	private void setUp(){
 		// Set the border variable
 		Border loweredetched;

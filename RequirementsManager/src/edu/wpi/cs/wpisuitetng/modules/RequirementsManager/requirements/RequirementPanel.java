@@ -512,7 +512,7 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridy = 0;
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		//TODO  Fix RTabsView
-		//		panelTabs.add(RTabsView, cOverall);
+		panelTabs.add(RTabsView, cOverall);
 
 		
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------

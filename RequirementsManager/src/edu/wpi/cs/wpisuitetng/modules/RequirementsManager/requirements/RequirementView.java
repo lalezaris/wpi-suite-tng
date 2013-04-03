@@ -45,7 +45,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton saveButton;
-	private JPanel mainPanel;
+	private RequirementPanel mainPanel;
 	private SaveRequirementController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
@@ -82,12 +82,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 		
 		// Instantiate the main create requirement panel
+		// TODO
 		reqPanel = new RequirementPanel(this, requirement, editMode);
-		JPanel reqPanelContainer = new JPanel();
-		reqPanelContainer.setLayout(new BorderLayout());
-		reqPanelContainer.add(reqPanel, BorderLayout.CENTER);
-		reqPanelContainer.add(new RequirementTabsView(reqPanel.getN()), BorderLayout.EAST );
-		mainPanel = reqPanelContainer;
+//		JPanel reqPanelContainer = new JPanel();
+//		reqPanelContainer.setLayout(new BorderLayout());
+//		reqPanelContainer.add(reqPanel, BorderLayout.CENTER);
+//		reqPanelContainer.add(new RequirementTabsView(reqPanel.getN()), BorderLayout.EAST );
+		mainPanel = reqPanel;
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -138,7 +139,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
 	
-	    reqPanel.setInputEnabled(enabled);
+	    mainPanel.setInputEnabled(enabled);
 	}
 	
 	/**

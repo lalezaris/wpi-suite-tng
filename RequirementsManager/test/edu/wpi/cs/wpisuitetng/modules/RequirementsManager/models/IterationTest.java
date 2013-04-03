@@ -95,6 +95,14 @@ public class IterationTest {
 		assertTrue(iteration1.equals(iteration1));
 		assertTrue(!iteration1.equals(iteration2));
 		assertTrue(iteration1.equals(new Iteration(1, startDate, endDate)));
+	}
 	
+	@Test
+	public void testChangeDates(){
+		Date d = new Date();
+		iteration1.setEndDate(d);
+		iteration2.setStartDate(d);
+		assertEquals(d,iteration1.getEndDate());
+		assertEquals(d,iteration2.getStartDate());
 	}
 }

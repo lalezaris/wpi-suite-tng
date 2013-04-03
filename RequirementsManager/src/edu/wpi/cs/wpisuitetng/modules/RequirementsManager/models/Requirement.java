@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
@@ -57,9 +58,11 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private int parentRequirementId;
+	private ArrayList<Integer> childRequirementId;
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
+	private ArrayList<HistoricalChange> history;
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -360,6 +363,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Gets the history.
+	 * @return the history
+	 */
+	public ArrayList<HistoricalChange> getHistory() {
+		return history;
+	}
+	
+	/**
+	 * Adds a change to the history.
+	 * @param change the change being added to the history.
+	 */
+	public void addHistoricalChange(HistoricalChange change){
+		history.add(change);
 	}
 	
 	/**

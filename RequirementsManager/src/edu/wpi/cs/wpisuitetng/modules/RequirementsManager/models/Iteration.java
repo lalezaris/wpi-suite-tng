@@ -278,6 +278,13 @@ public class Iteration extends AbstractModel{
 //		IterationEvent.addGsonDependencies(builder);
 	}
 
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Iteration && this.id == ((Iteration)other).id){
+			return true;
+		}
+		return false;
+	}
 	
 
 }

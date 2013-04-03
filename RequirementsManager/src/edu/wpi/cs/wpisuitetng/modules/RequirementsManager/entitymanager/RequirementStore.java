@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -114,16 +115,17 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
 		
-		//System.out.println("req:" + content);
 		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
 			throw new WPISuiteException("ID not found");
-		} 
+		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
+		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 		
-		
+		HChange.updateChangeFromDiff(req, serverReq, this);
+		serverReq.addHistoricalChange(HChange);
 		
 		Date originalLastModified = serverReq.getLastModifiedDate();
 		

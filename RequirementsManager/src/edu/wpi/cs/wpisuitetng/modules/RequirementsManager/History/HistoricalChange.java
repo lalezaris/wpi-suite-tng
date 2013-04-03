@@ -10,6 +10,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -22,16 +23,15 @@ public class HistoricalChange extends AbstractModel{
 	private User user; //User that made this change
 	
 	
-	public HistoricalChange(Date date, /*String change,*/ int id, int idOfChangedObject, User user){
+	public HistoricalChange(Date date, int id, int idOfChangedObject, User user){
 		this.date = date;
-		//this.change = change;
 		this.id = id;
 		this.idOfChangedObject = idOfChangedObject;
 		this.user = user;
-		change = "";
+		change = "SOMETHING";
 	}
 	
-	public void updateChangeFromDiff(Requirement oldR, Requirement newR){
+	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		boolean changedSubReqs = false;
 		int reqsRemoved = 0;
@@ -50,6 +50,9 @@ public class HistoricalChange extends AbstractModel{
 		
 		//compare Iterations
 		if (!oldR.getIteration().equals(newR.getIteration())){//if old and new are not the same
+			System.out.println("DEBUG OUTPUT 1" + change);
+			System.out.println("DEBUG OUTPUT 2" + oldR.getIteration().toString());
+			System.out.println("DEBUG OUTPUT 3" + newR.getIteration().toString());
 			change += "Iteration changed from " + oldR.getIteration().toString() + " to " + newR.getIteration().toString() + ".\n";
 		}
 		

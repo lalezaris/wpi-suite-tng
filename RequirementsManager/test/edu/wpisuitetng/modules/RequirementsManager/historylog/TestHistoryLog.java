@@ -8,6 +8,8 @@ import java.util.Date;
 import org.junit.*;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.MockData;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -21,6 +23,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 
 public class TestHistoryLog {
+	
+	MockData db;
+	RequirementStore manager;
 	
 	Requirement req1;
 	Requirement req2;
@@ -71,11 +76,11 @@ public class TestHistoryLog {
 		HistoricalChange aChange1 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		HistoricalChange aChange2 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		
-		aChange1.updateChangeFromDiff(req1, req1);
+		aChange1.updateChangeFromDiff(req1, req1, manager);
 		System.out.println(aChange1.getChange());
 		assertEquals(aChange1.getChange(), "");
 		
-		aChange2.updateChangeFromDiff(req1, req2);
+		aChange2.updateChangeFromDiff(req1, req2, manager);
 		System.out.println(aChange2.getChange());
 		assertEquals(aChange2.getChange(), "Title changed from title1 to title2.\nDescription changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"\nAssignee changed from bill to Joe.\n");
 		
@@ -85,7 +90,7 @@ public class TestHistoryLog {
 	public void testSubReqsUpdate(){
 		HistoricalChange aChange = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		
-		aChange.updateChangeFromDiff(req3, req4);
+		aChange.updateChangeFromDiff(req3, req4, manager);
 		System.out.println("\n" + aChange.getChange());
 		assertEquals("Title changed from title3 to title4.\nSub Requirement title2 removed\nSub Requirement title3 added\n", aChange.getChange());
 	}
@@ -113,7 +118,7 @@ public class TestHistoryLog {
 		HistoricalChange RemoveOne = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		
 		
-		OldSmallNewBig.updateChangeFromDiff(req5, req6);
+		OldSmallNewBig.updateChangeFromDiff(req5, req6, manager);
 		assertEquals("Title changed from ParentTitle5 to ParentTitle6." +
 				"\nSub Requirement Title50 added" +
 				"\nSub Requirement Title51 added" +
@@ -136,7 +141,7 @@ public class TestHistoryLog {
 				"\nSub Requirement Title68 added" +
 				"\nSub Requirement Title69 added\n", OldSmallNewBig.getChange());
 		
-		OldBigNewSmall.updateChangeFromDiff(req6, req5);
+		OldBigNewSmall.updateChangeFromDiff(req6, req5, manager);
 		assertEquals("Title changed from ParentTitle6 to ParentTitle5." +
 				"\nSub Requirement Title50 removed" +
 				"\nSub Requirement Title51 removed" +
@@ -161,7 +166,7 @@ public class TestHistoryLog {
 		
 		childrenPlusMore.remove(30);
 /*		req6.setSubRequirements(childrenPlusMore);
-*/		RemoveOne.updateChangeFromDiff(req5, req6);
+*/		RemoveOne.updateChangeFromDiff(req5, req6, manager);
 		assertEquals("Title changed from ParentTitle5 to ParentTitle6." +
 				"\nSub Requirement Title30 removed" +
 				"\nSub Requirement Title50 added" +
@@ -192,7 +197,7 @@ public class TestHistoryLog {
 		req3.updateNotes(notes1);
 		req4.updateNotes(notes2);
 		
-		aChange.updateChangeFromDiff(req3, req4);
+		aChange.updateChangeFromDiff(req3, req4, manager);
 		assertEquals("Title changed from title3 to title4.\nSub Requirement title2 removed\nSub Requirement title3 added\n1 note added.\n", aChange.getChange());
 	}
 	

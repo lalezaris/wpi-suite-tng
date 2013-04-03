@@ -15,8 +15,13 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -37,10 +42,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.U
 public class UserPermissionPanel extends JPanel {
 	
 	protected UserPermissionView view;
-	protected JList<String> projectUsers;
-	protected JList<String> noneUsers;
-	protected JList<String> updateUsers;
-	protected JList<String> adminUsers;
+	protected JList projectUsers;
+	protected JList noneUsers;
+	protected JList updateUsers;
+	protected JList adminUsers;
 	
 	protected JButton btnNone;
 	protected JButton btnUpdate;
@@ -51,6 +56,11 @@ public class UserPermissionPanel extends JPanel {
 	
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
+	Object[] listAll = {"1", "2","3", "4","5", "6","7", "8"};
+	Object[] listNone = {};
+	Object[] listUpdate = {};
+	Object[] listAdmin = {};
+	
 	public UserPermissionPanel(UserPermissionView view){
 		this.view = view;
 		
@@ -60,22 +70,21 @@ public class UserPermissionPanel extends JPanel {
 	private void addComponents(){
 		JPanel listPanel = new JPanel();
 		
-		String[] listAll = {"1", "2","3", "4","5", "6","7", "8"};
-		String[] listNone = {};
-		String[] listUpdate = {};
-		String[] listAdmin = {};		
-		
-		projectUsers = new JList<String>(listAll);
-		noneUsers = new JList<String>(listNone);
-		updateUsers = new JList<String>(listUpdate);
-		adminUsers = new JList<String>(listAdmin);
+		projectUsers = new JList();
+		projectUsers.setListData(listAll);
+		noneUsers = new JList();
+		noneUsers.setListData(listNone);
+		updateUsers = new JList();
+		updateUsers.setListData(listUpdate);
+		adminUsers = new JList();
+		adminUsers.setListData(listAdmin);
 		
 		btnNone = new JButton(" Move to None ");
-		btnNone.addActionListener(new NonePermissionAction(projectUsers,noneUsers));
+		btnNone.addActionListener(new NonePermissionAction());
 		btnUpdate = new JButton("Move to Update");
-		btnUpdate.addActionListener(new UpdatePermissionAction(projectUsers,updateUsers));
+		btnUpdate.addActionListener(new UpdatePermissionAction());
 		btnAdmin = new JButton("Move to Admin ");
-		btnAdmin.addActionListener(new AdminPermissionAction(projectUsers, adminUsers));
+		btnAdmin.addActionListener(new AdminPermissionAction());
 		updateBtn = new JButton("Update Users");
 		
 		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
@@ -198,8 +207,132 @@ public class UserPermissionPanel extends JPanel {
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(listPanel, c);
-		
-		
 	}
+	
+	public class NonePermissionAction extends AbstractAction {
+		
+		public NonePermissionAction(){} 
+		
+		/* 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			Object[] selItems;
+			Object[] projectItems = projectUsers.getSelectedValues();
+			Object[] updateItems = updateUsers.getSelectedValues();
+			Object[] adminItems = adminUsers.getSelectedValues();
+			
+			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+			newProjectItems.removeAll(Arrays.asList(projectItems));
+			listAll = newProjectItems.toArray(); 
+			projectUsers.setListData(newProjectItems.toArray());
+			
+			List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
+			newUpdateItems.removeAll(Arrays.asList(updateItems));
+			listUpdate = newUpdateItems.toArray();
+			updateUsers.setListData(newUpdateItems.toArray());
+			
+			List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
+			newAdminItems.removeAll(Arrays.asList(adminItems));
+			listAdmin = newAdminItems.toArray();
+			adminUsers.setListData(newAdminItems.toArray());
+
+			selItems = concat(listNone,concat(projectItems, concat(updateItems,adminItems)));
+			listNone = selItems;
+			
+			noneUsers.setListData(selItems);	
+		}
+	}
+	
+	public class UpdatePermissionAction extends AbstractAction {
+		
+		public UpdatePermissionAction(){} 
+		
+		/* 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			Object[] selItems;
+			Object[] projectItems = projectUsers.getSelectedValues();
+			Object[] noneItems = noneUsers.getSelectedValues();
+			Object[] adminItems = adminUsers.getSelectedValues();
+			
+			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+			newProjectItems.removeAll(Arrays.asList(projectItems));
+			listAll = newProjectItems.toArray(); 
+			projectUsers.setListData(newProjectItems.toArray());
+			
+			List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
+			newNoneItems.removeAll(Arrays.asList(noneItems));
+			listNone = newNoneItems.toArray();
+			noneUsers.setListData(newNoneItems.toArray());
+			
+			List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
+			newAdminItems.removeAll(Arrays.asList(adminItems));
+			listAdmin = newAdminItems.toArray();
+			adminUsers.setListData(newAdminItems.toArray());
+
+			selItems = concat(listUpdate,concat(projectItems, concat(noneItems,adminItems)));
+			listUpdate = selItems;
+			
+			updateUsers.setListData(selItems);	
+		}
+	}
+
+	public class AdminPermissionAction extends AbstractAction {
+		
+		public AdminPermissionAction(){} 
+		
+		/* 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			Object[] selItems;
+			Object[] projectItems = projectUsers.getSelectedValues();
+			Object[] updateItems = updateUsers.getSelectedValues();
+			Object[] noneItems = noneUsers.getSelectedValues();
+			
+			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+			newProjectItems.removeAll(Arrays.asList(projectItems));
+			listAll = newProjectItems.toArray(); 
+			projectUsers.setListData(newProjectItems.toArray());
+			
+			List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
+			newUpdateItems.removeAll(Arrays.asList(updateItems));
+			listUpdate = newUpdateItems.toArray();
+			updateUsers.setListData(newUpdateItems.toArray());
+			
+			List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
+			newNoneItems.removeAll(Arrays.asList(noneItems));
+			listNone = newNoneItems.toArray();
+			noneUsers.setListData(newNoneItems.toArray());
+	
+			selItems = concat(listAdmin,concat(projectItems, concat(updateItems,noneItems)));
+			listAdmin = selItems;
+			
+			adminUsers.setListData(selItems);	
+		}
+	}
+		
+		
+		
+		/**
+		 * Function taken from http://stackoverflow.com/questions/80476/how-to-concatenate-two-arrays-in-java
+		 * 
+		 * @param A
+		 * @param B
+		 * @return
+		 */
+		Object[] concat(Object[] A, Object[] B) {
+		   int aLen = A.length;
+		   int bLen = B.length;
+		   Object[] C= new Object[aLen+bLen];
+		   System.arraycopy(A, 0, C, 0, aLen);
+		   System.arraycopy(B, 0, C, aLen, bLen);
+		   return C;
+		}
 
 }

@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
@@ -56,12 +57,12 @@ public class Requirement extends AbstractModel{
 	private int estimateEffort; 
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
-	private ArrayList<Requirement> subRequirements;
+	private int parentRequirementId;
+	private ArrayList<Integer> childRequirementId;
 	private int id;
 	private User creator, assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
-	
-	
+	private ArrayList<HistoricalChange> history;
 	
 	/**
 	 * Constructs a new Requirement with title and description
@@ -74,6 +75,8 @@ public class Requirement extends AbstractModel{
 		this.title = title;
 		this.description = description;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
@@ -89,6 +92,8 @@ public class Requirement extends AbstractModel{
 		this.description = description;
 		this.creator = creator;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
@@ -104,6 +109,8 @@ public class Requirement extends AbstractModel{
 		this.description = description;
 		this.creator = creator;
 		this.notes = notes;
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	
@@ -122,13 +129,14 @@ public class Requirement extends AbstractModel{
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
-		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
+		this.parentRequirementId = -1; //-1 parent requirement id means no parent
 		this.id = -1; //default id is -1
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
 	}
 	
 	/**
@@ -303,22 +311,6 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Gets the subRequirements
-	 * @return the subRequirements
-	 */
-	public ArrayList<Requirement> getSubRequirements() {
-		return subRequirements;
-	}
-
-	/**
-	 * Sets the subRequirements
-	 * @param subRequirements: sets the subRequirements 
-	 */
-	public void setSubRequirements(ArrayList<Requirement> subRequirements) {
-		this.subRequirements = subRequirements;
-	}
-	
-	/**
 	 * Gets the creation date
 	 * @return the Date this Requirement was created on
 	 */
@@ -351,6 +343,20 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * @return the parentRequirementId
+	 */
+	public int getParentRequirementId() {
+		return parentRequirementId;
+	}
+
+	/**
+	 * @param parentRequirementId the parentRequirementId to set
+	 */
+	public void setParentRequirementId(int parentRequirementId) {
+		this.parentRequirementId = parentRequirementId;
+	}
+
+	/**
 	 * Sets the id
 	 * @param id: sets the id 
 	 */
@@ -364,6 +370,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Gets the history.
+	 * @return the history
+	 */
+	public ArrayList<HistoricalChange> getHistory() {
+		return history;
+	}
+	
+	/**
+	 * Adds a change to the history.
+	 * @param change the change being added to the history.
+	 */
+	public void addHistoricalChange(HistoricalChange change){
+		history.add(change);
 	}
 	
 	/**
@@ -489,5 +511,40 @@ public class Requirement extends AbstractModel{
 	public static void addGsonDependencies(GsonBuilder builder) {
 		
 	}
+	
+	@Override
+	public boolean equals(Object requirement){
+		/*
+		 * private String title;
+			private String releaseNumber;
+			private int iterationId;
+			private String description;
+			private Date creationDate;
+			private int id;
+		 * 
+		 */
+		
+		if(		requirement instanceof Requirement &&
+				this.title.equals(((Requirement)requirement).getTitle())&&
+				this.releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
+				this.iterationId == ((Requirement)requirement).iterationId &&
+				this.description.equals(((Requirement)requirement).getDescription()) &&
+				this.creationDate.equals(((Requirement)requirement).creationDate) && 
+				this.id == ((Requirement)requirement).id)	
+		{
+			return true;
+		}
+		return false;
+	}
 
+	/**
+	 * Check if this requirement is at the top of its hierarchy
+	 * 
+	 * @return true if requirement is at the top of its hierarchy, false if it has a parent
+	 */
+	public boolean isTopLevelRequirement(){
+		if(this.getParentRequirementId() == -1)
+			return true;
+		else return false;
+	}
 }

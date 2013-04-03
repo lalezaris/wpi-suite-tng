@@ -15,11 +15,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 
 /**
  * The jPanel for all requirement history
@@ -33,28 +36,28 @@ import javax.swing.JScrollPane;
  */
 @SuppressWarnings("serial")
 public class HistoryView extends JPanel {	
-	private JList<HistoryObject> list;
-    private DefaultListModel<HistoryObject> listModel;
+	private JList<HistoricalChange> list;
+    private DefaultListModel<HistoricalChange> listModel;
 
 	/**
 	 * HistoryView Constructor
 	 * 
 	 */
-	public HistoryView() {
+	public HistoryView(ArrayList<HistoricalChange> history) {
 		super(new BorderLayout());
 		
-		int numObjects = 50; // NUMBER OF HistoryObjects to add
+		int numObjects = history.size(); // NUMBER OF HistoryObjects to add
 		
-		listModel = new DefaultListModel<HistoryObject>();		
+		listModel = new DefaultListModel<HistoricalChange>();		
 		
 		
 		for(int i = 0; i <numObjects; i++){
-		HistoryObject obj = new HistoryObject();
-		listModel.add(i, obj);
+//		HistoricalChange obj = history.get(i);
+		listModel.add(i, history.get(i));
 		}
 
 		//Create the list and put it in a scroll pane.
-        list = new JList<HistoryObject>(listModel);
+        list = new JList<HistoricalChange>(listModel);
 //		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 //		list.setMaximumSize(new Dimension(200,0));
         list.setVisibleRowCount(5);

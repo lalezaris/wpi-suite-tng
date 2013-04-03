@@ -104,7 +104,7 @@ public class RequirementPanel extends JPanel{
 	
 	/** HistoryView for updating history **/
 	//TODO fix
-	private HistoryView hv = new HistoryView();
+	private HistoryView hv;
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -220,7 +220,7 @@ public class RequirementPanel extends JPanel{
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
-		//TODO setHistoryList
+		hv = new HistoryView(model.getHistory());
 		RTabsView = new RequirementTabsView(n, hv);
 		
 		/**Save Button*/
@@ -578,11 +578,11 @@ public class RequirementPanel extends JPanel{
 		}
 
 		// depending on the status and sub-requirements, disable certain components
-		if (model.getStatus() == RequirementStatus.INPROGRESS
-				|| model.getStatus() == RequirementStatus.COMPLETE
-				|| model.getSubRequirements().size() != 0) {
-			txtEstimate.setEnabled(false);
-		}
+//		if (model.getStatus() == RequirementStatus.INPROGRESS
+//				|| model.getStatus() == RequirementStatus.COMPLETE
+//				|| model.getSubRequirements().size() != 0) {
+//			txtEstimate.setEnabled(false);
+//		}
 	}
 	
 	/**

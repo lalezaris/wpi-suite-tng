@@ -10,7 +10,7 @@
  * Contributors:
  *  Joe Spicola
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 
@@ -63,6 +63,7 @@ public class SaveRequirementController {
 			request.send();
 			//close tab
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-		}
-	}
+			System.out.println("SAVE REQUIREMENT");
+		} 
+	} 
 }

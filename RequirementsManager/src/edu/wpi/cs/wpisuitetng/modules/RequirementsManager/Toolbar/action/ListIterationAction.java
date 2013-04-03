@@ -47,7 +47,7 @@ public class ListIterationAction extends AbstractAction {
 		
 		System.out.println("here are the iterations...");
 		for (int j = 0; j < i.length; j ++)
-			System.out.println(""+j + ":" + i[j].getIterationNumber());
+			System.out.println(""+j + ":" + i[j].getIterationName());
 		System.out.println("done finding iterations...");
 	}
 }

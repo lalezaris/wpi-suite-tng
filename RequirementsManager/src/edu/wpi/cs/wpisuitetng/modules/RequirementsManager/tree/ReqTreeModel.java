@@ -97,8 +97,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 		this.reload();
 		// Loop through all the iterations
 		for (int j = 0; j < iterations.length; j++) {
-			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
-					iterations[j]);
+			DefaultMutableTreeNode tempIt;
+			if(iterations[j].getIterationName().equals("Backlog"))
+				tempIt = new DefaultMutableTreeNode("Backlog");
+			else
+				tempIt = new DefaultMutableTreeNode(
+						iterations[j]);
 			this.insertNodeInto(tempIt, root, 0);
 			count++;
 			

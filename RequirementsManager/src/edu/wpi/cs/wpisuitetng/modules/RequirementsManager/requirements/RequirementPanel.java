@@ -16,12 +16,15 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -29,6 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -57,10 +61,13 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  * @author Chris Dunkers 
  * @author Joe Spicola
- *
+ * @author Ned Shelton
+ * @author Michael Perrone
+ * @author Evan Polekoff
  * @version Mar 17, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RequirementPanel extends JPanel{
 
 
@@ -79,11 +86,10 @@ public class RequirementPanel extends JPanel{
 	/*
 	 * Form elements
 	 */
-	protected JTextField txtTitle; //JPlaceholderTextField
+	protected JPlaceholderTextField txtTitle; //JPlaceholderTextField
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected Iteration[] knownIterations;
-
 
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
@@ -99,7 +105,8 @@ public class RequirementPanel extends JPanel{
 	protected JButton deleteRequirementBottom;
 	protected RequirementTabsView RTabsView;
 	protected JButton createChildRequirement;
-
+	protected JSplitPane splitPane;
+	
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
 
@@ -115,13 +122,20 @@ public class RequirementPanel extends JPanel{
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
+/*HEAD
 	protected GridBagLayout layout;
 
-	/** The other panels */
+*/
+//	protected GridBagLayout layout;
+	protected BorderLayout layout;
+	
+/* origin/team1-theHistoryLogBackEnd
+*/	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
 	protected JPanel panelThree;
+	protected JPanel panelFour;
 	protected JPanel panelButtons;
 	protected JPanel panelTabs;
 
@@ -131,6 +145,7 @@ public class RequirementPanel extends JPanel{
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
 	protected GridBagLayout layoutThree;
+	protected GridBagLayout layoutFour;
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 
@@ -165,11 +180,16 @@ public class RequirementPanel extends JPanel{
 		//get the list of notes from the given requirement
 		n = new NotesView(model);
 
+		//a = new AttachmentsView(model);
+		//h = new HistoryView(model);
+		//u = new UsersView(model);
+		
 		// Indicate that input is enabled
 		inputEnabled = true;
 
 		//Use a grid bag layout manager
-		layout = new GridBagLayout();
+		//layout = new GridBagLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
 
 		// Add all components to this panel
@@ -184,11 +204,11 @@ public class RequirementPanel extends JPanel{
 	 */
 	protected void addComponents() {
 		//create a new constrain variable
-		GridBagConstraints c = new GridBagConstraints();
 		GridBagConstraints cOverall = new GridBagConstraints();
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
 		GridBagConstraints cThree = new GridBagConstraints();
+		GridBagConstraints cFour = new GridBagConstraints();
 		GridBagConstraints cButtons = new GridBagConstraints();
 
 		// Construct all of the components for the form
@@ -196,9 +216,10 @@ public class RequirementPanel extends JPanel{
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 		panelThree = new JPanel();
+		panelFour = new JPanel();
 		panelButtons = new JPanel();
 		panelTabs = new JPanel();
-		txtTitle = new JTextField("Title", 20);
+		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
 		cmbIteration = new JComboBox(knownIterations);
@@ -247,25 +268,33 @@ public class RequirementPanel extends JPanel{
 		cmbIteration.addActionListener(new IterationListener());
 
 		/**Estimate Listener*/
+/*  HEAD
 
 		txtEstimate.addActionListener(new EstimateListener());
 
-		// set maximum widths of components so they are not stretched
+=======*/
+		
+		txtEstimate.addKeyListener(new EstimateListener());
+		
+		/**Title and Description Listener*/
+		
+		txtTitle.addKeyListener(new SaveListener());
+		txtDescription.addKeyListener(new SaveListener());
+		
+/*  origin/team1-theHistoryLogBackEnd
+*/		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 
 		// Construct labels for the form fields
-		JLabel lblTitle = new JLabel("Title:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
 		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
-		JLabel lblDescription = new JLabel("Description:", LABEL_ALIGNMENT);
+		JLabel lblDescription = new JLabel("Description: *", LABEL_ALIGNMENT);
 		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
-		JLabel lblEUnits = new JLabel("Units", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		JLabel lblAUnits = new JLabel("Units", LABEL_ALIGNMENT);
 		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
 		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
 		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
@@ -286,13 +315,20 @@ public class RequirementPanel extends JPanel{
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
-		txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
+		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
+/*  HEAD
 
 		cOne.insets = new Insets(0,10,0,0);
 		cOne.gridx = 0;
 		cOne.gridy = 1;
-		cOne.weightx = 0.5;
+=======*/
+		
+		cOne.insets = new Insets(5,0,0,0);
+		cOne.gridx = 2;
+		cOne.gridy = 0;
+/*  origin/team1-theHistoryLogBackEnd
+*/		cOne.weightx = 0.5;
 		cOne.weighty = 0;
 		cOne.gridwidth = 1;
 		lblTitleError.setVisible(false);
@@ -301,36 +337,64 @@ public class RequirementPanel extends JPanel{
 
 		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
 		cOne.gridx = 0;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblReleaseNumber, cOne);
 
 		cOne.gridx = 1;
-		cOne.gridy = 2;
+		cOne.gridy = 1;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(txtReleaseNumber, cOne);
 
 		cOne.gridx = 0;
-		cOne.gridy = 3;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
 		panelOne.add(lblIteration, cOne);
 
 		cOne.gridx = 1;
-		cOne.gridy = 3;
+		cOne.gridy = 2;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		if(model.getEstimateEffort() > 0)
+		//Default the Iteration Box based on the valus of the estimate (Don't let you choose it if the estimate is blank).
+		if(model.getEstimateEffort() > 0) {
 			cmbIteration.setEnabled(true);
+			cmbIteration.setBackground(Color.WHITE);
+		}
 		else
 			cmbIteration.setEnabled(false);
-
+		
+		//Default the save button depending on what is filled in (Title and Description).
+		if(!model.getTitle().equals("") && !model.getDescription().equals("") && model.getTitle() != null && model.getDescription() != null){
+			saveRequirementBottom.setEnabled(true);
+		}
+		else{
+			saveRequirementBottom.setEnabled(false);
+		}
+		
+		//Move the requirement to the backlog if it is set to OPEN.
+		if(model.getStatus() == RequirementStatus.OPEN){
+			model.setIteration(Iteration.getBacklog());
+			cmbIteration.setEnabled(true);
+			cmbStatus.setEnabled(true);
+		}
+		
+		else if(model.getStatus() == RequirementStatus.INPROGRESS)
+			deleteRequirementBottom.setEnabled(false);
+		else
+			deleteRequirementBottom.setEnabled(true);
+		//Allow the iteration of a completed requirement to be changed.
+		/*else if(model.getStatus() == RequirementStatus.COMPLETE){
+			cmbIteration.setEnabled(true);
+			cmbStatus.setSelectedIndex(2);
+		}*/
+		
 		panelOne.add(cmbIteration, cOne);
 
 		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
@@ -365,10 +429,16 @@ public class RequirementPanel extends JPanel{
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 2;
 		panelTwo.add(scrollPaneDescription, cTwo);
+/*  HEAD
 
 		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
-		layoutThree = new GridBagLayout();
+=======*/
+		
+		//Panel Three - panel below panel two -------------------------------------------------------------------------------------
+				//Use a grid bag layout manager
+/*  origin/team1-theHistoryLogBackEnd
+*/		layoutThree = new GridBagLayout();
 		panelThree.setLayout(layoutThree);
 
 		cThree.insets = new Insets(10,10,10,0);
@@ -400,6 +470,7 @@ public class RequirementPanel extends JPanel{
 		cThree.gridy = 0;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
+		cmbPriority.setBackground(Color.WHITE);
 		panelThree.add(cmbPriority, cThree);
 
 		cThree.weightx = 0.5;
@@ -413,7 +484,7 @@ public class RequirementPanel extends JPanel{
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
-		cThree.gridy = 2;
+		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
 
@@ -427,10 +498,11 @@ public class RequirementPanel extends JPanel{
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 3;
+		cThree.gridx = 3;
+		cThree.gridy = 1;
 		panelThree.add(txtActual, cThree);
 
+/*  HEAD
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
@@ -490,7 +562,76 @@ public class RequirementPanel extends JPanel{
 		cThree.gridy = 5;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtAssignee, cThree);
-
+=======*/
+		//Panel Four - panel below panel three -------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		
+		layoutFour = new GridBagLayout();
+		panelFour.setLayout(layoutFour);
+		
+		cFour.insets = new Insets(10,10,10,0);
+		
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 0;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblCreatedDate, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 0;
+		txtCreatedDate.setEnabled(false);
+		txtCreatedDate.setText(model.getCreationDate().toString());
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtCreatedDate, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 1;
+		panelFour.add(lblModifiedDate, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 1;
+		txtModifiedDate.setEnabled(false);
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtModifiedDate, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 2;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblCreator, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 2;
+		txtCreator.setEnabled(false);
+		txtCreator.setText(model.getCreator().getUsername());
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtCreator, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 0;
+		cFour.gridy = 3;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(lblAssignee, cFour);
+				
+		cFour.weightx = 0.5;
+		cFour.weighty = 0.5;
+		cFour.gridx = 1;
+		cFour.gridy = 3;
+		cFour.anchor = GridBagConstraints.LINE_START;
+		panelFour.add(txtAssignee, cFour);
+/*  origin/team1-theHistoryLogBackEnd
+*/
 
 		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -512,20 +653,20 @@ public class RequirementPanel extends JPanel{
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 0;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		panelButtons.add(saveRequirementBottom, cButtons);
 
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 2;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		deleteRequirementBottom.setVisible(false);
 		panelButtons.add(deleteRequirementBottom, cButtons);
 
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
 		cButtons.gridx = 1;
-		cButtons.gridy = 8;
+		cButtons.gridy = 0;
 		panelButtons.add(cancelRequirementBottom, cButtons);
 
 		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
@@ -572,13 +713,19 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridx = 0;
 		cOverall.gridy = 3;
 		cOverall.anchor = GridBagConstraints.LINE_START;
+/*  HEAD
 		panelOverall.add(panelButtons, cOverall);
 
-		cOverall.weightx = 0.5;
+=======*/
+		panelOverall.add(panelFour, cOverall);
+		
+/*  origin/team1-theHistoryLogBackEnd
+*/		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
-		cOverall.gridx = 1;
-		cOverall.gridy = 0;
+		cOverall.gridx = 0;
+		cOverall.gridy = 4;
 		cOverall.anchor = GridBagConstraints.LINE_START;
+/*  HEAD
 		cOverall.fill = GridBagConstraints.BOTH;
 		cOverall.gridheight = 4;
 		cOverall.gridwidth = 4;
@@ -592,7 +739,42 @@ public class RequirementPanel extends JPanel{
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(panelOverall, c);		
 
-		//depending on the mode, disable certain components
+=======*/
+		panelOverall.add(panelButtons, cOverall);
+		
+//		cOverall.weightx = 0.5;
+//		cOverall.weighty = 0.5;
+//		cOverall.gridx = 1;
+//		cOverall.gridy = 0;
+//		cOverall.anchor = GridBagConstraints.LINE_START;
+//		cOverall.fill = GridBagConstraints.BOTH;
+//		cOverall.gridheight = 4;
+//		cOverall.gridwidth = 4;
+//		panelOverall.add(panelTabs, cOverall);
+		
+		// add to this Panel -----------------------------------------------------------------------------------------------------------------
+		
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new GridBagLayout());
+		GridBagConstraints cPane = new GridBagConstraints();
+		
+		cPane.anchor = GridBagConstraints.FIRST_LINE_START;
+		cPane.weightx = 0.1;
+		cPane.weighty = 0.1;
+		cPane.gridx = 0;
+		cPane.gridy = 0;
+		leftPanel.add(panelOverall,cPane);
+		
+		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+//		splitPane.setResizeWeight(0.5);
+		splitPane.setDividerLocation(0.5);
+		this.add(splitPane, BorderLayout.CENTER);
+		
+/*  origin/team1-theHistoryLogBackEnd
+*/		//depending on the mode, disable certain components
 		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			cmbStatus.setEnabled(false);
 			txtActual.setEnabled(false);
@@ -705,12 +887,10 @@ public class RequirementPanel extends JPanel{
 	public Requirement getEditedModel() {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
-		requirement.setTitle(txtTitle.getText());
+		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
-
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
-
-		requirement.setDescription(txtDescription.getText());
+		requirement.setDescription(txtDescription.getText().trim());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
@@ -737,16 +917,18 @@ public class RequirementPanel extends JPanel{
 	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise 
 	 */
 	public int checkRequiredFields(){
-		if((txtTitle.getText().equals(null) || txtTitle.getText().equals("")) && 
-				(txtDescription.getText().equals(null) || txtDescription.getText().equals(""))){
+		String tempTitle = txtTitle.getText().trim();
+		String tempDesc = txtDescription.getText().trim();
+		if((tempTitle.equals(null) || tempTitle.equals("")) && 
+				(tempDesc.equals(null) || tempDesc.equals(""))){
 			lblTitleError.setVisible(true);
 			lblDescriptionError.setVisible(true);
 			return 3;
-		} else if(txtTitle.getText().equals(null) || txtTitle.getText().equals("")){
+		} else if(tempTitle.equals(null) || tempTitle.equals("")){
 			lblTitleError.setVisible(true);
 			lblDescriptionError.setVisible(false);
 			return 2; 
-		} else if(txtDescription.getText().equals(null) || txtDescription.getText().equals("")){
+		} else if(tempDesc.equals(null) || tempDesc.equals("")){
 			lblDescriptionError.setVisible(true);
 			lblTitleError.setVisible(false);
 			return 1;
@@ -755,7 +937,8 @@ public class RequirementPanel extends JPanel{
 	}
 
 	private void updateFields() {
-		txtTitle.setText(model.getTitle());
+		if(!(model.getTitle().equals(null) || model.getTitle().equals("")))
+			txtTitle.setText(model.getTitle());
 		txtDescription.setText(model.getDescription());
 		txtReleaseNumber.setText(model.getReleaseNumber());
 		txtEstimate.setText( String.valueOf(model.getEstimateEffort()) );
@@ -837,32 +1020,45 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-
+			
+			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
 			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = model.getStatus();
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("1st if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Change the status to In Progress automatically when the req is assigned to an iteration.
 			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("2nd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Change the status to Open automatically when the backlog is selected.
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
-				System.out.println("3rd if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
+			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
 			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;
 				runThatForLoop = true;
-				System.out.println("4th if: Status = " + model.getStatus() + " Selected: " + cb.getSelectedItem());
 			}
 
+			//If you are changing the iteration of a complete requirement, set it to INPROGRESS
+			/*else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() != knownIterations[0] && cb.getSelectedItem() != model.getIteration()){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = false;
+				runThatForLoop = true;
+			}
+			//If you are changing the iteration of a complete requirement to the backlog, set it to OPEN
+			else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == knownIterations[0]){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+			}*/
+			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {
 					System.out.println("For Loop Iteration: " + i);
@@ -883,33 +1079,78 @@ public class RequirementPanel extends JPanel{
 			//child status should not be editable on creation
 			if (editMode != Mode.CHILD) {
 				cmbStatus.setEnabled(enabled);
-			}
+				cmbStatus.setBackground(Color.WHITE);
+				}
+			
 		}
 
 	}
+	
+	//A Key Listener on the Estimate to grey out the Iteration drop down until there is a value in the estimate.
+	public class EstimateListener implements KeyListener {
 
-	public class EstimateListener implements ActionListener {
+		public void actionPerformed(ActionEvent estimate) {}
+		@Override
+		public void keyTyped(KeyEvent e) {}
+		@Override
+		public void keyPressed(KeyEvent e) {}
 
 		@Override
-		public void actionPerformed(ActionEvent estimate) {
+		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
+/*  HEAD
 
 			JTextField contents = (JTextField) estimate.getSource();
+			
+  origin/team1-theHistoryLogBackEnd*/
 			try{
-				if(Integer.parseInt(contents.getText()) > 0){
+				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
+					enabled = false;
+				}
+				else if(Integer.parseInt(txtEstimate.getText()) > 0){
 					enabled = true;
-					System.out.println("it's greater  than 0");
 				}
 				else{
 					enabled = false;
-					System.out.println("it's less  than 0");
 				}
 			}
-			catch( NullPointerException e){
+			catch(NumberFormatException exception){
 				enabled = false;
-				System.out.println("Nothing entered");
 			}
 			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
+			
+		}
+		
+	}
+	
+	
+	//A Key Listener on the Title and Description to grey out the save button until there is text in them.
+	public class SaveListener implements KeyListener {
+
+		public void actionPerformed(ActionEvent estimate) {}
+		@Override
+		public void keyTyped(KeyEvent e) {}
+		@Override
+		public void keyPressed(KeyEvent e) {}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			Boolean enabled = false;
+			
+			try{
+				if((txtTitle.getText().equals("") || txtEstimate.getText() == null) || 
+					(txtDescription.getText().equals("") || txtDescription.getText() == null)){
+					enabled = false;
+				}
+				else{
+					enabled = true;
+				}
+			}
+			catch(NumberFormatException exception){
+				enabled = false;
+			}
+			saveRequirementBottom.setEnabled(enabled);
 		}
 
 	}

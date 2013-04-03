@@ -118,7 +118,7 @@ public class Refresher {
 		}
 		for (int i = 0 ; i < iterations.length; i ++)
 		{
-			System.out.println("server Iteration: " + iterations[i].getIterationNumber());
+			System.out.println("server Iteration: " + iterations[i].getIterationName());
 		}
 		setLastKnownIterations(iterations);
 		this.iterationsSet = true;

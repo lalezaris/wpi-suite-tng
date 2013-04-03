@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveAllIterationsControllerTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -47,6 +48,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 	int id;
 	Iteration[] iterations;
 	Requirement[] requirements;
+	Requirement[] parentRequirements;
+	Requirement[] childRequirements;
+	int parentCount = 0;
+	int childCount = 0;
+	RetrieveAllChildRequirementsController crcontroller;
 	
 	/**
 	 * Class constructor
@@ -62,6 +68,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
+		crcontroller = new RetrieveAllChildRequirementsController();
 	}
 
 	/**
@@ -77,7 +84,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 			requirements = reqs;
 		}
 		
-		ReqTreeNode temp = null;
+		//ReqTreeNode temp = null;
 		count = 0;
 		id = 0;
 		
@@ -98,24 +105,79 @@ public class ReqTreeModel extends DefaultTreeModel {
 			for (int k = 0 ; k < iterations[j].getRequirements().size(); k++){
 				
 				int reqId = iterations[j].getRequirements().get(k);
+				System.out.println("Req id is:" + reqId);
 				
-				DefaultMutableTreeNode node = null;
+				DefaultMutableTreeNode parentNode = null;
+				DefaultMutableTreeNode childNode = null;
 				
 				for (int r = 0 ; r < requirements.length; r ++){
+					System.out.println("Top level: " + requirements[r].isTopLevelRequirement());
+					if(requirements[r].isTopLevelRequirement()){
+						System.out.println("HEREEEEEEEEEEEEEEEEEEEEEEEEEE");
 					if (reqId == requirements[r].getId() && requirements[r].getStatus() != RequirementStatus.DELETED){
 						System.out.println("Iter" + iterations[j].getId() + " has Req" + requirements[r].getId());
-						if (node == null)
-							node = new DefaultMutableTreeNode(requirements[r]);
-						else node.add(new DefaultMutableTreeNode(requirements[r]));
+						//parentRequirements[parentCount] = requirements[r];
+						//parentCount++;
+						if(parentNode == null)
+							parentNode = new DefaultMutableTreeNode(requirements[r]);
+						else parentNode.add(new DefaultMutableTreeNode(requirements[r]));
+						System.out.println("Before childrennnnnnnnnnnn");
+						//for(int p = 0; p < parentRequirements.length; p++){
+						System.out.println("CRcontroller: " + requirements[r].getId());
+							Requirement[] childrenn = crcontroller.retrieveChildrenByID(requirements[r].getId());
+							if (childrenn != null){
+								System.out.println("Children!");
+							for (int q = 0; q < childrenn.length; q++){
+								if(childrenn[q].getStatus() != RequirementStatus.DELETED){
+									if(childNode == null)
+										childNode = new DefaultMutableTreeNode(requirements[r]);
+									else childNode.add(new DefaultMutableTreeNode(requirements[r]));
+								}
+							}
+							}
+							if(childNode != null){
+								this.insertNodeInto(childNode, parentNode, 0);
+							}
+						//}
 					}
-					
+					}
 				}
-				if (node != null){
-					this.insertNodeInto(node, tempIt, 0);
+				
+				if(parentNode != null){
+					this.insertNodeInto(parentNode, tempIt, 0);
 					
 					count++;
 				}
+				/**for (int c = 0; c < parentRequirements.length; c++){
+					if (parentNode == null)
+						parentNode = new DefaultMutableTreeNode(parentRequirements[c]);
+					else parentNode.add(new DefaultMutableTreeNode(parentRequirements[c]));
+				if (parentNode != null){
+					this.insertNodeInto(parentNode, tempIt, 0);
+					
+					count++;
+				}
+				}
 				
+				for (int i = 0; i < parentRequirements.length; i++){
+					Requirement[] children = new Requirement[crcontroller.retrieveChildrenByID(parentRequirements[i].getId()).length];
+					for(int n = 0; n < children.length; n++){
+						if(children[n].getStatus() != RequirementStatus.DELETED){
+							childRequirements[childCount] = children[n];
+							childCount++;
+						}
+
+					}
+				}
+				
+				for (int m = 0; m < childRequirements.length; m++){
+					if(childNode == null)
+						childNode = new DefaultMutableTreeNode(childRequirements[m]);
+					else childNode.add(new DefaultMutableTreeNode(childRequirements[m]));
+					if(childNode != null){
+						this.insertNodeInto(childNode, parentNode, 0);
+					}
+				} */
 			}
 		}
 		TreeView.expandAll();

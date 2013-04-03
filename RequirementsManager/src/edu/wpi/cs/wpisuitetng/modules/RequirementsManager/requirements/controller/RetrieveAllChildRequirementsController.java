@@ -9,9 +9,12 @@
  *
  * Contributors:
  *  Tyler
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
+
+import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -30,12 +33,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class RetrieveAllChildRequirementsController {
-	private Requirement[] childRequirementData;
+	private ArrayList<Requirement> childRequirementData;
 	private Requirement[] rawRequirementData;
 	private boolean receivedResponse;
 	
 	public RetrieveAllChildRequirementsController() {
-		this.receivedResponse = false;
+		this.receivedResponse = false; //used for busy waiting
+		childRequirementData = new ArrayList<Requirement>();
 	}
 	
 	/**
@@ -43,7 +47,7 @@ public class RetrieveAllChildRequirementsController {
 	 *
 	 * @return list of child requirements, or an empty set
 	 */
-	public Requirement[] retrieveChildrenByID(int reqID) {
+	public ArrayList<Requirement> retrieveChildrenByID(int reqID) {
 		sendRequest();
 		
 		/* Busy wait to receive response from server */
@@ -56,10 +60,9 @@ public class RetrieveAllChildRequirementsController {
 		int numChildren = 0;
 		for (int i = 0 ; i < rawRequirementData.length; i ++) {
 			if (rawRequirementData[i].getParentRequirementId() == reqID) {
-				childRequirementData[numChildren] = rawRequirementData[i];
+				childRequirementData.add(rawRequirementData[i]);
 			}
 		}
-		
 		return childRequirementData;
 	}
 	

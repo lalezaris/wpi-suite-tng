@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Sa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
@@ -147,6 +148,8 @@ public class RequirementPanel extends JPanel{
 	 * Values for the iteration combo box
 	 */
 	Integer[] iterationValues = {1,2,3,4,5};
+	
+	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
@@ -603,7 +606,7 @@ public class RequirementPanel extends JPanel{
 		// depending on the status and sub-requirements, disable certain components
 		if (model.getStatus() == RequirementStatus.INPROGRESS
 				|| model.getStatus() == RequirementStatus.COMPLETE
-				|| model.getSubRequirementIds().size() != 0) {
+				|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
 			txtEstimate.setEnabled(false);
 		}
 	}

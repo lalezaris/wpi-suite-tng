@@ -9,9 +9,11 @@
  *
  * Contributors:
  *  Sam Lalezari
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -124,11 +126,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 						System.out.println("Before childrennnnnnnnnnnn");
 						//for(int p = 0; p < parentRequirements.length; p++){
 						System.out.println("CRcontroller: " + requirements[r].getId());
-							Requirement[] childrenn = crcontroller.retrieveChildrenByID(requirements[r].getId());
-							if (childrenn != null){
+							ArrayList<Requirement> children = crcontroller.retrieveChildrenByID(requirements[r].getId());
+							if (children != null){
 								System.out.println("Children!");
-							for (int q = 0; q < childrenn.length; q++){
-								if(childrenn[q].getStatus() != RequirementStatus.DELETED){
+							for (Requirement currentChild : children){
+								if(currentChild.getStatus() != RequirementStatus.DELETED){
 									if(childNode == null)
 										childNode = new DefaultMutableTreeNode(requirements[r]);
 									else childNode.add(new DefaultMutableTreeNode(requirements[r]));

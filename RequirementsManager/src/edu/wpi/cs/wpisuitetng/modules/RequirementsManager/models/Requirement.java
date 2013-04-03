@@ -489,5 +489,30 @@ public class Requirement extends AbstractModel{
 	public static void addGsonDependencies(GsonBuilder builder) {
 		
 	}
+	
+	@Override
+	public boolean equals(Object requirement){
+		/*
+		 * private String title;
+			private String releaseNumber;
+			private int iterationId;
+			private String description;
+			private Date creationDate;
+			private int id;
+		 * 
+		 */
+		
+		if(		requirement instanceof Requirement &&
+				this.title.equals(((Requirement)requirement).getTitle())&&
+				this.releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
+				this.iterationId == ((Requirement)requirement).iterationId &&
+				this.description.equals(((Requirement)requirement).getDescription()) &&
+				this.creationDate.equals(((Requirement)requirement).creationDate) && 
+				this.id == ((Requirement)requirement).id)	
+		{
+			return true;
+		}
+		return false;
+	}
 
 }

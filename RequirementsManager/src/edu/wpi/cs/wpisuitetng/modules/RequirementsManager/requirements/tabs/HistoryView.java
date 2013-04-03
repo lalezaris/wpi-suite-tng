@@ -8,57 +8,53 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
+ *  Arica Liu
  *  Sam Lalezari
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 
 /**
  * The jPanel for all requirement history
  * TODO: implementation
  *
- * @author Chris Dunkers
+ * @author Arica Liu
  * @author Sam Lalezari
  *
- * @version Mar 31, 2013
+ * @version April 2nd, 2013
  *
  */
 @SuppressWarnings("serial")
-public class HistoryView extends JScrollPane {	
+public class HistoryView extends JPanel {	
+	private JList<HistoryObject> list;
+    private DefaultListModel<HistoryObject> listModel;
 
 	/**
 	 * HistoryView Constructor
 	 * 
 	 */
 	public HistoryView() {
+		super(new BorderLayout());
 		
-		int numObjects = 50; // NUMBER OF HistoryObjects to add
+		int numObjects = 100; // NUMBER OF HistoryObjects to add
 		
-		JPanel historyListPanel = new JPanel();	
-		JPanel historyListContainerPanel = new JPanel(); // Holds historyListPanel in the NORTH part of BorderLayout 
-														 // so the HistoryObjects don't automatically fill the whole space
-		this.setViewportView(historyListContainerPanel);
-		historyListPanel.setLayout(new BoxLayout(historyListPanel, BoxLayout.Y_AXIS));
-		historyListContainerPanel.setLayout(new BorderLayout());
-		historyListContainerPanel.add(historyListPanel, BorderLayout.NORTH);
+		listModel = new DefaultListModel<HistoryObject>();		
 		
 		for(int i = 0; i <numObjects; i++){
 		HistoryObject obj = new HistoryObject();
-		historyListPanel.add(obj);
+		listModel.add(i, obj);
 		}
-				
+
+		//Create the list and put it in a scroll pane.
+        list = new JList<HistoryObject>(listModel);
+        list.setVisibleRowCount(5);
+        JScrollPane listScrollPane = new JScrollPane(list);
+        
+        add(listScrollPane, BorderLayout.CENTER);
 	}
 }

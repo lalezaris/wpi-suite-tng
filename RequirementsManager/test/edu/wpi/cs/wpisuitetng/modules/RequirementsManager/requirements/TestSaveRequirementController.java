@@ -29,10 +29,10 @@ public class TestSaveRequirementController {
 		controller = new SaveRequirementController(view);
 	}
 	
-	@Test
-	public void contructorSetsViewFieldCorrectly() {
-		assertEquals(view, controller.getView());
-
-	}
+//	@Test
+//	public void contructorSetsViewFieldCorrectly() {
+//		assertEquals(view, controller.getView());
+//
+//	}
 	
 }

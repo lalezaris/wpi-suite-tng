@@ -29,13 +29,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  */
 public class CreateChildRequirementController {
 
-	private Requirement parentRequirement;
 	private Requirement childRequirement;
 	private RequirementView view;
 	
 	public CreateChildRequirementController(RequirementView view) {
 		this.view = view;
-		this.parentRequirement = ((RequirementPanel) view.getRequirementPanel()).getModel();
 		this.childRequirement = new Requirement();
 	}
 
@@ -43,11 +41,11 @@ public class CreateChildRequirementController {
 	 * Serve up the child requirement
 	 */
 	public void viewChild() {
-		childRequirement.setIteration(parentRequirement.getIteration());
-		childRequirement.setReleaseNumber(parentRequirement.getReleaseNumber());
+		childRequirement.setIteration(((RequirementPanel) view.getRequirementPanel()).getModel().getIteration());
+		childRequirement.setReleaseNumber(((RequirementPanel) view.getRequirementPanel()).getModel().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
-		childRequirement.setStatus(parentRequirement.getStatus());
-		childRequirement.setParentRequirementId(parentRequirement.getId());
+		childRequirement.setStatus(((RequirementPanel) view.getRequirementPanel()).getModel().getStatus());
+		childRequirement.setParentRequirementId(((RequirementPanel) view.getRequirementPanel()).getModel().getId());
 		showRequirement(childRequirement);
 	} 
 	

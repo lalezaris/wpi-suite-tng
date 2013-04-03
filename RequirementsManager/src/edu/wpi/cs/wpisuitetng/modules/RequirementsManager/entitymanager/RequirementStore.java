@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -67,9 +68,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
+		newRequirement.setIteration(Iteration.getBacklog());
+		System.out.println("THIS IS THEREQUIREMENT" + newRequirement.toJSON());
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
 		}
+		
 		return newRequirement;
 	}
 
@@ -121,18 +125,31 @@ public class RequirementStore implements EntityManager<Requirement>{
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
 			throw new WPISuiteException("ID not found");
 		}
+		//System.out.println("HARGBLARG SERVERREQ" + ((Requirement) oldRequirements.get(0)).toString() + "end HARGBLARG");
+		//if(((Requirement) oldRequirements.get(0)).getIteration()==null)System.out.print("================= null serverReq iteration\n");
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
+		
+		
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 		
-		HChange.updateChangeFromDiff(req, serverReq, this);
-		serverReq.addHistoricalChange(HChange);
+		
 		
 		Date originalLastModified = serverReq.getLastModifiedDate();
+
+		//System.out.println("HARGBLARG REQ" + req.toString() + "end HARGBLARG");
+		//System.out.println("HARGBLARG SERVERREQ" + serverReq.toString() + "end HARGBLARG");
 		
-		// copy values to old defect and fill in our changeset appropriately
+		if(serverReq.getIteration()==null)System.out.print("++++++ null serverReq iteration\n");
+		if(req.getIteration()==null)System.out.print("===== null req.iteration req\n");
+		
+		HChange.updateChangeFromDiff(serverReq,req, this);
+		req.addHistoricalChange(HChange);
+		
+		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 
 		serverReq.setIterationId(req.getIterationId());
+		
 		
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());

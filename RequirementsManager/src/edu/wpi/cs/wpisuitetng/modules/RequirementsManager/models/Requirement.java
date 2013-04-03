@@ -72,6 +72,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(String title, String description){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog arrg blarg
 		this.title = title;
 		this.description = description;
 		this.notes = new ArrayList<Note>();
@@ -85,6 +86,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, User creator){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -100,6 +102,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -130,6 +133,8 @@ public class Requirement extends AbstractModel{
 		this.creator = new User("", "", "", -1);
 		this.assignee = new User("", "", "", -1);
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+		this.childRequirementId = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -464,7 +469,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return this.getTitle();
+		return this.getTitle();// + "tesst";
 	}
 
 	/* 
@@ -540,4 +545,14 @@ public class Requirement extends AbstractModel{
 			return true;
 		else return false;
 	}
+
+	public ArrayList<Integer> getChildRequirementId() {
+		return childRequirementId;
+	}
+
+	public void setSubRequirements(ArrayList<Integer> newList) {
+		this.childRequirementId = (ArrayList<Integer>) newList.clone();
+		
+	}
+
 }

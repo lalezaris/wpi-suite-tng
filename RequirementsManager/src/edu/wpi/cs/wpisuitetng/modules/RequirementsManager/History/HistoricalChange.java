@@ -28,7 +28,7 @@ public class HistoricalChange extends AbstractModel{
 		this.id = id;
 		this.idOfChangedObject = idOfChangedObject;
 		this.user = user;
-		change = "SOMETHING";
+		change = "";
 	}
 	
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
@@ -48,13 +48,17 @@ public class HistoricalChange extends AbstractModel{
 			change += "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".\n";
 		}
 		
+		if(oldR.getIteration()==null)System.out.print("JELLY JELLY JELLY JELLY OLD");
+		if(newR.getIteration()==null)System.out.print("JELLY JELLY JELLY JELLY NEW");
+		
 		//compare Iterations
-		if (!oldR.getIteration().equals(newR.getIteration())){//if old and new are not the same
-			System.out.println("DEBUG OUTPUT 1" + change);
-			System.out.println("DEBUG OUTPUT 2" + oldR.getIteration().toString());
-			System.out.println("DEBUG OUTPUT 3" + newR.getIteration().toString());
-			change += "Iteration changed from " + oldR.getIteration().toString() + " to " + newR.getIteration().toString() + ".\n";
+		
+		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
+			
+			change += "Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".\n";
 		}
+		
+		
 		
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
@@ -83,16 +87,16 @@ public class HistoricalChange extends AbstractModel{
 		
 		//TODO: come back to this
 		//compare sub-requirements [We'll come back to this]
-		/*for (int i = 0; i < oldR.getSubRequirements().size(); i++){
-			if (!newR.getSubRequirements().contains(oldR.getSubRequirements().get(i))){
-				change += "Sub Requirement " + oldR.getSubRequirements().get(i).getTitle() + " removed\n";					
+		for (int i = 0; i < oldR.getChildRequirementId().size(); i++){
+			if (!newR.getChildRequirementId().contains(oldR.getChildRequirementId().get(i))){
+				change += "Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed\n";					
 			}
 		}
-		for (int i = 0; i < newR.getSubRequirements().size(); i++){
-			if (!oldR.getSubRequirements().contains(newR.getSubRequirements().get(i))){
-				change += "Sub Requirement " + newR.getSubRequirements().get(i).getTitle() + " added\n";					
+		for (int i = 0; i < newR.getChildRequirementId().size(); i++){
+			if (!oldR.getChildRequirementId().contains(newR.getChildRequirementId().get(i))){
+				change += "Sub Requirement " + newR.getChildRequirementId().get(i) + " added\n";					
 			}
-		}*/
+		}
 		
 		
 		//change += compareSubReqs(oldR, newR);?

@@ -247,6 +247,19 @@ public class Iteration extends AbstractModel{
 		return this.id;
 	}
 	
+	
+	/**
+	 * Two Iterations are equal if all of their fields () are equal
+	 * @param Iteration to test equality against
+	 * @return True if the Iterations are equal, false else.
+	 */
+	public boolean equals(Iteration i){
+		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
+				&& this.iterationNumber == i.iterationNumber && this.status == i.status;
+	}
+	
+	
+	
 	/**
 	 * @param json Json string to parse containing Iteration
 	 * @return The Iteration given by json

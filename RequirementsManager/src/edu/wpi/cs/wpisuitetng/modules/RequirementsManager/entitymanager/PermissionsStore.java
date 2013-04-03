@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
@@ -26,9 +26,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * Stores the user's permission level in the database
+ * Adapted from DefectManager
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Apr 1, 2013
  *
@@ -43,8 +44,8 @@ Data db;
 	}
 	
 	/**
-	 * takes a string that is the JSON-ified representation of Requirement, and a session (project)
-	 * returns the requirement in object form
+	 * takes a string that is the JSON-ified representation of RMPermission, and a session (project)
+	 * returns the RMPermission in object form
 	 * also puts the object in the DB indexable by ID
 	 *
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
@@ -62,13 +63,13 @@ Data db;
 	}
 
 	/*
-	 * accesses a iteration by ID from iteration
-	 * returns an array of all iterations that fit this ID
+	 * accesses a UserPermission by username
+	 * returns an array of all UserPermission's that have that username
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public UserPermission[] getEntity(Session s, String id) throws NotFoundException {
-		final int intId = Integer.parseInt(id);
+	public UserPermission[] getEntity(Session s, String username) throws NotFoundException {
+		final int intId = Integer.parseInt(username);
 		if(intId < 1) {
 			throw new NotFoundException();
 		}
@@ -86,7 +87,7 @@ Data db;
 	}
 
 	/*
-	 * literally returns an array of all iterations in the DB
+	 * literally returns an array of all user permissions in the DB
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -104,7 +105,7 @@ Data db;
 	}
 
 	/*
-	 * saves the given iteration into the database
+	 * saves the given UserPermission into the database
 	 *
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
@@ -127,7 +128,7 @@ Data db;
 	}
 	
 	/*
-	 * Removes a iteration from the DB based on ID
+	 * Removes a UserPermission from the DB based on ID
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */

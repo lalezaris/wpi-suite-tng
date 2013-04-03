@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
@@ -27,40 +27,48 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.AdminPermissionAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.NonePermissionAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdatePermissionAction;
-
 /**
- * Insert Description Here
+ * The panel displayed when editing the permissions for the project users
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Apr 1, 2013
  *
  */
 public class UserPermissionPanel extends JPanel {
 	
+	/* the parent view*/
 	protected UserPermissionView view;
+	
+	/* the List's that will display the usernames*/
 	protected JList projectUsers;
 	protected JList noneUsers;
 	protected JList updateUsers;
 	protected JList adminUsers;
 	
+	/* the Buttons for moving things between lists and updating the changes*/
 	protected JButton btnNone;
 	protected JButton btnUpdate;
 	protected JButton btnAdmin;
 	protected JButton updateBtn;
 	
+	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
+	/* the Arrays which store the usernames for each permission*/
 	Object[] listAll = {"1", "2","3", "4","5", "6","7", "8"};
 	Object[] listNone = {};
 	Object[] listUpdate = {};
 	Object[] listAdmin = {};
 	
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param view the parent view of this panel
+	 */
 	public UserPermissionPanel(UserPermissionView view){
 		this.view = view;
 		
@@ -68,8 +76,10 @@ public class UserPermissionPanel extends JPanel {
 	}
 	
 	private void addComponents(){
+		/* create a panel to store everything in*/
 		JPanel listPanel = new JPanel();
 		
+		/*initialize all of the components to be displayed*/
 		projectUsers = new JList();
 		projectUsers.setListData(listAll);
 		noneUsers = new JList();
@@ -79,6 +89,7 @@ public class UserPermissionPanel extends JPanel {
 		adminUsers = new JList();
 		adminUsers.setListData(listAdmin);
 		
+		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton(" Move to None ");
 		btnNone.addActionListener(new NonePermissionAction());
 		btnUpdate = new JButton("Move to Update");
@@ -87,11 +98,13 @@ public class UserPermissionPanel extends JPanel {
 		btnAdmin.addActionListener(new AdminPermissionAction());
 		updateBtn = new JButton("Update Users");
 		
+		/*labels for the components*/
 		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
 		JLabel lblNoneUsers = new JLabel("None Users:", LABEL_ALIGNMENT);
 		JLabel lblUpdateUsers = new JLabel("Update Users:", LABEL_ALIGNMENT);
 		JLabel lblAdminUsers = new JLabel("Admin Users:", LABEL_ALIGNMENT);
 		
+		/*se the layout manager for this an the nested panel*/
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		this.setLayout(layout);
@@ -100,6 +113,7 @@ public class UserPermissionPanel extends JPanel {
 		GridBagLayout layoutPanel = new GridBagLayout();	
 		listPanel.setLayout(layoutPanel);
 		
+		/*add all of the components to the listPanel*/
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
 		cPanel.gridy = 0;
@@ -209,6 +223,14 @@ public class UserPermissionPanel extends JPanel {
 		this.add(listPanel, c);
 	}
 	
+	/**
+	 * The controller for the button to move a object to the None Permissions list
+	 *
+	 * @author Chris Dunkers
+	 *
+	 * @version Apr 2, 2013
+	 *
+	 */
 	public class NonePermissionAction extends AbstractAction {
 		
 		public NonePermissionAction(){} 
@@ -245,6 +267,14 @@ public class UserPermissionPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * The controller for the button to move a object to the Update Permissions list
+	 *
+	 * @author Chris Dunkers
+	 *
+	 * @version Apr 2, 2013
+	 *
+	 */
 	public class UpdatePermissionAction extends AbstractAction {
 		
 		public UpdatePermissionAction(){} 
@@ -281,6 +311,14 @@ public class UserPermissionPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The controller for the button to move a object to the None Permissions list
+	 *
+	 * @author Chris Dunkers
+	 *
+	 * @version Apr 2, 2013
+	 *
+	 */
 	public class AdminPermissionAction extends AbstractAction {
 		
 		public AdminPermissionAction(){} 
@@ -291,29 +329,35 @@ public class UserPermissionPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			Object[] selItems;
+			
+			//Get the selected objects from each of the lists
 			Object[] projectItems = projectUsers.getSelectedValues();
 			Object[] updateItems = updateUsers.getSelectedValues();
 			Object[] noneItems = noneUsers.getSelectedValues();
 			
+			//Remove the objects selected from the list
 			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
 			newProjectItems.removeAll(Arrays.asList(projectItems));
-			listAll = newProjectItems.toArray(); 
-			projectUsers.setListData(newProjectItems.toArray());
+			listAll = newProjectItems.toArray(); //update the list globally
+			projectUsers.setListData(newProjectItems.toArray()); //display the new list with the items removed
 			
+			//Remove the objects selected from the list
 			List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
 			newUpdateItems.removeAll(Arrays.asList(updateItems));
-			listUpdate = newUpdateItems.toArray();
-			updateUsers.setListData(newUpdateItems.toArray());
+			listUpdate = newUpdateItems.toArray(); //update the list globally
+			updateUsers.setListData(newUpdateItems.toArray()); //display the new list with the items removed
 			
+			//Remove the objects selected from the list
 			List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
 			newNoneItems.removeAll(Arrays.asList(noneItems));
-			listNone = newNoneItems.toArray();
-			noneUsers.setListData(newNoneItems.toArray());
+			listNone = newNoneItems.toArray(); //update the list globally
+			noneUsers.setListData(newNoneItems.toArray()); //display the new list with the items removed
 	
+			//Combine all fo the selected items and add to the current list
 			selItems = concat(listAdmin,concat(projectItems, concat(updateItems,noneItems)));
-			listAdmin = selItems;
+			listAdmin = selItems; //update the list globally
 			
-			adminUsers.setListData(selItems);	
+			adminUsers.setListData(selItems); //display the new list with the items removed
 		}
 	}
 		
@@ -322,9 +366,9 @@ public class UserPermissionPanel extends JPanel {
 		/**
 		 * Function taken from http://stackoverflow.com/questions/80476/how-to-concatenate-two-arrays-in-java
 		 * 
-		 * @param A
-		 * @param B
-		 * @return
+		 * @param A the first array of objects to merge together
+		 * @param B the second array of objects to merge together
+		 * @return returns a array of objects which is merged together and has the elements of both arrays
 		 */
 		Object[] concat(Object[] A, Object[] B) {
 		   int aLen = A.length;

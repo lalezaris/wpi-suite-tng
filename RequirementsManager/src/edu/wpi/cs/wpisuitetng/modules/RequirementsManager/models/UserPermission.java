@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * The model to hold a username and the permission associated with that username
  *
  * @author "Michael Perrone"
  *
@@ -33,9 +33,7 @@ public class UserPermission extends AbstractModel {
 	
 	
 	/**
-	 * @param user
 	 * @param userName
-	 * @param id
 	 * @param permissions
 	 */
 	public UserPermission(String username, RMPermissionsLevel permissions) {
@@ -57,7 +55,7 @@ public class UserPermission extends AbstractModel {
 	}
 	
 	/**
-	 * @return the Username
+	 * @return the username
 	 */
 	public String getUsername() {
 		return username;

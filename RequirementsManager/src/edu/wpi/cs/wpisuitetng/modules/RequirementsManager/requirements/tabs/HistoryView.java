@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -45,6 +47,7 @@ public class HistoryView extends JPanel {
 		
 		listModel = new DefaultListModel<HistoryObject>();		
 		
+		
 		for(int i = 0; i <numObjects; i++){
 		HistoryObject obj = new HistoryObject();
 		listModel.add(i, obj);
@@ -52,6 +55,8 @@ public class HistoryView extends JPanel {
 
 		//Create the list and put it in a scroll pane.
         list = new JList<HistoryObject>(listModel);
+//		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+//		list.setMaximumSize(new Dimension(200,0));
         list.setVisibleRowCount(5);
         JScrollPane listScrollPane = new JScrollPane(list);
         

@@ -33,16 +33,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 @SuppressWarnings("serial")
 public class RequirementTabsView extends JTabbedPane {
 
-	public RequirementTabsView(NotesView n) {
+	public RequirementTabsView(NotesView n, HistoryView hv) {
 
-		HistoryView historyView = new HistoryView();
-		historyView.setMaximumSize(historyView.getPreferredSize());
+		//TODO get history objects from database
+//		hv = new HistoryView();
+		
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 		addTab("Notes", new ImageIcon(), /*new NotesView()*/ n,
 		       "Notes");
-		addTab("History", new ImageIcon(), historyView,
+		addTab("History", new ImageIcon(), hv,
 			       "History");
 		//addTab("Attachments", new ImageIcon(), new AttachmentsView(),
 			//       "Attachments");

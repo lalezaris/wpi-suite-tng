@@ -46,10 +46,11 @@ public class HistoryObject extends JPanel {
 
 		this.setUp();
 	}
-
+ 
 	@Override
 	public String toString(){
-		return "#"+this.id+" - "+date+" at "+time+" by "+user+ '\n' +changes;
+		String eol = System.getProperty("line.separator"); 	
+		return "#"+this.id+" - "+date+" at "+time+" by "+user+": "+changes;
 	}
 	private void setUp(){
 		// Set the border variable

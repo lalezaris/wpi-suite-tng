@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Sa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -100,6 +101,10 @@ public class RequirementPanel extends JPanel{
 	
 	/** NotesView for updating notes **/
 	private NotesView n; //= new NotesView();
+	
+	/** HistoryView for updating history **/
+	//TODO fix
+	private HistoryView hv = new HistoryView();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -215,7 +220,8 @@ public class RequirementPanel extends JPanel{
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
-		RTabsView = new RequirementTabsView(n);
+		//TODO setHistoryList
+		RTabsView = new RequirementTabsView(n, hv);
 		
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -511,7 +517,6 @@ public class RequirementPanel extends JPanel{
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
 		cOverall.anchor = GridBagConstraints.LINE_START;
-		//TODO  Fix RTabsView
 		panelTabs.add(RTabsView, cOverall);
 
 		
@@ -684,6 +689,7 @@ public class RequirementPanel extends JPanel{
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
 		requirement.updateNotes(n.getNotesList());
+		//TODO add getHistoryList())
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -758,6 +764,7 @@ public class RequirementPanel extends JPanel{
 			txtAssignee.setText(model.getAssignee().getUsername());
 		}
 		n.setNotesList(model.getNotes());
+		//TODO setHistoryList
 	}
 
 	public Mode getEditMode() {
@@ -767,10 +774,6 @@ public class RequirementPanel extends JPanel{
 	//TODO: Getter and Setter for Notes
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
-	}
-	
-	public NotesView getN(){
-		return n;
 	}
 	
 	public void setNotesArrayList(ArrayList<Note> aln) {

@@ -12,6 +12,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -83,6 +84,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		
 		//CHris Hanna added this line
 		this.iterations = Refresher.getInstance().getInstantIterations();
+		Arrays.sort(iterations);
 		this.root.removeAllChildren();
 		
 		this.reload();

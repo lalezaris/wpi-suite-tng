@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.RetrieveRequirementObserverTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
@@ -26,29 +27,42 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @author Chris Hanna
  *
  */
-public class RetrieveRequirementControllerTree {
+public class RetrieveRequirementControllerTree<T> {
 
-	private IRetrieveRequirementController caller;
+	private IRetrieveRequirementController<T> caller;
+	private String address;
+	private RequestObserver observer;
 	
-	public RetrieveRequirementControllerTree(IRetrieveRequirementController caller)
+	public RetrieveRequirementControllerTree(RequestObserver observer, String address, IRetrieveRequirementController<T> caller)
 	{
+		this.observer = observer;
+		this.address = address;
 		this.caller = caller;
 	}
 	
 	public void retrieve(){
 	
-		int id = caller.getID();
-		if (id > -1){
+		String id = caller.getID();
+		//int id = -1;
+		
+		//if (Integer.parseInt(id) > -1){
 			Request request;
-			request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + id, HttpMethod.GET);
-			request.addObserver(new RetrieveRequirementObserverTree(this));
+			//"requirementsmanager/requirement/"
+			request = Network.getInstance().makeRequest(this.address + id, HttpMethod.GET);
+			request.addObserver(new RetrieveRequirementObserverTree<T>(this));
+			request.addObserver(this.observer);
 			request.send();
-		} else recieveData(null);
+			
+		//} else recieveData(null);
 	}
 	
-	public void recieveData(Requirement r){
-		caller.runWhenRecieved(r);
+	//public void recieveData(T r){
+	//	caller.runWhenRecieved(r);
+	//}
+	public void recieveData(String content){
+		caller.runWhenRecieved(content);
 	}
+	
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.

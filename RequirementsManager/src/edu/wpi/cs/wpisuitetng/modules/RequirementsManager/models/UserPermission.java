@@ -30,7 +30,7 @@ public class UserPermission extends AbstractModel {
 
 	private String username;
 	private RMPermissionsLevel permissions;
-	
+	private int id;
 	
 	/**
 	 * @param userName
@@ -40,6 +40,7 @@ public class UserPermission extends AbstractModel {
 		super();
 		this.username = username;
 		this.permissions = permissions;
+		this.id = -1;
 	}	
 	
 	/**
@@ -52,6 +53,7 @@ public class UserPermission extends AbstractModel {
 		super();
 		this.username = "";
 		this.permissions = RMPermissionsLevel.NONE;
+		this.id = -1;
 	}
 	
 	/**
@@ -76,7 +78,12 @@ public class UserPermission extends AbstractModel {
 	}
 	
 	
-	
+	public void setId(int id){
+		this.id = id;
+	}
+	public int getId(){
+		return this.id;
+	}
 	
 	
 	
@@ -122,6 +129,10 @@ public class UserPermission extends AbstractModel {
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(ulist, UserPermission.class);
+		
+		
+		
+		
 		return json;
 	}
 	

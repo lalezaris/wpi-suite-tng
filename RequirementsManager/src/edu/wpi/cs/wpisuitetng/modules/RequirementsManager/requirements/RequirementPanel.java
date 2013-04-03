@@ -592,8 +592,8 @@ public class RequirementPanel extends JPanel{
 		case UPDATE: break;
 		
 		case ADMIN:
-			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
-					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			//disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
+			//		txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
 			break;
 		}
 	}

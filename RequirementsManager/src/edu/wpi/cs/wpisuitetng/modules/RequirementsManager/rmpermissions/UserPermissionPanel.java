@@ -27,6 +27,19 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import com.google.gson.GsonBuilder;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
+import edu.wpi.cs.wpisuitetng.network.models.IRequest;
+import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
+
 /**
  * The panel displayed when editing the permissions for the project users
  *
@@ -35,16 +48,21 @@ import javax.swing.JPanel;
  * @version Apr 1, 2013
  *
  */
-public class UserPermissionPanel extends JPanel {
+public class UserPermissionPanel extends JPanel{
+	
+	protected User[] allUsers;
+	protected UserPermission[] allPermissions;
+	protected boolean gotUsers, gotPermissions;
+	
 	
 	/* the parent view*/
 	protected UserPermissionView view;
 	
 	/* the List's that will display the usernames*/
-	protected JList projectUsers;
-	protected JList noneUsers;
-	protected JList updateUsers;
-	protected JList adminUsers;
+	protected JList<Object> projectUsers;
+	protected JList<Object> noneUsers;
+	protected JList<Object> updateUsers;
+	protected JList<Object> adminUsers;
 	
 	/* the Buttons for moving things between lists and updating the changes*/
 	protected JButton btnNone;
@@ -58,7 +76,7 @@ public class UserPermissionPanel extends JPanel {
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
 	/* the Arrays which store the usernames for each permission*/
-	Object[] listAll = {"1", "2","3", "4","5", "6","7", "8"};
+	Object[] listAll = {};//"1", "2","3", "4","5", "6","7", "8"};
 	Object[] listNone = {};
 	Object[] listUpdate = {};
 	Object[] listAdmin = {};
@@ -70,7 +88,13 @@ public class UserPermissionPanel extends JPanel {
 	 * @param view the parent view of this panel
 	 */
 	public UserPermissionPanel(UserPermissionView view){
+		//this.allUsers = Refresher.getInstance().getUsers(new UsersObserver(this));
+		Refresher.getInstance().getObjects(new UsersObserver(this), "core/user", "");
+		Refresher.getInstance().getObjects(new PermissionsObserver(this), "requirementsmanager/permissions", "");
 		this.view = view;
+		
+		this.gotUsers = false;
+		this.gotPermissions = false;
 		
 		addComponents();
 	}
@@ -80,14 +104,14 @@ public class UserPermissionPanel extends JPanel {
 		JPanel listPanel = new JPanel();
 		
 		/*initialize all of the components to be displayed*/
-		projectUsers = new JList();
-		projectUsers.setListData(listAll);
-		noneUsers = new JList();
-		noneUsers.setListData(listNone);
-		updateUsers = new JList();
-		updateUsers.setListData(listUpdate);
-		adminUsers = new JList();
-		adminUsers.setListData(listAdmin);
+		projectUsers = new JList<Object>();
+		//projectUsers.setListData(listAll);
+		noneUsers = new JList<Object>();
+		//noneUsers.setListData(listNone);
+		updateUsers = new JList<Object>();
+		//updateUsers.setListData(listUpdate);
+		adminUsers = new JList<Object>();
+		//adminUsers.setListData(listAdmin);
 		
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton(" Move to None ");
@@ -240,30 +264,35 @@ public class UserPermissionPanel extends JPanel {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			Object[] selItems;
-			Object[] projectItems = projectUsers.getSelectedValues();
-			Object[] updateItems = updateUsers.getSelectedValues();
-			Object[] adminItems = adminUsers.getSelectedValues();
 			
-			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
-			newProjectItems.removeAll(Arrays.asList(projectItems));
-			listAll = newProjectItems.toArray(); 
-			projectUsers.setListData(newProjectItems.toArray());
-			
-			List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
-			newUpdateItems.removeAll(Arrays.asList(updateItems));
-			listUpdate = newUpdateItems.toArray();
-			updateUsers.setListData(newUpdateItems.toArray());
-			
-			List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
-			newAdminItems.removeAll(Arrays.asList(adminItems));
-			listAdmin = newAdminItems.toArray();
-			adminUsers.setListData(newAdminItems.toArray());
-
-			selItems = concat(listNone,concat(projectItems, concat(updateItems,adminItems)));
-			listNone = selItems;
-			
-			noneUsers.setListData(selItems);	
+			if (gotUsers && gotPermissions){
+				Object[] selItems;
+				Object[] projectItems = projectUsers.getSelectedValues();
+				Object[] updateItems = updateUsers.getSelectedValues();
+				Object[] adminItems = adminUsers.getSelectedValues();
+				
+				
+				
+				List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+				newProjectItems.removeAll(Arrays.asList(projectItems));
+				listAll = newProjectItems.toArray(); 
+				projectUsers.setListData(newProjectItems.toArray());
+				
+				List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
+				newUpdateItems.removeAll(Arrays.asList(updateItems));
+				listUpdate = newUpdateItems.toArray();
+				updateUsers.setListData(newUpdateItems.toArray());
+				
+				List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
+				newAdminItems.removeAll(Arrays.asList(adminItems));
+				listAdmin = newAdminItems.toArray();
+				adminUsers.setListData(newAdminItems.toArray());
+				updatePermissions(concat(projectItems, concat(updateItems,adminItems)), RMPermissionsLevel.NONE);
+				selItems = concat(listNone,concat(projectItems, concat(updateItems,adminItems)));
+				listNone = selItems;
+				
+				noneUsers.setListData(selItems);
+			}
 		}
 	}
 	
@@ -284,30 +313,35 @@ public class UserPermissionPanel extends JPanel {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			Object[] selItems;
-			Object[] projectItems = projectUsers.getSelectedValues();
-			Object[] noneItems = noneUsers.getSelectedValues();
-			Object[] adminItems = adminUsers.getSelectedValues();
 			
-			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
-			newProjectItems.removeAll(Arrays.asList(projectItems));
-			listAll = newProjectItems.toArray(); 
-			projectUsers.setListData(newProjectItems.toArray());
-			
-			List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
-			newNoneItems.removeAll(Arrays.asList(noneItems));
-			listNone = newNoneItems.toArray();
-			noneUsers.setListData(newNoneItems.toArray());
-			
-			List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
-			newAdminItems.removeAll(Arrays.asList(adminItems));
-			listAdmin = newAdminItems.toArray();
-			adminUsers.setListData(newAdminItems.toArray());
-
-			selItems = concat(listUpdate,concat(projectItems, concat(noneItems,adminItems)));
-			listUpdate = selItems;
-			
-			updateUsers.setListData(selItems);	
+			if (gotUsers && gotPermissions){
+				
+				Object[] selItems;
+				Object[] projectItems = projectUsers.getSelectedValues();
+				Object[] noneItems = noneUsers.getSelectedValues();
+				Object[] adminItems = adminUsers.getSelectedValues();
+				
+				List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+				newProjectItems.removeAll(Arrays.asList(projectItems));
+				listAll = newProjectItems.toArray(); 
+				projectUsers.setListData(newProjectItems.toArray());
+				
+				List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
+				newNoneItems.removeAll(Arrays.asList(noneItems));
+				listNone = newNoneItems.toArray();
+				noneUsers.setListData(newNoneItems.toArray());
+				
+				//CAST all your errors away. AWAY THEY ARE CAST
+				List<Object> newAdminItems = new ArrayList<Object>(Arrays.asList(listAdmin));
+				newAdminItems.removeAll(Arrays.asList(adminItems));
+				listAdmin = newAdminItems.toArray();
+				adminUsers.setListData(newAdminItems.toArray());
+				updatePermissions(concat(projectItems, concat(noneItems,adminItems)), RMPermissionsLevel.UPDATE);
+				selItems = concat(listUpdate,concat(projectItems, concat(noneItems,adminItems)));
+				listUpdate = selItems;
+				
+				updateUsers.setListData(selItems);	
+			}
 		}
 	}
 
@@ -328,36 +362,46 @@ public class UserPermissionPanel extends JPanel {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			Object[] selItems;
 			
-			//Get the selected objects from each of the lists
-			Object[] projectItems = projectUsers.getSelectedValues();
-			Object[] updateItems = updateUsers.getSelectedValues();
-			Object[] noneItems = noneUsers.getSelectedValues();
+			if (gotUsers && gotPermissions){
 			
-			//Remove the objects selected from the list
-			List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
-			newProjectItems.removeAll(Arrays.asList(projectItems));
-			listAll = newProjectItems.toArray(); //update the list globally
-			projectUsers.setListData(newProjectItems.toArray()); //display the new list with the items removed
 			
-			//Remove the objects selected from the list
-			List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
-			newUpdateItems.removeAll(Arrays.asList(updateItems));
-			listUpdate = newUpdateItems.toArray(); //update the list globally
-			updateUsers.setListData(newUpdateItems.toArray()); //display the new list with the items removed
-			
-			//Remove the objects selected from the list
-			List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
-			newNoneItems.removeAll(Arrays.asList(noneItems));
-			listNone = newNoneItems.toArray(); //update the list globally
-			noneUsers.setListData(newNoneItems.toArray()); //display the new list with the items removed
-	
-			//Combine all fo the selected items and add to the current list
-			selItems = concat(listAdmin,concat(projectItems, concat(updateItems,noneItems)));
-			listAdmin = selItems; //update the list globally
-			
-			adminUsers.setListData(selItems); //display the new list with the items removed
+				
+				Object[] selItems;
+				
+				//Get the selected objects from each of the lists
+				Object[] projectItems = projectUsers.getSelectedValues();
+				Object[] updateItems = updateUsers.getSelectedValues();
+				Object[] noneItems = noneUsers.getSelectedValues();
+				
+				//Remove the objects selected from the list
+				List<Object> newProjectItems = new ArrayList<Object>(Arrays.asList(listAll));
+				newProjectItems.removeAll(Arrays.asList(projectItems));
+				listAll = newProjectItems.toArray(); //update the list globally
+				projectUsers.setListData(newProjectItems.toArray()); //display the new list with the items removed
+				
+				//Remove the objects selected from the list
+				List<Object> newUpdateItems = new ArrayList<Object>(Arrays.asList(listUpdate));
+				newUpdateItems.removeAll(Arrays.asList(updateItems));
+				listUpdate = newUpdateItems.toArray(); //update the list globally
+				updateUsers.setListData(newUpdateItems.toArray()); //display the new list with the items removed
+				
+				//Remove the objects selected from the list
+				List<Object> newNoneItems = new ArrayList<Object>(Arrays.asList(listNone));
+				newNoneItems.removeAll(Arrays.asList(noneItems));
+				listNone = newNoneItems.toArray(); //update the list globally
+				noneUsers.setListData(newNoneItems.toArray()); //display the new list with the items removed
+		
+				updatePermissions(concat(projectItems, concat(updateItems,noneItems)), RMPermissionsLevel.ADMIN);
+				
+				//Combine all fo the selected items and add to the current list
+				selItems = concat(listAdmin,concat(projectItems, concat(updateItems,noneItems)));
+				listAdmin = selItems; //update the list globally
+				
+				
+				
+				adminUsers.setListData(selItems); //display the new list with the items removed
+			}
 		}
 	}
 		
@@ -379,4 +423,144 @@ public class UserPermissionPanel extends JPanel {
 		   return C;
 		}
 
+		protected void setAllPermissions(UserPermission[] all){
+			this.allPermissions = all;
+			for (int i = 0 ; i < all.length ; i ++)
+				System.out.println("PERMISSION:" + all[i].getUsername() + " has " + all[i].getPermissions());
+
+			this.gotPermissions = true;
+			setUpUsersDisplay();
+		}
+		protected void setAllusers(User[] all){
+			this.allUsers = all;
+			this.gotUsers = true;
+			
+			for (int i = 0 ; i < all.length ; i ++)
+				System.out.println("USER:" + all[i].getName());
+			
+			setUpUsersDisplay();
+		}
+
+	
+		
+		
+		/**
+		 * @param selected the selected names
+		 * @param level the new permission level to put those names at
+		 */
+		public void updatePermissions(Object[] selected, RMPermissionsLevel level){
+			SavePermissionsController controller = new SavePermissionsController(this);
+
+			
+			
+			
+			System.out.println("calling update");
+			for (int i = 0 ; i < selected.length ; i ++)
+				System.out.println("SEL:" + ((String)selected[i]));
+			
+			//This loop goes through the selected names, and all the permissions
+			//and if there is a match, it updates that permission to LEVEL (an input to this function)
+			//and saves the permission
+			for (int i = 0 ; i < this.allPermissions.length ; i ++){
+				for (int j = 0 ; j < selected.length ; j ++){
+					System.out.println("IS " + this.allPermissions[i].getUsername() + " = TO " + (String)selected[j]);
+					if ( ((String)selected[j]).equals(this.allPermissions[i].getUsername())){
+						this.allPermissions[i].setPermissions(level);
+						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);
+						
+						System.out.println("Saving Perm " + this.allPermissions[i].getId() + " , "+ this.allPermissions[i].getUsername() + " has " + this.allPermissions[i].getPermissions());
+						
+					}
+					
+				}
+			}
+			
+			//controller.save(permission, PermissionSaveMode.UPDATE);
+			
+			
+		}
+		
+		protected void addPermission(UserPermission perm){
+			ArrayList<UserPermission> all2 = new ArrayList<UserPermission>();
+			boolean hasID = false;
+			for (int i =0 ; i < this.allPermissions.length ; i ++){
+				all2.add(this.allPermissions[i]);
+				if (all2.get(i).getId() == perm.getId())
+					hasID = true;
+			}
+			if (!hasID)
+				all2.add(perm);
+			this.allPermissions =  new UserPermission[all2.size()];
+			for (int i = 0 ; i < this.allPermissions.length;i++){
+				this.allPermissions[i] = all2.get(i);
+			}
+		}
+		
+		
+		protected void setUpUsersDisplay(){
+			System.out.println("Setting up Users");
+			ArrayList<Object> none = new ArrayList<Object>();
+			ArrayList<Object> admin = new ArrayList<Object>();
+			ArrayList<Object> view = new ArrayList<Object>();
+			ArrayList<Object> update = new ArrayList<Object>();
+			
+			SavePermissionsController controller = new SavePermissionsController(this);
+			
+			if (this.gotUsers && this.gotPermissions){
+				
+				
+				for (int i = 0 ; i < this.allUsers.length ; i ++){
+					
+					
+					boolean hasPermission = false;
+					for (int j = 0 ; j < this.allPermissions.length ; j ++){
+						
+						if (this.allUsers[i].getName().equals(this.allPermissions[j].getUsername())){
+							hasPermission = true;
+							
+							switch (this.allPermissions[j].getPermissions()){
+								case ADMIN: admin.add(this.allUsers[i].getName());
+								break;
+								case UPDATE: update.add(this.allUsers[i].getName());
+								break;
+								case NONE: none.add(this.allUsers[i].getName());
+								break;
+							}
+							
+						}
+						
+					}
+					
+					if (!hasPermission){
+						System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
+						controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.NONE)
+								, PermissionSaveMode.NEW);
+						
+						none.add(this.allUsers[i].getName());
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			
+			//projectUsers = new JList<User>();
+			projectUsers.setListData(view.toArray());
+			//noneUsers = new JList<User>();
+			noneUsers.setListData(none.toArray());
+			//updateUsers = new JList<User>();
+			updateUsers.setListData(update.toArray());
+			//adminUsers = new JList<User>();
+			adminUsers.setListData(admin.toArray());
+			
+			
+			this.listAdmin = admin.toArray();
+			this.listNone = none.toArray();
+			this.listUpdate = update.toArray();
+			
+			
+		}
+		
 }

@@ -15,13 +15,24 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.util.ArrayList;
 
+import com.google.gson.GsonBuilder;
+
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.RetrieveRequirementObserverTree;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * A Refresher refreshes the tree view.
@@ -53,6 +64,47 @@ public class Refresher {
 		this.table = table;
 		this.iterationsSet = false;
 	}
+	
+	
+	private User[] lastKnownUsers = null;
+	
+	public void getObjects(RequestObserver observer, String path, String id){
+		Request request;
+		request = Network.getInstance().makeRequest(path + id, HttpMethod.GET);
+		request.addObserver(observer);
+		request.send();
+	}
+
+	
+	public User[] getUsers(RequestObserver observer){
+		System.out.println("GETTING USERS");
+		User[] all = null;
+		lastKnownUsers = null;
+		RetrieveRequirementControllerTree<User> c = new RetrieveRequirementControllerTree<User>(
+				observer, "core/user/", new IRetrieveRequirementController<User>(){
+
+					@Override
+					public void runWhenRecieved(String content) {
+						//System.out.println("GETTING USERS RESPONSE");
+						GsonBuilder builder = new GsonBuilder();
+						//System.out.println(content);
+						
+						User[] users = builder.create().fromJson(content, User[].class);
+						lastKnownUsers = users;
+						
+					}
+
+					@Override
+					public String getID() {
+						return ""; //an ID of NOTHING will ask the controller for ALL of the objects
+					}
+					
+				});
+		c.retrieve();
+		return lastKnownUsers;
+		
+	}
+	
 	
 	/**
 	 * refresh all requirements depending on the given

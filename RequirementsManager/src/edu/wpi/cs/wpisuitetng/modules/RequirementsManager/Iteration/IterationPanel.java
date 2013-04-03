@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.CancelIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveChangesAction;
@@ -55,7 +56,7 @@ public class IterationPanel extends JPanel {
 	protected IterationView parent;
 
 	/** Form elements */
-	protected IntegerField txtIterationNumber;
+	protected JTextField txtIterationName;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
 	protected JLabel txtEndDate;
@@ -132,7 +133,7 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationNumber = new IntegerField(3);
+		txtIterationName = new IntegerField(3);
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
@@ -167,7 +168,7 @@ public class IterationPanel extends JPanel {
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		panelOne.add(txtIterationNumber, cOne);
+		panelOne.add(txtIterationName, cOne);
 
 		cOne.gridx = 4;
 		cOne.gridy = 0;
@@ -347,7 +348,7 @@ public class IterationPanel extends JPanel {
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
 
-		txtIterationNumber.setEnabled(enabled);
+		txtIterationName.setEnabled(enabled);
 	}
 
 	/**
@@ -372,8 +373,8 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration(0, null, null);
-		iteration.setIterationNumber(getValue(txtIterationNumber)); 
+		Iteration iteration = new Iteration("", null, null);
+		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
 		return iteration;
@@ -389,7 +390,7 @@ public class IterationPanel extends JPanel {
 	 * 			0 otherwise
 	 */
 	public int checkRequiredFields(){
-		if((getValue(txtIterationNumber) < 0)
+		if((txtIterationName.getText() == "")
 				&&
 				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
 				&&
@@ -401,7 +402,7 @@ public class IterationPanel extends JPanel {
 			lblIterationNumberError2.setVisible(false);
 			lblDateOverlapError.setVisible(false);
 			return 2;
-		} else if((getValue(txtIterationNumber) < 0)
+		} else if(((txtIterationName.getText()) == "")
 				&&
 				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
 			lblIterationNumberError.setVisible(true);
@@ -411,7 +412,7 @@ public class IterationPanel extends JPanel {
 			lblIterationNumberError2.setVisible(false);
 			lblDateOverlapError.setVisible(false);
 			return 2; 
-		} else if((getValue(txtIterationNumber) < 0)
+		} else if((txtIterationName.getText() == "")
 				&&
 				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
 			lblIterationNumberError.setVisible(true);
@@ -450,7 +451,7 @@ public class IterationPanel extends JPanel {
 			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
-		else if ((getValue(txtIterationNumber) < 0)){
+		else if (txtIterationName.getText() == ""){
 			lblIterationNumberError.setVisible(true);
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(false);
@@ -486,13 +487,13 @@ public class IterationPanel extends JPanel {
 	 * 			4 if dates overlap,
 	 * 			0 otherwise
 	 */
-	public int ValidateFields() {
+	public int ValidateFields() {//COME BACK TO THIS!
 		Date startDate = StringToDate(txtStartDate.getText());
 		Date endDate = StringToDate(txtEndDate.getText());
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
-		int idNum = getValue(txtIterationNumber);
+		String idName = txtIterationName.getText();
 		for (int i = 1; i < array.length; i++) {
-			if(idNum == array[i].getIterationNumber()) {
+			if(idName.compareTo(array[i].getIterationName()) != 0) {
 				lblIterationNumberError.setVisible(false);
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);

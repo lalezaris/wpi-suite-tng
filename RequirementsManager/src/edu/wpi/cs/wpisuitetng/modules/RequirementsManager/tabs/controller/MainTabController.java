@@ -216,7 +216,7 @@ public class MainTabController {
 	 */
 	public Tab addNewIterationTab() {
 		Tab tab = addTab();
-		IterationView view = new IterationView(new Iteration(0, null, null), tab);
+		IterationView view = new IterationView(new Iteration("", null, null), tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;

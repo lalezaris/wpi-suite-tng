@@ -171,6 +171,16 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
+	 * replaces the ArrayList in this requirement with the given list
+	 * ONLY TO BE USED TO UPDATE THE HISTORY LIST, NOT REPLACE IT
+	 * 
+	 * @param h
+	 */
+	public void updateHistory(ArrayList<HistoricalChange> h){
+		this.history = h;
+	}
+	
+	/**
 	 * Gets the releaseNumber
 	 * @return the releaseNumber
 	 */

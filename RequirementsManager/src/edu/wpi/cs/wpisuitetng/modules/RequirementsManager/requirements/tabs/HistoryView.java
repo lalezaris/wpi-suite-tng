@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -23,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * The jPanel for all requirement history
@@ -38,23 +41,38 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChan
 public class HistoryView extends JPanel {	
 	private JList<HistoricalChange> list;
     private DefaultListModel<HistoricalChange> listModel;
+    
+    protected ArrayList<HistoricalChange> historyAL;
 
 	/**
 	 * HistoryView Constructor
 	 * 
 	 */
-	public HistoryView(ArrayList<HistoricalChange> history) {
+	public HistoryView(Requirement req) {
 		super(new BorderLayout());
+		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
+		this.setHistoryList(req.getHistory());
+		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 		
-		int numObjects = history.size(); // NUMBER OF HistoryObjects to add
 		
 		listModel = new DefaultListModel<HistoricalChange>();		
-		
-		
+
+		System.out.println("------------------");
+		System.out.println("HISTORY LOG OUTPUT");
+		System.out.println("------------------");
+		System.out.println();
+		System.out.println("Requirement: "+req.getTitle());
+		System.out.println("History Objects: "+ req.getHistory().size());
 		for(int i = 0; i <numObjects; i++){
 //		HistoricalChange obj = history.get(i);
-		listModel.add(i, history.get(i));
+		System.out.println(historyAL.get(i).getChange());
+		listModel.add(i, historyAL.get(i));
 		}
+
+		System.out.println();
+		System.out.println("------------------");
+		System.out.println("END HISTORY OUTPUT");
+		System.out.println("------------------");
 
 		//Create the list and put it in a scroll pane.
         list = new JList<HistoricalChange>(listModel);
@@ -64,5 +82,24 @@ public class HistoryView extends JPanel {
         JScrollPane listScrollPane = new JScrollPane(list);
         
         add(listScrollPane, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Changes the history array list to the given array list..
+	 * 
+	 * @param history
+	 */
+	public void setHistoryList(ArrayList<HistoricalChange> history) {
+		this.historyAL = history;
+	}
+
+	/**
+	 * Enter description here.
+	 * 
+	 * @return
+	 */
+	public ArrayList<HistoricalChange> getHistoryList() {
+		// TODO Auto-generated method stub
+		return this.historyAL;
 	}
 }

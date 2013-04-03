@@ -12,6 +12,7 @@
  *  Joe Spicola
  *  Evan Polekoff
  *  Ned Shelton
+ *  Sam Lalezari
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -31,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -98,12 +100,15 @@ public class RequirementPanel extends JPanel{
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
 	
+	/** the ArrayList of HistoricalChange **/
+	protected ArrayList<HistoricalChange> history = new ArrayList<HistoricalChange>();
+	
 	
 	/** NotesView for updating notes **/
 	private NotesView n; //= new NotesView();
 	
 	/** HistoryView for updating history **/
-	//TODO fix
+	//TODO just a bookmark kind of deal
 	private HistoryView hv;
 	
 	/** A flag indicating if input is enabled on the form */
@@ -161,6 +166,9 @@ public class RequirementPanel extends JPanel{
 		
 		//get the list of notes from the given requirement
 		n = new NotesView(model);
+		
+		//get the list of history from the given requirement
+		hv = new HistoryView(model);
 		
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -220,7 +228,7 @@ public class RequirementPanel extends JPanel{
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
 		n.setNotesList(this.getNotesArrayList());
-		hv = new HistoryView(model.getHistory());
+		hv.setHistoryList(this.getHistoryList());
 		RTabsView = new RequirementTabsView(n, hv);
 		
 		/**Save Button*/
@@ -585,6 +593,7 @@ public class RequirementPanel extends JPanel{
 //		}
 	}
 	
+
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -645,6 +654,8 @@ public class RequirementPanel extends JPanel{
 		model.setActualEffort(requirement.getActualEffort());
 		requirement.updateNotes(this.getNotesArrayList());
 		model.updateNotes(requirement.getNotes());
+		requirement.updateHistory(this.getHistoryList());
+		model.updateHistory(requirement.getHistory());
 		
 		updateFields();
 		this.revalidate();
@@ -689,7 +700,8 @@ public class RequirementPanel extends JPanel{
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
 		requirement.updateNotes(n.getNotesList());
-		//TODO add getHistoryList())
+		requirement.updateHistory(hv.getHistoryList());
+		//TODO placeholder
 		
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
@@ -764,6 +776,7 @@ public class RequirementPanel extends JPanel{
 			txtAssignee.setText(model.getAssignee().getUsername());
 		}
 		n.setNotesList(model.getNotes());
+		hv.setHistoryList(model.getHistory());
 		//TODO setHistoryList
 	}
 
@@ -776,10 +789,17 @@ public class RequirementPanel extends JPanel{
 		return notes;
 	}
 	
+	public ArrayList<HistoricalChange> getHistoryList(){
+		return history;
+	}
+	
 	public void setNotesArrayList(ArrayList<Note> aln) {
 		notes = aln;
 	}
 	
+	public void setHistoryArrayList(ArrayList<HistoricalChange> alh){
+		history = alh;
+	}
 	/**
 	 * Gets the model
 	 * 

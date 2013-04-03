@@ -245,6 +245,11 @@ public class RequirementPanel extends JPanel{
 		
 		txtEstimate.addKeyListener(new EstimateListener());
 		
+		/**Title and Description Listener*/
+		
+		txtTitle.addKeyListener(new SaveListener());
+		txtDescription.addKeyListener(new SaveListener());
+		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -317,12 +322,21 @@ public class RequirementPanel extends JPanel{
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
+		//Default the Iteration Box based on the valus of the estimate (Don't let you choose it if the estimate is blank).
 		if(model.getEstimateEffort() > 0) {
 			cmbIteration.setEnabled(true);
 			cmbIteration.setBackground(Color.WHITE);
 		}
 		else
 			cmbIteration.setEnabled(false);
+		
+		//Default the save button depending on what is filled in (Title and Description).
+		if(!model.getTitle().equals("") && !model.getDescription().equals("") && model.getTitle() != null && model.getDescription() != null){
+			saveRequirementBottom.setEnabled(true);
+		}
+		else{
+			saveRequirementBottom.setEnabled(false);
+		}
 		
 		panelOne.add(cmbIteration, cOne);
 		
@@ -894,21 +908,14 @@ public class RequirementPanel extends JPanel{
 		
 	}
 	
+	//A Key Listener on the Estimate to grey out the Iteration drop down until there is a value in the estimate.
 	public class EstimateListener implements KeyListener {
 
-		public void actionPerformed(ActionEvent estimate) {
-			
-		}
-
+		public void actionPerformed(ActionEvent estimate) {}
 		@Override
-		public void keyTyped(KeyEvent e) {
-			
-		}
-
+		public void keyTyped(KeyEvent e) {}
 		@Override
-		public void keyPressed(KeyEvent e) {
-			
-		}
+		public void keyPressed(KeyEvent e) {}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
@@ -931,6 +938,37 @@ public class RequirementPanel extends JPanel{
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);
 			
+		}
+		
+	}
+	
+	
+	//A Key Listener on the Title and Description to grey out the save button until there is text in them.
+	public class SaveListener implements KeyListener {
+
+		public void actionPerformed(ActionEvent estimate) {}
+		@Override
+		public void keyTyped(KeyEvent e) {}
+		@Override
+		public void keyPressed(KeyEvent e) {}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			Boolean enabled = false;
+			
+			try{
+				if((txtTitle.getText().equals("") || txtEstimate.getText() == null) || 
+					(txtDescription.getText().equals("") || txtDescription.getText() == null)){
+					enabled = false;
+				}
+				else{
+					enabled = true;
+				}
+			}
+			catch(NumberFormatException exception){
+				enabled = false;
+			}
+			saveRequirementBottom.setEnabled(enabled);
 		}
 		
 	}

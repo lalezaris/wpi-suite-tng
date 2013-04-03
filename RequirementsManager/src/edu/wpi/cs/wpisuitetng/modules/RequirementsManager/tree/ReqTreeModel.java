@@ -119,6 +119,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 						if (potentialParent.getId() == parentID) {
 							nodes.get(z).add(nodes.get(r));
+						}
+					}
 				} else {
 
 					int reqIterationID = leafReq.getIterationId();

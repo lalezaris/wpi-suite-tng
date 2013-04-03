@@ -32,8 +32,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveAllChildRequirementsController {
 	private Requirement[] childRequirementData;
 	private Requirement[] rawRequirementData;
+	private boolean receivedResponse;
 	
-	public RetrieveAllChildRequirementsController() { }
+	public RetrieveAllChildRequirementsController() {
+		this.receivedResponse = false;
+	}
 	
 	/**
 	 * Function to retrieve a linked list of requirements 
@@ -42,6 +45,9 @@ public class RetrieveAllChildRequirementsController {
 	 */
 	public Requirement[] retrieveChildrenByID(int reqID) {
 		sendRequest();
+		
+		/* Busy wait to receive response from server */
+		while (!receivedResponse) { }
 		
 		/* loop through each returned requirement and check if the parent id
 		 * is equal to the requirement id. If so, it is added to the child 
@@ -88,6 +94,8 @@ public class RetrieveAllChildRequirementsController {
 		else {
 			// do nothing, there are no Requirements
 		}
+		
+		receivedResponse = true;
 	}
 
 	/**

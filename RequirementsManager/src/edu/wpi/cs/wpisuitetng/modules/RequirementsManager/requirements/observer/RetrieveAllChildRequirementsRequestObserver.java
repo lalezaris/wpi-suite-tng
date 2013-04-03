@@ -29,10 +29,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveAllChildRequirementsRequestObserver implements RequestObserver {
 	
-	RetrieveAllChildRequirementsController retrieveChildren;
+	RetrieveAllChildRequirementsController retrieveChildrenController;
 	
-	public RetrieveAllChildRequirementsRequestObserver(RetrieveAllChildRequirementsController retrieveChildren) {
-		this.retrieveChildren = retrieveChildren;
+	public RetrieveAllChildRequirementsRequestObserver(RetrieveAllChildRequirementsController retrieveChildrenController) {
+		this.retrieveChildrenController = retrieveChildrenController;
 	}
 
 	@Override
@@ -48,10 +48,10 @@ public class RetrieveAllChildRequirementsRequestObserver implements RequestObser
 			Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
 
 			// notify the controller
-			retrieveChildren.validateReceivedData(requirements);
+			retrieveChildrenController.validateReceivedData(requirements);
 		}
 		else {
-			retrieveChildren.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			retrieveChildrenController.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}
 	}
 

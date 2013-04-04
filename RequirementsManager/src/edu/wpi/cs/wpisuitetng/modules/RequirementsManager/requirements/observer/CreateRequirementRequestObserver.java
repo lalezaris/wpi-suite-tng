@@ -83,6 +83,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 						//we need to update their parent Requirement
 						RequirementView parentView = view.getParentView();
 						if(parentView != null){
+							//System.out.println("\n\n\n\n\nWe have a not-null parent view!\n\n\n\n");
 							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
 
 							//get the EDITED model currently displayed, and just add the child to it
@@ -100,6 +101,8 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);
+							//The line below was Tushar testing something. The parentPanel edit mode should never be CREATE!
+							//final RequestObserver requestObserver = (parentPanel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 							Request request;
 							request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.PUT);
 							request.setBody(JsonRequest);

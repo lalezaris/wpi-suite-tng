@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
- *  
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
@@ -24,11 +24,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Model for the Requirement Table
  * @author Chris Hanna
+ * @modified Tushar Narayan on April 4
  *
  */
 public class RequirementTableModel extends AbstractTableModel {
 
-	private String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned"};
+	private String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
     private ArrayList<Object[]> data = new ArrayList<Object[]>();
 
     
@@ -74,6 +75,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		    	column.setPreferredWidth(70); //ITERATION
 		    } else if (i == 7) {
 		    	column.setPreferredWidth(100); //ASSIGNEE
+		    }
+		    else if (i == 8) {
+		    	column.setPreferredWidth(30); //PARENT ID
 		    }
 		}
     }
@@ -128,7 +132,8 @@ public class RequirementTableModel extends AbstractTableModel {
     			req.getPriority() ,
     			req.getEstimateEffort() ,
     			req.getIteration(),
-    			req.getAssignee().getUsername()};
+    			req.getAssignee().getUsername(),
+    			req.getParentRequirementId()};
     	addRow(r);
     }
     

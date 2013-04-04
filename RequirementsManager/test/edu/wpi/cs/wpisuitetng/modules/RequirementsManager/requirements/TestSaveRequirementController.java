@@ -1,7 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,5 +32,12 @@ public class TestSaveRequirementController {
 	public void fixJenkins(){
 		assertEquals("Jenkins", "Jenkins");
 	}
+	
+//  TODO Wait for the tab completed
+//	@Test
+//	public void contructorSetsViewFieldCorrectly() {
+//		assertEquals(view, controller.getView());
+//
+//	}
 	
 }

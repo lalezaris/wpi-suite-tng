@@ -80,14 +80,14 @@ ModelMapper updateMapper;
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public UserPermission[] getEntity(Session s, String id) throws NotFoundException {
-		final int intId = Integer.parseInt(id);
-		if(intId < 1) {
+	public UserPermission[] getEntity(Session s, String username) throws NotFoundException {
+		final String stringUsername = username; 
+		if(stringUsername.length() < 1) {
 			throw new NotFoundException();
 		}
 		UserPermission[] userPermissions = null;
 		try {
-			userPermissions = db.retrieve(UserPermission.class, "id", intId, s.getProject()).toArray(new UserPermission[0]);
+			userPermissions = db.retrieve(UserPermission.class, "username", stringUsername, s.getProject()).toArray(new UserPermission[0]);
 		} catch (WPISuiteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -201,10 +201,10 @@ ModelMapper updateMapper;
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+	public boolean deleteEntity(Session s, String username) throws WPISuiteException {
 		//TODO: check this function
 		ensureRole(s, Role.ADMIN);
-		return (db.delete(getEntity(s, id)[0]) != null) ? true : false;
+		return (db.delete(getEntity(s, username)[0]) != null) ? true : false;
 	}
 
 	/* 
@@ -226,7 +226,7 @@ ModelMapper updateMapper;
 	public void deleteAll(Session s) throws WPISuiteException {
 		//TODO: check this function
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Iteration(), s.getProject());
+		db.deleteAll(new UserPermission(), s.getProject());
 		
 	}
 

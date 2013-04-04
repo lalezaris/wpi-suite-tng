@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
+/**
+ * 
+ * @author Tianyu Li
+ *
+ */
 
 public class RequirementTableModelTest {
 	RequirementTableModel rtm1;

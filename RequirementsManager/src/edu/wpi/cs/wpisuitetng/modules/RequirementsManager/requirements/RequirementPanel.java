@@ -787,6 +787,13 @@ public class RequirementPanel extends JPanel{
 			txtReleaseNumber.setEnabled(false);
 		}
 
+		if(editMode == Mode.EDIT && !model.isTopLevelRequirement()){
+			cmbStatus.setEnabled(false);
+			cmbIteration.setEnabled(false);
+			txtReleaseNumber.setEnabled(false);
+			txtActual.setEnabled(false);
+			
+		}
 		// depending on the status and sub-requirements, disable certain components
 		if (model.getStatus() == RequirementStatus.INPROGRESS
 				|| model.getStatus() == RequirementStatus.COMPLETE){

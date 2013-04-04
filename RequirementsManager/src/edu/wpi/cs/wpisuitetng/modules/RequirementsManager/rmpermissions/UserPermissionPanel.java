@@ -126,11 +126,6 @@ public class UserPermissionPanel extends JPanel{
 		adminUsersList = new DefaultListModel();
 		adminUsers = new JList(adminUsersList);
 
-		//TODO: get rid of
-		noneUsers = new JList<Object>();
-		updateUsers = new JList<Object>();
-		adminUsers = new JList<Object>();
-		
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton(" Move to None ");
 		btnNone.addActionListener(new NonePermissionAction(noneUsers,updateUsers,adminUsers,this));

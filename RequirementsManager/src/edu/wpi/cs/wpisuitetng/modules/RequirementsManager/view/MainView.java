@@ -21,6 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissionsObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.PermissionsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 
@@ -63,8 +66,7 @@ public class MainView extends JPanel {
 		
 		//new split pane to adjust size
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-		
-		//add split pane to main view
+				//add split pane to main view
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 	
@@ -72,5 +74,6 @@ public class MainView extends JPanel {
 		System.out.println("MainView make refresher");
 		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel());
 		refresher.refreshIterationsFromServer(null);
+		
 	}
 }

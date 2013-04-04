@@ -106,6 +106,8 @@ public class UserPermissionPanel extends JPanel{
 		//this.allUsers = Refresher.getInstance().getUsers(new UsersObserver(this));
 		Refresher.getInstance().getObjects(new UsersObserver(this), "core/user", "");
 		Refresher.getInstance().getObjects(new PermissionsObserver(this), "requirementsmanager/permissions", "");
+	
+		
 		this.view = view;
 		
 		this.gotUsers = false;
@@ -114,6 +116,20 @@ public class UserPermissionPanel extends JPanel{
 		addComponents();
 	}
 	
+	
+	
+	public boolean isGotUsers() {
+		return gotUsers;
+	}
+
+
+
+	public boolean isGotPermissions() {
+		return gotPermissions;
+	}
+
+
+
 	private void addComponents(){
 		/* create a panel to store everything in*/
 		JPanel listPanel = new JPanel();
@@ -255,7 +271,7 @@ public class UserPermissionPanel extends JPanel{
 			this.gotUsers = true;
 			
 			for (int i = 0 ; i < all.length ; i ++)
-				System.out.println("USER:" + all[i].getName() );
+				System.out.println("USER:" + all[i].getUsername() );
 			
 			setUpUsersDisplay();
 		}		
@@ -306,15 +322,17 @@ public class UserPermissionPanel extends JPanel{
 		
 		protected void addPermission(UserPermission perm){
 			ArrayList<UserPermission> all2 = new ArrayList<UserPermission>();
-			//boolean hasID = false;
+			boolean hasName = false;
 			for (int i =0 ; i < this.allPermissions.length ; i ++){
 				all2.add(this.allPermissions[i]);
-				//if (all2.get(i).getId() == perm.getId())
-					//hasID = true;
+				if (all2.get(i).getUsername().equals(perm.getUsername()))
+					hasName = true;
 			}
 			//if (!hasID)
-			if (!all2.contains(perm))
+			if (!hasName)
 				all2.add(perm);
+			
+			
 			this.allPermissions =  new UserPermission[all2.size()];
 			for (int i = 0 ; i < this.allPermissions.length;i++){
 				this.allPermissions[i] = all2.get(i);
@@ -345,15 +363,15 @@ public class UserPermissionPanel extends JPanel{
 					boolean hasPermission = false;
 					for (int j = 0 ; j < this.allPermissions.length ; j ++){
 						
-						if (this.allUsers[i].getName().equals(this.allPermissions[j].getUsername())){
+						if (this.allUsers[i].getUsername().equals(this.allPermissions[j].getUsername())){
 							hasPermission = true;
 							
 							switch (this.allPermissions[j].getPermissions()){
-								case ADMIN: admin.add(this.allUsers[i].getName());
+								case ADMIN: admin.add(this.allUsers[i].getUsername());
 								break;
-								case UPDATE: update.add(this.allUsers[i].getName());
+								case UPDATE: update.add(this.allUsers[i].getUsername());
 								break;
-								case NONE: none.add(this.allUsers[i].getName());
+								case NONE: none.add(this.allUsers[i].getUsername());
 								break;
 							}
 							
@@ -365,13 +383,13 @@ public class UserPermissionPanel extends JPanel{
 						//System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
 						
 						if (this.allUsers[i].getRole() == Role.ADMIN){
-							controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.ADMIN)
+							controller.save(new UserPermission(this.allUsers[i].getUsername(), RMPermissionsLevel.ADMIN)
 							, PermissionSaveMode.NEW);
-							admin.add(this.allUsers[i].getName());
+							admin.add(this.allUsers[i].getUsername());
 						} else {
-							controller.save(new UserPermission(this.allUsers[i].getName(), RMPermissionsLevel.NONE)
+							controller.save(new UserPermission(this.allUsers[i].getUsername(), RMPermissionsLevel.NONE)
 									, PermissionSaveMode.NEW);
-							none.add(this.allUsers[i].getName());
+							none.add(this.allUsers[i].getUsername());
 						}
 					}
 					

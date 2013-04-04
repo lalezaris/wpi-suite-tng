@@ -16,6 +16,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.Component;
 import java.awt.GridBagLayout;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -28,6 +30,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListAct
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
@@ -72,6 +77,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionContent.setLayout(userPermissionLayout);
 		userPermissionContent.setOpaque(false);
 
+		
+		CurrentUserPermissions.updateCurrentUserPermissions();
+		
 		// Construct the buttons
 		newIteration = new JButton("Create Iteration");
 		newIteration.setAction(new NewIterationAction(tabController));
@@ -145,5 +153,29 @@ public class ToolbarPanel extends DefaultToolbarView {
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);
+		
+		
+		//Did this panel come into view?
+				final DefaultToolbarView p = this;
+				p.addHierarchyListener(new HierarchyListener() {
+
+					/* Shows changes to hierarchy
+					 * @param e HierarchyEvent to respond to
+					 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
+					 */
+					@Override
+					public void hierarchyChanged(HierarchyEvent e) {
+						if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
+								&& p.isShowing())
+						{
+							//System.out.println("Updating User Permissions by toolbar visibility change");
+							CurrentUserPermissions.updateCurrentUserPermissions();
+							//Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
+						}
+
+					}
+
+				});
+		
 	}
 }

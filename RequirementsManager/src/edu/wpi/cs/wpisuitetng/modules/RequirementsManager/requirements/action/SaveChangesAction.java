@@ -18,7 +18,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 
 /**
  * Adapted from JPage
@@ -49,8 +51,10 @@ public class SaveChangesAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("Hit Save Button");
-		controller.save();
+		//if (CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
+			System.out.println("Hit Save Button");
+			controller.save();
+		//}
 	}
 
 }

@@ -39,7 +39,7 @@ public class UpdatePermissionObserver implements RequestObserver{
 		
 			panel.addPermission(per);
 		//}
-
+			CurrentUserPermissions.updateCurrentUserPermissions();
 
 	}
 

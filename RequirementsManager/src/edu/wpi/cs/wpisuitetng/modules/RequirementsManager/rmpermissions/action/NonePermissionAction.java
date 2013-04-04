@@ -23,6 +23,7 @@ import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.PermissionSaveMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.SavePermissionsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
@@ -62,7 +63,10 @@ public class NonePermissionAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
+		if (panel.isGotUsers() 
+				&& panel.isGotPermissions()
+				&& CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
+			CurrentUserPermissions.updateCurrentUserPermissions();
 		//gets the selected items from the none and admin lists
 		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedUpdateUsers = updateUsers.getSelectedValuesList();
@@ -110,6 +114,7 @@ public class NonePermissionAction extends AbstractAction {
 		
 		//assign the new model
 		noneUsers.setModel(newNoneModel);	
+		}
 	}
 	
 	

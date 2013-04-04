@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
@@ -38,6 +39,7 @@ public class EditUserPermissionsAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.addEditUserPermissionsTab();
+		CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 	public EditUserPermissionsAction(MainTabController controller) {

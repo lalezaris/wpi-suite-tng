@@ -22,6 +22,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 
 /**
@@ -51,6 +52,10 @@ public class AdminPermissionAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
+		if (panel.isGotUsers() 
+				&& panel.isGotPermissions()
+				&& CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
+			CurrentUserPermissions.updateCurrentUserPermissions();
 		//gets the selected items from the none and admin lists
 		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
@@ -98,6 +103,7 @@ public class AdminPermissionAction extends AbstractAction {
 
 		//Assign the new model	
 		adminUsers.setModel(newAdminModel);	
+		}
 	}
 	
 	

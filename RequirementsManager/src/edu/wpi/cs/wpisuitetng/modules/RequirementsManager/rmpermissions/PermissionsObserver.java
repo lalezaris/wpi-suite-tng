@@ -2,6 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import com.google.gson.GsonBuilder;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -11,6 +13,9 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 public class PermissionsObserver implements RequestObserver{
 
+	
+
+	
 	private UserPermissionPanel panel;
 	public PermissionsObserver(UserPermissionPanel panel){
 		this.panel = panel;
@@ -23,6 +28,10 @@ public class PermissionsObserver implements RequestObserver{
 		
 		GsonBuilder builder = new GsonBuilder();
 		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);
+		
+		CurrentUserPermissions.updateCurrentUserPermissions();
+		
+		
 		this.panel.setAllPermissions(all);
 		
 	}

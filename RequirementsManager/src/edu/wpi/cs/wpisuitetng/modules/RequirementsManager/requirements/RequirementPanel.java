@@ -48,6 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 /**
@@ -166,6 +167,8 @@ public class RequirementPanel extends JPanel{
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		this.setLayout(layout);
+		
+		
 		
 		// Add all components to this panel
 		addComponents();
@@ -460,7 +463,7 @@ public class RequirementPanel extends JPanel{
 		cThree.gridx = 1;
 		cThree.gridy = 4;
 		txtCreator.setEnabled(false);
-		txtCreator.setText(model.getCreator().getUsername());
+		txtCreator.setText(model.getCreator());
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtCreator, cThree);
 				
@@ -582,8 +585,8 @@ public class RequirementPanel extends JPanel{
 
 
 		//depending on the user's permission, disable certain components
-		UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.NONE);
-		RMPermissionsLevel pLevel = testUser.getPermissions();
+		//UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.NONE);
+		RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();//testUser.getPermissions();
 		switch (pLevel){
 		case NONE:
 			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
@@ -712,7 +715,7 @@ public class RequirementPanel extends JPanel{
 //			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 //		}
 		if (!(txtCreator.getText().equals(""))) {
-			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
+			requirement.setCreator("");
 		}
 		
 		System.out.println("the result of getEditedModel:");
@@ -775,7 +778,7 @@ public class RequirementPanel extends JPanel{
 			deleteRequirementBottom.setVisible(true);
 		}
 		if (model.getCreator() != null) {
-			txtCreator.setText(model.getCreator().getUsername());
+			txtCreator.setText(model.getCreator());
 		}
 //		if (model.getAssignee() != null) {
 //			txtAssignee.setText(model.getAssignee().getUsername());

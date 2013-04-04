@@ -121,7 +121,7 @@ public class Requirement extends AbstractModel{
 	public Requirement(){
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
-		this.iterationId = -1; //still hacking around
+		this.iterationId = -1;
 		
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium

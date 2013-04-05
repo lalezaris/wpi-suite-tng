@@ -95,7 +95,7 @@ public class HistoricalChange extends AbstractModel{
 		//change += compareSubReqs(oldR, newR);?
 		
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			change += "Assignee changed from " + oldR.getAssignee().getName() + " to " + newR.getAssignee().getName() + ".\n";
+			change += "Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".\n";
 		}
 		
 		//TODO: come back to this

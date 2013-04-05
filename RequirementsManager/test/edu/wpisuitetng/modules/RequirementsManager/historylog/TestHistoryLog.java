@@ -42,15 +42,20 @@ public class TestHistoryLog {
 	
 	@Before
 	public void setUp(){
-		req1 = new Requirement(1,"title1", "a desc", new User("bill", "bill", "bill", 0));
-		req2 = new Requirement(1, "title2" , "not a desc", new User("bill", "bill", "bill", 0));
-		req3 = new Requirement(1,"title3", "a desc", new User("bill", "bill", "bill", 0));
-		req4 = new Requirement(1,"title4", "a desc", new User("bill", "bill", "bill", 0));
+		req1 = new Requirement(1,"title1", "a desc", "bill");
+		req2 = new Requirement(1, "title2" , "not a desc", "bill");
+		req3 = new Requirement(1,"title3", "a desc", "bill");
+		req4 = new Requirement(1,"title4", "a desc", "bill");
 		
-		req1.setAssignee(new User("bill", "bill", "bill", 0));
-		req3.setAssignee(new User("bill", "bill", "bill", 0));
-		req4.setAssignee(new User("bill", "bill", "bill", 0));
-		req2.setAssignee(new User("Joe", "Joe", "Joe", 1));
+		ArrayList<String> billAssignee = new ArrayList<String>();
+		billAssignee.add("bill");
+		ArrayList joeAssignee = new ArrayList<String>();
+		joeAssignee.add("joe");
+		
+		req1.setAssignee(billAssignee);
+		req3.setAssignee(billAssignee);
+		req4.setAssignee(billAssignee);
+		req2.setAssignee(joeAssignee);
 		
 		rlist1.add(req1);
 		rlist1.add(req2);
@@ -94,15 +99,15 @@ public class TestHistoryLog {
 	public void testMultipleSubReqsUpdate(){
 		//Create a TON of children.
 		for(int i = 0; i < 50; i ++){
-			children.add(new Requirement(1,"Title"+i, "This is child: "+i, new User("Derpy"+1, "Derpy"+1, "Derpy"+1, 2+1)));
-			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, new User("Derpy"+1, "Derpy"+1, "Derpy"+1, 2+1)));
+			children.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy"+1));
+			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy"+1));
 		}
 		for(int i = 50; i < 70; i ++){
-			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, new User("Derpy+"+1, "Derpy+"+1, "Derpy+"+1, 2+1)));
+			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy+"+1));
 		}
 		
-		req5 = new Requirement(1,"ParentTitle5", "a desc", new User("bill", "bill", "bill", 0));
-		req6 = new Requirement(1,"ParentTitle6", "a desc", new User("bill", "bill", "bill", 0));
+		req5 = new Requirement(1,"ParentTitle5", "a desc", "bill");
+		req6 = new Requirement(1,"ParentTitle6", "a desc", "bill");
 		
 		//Overwrite the pre-made requirements for this one test.
 		/*req5.setSubRequirements(children);

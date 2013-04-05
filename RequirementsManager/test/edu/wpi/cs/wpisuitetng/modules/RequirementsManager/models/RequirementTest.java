@@ -50,10 +50,10 @@ public class RequirementTest {
 	public void setUp(){
 		date1 = new Date();
 		r1 = new Requirement();
-		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
-		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
-		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement." , new User("", "", "", -1));	
-		r4 = new Requirement(20, "Test Requirement 4", "This is the fourth test requirement.", new User("", "", "", -1));
+		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.", "");
+		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.", "");
+		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement." , "");	
+		r4 = new Requirement(20, "Test Requirement 4", "This is the fourth test requirement.", "");
 		date2 = new Date();
 		status1 = NEW;
 		status2 = INPROGRESS;
@@ -65,7 +65,7 @@ public class RequirementTest {
 		priority3 = LOW;
 		r5 = new Requirement("Test Title", "Test Description");
 		testNotes = new ArrayList<Note>();
-		r6 = new Requirement(42, "Test Title 2", "Test Description 2", new User("", "", "", -1), testNotes);
+		r6 = new Requirement(42, "Test Title 2", "Test Description 2", "", testNotes);
 	}
 	
 	/**
@@ -193,12 +193,12 @@ public class RequirementTest {
 		r6.setActualEffort(50);
 		assertEquals(r6.getEstimateEffort(), 100);
 		assertEquals(r6.getActualEffort(), 50);
-		User testUser1 = new User("t1", "t2", "", -1);
-		User testUser2 = new User("t3", "t4", "", -3);
+		String testUser1 = "user1";
+		String testUser2 = "user2";
 		r6.setCreator(testUser1);
 		assertEquals(r6.getCreator(), testUser1);
-		r6.setAssignee(testUser2);
-		assertEquals(r6.getAssignee(), testUser2);
+//		r6.setAssignee(testUser2);
+//		assertEquals(r6.getAssignee(), testUser2);
 		
 	}
 }

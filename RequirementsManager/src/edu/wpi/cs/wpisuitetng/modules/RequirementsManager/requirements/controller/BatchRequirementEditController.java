@@ -42,7 +42,7 @@ public class BatchRequirementEditController<T> {
 		PRIORITY, // requirementPriority
 		ESTIMATE, // int
 		ACTUAL, // int
-		ASIGNEE, // user
+		ASSIGNEE, // username
 		PARENTID // int
 	}
 	
@@ -110,8 +110,8 @@ public class BatchRequirementEditController<T> {
 		case ACTUAL:
 			requirement.setActualEffort((Integer) changeToMake);
 			break;
-		case ASIGNEE:
-			requirement.setAssignee((User) changeToMake);
+		case ASSIGNEE:
+			requirement.setAssignee((ArrayList<String>) changeToMake);
 			break;
 		case PARENTID:
 			requirement.setParentRequirementId((Integer) changeToMake);

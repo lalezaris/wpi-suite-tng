@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @edited Michael French
  * 
  */
-public class Iteration extends AbstractModel{
+public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	private static Iteration backlog;
 	private String iterationName;
@@ -69,8 +69,10 @@ public class Iteration extends AbstractModel{
 	public static Iteration getBacklog(){
 		if (backlog == null){
 			backlog = new Iteration();
-			backlog.setIterationName("Backlog");
+			backlog.setIterationName("");
 			backlog.setRequirements(new ArrayList<Integer>());
+			backlog.startDate = null;
+			backlog.endDate = null;
 		}
 		return backlog;
 	}
@@ -114,6 +116,8 @@ public class Iteration extends AbstractModel{
 	 * @return the startDate
 	 */
 	public Date getStartDate() {
+		if(startDate == null)
+			return new Date(0);
 		return startDate;
 	}
 
@@ -128,6 +132,8 @@ public class Iteration extends AbstractModel{
 	 * @return the endDate
 	 */
 	public Date getEndDate() {
+		if(endDate == null)
+			return new Date(0);
 		return endDate;
 	}
 
@@ -249,6 +255,19 @@ public class Iteration extends AbstractModel{
 		return this.id;
 	}
 	
+	
+	/**
+	 * Two Iterations are equal if all of their fields () are equal
+	 * @param Iteration to test equality against
+	 * @return True if the Iterations are equal, false else.
+	 */
+	public boolean equals(Iteration i){
+		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
+				&& this.iterationName.equals(i.iterationName) && this.status == i.status;
+	}
+	
+	
+	
 	/**
 	 * @param json Json string to parse containing Iteration
 	 * @return The Iteration given by json
@@ -276,6 +295,18 @@ public class Iteration extends AbstractModel{
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
 //		IterationEvent.addGsonDependencies(builder);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Iteration o) {
+		if(this.startDate == null)
+			return -1;
+		if(o.startDate == null)
+			return 1;
+		return -1*(this.startDate.compareTo(o.startDate));
 	}
 
 	

@@ -27,10 +27,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @version March 28, 2013
  */
 
-public class RetrieveRequirementObserverTree implements RequestObserver{
+public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 
-	private RetrieveRequirementControllerTree controller;
-	public RetrieveRequirementObserverTree(RetrieveRequirementControllerTree controller){
+	private RetrieveRequirementControllerTree<T> controller;
+	public RetrieveRequirementObserverTree(RetrieveRequirementControllerTree<T> controller){
 		this.controller = controller;
 	}
 	/* Response to a request 
@@ -52,9 +52,11 @@ public class RetrieveRequirementObserverTree implements RequestObserver{
 		}
 
 		// parse the defect received from the core
-		Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
-		if (requirements.length > 0 && requirements[0] != null) {
-			controller.recieveData(requirements[0]);
+		//Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
+		String body = response.getBody();
+		//if (requirements.length > 0 && requirements[0] != null) {
+		if ( body != null) {
+			controller.recieveData(body);
 		}
 		else {
 			controller.errorRetrievingRequirement("No requirement received.");

@@ -8,10 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Arica Liu
- *  Tyler Stone
+ *  CDUNKERS
 **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -20,39 +18,40 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
- * 
- * Adapted from CreateDefectAction in the project Defect Tracker
- * @author Arica liu
- * 
- * @version March 24, 2013
+ * Insert Description Here
+ *
+ * @author CDUNKERS
+ *
+ * @version Apr 1, 2013
+ *
  */
-@SuppressWarnings("serial")
-public class NewIterationAction extends AbstractAction {
+public class EditUserPermissionsAction extends AbstractAction {
 
 	private final MainTabController controller;
 	
-	/**
-	 * Create a NewIterationAction
-	 * @param controller When the action is performed, controller.addNewIterationTab() is called
-	 */
-	public NewIterationAction(MainTabController controller) {
-		super("Create Iteration");
-		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
-	}
-	
-	/* 
+	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
-			controller.addNewIterationTab();
+		if(CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
+			controller.addEditUserPermissionsTab();
+			CurrentUserPermissions.updateCurrentUserPermissions();
 		}
 	}
+
+	public EditUserPermissionsAction(MainTabController controller) {
+		super("Edit User Permissions");
+		
+		System.out.println("Entered EditUserPermissions");
+		this.controller = controller;
+		
+		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
+	}
+
 }

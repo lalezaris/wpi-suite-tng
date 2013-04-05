@@ -578,16 +578,6 @@ public class RequirementPanel extends JPanel{
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelOverall.add(panelButtons, cOverall);
 		
-//		cOverall.weightx = 0.5;
-//		cOverall.weighty = 0.5;
-//		cOverall.gridx = 1;
-//		cOverall.gridy = 0;
-//		cOverall.anchor = GridBagConstraints.LINE_START;
-//		cOverall.fill = GridBagConstraints.BOTH;
-//		cOverall.gridheight = 4;
-//		cOverall.gridwidth = 4;
-//		panelOverall.add(panelTabs, cOverall);
-		
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
 		
 		JPanel leftPanel = new JPanel();
@@ -605,7 +595,6 @@ public class RequirementPanel extends JPanel{
 		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
-//		splitPane.setResizeWeight(0.5);
 		splitPane.setDividerLocation(0.5);
 		this.add(splitPane, BorderLayout.CENTER);
 		
@@ -624,17 +613,16 @@ public class RequirementPanel extends JPanel{
 
 
 		//depending on the user's permission, disable certain components
-		//UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.NONE);
-		RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();//testUser.getPermissions();
+		RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		switch (pLevel){
 		case NONE:
-			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
-					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(), 
-					notesView.getTextArea(),saveRequirementBottom, deleteRequirementBottom, cancelRequirementBottom});
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
+					deleteRequirementBottom, cancelRequirementBottom});
 			break;
 		case UPDATE: 
-			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
-				txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
+					txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
 			break;		
 		case ADMIN: break;
 		}
@@ -914,8 +902,11 @@ public class RequirementPanel extends JPanel{
 				}
 			}
 			runThatForLoop = false;
-			cmbStatus.setEnabled(enabled);
-			cmbStatus.setBackground(Color.WHITE);
+			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+			if (pLevel == RMPermissionsLevel.ADMIN){
+				cmbStatus.setEnabled(enabled);
+				cmbStatus.setBackground(Color.WHITE);
+			}
 		}
 		
 	}

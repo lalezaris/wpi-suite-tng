@@ -36,7 +36,7 @@ public class ModelMapperTest {
 	public void setUp() {
 		mapper = new ModelMapper();
 		user = new User("a", "a", "a", 1);
-		a = new Requirement(1, "a", "a", user);
+		a = new Requirement(1, "a", "a", user.getUsername());
 		b = new Requirement(2, "b", "b", null);
 	}
 

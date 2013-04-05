@@ -84,5 +84,49 @@ public class IterationTest {
 		newList.add(12);
 		newList.add(56);
 		assertEquals(iteration1.getRequirements(), newList);
+		iteration1.addRequirement(56);
+		assertEquals(iteration1.getRequirements(), newList);
+	}
+	
+	@Test
+	public void testGetBacklog(){
+		assertEquals(iteration1.getBacklog().getIterationName(), "Backlog");
+	}
+	
+	@Test
+	public void testGetIterationById(){
+		assertEquals("1", iteration1.getIterationName());
+	}
+	
+	@Test
+	public void testDateSetters(){
+		Date endDate1 = new Date();
+		Date startDate1 = new Date();
+		iteration1.setEndDate(endDate1);
+		assertEquals(endDate1, iteration1.getEndDate());
+		iteration1.setStartDate(startDate1);
+		assertEquals(startDate1, iteration1.getStartDate());
+	}
+	
+	@Test
+	public void testIDs(){
+		iteration1.setId(42);
+		assertEquals(iteration1.getId(), 42);
+	}
+	
+	@Test
+	public void testStatuses(){
+		iteration1.setStatus(itstatus3);
+		assertEquals(itstatus3, iteration1.getStatus());
+	}
+	
+	@Test
+	public void testPlaceholderFunctions(){
+		assertEquals(iteration1.identify(iteration1), null);
+	}
+	
+	@Test
+	public void testToString(){
+		assertEquals("Iteration " + iteration1.getIterationName(), "Iteration 1");
 	}
 }

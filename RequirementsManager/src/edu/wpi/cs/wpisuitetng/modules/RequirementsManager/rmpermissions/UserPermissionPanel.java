@@ -62,8 +62,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UserPermissionPanel extends JPanel{
 	
-	protected User[] allUsers;
-	protected UserPermission[] allPermissions;
+
+	
+	protected static User[] allUsers;
+	protected static UserPermission[] allPermissions;
 	protected boolean gotUsers, gotPermissions;
 		
 	/* the parent view*/
@@ -276,6 +278,14 @@ public class UserPermissionPanel extends JPanel{
 			setUpUsersDisplay();
 		}		
 		
+		public static User[] getLastKnownUsers(){
+			return allUsers;
+		}
+		public static UserPermission[] getLastKnownPermissions(){
+			return allPermissions;
+		}
+		
+		
 		/**
 		 * @param selected the selected names
 		 * @param level the new permission level to put those names at
@@ -343,8 +353,7 @@ public class UserPermissionPanel extends JPanel{
 				System.out.println("PERM:" + this.allPermissions[i].getUsername());
 			
 		}
-		
-		
+
 		protected void setUpUsersDisplay(){
 			System.out.println("Setting up Users");
 			List<String> none = new ArrayList<String>();

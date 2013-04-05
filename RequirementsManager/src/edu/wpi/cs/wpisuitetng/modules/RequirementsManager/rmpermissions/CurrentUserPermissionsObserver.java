@@ -34,7 +34,7 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 			}
 		}
 		//System.out.println("User Perm: Got users");
-		CurrentUserPermissions.setUser(user);
+		CurrentUserPermissions.setUsers(user, users);
 		
 	}
 

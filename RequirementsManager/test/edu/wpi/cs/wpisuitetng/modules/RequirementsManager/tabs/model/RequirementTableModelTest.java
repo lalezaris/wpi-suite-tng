@@ -28,7 +28,7 @@ public class RequirementTableModelTest {
 	public void dataAndHeaderFieldsInitialized() {
 		assertTrue(rtm1.columnNames != null);
 		assertTrue(rtm1.data != null);
-		assertEquals(8, rtm1.columnNames.length);
+		assertEquals(9, rtm1.columnNames.length);
 		assertEquals(0, rtm1.data.size());
 	}
 

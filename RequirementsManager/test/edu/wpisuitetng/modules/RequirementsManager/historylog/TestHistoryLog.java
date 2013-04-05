@@ -96,8 +96,7 @@ public class TestHistoryLog {
 		
 		aChange2.updateChangeFromDiff(req1, req2, manager);
 		System.out.println(aChange2.getChange());
-		assertEquals(aChange2.getChange(), "Title changed from title1 to title2.\nDescription changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"\nAssignee changed from bill to Joe.\n");
-		
+		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
 	}
 	
 	@Test
@@ -106,9 +105,11 @@ public class TestHistoryLog {
 		
 		aChange.updateChangeFromDiff(req3, req4, manager);
 		System.out.println("\n\nTEST 2" + aChange.getChange());
-		assertEquals("Title changed from title3 to title4." +
-				"\nSub Requirement 2 removed" +
-				"\nSub Requirement 3 added\n", aChange.getChange());
+		assertEquals("" +
+				"Title changed from title3 to title4.\n"+
+				"Sub Requirement 2 removed\n"+
+				"Sub Requirement 3 added\n"+
+				"", aChange.getChange());
 	}
 	
 	@Test
@@ -142,27 +143,7 @@ public class TestHistoryLog {
 		
 		
 		OldSmallNewBig.updateChangeFromDiff(req5, req6, manager);
-		assertEquals("Title changed from ParentTitle5 to ParentTitle6." +
-				"\nSub Requirement 80 added" +
-				"\nSub Requirement 81 added" +
-				"\nSub Requirement 82 added" +
-				"\nSub Requirement 83 added" +
-				"\nSub Requirement 84 added" +
-				"\nSub Requirement 85 added" +
-				"\nSub Requirement 86 added" +
-				"\nSub Requirement 87 added" +
-				"\nSub Requirement 88 added" +
-				"\nSub Requirement 89 added" +
-				"\nSub Requirement 90 added" +
-				"\nSub Requirement 91 added" +
-				"\nSub Requirement 92 added" +
-				"\nSub Requirement 93 added" +
-				"\nSub Requirement 94 added" +
-				"\nSub Requirement 95 added" +
-				"\nSub Requirement 96 added" +
-				"\nSub Requirement 97 added" +
-				"\nSub Requirement 98 added" +
-				"\nSub Requirement 99 added\n", OldSmallNewBig.getChange());
+		assertEquals("Title changed from ParentTitle5 to ParentTitle6.\nSub Requirement 80 added\nSub Requirement 81 added\nSub Requirement 82 added\nSub Requirement 83 added\nSub Requirement 84 added\nSub Requirement 85 added\nSub Requirement 86 added\nSub Requirement 87 added\nSub Requirement 88 added\nSub Requirement 89 added\nSub Requirement 90 added\nSub Requirement 91 added\nSub Requirement 92 added\nSub Requirement 93 added\nSub Requirement 94 added\nSub Requirement 95 added\nSub Requirement 96 added\nSub Requirement 97 added\nSub Requirement 98 added\nSub Requirement 99 added", OldSmallNewBig.getChange());
 		
 		OldBigNewSmall.updateChangeFromDiff(req6, req5, manager);
 		assertEquals("Title changed from ParentTitle6 to ParentTitle5." +
@@ -221,7 +202,7 @@ public class TestHistoryLog {
 		req4.updateNotes(notes2);
 		
 		aChange.updateChangeFromDiff(req3, req4, manager);
-		assertEquals("Title changed from title3 to title4.\nSub Requirement 2 removed\nSub Requirement 3 added\n1 note added.\n", aChange.getChange());
+		assertEquals("<p> Title changed from title3 to title4.</p><p> 1 note added.</p>", aChange.getChange());
 	}
 	
 	@Test

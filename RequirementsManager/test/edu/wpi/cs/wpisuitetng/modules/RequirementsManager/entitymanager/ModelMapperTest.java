@@ -46,7 +46,7 @@ public class ModelMapperTest {
 		assertEquals(1, b.getId());
 		assertEquals("a", b.getTitle());
 		assertEquals("a", b.getDescription());
-		assertSame(user, b.getCreator());
+		assertSame(user.getUsername(), b.getCreator());
 	}
 	
 	@Test(expected=RuntimeException.class)

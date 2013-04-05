@@ -938,9 +938,11 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
 
-		//		if (!(txtAssignee.getText().equals(""))) {
-		//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		//		}
+		if (!(txtAssignee.getText().equals(""))) {
+			requirement.getAssignee().add(txtAssignee.getText());
+			requirement.setAssignee(requirement.getAssignee());
+		}
+
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator("");
 		}
@@ -1011,8 +1013,10 @@ public class RequirementPanel extends JPanel{
 		}
 
 		if (model.getAssignee() != null) {
-			//not a very pretty string for now
-			txtAssignee.setText(model.getAssignee().toString());
+			txtAssignee.setText(model.getAssignee().toString().equals("[]")? "" : model.getAssignee().toString());
+			//if (!(txtAssignee.getText().equals("")))
+			//(!(txtAssignee.getText().equals(""))) {
+			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
 		notesView.setNotesList(model.getNotes());
 		hv.setHistoryList(model.getHistory());

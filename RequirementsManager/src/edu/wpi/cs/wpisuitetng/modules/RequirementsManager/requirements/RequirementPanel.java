@@ -484,7 +484,7 @@ public class RequirementPanel extends JPanel{
 		txtCreator.setEnabled(false);
 		txtCreator.setText(model.getCreator());
 		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreator, cThree);
+		panelThree.add(txtCreator, cFour);
 				
 		cFour.weightx = 0.5;
 		cFour.weighty = 0.5;

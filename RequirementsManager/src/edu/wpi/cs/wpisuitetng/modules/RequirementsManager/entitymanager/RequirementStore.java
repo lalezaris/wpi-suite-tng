@@ -157,7 +157,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		serverReq.updateNotes(req.getNotes());
 	
 		//apply the changes
-		if(!db.save(serverReq, s.getProject())) {
+		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
 			throw new WPISuiteException();
 		}
 		

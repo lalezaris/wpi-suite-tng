@@ -40,12 +40,12 @@ public class HistoricalChange extends AbstractModel{
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
-			change += "Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".</p>";
 		}
 		
 		//compare Release Numbers
 		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
-			change += "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".\n";
+			change +="<p> "/*<pre>     </pre>*/+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
 		}
 		
 		if(oldR.getIteration()==null)System.out.print("JELLY JELLY JELLY JELLY OLD");
@@ -55,46 +55,46 @@ public class HistoricalChange extends AbstractModel{
 		
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
 			
-			change += "Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".</p>";
 		}
 		
 		
 		
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			change += "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"\n";
+			change +="<p> "/*<pre>     </pre>*/+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"</p>";
 		}
 		
 		//compare Statuses
 		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
-			change += "Status changed from " + oldR.getStatus().toString() + " to " + newR.getStatus().toString() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Status changed from " + oldR.getStatus().toString() + " to " + newR.getStatus().toString() + ".</p>";
 		}
 		
 		//compare Priorities
 		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
-			change += "Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".</p>";
 		}
 		
 		//compare estimate efforts
 		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
-			change += "Estimate changed from " + oldR.getEstimateEffort() + " to " + newR.getEstimateEffort() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Estimate changed from " + oldR.getEstimateEffort() + " to " + newR.getEstimateEffort() + ".</p>";
 		}
 		
 		//compare actual efforts
 		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
-			change += "Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".</p>";
 		}
 		
 		//TODO: come back to this
 		//compare sub-requirements [We'll come back to this]
 		for (int i = 0; i < oldR.getChildRequirementId().size(); i++){
 			if (!newR.getChildRequirementId().contains(oldR.getChildRequirementId().get(i))){
-				change += "Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed\n";					
+				change +="<p> "/*<pre>     </pre>*/+"Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed</p>";					
 			}
 		}
 		for (int i = 0; i < newR.getChildRequirementId().size(); i++){
 			if (!oldR.getChildRequirementId().contains(newR.getChildRequirementId().get(i))){
-				change += "Sub Requirement " + newR.getChildRequirementId().get(i) + " added\n";					
+				change += "<p> "/*<pre>     </pre>*/+"Sub Requirement " + newR.getChildRequirementId().get(i) + " added</p>";					
 			}
 		}
 		
@@ -102,16 +102,16 @@ public class HistoricalChange extends AbstractModel{
 		//change += compareSubReqs(oldR, newR);?
 		
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			change += "Assignee changed from " + oldR.getAssignee().getName() + " to " + newR.getAssignee().getName() + ".\n";
+			change += "<p> "/*<pre>     </pre>*/+"Assignee changed from " + oldR.getAssignee().getName() + " to " + newR.getAssignee().getName() + ".</p>";
 		}
 		
 		//TODO: come back to this
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
 			if (notesDifference == 1){
-				change += notesDifference + " note added.\n";
+				change += "<p> "/*<pre>     </pre>*/+notesDifference + " note added.</p>";
 			}else{
-				change += notesDifference + " notes added.\n";
+				change += "<p> "/*<pre>     </pre>*/+notesDifference + " notes added.</p>";
 			}
 		}
 		//change += compareNotesLists(oldR, newR);
@@ -168,7 +168,7 @@ public class HistoricalChange extends AbstractModel{
 	
 	@Override
 	public String toString(){
-		return "#" + getId() + " - " + getDate() + " by " + getUserName() + ": " + getChange();
+		return "<html><u>" + getUserName() + " made changes on " + getDate()+"</u>" + getChange()+"</html>";
 	}
 	
 	

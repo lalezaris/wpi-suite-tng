@@ -46,7 +46,10 @@ public class SaveChangesAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
-	/* 
+	/**
+	 * Calls the controller to save the action.
+	 * 
+	 * @param arg0 The action event to perform
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
@@ -56,5 +59,4 @@ public class SaveChangesAction extends AbstractAction {
 			controller.save();
 		//}
 	}
-
 }

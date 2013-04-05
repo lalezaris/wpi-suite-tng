@@ -22,8 +22,8 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle the saving of an iteration
- * Adapted from SaveIterationController in project IterationsManager
+ * Controller to handle the saving of an iteration.
+ * Adapted from SaveIterationController in project IterationsManager.
  * 
  * @author Tushar Narayan
  * @author Arica Liu
@@ -32,12 +32,12 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class SaveIterationController {
-
 	/** The view object containing the request fields */
 	protected IterationView view;
 
 	/**
-	 * Construct a new handler for the given view
+	 * Construct a new handler for the given view.
+	 * 
 	 * @param view the view containing the request fields
 	 */
 	public SaveIterationController(IterationView view) {

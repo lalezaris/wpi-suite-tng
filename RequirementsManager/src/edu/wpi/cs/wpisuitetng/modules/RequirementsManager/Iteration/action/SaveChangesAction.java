@@ -19,9 +19,11 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 
 /**
  * Adapted from requirements.SaveChangesAction.java
+ * Action that calls {@link SaveIterationController#save}, default mnemonic key is S.
  *	
  * @author Tushar Narayan
  *
@@ -29,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.S
  *
  */
 public class SaveChangesAction extends AbstractAction {
-
 	private final SaveIterationController controller;
 	
 	/**
@@ -42,15 +43,14 @@ public class SaveChangesAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
-	/* 
-	 * Calls the controller to save the action
-	 * @param arg0 the action event to perform
+	/**
+	 * Calls the controller to save the action.
+	 * 
+	 * @param arg0 The action event to perform
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
 		controller.save();
 	}
-
 }

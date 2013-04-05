@@ -34,7 +34,6 @@ import javax.swing.JPanel;
  * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */
 public class DatePicker {  
-
 	int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
 	int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 	JLabel l = new JLabel("", JLabel.CENTER);  

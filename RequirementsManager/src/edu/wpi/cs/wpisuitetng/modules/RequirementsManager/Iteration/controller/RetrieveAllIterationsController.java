@@ -11,7 +11,6 @@
 * Sam Abradi
 */
 
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
@@ -61,9 +60,9 @@ public class RetrieveAllIterationsController {
 
     /**
      * This method is called by the {@link RetrieveAllIterationsRequestObserver} when the
-     * response is received
+     * response is received.
      *
-     * @param Iterations an array of Iterations returned by the server
+     * @param Iterations An array of Iterations returned by the server
      */
     public void receivedData(Iteration[] Iterations) {	
 	if (Iterations.length > 0) {
@@ -76,10 +75,9 @@ public class RetrieveAllIterationsController {
 	else {
 	    // do nothing, there are no Iterations
 	}
-	
     }
 
-	/**
+	/*
 	 * TODO: proper implementation
 	 * 
 	 * @param string
@@ -87,6 +85,4 @@ public class RetrieveAllIterationsController {
 	public void errorReceivingData(String string) {
 		
 	}
-    
-    
 }

@@ -31,20 +31,18 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class SaveIterationRequestObserver implements RequestObserver {
-
 	private final IterationView view;
 
 	/**
-	 * Constructs a new UpdateIterationRequestObserver
+	 * Constructs a new UpdateIterationRequestObserver.
 	 * 
-	 * @param view	The Iteration View that will be affected by any updates.
+	 * @param view	The Iteration View that will be affected by any updates
 	 */
 	public SaveIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 
-	/* Commented out part not needed for iteration 1 but may be needed in the future
-	 * @param iReq the request to respond to
+	/*
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -60,9 +58,10 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* 
-	 * Responds with an error if unable to save iteration
-	 * @param iReq the IRequest to respond to
+	/**
+	 * Responds with an error if unable to save iteration.
+	 * 
+	 * @param iReq The IRequest to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -73,9 +72,10 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* 
+	/**
 	 * Displays a fail message if unable to save iteration
-	 * @param iReq the request to respond to
+	 * 
+	 * @param iReq The request to respond to
 	 * @param exception the exception that causes the failure to save iteration
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */

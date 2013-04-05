@@ -24,12 +24,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
  *
  */
 public class CancelIterationController {
-
 	/** The view object containing the request fields */
 	protected IterationView view;
 
 	/**
-	 * Construct a new handler for the given view
+	 * Construct a new handler for the given view.
+	 * 
 	 * @param view the view containing the request fields
 	 */
 	public CancelIterationController(IterationView view) {

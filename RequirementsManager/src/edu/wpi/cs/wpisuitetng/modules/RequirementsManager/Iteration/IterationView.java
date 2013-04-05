@@ -86,7 +86,7 @@ public class IterationView extends JPanel {
 
 
 	/**
-	 * Returns the main panel with the data fields
+	 * Returns the main panel with the data fields.
 	 * 
 	 * @return the main panel with the data fields
 	 */
@@ -96,7 +96,7 @@ public class IterationView extends JPanel {
 	
 
 	/**
-	 * Sets whether the input is enabled
+	 * Sets whether the input is enabled.
 	 * 
 	 * @param enabled
 	 */

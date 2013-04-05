@@ -399,7 +399,7 @@ public class RequirementPanel extends JPanel{
 
 		 //Move the requirement to the backlog if it is set to OPEN.
 		 if(model.getStatus() == RequirementStatus.OPEN){
-			 model.setIteration(Iteration.getBacklog());
+			 //model.setIteration(Iteration.getBacklog());
 			 cmbIteration.setEnabled(true);
 			 cmbStatus.setEnabled(true);
 		 }

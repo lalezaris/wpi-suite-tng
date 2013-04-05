@@ -63,5 +63,16 @@ public class UserPermissionView extends JPanel {
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the containingTab
+	 */
+	public Tab getTab() {
+		return containingTab;
+	}
+	
+	
 	
 }

@@ -63,8 +63,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UserPermissionPanel extends JPanel{
 	
-
-	
 	protected User[] allUsers;
 	protected UserPermission[] allPermissions;
 	protected boolean gotUsers, gotPermissions;
@@ -518,6 +516,18 @@ public class UserPermissionPanel extends JPanel{
 		public JList getAdminUsers() {
 			return lstAdminUsers;
 		}
+
+
+
+		/**
+		 * Enter description here.
+		 * Make sure the method's name starts with get (delete this statement)
+		 * @return the view
+		 */
+		public UserPermissionView getView() {
+			return view;
+		}
+		
 		
 		
 		

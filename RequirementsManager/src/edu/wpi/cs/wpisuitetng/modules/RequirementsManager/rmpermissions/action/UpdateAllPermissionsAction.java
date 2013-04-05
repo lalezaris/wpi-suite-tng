@@ -66,9 +66,13 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 			List<String> allUpdateUsers = this.getAllElementsInModel(updateListModel);
 			List<String> allAdminUsers = this.getAllElementsInModel(adminListModel);
 			
+			//updates the new 
 			panel.updatePermissions(allAdminUsers, RMPermissionsLevel.ADMIN);
 			panel.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
 			panel.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
+			
+			//close tab
+			panel.getView().getTab().getView().removeTabAt(panel.getView().getTab().getThisIndex());
 		}
 		
 	}

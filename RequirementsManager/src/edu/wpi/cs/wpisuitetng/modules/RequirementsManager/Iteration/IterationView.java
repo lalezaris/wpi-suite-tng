@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * Allows users to view a iteration.
+ * Allow users to view a iteration.
  * Adapted from DefectView in project DefectTracker.
  * 
  * @author Arica Liu
@@ -43,7 +43,6 @@ public class IterationView extends JPanel {
 		return IterationView.allIterations;
 	}
 	
-	
 	private IterationPanel mainPanel;
 	private SaveIterationController controller;
 	final JScrollPane mainPanelScrollPane;
@@ -51,7 +50,7 @@ public class IterationView extends JPanel {
 	private boolean inputEnabled;
 	
 	/**
-	 * Constructs a new IterationView where the user can view (and edit) a iteration.
+	 * Construct a new IterationView where the user can view (and edit) a iteration.
 	 * 
 	 * @param iteration	The iteration to show.
 	 * @param tab		The Tab holding this IterationView (can be null)
@@ -86,9 +85,9 @@ public class IterationView extends JPanel {
 
 
 	/**
-	 * Returns the main panel with the data fields
+	 * Return the main panel with the data fields.
 	 * 
-	 * @return the main panel with the data fields
+	 * @return The main panel with the data fields
 	 */
 	public JPanel getIterationPanel() {
 		return mainPanel;
@@ -96,9 +95,9 @@ public class IterationView extends JPanel {
 	
 
 	/**
-	 * Sets whether the input is enabled
+	 * Set whether the input is enabled.
 	 * 
-	 * @param enabled
+	 * @param enabled A boolean value indicating whether the input needs to be enabled or not
 	 */
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
@@ -106,7 +105,7 @@ public class IterationView extends JPanel {
 	}
 	
 	/**
-	 * Returns containgTab.
+	 * Return containgTab.
 	 * 
 	 * @return containingTab.
 	 */
@@ -114,7 +113,7 @@ public class IterationView extends JPanel {
 		return containingTab;
 	}
 	
-    /**
+    /*
      * This function will be used in future iterations.
      * 
      * @param iterations Iterations to be added.

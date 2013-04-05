@@ -100,8 +100,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 			for (int r = 0; r < iterations.length; r++) {
 				// initialize all new iteration nodes
-				if(iterations[r].getIterationName().equals(""))
-					iterations[r].setIterationName("Backlog");
+			//	if(iterations[r].getIterationName().equals(""))
+				//	iterations[r].setIterationName("Backlog");
 				iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
 			}
 

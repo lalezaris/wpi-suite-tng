@@ -34,19 +34,17 @@ import javax.swing.JPanel;
  * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */
 public class DatePicker {  
-
 	int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
 	int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
 	JLabel l = new JLabel("", JLabel.CENTER);  
 	String day = "";
 	JDialog d;
 	JButton[] button = new JButton[49];
-
 	
 	/**
-	 * Constructs a new DatePicker object
+	 * Construct a new DatePicker object
 	 * 
-	 * @param parent the JFrame to display the DatePicker object in
+	 * @param parent The JFrame to display the DatePicker object in
 	 */
 	public DatePicker(JFrame parent) {  
 		d = new JDialog();

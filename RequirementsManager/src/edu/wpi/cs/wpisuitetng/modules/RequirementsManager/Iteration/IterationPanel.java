@@ -96,7 +96,7 @@ public class IterationPanel extends JPanel {
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
 	/**
-	 * Constructs a IterationPanel for creating or editing a given Iteration.
+	 * Construct a IterationPanel for creating or editing a given Iteration.
 	 * 
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
@@ -117,7 +117,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Adds the components to the panel and places constraints on them
+	 * Add the components to the panel and place constraints on them
 	 * using the GridBagLayout manager.
 	 * @param layout The layout manager.
 	 */
@@ -331,7 +331,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the parent IterationView.
+	 * Return the parent IterationView.
 	 * 
 	 * @return the parent IterationView.
 	 */
@@ -352,7 +352,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Checks to see if the given IntegerField is empty.  
+	 * Check to see if the given IntegerField is empty.  
 	 * 
 	 * @param intf The IntergerField passed in.
 	 * @return -1 if the string is less than 0 or blank;
@@ -367,8 +367,8 @@ public class IterationPanel extends JPanel {
 		}		
 	}
 
-	/**Commented out parts are not needed for iteration 1 but may be needed in the future
-	 * Returns the model object represented by this view's fields.
+	/**
+	 * Return the model object represented by this view's fields.
 	 * 
 	 * @return the model represented by this view
 	 */
@@ -381,7 +381,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Checks to make sure that all the fields are correctly filled in.
+	 * Check to make sure that all the fields are correctly filled in.
 	 * 
 	 * @return	1 if startDate >= endDate,
 	 * 			2 if field(s) are missing,
@@ -544,6 +544,3 @@ public class IterationPanel extends JPanel {
 		return convertedDate;
 	}
 }
-
-
-

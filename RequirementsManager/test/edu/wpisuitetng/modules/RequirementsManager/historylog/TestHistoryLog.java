@@ -75,7 +75,7 @@ public class TestHistoryLog {
 	public void testReqUpdateChangeFromDiff(){
 		HistoricalChange aChange1 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		HistoricalChange aChange2 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
-		
+
 		aChange1.updateChangeFromDiff(req1, req1);
 		System.out.println(aChange1.getChange());
 		assertEquals(aChange1.getChange(), "");

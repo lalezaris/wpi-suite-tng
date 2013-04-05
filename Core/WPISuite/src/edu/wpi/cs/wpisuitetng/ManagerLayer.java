@@ -272,9 +272,9 @@ public class ManagerLayer {
         
 	}
 	
-	/**Advanced Get
+	/**
+	 * Forwards advanced get requests to the correct entity manager.
 	 * 
-	 * forwards advanced get requests to the correct entity manager
 	 * @param args - A String array of the parameters
 	 * @param cook - The cookie forward
 	 * @return String - the returned value from the advancedGet call

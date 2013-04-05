@@ -7,9 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Andrew Hurle
- * Chris Hanna took ths code from Defect Tracker and STUCK it in RequirementsManager....
- * Maybe it should wind up in a shared library...
+ * 		Andrew Hurle
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
@@ -25,9 +23,10 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 
 /**
  * Responsible for copying properties from one Model to another.
+ * 
+ * @author Andrew Hurle
  */
 public class ModelMapper {
-
 	private final Set<String> blacklist = new HashSet<String>();
 	private final MapCallback defaultMapCallback = new MapCallback() {
 		@Override
@@ -39,7 +38,7 @@ public class ModelMapper {
 	};
 	
 	/**
-	 * Construct a ModelMapper with default blacklist of "permission"
+	 * Constructs a ModelMapper with default blacklist of "permission".
 	 */
 	public ModelMapper() {
 		// this has two parameters
@@ -75,7 +74,8 @@ public class ModelMapper {
 				Object destinationValue);
 	}
 	
-	/**
+	/*
+	 * @param methodName
 	 * @return field name from given accessor name ("getBlahField" -> "blahField")
 	 */
 	private static String accessorNameToFieldName(String methodName) {
@@ -150,5 +150,4 @@ public class ModelMapper {
 	public void map(final Model source, final Model destination) throws RuntimeException {
 		this.map(source, destination, defaultMapCallback );
 	}
-	
 }

@@ -27,7 +27,6 @@ import javax.swing.JTabbedPane;
  *
  */
 public class RequirementTabsView extends JTabbedPane {
-
 	public RequirementTabsView(NotesView n) {
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);

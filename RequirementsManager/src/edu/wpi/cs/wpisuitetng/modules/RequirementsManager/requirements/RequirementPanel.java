@@ -228,7 +228,7 @@ public class RequirementPanel extends JPanel{
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
-		knownIterations[0].setIterationName("");
+		//knownIterations[0].setIterationName("");
 		cmbIteration = new JComboBox(knownIterations);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);

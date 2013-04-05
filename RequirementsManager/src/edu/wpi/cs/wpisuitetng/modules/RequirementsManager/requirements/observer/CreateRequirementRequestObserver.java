@@ -104,7 +104,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							//The line below was Tushar testing something. The parentPanel edit mode should never be CREATE!
 							//final RequestObserver requestObserver = (parentPanel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 							Request request;
-							request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.PUT);
+							request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
 							request.setBody(JsonRequest);
 							System.out.println("Sending REQ to server:" +JsonRequest );
 							request.addObserver(requestObserver);

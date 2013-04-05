@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -51,6 +52,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private Tab containingTab;
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
+	private RequirementPanel reqPanel;
 	
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
@@ -85,7 +87,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new RequirementPanel(this, requirement, editMode);
+		// TODO
+		reqPanel = new RequirementPanel(this, requirement, editMode);
+//		JPanel reqPanelContainer = new JPanel();
+//		reqPanelContainer.setLayout(new BorderLayout());
+//		reqPanelContainer.add(reqPanel, BorderLayout.CENTER);
+//		reqPanelContainer.add(new RequirementTabsView(reqPanel.getN()), BorderLayout.EAST );
+		mainPanel = reqPanel;
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);

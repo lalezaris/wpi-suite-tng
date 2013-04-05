@@ -12,6 +12,7 @@
  *  Joe Spicola
  *  Evan Polekoff
  *  Ned Shelton
+ *  Sam Lalezari
  *  Tushar Narayan
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
@@ -37,6 +38,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
@@ -53,6 +55,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
@@ -111,14 +114,22 @@ public class RequirementPanel extends JPanel{
 	protected RequirementTabsView RTabsView;
 	protected JButton createChildRequirement;
 	protected JSplitPane splitPane;
-	
+
 	/** The ArrayList of Notes**/
 	protected ArrayList<Note> notes = new ArrayList<Note>();
+
+	/** the ArrayList of HistoricalChange **/
+	protected ArrayList<HistoricalChange> history = new ArrayList<HistoricalChange>();
 
 
 	/** NotesView for updating notes **/
 	private NotesView notesView; //= new NotesView();
-	
+
+	/** HistoryView for updating history **/
+	//TODO just a book mark kind of deal
+	private HistoryView hv;
+
+
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 
@@ -127,15 +138,15 @@ public class RequirementPanel extends JPanel{
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
-/*HEAD
+	/*HEAD
 	protected GridBagLayout layout;
 
-*/
-//	protected GridBagLayout layout;
+	 */
+	//	protected GridBagLayout layout;
 	protected BorderLayout layout;
-	
-/* origin/team1-theHistoryLogBackEnd
-*/	/** The other panels */
+
+	/* origin/team1-theHistoryLogBackEnd
+	 */	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -168,7 +179,7 @@ public class RequirementPanel extends JPanel{
 	 * Values for the iteration combo box
 	 */
 	Integer[] iterationValues = {1,2,3,4,5};
-	
+
 	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 
 	/**
@@ -189,7 +200,10 @@ public class RequirementPanel extends JPanel{
 		// a = new AttachmentsView(model);
 		//h = new HistoryView(model);
 		//u = new UsersView(model);
-		
+
+		//get the list of history from the given requirement
+		hv = new HistoryView(model);
+
 		// Indicate that input is enabled
 		inputEnabled = true;
 
@@ -216,6 +230,7 @@ public class RequirementPanel extends JPanel{
 		GridBagConstraints cThree = new GridBagConstraints();
 		GridBagConstraints cFour = new GridBagConstraints();
 		GridBagConstraints cButtons = new GridBagConstraints();
+		GridBagConstraints c = new GridBagConstraints();
 
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
@@ -252,7 +267,8 @@ public class RequirementPanel extends JPanel{
 		txtAssignee = new JTextField(15);
 
 		notesView.setNotesList(this.getNotesArrayList());
-		RTabsView = new RequirementTabsView(notesView);
+		hv.setHistoryList(this.getHistoryList());
+		RTabsView = new RequirementTabsView(notesView, hv);
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -276,21 +292,16 @@ public class RequirementPanel extends JPanel{
 		cmbIteration.addActionListener(new IterationListener());
 
 		/**Estimate Listener*/
-/*  HEAD
 
-		txtEstimate.addActionListener(new EstimateListener());
 
-=======*/
-		
 		txtEstimate.addKeyListener(new EstimateListener());
-		
+
 		/**Title and Description Listener*/
-		
+
 		txtTitle.addKeyListener(new SaveListener());
 		txtDescription.addKeyListener(new SaveListener());
-		
-/*  origin/team1-theHistoryLogBackEnd
-*/		// set maximum widths of components so they are not stretched
+
+		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
@@ -325,495 +336,483 @@ public class RequirementPanel extends JPanel{
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
-/*  HEAD
+		/*  HEAD
 
 		cOne.insets = new Insets(0,10,0,0);
 		cOne.gridx = 0;
 		cOne.gridy = 1;
 =======*/
-		
+
 		cOne.insets = new Insets(5,0,0,0);
 		cOne.gridx = 2;
 		cOne.gridy = 0;
-/*  origin/team1-theHistoryLogBackEnd
-*/		cOne.weightx = 0.5;
-		cOne.weighty = 0;
-		cOne.gridwidth = 1;
-		lblTitleError.setVisible(false);
-		lblTitleError.setForeground(Color.RED);
-		panelOne.add(lblTitleError, cOne);
+		/*  origin/team1-theHistoryLogBackEnd
+		 */		cOne.weightx = 0.5;
+		 cOne.weighty = 0;
+		 cOne.gridwidth = 1;
+		 lblTitleError.setVisible(false);
+		 lblTitleError.setForeground(Color.RED);
+		 panelOne.add(lblTitleError, cOne);
 
-		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
-		cOne.gridx = 0;
-		cOne.gridy = 1;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		panelOne.add(lblReleaseNumber, cOne);
+		 cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
+		 cOne.gridx = 0;
+		 cOne.gridy = 1;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 panelOne.add(lblReleaseNumber, cOne);
 
-		cOne.gridx = 1;
-		cOne.gridy = 1;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		panelOne.add(txtReleaseNumber, cOne);
+		 cOne.gridx = 1;
+		 cOne.gridy = 1;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 panelOne.add(txtReleaseNumber, cOne);
 
-		cOne.gridx = 0;
-		cOne.gridy = 2;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		panelOne.add(lblIteration, cOne);
+		 cOne.gridx = 0;
+		 cOne.gridy = 2;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 panelOne.add(lblIteration, cOne);
 
-		cOne.gridx = 1;
-		cOne.gridy = 2;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		//Default the Iteration Box based on the valus of the estimate (Don't let you choose it if the estimate is blank).
-		if(model.getEstimateEffort() > 0) {
-			cmbIteration.setEnabled(true);
-			cmbIteration.setBackground(Color.WHITE);
-		}
-		else
-			cmbIteration.setEnabled(false);
-		
-		//Default the save button depending on what is filled in (Title and Description).
-		if(!model.getTitle().equals("") && !model.getDescription().equals("") && model.getTitle() != null && model.getDescription() != null){
-			saveRequirementBottom.setEnabled(true);
-		}
-		else{
-			saveRequirementBottom.setEnabled(false);
-		}
-		
-		//Move the requirement to the backlog if it is set to OPEN.
-		if(model.getStatus() == RequirementStatus.OPEN){
-			model.setIteration(Iteration.getBacklog());
-			cmbIteration.setEnabled(true);
-			cmbStatus.setEnabled(true);
-		}
-		
-		else if(model.getStatus() == RequirementStatus.INPROGRESS)
-			deleteRequirementBottom.setEnabled(false);
-		else
-			deleteRequirementBottom.setEnabled(true);
-		//Allow the iteration of a completed requirement to be changed.
-		/*else if(model.getStatus() == RequirementStatus.COMPLETE){
+		 cOne.gridx = 1;
+		 cOne.gridy = 2;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 //Default the Iteration Box based on the valus of the estimate (Don't let you choose it if the estimate is blank).
+		 if(model.getEstimateEffort() > 0) {
+			 cmbIteration.setEnabled(true);
+			 cmbIteration.setBackground(Color.WHITE);
+		 }
+		 else
+			 cmbIteration.setEnabled(false);
+
+		 //Default the save button depending on what is filled in (Title and Description).
+		 if(!model.getTitle().equals("") && !model.getDescription().equals("") && model.getTitle() != null && model.getDescription() != null){
+			 saveRequirementBottom.setEnabled(true);
+		 }
+		 else{
+			 saveRequirementBottom.setEnabled(false);
+		 }
+
+		 //Move the requirement to the backlog if it is set to OPEN.
+		 if(model.getStatus() == RequirementStatus.OPEN){
+			 model.setIteration(Iteration.getBacklog());
+			 cmbIteration.setEnabled(true);
+			 cmbStatus.setEnabled(true);
+		 }
+
+		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
+			 deleteRequirementBottom.setEnabled(false);
+		 else
+			 deleteRequirementBottom.setEnabled(true);
+		 //Allow the iteration of a completed requirement to be changed.
+		 /*else if(model.getStatus() == RequirementStatus.COMPLETE){
 			cmbIteration.setEnabled(true);
 			cmbStatus.setSelectedIndex(2);
 		}*/
-		
-		panelOne.add(cmbIteration, cOne);
 
-		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
-		layoutTwo = new GridBagLayout();
-		panelTwo.setLayout(layoutTwo);
+		 panelOne.add(cmbIteration, cOne);
 
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cTwo.gridx = 0;
-		cTwo.gridy = 0;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		panelTwo.add(lblDescription, cTwo);
+		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutTwo = new GridBagLayout();
+		 panelTwo.setLayout(layoutTwo);
 
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cTwo.gridx = 1;
-		cTwo.gridy = 0;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		lblDescriptionError.setVisible(false);
-		lblDescriptionError.setForeground(Color.RED);
-		panelTwo.add(lblDescriptionError, cTwo);
+		 cTwo.insets = new Insets(10,10,5,0);
+		 cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		 cTwo.gridx = 0;
+		 cTwo.gridy = 0;
+		 cTwo.weightx = 0.5;
+		 cTwo.weighty = 0.5;
+		 panelTwo.add(lblDescription, cTwo);
 
-		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
-		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
-		cTwo.insets = new Insets(0,10,10,0);
-		cTwo.gridx = 0;
-		cTwo.gridy = 1;
-		cTwo.weightx = 0.5;
-		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 2;
-		panelTwo.add(scrollPaneDescription, cTwo);
-/*  HEAD
+		 cTwo.insets = new Insets(10,10,5,0);
+		 cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		 cTwo.gridx = 1;
+		 cTwo.gridy = 0;
+		 cTwo.weightx = 0.5;
+		 cTwo.weighty = 0.5;
+		 lblDescriptionError.setVisible(false);
+		 lblDescriptionError.setForeground(Color.RED);
+		 panelTwo.add(lblDescriptionError, cTwo);
 
-		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
-=======*/
-		
-		//Panel Three - panel below panel two -------------------------------------------------------------------------------------
-				//Use a grid bag layout manager
-/*  origin/team1-theHistoryLogBackEnd
-*/		layoutThree = new GridBagLayout();
-		panelThree.setLayout(layoutThree);
+		 JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
+		 cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
+		 cTwo.insets = new Insets(0,10,10,0);
+		 cTwo.gridx = 0;
+		 cTwo.gridy = 1;
+		 cTwo.weightx = 0.5;
+		 cTwo.weighty = 0.5;
+		 cTwo.gridwidth = 2;
+		 panelTwo.add(scrollPaneDescription, cTwo);
 
-		cThree.insets = new Insets(10,10,10,0);
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 0;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblStatus, cThree);
+		 //Panel Three - panel below panel one -------------------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutThree = new GridBagLayout();
+		 panelThree.setLayout(layoutThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 0;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		cmbStatus.setSelectedItem(requirementStatusValues[0]);
-		panelThree.add(cmbStatus, cThree);
+		 cThree.insets = new Insets(10,10,10,0);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 0;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblStatus, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 0;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblPriority, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 0;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 cmbStatus.setSelectedItem(requirementStatusValues[0]);
+		 panelThree.add(cmbStatus, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 3;
-		cThree.gridy = 0;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
-		cmbPriority.setBackground(Color.WHITE);
-		panelThree.add(cmbPriority, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 2;
+		 cThree.gridy = 0;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblPriority, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 1;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblEstimate, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 3;
+		 cThree.gridy = 0;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 cmbPriority.setSelectedItem(requirementPriorityValues[1]);
+		 cmbPriority.setBackground(Color.WHITE);
+		 panelThree.add(cmbPriority, cThree);
 
-		//cThree.fill = GridBagConstraints.HORIZONTAL;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 1;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtEstimate, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 1;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblEstimate, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 2;
-		cThree.gridy = 1;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblActual, cThree);
+		 //cThree.fill = GridBagConstraints.HORIZONTAL;
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 1;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtEstimate, cThree);
 
-		//cThree.fill = GridBagConstraints.HORIZONTAL;
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 3;
-		cThree.gridy = 1;
-		panelThree.add(txtActual, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 2;
+		 cThree.gridy = 1;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblActual, cThree);
 
-/*  HEAD
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 2;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblCreatedDate, cThree);
+		 //cThree.fill = GridBagConstraints.HORIZONTAL;
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 3;
+		 cThree.gridy = 1;
+		 panelThree.add(txtActual, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 2;
-		txtCreatedDate.setEnabled(false);
-		txtCreatedDate.setText(model.getCreationDate().toString());
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreatedDate, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 2;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblCreatedDate, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 3;
-		panelThree.add(lblModifiedDate, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 2;
+		 txtCreatedDate.setEnabled(false);
+		 txtCreatedDate.setText(model.getCreationDate().toString());
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtCreatedDate, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 3;
-		txtModifiedDate.setEnabled(false);
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtModifiedDate, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 3;
+		 panelThree.add(lblModifiedDate, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 4;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblCreator, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 3;
+		 txtModifiedDate.setEnabled(false);
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtModifiedDate, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 4;
-		txtCreator.setEnabled(false);
-		txtCreator.setText(model.getCreator().getUsername());
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreator, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 4;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblCreator, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 0;
-		cThree.gridy = 5;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(lblAssignee, cThree);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 4;
+		 txtCreator.setEnabled(false);
+		 txtCreator.setText(model.getCreator());
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtCreator, cThree);
 
-		cThree.weightx = 0.5;
-		cThree.weighty = 0.5;
-		cThree.gridx = 1;
-		cThree.gridy = 5;
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtAssignee, cThree);
-=======*/
-		//Panel Four - panel below panel three -------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
-		
-		layoutFour = new GridBagLayout();
-		panelFour.setLayout(layoutFour);
-		
-		cFour.insets = new Insets(10,10,10,0);
-		
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 0;
-		cFour.gridy = 0;
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(lblCreatedDate, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 1;
-		cFour.gridy = 0;
-		txtCreatedDate.setEnabled(false);
-		txtCreatedDate.setText(model.getCreationDate().toString());
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(txtCreatedDate, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 0;
-		cFour.gridy = 1;
-		panelFour.add(lblModifiedDate, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 1;
-		cFour.gridy = 1;
-		txtModifiedDate.setEnabled(false);
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(txtModifiedDate, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 0;
-		cFour.gridy = 2;
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(lblCreator, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 1;
-		cFour.gridy = 2;
-		txtCreator.setEnabled(false);
-		txtCreator.setText(model.getCreator());
-		cThree.anchor = GridBagConstraints.LINE_START;
-		panelThree.add(txtCreator, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 0;
-		cFour.gridy = 3;
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(lblAssignee, cFour);
-				
-		cFour.weightx = 0.5;
-		cFour.weighty = 0.5;
-		cFour.gridx = 1;
-		cFour.gridy = 3;
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(txtAssignee, cFour);
-/*  origin/team1-theHistoryLogBackEnd
-*/
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 5;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(lblAssignee, cThree);
 
-		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
-		layoutButtons = new GridBagLayout();
-		panelButtons.setLayout(layoutButtons);
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 1;
+		 cThree.gridy = 5;
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtAssignee, cThree);
 
-		if (editMode == Mode.EDIT) { 
-			if(model.getStatus() == RequirementStatus.NEW ||
-					model.getStatus() == RequirementStatus.OPEN ||
-					model.getStatus() == RequirementStatus.INPROGRESS){
-				cButtons.weightx = 0.5;
-				cButtons.weighty = 0.5;
-				cButtons.gridx = 0;
-				cButtons.gridy = 0;
-				panelButtons.add(createChildRequirement, cButtons);
-			}
-		}
+		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
+		 //Use a grid bag layout manager
 
-		cButtons.weightx = 0.5;
-		cButtons.weighty = 0.5;
-		cButtons.gridx = 0;
-		cButtons.gridy = 6;
-		panelButtons.add(saveRequirementBottom, cButtons);
+		 layoutFour = new GridBagLayout();
+		 panelFour.setLayout(layoutFour);
 
-		cButtons.weightx = 0.5;
-		cButtons.weighty = 0.5;
-		cButtons.gridx = 2;
-		cButtons.gridy = 6;
-		deleteRequirementBottom.setVisible(false);
-		panelButtons.add(deleteRequirementBottom, cButtons);
+		 cFour.insets = new Insets(10,10,10,0);
 
-		cButtons.weightx = 0.5;
-		cButtons.weighty = 0.5;
-		cButtons.gridx = 1;
-		cButtons.gridy = 6;
-		panelButtons.add(cancelRequirementBottom, cButtons);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 0;
+		 cFour.gridy = 0;
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(lblCreatedDate, cFour);
 
-		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
-		layoutTabs = new GridBagLayout();
-		panelTabs.setLayout(layoutTabs);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 1;
+		 cFour.gridy = 0;
+		 txtCreatedDate.setEnabled(false);
+		 txtCreatedDate.setText(model.getCreationDate().toString());
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(txtCreatedDate, cFour);
 
-		cOverall.fill = GridBagConstraints.BOTH;
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 0;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		panelTabs.add(RTabsView, cOverall);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 0;
+		 cFour.gridy = 1;
+		 panelFour.add(lblModifiedDate, cFour);
 
-		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
-		layoutOverall = new GridBagLayout();
-		panelOverall.setLayout(layoutOverall);
-		//Overall Panel
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 0;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		panelOverall.add(panelOne, cOverall);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 1;
+		 cFour.gridy = 1;
+		 txtModifiedDate.setEnabled(false);
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(txtModifiedDate, cFour);
 
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 1;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		panelOverall.add(panelTwo, cOverall);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 0;
+		 cFour.gridy = 2;
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(lblCreator, cFour);
 
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 2;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-		panelOverall.add(panelThree, cOverall);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 1;
+		 cFour.gridy = 2;
+		 txtCreator.setEnabled(false);
+		 txtCreator.setText(model.getCreator());
+		 cThree.anchor = GridBagConstraints.LINE_START;
+		 panelThree.add(txtCreator, cFour);
 
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 3;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-/*  HEAD
-		panelOverall.add(panelButtons, cOverall);
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 0;
+		 cFour.gridy = 3;
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(lblAssignee, cFour);
 
-=======*/
-		panelOverall.add(panelFour, cOverall);
-		
-/*  origin/team1-theHistoryLogBackEnd
-*/		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridx = 0;
-		cOverall.gridy = 4;
-		cOverall.anchor = GridBagConstraints.LINE_START;
-/*  HEAD
-		cOverall.fill = GridBagConstraints.BOTH;
-		cOverall.gridheight = 4;
-		cOverall.gridwidth = 4;
-		panelOverall.add(panelTabs, cOverall);
-
-		// add to this Panel -----------------------------------------------------------------------------------------------------------------
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(panelOverall, c);		
-
-=======*/
-		panelOverall.add(panelButtons, cOverall);
-		
-		// add to this Panel -----------------------------------------------------------------------------------------------------------------
-		
-		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new GridBagLayout());
-		GridBagConstraints cPane = new GridBagConstraints();
-		
-		cPane.anchor = GridBagConstraints.FIRST_LINE_START;
-		cPane.weightx = 0.1;
-		cPane.weighty = 0.1;
-		cPane.gridx = 0;
-		cPane.gridy = 0;
-		leftPanel.add(panelOverall,cPane);
-		
-		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
-		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
-		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
-		splitPane.setDividerLocation(0.5);
-		this.add(splitPane, BorderLayout.CENTER);
-		
-/*  origin/team1-theHistoryLogBackEnd
-*/		//depending on the mode, disable certain components
-		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
-			cmbStatus.setEnabled(false);
-			txtActual.setEnabled(false);
-		}
-
-		if (editMode == Mode.CHILD) {
-			cmbIteration.setEnabled(false);
-			txtReleaseNumber.setEnabled(false);
-		}
-
-		if(editMode == Mode.EDIT && !model.isTopLevelRequirement()){
-			cmbStatus.setEnabled(false);
-			cmbIteration.setEnabled(false);
-			txtReleaseNumber.setEnabled(false);
-			txtActual.setEnabled(false);
-			
-		}
-		// depending on the status and sub-requirements, disable certain components
-		if (model.getStatus() == RequirementStatus.INPROGRESS
-				|| model.getStatus() == RequirementStatus.COMPLETE){
-			//TODO: uncomment the next line once busy waiting issue is fixed
-				//|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
-			txtEstimate.setEnabled(false);
-		}
+		 cFour.weightx = 0.5;
+		 cFour.weighty = 0.5;
+		 cFour.gridx = 1;
+		 cFour.gridy = 3;
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(txtAssignee, cFour);
 
 
-		//depending on the user's permission, disable certain components
-		RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		switch (pLevel){
-		case NONE:
-			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
-					txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
-					deleteRequirementBottom, cancelRequirementBottom, createChildRequirement});
-			break;
-		case UPDATE: 
-			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
-					txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
-			break;		
-		case ADMIN: break;
-		}
+		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutButtons = new GridBagLayout();
+		 panelButtons.setLayout(layoutButtons);
+
+		 if (editMode == Mode.EDIT) { 
+			 if(model.getStatus() == RequirementStatus.NEW ||
+					 model.getStatus() == RequirementStatus.OPEN ||
+					 model.getStatus() == RequirementStatus.INPROGRESS){
+				 cButtons.weightx = 0.5;
+				 cButtons.weighty = 0.5;
+				 cButtons.gridx = 0;
+				 cButtons.gridy = 0;
+				 panelButtons.add(createChildRequirement, cButtons);
+			 }
+		 }
+
+		 cButtons.weightx = 0.5;
+		 cButtons.weighty = 0.5;
+		 cButtons.gridx = 0;
+		 cButtons.gridy = 6;
+		 panelButtons.add(saveRequirementBottom, cButtons);
+
+		 cButtons.weightx = 0.5;
+		 cButtons.weighty = 0.5;
+		 cButtons.gridx = 2;
+		 cButtons.gridy = 6;
+		 deleteRequirementBottom.setVisible(false);
+		 panelButtons.add(deleteRequirementBottom, cButtons);
+
+		 cButtons.weightx = 0.5;
+		 cButtons.weighty = 0.5;
+		 cButtons.gridx = 1;
+		 cButtons.gridy = 6;
+		 panelButtons.add(cancelRequirementBottom, cButtons);
+
+		 //Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutTabs = new GridBagLayout();
+		 panelTabs.setLayout(layoutTabs);
+
+		 cOverall.fill = GridBagConstraints.BOTH;
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 0;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelTabs.add(RTabsView, cOverall);
+
+
+		 //Panel Overall - panel holding all other panels --------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutOverall = new GridBagLayout();
+		 panelOverall.setLayout(layoutOverall);
+		 //Overall Panel
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 0;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelOverall.add(panelOne, cOverall);
+
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 1;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelOverall.add(panelTwo, cOverall);
+
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 2;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelOverall.add(panelThree, cOverall);
+
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 3;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelOverall.add(panelButtons, cOverall);
+
+		 panelOverall.add(panelFour, cOverall);
+
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 4;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 cOverall.fill = GridBagConstraints.BOTH;
+		 cOverall.gridheight = 4;
+		 cOverall.gridwidth = 4;
+		 panelOverall.add(panelTabs, cOverall);
+
+		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
+		 //		c.weightx = 0.5;
+		 //		c.weighty = 0.5;
+		 //		c.gridx = 0;
+		 //		c.gridy = 0;
+		 //		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		 //		this.add(panelOverall, c);		
+
+		 panelOverall.add(panelButtons, cOverall);
+
+		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
+
+		 JPanel leftPanel = new JPanel();
+		 leftPanel.setLayout(new GridBagLayout());
+		 GridBagConstraints cPane = new GridBagConstraints();
+
+		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
+		 cPane.weightx = 0.1;
+		 cPane.weighty = 0.1;
+		 cPane.gridx = 0;
+		 cPane.gridy = 0;
+		 leftPanel.add(panelOverall,cPane);
+
+		 JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		 JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+
+		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+		 splitPane.setDividerLocation(0.5);
+		 this.add(splitPane, BorderLayout.CENTER);
+
+		 //depending on the mode, disable certain components
+		 if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
+			 cmbStatus.setEnabled(false);
+			 txtActual.setEnabled(false);
+		 }
+
+		 if (editMode == Mode.CHILD) {
+			 cmbIteration.setEnabled(false);
+			 txtReleaseNumber.setEnabled(false);
+		 }
+
+		 if(editMode == Mode.EDIT && !model.isTopLevelRequirement()){
+			 cmbStatus.setEnabled(false);
+			 cmbIteration.setEnabled(false);
+			 txtReleaseNumber.setEnabled(false);
+			 txtActual.setEnabled(false);
+
+		 }
+		 // depending on the status and sub-requirements, disable certain components
+
+		 if (model.getStatus() == RequirementStatus.INPROGRESS
+				 || model.getStatus() == RequirementStatus.COMPLETE){
+			 //TODO: uncomment the next line once busy waiting issue is fixed
+			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
+			 txtEstimate.setEnabled(false);
+		 }
+
+
+		 //depending on the user's permission, disable certain components
+		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		 switch (pLevel){
+		 case NONE:
+			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
+					 deleteRequirementBottom, cancelRequirementBottom, createChildRequirement});
+			 break;
+		 case UPDATE: 
+			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
+					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			 break;		
+		 case ADMIN: break;
+		 }
 	}
-	
+
 	private void disableStuff(JComponent[] components){
 		for(JComponent com:components){
 			com.setEnabled(false);
@@ -879,6 +878,9 @@ public class RequirementPanel extends JPanel{
 		model.setActualEffort(requirement.getActualEffort());
 		requirement.updateNotes(this.getNotesArrayList());
 		model.updateNotes(requirement.getNotes());
+		requirement.updateHistory(this.getHistoryList());
+		model.updateHistory(requirement.getHistory());
+
 		model.setParentRequirementId(requirement.getParentRequirementId());
 
 		updateFields();
@@ -923,11 +925,16 @@ public class RequirementPanel extends JPanel{
 		requirement.setCreationDate(model.getCreationDate());
 
 		requirement.updateNotes(notesView.getNotesList());
+		requirement.updateHistory(hv.getHistoryList());
+		//TODO placeholder
+
+
+		requirement.updateNotes(notesView.getNotesList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
-		
-//		if (!(txtAssignee.getText().equals(""))) {
-//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
-//		}
+
+		//		if (!(txtAssignee.getText().equals(""))) {
+		//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
+		//		}
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator("");
 		}
@@ -996,30 +1003,42 @@ public class RequirementPanel extends JPanel{
 		if (model.getCreator() != null) {
 			txtCreator.setText(model.getCreator());
 		}
-//		if (model.getAssignee() != null) {
-//			txtAssignee.setText(model.getAssignee().getUsername());
-//		}
+
+		if (model.getAssignee() != null) {
+			//not a very pretty string for now
+			txtAssignee.setText(model.getAssignee().toString());
+		}
 		notesView.setNotesList(model.getNotes());
+		hv.setHistoryList(model.getHistory());
+		//TODO setHistoryList
 	}
 
 	public Mode getEditMode() {
 		return editMode;
 	}
-	
+
 	//TODO: Getter and Setter for Notes
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
 	}
 
+	public ArrayList<HistoricalChange> getHistoryList(){
+		return history;
+	}
+
 	public void setNotesArrayList(ArrayList<Note> aln) {
 		notes = aln;
 	}
-	
+
 	/**
 	 * @return the unedited requirement model
 	 */
 	public Requirement getUneditedModel() {
 		return uneditedModel;
+	}
+	
+	public void setHistoryArrayList(ArrayList<HistoricalChange> alh){
+		history = alh;
 	}
 
 	/**
@@ -1052,7 +1071,7 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-			
+
 			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
 			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
 				setTo = model.getStatus();
@@ -1107,7 +1126,7 @@ public class RequirementPanel extends JPanel{
 				}
 			}
 			runThatForLoop = false;
-			
+
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 			if (pLevel == RMPermissionsLevel.ADMIN && editMode != Mode.CHILD){
@@ -1117,7 +1136,7 @@ public class RequirementPanel extends JPanel{
 		}
 
 	}
-	
+
 	//A Key Listener on the Estimate to grey out the Iteration drop down until there is a value in the estimate.
 	public class EstimateListener implements KeyListener {
 
@@ -1130,19 +1149,15 @@ public class RequirementPanel extends JPanel{
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-/*  HEAD
-
-			JTextField contents = (JTextField) estimate.getSource();
-			
-  origin/team1-theHistoryLogBackEnd*/
+			//JTextField contents = (JTextField) estimate.getSource();
 			try{
 				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-					if (model.getParentRequirementId() >= 0) {
+				//	if (model.getParentRequirementId() >= 0) {
 						enabled = true;
-					}
+					//}
 				}
 				else{
 					enabled = false;
@@ -1151,15 +1166,15 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			
+
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);
-			
+
 		}
-		
+
 	}
-	
-	
+
+
 	//A Key Listener on the Title and Description to grey out the save button until there is text in them.
 	public class SaveListener implements KeyListener {
 
@@ -1172,10 +1187,10 @@ public class RequirementPanel extends JPanel{
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-			
+
 			try{
 				if((txtTitle.getText().equals("") || txtEstimate.getText() == null) || 
-					(txtDescription.getText().equals("") || txtDescription.getText() == null)){
+						(txtDescription.getText().equals("") || txtDescription.getText() == null)){
 					enabled = false;
 				}
 				else{
@@ -1192,6 +1207,3 @@ public class RequirementPanel extends JPanel{
 
 
 }
-
-
-

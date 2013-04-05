@@ -347,4 +347,13 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return 1;
 		return -1*(this.startDate.compareTo(o.startDate));
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Iteration && this.id == ((Iteration)other).id){
+			return true;
+		}
+		return false;
+	}
+
 }

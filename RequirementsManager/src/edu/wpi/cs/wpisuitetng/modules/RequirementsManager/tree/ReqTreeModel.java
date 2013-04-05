@@ -131,41 +131,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 						if (potentialIteration.getId() == reqIterationID) {
 							iterationNodes.get(z).add(nodes.get(r));
 						}
-/*
-		}
-		
-		ReqTreeNode temp = null;
-		count = 0;
-		id = 0;
-		
-		//Chris Hanna added this line
-		this.iterations = Refresher.getInstance().getInstantIterations();
-		Arrays.sort(iterations);
-		this.root.removeAllChildren();
-		
-		this.reload();
-		// Loop through all the iterations
-		for (int j = 0; j < iterations.length; j++) {
-			DefaultMutableTreeNode tempIt = new DefaultMutableTreeNode(
-					iterations[j]);
-			this.insertNodeInto(tempIt, root, 0);
-			count++;
-			
-			System.out.println("Added iteration with ID = " + iterations[j].getId());
-			
-			for (int k = 0 ; k < iterations[j].getRequirements().size(); k++){
-				
-				int reqId = iterations[j].getRequirements().get(k);
-				
-				DefaultMutableTreeNode node = null;
-				
-				for (int r = 0 ; r < requirements.length; r ++){
-					if (reqId == requirements[r].getId() && requirements[r].getStatus() != RequirementStatus.DELETED){
-						System.out.println("Iter" + iterations[j].getId() + " has Req" + requirements[r].getId());
-						if (node == null)
-							node = new DefaultMutableTreeNode(requirements[r]);
-						else node.add(new DefaultMutableTreeNode(requirements[r]));
-*/
+
 					}
 				}
 			}

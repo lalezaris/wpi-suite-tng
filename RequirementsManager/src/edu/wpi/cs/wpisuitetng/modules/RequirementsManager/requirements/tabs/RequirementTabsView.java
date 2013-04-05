@@ -13,9 +13,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 
 
 /**
@@ -26,16 +30,23 @@ import javax.swing.JTabbedPane;
  * @version Mar 25, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RequirementTabsView extends JTabbedPane {
-	public RequirementTabsView(NotesView n) {
+
+	public RequirementTabsView(NotesView n, HistoryView hv) {
+
+		//TODO get history objects from database
+//		hv = new HistoryView();
+		
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
-		addTab("History", new ImageIcon(), new HistoryView(),
-				"History");
 		addTab("Notes", new ImageIcon(), /*new NotesView()*/ n,
-				"Notes");
-		addTab("Attachments", new ImageIcon(), new AttachmentsView(),
-				"Attachments");
+		       "Notes");
+		addTab("History", new ImageIcon(), hv,
+			       "History");
+		//addTab("Attachments", new ImageIcon(), new AttachmentsView(),
+			//       "Attachments");
+
 	}
 }

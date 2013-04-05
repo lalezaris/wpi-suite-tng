@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -53,12 +54,13 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private int parentRequirementId;
+	private ArrayList<Integer> childRequirementId;
 	private int id;
 	private String creatorUsername;
 	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	private ArrayList<Integer> childIDs;
-
+	private ArrayList<HistoricalChange> history;
 	
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -68,9 +70,12 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(String title, String description){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog arrg blarg
 		this.title = title;
 		this.description = description;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
@@ -83,11 +88,14 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.creatorUsername = creatorUsername;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
@@ -101,11 +109,14 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername, ArrayList<Note> notes){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.creatorUsername = creatorUsername;
 		this.notes = notes;
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
@@ -138,6 +149,8 @@ public class Requirement extends AbstractModel{
 		this.assignee = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
 		this.childIDs = new ArrayList<Integer>();
+		this.history = new ArrayList<HistoricalChange>();
+		this.childRequirementId = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -203,9 +216,18 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Gets the releaseNumber.
+	 * replaces the ArrayList in this requirement with the given list
+	 * ONLY TO BE USED TO UPDATE THE HISTORY LIST, NOT REPLACE IT
 	 * 
-	 * @return The releaseNumber
+	 * @param h
+	 */
+	public void updateHistory(ArrayList<HistoricalChange> h){
+		this.history = h;
+	}
+	
+	/**
+	 * Gets the releaseNumber
+	 * @return the releaseNumber
 	 */
 	public String getReleaseNumber() {
 		return releaseNumber;
@@ -426,6 +448,22 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * Gets the history.
+	 * @return the history
+	 */
+	public ArrayList<HistoricalChange> getHistory() {
+		return history;
+	}
+	
+	/**
+	 * Adds a change to the history.
+	 * @param change the change being added to the history.
+	 */
+	public void addHistoricalChange(HistoricalChange change){
+		history.add(change);
+	}
+	
+	/**
 	 * Sets the iteration
 	 * @param iteration: sets the iteration 
 	 */
@@ -508,7 +546,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return this.getTitle();
+		return this.getTitle();// + "tesst";
 	}
 
 	/* 
@@ -584,4 +622,14 @@ public class Requirement extends AbstractModel{
 			return true;
 		else return false;
 	}
+
+	public ArrayList<Integer> getChildRequirementId() {
+		return childRequirementId;
+	}
+
+	public void setSubRequirements(ArrayList<Integer> newList) {
+		this.childRequirementId = (ArrayList<Integer>) newList.clone();
+		
+	}
+
 }

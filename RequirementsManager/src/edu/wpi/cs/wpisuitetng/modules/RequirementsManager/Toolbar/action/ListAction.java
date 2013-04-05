@@ -43,6 +43,11 @@ public class ListAction extends AbstractAction {
 		controller.addListRequirementTab();
 	}
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param controller
+	 */
 	public ListAction(MainTabController controller) {
 		super("List Requirements");
 		

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
- *  
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
@@ -28,9 +28,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class RequirementTableModel extends AbstractTableModel {
 
-	private String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned"};
-    private ArrayList<Object[]> data = new ArrayList<Object[]>();
-
+	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
+    protected ArrayList<Object[]> data = new ArrayList<Object[]>();
     
     /* Gets column count
      * @see javax.swing.table.TableModel#getColumnCount()
@@ -75,6 +74,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		    } else if (i == 7) {
 		    	column.setPreferredWidth(100); //ASSIGNEE
 		    }
+		    else if (i == 8) {
+		    	column.setPreferredWidth(30); //PARENT ID
+		    }
 		}
     }
     
@@ -103,16 +105,17 @@ public class RequirementTableModel extends AbstractTableModel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     @Override
-    public Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col) {
 
-    	if (col < getColumnCount() && row < getRowCount() && col > -1 && row > -1){
-    	if (col == 5 && (Integer)data.get(row)[col] == -1)
-    		return "";
-    	
-    		return data.get(row)[col];
-    	}
-    	else return "null";
-    }
+		if (col < getColumnCount() && row < getRowCount() && col > -1
+				&& row > -1) {
+			if (col == 5 && (Integer) data.get(row)[col] == -1)
+				return "";
+
+			return data.get(row)[col];
+		} else
+			return "null";
+	}
     
     /**
      * Adds a row to a requirement
@@ -128,7 +131,8 @@ public class RequirementTableModel extends AbstractTableModel {
     			req.getPriority() ,
     			req.getEstimateEffort() ,
     			req.getIteration(),
-    			req.getAssignee().getUsername()};
+    			req.getAssignee(),
+    			req.getParentRequirementId()};
     	addRow(r);
     }
     

@@ -10,6 +10,7 @@
  * Contributors:
  *  Tyler Stone
  *  Arica Liu
+ *  Tushar Narayan
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
@@ -25,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -44,6 +46,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class MainTabController {
 	
 	MainTabView view;
+
+	private static MainTabController staticView;
 	
 	/**
 	 * Controls the MainTab
@@ -70,7 +74,6 @@ public class MainTabController {
 	public static MainTabController getController(){
 		return staticView;
 	}
-	private static MainTabController staticView;
 	
 	
 	/**
@@ -105,12 +108,41 @@ public class MainTabController {
 	 * @param mode The Mode to use
 	 */
 	public Tab addRequirementTab(Requirement requirement, Mode mode) {
-		Tab tab = addTab();
-		RequirementView view = new RequirementView(requirement, mode, tab);
-		tab.setComponent(view);
-		view.requestFocus();
-		
-		return tab;
+		/*
+		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",
+		 * get the id of the Requirement, and check if a tab with that title
+		 * already exists.
+		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
+		 * Switch focus to that tab, or go ahead and create a new one.
+		 */
+		String requirementTitle = requirement.getTitle();
+		int requirementId = requirement.getId();
+		int checkTabIndex = view.indexOfTab("Requirement #" + requirementId + " - " + requirementTitle);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			
+			return null;
+		}
+		else{
+			Tab tab = addTab();
+			RequirementView view = new RequirementView(requirement, mode, tab);
+			tab.setComponent(view);
+			view.requestFocus();
+
+			return tab;
+		}
+	}
+	
+	/**
+	 * Adds requirement tab
+	 * 
+	 * @param requirement requirement to add
+	 * @param parentView view to add requirement tab to
+	 * @param mode mode of requirement
+	 * @return tab
+	 */
+	public Tab addRequirementTab(Requirement requirement, RequirementView parentView, Mode mode) {
+		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 	
 	
@@ -119,6 +151,7 @@ public class MainTabController {
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
+		//already brings focus to list tab if it was opened previously
 		Tab tab = addTab();
 		RequirementListPanel panel = view.getTableModel();
 		panel.setTab(tab);
@@ -126,6 +159,19 @@ public class MainTabController {
 		panel.requestFocus();
 		return tab;
 		
+	}
+	
+	/**
+	 * Adds child requirement tab
+	 * @param requirement requirement to add
+	 * @param parentView view to add requirement to
+	 * @return tab 
+	 */
+	public Tab addChildRequirementTab(Requirement requirement, RequirementView parentView) {
+		Tab newTab = addRequirementTab(requirement, Mode.CHILD);
+		((RequirementView) newTab.getComponent()).setParentView(parentView);
+		
+		return newTab;
 	}
 	
 	/**
@@ -216,9 +262,29 @@ public class MainTabController {
 	 */
 	public Tab addNewIterationTab() {
 		Tab tab = addTab();
-		IterationView view = new IterationView(new Iteration(0, null, null), tab);
+		IterationView view = new IterationView(new Iteration("", null, null), tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;
+	}
+	
+	/**
+	 * Adds Edit Users Permissions tab
+	 * 
+	 * @return Tab returns the edit user tab
+	 */
+	public Tab addEditUserPermissionsTab() {
+		String checkTab = "Edit User Permissions";
+		int checkTabIndex = view.indexOfTab(checkTab);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			return null;
+		} else {
+			Tab tab = addTab();
+			UserPermissionView view = new UserPermissionView(tab);
+			tab.setComponent(view);
+			view.requestFocus();
+			return tab;
+		}
 	}
 }

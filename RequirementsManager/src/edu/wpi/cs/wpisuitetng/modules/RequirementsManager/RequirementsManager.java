@@ -46,7 +46,7 @@ public class RequirementsManager implements IJanewayModule {
 	public ToolbarPanel toolbarPanel;
 	
 	/**
-	 * Class Constructor 
+	 * Constructor for RequirementsManager.
 	 * 
 	 */
 	public RequirementsManager() {
@@ -73,16 +73,25 @@ public class RequirementsManager implements IJanewayModule {
 		
 		//add to the list of tabs
 		tabs.add(tab1);
-		
-		//tabController.addEditRequirementTab(new Requirement());
-		//tabController.addCreateRequirementTab();
 	}
 	
+	/** 
+	 * Returns the name of RequirementsManager.
+	 * 
+	 * @return The name of RequirementsManager
+	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getName()
+	 */
 	@Override
 	public String getName() {
 		return "Requirements Manager";
 	}
 
+	/** 
+	 * Returns the list of tabs displayed on RequirementsManager.
+	 * 
+	 * @return The list of tabs displayed on RequirementsManager
+	 * @see edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule#getTabs()
+	 */
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;

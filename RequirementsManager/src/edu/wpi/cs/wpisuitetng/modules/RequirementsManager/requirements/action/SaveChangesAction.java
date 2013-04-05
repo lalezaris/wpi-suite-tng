@@ -18,7 +18,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 
 /**
  * Adapted from JPage
@@ -44,13 +46,14 @@ public class SaveChangesAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 	
-	/* 
+	/**
+	 * Calls the controller to save the action.
+	 * 
+	 * @param arg0 The action event to perform
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		System.out.println("Hit Save Button");
-		controller.save();
+			controller.save();
 	}
-
 }

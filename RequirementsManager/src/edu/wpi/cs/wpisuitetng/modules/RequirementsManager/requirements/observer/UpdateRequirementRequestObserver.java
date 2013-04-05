@@ -22,6 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -60,8 +62,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		ResponseModel response = request.getResponse();
 
 		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
+		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 
@@ -71,6 +72,21 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						Requirement unchangedModel = ((RequirementPanel) view.getRequirementPanel()).getUneditedModel();
+						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
+						
+						/* Great! the requirement was updated! 
+						 * Now we check if the iterationID was changed.
+						 * 
+						 * If so, update all children
+						 */
+						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
+							BatchRequirementEditController<Integer> batchController = 
+									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
+							//change all children
+							batchController.instantiateChange(changedModel.getChildRequirementIds());
+						}
+						
 						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						view.setEditModeDescriptors(requirement);
 					}

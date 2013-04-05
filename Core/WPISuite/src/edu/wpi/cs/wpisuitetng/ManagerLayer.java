@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.IterationStore;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
@@ -79,7 +80,8 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementsmanagerrequirement", new RequirementStore(data));
 		map.put("iterationsmanageriteration", new IterationStore(data));
-
+		map.put("requirementsmanagerpermissions", new PermissionsStore(data));
+		
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);
@@ -270,9 +272,9 @@ public class ManagerLayer {
         
 	}
 	
-	/**Advanced Get
+	/**
+	 * Forwards advanced get requests to the correct entity manager.
 	 * 
-	 * forwards advanced get requests to the correct entity manager
 	 * @param args - A String array of the parameters
 	 * @param cook - The cookie forward
 	 * @return String - the returned value from the advancedGet call

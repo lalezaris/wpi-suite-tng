@@ -25,6 +25,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -39,17 +40,20 @@ public class RequirementTest {
 
 	Date date1, date2;
 	Requirement r1, r2, r2copy, r3, r4;
+	Requirement r5, r6;
+	ArrayList<Note> testNotes;
 	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
+	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	@Before
 	public void setUp(){
 		date1 = new Date();
 		r1 = new Requirement();
-		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
-		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.", new User("", "", "", -1));
-		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement." , new User("", "", "", -1));	
-		r4 = new Requirement(20, "Test Requirement 4", "This is the fourth test requirement.", new User("", "", "", -1));
+		r2 = new Requirement(10, "Test Requirement", "This is a test requirement.", "");
+		r2copy = new Requirement(10, "Test Requirement", "This is a test requirement.", "");
+		r3 = new Requirement(15, "Test Requirement 3", "This is another test requirement." , "");	
+		r4 = new Requirement(20, "Test Requirement 4", "This is the fourth test requirement.", "");
 		date2 = new Date();
 		status1 = NEW;
 		status2 = INPROGRESS;
@@ -59,6 +63,9 @@ public class RequirementTest {
 		priority1 = HIGH;
 		priority2 = MEDIUM;
 		priority3 = LOW;
+		r5 = new Requirement("Test Title", "Test Description");
+		testNotes = new ArrayList<Note>();
+		r6 = new Requirement(42, "Test Title 2", "Test Description 2", "", testNotes);
 	}
 	
 	/**
@@ -74,8 +81,10 @@ public class RequirementTest {
 		assertEquals(r1.getDescription(), "");
 		assertEquals(r1.getEstimateEffort(), 0);
 		assertEquals(r1.getActualEffort(), 0);
-		assertEquals(r1.getSubRequirements(), new ArrayList<Requirement>());
-	//	assertEquals(r1.getType(), "Requirement");
+	//This test needs the network to be set up
+		//assertEquals(childList.retrieveChildrenByID(r1.getId()), new ArrayList<Requirement>());
+	//Not sure if we still will implement types
+		//assertEquals(r1.getType(), "Requirement");
 		assertEquals(r1.getId(), -1);
 	}
 	
@@ -92,7 +101,7 @@ public class RequirementTest {
 		assertEquals(r2.getDescription(), "This is a test requirement.");
 		assertEquals(r2.getEstimateEffort(), 0);
 		assertEquals(r2.getActualEffort(), 0);
-		assertEquals(r2.getSubRequirements(), new ArrayList<Requirement>());
+		//assertEquals(childList.retrieveChildrenByID(r2.getId()), new ArrayList<Requirement>());
 		//assertEquals(r2.getType(), "Requirement");
 		assertEquals(r2.getId(), 10);
 	}
@@ -131,7 +140,7 @@ public class RequirementTest {
 		
 		assertEquals(0, r4.getActualEffort());
 		
-		assertEquals(r4.getSubRequirements(), new ArrayList<Requirement>());
+		//assertEquals(childList.retrieveChildrenByID(r4.getId()), new ArrayList<Requirement>());
 		
 		
 		r4.setCreationDate(date1);
@@ -154,5 +163,42 @@ public class RequirementTest {
 		String json = r3.toJSON();
 		Requirement newRequirement = Requirement.fromJSON(json);
 		assertEquals(15, newRequirement.getId());
+	}
+	
+	@Test
+	public void testNote(){
+		Note testNote1 = new Note("New Note Body", "New User");
+		r5.addNote(testNote1);
+		ArrayList<Note> containsTestNote1 = new ArrayList<Note>();
+		containsTestNote1.add(testNote1);
+		assertEquals(r5.getNotes(), containsTestNote1);
+		assertEquals(r5.countNotes(), 1);
+		assertEquals(r6.countNotes(), 0);
+		testNotes.add(new Note("First Note Body", "First Note Person"));
+		testNotes.add(new Note("Second Note Body", "Second Note Person"));
+		assertEquals(r6.countNotes(), 2);
+		assertEquals(r5.getNotes(), containsTestNote1);
+		r5.updateNotes(testNotes);
+		assertEquals(r5.getNotes(), testNotes);
+		assertEquals(r5.countNotes(), 2);
+	}
+	
+	@Test
+	public void testMoreSetters(){
+		r5.setTitle("This has to be a title string!");
+		assertEquals(r5.getTitle(), "This has to be a title string!");
+		r5.setDescription("And this must be a description string...");
+		assertEquals(r5.getDescription(), "And this must be a description string...");
+		r6.setEstimateEffort(100);
+		r6.setActualEffort(50);
+		assertEquals(r6.getEstimateEffort(), 100);
+		assertEquals(r6.getActualEffort(), 50);
+		String testUser1 = "user1";
+		String testUser2 = "user2";
+		r6.setCreator(testUser1);
+		assertEquals(r6.getCreator(), testUser1);
+//		r6.setAssignee(testUser2);
+//		assertEquals(r6.getAssignee(), testUser2);
+		
 	}
 }

@@ -26,133 +26,159 @@ import com.google.gson.GsonBuilder;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
-
 /**
  * Class for storing an iteration.
  * 
  * @author Arica Liu
  * @author Tushar Narayan
  * @author Michael Perrone
+ * @edited Michael French
+ * 
  */
-public class Iteration extends AbstractModel{
+public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	private static Iteration backlog;
-	private int iterationNumber;
+	private String iterationName;
 	private Date startDate, endDate;
 	private List<Integer> requirements;
 	private IterationStatus status;
-	
 	private int id;
 	
 	/**
-	 * @param iterationNumber
-	 * @param startDate
-	 * @param endDate
+	 * Constructor for Iteration.
+	 * 
+	 * @param iterationNumber The iteration number
+	 * @param startDate The start date of the iteration
+	 * @param endDate The end date of the iteration
 	 */
-	public Iteration(int iterationNumber, Date startDate, Date endDate) {
+	public Iteration(String iterationNumber, Date startDate, Date endDate) {
 		super();
-		this.iterationNumber = iterationNumber;
+		this.iterationName = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.requirements = new ArrayList<Integer>();
 		this.status = NEW;
 	}
 	
+	/**
+	 * Default constructor for iteration
+	 * 
+	 */
 	public Iteration(){}
 	
 	
 	/**
-	 * @returns the backlog for the given project
+	 * Get the backlog for the given project.
+	 * 
+	 * @returns The backlog for the given project
 	 */
 	public static Iteration getBacklog(){
 		if (backlog == null){
 			backlog = new Iteration();
-			backlog.setIterationNumber(-1);
+			backlog.setIterationName("Backlog");
 			backlog.setRequirements(new ArrayList<Integer>());
+			backlog.startDate = null;
+			backlog.endDate = null;
 		}
 		return backlog;
 	}
 	
 	/**
-	 * Gets an iteration by the designated ID number
+	 * Get an iteration by the designated ID number.
 	 * 
-	 * @param id the id of the 
+	 * @param id The id of the iteration
 	 */
 	public static Iteration getIterationById(int id){
-		System.out.println("Fetching Iteration by ID = " + id);
 		Iteration[] allIterations = Refresher.getInstance().getInstantIterations();
-		System.out.println("Found Some Iterations...");
 		for (Iteration i : allIterations){
-			System.out.println("Found Iteration ID = " + i.getId());
 			if (i.getId() == id)
 			{
-				System.out.println("Success");
 				return i;
 			}
 		}
-		System.out.println("Iteration Not Found");
 		return getBacklog();
 	}
 	
 	/**
-	 * @return the iterationNumber
+	 * Get the iterationNumber.
+	 * 
+	 * @return iterationNumber
 	 */
-	public int getIterationNumber() {
-		return this.iterationNumber;
+	public String getIterationName() {
+		return this.iterationName;
 	}
 	
 	/**
-	 * @param iterationNumber the iterationNumber to set
+	 * Set the iterationNumber.
+	 * 
+	 * @param iterationNumber The iterationNumber to set
 	 */
-	public void setIterationNumber(int iterationNumber) {
-		this.iterationNumber = iterationNumber;
+	public void setIterationName(String iterationNumber) {
+		this.iterationName = iterationNumber;
 	}
 	
 	/**
-	 * @return the startDate
+	 * Get the start date.
+	 * 
+	 * @return startDate
 	 */
 	public Date getStartDate() {
+		if(startDate == null)
+			return new Date(0);
 		return startDate;
 	}
 
 	/**
-	 * @param startDate the startDate to set
+	 * Set the start date.
+	 * 
+	 * @param startDate The startDate to set
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
-	 * @return the endDate
+	 * Get the end date.
+	 * 
+	 * @return endDate
 	 */
 	public Date getEndDate() {
+		if(endDate == null)
+			return new Date(0);
 		return endDate;
 	}
 
 	/**
-	 * @param endDate the endDate to set
+	 * Set the end date.
+	 * 
+	 * @param endDate The endDate to set
 	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
 	/**
-	 * @return the requirements
+	 * Get a list of requirements.
+	 * 
+	 * @return A list of requirements
 	 */
 	public List<Integer> getRequirements() {
 		return requirements;
 	}
 
 	/**
-	 * @param requirements the requirements to set
+	 * Set the requirements.
+	 * 
+	 * @param requirements The requirements to set
 	 */
 	public void setRequirements(List<Integer> requirements) {
 		this.requirements = requirements;
 	}
 	
 	/**
-	 * Assign a requirement to this iteration
-	 * @param requirement
+	 * Assign a requirement to this iteration.
+	 * 
+	 * @param requirement The ID of the requirement to be added
 	 */
 	public void addRequirement(Integer requirement){
 		if (!this.requirements.contains(requirement)){
@@ -161,23 +187,27 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
-	 * Unassigns a requirement from this iteration
-	 * @param requirement
+	 * Unassigns a requirement from this iteration.
+	 * 
+	 * @param requirement The ID of the requirement to be unassigns
 	 */
 	public void removeRequirement(Integer requirement) {
-		System.out.println("removing requirement from iteration");
 		this.requirements.remove(requirement);
 	}
 
 	/**
-	 * @return the status
+	 * Get the status.
+	 * 
+	 * @return status
 	 */
 	public IterationStatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * @param status the status to set
+	 * Set the status.
+	 * 
+	 * @param status The status to set
 	 */
 	public void setStatus(IterationStatus status) {
 		this.status = status;
@@ -185,16 +215,19 @@ public class Iteration extends AbstractModel{
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 	
+	/**
+	 * Convert this iteration into a JSON string.
+	 * 
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		String json;
@@ -204,9 +237,10 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
-	 * Converts the given list of Requirements to a JSON string
-	 * @param dlist a list of Requirement
-	 * @return a string in JSON representing the list of Requirements
+	 * Convert the given list of Iterations to a JSON string.
+	 * 
+	 * @param dlist a list of Iteration
+	 * @return a string in JSON representing the list of Iterations
 	 */
 	public static String toJSON(Iteration[] dlist) {
 		String json;
@@ -220,36 +254,53 @@ public class Iteration extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		//return toJSON();
-		if (this.iterationNumber == Iteration.getBacklog().iterationNumber)
-			return "Backlog";
+		if (this.iterationName == Iteration.getBacklog().iterationName)
+			return this.getIterationName();
 		else
-			return "Iteration " + this.getIterationNumber();
+			return "Iteration " + this.getIterationName();
 	}
 
 	
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	/**
-	 * Sets the id
-	 * @param id: sets the id 
+	 * Set the id.
+	 * 
+	 * @param id The id to be set 
 	 */
 	public void setId(int id){
 		this.id = id;
 	
 	}
 
+	/**
+	 * Get the ID.
+	 * 
+	 * @return The ID of this iteration.
+	 */
 	public int getId(){
 		return this.id;
 	}
 	
 	/**
-	 * @param json Json string to parse containing Iteration
-	 * @return The Iteration given by json
+	 * Check if the given iteration equals this iteration.
+	 * Two Iterations are equal if all of their fields () are equal.
+	 * 
+	 * @param i Iteration to test equality against this iteration
+	 * @return True if the Iterations are equal, false else
+	 */
+	public boolean equals(Iteration i){
+		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
+				&& this.iterationName.equals(i.iterationName) && this.status == i.status;
+	}
+	
+	/** Convert a Json string to an Iteration.
+	 * 
+	 * @param json Json string to be parsed
+	 * @return The corresponding Iteration
 	 */
 	public static Iteration fromJSON(String json) {
 		GsonBuilder builder = new GsonBuilder();
@@ -258,6 +309,8 @@ public class Iteration extends AbstractModel{
 	}
 	
 	/**
+	 * Convert a Json string to a list of Iteration(s).
+	 * 
 	 * @param json Json string to parse containing Requirement array
 	 * @return The Requirement array given by json
 	 */
@@ -267,15 +320,32 @@ public class Iteration extends AbstractModel{
 		return builder.create().fromJson(json, Iteration[].class);
 	}
 	
-	
-	/**
-	 * Add dependencies necessary for Gson to interact with this class
+	/*
+	 * Add dependencies necessary for Gson to interact with this class.
+	 * 
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-//		IterationEvent.addGsonDependencies(builder);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Iteration o) {
+		if(this.startDate == null)
+			return -1;
+		if(o.startDate == null)
+			return 1;
+		return -1*(this.startDate.compareTo(o.startDate));
+	}
 	
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Iteration && this.id == ((Iteration)other).id){
+			return true;
+		}
+		return false;
+	}
 
 }

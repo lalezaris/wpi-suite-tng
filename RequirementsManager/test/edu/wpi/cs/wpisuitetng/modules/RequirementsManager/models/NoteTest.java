@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  *
  * Contributors:
  *  Michael Perrone
+ *  Tushar Narayan
 **************************************************/
 
 import static org.junit.Assert.*;
@@ -27,6 +28,7 @@ public class NoteTest {
 	Note note1;
 	Note note2;
 	Note note3;
+	Note note4;
 	ArrayList<Note> notes;
 
 	@Before
@@ -35,6 +37,7 @@ public class NoteTest {
 		note1  = new Note("this is note 1", "");
 		note2 = new Note("this is note 2", "");
 		note3 = new Note("this is note 3", "");
+		note4 = new Note();
 		notes = new ArrayList<Note>();
 		System.out.println("SETUP!!!!");
 		notes.add(note1);
@@ -65,7 +68,23 @@ public class NoteTest {
 		Note n = new Note("contents","name");
 		assertEquals(n.getBody(), "contents");
 		assertEquals(n.getCreator(), "name");
-		assertTrue(java.lang.Math.abs(new Date().getTime() - n.getCreationDate().getTime()) < 100);
+		assertTrue(java.lang.Math.abs((new Date().getTime()) - (n.getCreationDate()).getTime()) < 100);
+	}
+	
+	@Test
+	public void testBlankNote(){
+		assertEquals(note4.getBody(), "");
+		assertEquals(note4.getCreator(), "[USER UNKNOWN]");
+	}
+	
+	@Test
+	public void testSetters(){
+		Date testCreationDate = new Date();
+		String testBodyString = "This is a test body string for note 4.";
+		note4.setBody(testBodyString);
+		note4.setCreationDate(testCreationDate);
+		assertEquals(note4.getBody(), testBodyString);
+		assertEquals(note4.getCreationDate(),testCreationDate);
 	}
 
 

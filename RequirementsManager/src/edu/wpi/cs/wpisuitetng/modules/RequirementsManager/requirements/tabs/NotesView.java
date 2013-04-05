@@ -141,7 +141,7 @@ public class NotesView extends JPanel {
 		c.gridwidth = 2;
 		txtNotesSaved.setText(notesListToString());
 		txtNotesSaved.setEnabled(false);
-		txtNotesSaved.setForeground(Color.BLACK);
+		txtNotesSaved.setDisabledTextColor(Color.BLACK);
 		this.add(scrollPaneNotesSaved, c);
 		/* end panel styling */
 
@@ -232,5 +232,20 @@ public class NotesView extends JPanel {
 	 */
 	public void repaintNote() {
 		this.repaint();
+	}
+	
+	
+	/**
+	 * @return returns the button which will save a note
+	 */
+	public JButton getSaveButton(){
+		return this.addNote;
+	}
+	
+	/**
+	 * @return returns the text area which is used to write the note 
+	 */
+	public JTextArea getTextArea(){
+		return this.txtNotes;
 	}
 }

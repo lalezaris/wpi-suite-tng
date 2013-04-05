@@ -56,7 +56,6 @@ public class RetrieveAllIterationsControllerTree {
 	request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
 	request.addObserver(requestObserver);
 	request.send();
-	System.out.println("SENT REFRESH REQUEST");
     }
 
     /**
@@ -72,9 +71,6 @@ public class RetrieveAllIterationsControllerTree {
 	    this.data = Iterations;
 	    Refresher.getInstance().setLastKnownIterations(Iterations);
 	    this.view.addIterations(Refresher.getInstance().getInstantIterations());
-	}
-	else {
-	    // do nothing, there are no Iterations
 	}
 	
     }

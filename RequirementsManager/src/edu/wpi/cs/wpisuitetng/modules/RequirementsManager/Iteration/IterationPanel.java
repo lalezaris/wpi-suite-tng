@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.CancelIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveChangesAction;
@@ -55,7 +56,7 @@ public class IterationPanel extends JPanel {
 	protected IterationView parent;
 
 	/** Form elements */
-	protected IntegerField txtIterationNumber;
+	protected JTextField txtIterationName;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
 	protected JLabel txtEndDate;
@@ -69,11 +70,11 @@ public class IterationPanel extends JPanel {
 	protected boolean inputEnabled;
 
 	/**Error labels*/
-	JLabel lblIterationNumberError = new JLabel("ERROR: Must have a iteration number", LABEL_ALIGNMENT);
+	JLabel lblIterationNameError = new JLabel("ERROR: Must have a iteration name", LABEL_ALIGNMENT);
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
-	JLabel lblIterationNumberError2 = new JLabel("ERROR: The iteration number already exists", LABEL_ALIGNMENT);
+	JLabel lblIterationNumberError2 = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
 	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
@@ -95,7 +96,7 @@ public class IterationPanel extends JPanel {
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
 	/**
-	 * Constructs a IterationPanel for creating or editing a given Iteration.
+	 * Construct a IterationPanel for creating or editing a given Iteration.
 	 * 
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
@@ -116,7 +117,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Adds the components to the panel and places constraints on them
+	 * Add the components to the panel and place constraints on them
 	 * using the GridBagLayout manager.
 	 * @param layout The layout manager.
 	 */
@@ -132,7 +133,7 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationNumber = new IntegerField(3);
+		txtIterationName = new JTextField("", 20);;
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
@@ -144,7 +145,7 @@ public class IterationPanel extends JPanel {
 		cancelIterationBottom.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
 
 		// Construct labels for the form fields
-		JLabel lblIterationNumber = new JLabel("Iteration Number:", LABEL_ALIGNMENT);
+		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
 		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
 		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
 
@@ -167,16 +168,16 @@ public class IterationPanel extends JPanel {
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		panelOne.add(txtIterationNumber, cOne);
+		panelOne.add(txtIterationName, cOne);
 
 		cOne.gridx = 4;
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 1;
-		lblIterationNumberError.setForeground(Color.RED);
-		lblIterationNumberError.setVisible(false);
-		panelOne.add(lblIterationNumberError, cOne);
+		lblIterationNameError.setForeground(Color.RED);
+		lblIterationNameError.setVisible(false);
+		panelOne.add(lblIterationNameError, cOne);
 
 		lblIterationNumberError2.setForeground(Color.RED);
 		lblIterationNumberError2.setVisible(false);
@@ -330,7 +331,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Returns the parent IterationView.
+	 * Return the parent IterationView.
 	 * 
 	 * @return the parent IterationView.
 	 */
@@ -347,11 +348,11 @@ public class IterationPanel extends JPanel {
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
 
-		txtIterationNumber.setEnabled(enabled);
+		txtIterationName.setEnabled(enabled);
 	}
 
 	/**
-	 * Checks to see if the given IntegerField is empty.  
+	 * Check to see if the given IntegerField is empty.  
 	 * 
 	 * @param intf The IntergerField passed in.
 	 * @return -1 if the string is less than 0 or blank;
@@ -366,21 +367,21 @@ public class IterationPanel extends JPanel {
 		}		
 	}
 
-	/**Commented out parts are not needed for iteration 1 but may be needed in the future
-	 * Returns the model object represented by this view's fields.
+	/**
+	 * Return the model object represented by this view's fields.
 	 * 
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration(0, null, null);
-		iteration.setIterationNumber(getValue(txtIterationNumber)); 
+		Iteration iteration = new Iteration("", null, null);
+		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
 		return iteration;
 	}
 
 	/**
-	 * Checks to make sure that all the fields are correctly filled in.
+	 * Check to make sure that all the fields are correctly filled in.
 	 * 
 	 * @return	1 if startDate >= endDate,
 	 * 			2 if field(s) are missing,
@@ -389,32 +390,32 @@ public class IterationPanel extends JPanel {
 	 * 			0 otherwise
 	 */
 	public int checkRequiredFields(){
-		if((getValue(txtIterationNumber) < 0)
+		if((txtIterationName.getText().compareTo("") == 0)
 				&&
 				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
 				&&
 				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(true);
+			lblIterationNameError.setVisible(true);
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
 			lblIterationNumberError2.setVisible(false);
 			lblDateOverlapError.setVisible(false);
 			return 2;
-		} else if((getValue(txtIterationNumber) < 0)
+		} else if(((txtIterationName.getText()).compareTo("") == 0)
 				&&
 				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(true);
+			lblIterationNameError.setVisible(true);
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
 			lblIterationNumberError2.setVisible(false);
 			lblDateOverlapError.setVisible(false);
 			return 2; 
-		} else if((getValue(txtIterationNumber) < 0)
+		} else if((txtIterationName.getText().compareTo("") == 0)
 				&&
 				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(true);
+			lblIterationNameError.setVisible(true);
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
@@ -424,7 +425,7 @@ public class IterationPanel extends JPanel {
 		} else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
 				&&
 				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(false);
+			lblIterationNameError.setVisible(false);
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
@@ -433,7 +434,7 @@ public class IterationPanel extends JPanel {
 			return 2;
 		}
 		else if((txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(false);
+			lblIterationNameError.setVisible(false);
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(true);
 			lblDateError.setVisible(false);
@@ -442,7 +443,7 @@ public class IterationPanel extends JPanel {
 			return 2;
 		}
 		else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNumberError.setVisible(false);
+			lblIterationNameError.setVisible(false);
 			lblStartDateError.setVisible(true);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
@@ -450,8 +451,8 @@ public class IterationPanel extends JPanel {
 			lblDateOverlapError.setVisible(false);
 			return 2;
 		}
-		else if ((getValue(txtIterationNumber) < 0)){
-			lblIterationNumberError.setVisible(true);
+		else if (txtIterationName.getText().compareTo("") == 0){
+			lblIterationNameError.setVisible(true);
 			lblStartDateError.setVisible(false);
 			lblEndDateError.setVisible(false);
 			lblDateError.setVisible(false);
@@ -463,7 +464,7 @@ public class IterationPanel extends JPanel {
 			Date startDate = StringToDate(txtStartDate.getText());
 			Date endDate = StringToDate(txtEndDate.getText());
 			if (startDate.compareTo(endDate) > 0) {
-				lblIterationNumberError.setVisible(false);
+				lblIterationNameError.setVisible(false);
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);
 				lblDateError.setVisible(true);
@@ -490,10 +491,10 @@ public class IterationPanel extends JPanel {
 		Date startDate = StringToDate(txtStartDate.getText());
 		Date endDate = StringToDate(txtEndDate.getText());
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
-		int idNum = getValue(txtIterationNumber);
+		String idName = txtIterationName.getText();
 		for (int i = 1; i < array.length; i++) {
-			if(idNum == array[i].getIterationNumber()) {
-				lblIterationNumberError.setVisible(false);
+			if(idName.compareTo(array[i].getIterationName()) == 0) {
+				lblIterationNameError.setVisible(false);
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);
 				lblDateError.setVisible(false);
@@ -501,19 +502,15 @@ public class IterationPanel extends JPanel {
 				lblDateOverlapError.setVisible(false);
 				return 3;
 			}
-			else if ((endDate.before(array[i].getStartDate()))
+			else if ((endDate.compareTo(array[i].getStartDate()) <= 0)
 					||
-					(startDate.after(array[i].getEndDate()))
-					||
-					(startDate.equals(array[i].getEndDate()))
-					||
-					(endDate.equals(array[i].getStartDate())))
+					(startDate.compareTo(array[i].getEndDate())) >= 0)
 			{
 				continue;
 			}
 			else
 			{
-				lblIterationNumberError.setVisible(false);
+				lblIterationNameError.setVisible(false);
 				lblStartDateError.setVisible(false);
 				lblEndDateError.setVisible(false);
 				lblDateError.setVisible(false);
@@ -537,12 +534,8 @@ public class IterationPanel extends JPanel {
 		try {
 			convertedDate = dateFormat.parse(aDate);
 		} catch (ParseException e) {
-			System.out.println("Error converting string to date!");
 			e.printStackTrace();
 		} 
 		return convertedDate;
 	}
 }
-
-
-

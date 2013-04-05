@@ -8,25 +8,85 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris Dunkers
-**************************************************/
+ *  Arica Liu
+ *  Sam Lalezari
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
-import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * The jPanel for all requirement history
  * TODO: implementation
  *
- * @author Chris Dunkers
+ * @author Arica Liu
+ * @author Sam Lalezari
  *
- * @version Mar 25, 2013
+ * @version April 2nd, 2013
  *
  */
-public class HistoryView extends JPanel {
-	public HistoryView() {
-		JLabel historyLabel = new JLabel("History");
-		this.add(historyLabel);
+@SuppressWarnings("serial")
+public class HistoryView extends JPanel {	
+	private JList<HistoricalChange> list;
+	private DefaultListModel<HistoricalChange> listModel;
+
+	protected ArrayList<HistoricalChange> historyAL;
+
+	/**
+	 * HistoryView Constructor
+	 * 
+	 * @param req Requirement to view the history of 
+	 */
+	public HistoryView(Requirement req) {
+		super(new BorderLayout());
+		this.setHistoryList(req.getHistory());
+		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
+
+
+		listModel = new DefaultListModel<HistoricalChange>();
+
+		for(int i = 0; i <numObjects; i++){
+			if(!listModel.contains(historyAL.get(i))){
+				listModel.add(0, historyAL.get(i));}
+		}
+
+		//Create the list and put it in a scroll pane.
+		list = new JList<HistoricalChange>(listModel);
+		list.setLayoutOrientation(JList.VERTICAL);
+
+		list.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane listScrollPane = new JScrollPane(list);
+
+		add(listScrollPane, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Changes the history array list to the given array list..
+	 * 
+	 * @param history
+	 */
+	public void setHistoryList(ArrayList<HistoricalChange> history) {
+		this.historyAL = history;
+	}
+
+	/**
+	 * Gets history list
+	 * 
+	 * @return list of history
+	 */
+	public ArrayList<HistoricalChange> getHistoryList() {
+		return this.historyAL;
 	}
 }

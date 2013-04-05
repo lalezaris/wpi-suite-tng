@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -39,7 +40,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author Chris
+ * @author Chris Dunkers
  *
  */
 public class RequirementStoreTest {

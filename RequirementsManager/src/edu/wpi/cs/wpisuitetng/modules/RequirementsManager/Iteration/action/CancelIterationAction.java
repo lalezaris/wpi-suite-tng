@@ -13,13 +13,14 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 
 /**
- * Cancels an iteration action
+ * Cancel an iteration action.
  *
  * @author CDUNKERS
  *
@@ -27,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.C
  *
  */
 public class CancelIterationAction extends AbstractAction {
-
 	private final CancelIterationController controller;
 	
 	/**
@@ -37,15 +37,17 @@ public class CancelIterationAction extends AbstractAction {
 	public CancelIterationAction(CancelIterationController controller) {
 		super("Cancel");
 		this.controller = controller;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 	}
 	
-	/* 
+	/**
+	 * Perform the action.
+	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		controller.cancel();		
 	}
-
 }
 

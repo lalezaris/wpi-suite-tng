@@ -7,7 +7,10 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Lauren Kahn, Michael Perrone, Ned Shelton, Xia Li
+ * Contributors: 	Lauren Kahn
+ * 					Michael Perrone
+ * 					Ned Shelton
+ * 					Xia Li
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
@@ -15,10 +18,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.util.Date;
 
 /**
- * Persistent Model that represents a Comment on a Requirement
+ * Persistent Model that represents a Comment on a Requirement.
  * 
  * @author Lauren Kahn
- * @author "Michael Perrone"
+ * @author Michael Perrone
  * 
  * @version Mar 20, 2013
  * 
@@ -29,7 +32,7 @@ public class Note {
 	private Date creationDate;
 
 	/**
-	 * Creates a Note with the default values
+	 * Create a Note with the default values.
 	 * 
 	 */
 	public Note() {
@@ -41,9 +44,9 @@ public class Note {
 	 * the default constructor.
 	 * 
 	 * @param user
-	 *            the User who created the Note
+	 *            The User who created the Note
 	 * @param body
-	 *            the message body of the Note
+	 *            The message body of the Note
 	 */
 	public Note(String body, String creator) {
 		this.body = body;
@@ -52,44 +55,44 @@ public class Note {
 	}
 
 	/**
-	 * Gets the body
+	 * Get the body.
 	 * 
-	 * @return the body
+	 * @return The body
 	 */
 	public String getBody() {
 		return body;
 	}
 
 	/**
-	 * Sets the body
+	 * Set the body.
 	 * 
-	 * @param body
-	 *            : sets the body
+	 * @param The body
+	 *
 	 */
 	public void setBody(String body) {
 		this.body = body;
 	}
 
 	/**
-	 * Gets the creator
+	 * Get the creator.
 	 * 
-	 * @return the creator
+	 * @return The creator
 	 */
 	public String getCreator() {
 		return creator;
 	}
 
 	/**
-	 * Gets the creationDate
+	 * Get the creationDate.
 	 * 
-	 * @return the creationDate
+	 * @return The creationDate
 	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
 	/**
-	 * Sets the creationDate
+	 * Set the creationDate
 	 * 
 	 * @param creationDate
 	 *            : sets the creationDate

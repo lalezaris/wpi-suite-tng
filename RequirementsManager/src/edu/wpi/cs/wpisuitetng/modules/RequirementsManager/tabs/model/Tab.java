@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
@@ -25,7 +26,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
  * Adapted from DummyTab in the project DefectTracker
  * 
  * @author Tyler Stone 
- * @contributors Chris Hanna Mar 27, 2013. Fixed bug related to closing a tab. 
  * @version Mar 17, 2013
  *
  */
@@ -132,10 +132,20 @@ public class Tab {
 		view.setComponentAt(getIndex(), component);
 	}
 	
+	/**
+	 * Gets this index
+	 * 
+	 * @return the index
+	 */
 	public int getThisIndex() {
 		return view.indexOfTabComponent(tabComponent);
 	}
 	
+	/**
+	 * Gets view
+	 * 
+	 * @return view
+	 */
 	public MainTabView getView() {
 		return view;
 	}

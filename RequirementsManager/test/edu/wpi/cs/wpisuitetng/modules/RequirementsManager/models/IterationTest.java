@@ -37,7 +37,8 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteratio
 public class IterationTest {
 
 	Date startDate, endDate;
-	Iteration iteration1;
+	Date startDate2, endDate2;
+	Iteration iteration1, iteration2;
 	IterationStatus itstatus1, itstatus2, itstatus3;
 
 	Requirement r1, r2, r2copy, r3, r4;
@@ -47,7 +48,10 @@ public class IterationTest {
 	public void setUp(){
 		startDate = new Date(2013, 3, 25, 3, 30, 20);
 		endDate = new Date(2013, 3, 30, 5, 10, 10);
-		iteration1 = new Iteration(1, startDate, endDate);
+		startDate2 = new Date(2013, 5, 25, 3, 30, 20);
+		endDate2 = new Date(2013, 5, 30, 5, 10, 10);
+		iteration1 = new Iteration("1", startDate, endDate);
+		iteration2 = new Iteration("2", startDate2, endDate2);
 		itstatus1 = NEW;
 		itstatus2 = OPEN;
 		itstatus3 = CLOSED;
@@ -55,7 +59,7 @@ public class IterationTest {
 	
 	@Test
 	public void testConstructor() {
-		assertEquals(iteration1.getIterationNumber(), 1);
+		assertEquals(iteration1.getIterationName(), "1");
 		assertEquals(iteration1.getStartDate(), startDate);
 		assertEquals(iteration1.getEndDate(), endDate);
 		assertEquals(iteration1.getRequirements(), new ArrayList<Integer>());
@@ -84,5 +88,65 @@ public class IterationTest {
 		newList.add(12);
 		newList.add(56);
 		assertEquals(iteration1.getRequirements(), newList);
+		iteration1.addRequirement(56);
+		assertEquals(iteration1.getRequirements(), newList);
+	}
+	
+	@Test
+	public void testGetBacklog(){
+		assertEquals(iteration1.getBacklog().getIterationName(), "Backlog");
+	}
+	
+	@Test
+	public void testGetIterationById(){
+		assertEquals("1", iteration1.getIterationName());
+	}
+	
+	@Test
+	public void testDateSetters(){
+		Date endDate1 = new Date();
+		Date startDate1 = new Date();
+		iteration1.setEndDate(endDate1);
+		assertEquals(endDate1, iteration1.getEndDate());
+		iteration1.setStartDate(startDate1);
+		assertEquals(startDate1, iteration1.getStartDate());
+	}
+	
+	@Test
+	public void testIDs(){
+		iteration1.setId(42);
+		assertEquals(iteration1.getId(), 42);
+	}
+	
+	@Test
+	public void testStatuses(){
+		iteration1.setStatus(itstatus3);
+		assertEquals(itstatus3, iteration1.getStatus());
+	}
+	
+	@Test
+	public void testPlaceholderFunctions(){
+		assertEquals(iteration1.identify(iteration1), null);
+	}
+	
+	@Test
+	public void testToString(){
+		assertEquals("Iteration " + iteration1.getIterationName(), "Iteration 1");
+	}
+	
+	@Test
+	public void testEquals(){
+		assertTrue(iteration1.equals(iteration1));
+		assertTrue(!iteration1.equals(iteration2));
+		assertTrue(iteration1.equals(new Iteration("1", startDate, endDate)));
+	}
+	
+	@Test
+	public void testChangeDates(){
+		Date d = new Date();
+		iteration1.setEndDate(d);
+		iteration2.setStartDate(d);
+		assertEquals(d,iteration1.getEndDate());
+		assertEquals(d,iteration2.getStartDate());
 	}
 }

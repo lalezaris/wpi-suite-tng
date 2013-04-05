@@ -29,15 +29,24 @@ public class AddNoteController implements ActionListener {
 		
 	private final NotesView view;
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param view
+	 */
 	public AddNoteController(NotesView view) {
 		this.view = view;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		view.addNoteToList(view.stringToNote(view.getNoteString()));
-		view.setTxtNotesSaved();
-		view.setTxtNotes();
+		if(view.getTextArea().getText().trim().equals(null)||view.getTextArea().getText().trim().equals("")){
+			//do nothing no text has been entered
+		} else {
+			view.addNoteToList(view.stringToNote(view.getNoteString()));
+			view.setTxtNotesSaved();
+			view.setTxtNotes();
+		}		
 	}
 }
 

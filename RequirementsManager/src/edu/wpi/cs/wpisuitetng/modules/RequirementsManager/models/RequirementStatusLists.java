@@ -27,7 +27,7 @@ public class RequirementStatusLists{
 	
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"INPROGRESS", "OPEN", "COMPLETE"};
+	static String[] DeletedList = {"DELETED", "OPEN"};
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 	
@@ -36,6 +36,8 @@ public class RequirementStatusLists{
 	}
 	
 	/**
+	 * Gets the list of a requirement status
+	 * 
 	 * @param status The requirement status that we are looking for the correct list for.
 	 * @return the list for that requirement status
 	 */

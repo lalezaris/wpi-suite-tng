@@ -29,19 +29,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-
 /**
- * Class for storing a Requirement
- * Adapted from Defect in project DefectManager
+ * Class for storing a Requirement.
+ * Adapted from Defect in project DefectManager.
  * 
  * @author Tushar Narayan
  * 
- *  Mar 17, 2013
- * 
  * @edited Michael French
- * added Notes functionality
  * @version Mar 23, 2013
  *
  */
@@ -56,65 +53,87 @@ public class Requirement extends AbstractModel{
 	private int estimateEffort; 
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
-	private ArrayList<Requirement> subRequirements;
+	private int parentRequirementId;
+	private ArrayList<Integer> childRequirementId;
 	private int id;
-	private User creator, assignee; //putting this in to keep track of user
+	private String creatorUsername;
+	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
-	
-	
+	private ArrayList<Integer> childIDs;
+	private ArrayList<HistoricalChange> history;
 	
 	/**
-	 * Constructs a new Requirement with title and description
+	 * Constructs a new Requirement with title and description.
 	 *  
-	 * @param name
-	 * @param description
+	 * @param name The title of the Requirement
+	 * @param description The description of the Requirement
 	 */
 	public Requirement(String title, String description){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog arrg blarg
 		this.title = title;
 		this.description = description;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title, description and creator
-	 *  
-	 * @param name
-	 * @param description
+	 * Constructs a new Requirement with id, title, description and creatorUsername
+	 * 
+	 * @param id The id of the Requirement
+	 * @param name The title of the Requirement
+	 * @param description The descriptipn of the Requirement
+	 * @param creatorUsername The username of the creator for the Requirement
 	 */
-	public Requirement(int id, String title, String description, User creator){
+	public Requirement(int id, String title, String description, String creatorUsername){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.creator = creator;
+		this.creatorUsername = creatorUsername;
 		this.notes = new ArrayList<Note>();
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title, description and creator, and ArrayList of notes
-	 *  
-	 * @param name
-	 * @param description
+	 * Constructs a new Requirement with id, title, description and creatorUsername, and ArrayList of notes
+	 * 
+	 * @param id The id of the Requirement
+	 * @param name The title of the Requirement
+	 * @param description The descriptipn of the Requirement
+	 * @param creatorUsername The username of the creator for the Requirement
+	 * @param notes The notes attached with the requirements
 	 */
-	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes){
+	public Requirement(int id, String title, String description, String creatorUsername, ArrayList<Note> notes){
 		this();
+		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.creator = creator;
+		this.creatorUsername = creatorUsername;
 		this.notes = notes;
+		this.history = new ArrayList<HistoricalChange>();
+
 	}
 	
-	
 	/**
-	 * Basic constructor with default arguments
+	 * Constructs a new requirement including list of children ids
+	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes, ArrayList<Integer> childIDs) {
+		this(id, title, description, creator, notes);
+		this.childIDs = childIDs;
+	}*/
+
+	/**
+	 * Basic constructor with default arguments.
 	 * 
 	 */
 	public Requirement(){
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
-		this.iterationId = -1; //still hacking around
+		this.iterationId = -1;
 		
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
@@ -122,18 +141,46 @@ public class Requirement extends AbstractModel{
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
-		this.subRequirements = new ArrayList<Requirement>();
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
+		this.parentRequirementId = -1; //-1 parent requirement id means no parent
 		this.id = -1; //default id is -1
-		this.creator = new User("", "", "", -1);
-		this.assignee = new User("", "", "", -1);
+		this.creatorUsername = "";
+		this.assignee = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
+		this.childIDs = new ArrayList<Integer>();
+		this.history = new ArrayList<HistoricalChange>();
+		this.childRequirementId = new ArrayList<Integer>();
 	}
 	
 	/**
-	 * Adds a note to the requirement
-	 * @return the note added
+	 * Add a child id to the requirement
+	 * 
+	 * @param childID the id to add to the list of children
+	 */
+	public void addChildRequirement(int childID) {
+		childIDs.add(childID);
+	}
+	
+	/**
+	 * @return a list of child ids
+	 */
+	public ArrayList<Integer> getChildRequirementIds() {
+		return childIDs;
+	}
+	
+	/**
+	 * @return the number of children that the requirement has
+	 */
+	public int getNumChildren() {
+		return childIDs.size();
+	}
+	
+	/**
+	 * Adds a note to the requirement.
+	 * 
+	 * @param n The note to be added
+	 * @return The note added
 	 */
 	public Note addNote(Note n){
 		notes.add(n);
@@ -141,27 +188,43 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * retrieves the arraylist of notes
+	 * Retrieves the arraylist of notes.
+	 * 
 	 * @return ArrayList<Note>
 	 */
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
+	
 	/**
-	 * Counts how many notes are attached to the requirement
-	 * @return amount of notes in this requirement
+	 * Counts how many notes are attached to the requirement.
+	 * 
+	 * @return Amount of notes in this requirement
 	 */
 	public int countNotes(){
 		return notes.size();
 	}
+	
 	/**
-	 * replaces the ArrayList in this requirement with the given list
-	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT
+	 * Replaces the ArrayList in this requirement with the given list.
+	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT.
+	 * 
+	 * @param n The list of notes to be replaced with
 	 */
 	public void updateNotes(ArrayList<Note> n){
 		this.notes = n;
 	}
 
+	/**
+	 * replaces the ArrayList in this requirement with the given list
+	 * ONLY TO BE USED TO UPDATE THE HISTORY LIST, NOT REPLACE IT
+	 * 
+	 * @param h
+	 */
+	public void updateHistory(ArrayList<HistoricalChange> h){
+		this.history = h;
+	}
+	
 	/**
 	 * Gets the releaseNumber
 	 * @return the releaseNumber
@@ -171,95 +234,107 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Sets the releaseNumber
-	 * @param releaseNumber: sets the releaseNumber 
+	 * Sets the releaseNumber.
+	 * 
+	 * @param releaseNumber The releaseNumber to be set
 	 */
 	public void setReleaseNumber(String releaseNumber) {
 		this.releaseNumber = releaseNumber;
 	}
 
 	/**
-	 * Gets the status
-	 * @return the status
+	 * Gets the status.
+	 * 
+	 * @return The status
 	 */
 	public RequirementStatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * Sets the status
-	 * @param status: sets the status 
+	 * Sets the status.
+	 * 
+	 * @param status The status to be set
 	 */
 	public void setStatus(RequirementStatus status) {
 		this.status = status;
 	}
 
 	/**
-	 * Gets the priority
-	 * @return the priority
+	 * Gets the priority.
+	 * 
+	 * @return The priority
 	 */
 	public RequirementPriority getPriority() {
 		return priority;
 	}
 
 	/**
-	 * Sets the priority
-	 * @param priority: sets the priority 
+	 * Sets the priority.
+	 * 
+	 * @param priority The priority to be set
 	 */
 	public void setPriority(RequirementPriority priority) {
 		this.priority = priority;
 	}
 
 	/**
-	 * Gets the name
-	 * @return the name
+	 * Gets the name.
+	 * 
+	 * @return The name
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * Sets the name
-	 * @param name: sets the name 
+	 * Sets the title.
+	 * 
+	 * @param title The title to be set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * Gets the description
-	 * @return the description
+	 * Gets the description.
+	 * 
+	 * @return The description
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * Sets the description
-	 * @param description: sets the description 
+	 * Sets the description.
+	 * 
+	 * @param description The description to be set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * Gets the estimate
-	 * @return the estimate
+	 * Gets the estimate.
+	 * 
+	 * @return The estimate
 	 */
 	public int getEstimateEffort() {
 		return estimateEffort;
 	}
 
 	/**
-	 * Sets the estimate
-	 * @param estimate: sets the estimate 
+	 * Sets the estimate.
+	 * 
+	 * @param estimateEffort The estimate to be set
 	 */
 	public void setEstimateEffort(int estimateEffort) {
 		this.estimateEffort = estimateEffort;
 	}
 
 	/**
-	 * Gets the actualEffort
+	 * Gets the actualEffort.
+	 * 
 	 * @return the actualEffort
 	 */
 	public int  getActualEffort() {
@@ -267,57 +342,59 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Sets the actualEffort
-	 * @param actualEffort: sets the actualEffort 
+	 * Sets the actualEffort.
+	 * 
+	 * @param actualEffort The actualEffort 
 	 */
 	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
 	}
 	
 	/**
-	 * @return the user who created this Requirement
+	 * Gets the creatorUsername.
+	 * 
+	 * @return The username of the user who created this Requirement
 	 */
-	public User getCreator() {
-		return creator;
+	public String getCreator() {
+		return creatorUsername;
 	}
 
 	/**
-	 * @param creator the user who created this Requirement
+	 * Sets the creator
+	 * 
+	 * @param creatorUsername the user who created this Requirement
 	 */
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public void setCreator(String creatorUsername) {
+		this.creatorUsername = creatorUsername;
 	}
 	
 	/**
+	 * Gets assignee
+	 * 
 	 * @return the user who is assigned to this Requirement
 	 */
-	public User getAssignee() {
+	public ArrayList<String> getAssignee() {
 		return assignee;
 	}
 
 	/**
 	 * @param assignee the user who is assigned to this Requirement
 	 */
-	public void setAssignee(User assignee) {
+	public void setAssignee(ArrayList<String> assignee) {
 		this.assignee = assignee;
 	}
-
-	/**
-	 * Gets the subRequirements
-	 * @return the subRequirements
-	 */
-	public ArrayList<Requirement> getSubRequirements() {
-		return subRequirements;
-	}
-
-	/**
-	 * Sets the subRequirements
-	 * @param subRequirements: sets the subRequirements 
-	 */
-	public void setSubRequirements(ArrayList<Requirement> subRequirements) {
-		this.subRequirements = subRequirements;
-	}
 	
+	/**
+	 * Adds note to assignee
+	 * 
+	 * @param assignedTo who note is assigned to
+	 * @return the user assigned to the note
+	 */
+	public String addNote(String assignedTo){
+		assignee.add(assignedTo);
+		return assignedTo;
+	}
+
 	/**
 	 * Gets the creation date
 	 * @return the Date this Requirement was created on
@@ -351,6 +428,20 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * @return the parentRequirementId
+	 */
+	public int getParentRequirementId() {
+		return parentRequirementId;
+	}
+
+	/**
+	 * @param parentRequirementId the parentRequirementId to set
+	 */
+	public void setParentRequirementId(int parentRequirementId) {
+		this.parentRequirementId = parentRequirementId;
+	}
+
+	/**
 	 * Sets the id
 	 * @param id: sets the id 
 	 */
@@ -364,6 +455,22 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getId(){
 		return id;
+	}
+	
+	/**
+	 * Gets the history.
+	 * @return the history
+	 */
+	public ArrayList<HistoricalChange> getHistory() {
+		return history;
+	}
+	
+	/**
+	 * Adds a change to the history.
+	 * @param change the change being added to the history.
+	 */
+	public void addHistoricalChange(HistoricalChange change){
+		history.add(change);
 	}
 	
 	/**
@@ -402,7 +509,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -411,7 +517,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -449,7 +554,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return this.getTitle();
+		return this.getTitle();// + "tesst";
 	}
 
 	/* 
@@ -457,7 +562,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -487,6 +591,51 @@ public class Requirement extends AbstractModel{
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
+		
+	}
+	
+	@Override
+	public boolean equals(Object requirement){
+		if(		requirement instanceof Requirement &&
+				this.title.equals(((Requirement)requirement).getTitle())&&
+				this.releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
+				this.iterationId == ((Requirement)requirement).iterationId &&
+				this.description.equals(((Requirement)requirement).getDescription()) &&
+				this.creationDate.equals(((Requirement)requirement).creationDate) && 
+				this.id == ((Requirement)requirement).id)	
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Check if this requirement is at the top of its hierarchy
+	 * 
+	 * @return true if requirement is at the top of its hierarchy, false if it has a parent
+	 */
+	public boolean isTopLevelRequirement(){
+		if(this.getParentRequirementId() == -1)
+			return true;
+		else return false;
+	}
+
+	/**
+	 * Gets child requirement id
+	 * 
+	 * @return child requirement id
+	 */
+	public ArrayList<Integer> getChildRequirementId() {
+		return childRequirementId;
+	}
+
+	/**
+	 * Sets subrequirements
+	 * 
+	 * @param newList newlist to set subrequirement to
+	 */
+	public void setSubRequirements(ArrayList<Integer> newList) {
+		this.childRequirementId = (ArrayList<Integer>) newList.clone();
 		
 	}
 

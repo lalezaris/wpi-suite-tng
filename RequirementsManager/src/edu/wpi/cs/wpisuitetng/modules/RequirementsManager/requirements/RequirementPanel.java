@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +40,7 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
@@ -52,7 +54,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -106,7 +110,7 @@ public class RequirementPanel extends JPanel{
 	
 	
 	/** NotesView for updating notes **/
-	private NotesView n; //= new NotesView();
+	private NotesView notesView; //= new NotesView();
 	
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -160,7 +164,8 @@ public class RequirementPanel extends JPanel{
 		editMode = mode;
 		
 		//get the list of notes from the given requirement
-		n = new NotesView(model);
+
+		notesView = new NotesView(model);
 		// a = new AttachmentsView(model);
 		//h = new HistoryView(model);
 		//u = new UsersView(model);
@@ -172,6 +177,8 @@ public class RequirementPanel extends JPanel{
 		//layout = new GridBagLayout();
 		layout = new BorderLayout();
 		this.setLayout(layout);
+		
+		
 		
 		// Add all components to this panel
 		addComponents();
@@ -225,8 +232,8 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(15);
 		txtAssignee = new JTextField(15);
-		n.setNotesList(this.getNotesArrayList());
-		RTabsView = new RequirementTabsView(n);
+		notesView.setNotesList(this.getNotesArrayList());
+		RTabsView = new RequirementTabsView(notesView);
 		
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -475,9 +482,9 @@ public class RequirementPanel extends JPanel{
 		cFour.gridx = 1;
 		cFour.gridy = 2;
 		txtCreator.setEnabled(false);
-		txtCreator.setText(model.getCreator().getUsername());
-		cFour.anchor = GridBagConstraints.LINE_START;
-		panelFour.add(txtCreator, cFour);
+		txtCreator.setText(model.getCreator());
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(txtCreator, cThree);
 				
 		cFour.weightx = 0.5;
 		cFour.weighty = 0.5;
@@ -614,8 +621,30 @@ public class RequirementPanel extends JPanel{
 				|| model.getSubRequirements().size() != 0) {
 			txtEstimate.setEnabled(false);
 		}
+
+
+		//depending on the user's permission, disable certain components
+		//UserPermission testUser=new UserPermission("Chris", RMPermissionsLevel.NONE);
+		RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();//testUser.getPermissions();
+		switch (pLevel){
+		case NONE:
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreatedDate,
+					txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(), 
+					notesView.getTextArea(),saveRequirementBottom, deleteRequirementBottom, cancelRequirementBottom});
+			break;
+		case UPDATE: 
+			disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtCreatedDate,
+				txtModifiedDate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+			break;		
+		case ADMIN: break;
+		}
 	}
 	
+	private void disableStuff(JComponent[] components){
+		for(JComponent com:components){
+			com.setEnabled(false);
+		}
+	}
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -719,13 +748,13 @@ public class RequirementPanel extends JPanel{
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
-		requirement.updateNotes(n.getNotesList());
+		requirement.updateNotes(notesView.getNotesList());
 		
-		if (!(txtAssignee.getText().equals(""))) {
-			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
-		}
+//		if (!(txtAssignee.getText().equals(""))) {
+//			requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
+//		}
 		if (!(txtCreator.getText().equals(""))) {
-			requirement.setCreator(new User("", txtCreator.getText(), "", -1));
+			requirement.setCreator("");
 		}
 		
 		System.out.println("the result of getEditedModel:");
@@ -788,12 +817,12 @@ public class RequirementPanel extends JPanel{
 			deleteRequirementBottom.setVisible(true);
 		}
 		if (model.getCreator() != null) {
-			txtCreator.setText(model.getCreator().getUsername());
+			txtCreator.setText(model.getCreator());
 		}
-		if (model.getAssignee() != null) {
-			txtAssignee.setText(model.getAssignee().getUsername());
-		}
-		n.setNotesList(model.getNotes());
+//		if (model.getAssignee() != null) {
+//			txtAssignee.setText(model.getAssignee().getUsername());
+//		}
+		notesView.setNotesList(model.getNotes());
 	}
 
 	public Mode getEditMode() {
@@ -932,7 +961,6 @@ public class RequirementPanel extends JPanel{
 		
 	}
 
-	
 }
 	
 	

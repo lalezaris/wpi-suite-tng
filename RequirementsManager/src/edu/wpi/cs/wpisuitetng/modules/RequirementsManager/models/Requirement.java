@@ -58,7 +58,8 @@ public class Requirement extends AbstractModel{
 	private Date creationDate, lastModifiedDate;
 	private ArrayList<Requirement> subRequirements;
 	private int id;
-	private User creator, assignee; //putting this in to keep track of user
+	private String creatorUsername;
+	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	
 	
@@ -77,32 +78,32 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title, description and creator
+	 * Constructs a new Requirement with id, title, description and creatorUsername
 	 *  
 	 * @param name
 	 * @param description
 	 */
-	public Requirement(int id, String title, String description, User creator){
+	public Requirement(int id, String title, String description, String creatorUsername){
 		this();
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.creator = creator;
+		this.creatorUsername = creatorUsername;
 		this.notes = new ArrayList<Note>();
 	}
 	
 	/**
-	 * Constructs a new Requirement with id, title, description and creator, and ArrayList of notes
+	 * Constructs a new Requirement with id, title, description and creatorUsername, and ArrayList of notes
 	 *  
 	 * @param name
 	 * @param description
 	 */
-	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes){
+	public Requirement(int id, String title, String description, String creatorUsername, ArrayList<Note> notes){
 		this();
 		this.id = id;
 		this.title = title;
 		this.description = description;
-		this.creator = creator;
+		this.creatorUsername = creatorUsername;
 		this.notes = notes;
 	}
 	
@@ -126,8 +127,8 @@ public class Requirement extends AbstractModel{
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
 		this.id = -1; //default id is -1
-		this.creator = new User("", "", "", -1);
-		this.assignee = new User("", "", "", -1);
+		this.creatorUsername = "";
+		this.assignee = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
 	}
 	
@@ -277,29 +278,34 @@ public class Requirement extends AbstractModel{
 	/**
 	 * @return the user who created this Requirement
 	 */
-	public User getCreator() {
-		return creator;
+	public String getCreator() {
+		return creatorUsername;
 	}
 
 	/**
-	 * @param creator the user who created this Requirement
+	 * @param creatorUsername the user who created this Requirement
 	 */
-	public void setCreator(User creator) {
-		this.creator = creator;
+	public void setCreator(String creatorUsername) {
+		this.creatorUsername = creatorUsername;
 	}
 	
 	/**
 	 * @return the user who is assigned to this Requirement
 	 */
-	public User getAssignee() {
+	public ArrayList<String> getAssignee() {
 		return assignee;
 	}
 
 	/**
 	 * @param assignee the user who is assigned to this Requirement
 	 */
-	public void setAssignee(User assignee) {
+	public void setAssignee(ArrayList<String> assignee) {
 		this.assignee = assignee;
+	}
+	
+	public String addNote(String assignedTo){
+		assignee.add(assignedTo);
+		return assignedTo;
 	}
 
 	/**

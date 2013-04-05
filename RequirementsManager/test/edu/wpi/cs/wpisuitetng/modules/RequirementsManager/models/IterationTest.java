@@ -37,7 +37,8 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteratio
 public class IterationTest {
 
 	Date startDate, endDate;
-	Iteration iteration1;
+	Date startDate2, endDate2;
+	Iteration iteration1, iteration2;
 	IterationStatus itstatus1, itstatus2, itstatus3;
 
 	Requirement r1, r2, r2copy, r3, r4;
@@ -47,7 +48,10 @@ public class IterationTest {
 	public void setUp(){
 		startDate = new Date(2013, 3, 25, 3, 30, 20);
 		endDate = new Date(2013, 3, 30, 5, 10, 10);
+		startDate2 = new Date(2013, 5, 25, 3, 30, 20);
+		endDate2 = new Date(2013, 5, 30, 5, 10, 10);
 		iteration1 = new Iteration(1, startDate, endDate);
+		iteration2 = new Iteration(2, startDate2, endDate2);
 		itstatus1 = NEW;
 		itstatus2 = OPEN;
 		itstatus3 = CLOSED;
@@ -84,5 +88,21 @@ public class IterationTest {
 		newList.add(12);
 		newList.add(56);
 		assertEquals(iteration1.getRequirements(), newList);
+	}
+	
+	@Test
+	public void testEquals(){
+		assertTrue(iteration1.equals(iteration1));
+		assertTrue(!iteration1.equals(iteration2));
+		assertTrue(iteration1.equals(new Iteration(1, startDate, endDate)));
+	}
+	
+	@Test
+	public void testChangeDates(){
+		Date d = new Date();
+		iteration1.setEndDate(d);
+		iteration2.setStartDate(d);
+		assertEquals(d,iteration1.getEndDate());
+		assertEquals(d,iteration2.getStartDate());
 	}
 }

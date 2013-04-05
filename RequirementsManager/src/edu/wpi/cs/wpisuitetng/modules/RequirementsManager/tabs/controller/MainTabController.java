@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -239,5 +240,25 @@ public class MainTabController {
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;
+	}
+	
+	/**
+	 * Adds Edit Users Permissions tab
+	 * 
+	 * @return Tab returns the edit user tab
+	 */
+	public Tab addEditUserPermissionsTab() {
+		String checkTab = "Edit User Permissions";
+		int checkTabIndex = view.indexOfTab(checkTab);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			return null;
+		} else {
+			Tab tab = addTab();
+			UserPermissionView view = new UserPermissionView(tab);
+			tab.setComponent(view);
+			view.requestFocus();
+			return tab;
+		}
 	}
 }

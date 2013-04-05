@@ -128,7 +128,7 @@ public class RequirementTableModel extends AbstractTableModel {
     			req.getPriority() ,
     			req.getEstimateEffort() ,
     			req.getIteration(),
-    			req.getAssignee().getUsername()};
+    			req.getAssignee()};
     	addRow(r);
     }
     

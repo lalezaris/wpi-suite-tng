@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
 
@@ -98,12 +99,16 @@ public class TreeView extends JPanel {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
 
 				if (selRow != -1 && e.getClickCount() == 2) {
-					RetrieveRequirementControllerTree controller = new RetrieveRequirementControllerTree(
-							new IRetrieveRequirementController() {
+					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
+							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
 								boolean isRequirement = true;
 
 								@Override
-								public void runWhenRecieved(Requirement r) {
+								public void runWhenRecieved(String s){
+								//public void runWhenRecieved(Requirement r) {
+									
+									
+									Requirement r = Requirement.fromJSONArray(s)[0];
 									if (this.isRequirement) {
 										r.setIteration(Iteration
 												.getIterationById(r
@@ -114,18 +119,17 @@ public class TreeView extends JPanel {
 								}
 
 								@Override
-								public int getID() {
+								public String getID() {
 									TreePath path = tree.getSelectionPath();
 									DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
 											.getLastPathComponent();
 									Object selectedObject = selectedNode
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
-										return ((Requirement) selectedObject)
-												.getId();
+										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;
-										return -1;
+										return "-1";
 									}
 								}
 

@@ -9,7 +9,8 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ *  Tushar Narayan
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.awt.FlowLayout;
@@ -36,9 +37,9 @@ import javax.swing.JTabbedPane;
  */
 @SuppressWarnings("serial")
 public class ClosableTabComponent extends JPanel implements ActionListener {
-	
+
 	private final JTabbedPane tabbedPane;
-	
+
 	/**
 	 * Create a closable tab component belonging to the given tabbedPane.
 	 * The title is extracted with {@link JTabbedPane#getTitleAt(int)}.
@@ -48,7 +49,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		this.tabbedPane = tabbedPane;
 		setOpaque(false);
-		
+
 		final JLabel label = new JLabel() {
 			// display the title according to what's set on our JTabbedPane
 			@Override
@@ -60,7 +61,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		};
 		label.setBorder(BorderFactory.createEmptyBorder(3, 0, 2, 7));
 		add(label);
-		
+
 		final JButton closeButton = new JButton("\u2716");
 		closeButton.setFont(closeButton.getFont().deriveFont((float) 8));
 		closeButton.setMargin(new Insets(0, 0, 0, 0));
@@ -77,16 +78,21 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// close this tab when close button is clicked
 		final int index = tabbedPane.indexOfTabComponent(this);
+		String checkTitle = tabbedPane.getTitleAt(index);
+
 		if(index > -1) {
-			int buttons = JOptionPane.showConfirmDialog(
-				    null,
-				    "Are you sure you want to exit? Your changes will not be saved.",
-				    "Warning",
-				    JOptionPane.YES_NO_OPTION);
-			if (buttons == JOptionPane.YES_OPTION) {
-			 tabbedPane.remove(index);
+			if(!(checkTitle.equals("Requirement List"))){ //don't ask confirmation for closing List
+				int buttons = JOptionPane.showConfirmDialog(
+						null,
+						"Are you sure you want to exit? Your changes will not be saved.",
+						"Warning",
+						JOptionPane.YES_NO_OPTION);
+				if (buttons == JOptionPane.YES_OPTION) {
+					tabbedPane.remove(index);
+				}
 			}
+			else tabbedPane.remove(index);
 		}
 	}
-	
+
 }

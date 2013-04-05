@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -72,12 +73,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if(editMode == Mode.CREATE) {
 			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
+		} else if (editMode == Mode.CHILD){
+			setChildModeDescriptors(requirement);
 		} else {
 			setEditModeDescriptors(requirement);
 		}
 		
 		// If this is a new requirement, set the creator
-		if (editMode == Mode.CREATE) {
+		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			requirement.setCreator(new User("", ConfigManager.getConfig().getUserName(), "", -1));
 		}
 		
@@ -105,6 +108,17 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		controller = new SaveRequirementController(this);
 	}
 
+	
+	/**
+	 * Tooltip info for new child requirement
+	 * 
+	 * @param requirement
+	 */
+	public void setChildModeDescriptors(Requirement requirement) {
+		containingTab.setTitle("New Child Requirement");
+		containingTab.setToolTipText("Create a new child requirement");
+	}
+
 
 	/**
 	 * Returns the main panel with the data fields
@@ -127,8 +141,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param defect Set the tab title, tooltip, and group name according to this Defect
 	 */
 	public void setEditModeDescriptors(Requirement requirement) {
-		containingTab.setTitle("Requirement #" + requirement.getId());
-		containingTab.setToolTipText("View requirement " + requirement.getTitle());
+		containingTab.setTitle("Requirement #" + requirement.getId() + " - " + requirement.getTitle());
+		containingTab.setToolTipText("View requirement #" + requirement.getId() + " - " + requirement.getTitle());
 	}
 	
 	/**

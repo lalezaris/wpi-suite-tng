@@ -50,12 +50,13 @@ public class HistoryView extends JPanel {
 	 */
 	public HistoryView(Requirement req) {
 		super(new BorderLayout());
-		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
+//		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
 		this.setHistoryList(req.getHistory());
 		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 		
 		
-		listModel = new DefaultListModel<HistoricalChange>();		
+		listModel = new DefaultListModel<HistoricalChange>();
+		
 
 		System.out.println("------------------");
 		System.out.println("HISTORY LOG OUTPUT");
@@ -66,7 +67,8 @@ public class HistoryView extends JPanel {
 		for(int i = 0; i <numObjects; i++){
 //		HistoricalChange obj = history.get(i);
 		System.out.println(historyAL.get(i).getChange());
-		listModel.add(i, historyAL.get(i));
+		if(!listModel.contains(historyAL.get(i))){
+		listModel.add(i, historyAL.get(i));}
 		}
 
 		System.out.println();

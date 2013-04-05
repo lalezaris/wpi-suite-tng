@@ -73,7 +73,7 @@ public class JPlaceholderTextField extends JTextField {
 			@Override
 			public void focusGained(FocusEvent event) {
 				JTextField source = (JTextField) event.getSource();
-				if (source.getText().equals(placeholderText)) {
+				if (source.getText().equals("")) {
 					source.setText("");
 					source.setForeground(Color.black);
 				}
@@ -82,7 +82,7 @@ public class JPlaceholderTextField extends JTextField {
 			@Override
 			public void focusLost(FocusEvent event) {
 				JPlaceholderTextField source = (JPlaceholderTextField) event.getSource();
-				if (source.getText().length() == 0) {
+				if (source.getText().trim().length() == 0) {
 					source.clearText();
 				}
 			}

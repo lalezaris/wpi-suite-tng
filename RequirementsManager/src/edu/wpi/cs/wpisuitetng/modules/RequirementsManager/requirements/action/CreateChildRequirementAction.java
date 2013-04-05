@@ -8,46 +8,36 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Lauren Kahn
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
-
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 
 /**
- * Action fired by cancel button.
+ * 
+ * @author Tushar Narayan
  *
- * @author CDUNKERS
- *
- * @version Mar 27, 2013
+ * @version Mar 31, 2013
  *
  */
-public class CancelRequirementAction extends AbstractAction {
-
-	private final CancelRequirementController controller;
+public class CreateChildRequirementAction extends AbstractAction{
 	
-	/**
-	 * Create a SaveChangesAction
-	 * @param controller When the action is performed, controller.save will be called
-	 */
-	public CancelRequirementAction(CancelRequirementController controller) {
-		super("Cancel");
+	private final CreateChildRequirementController controller;
+	
+	public CreateChildRequirementAction(CreateChildRequirementController controller){
+		super("Create a child Requirement");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 	}
 	
-	/* 
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		controller.cancel();
+		controller.viewChild();
 	}
-
 }
-

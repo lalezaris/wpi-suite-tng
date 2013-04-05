@@ -47,5 +47,6 @@ public class RequirementTabsView extends JTabbedPane {
 			       "History");
 		//addTab("Attachments", new ImageIcon(), new AttachmentsView(),
 			//       "Attachments");
+
 	}
 }

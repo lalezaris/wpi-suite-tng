@@ -47,7 +47,7 @@ public class IterationTest {
 	public void setUp(){
 		startDate = new Date(2013, 3, 25, 3, 30, 20);
 		endDate = new Date(2013, 3, 30, 5, 10, 10);
-		iteration1 = new Iteration(1, startDate, endDate);
+		iteration1 = new Iteration("1", startDate, endDate);
 		itstatus1 = NEW;
 		itstatus2 = OPEN;
 		itstatus3 = CLOSED;
@@ -55,7 +55,7 @@ public class IterationTest {
 	
 	@Test
 	public void testConstructor() {
-		assertEquals(iteration1.getIterationNumber(), 1);
+		assertEquals(iteration1.getIterationName(), "1");
 		assertEquals(iteration1.getStartDate(), startDate);
 		assertEquals(iteration1.getEndDate(), endDate);
 		assertEquals(iteration1.getRequirements(), new ArrayList<Integer>());

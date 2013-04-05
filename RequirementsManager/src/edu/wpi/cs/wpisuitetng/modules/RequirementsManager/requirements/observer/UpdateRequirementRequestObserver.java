@@ -61,7 +61,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 		// print the body
 		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		if (response.getStatusCode() == 200) {
+		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 

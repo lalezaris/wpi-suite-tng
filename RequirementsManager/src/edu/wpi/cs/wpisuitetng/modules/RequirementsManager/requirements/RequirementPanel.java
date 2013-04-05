@@ -1008,7 +1008,7 @@ public class RequirementPanel extends JPanel{
 		}
 
 		if (model.getAssignee() != null) {
-			txtAssignee.setText(model.getAssignee().toString().equals("[]")? "" : model.getAssignee().toString());
+			txtAssignee.setText(model.getAssignee().toString().equals("[]")? "" : model.getAssignee().toString().replaceAll("\\[", "").replaceAll("\\]", ""));	
 			//if (!(txtAssignee.getText().equals("")))
 			//(!(txtAssignee.getText().equals(""))) {
 			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));

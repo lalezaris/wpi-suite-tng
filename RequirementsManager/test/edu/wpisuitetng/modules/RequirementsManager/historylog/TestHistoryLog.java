@@ -105,11 +105,7 @@ public class TestHistoryLog {
 		
 		aChange.updateChangeFromDiff(req3, req4, manager);
 		System.out.println("\n\nTEST 2" + aChange.getChange());
-		assertEquals("" +
-				"Title changed from title3 to title4.\n"+
-				"Sub Requirement 2 removed\n"+
-				"Sub Requirement 3 added\n"+
-				"", aChange.getChange());
+		assertEquals("<p> Title changed from title3 to title4.</p>", aChange.getChange());
 	}
 	
 	@Test
@@ -146,27 +142,7 @@ public class TestHistoryLog {
 		assertEquals("Title changed from ParentTitle5 to ParentTitle6.\nSub Requirement 80 added\nSub Requirement 81 added\nSub Requirement 82 added\nSub Requirement 83 added\nSub Requirement 84 added\nSub Requirement 85 added\nSub Requirement 86 added\nSub Requirement 87 added\nSub Requirement 88 added\nSub Requirement 89 added\nSub Requirement 90 added\nSub Requirement 91 added\nSub Requirement 92 added\nSub Requirement 93 added\nSub Requirement 94 added\nSub Requirement 95 added\nSub Requirement 96 added\nSub Requirement 97 added\nSub Requirement 98 added\nSub Requirement 99 added", OldSmallNewBig.getChange());
 		
 		OldBigNewSmall.updateChangeFromDiff(req6, req5, manager);
-		assertEquals("Title changed from ParentTitle6 to ParentTitle5." +
-				"\nSub Requirement 80 removed" +
-				"\nSub Requirement 81 removed" +
-				"\nSub Requirement 82 removed" +
-				"\nSub Requirement 83 removed" +
-				"\nSub Requirement 84 removed" +
-				"\nSub Requirement 85 removed" +
-				"\nSub Requirement 86 removed" +
-				"\nSub Requirement 87 removed" +
-				"\nSub Requirement 88 removed" +
-				"\nSub Requirement 89 removed" +
-				"\nSub Requirement 90 removed" +
-				"\nSub Requirement 91 removed" +
-				"\nSub Requirement 92 removed" +
-				"\nSub Requirement 93 removed" +
-				"\nSub Requirement 94 removed" +
-				"\nSub Requirement 95 removed" +
-				"\nSub Requirement 96 removed" +
-				"\nSub Requirement 97 removed" +
-				"\nSub Requirement 98 removed" +
-				"\nSub Requirement 99 removed\n", OldBigNewSmall.getChange());
+		assertEquals("<p> Title changed from ParentTitle5 to ParentTitle6.</p><p> Sub Requirement 80 added</p><p> Sub Requirement 81 added</p><p> Sub Requirement 82 added</p><p> Sub Requirement 83 added</p><p> Sub Requirement 84 added</p><p> Sub Requirement 85 added</p><p> Sub Requirement 86 added</p><p> Sub Requirement 87 added</p><p> Sub Requirement 88 added</p><p> Sub Requirement 89 added</p><p> Sub Requirement 90 added</p><p> Sub Requirement 91 added</p><p> Sub Requirement 92 added</p><p> Sub Requirement 93 added</p><p> Sub Requirement 94 added</p><p> Sub Requirement 95 added</p><p> Sub Requirement 96 added</p><p> Sub Requirement 97 added</p><p> Sub Requirement 98 added</p><p> Sub Requirement 99 added</p>", OldBigNewSmall.getChange());
 		
 		childrenPlusMore.remove(30);
 		req6.setSubRequirements(childrenPlusMore);

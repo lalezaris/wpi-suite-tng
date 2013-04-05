@@ -78,7 +78,7 @@ public class HistoryView extends JPanel {
 
 		//Create the list and put it in a scroll pane.
 		list = new JList<HistoricalChange>(listModel);
-		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		list.setLayoutOrientation(JList.VERTICAL);
 		//		list.setMaximumSize(new Dimension(200,0));
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
 		JScrollPane listScrollPane = new JScrollPane(list);

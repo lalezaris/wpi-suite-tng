@@ -24,6 +24,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
@@ -107,15 +108,19 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 			for (int r = 0; r < requirements.length; r++) {
 				// initialize all new tree nodes
-				nodes.add(new DefaultMutableTreeNode(requirements[r]));
+				if (requirements[r].getStatus() != RequirementStatus.DELETED) {
+					nodes.add(new DefaultMutableTreeNode(requirements[r]));
+				}
 			}
 
-			for (int r = 0; r < requirements.length; r++) { // iterate through every requirement
+			for (int r = 0; r < nodes.size(); r++) { // iterate through every requirement
+				
+				
 				Requirement leafReq = (Requirement) nodes.get(r).getUserObject();
 
 				if (!(leafReq.getParentRequirementId() == -1)) { // check if it isn't top level
 					int parentID = leafReq.getParentRequirementId(); // get parent id
-					for (int z = 0; z < requirements.length; z++) { // iterate through all reqs
+					for (int z = 0; z < nodes.size(); z++) { // iterate through all reqs
 						Requirement potentialParent = (Requirement) nodes.get(z).getUserObject();
 
 						if (potentialParent.getId() == parentID) {
@@ -139,6 +144,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 			for (int r = 0; r < iterations.length; r++) {
 				root.add(iterationNodes.get(r));
 			}
+			DefaultMutableTreeNode deleted = new DefaultMutableTreeNode("Deleted");
+			for (int r = 0 ; r < requirements.length ; r ++){
+				if (requirements[r].getStatus() == RequirementStatus.DELETED)
+					deleted.add(new DefaultMutableTreeNode(requirements[r]));
+			}
+			root.add(deleted);
 
 			TreeView.expandAll();
 		}

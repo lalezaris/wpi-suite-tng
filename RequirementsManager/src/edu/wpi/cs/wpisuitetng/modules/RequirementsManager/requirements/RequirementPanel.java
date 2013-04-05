@@ -811,11 +811,17 @@ public class RequirementPanel extends JPanel{
 			 break;		
 		 case ADMIN: break;
 		 }
+		 
+		 if (model.getStatus() == RequirementStatus.DELETED)
+			 disableStuff(new JComponent[]{cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
+					 deleteRequirementBottom, createChildRequirement});
 	}
 
 	private void disableStuff(JComponent[] components){
 		for(JComponent com:components){
-			com.setEnabled(false);
+			if (com!=null)
+				com.setEnabled(false);
 		}
 	}
 	/**
@@ -1071,28 +1077,34 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-
-			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
-			if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
-				setTo = model.getStatus();
-				enabled = false;
-				runThatForLoop = true;
-			}
-			//Change the status to In Progress automatically when the req is assigned to an iteration.
-			else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
-				setTo = RequirementStatus.INPROGRESS;
-				enabled = false;
-				runThatForLoop = true;
-			}
-			//Change the status to Open automatically when the backlog is selected.
-			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
-				setTo = RequirementStatus.OPEN;
-				enabled = false;
-				runThatForLoop = true;
-			}
-			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
-			else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
-				setTo = RequirementStatus.INPROGRESS;
+			if (model.getStatus() != RequirementStatus.DELETED){
+				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
+				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
+					setTo = model.getStatus();
+					enabled = false;
+					runThatForLoop = true;
+				}
+				//Change the status to In Progress automatically when the req is assigned to an iteration.
+				else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
+					setTo = RequirementStatus.INPROGRESS;
+					enabled = false;
+					runThatForLoop = true;
+				}
+				//Change the status to Open automatically when the backlog is selected.
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
+					setTo = RequirementStatus.OPEN;
+					enabled = false;
+					runThatForLoop = true;
+				}
+				//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
+					setTo = RequirementStatus.INPROGRESS;
+					enabled = true;
+					runThatForLoop = true;
+				}
+			} else
+			{
+				setTo = RequirementStatus.DELETED;
 				enabled = true;
 				runThatForLoop = true;
 			}

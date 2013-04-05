@@ -22,7 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.Session;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.MockData;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
@@ -73,9 +73,9 @@ public class TestUserPermissionPanel {
 	
 	@Test
 	public void canMoveUpdateAndAdminUserToNoneUser() {
-		System.out.println("None" + panel.noneUsers.getModel().getSize());
-		System.out.println("Update" + panel.updateUsers.getModel().getSize());
-		System.out.println("Admin" + panel.adminUsers.getModel().getSize());
+		System.out.println("None" + panel.lstNoneUsers.getModel().getSize());
+		System.out.println("Update" + panel.lstUpdateUsers.getModel().getSize());
+		System.out.println("Admin" + panel.lstAdminUsers.getModel().getSize());
 		
 //		assertEquals(3, panel.noneUsers.getModel().getSize());
 //		assertEquals(3, panel.updateUsers.getModel().getSize());

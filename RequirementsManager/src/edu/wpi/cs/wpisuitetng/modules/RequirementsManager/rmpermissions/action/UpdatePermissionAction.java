@@ -46,11 +46,10 @@ public class UpdatePermissionAction extends AbstractAction {
 	protected JList noneUsers,updateUsers,adminUsers;
 	protected UserPermissionPanel panel;
 	
-	public UpdatePermissionAction(JList noneUsers,JList updateUsers,JList adminUsers,UserPermissionPanel panel){
-//		this.projectUsers = projectUsers;
-		this.noneUsers = noneUsers;
-		this.updateUsers = updateUsers;
-		this.adminUsers = adminUsers;
+	public UpdatePermissionAction(UserPermissionPanel panel){
+		this.noneUsers = panel.getNoneUsers();
+		this.updateUsers = panel.getUpdateUsers();
+		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
 	}  
 	
@@ -59,10 +58,7 @@ public class UpdatePermissionAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if (panel.isGotUsers() 
-				&& panel.isGotPermissions()
-				&& CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
-			CurrentUserPermissions.updateCurrentUserPermissions();
+
 		//gets the selected items from the none and admin lists
 		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
@@ -97,11 +93,6 @@ public class UpdatePermissionAction extends AbstractAction {
 		//assign the new model
 		adminUsers.setModel(newAdminModel);
 		
-		//send the changes to the database
-		allSelectedUsers.addAll(selectedNoneUsers);
-		allSelectedUsers.addAll(selectedAdminUsers);
-		panel.updatePermissions(allSelectedUsers, RMPermissionsLevel.UPDATE);
-		
 		//update the list for Update users to contain the selected items and convert it to a new default list model
 		allUpdateUsers.addAll(selectedNoneUsers);
 		allUpdateUsers.addAll(selectedAdminUsers);
@@ -109,7 +100,6 @@ public class UpdatePermissionAction extends AbstractAction {
 		
 		//Assign the new model			
 		updateUsers.setModel(newUpdateModel);	
-		}
 	}
 	
 	

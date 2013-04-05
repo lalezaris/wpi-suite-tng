@@ -177,6 +177,7 @@ public class RequirementPanel extends JPanel{
 		this.model = requirement;
 		this.uneditedModel = requirement;
 		this.parent = parent;
+		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + model.getIterationId() + " AND " + uneditedModel.getIterationId());
 		editMode = mode;
 
 		//get the list of notes from the given requirement
@@ -1096,7 +1097,7 @@ public class RequirementPanel extends JPanel{
 			if (editMode != Mode.CHILD) {
 				cmbStatus.setEnabled(enabled);
 				cmbStatus.setBackground(Color.WHITE);
-				}
+			}
 			
 		}
 
@@ -1124,7 +1125,9 @@ public class RequirementPanel extends JPanel{
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-					enabled = true;
+					if (model.getParentRequirementId() >= 0) {
+						enabled = true;
+					}
 				}
 				else{
 					enabled = false;
@@ -1133,6 +1136,7 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
+			
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);
 			

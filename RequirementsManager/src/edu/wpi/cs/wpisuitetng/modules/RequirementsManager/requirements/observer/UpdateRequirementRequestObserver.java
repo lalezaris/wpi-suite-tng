@@ -22,6 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -71,6 +73,28 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						Requirement unchangedModel = ((RequirementPanel) view.getRequirementPanel()).getUneditedModel();
+						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
+						
+						/* Great! the requirement was updated! 
+						 * Now we check if the iterationID was changed.
+						 * 
+						 * If so, update all children
+						 */
+						
+						System.out.println("\n\nUNCHANGED: " + unchangedModel.getIterationId());
+						System.out.println("CHANGED: " + changedModel.getIterationId());
+						System.out.println("SIZE: " + unchangedModel.getChildRequirementIds().size());
+						
+						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
+							System.out.println("we in?\n\n");
+							BatchRequirementEditController<Integer> batchController = 
+									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
+							System.out.println("\n\nINSTANTIATED\n\n");
+							//change all children
+							batchController.instantiateChange(changedModel.getChildRequirementIds());
+						}
+						
 						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						view.setEditModeDescriptors(requirement);
 					}

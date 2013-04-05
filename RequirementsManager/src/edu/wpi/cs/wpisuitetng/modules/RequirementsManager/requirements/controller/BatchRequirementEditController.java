@@ -34,31 +34,44 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *          TODO: update date modified on each requirement edit!!!!
  */
 
-enum ChangeField {
-	RELEASENUMBER, // string
-	ITERATIONID, // int
-	STATUS, // requirementStatus
-	PRIORITY, // requirementPriority
-	ESTIMATE, // int
-	ACTUAL, // int
-	ASIGNEE, // user
-	PARENTID // int
-}
-
 public class BatchRequirementEditController<T> {
+	public enum ChangeField {
+		RELEASENUMBER, // string
+		ITERATIONID, // int
+		STATUS, // requirementStatus
+		PRIORITY, // requirementPriority
+		ESTIMATE, // int
+		ACTUAL, // int
+		ASIGNEE, // user
+		PARENTID // int
+	}
+	
 	private ChangeField changeField;
 	private T changeToMake; // generic type because it can be either a string,
 							// int, requirementStatus, or requirementPriority
 
-	public BatchRequirementEditController(ArrayList<Integer> requirementIDs,
-			ChangeField changeField, T changeToMake) {
+	public BatchRequirementEditController(ChangeField changeField, T changeToMake) {
 		this.changeField = changeField;
 		this.changeToMake = changeToMake;
-
+	}
+	
+	/**
+	 * Begin changing the specified requirements
+	 * 
+	 * @param requirementIDs the ids of the requirements to change
+	 */
+	public void instantiateChange(ArrayList<Integer> requirementIDs) {
 		getEachRequirement(requirementIDs);
 	}
-
-	public void getEachRequirement(ArrayList<Integer> requirementIDs) {
+	
+	/**
+	 * Get each requirement from the server, and then have the request
+	 * observer send the received data to the changeSingleRequirement
+	 * function
+	 * 
+	 * @param requirementIDs the ids of the requirements to fetch
+	 */
+	private void getEachRequirement(ArrayList<Integer> requirementIDs) {
 		/* send a request for each id */
 		for (int iterate : requirementIDs) {
 			Request request;
@@ -70,6 +83,12 @@ public class BatchRequirementEditController<T> {
 		}
 	}
 
+	/**
+	 * Change a single requirement, called by the 
+	 * request observer that received the requirement data
+	 * 
+	 * @param requirement the requirement to change
+	 */
 	public void changeSingleRequirement(Requirement requirement) {
 		/* depending on the specified field, make the change for this specific requirement */
 		switch (changeField) {

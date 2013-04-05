@@ -13,6 +13,7 @@
  *  Tushar Narayan
  *  Evan Polekoff
  *  Ned Shelton
+ *  Chirs Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -24,8 +25,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * @author Joe Spicola
  * 
  * @version Mar 17, 2013
- *
- * Chris Hanna added DELETED on March26, 2013
  */
 public enum RequirementStatus {
 	NEW,       // new requirements has not been worked on yet

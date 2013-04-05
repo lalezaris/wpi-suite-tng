@@ -112,12 +112,22 @@ public class UserPermissionPanel extends JPanel{
 	
 	
 	
+	/**
+	 * Returns got users
+	 * 
+	 * @return boolean
+	 */
 	public boolean isGotUsers() {
 		return gotUsers;
 	}
 
 
 
+	/**
+	 * Returns got Permissios
+	 * 
+	 * @return boolean
+	 */
 	public boolean isGotPermissions() {
 		return gotPermissions;
 	}
@@ -299,16 +309,10 @@ public class UserPermissionPanel extends JPanel{
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
-		
-		
-		
 	}
 	
 		protected void setAllPermissions(UserPermission[] all){
 			this.allPermissions = all;
-			for (int i = 0 ; i < all.length ; i ++)
-				System.out.println("PERMISSION:" + all[i].getUsername() + " has " + all[i].getPermissions());
-
 			this.gotPermissions = true;
 			setUpUsersDisplay();
 		}
@@ -316,10 +320,7 @@ public class UserPermissionPanel extends JPanel{
 		protected void setAllusers(User[] all){
 			this.allUsers = all;
 			this.gotUsers = true;
-			
-			for (int i = 0 ; i < all.length ; i ++)
-				System.out.println("USER:" + all[i].getUsername() );
-			
+
 			setUpUsersDisplay();
 		}		
 		
@@ -353,18 +354,13 @@ public class UserPermissionPanel extends JPanel{
 						this.allPermissions[i].setMessage(m);
 						
 						this.allPermissions[i].setPermissions(level);
-						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);
-						
-						//System.out.println("Saving Perm " + this.allPermissions[i].getId() + " , "+ this.allPermissions[i].getUsername() + " has " + this.allPermissions[i].getPermissions());
-						
+						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);					
 					}
 					
 				}
 			}
 			
-			//controller.save(permission, PermissionSaveMode.UPDATE);
-			
-			
+		
 		}
 		
 		protected void addPermission(UserPermission perm){
@@ -375,7 +371,6 @@ public class UserPermissionPanel extends JPanel{
 				if (all2.get(i).getUsername().equals(perm.getUsername()))
 					hasName = true;
 			}
-			//if (!hasID)
 			if (!hasName)
 				all2.add(perm);
 			
@@ -385,14 +380,9 @@ public class UserPermissionPanel extends JPanel{
 				this.allPermissions[i] = all2.get(i);
 			}
 			
-			System.out.println("ADDING PERM\nhere are all the perms");
-			for (int i = 0 ; i < this.allPermissions.length ; i ++)
-				System.out.println("PERM:" + this.allPermissions[i].getUsername());
-			
 		}
 
 		protected void setUpUsersDisplay(){
-			System.out.println("Setting up Users");
 			List<String> none = new ArrayList<String>();
 			List<String> admin = new ArrayList<String>();
 			List<String> view = new ArrayList<String>();
@@ -426,7 +416,6 @@ public class UserPermissionPanel extends JPanel{
 					}
 					
 					if (!hasPermission){
-						//System.out.println("Making Perm:" + this.allUsers[i].getName() + "with perm = " + "NONE");
 						
 						if (this.allUsers[i].getRole() == Role.ADMIN){
 							controller.save(new UserPermission(this.allUsers[i].getUsername(), RMPermissionsLevel.ADMIN)
@@ -487,8 +476,7 @@ public class UserPermissionPanel extends JPanel{
 
 
 		/**
-		 * Enter description here.
-		 * Make sure the method's name starts with get (delete this statement)
+		 * Gets none users
 		 * @return the noneUsers
 		 */
 		public JList getNoneUsers() {
@@ -498,8 +486,7 @@ public class UserPermissionPanel extends JPanel{
 
 
 		/**
-		 * Enter description here.
-		 * Make sure the method's name starts with get (delete this statement)
+		 * Gets update users
 		 * @return the updateUsers
 		 */
 		public JList getUpdateUsers() {
@@ -509,8 +496,7 @@ public class UserPermissionPanel extends JPanel{
 
 
 		/**
-		 * Enter description here.
-		 * Make sure the method's name starts with get (delete this statement)
+		 * Gets admin users
 		 * @return the adminUsers
 		 */
 		public JList getAdminUsers() {
@@ -520,8 +506,7 @@ public class UserPermissionPanel extends JPanel{
 
 
 		/**
-		 * Enter description here.
-		 * Make sure the method's name starts with get (delete this statement)
+		 * Gets view
 		 * @return the view
 		 */
 		public UserPermissionView getView() {

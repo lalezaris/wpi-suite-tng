@@ -68,6 +68,8 @@ public class SaveRequirementController {
 	}
 
 	/**
+	 * Gets view
+	 * 
 	 * @return the view
 	 */
 	public RequirementView getView() {

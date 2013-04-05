@@ -46,20 +46,11 @@ public class BatchUpdateRequirementRequestObserver implements RequestObserver {
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
-		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
 		if (response.getStatusCode() == 200) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
-			// make sure the Requirement isn't null
-			if (requirement == null) {
-				System.out.println("Unable to parse requirement received from server.");
-			}
-		}
-		else {
-			System.out.println("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}
 	}
 

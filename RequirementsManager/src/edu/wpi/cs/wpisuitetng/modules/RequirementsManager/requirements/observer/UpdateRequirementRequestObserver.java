@@ -62,7 +62,6 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		ResponseModel response = request.getResponse();
 
 		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
@@ -81,16 +80,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						 * 
 						 * If so, update all children
 						 */
-						
-						System.out.println("\n\nUNCHANGED: " + unchangedModel.getIterationId());
-						System.out.println("CHANGED: " + changedModel.getIterationId());
-						System.out.println("SIZE: " + unchangedModel.getChildRequirementIds().size());
-						
 						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
-							System.out.println("we in?\n\n");
 							BatchRequirementEditController<Integer> batchController = 
 									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
-							System.out.println("\n\nINSTANTIATED\n\n");
 							//change all children
 							batchController.instantiateChange(changedModel.getChildRequirementIds());
 						}

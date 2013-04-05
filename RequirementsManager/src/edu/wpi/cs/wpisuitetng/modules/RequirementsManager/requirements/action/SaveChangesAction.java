@@ -54,9 +54,6 @@ public class SaveChangesAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		//if (CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
-			System.out.println("Hit Save Button");
 			controller.save();
-		//}
 	}
 }

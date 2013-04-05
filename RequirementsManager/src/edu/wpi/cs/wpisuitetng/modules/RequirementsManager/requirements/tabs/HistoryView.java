@@ -47,39 +47,25 @@ public class HistoryView extends JPanel {
 	/**
 	 * HistoryView Constructor
 	 * 
+	 * @param req Requirement to view the history of 
 	 */
 	public HistoryView(Requirement req) {
 		super(new BorderLayout());
-		//		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
 		this.setHistoryList(req.getHistory());
 		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 
 
 		listModel = new DefaultListModel<HistoricalChange>();
 
-
-		System.out.println("------------------");
-		System.out.println("HISTORY LOG OUTPUT");
-		System.out.println("------------------");
-		System.out.println();
-		System.out.println("Requirement: "+req.getTitle());
-		System.out.println("History Objects: "+ req.getHistory().size());
 		for(int i = 0; i <numObjects; i++){
-			//		HistoricalChange obj = history.get(i);
-			System.out.println(historyAL.get(i).getChange());
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
 
-		System.out.println();
-		System.out.println("------------------");
-		System.out.println("END HISTORY OUTPUT");
-		System.out.println("------------------");
-
 		//Create the list and put it in a scroll pane.
 		list = new JList<HistoricalChange>(listModel);
 		list.setLayoutOrientation(JList.VERTICAL);
-		//		list.setMaximumSize(new Dimension(200,0));
+
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
 		JScrollPane listScrollPane = new JScrollPane(list);
 
@@ -96,12 +82,11 @@ public class HistoryView extends JPanel {
 	}
 
 	/**
-	 * Enter description here.
+	 * Gets history list
 	 * 
-	 * @return
+	 * @return list of history
 	 */
 	public ArrayList<HistoricalChange> getHistoryList() {
-		// TODO Auto-generated method stub
 		return this.historyAL;
 	}
 }

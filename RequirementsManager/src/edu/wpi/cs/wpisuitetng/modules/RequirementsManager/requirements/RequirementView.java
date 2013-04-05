@@ -89,10 +89,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		// Instantiate the main create requirement panel
 		// TODO
 		reqPanel = new RequirementPanel(this, requirement, editMode);
-//		JPanel reqPanelContainer = new JPanel();
-//		reqPanelContainer.setLayout(new BorderLayout());
-//		reqPanelContainer.add(reqPanel, BorderLayout.CENTER);
-//		reqPanelContainer.add(new RequirementTabsView(reqPanel.getN()), BorderLayout.EAST );
 		mainPanel = reqPanel;
 		
 		this.setLayout(new BorderLayout());

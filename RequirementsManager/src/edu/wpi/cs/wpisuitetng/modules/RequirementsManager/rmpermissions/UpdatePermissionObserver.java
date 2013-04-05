@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import javax.swing.JOptionPane;
@@ -12,6 +24,14 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observer for update permissions
+ *
+ * @author Chris Hanna
+ *
+ * @version Apr 5, 2013
+ *
+ */
 public class UpdatePermissionObserver implements RequestObserver{
 
 	UserPermissionPanel panel;
@@ -23,24 +43,19 @@ public class UpdatePermissionObserver implements RequestObserver{
 	
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		
+
 		Request request = (Request) iReq;
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
-		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-		//if (response.getStatusCode() == 200) {
-			// parse the Requirement from the body
-			final UserPermission per = UserPermission.fromJSON(response.getBody());
+		// parse the Requirement from the body
+		final UserPermission per = UserPermission.fromJSON(response.getBody());
 
-			System.out.println("Got Per: " + per.getUsername() + " has " + per.getPermissions());
-		
-			if (panel!=null)
-				panel.addPermission(per);
-		//}
-			CurrentUserPermissions.updateCurrentUserPermissions();
+		if (panel!=null)
+			panel.addPermission(per);
+
+		CurrentUserPermissions.updateCurrentUserPermissions();
 
 	}
 

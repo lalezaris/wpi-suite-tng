@@ -95,11 +95,7 @@ public class RetrieveAllChildRequirementsController {
 			for (int i = 0 ; i < Requirements.length; i ++){
 				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
 			}
-		}
-		else {
-			// do nothing, there are no Requirements
-		}
-		
+		}		
 		this.receivedResponse = true;
 	}
 

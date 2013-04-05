@@ -138,11 +138,6 @@ public class RequirementPanel extends JPanel{
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
-	/*HEAD
-	protected GridBagLayout layout;
-
-	 */
-	//	protected GridBagLayout layout;
 	protected BorderLayout layout;
 
 	/* origin/team1-theHistoryLogBackEnd
@@ -197,9 +192,6 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of notes from the given requirement
 		notesView = new NotesView(model);
-		// a = new AttachmentsView(model);
-		//h = new HistoryView(model);
-		//u = new UsersView(model);
 
 		//get the list of history from the given requirement
 		hv = new HistoryView(model);
@@ -208,7 +200,6 @@ public class RequirementPanel extends JPanel{
 		inputEnabled = true;
 
 		//Use a grid bag layout manager
-		//layout = new GridBagLayout();
 		layout = new BorderLayout();
 		this.setLayout(layout);
 
@@ -243,12 +234,10 @@ public class RequirementPanel extends JPanel{
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
-		//knownIterations[0].setIterationName("");
 		cmbIteration = new JComboBox(knownIterations);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
-		//txtDescription.setBorder(txtTitle.getBorder());
 		String[] requirementStatusValues = RequirementStatusLists.getList(model.getStatus());
 		for (int i = 0; i < requirementStatusValues.length; i++) {
 			requirementStatusValues[i] = RequirementStatusLists.getList(model.getStatus())[i];
@@ -334,20 +323,12 @@ public class RequirementPanel extends JPanel{
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
-		//txtTitle.setFont(txtTitle.getFont().deriveFont(18f));
 		panelOne.add(txtTitle, cOne);
-		/*  HEAD
-
-		cOne.insets = new Insets(0,10,0,0);
-		cOne.gridx = 0;
-		cOne.gridy = 1;
-=======*/
-
+		
 		cOne.insets = new Insets(5,0,0,0);
 		cOne.gridx = 2;
 		cOne.gridy = 0;
-		/*  origin/team1-theHistoryLogBackEnd
-		 */		cOne.weightx = 0.5;
+		cOne.weightx = 0.5;
 		 cOne.weighty = 0;
 		 cOne.gridwidth = 1;
 		 lblTitleError.setVisible(false);
@@ -381,7 +362,7 @@ public class RequirementPanel extends JPanel{
 		 cOne.weightx = 0.5;
 		 cOne.weighty = 0.5;
 		 cOne.gridwidth = 1;
-		 //Default the Iteration Box based on the valus of the estimate (Don't let you choose it if the estimate is blank).
+		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		 if(model.getEstimateEffort() > 0) {
 			 cmbIteration.setEnabled(true);
 			 cmbIteration.setBackground(Color.WHITE);
@@ -403,12 +384,12 @@ public class RequirementPanel extends JPanel{
 			 cmbIteration.setEnabled(true);
 			 cmbStatus.setEnabled(true);
 		 }
-		 //Allow the iteration of a completed requirement to be changed.
-		 /*else if(model.getStatus() == RequirementStatus.COMPLETE){
-			cmbIteration.setEnabled(true);
-			cmbStatus.setSelectedIndex(2);
-		}*/
 
+		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
+			 deleteRequirementBottom.setEnabled(false);
+		 else
+			 deleteRequirementBottom.setEnabled(true);
+		
 		 panelOne.add(cmbIteration, cOne);
 
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
@@ -503,7 +484,6 @@ public class RequirementPanel extends JPanel{
 		 cThree.anchor = GridBagConstraints.LINE_START;
 		 panelThree.add(lblActual, cThree);
 
-		 //cThree.fill = GridBagConstraints.HORIZONTAL;
 		 cThree.weightx = 0.5;
 		 cThree.weighty = 0.5;
 		 cThree.gridx = 3;
@@ -735,13 +715,6 @@ public class RequirementPanel extends JPanel{
 		 panelOverall.add(panelTabs, cOverall);
 
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
-		 //		c.weightx = 0.5;
-		 //		c.weighty = 0.5;
-		 //		c.gridx = 0;
-		 //		c.gridy = 0;
-		 //		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		 //		this.add(panelOverall, c);		
-
 		 panelOverall.add(panelButtons, cOverall);
 
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
@@ -1108,18 +1081,6 @@ public class RequirementPanel extends JPanel{
 				runThatForLoop = true;
 			}
 
-			//If you are changing the iteration of a complete requirement, set it to INPROGRESS
-			/*else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() != knownIterations[0] && cb.getSelectedItem() != model.getIteration()){
-				setTo = RequirementStatus.INPROGRESS;
-				enabled = false;
-				runThatForLoop = true;
-			}
-			//If you are changing the iteration of a complete requirement to the backlog, set it to OPEN
-			else if((model.getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == knownIterations[0]){
-				setTo = RequirementStatus.OPEN;
-				enabled = false;
-				runThatForLoop = true;
-			}*/
 			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {
@@ -1160,15 +1121,12 @@ public class RequirementPanel extends JPanel{
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-			//JTextField contents = (JTextField) estimate.getSource();
 			try{
 				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-				//	if (model.getParentRequirementId() >= 0) {
 						enabled = true;
-					//}
 				}
 				else{
 					enabled = false;

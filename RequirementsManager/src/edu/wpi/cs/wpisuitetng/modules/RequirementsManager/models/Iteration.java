@@ -42,7 +42,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	private Date startDate, endDate;
 	private List<Integer> requirements;
 	private IterationStatus status;
-	
 	private int id;
 	
 	/**
@@ -61,6 +60,10 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		this.status = NEW;
 	}
 	
+	/**
+	 * Default constructor for iteration
+	 * 
+	 */
 	public Iteration(){}
 	
 	
@@ -86,18 +89,13 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param id The id of the iteration
 	 */
 	public static Iteration getIterationById(int id){
-		System.out.println("Fetching Iteration by ID = " + id);
 		Iteration[] allIterations = Refresher.getInstance().getInstantIterations();
-		System.out.println("Found Some Iterations...");
 		for (Iteration i : allIterations){
-			System.out.println("Found Iteration ID = " + i.getId());
 			if (i.getId() == id)
 			{
-				System.out.println("Success");
 				return i;
 			}
 		}
-		System.out.println("Iteration Not Found");
 		return getBacklog();
 	}
 	
@@ -194,7 +192,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param requirement The ID of the requirement to be unassigns
 	 */
 	public void removeRequirement(Integer requirement) {
-		System.out.println("removing requirement from iteration");
 		this.requirements.remove(requirement);
 	}
 
@@ -218,13 +215,11 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -259,7 +254,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	@Override
 	public String toString() {
-		//return toJSON();
 		if (this.iterationName == Iteration.getBacklog().iterationName)
 			return this.getIterationName();
 		else
@@ -269,7 +263,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -333,7 +326,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-//		IterationEvent.addGsonDependencies(builder);
 	}
 
 	/* (non-Javadoc)

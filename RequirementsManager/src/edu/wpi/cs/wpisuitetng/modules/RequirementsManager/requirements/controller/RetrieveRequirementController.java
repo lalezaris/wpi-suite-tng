@@ -57,6 +57,11 @@ public class RetrieveRequirementController extends MouseAdapter {
         }
     }
 	
+	/**
+	 * Gets selected requirement
+	 * 
+	 * @return selected requirement
+	 */
 	public int getSelectedRequirement() {
 		return selectedRequirement;
 	}

@@ -53,8 +53,6 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 		Refresher.getInstance().refreshIterationsFromServer(null);
-		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
 		always();
 	}
 

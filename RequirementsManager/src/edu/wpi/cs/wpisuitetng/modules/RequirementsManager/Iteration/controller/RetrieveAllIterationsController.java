@@ -50,12 +50,11 @@ public class RetrieveAllIterationsController {
      * Send a request for all of the Iterations
      */
     public void refreshData() {	
-	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
-	Request request;
-	request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
-	request.addObserver(requestObserver);
-	request.send();
-	System.out.println("SENT REFRESH REQUEST");
+    	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
+    	Request request;
+    	request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.GET);
+    	request.addObserver(requestObserver);
+    	request.send();
     }
 
     /**
@@ -65,16 +64,12 @@ public class RetrieveAllIterationsController {
      * @param Iterations An array of Iterations returned by the server
      */
     public void receivedData(Iteration[] Iterations) {	
-	if (Iterations.length > 0) {
-	    // save the data
-		
-	    this.data = Iterations;
-	    
-	    Refresher.getInstance().refreshIterations(Iterations, view);
-	}
-	else {
-	    // do nothing, there are no Iterations
-	}
+    	if (Iterations.length > 0) {
+    		// save the data
+    		this.data = Iterations;
+
+    		Refresher.getInstance().refreshIterations(Iterations, view);
+    	}
     }
 
 	/*

@@ -23,8 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentU
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Insert Description Here
- *
+ * Action to edit user permissions
+ * 
  * @author CDUNKERS
  *
  * @version Apr 1, 2013
@@ -45,10 +45,14 @@ public class EditUserPermissionsAction extends AbstractAction {
 		}
 	}
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param controller
+	 */
 	public EditUserPermissionsAction(MainTabController controller) {
 		super("Edit User Permissions");
 		
-		System.out.println("Entered EditUserPermissions");
 		this.controller = controller;
 		
 		putValue(MNEMONIC_KEY, KeyEvent.VK_U);

@@ -116,7 +116,6 @@ public class RequirementListPanel extends JPanel{
 		this.add(mainPanelScrollPane);
 		
 		
-		//Did this panel come into view?
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
@@ -141,6 +140,11 @@ public class RequirementListPanel extends JPanel{
 
 	}
 
+	/**
+	 * Sets the tab
+	 * 
+	 * @param tab tab to set
+	 */
 	public void setTab(Tab tab)
 	{
 		containingTab = tab;
@@ -152,17 +156,31 @@ public class RequirementListPanel extends JPanel{
 		containingTab.setToolTipText("View all Requirements");
 	}
 	
+	/**
+	 * Add requirement
+	 * 
+	 * @param req the requirement to add
+	 */
 	private void addRequirement(Requirement req){
 		((RequirementTableModel)table.getModel()).addRow(req);
 		
 	}
 
 
+	/**
+	 * Clears the list
+	 * 
+	 */
 	public void clearList() {
 		((RequirementTableModel)table.getModel()).clear();
 	}
 
 
+	/**
+	 * Adds requirements
+	 * 
+	 * @param requirements requirements to add
+	 */
 	public void addRequirements(Requirement[] requirements) {
 		clearList();		
 		for (int i = requirements.length -1; i > -1; i --){
@@ -182,6 +200,8 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	/**
+	 * Gets table
+	 * 
 	 * @return the panel's JTable of Requirements
 	 */
 	public JTable getTable() {
@@ -189,6 +209,8 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	/**
+	 * Gets containing tab
+	 * 
 	 * @return the tab that this panel is being displayed in
 	 */
 	public Tab getContainingTab() {
@@ -196,6 +218,8 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	/**
+	 * Gets main tab controller
+	 * 
 	 * @return the mainTabController
 	 */
 	public MainTabController getTabController() {

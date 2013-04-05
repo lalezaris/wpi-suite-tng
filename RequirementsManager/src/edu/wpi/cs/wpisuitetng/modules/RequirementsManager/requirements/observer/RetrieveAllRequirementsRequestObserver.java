@@ -41,7 +41,6 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-		System.out.println("GOT RESPONSE");
 		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
 			// parse the response				
 			Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
@@ -56,14 +55,12 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
 		System.out.print("Response Error: " + iReq.getBody() + "  ::  " + iReq.toString() );
 		
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
 		
 	}
 }

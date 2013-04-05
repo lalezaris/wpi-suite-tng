@@ -46,7 +46,6 @@ public class Refresher {
 	private static Refresher instance;
 	
 	public static Refresher getInstance(){
-		System.out.println("Fetching Refresher: " + (instance != null));
 		return instance;
 	}
 	
@@ -88,10 +87,7 @@ public class Refresher {
 
 					@Override
 					public void runWhenRecieved(String content) {
-						//System.out.println("GETTING USERS RESPONSE");
 						GsonBuilder builder = new GsonBuilder();
-						//System.out.println(content);
-						
 						User[] users = builder.create().fromJson(content, User[].class);
 						lastKnownUsers = users;
 						
@@ -130,6 +126,8 @@ public class Refresher {
 	}
 	
 	/**
+	 * Gets instant iterations
+	 * 
 	 * @return iteration list
 	 */
 	public Iteration[] getInstantIterations() 
@@ -167,14 +165,6 @@ public class Refresher {
 	 * @param view
 	 */
 	public void refreshIterations(Iteration[] iterations, IterationView view) {
-		if (view != null)
-		{
-			//do nothing
-		}
-		for (int i = 0 ; i < iterations.length; i ++)
-		{
-			System.out.println("server Iteration: " + iterations[i].getIterationName());
-		}
 		setLastKnownIterations(iterations);
 		this.iterationsSet = true;
 		tree.refreshTree();
@@ -186,24 +176,17 @@ public class Refresher {
 	 * @param iterations
 	 */
 	public void setLastKnownIterations(Iteration[] iterations) {
-		System.out.println("Setting Iterations");
-		
-		if (iterations == null)
+		if (iterations != null)
 		{
-			System.out.println("No server side iterations found");
-		}
-		else {
 			ArrayList<Iteration> knownIterations = new ArrayList<Iteration>();
 			knownIterations.add(Iteration.getBacklog());
 			for (int i = 0; i < iterations.length; i ++){
-				System.out.println("Found:" + iterations[i] + " with id = " + iterations[i].getId());
 				knownIterations.add(iterations[i]);
 			}
-			
+
 			this.lastKnownIterations = new Iteration[knownIterations.size()];
 			for (int i = 0 ; i < knownIterations.size() ; i ++)
 			{
-				System.out.println("Added:" + knownIterations.get(i));
 				this.lastKnownIterations[i] = knownIterations.get(i);
 			}
 		}

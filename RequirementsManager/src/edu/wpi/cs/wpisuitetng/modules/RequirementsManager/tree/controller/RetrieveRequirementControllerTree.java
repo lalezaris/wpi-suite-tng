@@ -33,6 +33,13 @@ public class RetrieveRequirementControllerTree<T> {
 	private String address;
 	private RequestObserver observer;
 	
+	/**
+	 * Default constructor
+	 * 
+	 * @param observer
+	 * @param address
+	 * @param caller
+	 */
 	public RetrieveRequirementControllerTree(RequestObserver observer, String address, IRetrieveRequirementController<T> caller)
 	{
 		this.observer = observer;
@@ -40,25 +47,20 @@ public class RetrieveRequirementControllerTree<T> {
 		this.caller = caller;
 	}
 	
+	/**
+	 * Retrieve requirement controller tree
+	 * 
+	 */
 	public void retrieve(){
-	
+
 		String id = caller.getID();
-		//int id = -1;
-		
-		//if (Integer.parseInt(id) > -1){
-			Request request;
-			//"requirementsmanager/requirement/"
-			request = Network.getInstance().makeRequest(this.address + id, HttpMethod.GET);
-			request.addObserver(new RetrieveRequirementObserverTree<T>(this));
-			request.addObserver(this.observer);
-			request.send();
-			
-		//} else recieveData(null);
+		Request request;
+		request = Network.getInstance().makeRequest(this.address + id, HttpMethod.GET);
+		request.addObserver(new RetrieveRequirementObserverTree<T>(this));
+		request.addObserver(this.observer);
+		request.send();
 	}
-	
-	//public void recieveData(T r){
-	//	caller.runWhenRecieved(r);
-	//}
+
 	public void recieveData(String content){
 		caller.runWhenRecieved(content);
 	}

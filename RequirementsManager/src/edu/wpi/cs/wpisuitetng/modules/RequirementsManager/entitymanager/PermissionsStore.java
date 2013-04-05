@@ -97,7 +97,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 		try {
 			userPermissions = db.retrieve(UserPermission.class, "username", stringUsername, s.getProject()).toArray(new UserPermission[0]);
 		} catch (WPISuiteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(userPermissions.length < 1 || userPermissions[0] == null) {
@@ -137,41 +136,24 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("outPerm.txt", true)));
 			out.println(line + System.getProperty("line.separator"));
 			out.close();
-			//FileWriter fstream = new FileWriter("outPerm.txt");
-			//BufferedWriter out = new BufferedWriter(fstream);
-			//out.write(line);
 			//Close the output stream
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		//LOG THE CHANGE
 
-
-
-		//System.out.println("per:" + content);
-
 		//get requirement from server
 		List<Model> oldPerms = db.retrieve(UserPermission.class, "id", per.getId(), s.getProject());
-		//System.out.println("YAY!!!" + oldPerms.size());
 
 		if(oldPerms.size() < 1 || oldPerms.get(0) == null) {
-			//System.out.println("Perm not found");
 			throw new WPISuiteException("ID not found");
 		} 
 
-		//System.out.println("WHOO!!!");
 		UserPermission serverPer = (UserPermission) oldPerms.get(0);
 
-		//System.out.println("WICKED!!!");
-
-		//System.out.println("serverper: " + serverPer.toJSON());
-
-		//Date originalLastModified = serverPer.getLastModifiedDate();
-
-		// copy values to old defect and fill in our changeset appropriately
+		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(per, serverPer);
 
 
@@ -232,7 +214,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -268,7 +249,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	@Override
 	public String advancedPut(Session s, String[] args, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -278,7 +258,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	@Override
 	public String advancedPost(Session s, String string, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

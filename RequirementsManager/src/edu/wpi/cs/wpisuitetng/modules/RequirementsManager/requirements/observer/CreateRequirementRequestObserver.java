@@ -63,10 +63,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 
-
-		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-
 		if (response.getStatusCode() == 201) {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
@@ -83,7 +79,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 						//we need to update their parent Requirement
 						RequirementView parentView = view.getParentView();
 						if(parentView != null){
-							//System.out.println("\n\n\n\n\nWe have a not-null parent view!\n\n\n\n");
 							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
 
 							//get the EDITED model currently displayed, and just add the child to it
@@ -101,12 +96,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);
-							//The line below was Tushar testing something. The parentPanel edit mode should never be CREATE!
-							//final RequestObserver requestObserver = (parentPanel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 							Request request;
 							request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
 							request.setBody(JsonRequest);
-							System.out.println("Sending REQ to server:" +JsonRequest );
 							request.addObserver(requestObserver);
 							request.send();
 						}
@@ -129,7 +121,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.out.println("Error: " + iReq.getResponse().getBody());
 		JOptionPane.showMessageDialog(view, 
 				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
@@ -138,7 +129,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.out.println("Fail: " + iReq.getResponse().getBody());
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 		always();

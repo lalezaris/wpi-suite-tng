@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Model for the Requirement Table
  * @author Chris Hanna
- * @modified Tushar Narayan on April 4
  *
  */
 public class RequirementTableModel extends AbstractTableModel {

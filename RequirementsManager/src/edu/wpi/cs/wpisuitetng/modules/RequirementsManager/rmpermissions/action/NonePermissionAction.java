@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPerm
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * Action for none permissions
  *
  * @author CDUNKERS
  *

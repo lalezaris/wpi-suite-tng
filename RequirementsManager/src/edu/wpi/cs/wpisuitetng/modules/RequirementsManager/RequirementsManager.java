@@ -73,9 +73,6 @@ public class RequirementsManager implements IJanewayModule {
 		
 		//add to the list of tabs
 		tabs.add(tab1);
-		
-		//tabController.addEditRequirementTab(new Requirement());
-		//tabController.addCreateRequirementTab();
 	}
 	
 	/** 

@@ -155,7 +155,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		addGroup(toolbarGroupUserPermission);
 		
 		
-		//Did this panel come into view?
 				final DefaultToolbarView p = this;
 				p.addHierarchyListener(new HierarchyListener() {
 
@@ -168,9 +167,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 						if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
 								&& p.isShowing())
 						{
-							//System.out.println("Updating User Permissions by toolbar visibility change");
 							CurrentUserPermissions.updateCurrentUserPermissions();
-							//Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
 						}
 
 					}

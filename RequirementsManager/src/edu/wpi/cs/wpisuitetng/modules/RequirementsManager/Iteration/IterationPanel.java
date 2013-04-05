@@ -534,7 +534,6 @@ public class IterationPanel extends JPanel {
 		try {
 			convertedDate = dateFormat.parse(aDate);
 		} catch (ParseException e) {
-			System.out.println("Error converting string to date!");
 			e.printStackTrace();
 		} 
 		return convertedDate;

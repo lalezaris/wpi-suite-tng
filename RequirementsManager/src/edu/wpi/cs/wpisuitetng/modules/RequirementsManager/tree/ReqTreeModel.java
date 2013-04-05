@@ -11,6 +11,7 @@
  * 				 Tushar Narayan
  * 				 Lauren Kahn
  * 				 Tyler Stone
+ * 				 Chris Hanna
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
@@ -37,7 +38,6 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * The Model for the Requirement Tree
  * 
  * @author Sam Lalezari
- * @modified Chris Hanna on Mar 27,2013
  * @version Mar 19, 2013
  * 
  */
@@ -86,11 +86,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 		if (reqs != null) {
 			requirements = reqs;
 
-			// ReqTreeNode temp = null;
 			count = 0;
 			id = 0;
 
-			// Chris Hanna added this line
 			this.iterations = Refresher.getInstance().getInstantIterations();
 			this.root.removeAllChildren();
 
@@ -101,8 +99,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 			for (int r = 0; r < iterations.length; r++) {
 				// initialize all new iteration nodes
-			//	if(iterations[r].getIterationName().equals(""))
-				//	iterations[r].setIterationName("Backlog");
+
 				iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
 			}
 

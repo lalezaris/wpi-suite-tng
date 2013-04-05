@@ -23,9 +23,8 @@ public interface IRetrieveRequirementController<T> {
 	/**
 	 * Run certain code when a given requirement is received.
 	 * 
-	 * @param r The recieved requirement.
+	 * @param content The recieved requirement.
 	 */
-	//void runWhenRecieved(T r);
 	void runWhenRecieved(String content);
 	
 	/**

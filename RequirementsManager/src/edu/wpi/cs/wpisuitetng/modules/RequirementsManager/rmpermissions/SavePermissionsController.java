@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chirs Hanna
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
@@ -7,6 +19,14 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * Controller to save permissions
+ *
+ * @author Chris Hanna
+ *
+ * @version Apr 5, 2013
+ *
+ */
 public class SavePermissionsController {
 	/** The view object containing the request fields */
 
@@ -17,7 +37,6 @@ public class SavePermissionsController {
 	 * @param view the view containing the request fields
 	 */
 	public SavePermissionsController(UserPermissionPanel panel) {
-		//this.view = view;
 		this.panel = panel;
 	}
 
@@ -28,8 +47,6 @@ public class SavePermissionsController {
 	 * @param mode chose to update, or make a new one
 	 */
 	public void save(UserPermission permission, PermissionSaveMode mode) {
-		//final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
-		//final RequestObserver requestObserver = (permission.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
 		
 		if (mode == PermissionSaveMode.NEW)
@@ -37,7 +54,6 @@ public class SavePermissionsController {
 		else request = Network.getInstance().makeRequest("requirementsmanager/permissions", HttpMethod.POST);
 			String JsonRequest = permission.toJSON();
 			request.setBody(JsonRequest);
-			System.out.println("Sending PERM to server:" +JsonRequest );
 			request.addObserver(new UpdatePermissionObserver(panel));
 			request.send();
 			//close tab

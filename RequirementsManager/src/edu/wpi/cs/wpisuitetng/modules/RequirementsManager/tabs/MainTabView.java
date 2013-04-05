@@ -44,8 +44,6 @@ public class MainTabView extends JTabbedPane {
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
-//		addTab("Dashboard", new ImageIcon(), new DashboardTab(),
-//		       "Your Dashboard - notifications, etc.");
 	}
 	
 	public void createTableModel(MainTabController controller){

@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentU
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 
 /**
- * Insert Description Here
+ * Action to update all permissions
  *
  * @author CDUNKERS
  *

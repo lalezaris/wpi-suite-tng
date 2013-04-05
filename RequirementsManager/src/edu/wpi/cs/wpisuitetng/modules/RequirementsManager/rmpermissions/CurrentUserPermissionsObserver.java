@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import com.google.gson.GsonBuilder;
@@ -9,11 +21,16 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observer for current user permissions
+ *
+ * @author Chris Hanna
+ *
+ * @version Apr 5, 2013
+ *
+ */
 public class CurrentUserPermissionsObserver implements RequestObserver{
 
-
-
-	
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		
@@ -26,14 +43,12 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 		//Figure out which coreUser's name matches the known current user's name.
 		User user = null;
 		for (int i = 0 ; i < users.length ; i ++){
-			//System.out.println("Does user: " + users[i].getName() + " = " + ConfigManager.getConfig().getUserName());
 			if (ConfigManager.getConfig().getUserName().equals(users[i].getUsername()))
 			{
 				user = users[i];
 				break;
 			}
 		}
-		//System.out.println("User Perm: Got users");
 		CurrentUserPermissions.setUsers(user, users);
 		
 	}

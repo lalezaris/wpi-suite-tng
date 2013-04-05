@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  "Michael Perrone"
+ *  Michael Perrone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * The model to hold a username and the permission associated with that username
  *
- * @author "Michael Perrone"
+ * @author Michael Perrone
  *
  * @version Mar 31, 2013
  *
@@ -34,8 +34,10 @@ public class UserPermission extends AbstractModel {
 	private String message;
 	
 	/**
-	 * @param userName
-	 * @param permissions
+	 * Constructor to input username and permissions
+	 * 
+	 * @param userName username to set the permissions to
+	 * @param permissions the permissions to set for the username
 	 */
 	public UserPermission(String username, RMPermissionsLevel permissions) {
 		super();
@@ -47,8 +49,6 @@ public class UserPermission extends AbstractModel {
 	/**
 	 * Default Constructor 
 	 * 
-	 * @param username
-	 * @param permissions
 	 */
 	public UserPermission() {
 		super();
@@ -58,6 +58,8 @@ public class UserPermission extends AbstractModel {
 	}
 	
 	/**
+	 * Gets the username
+	 * 
 	 * @return the username
 	 */
 	public String getUsername() {
@@ -65,6 +67,8 @@ public class UserPermission extends AbstractModel {
 	}
 
 	/**
+	 * Gets Permissions
+	 * 
 	 * @return the permissions
 	 */
 	public RMPermissionsLevel getPermissions() {
@@ -72,6 +76,8 @@ public class UserPermission extends AbstractModel {
 	}
 
 	/**
+	 * Sets permissions
+	 * 
 	 * @param permissions: the permissions to set
 	 */
 	public void setPermissions(RMPermissionsLevel permissions) {
@@ -79,17 +85,37 @@ public class UserPermission extends AbstractModel {
 	}
 	
 	
+	/**
+	 * Sets id
+	 * 
+	 * @param id id to set
+	 */
 	public void setId(int id){
 		this.id = id;
 	}
+	/**
+	 * Gets id
+	 * 
+	 * @return id
+	 */
 	public int getId(){
 		return this.id;
 	}
 	
+	/**
+	 * Gets message
+	 * 
+	 * @return the message
+	 */
 	public String getMessage(){
 		return this.message;
 	}
 	
+	/**
+	 * Sets message
+	 * 
+	 * @param message message to set
+	 */
 	public void setMessage(String message){
 		this.message = message;
 	}
@@ -99,7 +125,6 @@ public class UserPermission extends AbstractModel {
 	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -108,7 +133,6 @@ public class UserPermission extends AbstractModel {
 	 */
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -147,7 +171,6 @@ public class UserPermission extends AbstractModel {
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

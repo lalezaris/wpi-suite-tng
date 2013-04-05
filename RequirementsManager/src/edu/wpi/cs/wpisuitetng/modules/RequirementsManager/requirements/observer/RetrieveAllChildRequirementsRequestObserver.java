@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
@@ -20,9 +20,9 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Insert Description Here
+ * Observes retrieve all chield requirement request
  *
- * @author Tyler
+ * @author Tyler Stone
  *
  * @version Apr 2, 2013
  *
@@ -42,7 +42,6 @@ public class RetrieveAllChildRequirementsRequestObserver implements RequestObser
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-		System.out.println("GOT RESPONSE");
 		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
 			// parse the response				
 			Requirement[] requirements = Requirement.fromJSONArray(response.getBody());

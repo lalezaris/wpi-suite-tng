@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import com.google.gson.GsonBuilder;
@@ -11,11 +23,16 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * Observer for Permissions
+ *
+ * @author Chris Hanna
+ *
+ * @version Apr 5, 2013
+ *
+ */
 public class PermissionsObserver implements RequestObserver{
 
-	
-
-	
 	private UserPermissionPanel panel;
 	public PermissionsObserver(UserPermissionPanel panel){
 		this.panel = panel;
@@ -38,13 +55,11 @@ public class PermissionsObserver implements RequestObserver{
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
 		
 	}
 

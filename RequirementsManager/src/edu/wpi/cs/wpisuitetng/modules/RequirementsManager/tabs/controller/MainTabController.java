@@ -133,6 +133,14 @@ public class MainTabController {
 		}
 	}
 	
+	/**
+	 * Adds requirement tab
+	 * 
+	 * @param requirement requirement to add
+	 * @param parentView view to add requirement tab to
+	 * @param mode mode of requirement
+	 * @return tab
+	 */
 	public Tab addRequirementTab(Requirement requirement, RequirementView parentView, Mode mode) {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
@@ -154,7 +162,10 @@ public class MainTabController {
 	}
 	
 	/**
-	 * 
+	 * Adds child requirement tab
+	 * @param requirement requirement to add
+	 * @param parentView view to add requirement to
+	 * @return tab 
 	 */
 	public Tab addChildRequirementTab(Requirement requirement, RequirementView parentView) {
 		Tab newTab = addRequirementTab(requirement, Mode.CHILD);

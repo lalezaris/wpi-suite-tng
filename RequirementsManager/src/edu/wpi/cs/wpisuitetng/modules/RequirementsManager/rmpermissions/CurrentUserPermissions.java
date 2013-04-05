@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
 import com.google.gson.GsonBuilder;
@@ -13,8 +25,14 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-//Chris Hanna
-
+/**
+ * Current User Permissions
+ *
+ * @author Chirs Hanna
+ *
+ * @version Apr 5, 2013
+ *
+ */
 public class CurrentUserPermissions implements RequestObserver{
 	
 	
@@ -31,6 +49,10 @@ public class CurrentUserPermissions implements RequestObserver{
 		return instance;
 	}
 	
+	/**
+	 * Default constructor
+	 * 
+	 */
 	private CurrentUserPermissions(){}
 	
 	/**
@@ -39,12 +61,15 @@ public class CurrentUserPermissions implements RequestObserver{
 	 * this method call. 
 	 */
 	public static void updateCurrentUserPermissions(){
-		System.out.println("Getting User Permissions for Current User");
 		reset();
 		Refresher.getInstance().getObjects(getInstance(), "requirementsmanager/permissions", "");
 		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
 	}
 	
+	/**
+	 * Resets current user permissions
+	 * 
+	 */
 	private static void reset(){
 		coreUser = null;
 		gotPermissions = false;
@@ -64,18 +89,16 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 	
 	
-	
-	
 	/**
-	 * @return The curret user's RM permission level
+	 * Gets current user permissions
+	 * 
+	 * @return The current user's RM permission level
 	 */
 	public static RMPermissionsLevel getCurrentUserPermission(){
 		if (!gotPermissions|| coreUser==null){
-			System.out.println("PERMREQUEST: give NONE");
 			return RMPermissionsLevel.NONE;
 		}
 		else {
-			System.out.println("PERMREQUEST: give " + user.getPermissions());
 			return user.getPermissions();
 		}
 	}
@@ -88,10 +111,8 @@ public class CurrentUserPermissions implements RequestObserver{
 	 */
 	public static boolean doesUserHavePermissionLocal(RMPermissionsLevel level){
 		if (!gotPermissions || coreUser==null){
-			System.out.println("PERMREQUEST:" + level + ". Result = asked too soon");
 			return false;
 		} else{
-			System.out.println("PERMREQUEST:" + level + ". Result = " + (valueOf(user.getPermissions()) >= valueOf(level)));
 			return valueOf(user.getPermissions()) >= valueOf(level);
 		}
 	}
@@ -132,22 +153,8 @@ public class CurrentUserPermissions implements RequestObserver{
 		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);
 		
 		for (int i = 0 ; i < all.length ; i ++){
-			System.out.println("all[i] = " + all[i].getUsername() + ", current = " + ConfigManager.getConfig().getUserName());
 			if (all[i].getUsername().equals(ConfigManager.getConfig().getUserName()))
 				user = all[i];
-		}
-		if (user == null){
-			System.out.println("USER PERM IS STILL NOT FOUND");
-			
-//			if (user.getRole() == Role.ADMIN){
-//				controller.save(new UserPermission(user.getUsername(), RMPermissionsLevel.ADMIN)
-//				, PermissionSaveMode.NEW);
-//				
-//			} else {
-//				controller.save(new UserPermission(user.getUsername(), RMPermissionsLevel.NONE)
-//						, PermissionSaveMode.NEW);
-//				
-//			}
 		}
 		gotPermissions = true;
 		doWhenRecievedAllData();
@@ -156,8 +163,7 @@ public class CurrentUserPermissions implements RequestObserver{
 
 	private static void doWhenRecievedAllData(){
 		if (gotPermissions && coreUser !=null){
-			//printDetails();
-			
+				
 			//The signed in user does not have a user permission associated with them yet.
 			if (user == null){
 				SavePermissionsController controller = new SavePermissionsController(null);
@@ -182,12 +188,7 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 	
 	private static void printDetails(){
-		//System.out.println("Trying to print User Permission Details");
-		System.out.println("GotPermissions = " + (gotPermissions) + ", coreUser = " + (coreUser != null));
 		if (gotPermissions && coreUser != null){
-			System.out.println("Recieved Current User Perm");
-			System.out.println("Current USER:" + coreUser.getUsername() + " , PERM:" + user.getPermissions());
-			
 			
 			String rightsTo = "", noRightsTo = "";
 			if (doesUserHavePermissionLocal(RMPermissionsLevel.NONE))
@@ -200,9 +201,6 @@ public class CurrentUserPermissions implements RequestObserver{
 				rightsTo += "  ADMIN\n";
 			else noRightsTo += "  ADMIN\n";
 			
-			System.out.println("Current USER Has local rights to\n " +rightsTo + "\n and No local rights to\n" + noRightsTo);
-					
-			
 			rightsTo = "";
 			noRightsTo = "";
 			if (doesUserHavePermissionMaster(RMPermissionsLevel.NONE))
@@ -214,8 +212,6 @@ public class CurrentUserPermissions implements RequestObserver{
 			if (doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN))
 				rightsTo += "  ADMIN\n";
 			else noRightsTo += "  ADMIN\n";
-			System.out.println("Current USER Has master rights to\n " +rightsTo + "\n and No master rights to\n" + noRightsTo);
-			
 		}
 	}
 	

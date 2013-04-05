@@ -27,14 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentU
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 
 /**
- * Insert Description Here
- *
- * @author CDUNKERS
- *
- * @version Apr 3, 2013
- *
- */
-/**
  * The controller for the button to move a object to the Update Permissions list
  *
  * @author Chris Dunkers

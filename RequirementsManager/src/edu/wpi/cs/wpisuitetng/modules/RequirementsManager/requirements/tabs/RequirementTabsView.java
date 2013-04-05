@@ -36,7 +36,6 @@ public class RequirementTabsView extends JTabbedPane {
 	public RequirementTabsView(NotesView n, HistoryView hv) {
 
 		//TODO get history objects from database
-//		hv = new HistoryView();
 		
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
@@ -45,8 +44,5 @@ public class RequirementTabsView extends JTabbedPane {
 		       "Notes");
 		addTab("History", new ImageIcon(), hv,
 			       "History");
-		//addTab("Attachments", new ImageIcon(), new AttachmentsView(),
-			//       "Attachments");
-
 	}
 }

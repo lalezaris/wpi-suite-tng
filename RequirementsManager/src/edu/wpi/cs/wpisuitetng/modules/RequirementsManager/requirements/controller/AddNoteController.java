@@ -29,6 +29,11 @@ public class AddNoteController implements ActionListener {
 		
 	private final NotesView view;
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param view
+	 */
 	public AddNoteController(NotesView view) {
 		this.view = view;
 	}

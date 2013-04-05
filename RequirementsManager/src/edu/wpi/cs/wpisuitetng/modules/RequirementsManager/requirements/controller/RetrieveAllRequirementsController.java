@@ -78,9 +78,6 @@ public class RetrieveAllRequirementsController {
 			
 			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
-		else {
-			// do nothing, there are no Requirements
-		}
 		
 	}
 

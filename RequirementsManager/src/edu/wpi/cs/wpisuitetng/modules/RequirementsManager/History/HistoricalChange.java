@@ -1,8 +1,21 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Michael French
+ *  Evan Polekoff
+ *  Sam Abradi
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
 
 /**
  * @Author: Michael French
- * @Collaborators: Evan Polekoff, Sam Abradi
  * 
  * @version Mar 31, 2013
  */
@@ -40,94 +53,83 @@ public class HistoricalChange extends AbstractModel{
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".</p>";
+			change += "<p> "+"Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".</p>";
 		}
 		
 		//compare Release Numbers
 		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
-			change +="<p> "/*<pre>     </pre>*/+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
+			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
 		}
 		
 		//compare Iterations
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
 			
-			change += "<p> "/*<pre>     </pre>*/+"Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".</p>";
+			change += "<p> "+"Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".</p>";
 		}
 		
-		
-		
+				
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			change +="<p> "/*<pre>     </pre>*/+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"</p>";
+			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"</p>";
 		}
 		
 		//compare Statuses
 		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Status changed from " + oldR.getStatus().toString() + " to " + newR.getStatus().toString() + ".</p>";
+			change += "<p> "+"Status changed from " + oldR.getStatus().toString() + " to " + newR.getStatus().toString() + ".</p>";
 		}
 		
 		//compare Priorities
 		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".</p>";
+			change += "<p> "+"Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".</p>";
 		}
 		
 		//compare estimate efforts
 		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Estimate changed from " + oldR.getEstimateEffort() + " to " + newR.getEstimateEffort() + ".</p>";
+			change += "<p> "+"Estimate changed from " + oldR.getEstimateEffort() + " to " + newR.getEstimateEffort() + ".</p>";
 		}
 		
 		//compare actual efforts
 		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".</p>";
+			change += "<p> "+"Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".</p>";
 		}
 		
 		//TODO: come back to this
-		//compare sub-requirements [We'll come back to this]
+		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementId().size(); i++){
 			if (!newR.getChildRequirementId().contains(oldR.getChildRequirementId().get(i))){
-				change +="<p> "/*<pre>     </pre>*/+"Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed</p>";					
+				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed</p>";					
 			}
 		}
 		for (int i = 0; i < newR.getChildRequirementId().size(); i++){
 			if (!oldR.getChildRequirementId().contains(newR.getChildRequirementId().get(i))){
-				change += "<p> "/*<pre>     </pre>*/+"Sub Requirement " + newR.getChildRequirementId().get(i) + " added</p>";					
+				change += "<p> "+"Sub Requirement " + newR.getChildRequirementId().get(i) + " added</p>";					
 			}
 		}
-		
-		
-		//change += compareSubReqs(oldR, newR);?
-		
+	
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			change += "<p> "/*<pre>     </pre>*/+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
+			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
 		}
 		
 		//TODO: come back to this
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
 			if (notesDifference == 1){
-				change += "<p> "/*<pre>     </pre>*/+notesDifference + " note added.</p>";
-			}else{
-				change += "<p> "/*<pre>     </pre>*/+notesDifference + " notes added.</p>";
+				change += "<p> "+notesDifference + " note added.</p>";
+			}
+			else{
+				change += "<p> "+notesDifference + " notes added.</p>";
 			}
 		}
-		//change += compareNotesLists(oldR, newR);
 			
 	}
 	
-	public void updateChangeFromDiff(User oldU, User NewU){
-		
-	}
-	
-
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -136,29 +138,53 @@ public class HistoricalChange extends AbstractModel{
 		return null;
 	}
 
+	/**
+	 * Gets the date
+	 * 
+	 * @return the date
+	 */
 	public String getDate() {
 		return date.toGMTString();
 	}
 
+	/**
+	 * Gets the id of changed object
+	 * 
+	 * @return id of changed object
+	 */
 	public int getIdOfChangedObject() {
 		return idOfChangedObject;
 	}
 
+	/**
+	 * Gets id
+	 * 
+	 * @return id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Gets user name
+	 * 
+	 * @return user name
+	 */
 	public String getUserName() {
 		return user.getName();
 	}
 	
+	/**
+	 * Gets change
+	 * 
+	 * @return change
+	 */
 	public String getChange(){
 		return change;
 	}
 
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

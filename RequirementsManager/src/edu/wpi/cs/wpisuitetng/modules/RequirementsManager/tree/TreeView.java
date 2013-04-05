@@ -157,6 +157,8 @@ public class TreeView extends JPanel {
 	}
 	
 	/**
+	 * Gets tree model
+	 * 
 	 * @return the tree model
 	 */
 	public ReqTreeModel getTreeModel() {
@@ -164,6 +166,8 @@ public class TreeView extends JPanel {
 	}
 
 	/**
+	 * Gets tree
+	 * 
 	 * @return the JTree
 	 */
 	public JTree getTree() {

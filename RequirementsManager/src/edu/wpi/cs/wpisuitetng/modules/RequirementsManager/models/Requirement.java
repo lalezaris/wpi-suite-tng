@@ -360,6 +360,8 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
+	 * Sets the creator
+	 * 
 	 * @param creatorUsername the user who created this Requirement
 	 */
 	public void setCreator(String creatorUsername) {
@@ -367,6 +369,8 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * Gets assignee
+	 * 
 	 * @return the user who is assigned to this Requirement
 	 */
 	public ArrayList<String> getAssignee() {
@@ -380,6 +384,12 @@ public class Requirement extends AbstractModel{
 		this.assignee = assignee;
 	}
 	
+	/**
+	 * Adds note to assignee
+	 * 
+	 * @param assignedTo who note is assigned to
+	 * @return the user assigned to the note
+	 */
 	public String addNote(String assignedTo){
 		assignee.add(assignedTo);
 		return assignedTo;
@@ -499,7 +509,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -508,7 +517,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -554,7 +562,6 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -589,16 +596,6 @@ public class Requirement extends AbstractModel{
 	
 	@Override
 	public boolean equals(Object requirement){
-		/*
-		 * private String title;
-			private String releaseNumber;
-			private int iterationId;
-			private String description;
-			private Date creationDate;
-			private int id;
-		 * 
-		 */
-		
 		if(		requirement instanceof Requirement &&
 				this.title.equals(((Requirement)requirement).getTitle())&&
 				this.releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
@@ -623,10 +620,20 @@ public class Requirement extends AbstractModel{
 		else return false;
 	}
 
+	/**
+	 * Gets child requirement id
+	 * 
+	 * @return child requirement id
+	 */
 	public ArrayList<Integer> getChildRequirementId() {
 		return childRequirementId;
 	}
 
+	/**
+	 * Sets subrequirements
+	 * 
+	 * @param newList newlist to set subrequirement to
+	 */
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childRequirementId = (ArrayList<Integer>) newList.clone();
 		

@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 
 /**
- * Insert Description Here
+ * View for user permissions
  *
  * @author CDUNKERS
  *
@@ -65,8 +65,8 @@ public class UserPermissionView extends JPanel {
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets tab
+	 * 
 	 * @return the containingTab
 	 */
 	public Tab getTab() {

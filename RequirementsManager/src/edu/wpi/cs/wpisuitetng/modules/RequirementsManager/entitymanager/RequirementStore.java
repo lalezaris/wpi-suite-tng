@@ -43,6 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class RequirementStore implements EntityManager<Requirement>{
 	Data db;
 	ModelMapper updateMapper;
+	
 	/**
 	 * Class constructor to store requirement data
 	 * 
@@ -52,11 +53,15 @@ public class RequirementStore implements EntityManager<Requirement>{
 		db = data;
 		updateMapper = new ModelMapper();
 	}
-	/* 
-	 * takes a string that is the JSON-ified representation of Requirement, and a session (project)
+	
+	/**
+	 * Takes a string that is the JSON-ified representation of Requirement, and a session (project)
 	 * returns the requirement in object form
 	 * also puts the object in the DB indexable by ID
-	 *
+	 * 
+	 * @param s A session (project)
+	 * @param content The JSON-ified representation of Requirement
+	 * @return The requirement in object form
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -72,9 +77,13 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return newRequirement;
 	}
 
-	/*
-	 * accesses a requirement by ID from requirement
-	 * returns an array of all requirements that fit this ID
+	/**
+	 * Accesses a requirement by ID from requirement;
+	 * returns an array of all requirements that fit this ID.
+	 * 
+	 * @param s A session (project)
+	 * @param id The ID of the Requirement(s)
+	 * @return An array of all Requirement(s) with the given username
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -96,7 +105,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return requirements;
 	}
 
-	/*
+	/**
+	 * Returns an array of all requirements stored in the DB.
+	 * 
+	 * @param s A session (project)
+	 * @return An array of all requirements stored in the DB
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -104,7 +117,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return db.retrieveAll(new Requirement("FU","UU"), s.getProject()).toArray(new Requirement[0]);
 	}
 
-	/*
+	/**
+	 * Updates the given model with the content passed in.
+	 * 
+	 * @param s A session (project)
+	 * @param content The content to be passed in
+	 * @return The updated Requirement
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -122,8 +140,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new WPISuiteException("ID not found");
 		} 
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
-		
-		
 		
 		Date originalLastModified = serverReq.getLastModifiedDate();
 		
@@ -146,9 +162,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return serverReq;
 	}
 
-	/*
-	 * saves the given requirement into the database
+	/**
+	 * Saves the given requirement into the database.
 	 *
+	 * @param s A session (project)
+	 * @param model The Requirement to be saved
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
@@ -156,10 +174,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 		db.save(model, s.getProject());
 	}
 
-	/*
-	 * This just tests to make sure you are accessing things that you should be
-	 * @param session the current session
-	 * @param role the role that is being ensured
+	/**
+	 * Tests to make sure you are accessing things that you should be.
+	 * 
+	 * @param session The current session
+	 * @param role The role that is being ensured
 	 * @throws WPISuiteException
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
@@ -169,9 +188,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 		}
 	}
 	
-	/*
-	 * Removes a requirement from the DB based on ID
+	/**
+	 * Removes a requirement from the DB based on ID.
 	 * 
+	 * @param s A session (project)
+	 * @param id The id of the Requirement to be removed
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -190,9 +211,10 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return null;
 	}
 
-	/*
-	 * Deletes all the things in DB
-	 *
+	/**
+	 * Deletes everything in DB.
+	 * 
+	 * @param s A session (project)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -202,7 +224,10 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 	}
 
-	/* 
+	/** 
+	 * Returns the number of Requirement(s).
+	 * 
+	 * @return The number of Requirement(s)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	@Override

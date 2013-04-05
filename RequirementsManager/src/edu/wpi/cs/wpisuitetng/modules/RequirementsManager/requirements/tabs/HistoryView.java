@@ -10,7 +10,7 @@
  * Contributors:
  *  Arica Liu
  *  Sam Lalezari
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
@@ -40,9 +40,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 @SuppressWarnings("serial")
 public class HistoryView extends JPanel {	
 	private JList<HistoricalChange> list;
-    private DefaultListModel<HistoricalChange> listModel;
-    
-    protected ArrayList<HistoricalChange> historyAL;
+	private DefaultListModel<HistoricalChange> listModel;
+
+	protected ArrayList<HistoricalChange> historyAL;
 
 	/**
 	 * HistoryView Constructor
@@ -50,13 +50,13 @@ public class HistoryView extends JPanel {
 	 */
 	public HistoryView(Requirement req) {
 		super(new BorderLayout());
-//		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
+		//		req.addHistoricalChange(new HistoricalChange(new Date(), 001, 012, null));
 		this.setHistoryList(req.getHistory());
 		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
-		
-		
+
+
 		listModel = new DefaultListModel<HistoricalChange>();
-		
+
 
 		System.out.println("------------------");
 		System.out.println("HISTORY LOG OUTPUT");
@@ -65,10 +65,10 @@ public class HistoryView extends JPanel {
 		System.out.println("Requirement: "+req.getTitle());
 		System.out.println("History Objects: "+ req.getHistory().size());
 		for(int i = 0; i <numObjects; i++){
-//		HistoricalChange obj = history.get(i);
-		System.out.println(historyAL.get(i).getChange());
-		if(!listModel.contains(historyAL.get(i))){
-		listModel.add(i, historyAL.get(i));}
+			//		HistoricalChange obj = history.get(i);
+			System.out.println(historyAL.get(i).getChange());
+			if(!listModel.contains(historyAL.get(i))){
+				listModel.add(0, historyAL.get(i));}
 		}
 
 		System.out.println();
@@ -77,13 +77,13 @@ public class HistoryView extends JPanel {
 		System.out.println("------------------");
 
 		//Create the list and put it in a scroll pane.
-        list = new JList<HistoricalChange>(listModel);
+		list = new JList<HistoricalChange>(listModel);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-//		list.setMaximumSize(new Dimension(200,0));
-        list.setCellRenderer(new HistoryViewCellRenderer(350));
-        JScrollPane listScrollPane = new JScrollPane(list);
-        
-        add(listScrollPane, BorderLayout.CENTER);
+		//		list.setMaximumSize(new Dimension(200,0));
+		list.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane listScrollPane = new JScrollPane(list);
+
+		add(listScrollPane, BorderLayout.CENTER);
 	}
 
 	/**

@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @author Tushar Narayan
  * @author Michael Perrone
  */
-public class Iteration extends AbstractModel{
+public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	private static Iteration backlog;
 	private int iterationNumber;
@@ -69,6 +69,8 @@ public class Iteration extends AbstractModel{
 			backlog = new Iteration();
 			backlog.setIterationNumber(-1);
 			backlog.setRequirements(new ArrayList<Integer>());
+			backlog.startDate = null;
+			backlog.endDate = null;
 		}
 		return backlog;
 	}
@@ -112,6 +114,8 @@ public class Iteration extends AbstractModel{
 	 * @return the startDate
 	 */
 	public Date getStartDate() {
+		if(startDate == null)
+			return new Date(0);
 		return startDate;
 	}
 
@@ -126,6 +130,8 @@ public class Iteration extends AbstractModel{
 	 * @return the endDate
 	 */
 	public Date getEndDate() {
+		if(endDate == null)
+			return new Date(0);
 		return endDate;
 	}
 
@@ -287,6 +293,18 @@ public class Iteration extends AbstractModel{
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
 //		IterationEvent.addGsonDependencies(builder);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Iteration o) {
+		if(this.startDate == null)
+			return -1;
+		if(o.startDate == null)
+			return 1;
+		return -1*(this.startDate.compareTo(o.startDate));
 	}
 
 	

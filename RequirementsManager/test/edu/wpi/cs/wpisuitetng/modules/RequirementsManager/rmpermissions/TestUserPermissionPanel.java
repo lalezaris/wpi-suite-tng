@@ -73,63 +73,59 @@ public class TestUserPermissionPanel {
 	
 	@Test
 	public void canMoveUpdateAndAdminUserToNoneUser() {
-		System.out.println("None" + panel.lstNoneUsers.getModel().getSize());
-		System.out.println("Update" + panel.lstUpdateUsers.getModel().getSize());
-		System.out.println("Admin" + panel.lstAdminUsers.getModel().getSize());
-		
-//		assertEquals(3, panel.noneUsers.getModel().getSize());
-//		assertEquals(3, panel.updateUsers.getModel().getSize());
-//		assertEquals(3, panel.adminUsers.getModel().getSize());
-//		panel.updateUsers.setSelectedIndex(0);
-//		panel.adminUsers.setSelectedIndex(1);
-//		panel.btnNone.doClick();
-//		assertEquals(5, panel.noneUsers.getModel().getSize());
-//		assertEquals(2, panel.updateUsers.getModel().getSize());
-//		assertEquals(2, panel.adminUsers.getModel().getSize());
-//		String firstItemNone = (String) panel.noneUsers.getModel().getElementAt(0);
-//		String firstItemUpdate = (String) panel.updateUsers.getModel().getElementAt(0);
-//		String firstItemAdmin = (String) panel.adminUsers.getModel().getElementAt(0);
-//		assertEquals("1", firstItemNone);
-//		assertEquals("5", firstItemUpdate);
-//		assertEquals("7", firstItemAdmin);
+		assertEquals(3, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(3, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(3, panel.lstAdminUsers.getModel().getSize());
+		panel.lstUpdateUsers.setSelectedIndex(0);
+		panel.lstAdminUsers.setSelectedIndex(1);
+		panel.btnNone.doClick();
+		assertEquals(5, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(2, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(2, panel.lstAdminUsers.getModel().getSize());
+		String firstItemNone = (String) panel.lstNoneUsers.getModel().getElementAt(0);
+		String firstItemUpdate = (String) panel.lstUpdateUsers.getModel().getElementAt(0);
+		String firstItemAdmin = (String) panel.lstAdminUsers.getModel().getElementAt(0);
+		assertEquals("1", firstItemNone);
+		assertEquals("5", firstItemUpdate);
+		assertEquals("7", firstItemAdmin);
 	}
-//	
-//	@Test
-//	public void canMoveNoneAndAdminUserToUpdateUser() {
-//		assertEquals(3, panel.noneUsers.getModel().getSize());
-//		assertEquals(3, panel.updateUsers.getModel().getSize());
-//		assertEquals(3, panel.adminUsers.getModel().getSize());
-//		panel.noneUsers.setSelectedIndex(2);
-//		panel.adminUsers.setSelectedIndex(1);
-//		panel.btnUpdate.doClick();
-//		assertEquals(2, panel.noneUsers.getModel().getSize());
-//		assertEquals(5, panel.updateUsers.getModel().getSize());
-//		assertEquals(2, panel.adminUsers.getModel().getSize());
-//		String firstItemNone = (String) panel.noneUsers.getModel().getElementAt(0);
-//		String firstItemUpdate = (String) panel.updateUsers.getModel().getElementAt(0);
-//		String firstItemAdmin = (String) panel.adminUsers.getModel().getElementAt(0);
-//		assertEquals("1", firstItemNone);
-//		assertEquals("4", firstItemUpdate);
-//		assertEquals("7", firstItemAdmin);
-//	}
-//	
-//	@Test
-//	public void canMoveNoneAndUpdateUserToAdminUser() {
-//		assertEquals(3, panel.noneUsers.getModel().getSize());
-//		assertEquals(3, panel.updateUsers.getModel().getSize());
-//		assertEquals(3, panel.adminUsers.getModel().getSize());
-//		panel.noneUsers.setSelectedIndex(0);
-//		panel.updateUsers.setSelectedIndex(0);
-//		panel.btnAdmin.doClick();
-//		assertEquals(2, panel.noneUsers.getModel().getSize());
-//		assertEquals(2, panel.updateUsers.getModel().getSize());
-//		assertEquals(5, panel.adminUsers.getModel().getSize());
-//		String firstItemNone = (String) panel.noneUsers.getModel().getElementAt(0);
-//		String firstItemUpdate = (String) panel.updateUsers.getModel().getElementAt(0);
-//		String firstItemAdmin = (String) panel.adminUsers.getModel().getElementAt(0);
-//		assertEquals("2", firstItemNone);
-//		assertEquals("5", firstItemUpdate);
-//		assertEquals("7", firstItemAdmin);
-//	}
+	
+	@Test
+	public void canMoveNoneAndAdminUserToUpdateUser() {
+		assertEquals(3, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(3, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(3, panel.lstAdminUsers.getModel().getSize());
+		panel.lstNoneUsers.setSelectedIndex(2);
+		panel.lstAdminUsers.setSelectedIndex(1);
+		panel.btnUpdate.doClick();
+		assertEquals(2, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(5, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(2, panel.lstAdminUsers.getModel().getSize());
+		String firstItemNone = (String) panel.lstNoneUsers.getModel().getElementAt(0);
+		String firstItemUpdate = (String) panel.lstUpdateUsers.getModel().getElementAt(0);
+		String firstItemAdmin = (String) panel.lstAdminUsers.getModel().getElementAt(0);
+		assertEquals("1", firstItemNone);
+		assertEquals("4", firstItemUpdate);
+		assertEquals("7", firstItemAdmin);
+	}
+	
+	@Test
+	public void canMoveNoneAndUpdateUserToAdminUser() {
+		assertEquals(3, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(3, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(3, panel.lstAdminUsers.getModel().getSize());
+		panel.lstNoneUsers.setSelectedIndex(0);
+		panel.lstUpdateUsers.setSelectedIndex(0);
+		panel.btnAdmin.doClick();
+		assertEquals(2, panel.lstNoneUsers.getModel().getSize());
+		assertEquals(2, panel.lstUpdateUsers.getModel().getSize());
+		assertEquals(5, panel.lstAdminUsers.getModel().getSize());
+		String firstItemNone = (String) panel.lstNoneUsers.getModel().getElementAt(0);
+		String firstItemUpdate = (String) panel.lstUpdateUsers.getModel().getElementAt(0);
+		String firstItemAdmin = (String) panel.lstAdminUsers.getModel().getElementAt(0);
+		assertEquals("2", firstItemNone);
+		assertEquals("5", firstItemUpdate);
+		assertEquals("7", firstItemAdmin);
+	}
 }
 

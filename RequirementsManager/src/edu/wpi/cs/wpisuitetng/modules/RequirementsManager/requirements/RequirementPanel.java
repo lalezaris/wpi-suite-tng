@@ -775,7 +775,7 @@ public class RequirementPanel extends JPanel{
 			 break;
 		 case UPDATE: 
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
-					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration});
+					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration, createChildRequirement});
 			 break;		
 		 case ADMIN: break;
 		 }

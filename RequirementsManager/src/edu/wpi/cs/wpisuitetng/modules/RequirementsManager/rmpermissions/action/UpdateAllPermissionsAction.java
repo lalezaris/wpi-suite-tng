@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
+		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
 	
 	/* 

@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +44,7 @@ public class AdminPermissionAction extends AbstractAction {
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	} 
 	
 	/* 

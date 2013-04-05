@@ -510,7 +510,7 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridy = 1;
 		 panelThree.add(txtActual, cThree);
 
-		 cThree.weightx = 0.5;
+		 /*cThree.weightx = 0.5;
 		 cThree.weighty = 0.5;
 		 cThree.gridx = 0;
 		 cThree.gridy = 2;
@@ -568,7 +568,7 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridx = 1;
 		 cThree.gridy = 5;
 		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtAssignee, cThree);
+		 panelThree.add(txtAssignee, cThree);*/
 
 		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -621,8 +621,8 @@ public class RequirementPanel extends JPanel{
 		 cFour.gridy = 2;
 		 txtCreator.setEnabled(false);
 		 txtCreator.setText(model.getCreator());
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtCreator, cFour);
+		 cFour.anchor = GridBagConstraints.LINE_START;
+		 panelFour.add(txtCreator, cFour);
 
 		 cFour.weightx = 0.5;
 		 cFour.weighty = 0.5;

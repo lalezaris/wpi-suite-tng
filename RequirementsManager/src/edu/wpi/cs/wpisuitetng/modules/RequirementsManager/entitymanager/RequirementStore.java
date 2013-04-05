@@ -55,9 +55,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 	}
 	
 	/**
-	 * Takes a string that is the JSON-ified representation of Requirement, and a session (project)
-	 * returns the requirement in object form
-	 * also puts the object in the DB indexable by ID
+	 * Takes a string that is the JSON-ified representation of Requirement, and a session (project);
+	 * return the requirement in object form;
+	 * Also puts the object in the DB indexable by ID.
 	 * 
 	 * @param s A session (project)
 	 * @param content The JSON-ified representation of Requirement

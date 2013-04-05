@@ -20,7 +20,7 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 
 /**
- * Cancels an iteration action.
+ * Cancel an iteration action.
  *
  * @author CDUNKERS
  *

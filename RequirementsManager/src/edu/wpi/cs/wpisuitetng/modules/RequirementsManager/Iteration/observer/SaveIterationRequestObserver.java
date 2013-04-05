@@ -34,7 +34,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	private final IterationView view;
 
 	/**
-	 * Constructs a new UpdateIterationRequestObserver.
+	 * Construct a new UpdateIterationRequestObserver.
 	 * 
 	 * @param view	The Iteration View that will be affected by any updates
 	 */
@@ -59,7 +59,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * Responds with an error if unable to save iteration.
+	 * Respond with an error if unable to save iteration.
 	 * 
 	 * @param iReq The IRequest to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
@@ -73,7 +73,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * Displays a fail message if unable to save iteration
+	 * Display a fail message if unable to save iteration
 	 * 
 	 * @param iReq The request to respond to
 	 * @param exception the exception that causes the failure to save iteration

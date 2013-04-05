@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 
-
 /**
  * Controller for the iteration action
  *

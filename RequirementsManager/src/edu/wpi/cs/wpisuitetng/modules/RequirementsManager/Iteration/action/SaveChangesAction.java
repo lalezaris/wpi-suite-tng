@@ -44,7 +44,7 @@ public class SaveChangesAction extends AbstractAction {
 	}
 	
 	/**
-	 * Calls the controller to save the action.
+	 * Call the controller to save the action.
 	 * 
 	 * @param arg0 The action event to perform
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)

@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Retrieves all the iterations from the database.
+ * Retrieve all the iterations from the database.
  *
  * @author Sam Abradi
  *
@@ -38,7 +38,7 @@ public class RetrieveAllIterationsController {
     protected Iteration[] data = null;
     
     /**
-     * Constructs a new RetrieveAllIterationsController
+     * Construct a new RetrieveAllIterationsController
      *
      * @param view the search Iterations view
      */
@@ -47,7 +47,7 @@ public class RetrieveAllIterationsController {
     }
     
     /**
-     * Sends a request for all of the Iterations
+     * Send a request for all of the Iterations
      */
     public void refreshData() {	
 	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);

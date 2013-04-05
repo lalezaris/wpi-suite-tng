@@ -40,12 +40,11 @@ public class DatePicker {
 	String day = "";
 	JDialog d;
 	JButton[] button = new JButton[49];
-
 	
 	/**
-	 * Constructs a new DatePicker object
+	 * Construct a new DatePicker object
 	 * 
-	 * @param parent the JFrame to display the DatePicker object in
+	 * @param parent The JFrame to display the DatePicker object in
 	 */
 	public DatePicker(JFrame parent) {  
 		d = new JDialog();

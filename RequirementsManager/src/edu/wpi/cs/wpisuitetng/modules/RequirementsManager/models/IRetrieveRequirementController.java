@@ -13,7 +13,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-
 /**
  * This interface will be implemented in future iterations to create controllers.
  * 
@@ -28,8 +27,9 @@ public interface IRetrieveRequirementController<T> {
 	 */
 	//void runWhenRecieved(T r);
 	void runWhenRecieved(String content);
+	
 	/**
-	 * Returns the ID of the requirement.
+	 * Return the ID of the requirement.
 	 * 
 	 * @return the ID of the requirement
 	 */

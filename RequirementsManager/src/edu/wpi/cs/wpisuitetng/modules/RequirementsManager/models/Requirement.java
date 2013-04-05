@@ -31,17 +31,13 @@ import com.google.gson.GsonBuilder;
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-
 /**
- * Class for storing a Requirement
- * Adapted from Defect in project DefectManager
+ * Class for storing a Requirement.
+ * Adapted from Defect in project DefectManager.
  * 
  * @author Tushar Narayan
  * 
- *  Mar 17, 2013
- * 
  * @edited Michael French
- * added Notes functionality
  * @version Mar 23, 2013
  *
  */
@@ -62,13 +58,11 @@ public class Requirement extends AbstractModel{
 	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	
-	
-	
 	/**
-	 * Constructs a new Requirement with title and description
+	 * Constructs a new Requirement with title and description.
 	 *  
-	 * @param name
-	 * @param description
+	 * @param name The title of the Requirement
+	 * @param description The descriptipn of the Requirement
 	 */
 	public Requirement(String title, String description){
 		this();
@@ -79,9 +73,11 @@ public class Requirement extends AbstractModel{
 	
 	/**
 	 * Constructs a new Requirement with id, title, description and creatorUsername
-	 *  
-	 * @param name
-	 * @param description
+	 * 
+	 * @param id The id of the Requirement
+	 * @param name The title of the Requirement
+	 * @param description The descriptipn of the Requirement
+	 * @param creatorUsername The username of the creator for the Requirement
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername){
 		this();
@@ -94,9 +90,12 @@ public class Requirement extends AbstractModel{
 	
 	/**
 	 * Constructs a new Requirement with id, title, description and creatorUsername, and ArrayList of notes
-	 *  
-	 * @param name
-	 * @param description
+	 * 
+	 * @param id The id of the Requirement
+	 * @param name The title of the Requirement
+	 * @param description The descriptipn of the Requirement
+	 * @param creatorUsername The username of the creator for the Requirement
+	 * @param notes The notes attached with the requirements
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername, ArrayList<Note> notes){
 		this();
@@ -107,9 +106,8 @@ public class Requirement extends AbstractModel{
 		this.notes = notes;
 	}
 	
-	
 	/**
-	 * Basic constructor with default arguments
+	 * Basic constructor with default arguments.
 	 * 
 	 */
 	public Requirement(){
@@ -133,8 +131,10 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Adds a note to the requirement
-	 * @return the note added
+	 * Adds a note to the requirement.
+	 * 
+	 * @param n The note to be added
+	 * @return The note added
 	 */
 	public Note addNote(Note n){
 		notes.add(n);
@@ -142,125 +142,144 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * retrieves the arraylist of notes
+	 * Retrieves the arraylist of notes.
+	 * 
 	 * @return ArrayList<Note>
 	 */
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
+	
 	/**
-	 * Counts how many notes are attached to the requirement
-	 * @return amount of notes in this requirement
+	 * Counts how many notes are attached to the requirement.
+	 * 
+	 * @return Amount of notes in this requirement
 	 */
 	public int countNotes(){
 		return notes.size();
 	}
+	
 	/**
-	 * replaces the ArrayList in this requirement with the given list
-	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT
+	 * Replaces the ArrayList in this requirement with the given list.
+	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT.
+	 * 
+	 * @param n The list of notes to be replaced with
 	 */
 	public void updateNotes(ArrayList<Note> n){
 		this.notes = n;
 	}
 
 	/**
-	 * Gets the releaseNumber
-	 * @return the releaseNumber
+	 * Gets the releaseNumber.
+	 * 
+	 * @return The releaseNumber
 	 */
 	public String getReleaseNumber() {
 		return releaseNumber;
 	}
 
 	/**
-	 * Sets the releaseNumber
-	 * @param releaseNumber: sets the releaseNumber 
+	 * Sets the releaseNumber.
+	 * 
+	 * @param releaseNumber The releaseNumber to be set
 	 */
 	public void setReleaseNumber(String releaseNumber) {
 		this.releaseNumber = releaseNumber;
 	}
 
 	/**
-	 * Gets the status
-	 * @return the status
+	 * Gets the status.
+	 * 
+	 * @return The status
 	 */
 	public RequirementStatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * Sets the status
-	 * @param status: sets the status 
+	 * Sets the status.
+	 * 
+	 * @param status The status to be set
 	 */
 	public void setStatus(RequirementStatus status) {
 		this.status = status;
 	}
 
 	/**
-	 * Gets the priority
-	 * @return the priority
+	 * Gets the priority.
+	 * 
+	 * @return The priority
 	 */
 	public RequirementPriority getPriority() {
 		return priority;
 	}
 
 	/**
-	 * Sets the priority
-	 * @param priority: sets the priority 
+	 * Sets the priority.
+	 * 
+	 * @param priority The priority to be set
 	 */
 	public void setPriority(RequirementPriority priority) {
 		this.priority = priority;
 	}
 
 	/**
-	 * Gets the name
-	 * @return the name
+	 * Gets the name.
+	 * 
+	 * @return The name
 	 */
 	public String getTitle() {
 		return title;
 	}
 
 	/**
-	 * Sets the name
-	 * @param name: sets the name 
+	 * Sets the title.
+	 * 
+	 * @param title The title to be set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
 	/**
-	 * Gets the description
-	 * @return the description
+	 * Gets the description.
+	 * 
+	 * @return The description
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * Sets the description
-	 * @param description: sets the description 
+	 * Sets the description.
+	 * 
+	 * @param description The description to be set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * Gets the estimate
-	 * @return the estimate
+	 * Gets the estimate.
+	 * 
+	 * @return The estimate
 	 */
 	public int getEstimateEffort() {
 		return estimateEffort;
 	}
 
 	/**
-	 * Sets the estimate
-	 * @param estimate: sets the estimate 
+	 * Sets the estimate.
+	 * 
+	 * @param estimateEffort The estimate to be set
 	 */
 	public void setEstimateEffort(int estimateEffort) {
 		this.estimateEffort = estimateEffort;
 	}
 
 	/**
-	 * Gets the actualEffort
+	 * Gets the actualEffort.
+	 * 
 	 * @return the actualEffort
 	 */
 	public int  getActualEffort() {
@@ -268,15 +287,18 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Sets the actualEffort
-	 * @param actualEffort: sets the actualEffort 
+	 * Sets the actualEffort.
+	 * 
+	 * @param actualEffort The actualEffort 
 	 */
 	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
 	}
 	
 	/**
-	 * @return the user who created this Requirement
+	 * Gets the creatorUsername.
+	 * 
+	 * @return The username of the user who created this Requirement
 	 */
 	public String getCreator() {
 		return creatorUsername;

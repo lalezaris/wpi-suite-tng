@@ -38,7 +38,7 @@ public class ModelMapper {
 	};
 	
 	/**
-	 * Construct a ModelMapper with default blacklist of "permission".
+	 * Constructs a ModelMapper with default blacklist of "permission".
 	 */
 	public ModelMapper() {
 		// this has two parameters

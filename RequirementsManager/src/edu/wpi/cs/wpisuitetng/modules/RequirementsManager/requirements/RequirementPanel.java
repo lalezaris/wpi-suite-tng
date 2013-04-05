@@ -37,6 +37,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.text.JTextComponent;
+
+import sun.swing.DefaultLookup;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -275,6 +279,9 @@ public class RequirementPanel extends JPanel{
 				createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
 			}
 		}
+		
+		//make sit so that all combo boxes will have black text when disabled for easier readability
+		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
 
 		/**Iteration Listener*/
 
@@ -569,7 +576,7 @@ public class RequirementPanel extends JPanel{
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 1;
 		 cFour.gridy = 0;
-		 txtCreatedDate.setEnabled(false);
+//		 txtCreatedDate.setEnabled(false);
 		 txtCreatedDate.setText(model.getCreationDate().toString());
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtCreatedDate, cFour);
@@ -584,7 +591,7 @@ public class RequirementPanel extends JPanel{
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 1;
 		 cFour.gridy = 1;
-		 txtModifiedDate.setEnabled(false);
+//		 txtModifiedDate.setEnabled(false);
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtModifiedDate, cFour);
 
@@ -601,6 +608,7 @@ public class RequirementPanel extends JPanel{
 		 cFour.gridy = 2;
 		 txtCreator.setEnabled(false);
 		 txtCreator.setText(model.getCreator());
+		 txtCreator.setDisabledTextColor(Color.BLACK);
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtCreator, cFour);
 
@@ -624,6 +632,7 @@ public class RequirementPanel extends JPanel{
 		 layoutButtons = new GridBagLayout();
 		 panelButtons.setLayout(layoutButtons);
 
+		 cButtons.insets = new Insets(10,10,10,0);
 		 if (editMode == Mode.EDIT) { 
 			 if(model.getStatus() == RequirementStatus.NEW ||
 					 model.getStatus() == RequirementStatus.OPEN ||
@@ -632,6 +641,7 @@ public class RequirementPanel extends JPanel{
 				 cButtons.weighty = 0.5;
 				 cButtons.gridx = 0;
 				 cButtons.gridy = 0;
+				 cButtons.gridwidth = 3;
 				 panelButtons.add(createChildRequirement, cButtons);
 			 }
 		 }
@@ -640,6 +650,7 @@ public class RequirementPanel extends JPanel{
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 0;
 		 cButtons.gridy = 6;
+		 cButtons.gridwidth = 1;
 		 panelButtons.add(saveRequirementBottom, cButtons);
 
 		 cButtons.weightx = 0.5;
@@ -772,10 +783,18 @@ public class RequirementPanel extends JPanel{
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
 					 deleteRequirementBottom, cancelRequirementBottom, createChildRequirement});
+			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					 txtTitle,txtReleaseNumber,notesView.getTextArea()});
+			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					 txtTitle,txtReleaseNumber});
+			 makeStuffNotVisible(new JComponent[]{panelButtons});
 			 break;
 		 case UPDATE: 
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
-					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration, createChildRequirement});
+					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration, deleteRequirementBottom, createChildRequirement});
+			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,});
+			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber});
+			 makeStuffNotVisible(new JComponent[]{deleteRequirementBottom, createChildRequirement});
 			 break;		
 		 case ADMIN: break;
 		 }
@@ -792,6 +811,28 @@ public class RequirementPanel extends JPanel{
 				com.setEnabled(false);
 		}
 	}
+	
+	private void changeBackground(JTextComponent[] components){
+		for(JComponent com:components){
+			if (com!=null)
+				com.setBackground(this.getBackground());
+		}
+	}
+	
+	private void makeTextBlack(JTextComponent[] components){
+		for(JTextComponent com:components){
+			if (com!=null)
+				com.setDisabledTextColor(Color.BLACK);
+			}
+	}
+	
+	private void makeStuffNotVisible(JComponent[] components){
+		for(JComponent com:components){
+			if (com!=null)
+				com.setVisible(false);
+			}
+	}
+	
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -900,10 +941,6 @@ public class RequirementPanel extends JPanel{
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
-		//TODO placeholder
-
-
-		requirement.updateNotes(notesView.getNotesList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
 
 		if (!(txtAssignee.getText().equals(""))) {
@@ -912,7 +949,7 @@ public class RequirementPanel extends JPanel{
 		}
 
 		if (!(txtCreator.getText().equals(""))) {
-			requirement.setCreator("");
+			requirement.setCreator(txtCreator.getText());
 		}
 
 		System.out.println(requirement.toJSON());

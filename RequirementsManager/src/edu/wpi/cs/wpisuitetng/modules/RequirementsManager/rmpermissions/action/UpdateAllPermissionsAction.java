@@ -43,7 +43,7 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
-		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
+//		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
 	
 	/* 

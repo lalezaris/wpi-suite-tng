@@ -56,7 +56,7 @@ public class NonePermissionAction extends AbstractAction {
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+//		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}  
 	
 	/* 

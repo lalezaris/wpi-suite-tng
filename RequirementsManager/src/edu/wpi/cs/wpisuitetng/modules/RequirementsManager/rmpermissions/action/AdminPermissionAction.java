@@ -44,7 +44,7 @@ public class AdminPermissionAction extends AbstractAction {
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
+//		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	} 
 	
 	/* 

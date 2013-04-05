@@ -32,6 +32,7 @@ import javax.swing.JPanel;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.AdminPermissionAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdateAllPermissionsAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdatePermissionAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.NonePermissionAction;
 
@@ -64,17 +65,17 @@ public class UserPermissionPanel extends JPanel{
 	
 
 	
-	protected static User[] allUsers;
-	protected static UserPermission[] allPermissions;
+	protected User[] allUsers;
+	protected UserPermission[] allPermissions;
 	protected boolean gotUsers, gotPermissions;
 		
 	/* the parent view*/
 	protected UserPermissionView view;
 	
 	/* the List's that will display the usernames*/
-	protected JList noneUsers;
-	protected JList updateUsers;
-	protected JList adminUsers;
+	protected JList lstNoneUsers;
+	protected JList lstUpdateUsers;
+	protected JList lstAdminUsers;
 
 	
 	/* the Default list models for the lists*/
@@ -86,26 +87,19 @@ public class UserPermissionPanel extends JPanel{
 	protected JButton btnNone;
 	protected JButton btnUpdate;
 	protected JButton btnAdmin;
+	protected JButton btnUpdateAll;
 	
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
-	//TODO: get rid of
-	/* the Arrays which store the usernames for each permission*/
-//	Object[] listAll = {};//"1", "2","3", "4","5", "6","7", "8"};
-//	Object[] listNone = {};
-//	Object[] listUpdate = {};
-//	Object[] listAdmin = {};
-
 	/**
 	 * Constructor
 	 * 
 	 * @param view the parent view of this panel
 	 */
 	public UserPermissionPanel(UserPermissionView view){
-		//this.allUsers = Refresher.getInstance().getUsers(new UsersObserver(this));
 		Refresher.getInstance().getObjects(new UsersObserver(this), "core/user", "");
 		Refresher.getInstance().getObjects(new PermissionsObserver(this), "requirementsmanager/permissions", "");
 	
@@ -135,28 +129,29 @@ public class UserPermissionPanel extends JPanel{
 	private void addComponents(){
 		/* create a panel to store everything in*/
 		JPanel listPanel = new JPanel();
+		JPanel btnPanel = new JPanel();
+		JPanel overallPanel = new JPanel();
 		
 		/*initialize all of the components to be displayed*/
 		noneUsersList = new DefaultListModel();
-		noneUsers = new JList(noneUsersList);
-		
+		lstNoneUsers = new JList(noneUsersList);
+		lstNoneUsers.setFixedCellWidth(75);
 		updateUsersList = new DefaultListModel();
-		updateUsers = new JList(updateUsersList);
+		lstUpdateUsers = new JList(updateUsersList);
+		lstUpdateUsers.setFixedCellWidth(75);
 		adminUsersList = new DefaultListModel();
-		adminUsers = new JList(adminUsersList);
+		lstAdminUsers = new JList(adminUsersList);
+		lstAdminUsers.setFixedCellWidth(75);
 
-		//TODO: get rid of
-		noneUsers = new JList<Object>();
-		updateUsers = new JList<Object>();
-		adminUsers = new JList<Object>();
-		
 		/*initialize all of the buttons to be displayed*/
-		btnNone = new JButton(" Move to None ");
-		btnNone.addActionListener(new NonePermissionAction(noneUsers,updateUsers,adminUsers,this));
+		btnNone = new JButton("Move to None");
+		btnNone.addActionListener(new NonePermissionAction(this));
 		btnUpdate = new JButton("Move to Update");
-		btnUpdate.addActionListener(new UpdatePermissionAction(noneUsers,updateUsers,adminUsers,this));
-		btnAdmin = new JButton("Move to Admin ");
-		btnAdmin.addActionListener(new AdminPermissionAction(noneUsers,updateUsers,adminUsers,this));
+		btnUpdate.addActionListener(new UpdatePermissionAction(this));
+		btnAdmin = new JButton("Move to Admin");
+		btnAdmin.addActionListener(new AdminPermissionAction(this));
+		btnUpdateAll = new JButton("Update Permissions");
+		btnUpdateAll.addActionListener(new UpdateAllPermissionsAction(this));
 		
 		/*labels for the components*/
 //		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
@@ -173,36 +168,59 @@ public class UserPermissionPanel extends JPanel{
 		GridBagLayout layoutPanel = new GridBagLayout();	
 		listPanel.setLayout(layoutPanel);
 		
+		GridBagConstraints cBtn = new GridBagConstraints();	
+		GridBagLayout layoutBtn = new GridBagLayout();	
+		btnPanel.setLayout(layoutBtn);
+		
+		GridBagConstraints cOverall = new GridBagConstraints();	
+		GridBagLayout layoutOverall = new GridBagLayout();	
+		overallPanel.setLayout(layoutOverall);
+		
+		
+		/*add all of the components to the btnPanel*/
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(btnNone, cBtn);
+		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START;
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 1;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(btnUpdate, cBtn);
+		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 2;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(btnAdmin, cBtn);
+		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 3;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(btnUpdateAll, cBtn);
+		
 		/*add all of the components to the listPanel*/
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
-		cPanel.gridy = 1;
-		cPanel.weightx = 0.5;
-		cPanel.weighty = 0.5;
-		cPanel.gridheight = 1;
-		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(btnNone, cPanel);
-		
-		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 0;
-		cPanel.gridy = 2;
-		cPanel.weightx = 0.5;
-		cPanel.weighty = 0.5;
-		cPanel.gridheight = 1;
-		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(btnUpdate, cPanel);
-		
-		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 0;
-		cPanel.gridy = 3;
-		cPanel.weightx = 0.5;
-		cPanel.weighty = 0.5;
-		cPanel.gridheight = 1;
-		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(btnAdmin, cPanel);
-		
-		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 1;
 		cPanel.gridy = 0;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
@@ -211,16 +229,16 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblNoneUsers, cPanel);
 		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 1;
+		cPanel.gridx = 0;
 		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(noneUsers, cPanel);
+		listPanel.add(lstNoneUsers, cPanel);
 		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 2;
+		cPanel.gridx = 1;
 		cPanel.gridy = 0;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
@@ -229,16 +247,16 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblUpdateUsers, cPanel);
 		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 2;
+		cPanel.gridx = 1;
 		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(updateUsers, cPanel);
+		listPanel.add(lstUpdateUsers, cPanel);
 		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 3;
+		cPanel.gridx = 2;
 		cPanel.gridy = 0;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
@@ -247,22 +265,45 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblAdminUsers, cPanel);
 		
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cPanel.gridx = 3;
+		cPanel.gridx = 2;
 		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(adminUsers, cPanel);
+		listPanel.add(lstAdminUsers, cPanel);
 		
+		//the the panels to the overall panel
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.1;
+		cOverall.weighty = 0.1;
+		cOverall.gridwidth = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(btnPanel, cOverall);
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.gridx = 1;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.1;
+		cOverall.weighty = 0.1;
+		cOverall.gridwidth = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(listPanel, cOverall);
+		
+		//add the overall panel to this
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
+		c.weightx = 0.1;
+		c.weighty = 0.1;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		this.add(listPanel, c);
+		this.add(overallPanel, c);
+		
+		
+		
 	}
 	
 		protected void setAllPermissions(UserPermission[] all){
@@ -284,14 +325,6 @@ public class UserPermissionPanel extends JPanel{
 			setUpUsersDisplay();
 		}		
 		
-		public static User[] getLastKnownUsers(){
-			return allUsers;
-		}
-		public static UserPermission[] getLastKnownPermissions(){
-			return allPermissions;
-		}
-		
-		
 		/**
 		 * @param selected the selected names
 		 * @param level the new permission level to put those names at
@@ -312,7 +345,7 @@ public class UserPermissionPanel extends JPanel{
 			for (int i = 0 ; i < this.allPermissions.length ; i ++){
 				for (int j = 0 ; j < selected.size() ; j ++){
 					System.out.println("IS " + this.allPermissions[i].getUsername() + " = TO " + (String)selected.get(j));
-					if ( ((String)selected.get(j)).equals(this.allPermissions[i].getUsername())){
+					if ( ((String)selected.get(j)).equals(this.allPermissions[i].getUsername()) && this.allPermissions[i].getPermissions() != level){
 						
 						String me = ConfigManager.getConfig().getUserName();
 						Date now = new Date();
@@ -418,9 +451,9 @@ public class UserPermissionPanel extends JPanel{
 			this.updateUsersList = getNewModel(update);
 			this.adminUsersList = getNewModel(admin);
 			
-			noneUsers.setModel(this.noneUsersList);
-			updateUsers.setModel(this.updateUsersList);
-			adminUsers.setModel(this.adminUsersList);
+			lstNoneUsers.setModel(this.noneUsersList);
+			lstUpdateUsers.setModel(this.updateUsersList);
+			lstAdminUsers.setModel(this.adminUsersList);
 		}
 		
 		
@@ -452,5 +485,40 @@ public class UserPermissionPanel extends JPanel{
 			}
 			return newModel;
 		}
+
+
+
+		/**
+		 * Enter description here.
+		 * Make sure the method's name starts with get (delete this statement)
+		 * @return the noneUsers
+		 */
+		public JList getNoneUsers() {
+			return lstNoneUsers;
+		}
+
+
+
+		/**
+		 * Enter description here.
+		 * Make sure the method's name starts with get (delete this statement)
+		 * @return the updateUsers
+		 */
+		public JList getUpdateUsers() {
+			return lstUpdateUsers;
+		}
+
+
+
+		/**
+		 * Enter description here.
+		 * Make sure the method's name starts with get (delete this statement)
+		 * @return the adminUsers
+		 */
+		public JList getAdminUsers() {
+			return lstAdminUsers;
+		}
+		
+		
 		
 }

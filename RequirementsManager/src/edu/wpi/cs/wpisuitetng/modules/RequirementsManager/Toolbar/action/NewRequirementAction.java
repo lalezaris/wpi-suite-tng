@@ -42,7 +42,7 @@ public class NewRequirementAction extends AbstractAction {
 	public NewRequirementAction(MainTabController controller) {
 		super("Create Requirement");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
 	
 	/* 

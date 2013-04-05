@@ -37,7 +37,8 @@ public class UpdatePermissionObserver implements RequestObserver{
 
 			System.out.println("Got Per: " + per.getUsername() + " has " + per.getPermissions());
 		
-			panel.addPermission(per);
+			if (panel!=null)
+				panel.addPermission(per);
 		//}
 			CurrentUserPermissions.updateCurrentUserPermissions();
 

@@ -20,6 +20,7 @@ public class CurrentUserPermissions implements RequestObserver{
 	
 	private static boolean gotPermissions = false;
 	private static User coreUser;
+	private static User[] allCoreUsers;
 	private static UserPermission user;
 	private static CurrentUserPermissions instance;
 	
@@ -55,10 +56,14 @@ public class CurrentUserPermissions implements RequestObserver{
 	 * and mess up the project, then this would be the function to call
 	 * @param coreUser
 	 */
-	protected static void setUser(User coreUser){
-		CurrentUserPermissions.coreUser = coreUser;
-		//printDetails();
+	protected static void setUsers(User currentUser, User[] allUsers){
+		CurrentUserPermissions.coreUser = currentUser;
+		CurrentUserPermissions.allCoreUsers = allUsers;
+		doWhenRecievedAllData();
+		
 	}
+	
+	
 	
 	
 	/**
@@ -133,6 +138,7 @@ public class CurrentUserPermissions implements RequestObserver{
 		}
 		if (user == null){
 			System.out.println("USER PERM IS STILL NOT FOUND");
+			
 //			if (user.getRole() == Role.ADMIN){
 //				controller.save(new UserPermission(user.getUsername(), RMPermissionsLevel.ADMIN)
 //				, PermissionSaveMode.NEW);
@@ -144,12 +150,36 @@ public class CurrentUserPermissions implements RequestObserver{
 //			}
 		}
 		gotPermissions = true;
+		doWhenRecievedAllData();
 		
-		//System.out.println("User Perm: got permissions...");
-		
-		//printDetails();
 	}
 
+	private static void doWhenRecievedAllData(){
+		if (gotPermissions && coreUser !=null){
+			//printDetails();
+			
+			//The signed in user does not have a user permission associated with them yet.
+			if (user == null){
+				SavePermissionsController controller = new SavePermissionsController(null);
+				
+				UserPermission perm = new UserPermission(ConfigManager.getConfig().getUserName(),RMPermissionsLevel.NONE);
+				
+				for (int i = 0 ; i < allCoreUsers.length; i ++){
+					if (perm.getUsername().equals(allCoreUsers[i].getUsername())){
+						User u = allCoreUsers[i];
+						if (u.getRole() == Role.ADMIN){
+							perm.setPermissions(RMPermissionsLevel.ADMIN);
+						}
+					}
+				}
+				
+				
+				controller.save(perm, PermissionSaveMode.NEW);
+				
+			}
+			
+		}
+	}
 	
 	private static void printDetails(){
 		//System.out.println("Trying to print User Permission Details");

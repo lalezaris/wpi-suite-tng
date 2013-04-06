@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -391,90 +392,66 @@ public class IterationPanel extends JPanel {
 	 */
 	public int checkRequiredFields(){
 		if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+				&& (txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
+				&& (txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError} , true);
+			setMultipleVisibility(new JComponent[]{lblDateError,lblIterationNumberError2,lblDateOverlapError} , false);
 			return 2;
 		} else if(((txtIterationName.getText()).compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+				&& (txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblStartDateError}, true);
+			setMultipleVisibility(new JComponent[]{lblEndDateError,lblDateError,lblIterationNumberError2,lblDateOverlapError} , false);
 			return 2; 
 		} else if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+				&& (txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblEndDateError},true);
+			setMultipleVisibility(new JComponent[]{lblStartDateError,lblDateError,lblIterationNumberError2,lblDateOverlapError},false);
 			return 2;
 		} else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+				&& (txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
+			setMultipleVisibility(new JComponent[]{lblStartDateError,lblEndDateError},true);
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblDateError,lblIterationNumberError2,lblDateOverlapError},false);
 			return 2;
 		}
 		else if((txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+			setMultipleVisibility(new JComponent[]{lblEndDateError},true);
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblStartDateError,lblDateError,lblIterationNumberError2,lblDateOverlapError},false);
 			return 2;
 		}
 		else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+			setMultipleVisibility(new JComponent[]{lblStartDateError},true);
+			setMultipleVisibility(new JComponent[]{lblIterationNameError,lblEndDateError,lblDateError,lblIterationNumberError2,lblDateOverlapError},false);
 			return 2;
 		}
 		else if (txtIterationName.getText().compareTo("") == 0){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+			setMultipleVisibility(new JComponent[]{lblIterationNameError},true);
+			setMultipleVisibility(new JComponent[]{lblStartDateError,lblEndDateError,lblDateError,lblIterationNumberError2,lblDateOverlapError},false);
 			return 2;
 		}
 		else{
 			Date startDate = StringToDate(txtStartDate.getText());
 			Date endDate = StringToDate(txtEndDate.getText());
 			if (startDate.compareTo(endDate) > 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(true);
-				lblIterationNumberError2.setVisible(false);
-				lblDateOverlapError.setVisible(false);
+				setMultipleVisibility(new JComponent[]{lblDateError}, true);
+				setMultipleVisibility(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblIterationNumberError2,lblDateOverlapError}, false);
 				return 1;
 			}
 			else{
 				return (ValidateFields());
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * Sets the visibility of multiple JComponents to the given state.
+	 * 
+	 * @param components The JComponents to have their visibility set to b
+	 * @param b True for visible, false for not visible
+	 */
+	private void setMultipleVisibility(JComponent[] components, boolean b){
+		for(JComponent j: components){
+			j.setVisible(b);
 		}
 	}
 
@@ -494,17 +471,12 @@ public class IterationPanel extends JPanel {
 		String idName = txtIterationName.getText();
 		for (int i = 1; i < array.length; i++) {
 			if(idName.compareTo(array[i].getIterationName()) == 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(false);
-				lblIterationNumberError2.setVisible(true);
-				lblDateOverlapError.setVisible(false);
+				setMultipleVisibility(new JComponent[]{lblIterationNumberError2},true);
+				setMultipleVisibility(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblDateOverlapError},false);
 				return 3;
 			}
 			else if ((endDate.compareTo(array[i].getStartDate()) <= 0)
-					||
-					(startDate.compareTo(array[i].getEndDate())) >= 0)
+					|| (startDate.compareTo(array[i].getEndDate())) >= 0)
 			{
 				continue;
 			}

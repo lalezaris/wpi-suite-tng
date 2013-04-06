@@ -25,6 +25,9 @@ import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.AdminPermissionController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.NonePermissionController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.UpdatePermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
@@ -42,33 +45,23 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class TestUserPermissionPanel {
 
 	private UserPermissionPanel panel;
-	MockData db;
-	Session adminSession;
-	Project testProject;
-	String mockSsid;
-	User user1, user2, user3, admin;
-	
+		
 	@Before
 	public void setup() {
 		
-		admin = new User("admin", "admin", "4321", 2);
-		admin.setRole(Role.ADMIN);
-		testProject = new Project("test", "1");
-		mockSsid = "abc123";
-		adminSession = new Session(admin, testProject, mockSsid);
-					
-		user1 = new User("1", "1", "1", 1);
-		user2 = new User("2", "2", "2", 2);
-		user3 = new User("3", "3", "3", 3);
-		
-		db = new MockData(new HashSet<Object>());
-		db.save(user1);
-		db.save(user2);
-		db.save(user3);
-		
-		MainTabView tabView = new MainTabView();
-		Tab tab = new Tab(tabView, new JPanel());
-		panel = new UserPermissionPanel(new UserPermissionView(tab));
+		panel = new UserPermissionPanel(null);
+		panel.getNoneUsersList().addElement("1");
+		panel.noneUsersList.addElement("2");
+		panel.noneUsersList.addElement("3");
+		panel.getUpdateUsersList().addElement("4");
+		panel.updateUsersList.addElement("5");
+		panel.updateUsersList.addElement("6");
+		panel.getAdminUsersList().addElement("7");
+		panel.adminUsersList.addElement("8");
+		panel.adminUsersList.addElement("9");
+		panel.getBtnAdmin().addActionListener(new AdminPermissionController(panel));
+		panel.getBtnNone().addActionListener(new NonePermissionController(panel));
+		panel.getBtnUpdate().addActionListener(new UpdatePermissionController(panel));
 	}
 	
 	@Test

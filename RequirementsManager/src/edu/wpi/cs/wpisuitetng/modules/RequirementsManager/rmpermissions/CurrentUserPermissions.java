@@ -157,6 +157,9 @@ public class CurrentUserPermissions implements RequestObserver{
 				user = all[i];
 		}
 		gotPermissions = true;
+		//debug message: (can be taken out safely)
+		System.out.println("We've received data now.");
+		
 		doWhenRecievedAllData();
 		
 	}

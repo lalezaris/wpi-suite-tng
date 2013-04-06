@@ -10,6 +10,7 @@
  * Contributors:
  *  Arica Liu
  *  Tyler Stone
+ *  Tushar Narayan
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
@@ -30,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListAct
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
@@ -51,6 +53,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton newIteration;
 	private JButton listIteration;
 	private JButton editUserPermissions;
+	private RMPermissionsLevel pLevel;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -77,8 +80,17 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionContent.setLayout(userPermissionLayout);
 		userPermissionContent.setOpaque(false);
 
-		
+		//this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+
 		CurrentUserPermissions.updateCurrentUserPermissions();
+		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n" + pLevel + "\n\n\n\n\n\n\n\n\n");
+		
+		/*
+		 * The problem is that the server doesn't return the permissions in time.
+		 * Thus, permission checks always get a NONE by default for the permission level
+		 * and no buttons are displayed on the toolbar.
+		 */
 		
 		// Construct the buttons
 		newIteration = new JButton("Create Iteration");
@@ -113,16 +125,20 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionLayout.putConstraint(SpringLayout.NORTH, editUserPermissions, 25, SpringLayout.NORTH, userPermissionContent);
 		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 8, SpringLayout.WEST, userPermissionContent);
 
+		//debug message:
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n" + pLevel + "\n\n\n\n\n\n\n\n\n");
 		// Add buttons to the content panel
-		requirementContent.add(newRequirement);
-		requirementContent.add(listAllRequirements);
-		
-		// Add buttons to the content panel
-		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
-		
-		// Add buttons to the content panel
-		userPermissionContent.add(editUserPermissions);
+		//all users can view the list of requirements
+		//all users can view the list of iterations
+		//TOCHECK: What can update users do and not do?
+		if(pLevel == RMPermissionsLevel.ADMIN){
+			requirementContent.add(newRequirement);
+			requirementContent.add(listAllRequirements);
+			iterationContent.add(newIteration);
+			//to be put back in once we have an iteration view
+			//iterationContent.add(listIteration);
+			userPermissionContent.add(editUserPermissions);
+		}
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);

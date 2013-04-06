@@ -12,6 +12,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -47,22 +49,14 @@ public class TestHistoryLog {
 	
 	@Before
 	public void setUp(){
-		req1 = new Requirement(1,"title1", "a desc", "bill");
-		req2 = new Requirement(1, "title2" , "not a desc", "bill");
-		req3 = new Requirement(1,"title3", "a desc", "bill");
-		req4 = new Requirement(1,"title4", "a desc", "bill");
-/*
-
-		req1 = new Requirement(1,"title1", "a desc", new User("bill", "bill", "bill", 0));
-		req2 = new Requirement(2, "title2" , "not a desc", new User("bill", "bill", "bill", 0));
-		req3 = new Requirement(3,"title3", "a desc", new User("bill", "bill", "bill", 0));
-		req4 = new Requirement(69,"title4", "a desc", new User("bill", "bill", "bill", 0));
-
-*/
+		req1 = new Requirement(1,"title1", "a desc", "Derpy");
+		req2 = new Requirement(2, "title2" , "not a desc", "Twilight");
+		req3 = new Requirement(3,"title3", "a desc", "Derpy");
+		req4 = new Requirement(69,"title4", "a desc", "Twilight");
 		
 		ArrayList<String> billAssignee = new ArrayList<String>();
 		billAssignee.add("bill");
-		ArrayList joeAssignee = new ArrayList<String>();
+		ArrayList<String> joeAssignee = new ArrayList<String>();
 		joeAssignee.add("joe");
 		
 		req1.setAssignee(billAssignee);
@@ -79,46 +73,114 @@ public class TestHistoryLog {
 		req3.setSubRequirements(rlist1);
 		req4.setSubRequirements(rlist2);
 		
-		notes1.add(new Note("A Note", "A Note"));
-		notes2.add(new Note("A Note", "A Note"));
-		notes2.add(new Note("A Note", "A Note"));
+		notes1.add(new Note("A Note", "Derpy"));
+		notes2.add(new Note("A Note", "Derpy"));
+		notes2.add(new Note("A Note", "Derpy"));
 	}
 	
 	@Test
 	public void testReqUpdateChangeFromDiff(){
+		/*
+		 * Fields to Test:
+		 * Title
+		 * Release Number
+		 * Iteration
+		 * Description
+		 * Status
+		 * Priority
+		 * Estimate
+		 * Actual
+		 * Sub Requirements
+		 * Notes
+		 */
+		
 		HistoricalChange aChange1 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
 		HistoricalChange aChange2 = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
+		HistoricalChange changeEverything = new HistoricalChange(new Date(), 1, 2, new User("Derpy", "", "", 3));
 		
+		/*
+		 * No Changes
+		 */
 		aChange1.updateChangeFromDiff(req1, req1, manager);
 		System.out.println("CHANGE 1 " + aChange1.getChange());
 
 		assertEquals(aChange1.getChange(), "");
 		
+		/*
+		 * Change Title, Description, Asignee
+		 */
 		aChange2.updateChangeFromDiff(req1, req2, manager);
 		System.out.println(aChange2.getChange());
 		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
-	}
 	
-	@Test
-	public void testSubReqsUpdate(){
-		HistoricalChange aChange = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
+		/*
+		 * Change EVERYTHING
+		 */
 		
-		aChange.updateChangeFromDiff(req3, req4, manager);
-		System.out.println("\n\nTEST 2" + aChange.getChange());
-		assertEquals("<p> Title changed from title3 to title4.</p>", aChange.getChange());
+		/*
+		 * Fields to Test:
+		 * Title
+		 * Release Number
+		 * Iteration
+		 * Description
+		 * Status
+		 * Priority
+		 * Estimate
+		 * Actual
+		 * Sub Requirements
+		 * Notes
+		 */
+		
+		//Title
+		req1.setTitle("Title1");
+		req2.setTitle("Title2");
+		
+		//Release Number
+		req1.setReleaseNumber("105");
+		req2.setReleaseNumber("104");
+		
+		//Iteration
+		req1.setIterationId(105);
+		req2.setIterationId(104);
+		
+		//Description
+		req1.setDescription("TwilightSparklIsBestPony");
+		req2.setDescription("DerpyIsBestPony");
+		
+		//Status
+		req1.setStatus(RequirementStatus.INPROGRESS);
+		req2.setStatus(RequirementStatus.COMPLETE);
+		
+		//Priority
+		req1.setPriority(RequirementPriority.HIGH);
+		req2.setPriority(RequirementPriority.LOW);
+		
+		//Estimate Effort
+		req1.setEstimateEffort(105);
+		req2.setEstimateEffort(104);
+		
+		//Actual Effort
+		req1.setActualEffort(105);
+		req2.setActualEffort(104);
+		
+		//Sub Requirements
+		//Tested in a different Test
+		
+		//Notes
+		req1.addNote(new Note("DerpyIsBestPony", "Derpy"));
+		req1.addNote(new Note("DerpyIsBestPony", "Derpy"));
+		req2.addNote(new Note("TwilightIsBestPony", "Twilight"));
+		
+		changeEverything.updateChangeFromDiff(req1, req2, manager);
+		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n -TO- \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
+						changeEverything.getChange());
+		System.out.println(changeEverything.getChange());
 	}
 	
 	@Test
 	public void testMultipleSubReqsUpdate(){
 		//Create a TON of children.
-		for(int i = 0; i < 50; i ++){
-/*
-			children.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy"+1));
-			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy"+1));
-		}
-		for(int i = 50; i < 70; i ++){
-			childrenPlusMore.add(new Requirement(1,"Title"+i, "This is child: "+i, "Derpy+"+1));
-*/			
+		for(int i = 0; i < 50; i ++){			
 			children.add(30+i);
 			childrenPlusMore.add(30+i);
 		}
@@ -151,16 +213,6 @@ public class TestHistoryLog {
 	}
 	
 	@Test
-	public void testReqNotesUpdate(){
-		HistoricalChange aChange = new HistoricalChange(new Date(), 1, 2, new User("billo", "", "", 2));
-		req3.updateNotes(notes1);
-		req4.updateNotes(notes2);
-		
-		aChange.updateChangeFromDiff(req3, req4, manager);
-		assertEquals("<p> Title changed from title3 to title4.</p><p> 1 note added.</p>", aChange.getChange());
-	}
-	
-	@Test
 	public void testGetters(){
 		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));
 		System.out.println(aChange.getDate());
@@ -169,6 +221,12 @@ public class TestHistoryLog {
 		
 		assertEquals(aChange.getUserName(), "TwilightSparkle");
 		assertEquals(aChange.getId(), 47);
+	}
+	
+	@Test
+	public void testToString(){
+		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));
+		assertEquals(aChange.toString(), "<html><u>TwilightSparkle made changes on "+ aChange.getDate()+"</u></html>");
 	}
 	
 }

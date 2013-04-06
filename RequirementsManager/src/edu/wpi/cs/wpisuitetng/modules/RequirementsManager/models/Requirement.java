@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class Requirement extends AbstractModel{
 	private String title;
+	private String type;
 	private String releaseNumber;
 	private int iterationId; //TODO: refactor to improve implementation
 	private Iteration iteration;
@@ -134,7 +135,7 @@ public class Requirement extends AbstractModel{
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.iterationId = -1;
-		
+		this.type = "";		
 		this.status = NEW; //default status is New
 		this.priority = MEDIUM; //default priority is medium
 		this.title = ""; //name is required
@@ -457,6 +458,22 @@ public class Requirement extends AbstractModel{
 		return id;
 	}
 	
+	/**
+	 * gets the type of requirement
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * sets the type of requirement
+	 * @param type: the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	/**
 	 * Gets the history.
 	 * @return the history

@@ -84,7 +84,7 @@ public class RequirementPanel extends JPanel{
 
 	public enum Mode {
 		CREATE,
-		EDIT,
+		EDIT, 
 		CHILD;
 	}
 
@@ -102,7 +102,7 @@ public class RequirementPanel extends JPanel{
 	protected JTextField txtReleaseNumber;
 	protected JComboBox cmbIteration;	
 	protected Iteration[] knownIterations;
-
+	protected JComboBox cmbType;
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
@@ -174,12 +174,12 @@ public class RequirementPanel extends JPanel{
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
-	/*
-	 * Values for the iteration combo box
-	 */
-	Integer[] iterationValues = {1,2,3,4,5};
-
 	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
+	
+	/*
+	 * Types fo a requirement
+	 */
+	String[] requirementTypes = {"","Epic", "Theme", "User Story", "Non-functional", "Scenario"};
 
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
@@ -235,7 +235,9 @@ public class RequirementPanel extends JPanel{
 		panelFour = new JPanel();
 		panelButtons = new JPanel();
 		panelTabs = new JPanel();
+		
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
+		cmbType = new JComboBox(requirementTypes);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
 		cmbIteration = new JComboBox(knownIterations);
@@ -256,8 +258,8 @@ public class RequirementPanel extends JPanel{
 		txtActual = new IntegerField(4);
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
-		txtCreator = new JTextField(15);
-		txtAssignee = new JTextField(15);
+		txtCreator = new JTextField(12);
+		txtAssignee = new JTextField(12);
 
 		notesView.setNotesList(this.getNotesArrayList());
 		hv.setHistoryList(this.getHistoryList());
@@ -303,6 +305,7 @@ public class RequirementPanel extends JPanel{
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 
 		// Construct labels for the form fields
+		JLabel lblType = new JLabel("Type:", LABEL_ALIGNMENT);
 		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
 		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
 		JLabel lblDescription = new JLabel("Description: *", LABEL_ALIGNMENT);
@@ -337,38 +340,40 @@ public class RequirementPanel extends JPanel{
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		 cOne.weighty = 0;
-		 cOne.gridwidth = 1;
+		 cOne.gridwidth = 3;
 		 lblTitleError.setVisible(false);
 		 lblTitleError.setForeground(Color.RED);
 		 panelOne.add(lblTitleError, cOne);
-
+		 
 		 cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
 		 cOne.gridx = 0;
 		 cOne.gridy = 1;
 		 cOne.weightx = 0.5;
 		 cOne.weighty = 0.5;
 		 cOne.gridwidth = 1;
-		 panelOne.add(lblReleaseNumber, cOne);
+		 panelOne.add(lblIteration, cOne);
 
 		 cOne.gridx = 1;
 		 cOne.gridy = 1;
 		 cOne.weightx = 0.5;
 		 cOne.weighty = 0.5;
 		 cOne.gridwidth = 1;
+		 panelOne.add(cmbIteration, cOne);
+
+		 cOne.gridx = 2;
+		 cOne.gridy = 1;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 panelOne.add(lblReleaseNumber, cOne);
+
+		 cOne.gridx = 3;
+		 cOne.gridy = 1;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
 		 panelOne.add(txtReleaseNumber, cOne);
 
-		 cOne.gridx = 0;
-		 cOne.gridy = 2;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(lblIteration, cOne);
-
-		 cOne.gridx = 1;
-		 cOne.gridy = 2;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
 		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		 if(model.getEstimateEffort() > 0) {
 			 cmbIteration.setEnabled(true);
@@ -387,17 +392,47 @@ public class RequirementPanel extends JPanel{
 
 		 //Move the requirement to the backlog if it is set to OPEN.
 		 if(model.getStatus() == RequirementStatus.OPEN){
-			 //model.setIteration(Iteration.getBacklog());
+			 model.setIteration(Iteration.getBacklog());
 			 cmbIteration.setEnabled(true);
 			 cmbStatus.setEnabled(true);
 		 }
 
-		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
-			 deleteRequirementBottom.setEnabled(false);
-		 else
-			 deleteRequirementBottom.setEnabled(true);
-		
-		 panelOne.add(cmbIteration, cOne);
+//		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
+//			 deleteRequirementBottom.setEnabled(false);
+//		 else
+//			 deleteRequirementBottom.setEnabled(true);
+		 
+		 cOne.gridx = 0;
+		 cOne.gridy = 2;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 panelOne.add(lblType, cOne);
+		 
+		 cOne.gridx = 1;
+		 cOne.gridy = 2;
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridwidth = 1;
+		 cmbType.setBackground(Color.WHITE);
+		 panelOne.add(cmbType, cOne);
+		 
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridx = 2;
+		 cOne.gridy = 2;
+		 cOne.anchor = GridBagConstraints.LINE_START;
+		 panelOne.add(lblCreator, cOne);
+
+		 cOne.weightx = 0.5;
+		 cOne.weighty = 0.5;
+		 cOne.gridx = 3;
+		 cOne.gridy = 2;
+		 txtCreator.setEnabled(false);
+		 txtCreator.setText(model.getCreator());
+		 txtCreator.setDisabledTextColor(Color.BLACK);
+		 cOne.anchor = GridBagConstraints.LINE_START;
+		 panelOne.add(txtCreator, cOne);		 
 
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -497,66 +532,6 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridy = 1;
 		 panelThree.add(txtActual, cThree);
 
-		 /*cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 2;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblCreatedDate, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 2;
-		 txtCreatedDate.setEnabled(false);
-		 txtCreatedDate.setText(model.getCreationDate().toString());
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtCreatedDate, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 3;
-		 panelThree.add(lblModifiedDate, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 3;
-		 txtModifiedDate.setEnabled(false);
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtModifiedDate, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 4;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblCreator, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 4;
-		 txtCreator.setEnabled(false);
-		 txtCreator.setText(model.getCreator());
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtCreator, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 5;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblAssignee, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 5;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtAssignee, cThree);*/
-
 		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
 
@@ -595,34 +570,34 @@ public class RequirementPanel extends JPanel{
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtModifiedDate, cFour);
 
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 2;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(lblCreator, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 2;
+//		 txtCreator.setEnabled(false);
+//		 txtCreator.setText(model.getCreator());
+//		 txtCreator.setDisabledTextColor(Color.BLACK);
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(txtCreator, cFour);
+
 		 cFour.weightx = 0.5;
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 0;
 		 cFour.gridy = 2;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(lblCreator, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 2;
-		 txtCreator.setEnabled(false);
-		 txtCreator.setText(model.getCreator());
-		 txtCreator.setDisabledTextColor(Color.BLACK);
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtCreator, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 3;
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(lblAssignee, cFour);
 
 		 cFour.weightx = 0.5;
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 1;
-		 cFour.gridy = 3;
+		 cFour.gridy = 2;
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtAssignee, cFour);
 
@@ -632,7 +607,7 @@ public class RequirementPanel extends JPanel{
 		 layoutButtons = new GridBagLayout();
 		 panelButtons.setLayout(layoutButtons);
 
-		 cButtons.insets = new Insets(10,10,10,0);
+		 cButtons.insets = new Insets(10,10,10,10);
 		 if (editMode == Mode.EDIT) { 
 			 if(model.getStatus() == RequirementStatus.NEW ||
 					 model.getStatus() == RequirementStatus.OPEN ||
@@ -711,22 +686,25 @@ public class RequirementPanel extends JPanel{
 		 cOverall.gridx = 0;
 		 cOverall.gridy = 3;
 		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelButtons, cOverall);
-
 		 panelOverall.add(panelFour, cOverall);
-
+		 
+		 
 		 cOverall.weightx = 0.5;
 		 cOverall.weighty = 0.5;
 		 cOverall.gridx = 0;
 		 cOverall.gridy = 4;
 		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 cOverall.fill = GridBagConstraints.BOTH;
-		 cOverall.gridheight = 4;
-		 cOverall.gridwidth = 4;
-		 panelOverall.add(panelTabs, cOverall);
-
-		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
 		 panelOverall.add(panelButtons, cOverall);
+
+//		 cOverall.weightx = 0.5;
+//		 cOverall.weighty = 0.5;
+//		 cOverall.gridx = 0;
+//		 cOverall.gridy = 4;
+//		 cOverall.anchor = GridBagConstraints.LINE_START;
+//		 cOverall.fill = GridBagConstraints.BOTH;
+//		 cOverall.gridheight = 4;
+//		 cOverall.gridwidth = 4;
+//		 panelOverall.add(panelTabs, cOverall);
 
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
 
@@ -734,13 +712,14 @@ public class RequirementPanel extends JPanel{
 		 leftPanel.setLayout(new GridBagLayout());
 		 GridBagConstraints cPane = new GridBagConstraints();
 
+//		 JScrollPane requirementFieldsScrollPane = new JScrollPane(panelOverall);
 		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
 		 cPane.weightx = 0.1;
 		 cPane.weighty = 0.1;
 		 cPane.gridx = 0;
 		 cPane.gridy = 0;
 		 leftPanel.add(panelOverall,cPane);
-
+		 
 		 JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
 		 JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 
@@ -780,7 +759,7 @@ public class RequirementPanel extends JPanel{
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		 switch (pLevel){
 		 case NONE:
-			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
 					 deleteRequirementBottom, cancelRequirementBottom, createChildRequirement});
 			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
@@ -790,7 +769,7 @@ public class RequirementPanel extends JPanel{
 			 makeStuffNotVisible(new JComponent[]{panelButtons});
 			 break;
 		 case UPDATE: 
-			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,txtDescription,txtEstimate,
+			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,
 					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration, deleteRequirementBottom, createChildRequirement});
 			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,});
 			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber});
@@ -880,6 +859,7 @@ public class RequirementPanel extends JPanel{
 
 		model.setId(requirement.getId());
 		model.setTitle(requirement.getTitle());
+		model.setType(requirement.getType());
 		model.setReleaseNumber(requirement.getReleaseNumber());
 		model.setIteration(requirement.getIteration());
 		model.setDescription(requirement.getDescription());
@@ -929,6 +909,7 @@ public class RequirementPanel extends JPanel{
 	public Requirement getEditedModel() {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
+		requirement.setType((String)cmbType.getSelectedItem());
 		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
@@ -989,6 +970,12 @@ public class RequirementPanel extends JPanel{
 		txtEstimate.setText( String.valueOf(model.getEstimateEffort()) );
 		txtActual.setText( String.valueOf(model.getActualEffort()) );
 
+		for (int i = 0; i < cmbType.getItemCount(); i++) {
+			if (model.getType().equals(cmbType.getItemAt(i))) {
+				cmbType.setSelectedIndex(i);
+			}
+		}
+		
 		for (int i = 0; i < cmbStatus.getItemCount(); i++) {
 			if (model.getStatus() == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
 				cmbStatus.setSelectedIndex(i);
@@ -1088,25 +1075,25 @@ public class RequirementPanel extends JPanel{
 			RequirementStatus setTo = RequirementStatus.OPEN;
 			if (model.getStatus() != RequirementStatus.DELETED){
 				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
-				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
+				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[1]){
 					setTo = model.getStatus();
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Change the status to In Progress automatically when the req is assigned to an iteration.
-				else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
+				else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[1]){
 					setTo = RequirementStatus.INPROGRESS;
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Change the status to Open automatically when the backlog is selected.
-				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[1]){
 					setTo = RequirementStatus.OPEN;
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
-				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[1]){
 					setTo = RequirementStatus.INPROGRESS;
 					enabled = true;
 					runThatForLoop = true;

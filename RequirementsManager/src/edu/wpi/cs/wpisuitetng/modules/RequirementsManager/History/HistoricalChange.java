@@ -73,6 +73,11 @@ public class HistoricalChange extends AbstractModel{
 			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"</p>";
 		}
 		
+		//compare Type
+		if (oldR.getType() != newR.getType()){//if old and new are not the same
+			change += "<p> "+"Type changed from " + oldR.getType().toString() + " to " + newR.getType().toString() + ".</p>";
+		}
+		
 		//compare Statuses
 		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
 			change += "<p> "+"Status changed from " + oldR.getStatus().toString() + " to " + newR.getStatus().toString() + ".</p>";

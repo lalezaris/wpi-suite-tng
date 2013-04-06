@@ -43,11 +43,14 @@ public class CreateChildRequirementController {
 	 * Serve up the child requirement
 	 */
 	public void viewChild() {
+		//child requirement inherits iteration, release number, type, and status from parent
 		childRequirement.setIteration(((RequirementPanel) view.getRequirementPanel()).getModel().getIteration());
 		childRequirement.setReleaseNumber(((RequirementPanel) view.getRequirementPanel()).getModel().getReleaseNumber());
-		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
+		childRequirement.setType(((RequirementPanel) view.getRequirementPanel()).getModel().getType());
 		childRequirement.setStatus(((RequirementPanel) view.getRequirementPanel()).getModel().getStatus());
+		//associate the parent in the child requirement's parent id field
 		childRequirement.setParentRequirementId(((RequirementPanel) view.getRequirementPanel()).getModel().getId());
+		//display the requirement
 		showRequirement(childRequirement);
 	} 
 	

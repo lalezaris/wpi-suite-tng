@@ -177,7 +177,7 @@ public class RequirementPanel extends JPanel{
 	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	/*
-	 * Types fo a requirement
+	 * Types for a requirement
 	 */
 	String[] requirementTypes = {"","Epic", "Theme", "User Story", "Non-functional", "Scenario"};
 
@@ -736,6 +736,7 @@ public class RequirementPanel extends JPanel{
 		 if (editMode == Mode.CHILD) {
 			 cmbIteration.setEnabled(false);
 			 txtReleaseNumber.setEnabled(false);
+			 cmbType.setEnabled(false);
 		 }
 
 		 if(editMode == Mode.EDIT && !model.isTopLevelRequirement()){
@@ -1075,25 +1076,25 @@ public class RequirementPanel extends JPanel{
 			RequirementStatus setTo = RequirementStatus.OPEN;
 			if (model.getStatus() != RequirementStatus.DELETED){
 				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
-				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[1]){
+				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == knownIterations[0]){
 					setTo = model.getStatus();
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Change the status to In Progress automatically when the req is assigned to an iteration.
-				else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[1]){
+				else if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != knownIterations[0]){
 					setTo = RequirementStatus.INPROGRESS;
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Change the status to Open automatically when the backlog is selected.
-				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[1]){
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == knownIterations[0]){
 					setTo = RequirementStatus.OPEN;
 					enabled = false;
 					runThatForLoop = true;
 				}
 				//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
-				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[1]){
+				else if((model.getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != knownIterations[0]){
 					setTo = RequirementStatus.INPROGRESS;
 					enabled = true;
 					runThatForLoop = true;

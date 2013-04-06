@@ -13,6 +13,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+
 /**
  * Possible values that a status of a requirement can be set to
  * Adapted from DefectStatus in project DefectTracker

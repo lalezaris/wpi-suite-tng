@@ -8,21 +8,23 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *	Ned Shelton
- *  Mike Perrone
+ *  Arica Liu
+ *  Tushar Narayan
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
- * Enum for RM Permissions Level
+ * Possible values that a status of an iteration can be set to
+ * Adapted from RequirementStatus in project RequirementsManager
  *
- * @author Mike Perrone
- *
- * @version Apr 5, 2013
+ * @author Arica Liu 
+ * @author Tushar Narayan
+ * 
+ * @version Mar 24, 2013
  *
  */
-public enum RMPermissionsLevel {
-	NONE,
-	UPDATE,
-	ADMIN
+public enum IterationStatus {
+	NEW,       // new iteration - created but not scheduled
+	OPEN, // scheduled iteration
+	CLOSED   // completed iteration
 }

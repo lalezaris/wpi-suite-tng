@@ -19,9 +19,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.MEDIUM;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.NEW;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -30,6 +27,9 @@ import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class Requirement extends AbstractModel{
 	private String title;
-	private String type;
+	private RequirementType type;
 	private String releaseNumber;
 	private int iterationId; //TODO: refactor to improve implementation
 	private Iteration iteration;
@@ -135,9 +135,9 @@ public class Requirement extends AbstractModel{
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
 		this.iterationId = -1;
-		this.type = "";		
-		this.status = NEW; //default status is New
-		this.priority = MEDIUM; //default priority is medium
+		this.type = RequirementType.BLANK;		
+		this.status = RequirementStatus.NEW; //default status is New
+		this.priority = RequirementPriority.MEDIUM; //default priority is medium
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
@@ -462,7 +462,7 @@ public class Requirement extends AbstractModel{
 	 * gets the type of requirement
 	 * @return the type
 	 */
-	public String getType() {
+	public RequirementType getType() {
 		return type;
 	}
 
@@ -470,7 +470,7 @@ public class Requirement extends AbstractModel{
 	 * sets the type of requirement
 	 * @param type: the type to set
 	 */
-	public void setType(String type) {
+	public void setType(RequirementType type) {
 		this.type = type;
 	}
 

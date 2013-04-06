@@ -22,8 +22,8 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.PermissionSaveMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.SavePermissionsController;

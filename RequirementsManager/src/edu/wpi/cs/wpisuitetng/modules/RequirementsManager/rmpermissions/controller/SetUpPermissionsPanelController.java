@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.model.PermissionModel;
@@ -114,11 +114,11 @@ public class SetUpPermissionsPanelController {
 				
 				if (!hasPermission){
 					if (this.model.getUsers()[i].getRole() == Role.ADMIN){
-						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(), RMPermissionsLevel.ADMIN)
+						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.ADMIN)
 						, PermissionSaveMode.NEW);
 						admin.add(this.model.getUsers()[i].getUsername());
 					} else {
-						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(), RMPermissionsLevel.NONE)
+						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.NONE)
 								, PermissionSaveMode.NEW);
 						none.add(this.model.getUsers()[i].getUsername());
 					}

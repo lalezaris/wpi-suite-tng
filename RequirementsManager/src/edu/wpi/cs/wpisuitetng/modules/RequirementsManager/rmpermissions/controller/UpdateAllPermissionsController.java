@@ -10,20 +10,29 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.model.PermissionModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.UpdatePermissionObserver;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
  * Action to update all permissions
@@ -33,16 +42,18 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPerm
  * @version Apr 4, 2013
  *
  */
-public class UpdateAllPermissionsAction extends AbstractAction {
+public class UpdateAllPermissionsController extends AbstractAction {
 	
 	protected UserPermissionPanel panel;
 	protected JList noneUsers,updateUsers,adminUsers;
+	private PermissionModel permModel;
 	
-	public UpdateAllPermissionsAction(UserPermissionPanel panel){
+	public UpdateAllPermissionsController(UserPermissionPanel panel, PermissionModel permModel){
 		this.panel = panel;
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
+		this.permModel = permModel;
 //		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
 	
@@ -52,8 +63,8 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		if (panel.isGotUsers() 
-				&& panel.isGotPermissions()
+		if (permModel.isGotUsers()
+				&& permModel.isGotPermissions()
 				&& CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
 			
 			CurrentUserPermissions.updateCurrentUserPermissions();
@@ -69,16 +80,57 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 			List<String> allAdminUsers = this.getAllElementsInModel(adminListModel);
 			
 			//updates the new 
-			panel.updatePermissions(allAdminUsers, RMPermissionsLevel.ADMIN);
-			panel.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
-			panel.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
+			//panel.getView().setUpPanel(allAdminUsers, RMPermissionsLevel.ADMIN);
+			//panel.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
+			//panel.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
+			this.updatePermissions(allAdminUsers, RMPermissionsLevel.ADMIN);
+			this.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
+			this.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
 			
 			//close tab
 			panel.getView().getTab().getView().removeTabAt(panel.getView().getTab().getThisIndex());
 		}
 		
 	}
+
+	
+	
+	/**
+	 * @param selected the selected names
+	 * @param level the new permission level to put those names at
+	 */
+	public void updatePermissions(List<String> selected, RMPermissionsLevel level){
 		
+		SavePermissionsController controller = new SavePermissionsController(panel);
+		
+		System.out.println("calling update");
+		for (int i = 0 ; i < selected.size() ; i ++)
+			System.out.println("SEL:" + ((String)selected.get(i)));
+		
+		//This loop goes through the selected names, and all the permissions
+		//and if there is a match, it updates that permission to LEVEL (an input to this function)
+		//and saves the permission
+		for (int i = 0 ; i < this.permModel.getPermissions().length ; i ++){
+			for (int j = 0 ; j < selected.size() ; j ++){
+				System.out.println("IS " + this.permModel.getPermissions()[i].getUsername() + " = TO " + (String)selected.get(j));
+				if ( ((String)selected.get(j)).equals(this.permModel.getPermissions()[i].getUsername()) && this.permModel.getPermissions()[i].getPermissions() != level){
+					
+					String me = ConfigManager.getConfig().getUserName();
+					Date now = new Date();
+					
+					String m = "[" + DateFormat.getDateTimeInstance().format(now) + "] CHANGE: " + me + " changed " + this.permModel.getPermissions()[i].getUsername() + 
+							" status from " + this.permModel.getPermissions()[i].getPermissions() + " to " + level ;
+					this.permModel.getPermissions()[i].setMessage(m);
+					
+					this.permModel.getPermissions()[i].setPermissions(level);
+					controller.save(this.permModel.getPermissions()[i], PermissionSaveMode.UPDATE);					
+				}
+				
+			}
+		}
+		
+	
+	}
 		/**
 		 * The function takes a DefaultListModel and converts it to a list of string
 		 * 
@@ -106,5 +158,7 @@ public class UpdateAllPermissionsAction extends AbstractAction {
 			}
 			return newModel;
 		}
+		
+	
 
 }

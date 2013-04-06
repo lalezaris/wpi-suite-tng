@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -19,6 +19,8 @@ import com.google.gson.GsonBuilder;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.SetUpPermissionsPanelController;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -52,9 +54,12 @@ public class UpdatePermissionObserver implements RequestObserver{
 		// parse the Requirement from the body
 		final UserPermission per = UserPermission.fromJSON(response.getBody());
 
-		if (panel!=null)
-			panel.addPermission(per);
-
+		//if (controller!=null)
+		//	controller.addPermission(per);
+		if (panel !=null)
+			panel.getView().getPermModel().addPermission(per);
+		
+		
 		CurrentUserPermissions.updateCurrentUserPermissions();
 
 	}

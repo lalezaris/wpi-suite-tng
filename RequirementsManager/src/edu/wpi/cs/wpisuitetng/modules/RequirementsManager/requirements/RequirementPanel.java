@@ -551,7 +551,6 @@ public class RequirementPanel extends JPanel{
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 1;
 		 cFour.gridy = 0;
-//		 txtCreatedDate.setEnabled(false);
 		 txtCreatedDate.setText(model.getCreationDate().toString());
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtCreatedDate, cFour);
@@ -566,26 +565,8 @@ public class RequirementPanel extends JPanel{
 		 cFour.weighty = 0.5;
 		 cFour.gridx = 1;
 		 cFour.gridy = 1;
-//		 txtModifiedDate.setEnabled(false);
 		 cFour.anchor = GridBagConstraints.LINE_START;
 		 panelFour.add(txtModifiedDate, cFour);
-
-//		 cFour.weightx = 0.5;
-//		 cFour.weighty = 0.5;
-//		 cFour.gridx = 0;
-//		 cFour.gridy = 2;
-//		 cFour.anchor = GridBagConstraints.LINE_START;
-//		 panelFour.add(lblCreator, cFour);
-//
-//		 cFour.weightx = 0.5;
-//		 cFour.weighty = 0.5;
-//		 cFour.gridx = 1;
-//		 cFour.gridy = 2;
-//		 txtCreator.setEnabled(false);
-//		 txtCreator.setText(model.getCreator());
-//		 txtCreator.setDisabledTextColor(Color.BLACK);
-//		 cFour.anchor = GridBagConstraints.LINE_START;
-//		 panelFour.add(txtCreator, cFour);
 
 		 cFour.weightx = 0.5;
 		 cFour.weighty = 0.5;
@@ -696,23 +677,12 @@ public class RequirementPanel extends JPanel{
 		 cOverall.anchor = GridBagConstraints.LINE_START;
 		 panelOverall.add(panelButtons, cOverall);
 
-//		 cOverall.weightx = 0.5;
-//		 cOverall.weighty = 0.5;
-//		 cOverall.gridx = 0;
-//		 cOverall.gridy = 4;
-//		 cOverall.anchor = GridBagConstraints.LINE_START;
-//		 cOverall.fill = GridBagConstraints.BOTH;
-//		 cOverall.gridheight = 4;
-//		 cOverall.gridwidth = 4;
-//		 panelOverall.add(panelTabs, cOverall);
-
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
 
 		 JPanel leftPanel = new JPanel();
 		 leftPanel.setLayout(new GridBagLayout());
 		 GridBagConstraints cPane = new GridBagConstraints();
 
-//		 JScrollPane requirementFieldsScrollPane = new JScrollPane(panelOverall);
 		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
 		 cPane.weightx = 0.1;
 		 cPane.weighty = 0.1;

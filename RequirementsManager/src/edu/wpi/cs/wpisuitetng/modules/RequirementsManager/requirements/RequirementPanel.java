@@ -45,10 +45,7 @@ import sun.swing.DefaultLookup;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
@@ -66,6 +63,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Requ
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 /**
  * Panel to display and edit the basic fields for a requirement
  * Adapted from DefectPanel in project DefectTracker
@@ -176,11 +177,6 @@ public class RequirementPanel extends JPanel{
 
 	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
-	/*
-	 * Types fo a requirement
-	 */
-	String[] requirementTypes = {"","Epic", "Theme", "User Story", "Non-functional", "Scenario"};
-
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 * 
@@ -237,7 +233,6 @@ public class RequirementPanel extends JPanel{
 		panelTabs = new JPanel();
 		
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
-		cmbType = new JComboBox(requirementTypes);
 		txtReleaseNumber = new JTextField(12);
 		knownIterations = Refresher.getInstance().getInstantIterations();
 		cmbIteration = new JComboBox(knownIterations);
@@ -254,6 +249,11 @@ public class RequirementPanel extends JPanel{
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
+		String[] requirementTypeValues = new String[RequirementType.values().length];
+		for (int i = 0; i < RequirementType.values().length; i++) {
+			requirementTypeValues[i] = RequirementType.values()[i].toString();
+		}
+		cmbType = new JComboBox(requirementTypeValues);
 		txtEstimate = new IntegerField(4);
 		txtActual = new IntegerField(4);
 		txtCreatedDate = new JLabel();
@@ -909,13 +909,13 @@ public class RequirementPanel extends JPanel{
 	public Requirement getEditedModel() {
 		Requirement requirement = new Requirement();
 		requirement.setId(model.getId());
-		requirement.setType((String)cmbType.getSelectedItem());
+		requirement.setType(RequirementType.valueFromString((String) cmbType.getSelectedItem()));
 		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
 		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
 		requirement.setDescription(txtDescription.getText().trim());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
-		requirement.setPriority(RequirementPriority.valueOf((String) cmbPriority.getSelectedItem()));
+		requirement.setPriority(RequirementPriority.valueFromString((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(model.getCreationDate());
@@ -971,7 +971,7 @@ public class RequirementPanel extends JPanel{
 		txtActual.setText( String.valueOf(model.getActualEffort()) );
 
 		for (int i = 0; i < cmbType.getItemCount(); i++) {
-			if (model.getType().equals(cmbType.getItemAt(i))) {
+			if (model.getType().toString().equals(cmbType.getItemAt(i).toString())) {
 				cmbType.setSelectedIndex(i);
 			}
 		}
@@ -990,7 +990,7 @@ public class RequirementPanel extends JPanel{
 		}
 
 		for (int i = 0; i < cmbPriority.getItemCount(); i++) {
-			if (model.getPriority() == RequirementPriority.valueOf((String) cmbPriority.getItemAt(i))) {
+			if (model.getPriority().toString().equals(cmbPriority.getItemAt(i).toString())) {
 				cmbPriority.setSelectedIndex(i);
 			}
 		}

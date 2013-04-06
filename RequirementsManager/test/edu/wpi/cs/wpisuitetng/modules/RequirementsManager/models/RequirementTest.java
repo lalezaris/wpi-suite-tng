@@ -14,8 +14,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.*;
 
 import static org.junit.Assert.*;
 
@@ -25,6 +25,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 

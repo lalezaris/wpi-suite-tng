@@ -11,7 +11,7 @@
  *  Chris Dunkers
  *  Joe Spicola
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
  * Possible values that a priority of a requirement can be set to
@@ -23,7 +23,30 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  *
  */
 public enum RequirementPriority {
-	HIGH,       // requires immediate attention
-	MEDIUM, // requires attention shortly
-	LOW   // requires attention at some point in the iteration
+	BLANK(""),
+	HIGH("HIGH"),       // requires immediate attention
+	MEDIUM("MEDIUM"), // requires attention shortly
+	LOW("LOW");   // requires attention at some point in the iteration
+	
+	private String name;
+	RequirementPriority(String name){
+		this.name = name;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	@Override
+	public String toString(){
+		return name;
+	}
+	
+	public static RequirementPriority valueFromString(String name){
+		if(name.equals("")) return BLANK;
+		if(name.equals("HIGH")) return HIGH;
+		if(name.equals("MEDIUM")) return MEDIUM;
+		if(name.equals("LOW")) return LOW;
+		return null;
+	}
 }

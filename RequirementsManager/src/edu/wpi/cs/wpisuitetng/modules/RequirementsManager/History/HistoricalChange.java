@@ -53,18 +53,19 @@ public class HistoricalChange extends AbstractModel{
 		}
 		
 		//compare Release Numbers
-		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
+		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
 			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
+			System.out.println("Checked Release Numbers.");
+			System.out.println("Change So Far: " + change);
 		}
 		
 		//compare type
-		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
-			change +="<p> "+ "Release Number changed from " + oldR.getType() + " to " + newR.getType() + ".</p>";
+		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
+			change +="<p> "+ "Type changed from " + oldR.getType() + " to " + newR.getType() + ".</p>";
 		}
 		
 		//compare Iterations
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
-			
 			change += "<p> "+"Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".</p>";
 		}
 		

@@ -10,10 +10,11 @@ import org.junit.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -84,6 +85,7 @@ public class TestHistoryLog {
 		 * Fields to Test:
 		 * Title
 		 * Release Number
+		 * Type
 		 * Iteration
 		 * Description
 		 * Status
@@ -102,7 +104,6 @@ public class TestHistoryLog {
 		 * No Changes
 		 */
 		aChange1.updateChangeFromDiff(req1, req1, manager);
-		System.out.println("CHANGE 1 " + aChange1.getChange());
 
 		assertEquals(aChange1.getChange(), "");
 		
@@ -110,7 +111,6 @@ public class TestHistoryLog {
 		 * Change Title, Description, Asignee
 		 */
 		aChange2.updateChangeFromDiff(req1, req2, manager);
-		System.out.println(aChange2.getChange());
 		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
 	
 		/*
@@ -121,6 +121,7 @@ public class TestHistoryLog {
 		 * Fields to Test:
 		 * Title
 		 * Release Number
+		 * Type
 		 * Iteration
 		 * Description
 		 * Status
@@ -138,6 +139,10 @@ public class TestHistoryLog {
 		//Release Number
 		req1.setReleaseNumber("105");
 		req2.setReleaseNumber("104");
+		
+		//Release Type
+		req1.setType(RequirementType.EPIC);
+		req2.setType(RequirementType.USERSTORY);
 		
 		//Iteration
 		req1.setIterationId(105);
@@ -172,9 +177,8 @@ public class TestHistoryLog {
 		req2.addNote(new Note("TwilightIsBestPony", "Twilight"));
 		
 		changeEverything.updateChangeFromDiff(req1, req2, manager);
-		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n -TO- \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
+		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Type changed from EPIC to USER STORY.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n -TO- \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
 						changeEverything.getChange());
-		System.out.println(changeEverything.getChange());
 	}
 	
 	@Test
@@ -214,11 +218,7 @@ public class TestHistoryLog {
 	
 	@Test
 	public void testGetters(){
-		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));
-		System.out.println(aChange.getDate());
-		System.out.println(aChange.getId());
-		System.out.println(aChange.getUserName());
-		
+		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));	
 		assertEquals(aChange.getUserName(), "TwilightSparkle");
 		assertEquals(aChange.getId(), 47);
 	}

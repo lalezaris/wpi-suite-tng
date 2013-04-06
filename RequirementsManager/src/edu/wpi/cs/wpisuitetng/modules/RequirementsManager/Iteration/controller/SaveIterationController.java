@@ -54,7 +54,7 @@ public class SaveIterationController {
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
 		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
 		
-		if(panel.checkRequiredFields() == 0){//no errors, see checkRequiredFields for documentation on this
+		if(panel.checkRequiredFields() == 0){//no errors, see IterationPanel.checkRequiredFields() for documentation on this
 			request.setBody(panel.getEditedModel().toJSON());
 			request.addObserver(requestObserver);
 			request.send();

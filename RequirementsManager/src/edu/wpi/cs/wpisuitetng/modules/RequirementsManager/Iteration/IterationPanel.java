@@ -395,14 +395,9 @@ public class IterationPanel extends JPanel {
 	public int checkRequiredFields(){
 		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
 		
-		System.out.println("the current txtIterationName is ("+txtIterationName.getText()+")");
 		
 		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
-			System.out.println("here we are, setting the error msg to true");
-		}
-		else{
-			System.out.println("didn't set the msg to true.");
 		}
 		if(txtStartDate.getText().equals(null) || txtStartDate.getText().equals("")){//no start date entered
 			lblStartDateError.setVisible(true);

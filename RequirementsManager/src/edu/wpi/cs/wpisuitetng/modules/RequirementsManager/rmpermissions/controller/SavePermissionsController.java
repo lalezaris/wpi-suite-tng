@@ -10,9 +10,11 @@
  * Contributors:
  *  Chirs Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.UpdatePermissionObserver;
 
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -54,6 +56,8 @@ public class SavePermissionsController {
 		else request = Network.getInstance().makeRequest("requirementsmanager/permissions", HttpMethod.POST);
 			String JsonRequest = permission.toJSON();
 			request.setBody(JsonRequest);
+			
+			
 			request.addObserver(new UpdatePermissionObserver(panel));
 			request.send();
 			//close tab

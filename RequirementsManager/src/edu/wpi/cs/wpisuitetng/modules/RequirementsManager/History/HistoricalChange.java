@@ -57,6 +57,11 @@ public class HistoricalChange extends AbstractModel{
 			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
 		}
 		
+		//compare type
+		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
+			change +="<p> "+ "Release Number changed from " + oldR.getType() + " to " + newR.getType() + ".</p>";
+		}
+		
 		//compare Iterations
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
 			

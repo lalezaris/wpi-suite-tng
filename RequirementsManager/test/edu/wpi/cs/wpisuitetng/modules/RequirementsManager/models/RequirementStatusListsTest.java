@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+
 /**
  * @author Tushar Narayan
  *
@@ -38,7 +40,7 @@ public class RequirementStatusListsTest {
 	}
 
 	/**
-	 * Test method for {@link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus)}.
+	 * Test method for {@link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus)}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test

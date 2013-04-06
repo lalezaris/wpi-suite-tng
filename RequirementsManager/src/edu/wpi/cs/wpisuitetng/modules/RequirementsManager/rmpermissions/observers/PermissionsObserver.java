@@ -10,13 +10,14 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.SetUpPermissionsPanelController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -33,9 +34,9 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class PermissionsObserver implements RequestObserver{
 
-	private UserPermissionPanel panel;
-	public PermissionsObserver(UserPermissionPanel panel){
-		this.panel = panel;
+	private SetUpPermissionsPanelController controller;
+	public PermissionsObserver(SetUpPermissionsPanelController controller){
+		this.controller = controller;
 	}
 	
 	@Override
@@ -46,10 +47,11 @@ public class PermissionsObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);
 		
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		//CurrentUserPermissions.updateCurrentUserPermissions();
 		
 		
-		this.panel.setAllPermissions(all);
+		//this.panel.setAllPermissions(all);
+		this.controller.receiveServerPermissions(all);
 		
 	}
 

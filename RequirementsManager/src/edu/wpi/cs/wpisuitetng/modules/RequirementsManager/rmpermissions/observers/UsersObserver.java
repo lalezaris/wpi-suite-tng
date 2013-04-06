@@ -10,11 +10,11 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.SetUpPermissionsPanelController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -22,46 +22,41 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Observer for current user permissions
+ * Observer for users
  *
  * @author Chris Hanna
  *
  * @version Apr 5, 2013
  *
  */
-public class CurrentUserPermissionsObserver implements RequestObserver{
+public class UsersObserver implements RequestObserver{
 
+	SetUpPermissionsPanelController controller;
+	
+	public UsersObserver(SetUpPermissionsPanelController controller){
+		this.controller = controller;
+	}
+	
+	
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
 		
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		
-		//Figure out which coreUser's name matches the known current user's name.
-		User user = null;
-		for (int i = 0 ; i < users.length ; i ++){
-			if (ConfigManager.getConfig().getUserName().equals(users[i].getUsername()))
-			{
-				user = users[i];
-				break;
-			}
-		}
-		CurrentUserPermissions.setUsers(user, users);
-		
+		//this.panel.setAllusers(users);
+		this.controller.recieveServerUsers(users);
+		//CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.out.println("Failed to retrieve current user permissions3");
 		
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.out.println("Failed to retrieve current user permissions4");
 		
 	}
 

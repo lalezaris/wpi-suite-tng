@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 /**
  * Enum for Permission Save Mode

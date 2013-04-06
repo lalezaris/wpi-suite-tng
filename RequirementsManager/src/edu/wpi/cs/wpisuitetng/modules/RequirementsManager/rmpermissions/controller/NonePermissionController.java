@@ -10,7 +10,7 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,11 +23,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.PermissionSaveMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.SavePermissionsController;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -46,12 +48,12 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version Apr 2, 2013
  *
  */
-public class NonePermissionAction extends AbstractAction {
+public class NonePermissionController extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
 	protected UserPermissionPanel panel;
 	
-	public NonePermissionAction(UserPermissionPanel panel){
+	public NonePermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();

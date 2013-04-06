@@ -10,10 +10,11 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import com.google.gson.GsonBuilder;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -21,41 +22,46 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Observer for users
+ * Observer for current user permissions
  *
  * @author Chris Hanna
  *
  * @version Apr 5, 2013
  *
  */
-public class UsersObserver implements RequestObserver{
+public class CurrentUserPermissionsObserver implements RequestObserver{
 
-	UserPermissionPanel panel;
-	
-	public UsersObserver(UserPermissionPanel panel){
-		this.panel = panel;
-	}
-	
-	
 	@Override
 	public void responseSuccess(IRequest iReq) {
+		
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
 		
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		this.panel.setAllusers(users);
 		
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		//Figure out which coreUser's name matches the known current user's name.
+		User user = null;
+		for (int i = 0 ; i < users.length ; i ++){
+			if (ConfigManager.getConfig().getUserName().equals(users[i].getUsername()))
+			{
+				user = users[i];
+				break;
+			}
+		}
+		CurrentUserPermissions.setUsers(user, users);
+		
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
+		System.out.println("Failed to retrieve current user permissions3");
 		
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
+		System.out.println("Failed to retrieve current user permissions4");
 		
 	}
 

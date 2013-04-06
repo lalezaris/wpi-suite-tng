@@ -10,7 +10,7 @@
  * Contributors:
  *  CDUNKERS
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -23,40 +23,40 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 /**
- * The controller for the button to move a object to the None Permissions list
+ * The controller for the button to move a object to the Update Permissions list
  *
  * @author Chris Dunkers
  *
  * @version Apr 2, 2013
  *
  */
-public class AdminPermissionAction extends AbstractAction {
+public class UpdatePermissionController extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
 	protected UserPermissionPanel panel;
 	
-	public AdminPermissionAction(UserPermissionPanel panel){
+	public UpdatePermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
-//		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-	} 
+//		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
+	}  
 	
 	/* 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
+
 		//gets the selected items from the none and admin lists
 		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
-		List<String> selectedUpdateUsers = updateUsers.getSelectedValuesList();
+		List<String> selectedAdminUsers = adminUsers.getSelectedValuesList();
 		
 		//gets all model for each of the list
 		DefaultListModel noneListModel = (DefaultListModel) noneUsers.getModel();
@@ -75,26 +75,25 @@ public class AdminPermissionAction extends AbstractAction {
 		//create a new model with the remaining items
 		DefaultListModel newNoneModel = this.getNewModel(newNoneUsers);
 		
-		//Assign the new model	
+		//assign the new model
 		noneUsers.setModel(newNoneModel);
 		
-		//remove the selected items from the update total list 
-		List<String> newUpdateUsers = allUpdateUsers;
-		newUpdateUsers.removeAll(selectedUpdateUsers);
+		//remove the selected items from the admin total list 
+		List<String> newAdminUsers = allAdminUsers;
+		newAdminUsers.removeAll(selectedAdminUsers);
 		
 		//create a new model with the remaining items
-		DefaultListModel newUpdateModel = this.getNewModel(newUpdateUsers);
+		DefaultListModel newAdminModel = this.getNewModel(newAdminUsers);
+		//assign the new model
+		adminUsers.setModel(newAdminModel);
 		
-		//Assign the new model	
-		updateUsers.setModel(newUpdateModel);
+		//update the list for Update users to contain the selected items and convert it to a new default list model
+		allUpdateUsers.addAll(selectedNoneUsers);
+		allUpdateUsers.addAll(selectedAdminUsers);
+		DefaultListModel newUpdateModel = this.getNewModel(allUpdateUsers);
 		
-		//update the list for Admin users to contain the selected items and convert it to a new default list model
-		allAdminUsers.addAll(selectedNoneUsers);
-		allAdminUsers.addAll(selectedUpdateUsers);
-		DefaultListModel newAdminModel = this.getNewModel(allAdminUsers);
-
-		//Assign the new model	
-		adminUsers.setModel(newAdminModel);	
+		//Assign the new model			
+		updateUsers.setModel(newUpdateModel);	
 	}
 	
 	
@@ -125,4 +124,5 @@ public class AdminPermissionAction extends AbstractAction {
 		}
 		return newModel;
 	}
+	
 }

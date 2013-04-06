@@ -334,10 +334,10 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	@Override
 	public int compareTo(Iteration o) {
 		if(this.startDate == null)
-			return -1;
-		if(o.startDate == null)
 			return 1;
-		return -1*(this.startDate.compareTo(o.startDate));
+		if(o.startDate == null)
+			return -1;
+		return (this.startDate.compareTo(o.startDate));
 	}
 	
 	@Override

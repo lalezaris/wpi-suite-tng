@@ -71,7 +71,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		inputEnabled = true;
 		
-		containingTab.setIcon(new ImageIcon());
+		containingTab.setIcon(new ImageIcon()); 
 		if(editMode == Mode.CREATE) {
 			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
@@ -102,7 +102,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			}
 		});
 		
-		this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		//this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		this.add(reqPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 	}
 	

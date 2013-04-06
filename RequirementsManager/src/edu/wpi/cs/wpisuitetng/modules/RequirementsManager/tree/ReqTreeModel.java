@@ -16,7 +16,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -99,7 +99,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 			for (int r = 0; r < iterations.length; r++) {
 				// initialize all new iteration nodes
-
+				Arrays.sort(iterations);
 				iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
 			}
 

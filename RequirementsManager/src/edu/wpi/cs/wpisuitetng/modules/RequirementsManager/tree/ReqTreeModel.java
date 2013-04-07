@@ -74,7 +74,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
-		}
+	}
 
 	/**
 	 * Fills the tree with requirements given in the array. Clears the existing

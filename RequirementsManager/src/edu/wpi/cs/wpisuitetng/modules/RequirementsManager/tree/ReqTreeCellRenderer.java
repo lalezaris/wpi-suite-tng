@@ -11,6 +11,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
@@ -61,6 +62,12 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 				break;
 			default:
 				setIcon(no_priority_icon);
+			}
+		} else if (node.getUserObject() instanceof Iteration) {
+			Iteration iter = (Iteration) node.getUserObject();
+			
+			if (iter.getName() == "Backlog") {
+				//setIcon()
 			}
 		}
 		

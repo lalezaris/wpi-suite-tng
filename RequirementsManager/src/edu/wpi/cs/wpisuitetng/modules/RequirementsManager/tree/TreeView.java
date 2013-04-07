@@ -107,7 +107,10 @@ public class TreeView extends JPanel {
 		MouseListener ml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-
+				
+			
+				
+				
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
 							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
@@ -136,6 +139,7 @@ public class TreeView extends JPanel {
 									Object selectedObject = selectedNode
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
+										tree.expandPath(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;

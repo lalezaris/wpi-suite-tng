@@ -5,6 +5,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.Component;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
@@ -66,8 +67,24 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
 			
-			if (iter.getName() == "Backlog") {
+			if (iter.equals(Iteration.getBacklog())) {
 				//setIcon()
+			} else{
+				Date now = new Date();
+				if (iter.getStartDate().compareTo(now) > 0){
+					//setIcon to FUTURE
+				}
+				else if (iter.getEndDate().compareTo(now) < 0){
+					//setIcon to PAST
+				}
+				else {
+					//setIcon to PRESENT
+				}
+			}
+		} else if (node.getUserObject() instanceof String){
+			String text = (String)node.getUserObject();
+			if (text.equals("Deleted")){
+				//setIcon to DELETED FOLDER
 			}
 		}
 		

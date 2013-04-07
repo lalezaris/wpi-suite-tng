@@ -21,12 +21,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -82,6 +84,10 @@ public class TreeView extends JPanel {
 
 		tree = new JTree(treeModel);
 
+		
+		ImageIcon icon = createImageIcon("icon.png");
+		tree.setCellRenderer( new ReqTreeCellRenderer(icon));
+		
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -173,4 +179,21 @@ public class TreeView extends JPanel {
 	public JTree getTree() {
 		return tree;
 	}
+	
+	
+	/** Returns an ImageIcon, or null if the path was invalid. */
+    protected ImageIcon createImageIcon(String path) {
+    	
+    	path = "icon.png";
+    	
+        java.net.URL imgURL = this.getClass().getResource(path);
+        System.err.println(this.getClass());
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+        	
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
 }

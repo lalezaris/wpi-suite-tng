@@ -20,13 +20,17 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -82,6 +86,10 @@ public class TreeView extends JPanel {
 
 		tree = new JTree(treeModel);
 
+		
+		ReqTreeCellRenderer renderer = new ReqTreeCellRenderer();
+		tree.setCellRenderer(renderer);
+		
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -97,7 +105,10 @@ public class TreeView extends JPanel {
 		MouseListener ml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-
+				
+			
+				
+				
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
 							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
@@ -126,6 +137,7 @@ public class TreeView extends JPanel {
 									Object selectedObject = selectedNode
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
+										tree.expandPath(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;

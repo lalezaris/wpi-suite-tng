@@ -87,9 +87,7 @@ public class TreeView extends JPanel {
 		tree = new JTree(treeModel);
 
 		
-		ImageIcon icon = createImageIcon("icon.png");
-		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-		renderer.setLeafIcon(icon);
+		ReqTreeCellRenderer renderer = new ReqTreeCellRenderer();
 		tree.setCellRenderer(renderer);
 		
 		// Updates the tree view when it is first focused
@@ -187,13 +185,4 @@ public class TreeView extends JPanel {
 	public JTree getTree() {
 		return tree;
 	}
-	
-	
-	/** Returns an ImageIcon, or null if the path was invalid. */
-    protected ImageIcon createImageIcon(String path) {
-    	
-    	path = "..\\RequirementsManager\\src\\media\\req_no_priority.png";
-
-            return new ImageIcon(path);
-    }
 }

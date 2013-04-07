@@ -12,6 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
+import java.util.ArrayList;
+
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -37,7 +39,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class CurrentUserPermissions implements RequestObserver{
 	
-	
+	private static ArrayList<RequestObserver> roList = new ArrayList<RequestObserver>();
 	private static boolean gotPermissions = false;
 	private static User coreUser;
 	private static User[] allCoreUsers;
@@ -66,6 +68,13 @@ public class CurrentUserPermissions implements RequestObserver{
 		reset();
 		Refresher.getInstance().getObjects(getInstance(), "requirementsmanager/permissions", "");
 		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
+	}
+	
+	public static void updateCurrentUserPermissions(RequestObserver r){
+		reset();
+		Refresher.getInstance().getObjects(getInstance(), "requirementsmanager/permissions", "");
+		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
+		roList.add(r);
 	}
 	
 	/**
@@ -184,8 +193,13 @@ public class CurrentUserPermissions implements RequestObserver{
 				
 				controller.save(perm, PermissionSaveMode.NEW);
 				
+				
 			}
 			
+			for (int i = 0; i < roList.size(); i++){
+				roList.get(i).responseSuccess(null);//ALERT ALERT!
+			}
+			//roList.clear();
 		}
 	}
 	
@@ -228,5 +242,8 @@ public class CurrentUserPermissions implements RequestObserver{
 		System.out.println("Failed to retrieve current user permissions2");
 		
 	}
-
+	
+	public static UserPermission getUser(){
+		return user;
+	}
 }

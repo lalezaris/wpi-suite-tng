@@ -1,8 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.IOnPermissionUpdate;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 

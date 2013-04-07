@@ -10,10 +10,11 @@
  * Contributors:
  *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import com.google.gson.GsonBuilder;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.SetUpPermissionsPanelController;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -30,10 +31,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UsersObserver implements RequestObserver{
 
-	UserPermissionPanel panel;
+	SetUpPermissionsPanelController controller;
 	
-	public UsersObserver(UserPermissionPanel panel){
-		this.panel = panel;
+	public UsersObserver(SetUpPermissionsPanelController controller){
+		this.controller = controller;
 	}
 	
 	
@@ -44,9 +45,9 @@ public class UsersObserver implements RequestObserver{
 		
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		this.panel.setAllusers(users);
-		
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		//this.panel.setAllusers(users);
+		this.controller.recieveServerUsers(users);
+		//CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 	@Override

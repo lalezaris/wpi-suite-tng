@@ -14,8 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.BatchRequirementEditRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.BatchUpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;

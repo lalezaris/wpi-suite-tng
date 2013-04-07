@@ -15,7 +15,7 @@
  *  Ned Shelton
  *  Chirs Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
  * Possible values that a status of a requirement can be set to

@@ -8,21 +8,19 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *	Ned Shelton
- *  Mike Perrone
+ *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 /**
- * Enum for RM Permissions Level
- *
- * @author Mike Perrone
+ * Enum for Permission Save Mode
+ * 
+ * @author Chris Hanna
  *
  * @version Apr 5, 2013
  *
  */
-public enum RMPermissionsLevel {
-	NONE,
+public enum PermissionSaveMode {
 	UPDATE,
-	ADMIN
+	NEW
 }

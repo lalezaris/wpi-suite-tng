@@ -31,17 +31,17 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.AdminPermissionAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdateAllPermissionsAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.UpdatePermissionAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.action.NonePermissionAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.AdminPermissionController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.NonePermissionController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.UpdateAllPermissionsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.UpdatePermissionController;
 
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -62,14 +62,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class UserPermissionPanel extends JPanel{
-	
-	protected User[] allUsers;
-	protected UserPermission[] allPermissions;
-	protected boolean gotUsers, gotPermissions;
 		
 	/* the parent view*/
 	protected UserPermissionView view;
-	
+
+
 	/* the List's that will display the usernames*/
 	protected JList lstNoneUsers;
 	protected JList lstUpdateUsers;
@@ -98,39 +95,12 @@ public class UserPermissionPanel extends JPanel{
 	 * @param view the parent view of this panel
 	 */
 	public UserPermissionPanel(UserPermissionView view){
-		Refresher.getInstance().getObjects(new UsersObserver(this), "core/user", "");
-		Refresher.getInstance().getObjects(new PermissionsObserver(this), "requirementsmanager/permissions", "");
-	
-		
+
 		this.view = view;
-		
-		this.gotUsers = false;
-		this.gotPermissions = false;
 		
 		addComponents();
 	}
 	
-	
-	
-	/**
-	 * Returns got users
-	 * 
-	 * @return boolean
-	 */
-	public boolean isGotUsers() {
-		return gotUsers;
-	}
-
-
-
-	/**
-	 * Returns got Permissios
-	 * 
-	 * @return boolean
-	 */
-	public boolean isGotPermissions() {
-		return gotPermissions;
-	}
 
 
 
@@ -153,13 +123,13 @@ public class UserPermissionPanel extends JPanel{
 
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton("Move to None");
-		btnNone.addActionListener(new NonePermissionAction(this));
+		//btnNone.addActionListener(new NonePermissionController(this));
 		btnUpdate = new JButton("Move to Update");
-		btnUpdate.addActionListener(new UpdatePermissionAction(this));
+		//btnUpdate.addActionListener(new UpdatePermissionController(this));
 		btnAdmin = new JButton("Move to Admin");
-		btnAdmin.addActionListener(new AdminPermissionAction(this));
+		//btnAdmin.addActionListener(new AdminPermissionController(this));
 		btnUpdateAll = new JButton("Update Permissions");
-		btnUpdateAll.addActionListener(new UpdateAllPermissionsAction(this));
+		//btnUpdateAll.addActionListener(new UpdateAllPermissionsController(this));
 		
 		/*labels for the components*/
 //		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
@@ -309,139 +279,10 @@ public class UserPermissionPanel extends JPanel{
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
-	}
+	}	
+		
+		
 	
-		protected void setAllPermissions(UserPermission[] all){
-			this.allPermissions = all;
-			this.gotPermissions = true;
-			setUpUsersDisplay();
-		}
-		
-		protected void setAllusers(User[] all){
-			this.allUsers = all;
-			this.gotUsers = true;
-
-			setUpUsersDisplay();
-		}		
-		
-		/**
-		 * @param selected the selected names
-		 * @param level the new permission level to put those names at
-		 */
-		public void updatePermissions(List<String> selected, RMPermissionsLevel level){
-			SavePermissionsController controller = new SavePermissionsController(this);
-
-			
-			
-			
-			System.out.println("calling update");
-			for (int i = 0 ; i < selected.size() ; i ++)
-				System.out.println("SEL:" + ((String)selected.get(i)));
-			
-			//This loop goes through the selected names, and all the permissions
-			//and if there is a match, it updates that permission to LEVEL (an input to this function)
-			//and saves the permission
-			for (int i = 0 ; i < this.allPermissions.length ; i ++){
-				for (int j = 0 ; j < selected.size() ; j ++){
-					System.out.println("IS " + this.allPermissions[i].getUsername() + " = TO " + (String)selected.get(j));
-					if ( ((String)selected.get(j)).equals(this.allPermissions[i].getUsername()) && this.allPermissions[i].getPermissions() != level){
-						
-						String me = ConfigManager.getConfig().getUserName();
-						Date now = new Date();
-						
-						String m = "[" + DateFormat.getDateTimeInstance().format(now) + "] CHANGE: " + me + " changed " + this.allPermissions[i].getUsername() + 
-								" status from " + this.allPermissions[i].getPermissions() + " to " + level ;
-						this.allPermissions[i].setMessage(m);
-						
-						this.allPermissions[i].setPermissions(level);
-						controller.save(this.allPermissions[i], PermissionSaveMode.UPDATE);					
-					}
-					
-				}
-			}
-			
-		
-		}
-		
-		protected void addPermission(UserPermission perm){
-			ArrayList<UserPermission> all2 = new ArrayList<UserPermission>();
-			boolean hasName = false;
-			for (int i =0 ; i < this.allPermissions.length ; i ++){
-				all2.add(this.allPermissions[i]);
-				if (all2.get(i).getUsername().equals(perm.getUsername()))
-					hasName = true;
-			}
-			if (!hasName)
-				all2.add(perm);
-			
-			
-			this.allPermissions =  new UserPermission[all2.size()];
-			for (int i = 0 ; i < this.allPermissions.length;i++){
-				this.allPermissions[i] = all2.get(i);
-			}
-			
-		}
-
-		protected void setUpUsersDisplay(){
-			List<String> none = new ArrayList<String>();
-			List<String> admin = new ArrayList<String>();
-			List<String> view = new ArrayList<String>();
-			List<String> update = new ArrayList<String>();
-			
-			SavePermissionsController controller = new SavePermissionsController(this);
-			
-			if (this.gotUsers && this.gotPermissions){
-				
-				
-				for (int i = 0 ; i < this.allUsers.length ; i ++){
-					
-					
-					boolean hasPermission = false;
-					for (int j = 0 ; j < this.allPermissions.length ; j ++){
-						
-						if (this.allUsers[i].getUsername().equals(this.allPermissions[j].getUsername())){
-							hasPermission = true;
-							
-							switch (this.allPermissions[j].getPermissions()){
-								case ADMIN: admin.add(this.allUsers[i].getUsername());
-								break;
-								case UPDATE: update.add(this.allUsers[i].getUsername());
-								break;
-								case NONE: none.add(this.allUsers[i].getUsername());
-								break;
-							}
-							
-						}
-						
-					}
-					
-					if (!hasPermission){
-						
-						if (this.allUsers[i].getRole() == Role.ADMIN){
-							controller.save(new UserPermission(this.allUsers[i].getUsername(), RMPermissionsLevel.ADMIN)
-							, PermissionSaveMode.NEW);
-							admin.add(this.allUsers[i].getUsername());
-						} else {
-							controller.save(new UserPermission(this.allUsers[i].getUsername(), RMPermissionsLevel.NONE)
-									, PermissionSaveMode.NEW);
-							none.add(this.allUsers[i].getUsername());
-						}
-					}
-					
-					
-				}
-				
-				
-			}
-			
-			this.noneUsersList = getNewModel(none);
-			this.updateUsersList = getNewModel(update);
-			this.adminUsersList = getNewModel(admin);
-			
-			lstNoneUsers.setModel(this.noneUsersList);
-			lstUpdateUsers.setModel(this.updateUsersList);
-			lstAdminUsers.setModel(this.adminUsersList);
-		}
 		
 		
 		
@@ -459,21 +300,6 @@ public class UserPermissionPanel extends JPanel{
 			return modelElements;
 		}
 		
-		/**
-		 * the function takes in a List and takes all of the elements from the list and adds them to the default list model
-		 * 
-		 * @param newElements a list of the elements to be put into the model
-		 * @return the model with the given elements
-		 */
-		private DefaultListModel getNewModel(List<String> newElements){
-			DefaultListModel newModel = new DefaultListModel();
-			for(int i = 0; i < newElements.size(); i++){
-				newModel.addElement((Object)newElements.get(i));
-			}
-			return newModel;
-		}
-
-
 
 		/**
 		 * Gets none users
@@ -513,7 +339,92 @@ public class UserPermissionPanel extends JPanel{
 			return view;
 		}
 		
+		/**
+		 * @return the btnNone
+		 */
+		public JButton getBtnNone() {
+			return btnNone;
+		}
+
+		/**
+		 * @return the btnUpdate
+		 */
+		public JButton getBtnUpdate() {
+			return btnUpdate;
+		}
 		
+		/**
+		 * @return the btnAdmin
+		 */
+		public JButton getBtnAdmin() {
+			return btnAdmin;
+		}
+
+		/**
+		 * @return the btnUpdateAll
+		 */
+		public JButton getBtnUpdateAll() {
+			return btnUpdateAll;
+		}
+
+
+
+		/**
+		 * @return the noneUsersList
+		 */
+		public DefaultListModel getNoneUsersList() {
+			return noneUsersList;
+		}
+
+
+
+		/**
+		 * @param noneUsersList the noneUsersList to set
+		 */
+		public void setNoneUsersList(DefaultListModel noneUsersList) {
+			this.noneUsersList = noneUsersList;
+		}
+
+
+
+		/**
+		 * @return the updateUsersList
+		 */
+		public DefaultListModel getUpdateUsersList() {
+			return updateUsersList;
+		}
+
+
+
+		/**
+		 * @param updateUsersList the updateUsersList to set
+		 */
+		public void setUpdateUsersList(DefaultListModel updateUsersList) {
+			this.updateUsersList = updateUsersList;
+		}
+
+
+
+		/**
+		 * @return the adminUsersList
+		 */
+		public DefaultListModel getAdminUsersList() {
+			return adminUsersList;
+		}
+
+
+
+		/**
+		 * @param adminUsersList the adminUsersList to set
+		 */
+		public void setAdminUsersList(DefaultListModel adminUsersList) {
+			this.adminUsersList = adminUsersList;
+		}
+
+
+
+
+
 		
 		
 }

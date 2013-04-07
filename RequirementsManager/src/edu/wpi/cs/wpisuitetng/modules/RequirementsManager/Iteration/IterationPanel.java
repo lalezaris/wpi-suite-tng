@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -74,7 +75,7 @@ public class IterationPanel extends JPanel {
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
-	JLabel lblIterationNumberError2 = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
+	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
 	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
@@ -179,9 +180,9 @@ public class IterationPanel extends JPanel {
 		lblIterationNameError.setVisible(false);
 		panelOne.add(lblIterationNameError, cOne);
 
-		lblIterationNumberError2.setForeground(Color.RED);
-		lblIterationNumberError2.setVisible(false);
-		panelOne.add(lblIterationNumberError2, cOne);
+		lblIterationNameExistsError.setForeground(Color.RED);
+		lblIterationNameExistsError.setVisible(false);
+		panelOne.add(lblIterationNameExistsError, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -381,145 +382,70 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Check to make sure that all the fields are correctly filled in.
+	 * Check to make sure that all the fields are correctly filled in. If multiple errors are present, it returns
+	 * the error that is lowest. So if startDate is after endDate and the iteration name is missing, this will
+	 * return 1.
 	 * 
-	 * @return	1 if startDate >= endDate,
-	 * 			2 if field(s) are missing,
-	 * 			3 if iteration number already exists,
+	 * @return	1 if field(s) are missing,
+	 * 			2 if startDate >= endDate,
+	 * 			3 if iteration name already exists,
 	 * 			4 if dates overlap,
-	 * 			0 otherwise
+	 * 			0 otherwise, so no input errors
 	 */
 	public int checkRequiredFields(){
-		if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
+		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
+		
+		
+		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
+		}
+		if(txtStartDate.getText().equals(null) || txtStartDate.getText().equals("")){//no start date entered
 			lblStartDateError.setVisible(true);
+		}
+		if(txtEndDate.getText() == null || txtEndDate.getText().equals("")){//no end date entered
 			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		} else if(((txtIterationName.getText()).compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2; 
-		} else if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		} else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
 		}
-		else if((txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
+		if(lblIterationNameError.isVisible() || lblStartDateError.isVisible() || lblEndDateError.isVisible()){
+			//if any fields were missing
+			return 1;
 		}
-		else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		}
-		else if (txtIterationName.getText().compareTo("") == 0){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		}
-		else{
-			Date startDate = StringToDate(txtStartDate.getText());
-			Date endDate = StringToDate(txtEndDate.getText());
-			if (startDate.compareTo(endDate) > 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(true);
-				lblIterationNumberError2.setVisible(false);
-				lblDateOverlapError.setVisible(false);
-				return 1;
-			}
-			else{
-				return (ValidateFields());
-			}
-		}
-	}
 
-	/**
-	 * Validate iteration against currently existing iterations.
-	 * 
-	 * @param startDate The start date of the input iteration
-	 * @param endDate The end date of the input iteration
-	 * @return	3 if iteration number already exists,
-	 * 			4 if dates overlap,
-	 * 			0 otherwise
-	 */
-	public int ValidateFields() {
+
 		Date startDate = StringToDate(txtStartDate.getText());
 		Date endDate = StringToDate(txtEndDate.getText());
+		if (startDate.compareTo(endDate) > 0) {//start date is after the end date
+			lblDateError.setVisible(true);
+			return 2;
+		}
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		String idName = txtIterationName.getText();
-		for (int i = 1; i < array.length; i++) {
-			if(idName.compareTo(array[i].getIterationName()) == 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(false);
-				lblIterationNumberError2.setVisible(true);
-				lblDateOverlapError.setVisible(false);
+		for (int i = 0; i < array.length; i++) {
+			if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
+				lblIterationNameExistsError.setVisible(true);
 				return 3;
 			}
-			else if ((endDate.compareTo(array[i].getStartDate()) <= 0)
-					||
-					(startDate.compareTo(array[i].getEndDate())) >= 0)
-			{
-				continue;
-			}
-			else
-			{
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(false);
-				lblIterationNumberError2.setVisible(false);
+			else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
+					|| startDate.compareTo(array[i].getEndDate()) >= 0)){
 				lblDateOverlapError.setVisible(true);
 				return 4;
 			}
 		}
-		return 0;
+		
+		//no errors
+		return  0;
+	}
+
+	/**
+	 * 
+	 * Sets the visibility of multiple JComponents to the given state.
+	 * 
+	 * @param components The JComponents to have their visibility set to b
+	 * @param b True for visible, false for not visible
+	 */
+	private void setMultipleVisibilities(JComponent[] components, boolean b){
+		for(JComponent j: components){
+			j.setVisible(b);
+		}
 	}
 
 	/**

@@ -24,6 +24,10 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 	private ImageIcon low_priority_icon = new ImageIcon("..\\RequirementsManager\\src\\media\\req_low_priority.png");
 	private ImageIcon med_priority_icon = new ImageIcon("..\\RequirementsManager\\src\\media\\req_med_priority.png");
 	private ImageIcon high_priority_icon = new ImageIcon("..\\RequirementsManager\\src\\media\\req_high_priority.png");
+	private ImageIcon default_folder = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_default.png");
+	private ImageIcon iteration_past = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_past.png");
+	private ImageIcon iteration_future = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_future.png");
+	private ImageIcon iteration_current = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_current.png");
 	
 	public ReqTreeCellRenderer(){}
 	
@@ -67,24 +71,24 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
 			
-			if (iter.equals(Iteration.getBacklog())) {
-				//setIcon()
+			if (iter.getName() == "Backlog") {
+				setIcon(default_folder);
 			} else{
 				Date now = new Date();
 				if (iter.getStartDate().compareTo(now) > 0){
-					//setIcon to FUTURE
+					setIcon(iteration_future);
 				}
 				else if (iter.getEndDate().compareTo(now) < 0){
-					//setIcon to PAST
+					setIcon(iteration_past);
 				}
 				else {
-					//setIcon to PRESENT
+					setIcon(iteration_current);
 				}
 			}
 		} else if (node.getUserObject() instanceof String){
 			String text = (String)node.getUserObject();
 			if (text.equals("Deleted")){
-				//setIcon to DELETED FOLDER
+				setIcon(default_folder);
 			}
 		}
 		

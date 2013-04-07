@@ -73,7 +73,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
-		newRequirement.setIteration(Iteration.getBacklog());
+//		newRequirement.setIteration(Iteration.getBacklog());
 		System.out.println("THIS IS THEREQUIREMENT" + newRequirement.toJSON());
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();

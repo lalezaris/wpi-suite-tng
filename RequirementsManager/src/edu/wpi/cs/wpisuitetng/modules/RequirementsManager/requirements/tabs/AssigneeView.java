@@ -13,8 +13,13 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -32,15 +37,36 @@ public class AssigneeView extends JPanel{
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
 	private JList<String> allUserList;
+	private DefaultListModel<String> allUserLM;
+	private DefaultListModel<String> assignedUserLM;
 	private JList<String> assignedUserList;
 	private JButton btnAdd;
 	private JButton btnRemove;
+	private JPanel buttonPanel;
 	
 	public AssigneeView(){
-		this.setLayout(new BorderLayout());
+		this.setLayout(new FlowLayout());
+
+		allUserLM = new DefaultListModel<String>();
+		assignedUserLM = new DefaultListModel<String>();
 		
-		this.add(allUserList, BorderLayout.WEST);
-		this.add(assignedUserList, BorderLayout.EAST);
+		allUserLM.addElement("USER"); 	//TODO pull list from database
+		assignedUserLM.addElement("USER");
+		
+		allUserList = new JList<String>(allUserLM);
+		assignedUserList = new JList<String>(assignedUserLM);
+		
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new GridLayout(2,1,0,5));
+		
+		btnAdd = new    JButton("ADD");
+		btnRemove = new JButton("REMOVE");
+		buttonPanel.add(btnAdd);
+		buttonPanel.add(btnRemove);
+		
+		this.add(allUserList);
+		this.add(buttonPanel);
+		this.add(assignedUserList);
 	}
 
 }

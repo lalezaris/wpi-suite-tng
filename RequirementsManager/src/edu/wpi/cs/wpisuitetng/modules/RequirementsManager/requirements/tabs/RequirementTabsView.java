@@ -44,6 +44,6 @@ public class RequirementTabsView extends JTabbedPane {
 		       "Notes");
 		addTab("History", new ImageIcon(), hv,
 			       "History");
-//		addTab("Assignees", new ImageIcon(), new AssigneeView(), "Assignees");
+		addTab("Assignees", new ImageIcon(), new AssigneeView(), "Assignees");
 	}
 }

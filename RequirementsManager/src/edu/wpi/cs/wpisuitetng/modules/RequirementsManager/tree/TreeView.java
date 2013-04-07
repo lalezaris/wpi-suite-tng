@@ -188,18 +188,8 @@ public class TreeView extends JPanel {
 	/** Returns an ImageIcon, or null if the path was invalid. */
     protected ImageIcon createImageIcon(String path) {
     	
-    	path = "..\\RequirementsManager\\icon.png";
-    	File currentFolder = new File(".");
-    	System.out.println(currentFolder.getAbsolutePath());
-        //java.net.URL imgURL = this.getClass().getResource(path);
-        //System.err.println(this.getClass());
-        //System.out.println(imgURL);
-        //if (imgURL != null) {
+    	path = "..\\RequirementsManager\\src\\media\\req_no_priority.png";
+
             return new ImageIcon(path);
-        //} else {
-        	
-          //  System.err.println("Couldn't find file: " + path);
-            //return null;
-        //}
     }
 }

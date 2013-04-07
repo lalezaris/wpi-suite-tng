@@ -14,10 +14,12 @@ import javax.swing.tree.DefaultTreeCellRenderer;
  *
  */
 public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
-	private ImageIcon icon;
+	private ImageIcon no_priority_icon;
+	private ImageIcon low_priority_icon;
+	private ImageIcon med_priority_icon;
+	private ImageIcon high_priority_icon;
 	
-	public ReqTreeCellRenderer(ImageIcon icon){
-		this.icon = icon;
+	public ReqTreeCellRenderer(){
 	}
 	
 	public Component getTreeCellRendererComponent(
@@ -34,7 +36,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 				expanded, leaf, row,
 				hasFocus);
 		//if (leaf && isTutorialBook(value)) {
-			setIcon(icon);
+			//setIcon(icon);
 			setToolTipText("This book is in the Tutorial series.");
 		//} else {
 		//	setToolTipText(null); //no tool tip

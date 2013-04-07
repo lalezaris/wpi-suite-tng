@@ -88,7 +88,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
 		viewUserPermissionPanel.setOpaque(false);
 		
-		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionViewObserver(this));
+		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
 		
 		// Construct the buttons
 		newIteration = new JButton("Create Iteration");

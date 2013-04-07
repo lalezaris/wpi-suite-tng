@@ -24,6 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 /**
  * Insert Description Here
  *
@@ -50,9 +53,17 @@ public class AssigneeView extends JPanel{
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
 		
-		allUserLM.addElement("USER"); 	//TODO pull list from database
-		assignedUserLM.addElement("USER");
-		
+		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
+
+		System.out.println();
+		System.out.println(">> FILLING projectUsers ArrayList <<");
+		for(int i=0;i<projectUsers.length;i++){
+			System.out.println("USER: " + projectUsers[i].getName());
+			allUserLM.addElement(projectUsers[i].getName()); 	//TODO pull list from database
+//		assignedUserLM.addElement("USER");
+		}
+		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
+		System.out.println();
 		allUserList = new JList<String>(allUserLM);
 		assignedUserList = new JList<String>(assignedUserLM);
 		

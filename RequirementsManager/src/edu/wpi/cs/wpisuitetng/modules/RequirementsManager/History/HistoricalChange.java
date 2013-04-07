@@ -108,6 +108,7 @@ public class HistoricalChange extends AbstractModel{
 			}
 		}
 	
+		//compare assignee 
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
 			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
 		}

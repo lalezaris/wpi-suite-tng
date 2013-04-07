@@ -12,6 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
+import java.util.ArrayList;
+
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -227,6 +229,10 @@ public class CurrentUserPermissions implements RequestObserver{
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Failed to retrieve current user permissions2");
 		
+	}
+	
+	public static User[] getProjectUsers(){
+		return allCoreUsers;
 	}
 
 }

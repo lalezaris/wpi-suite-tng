@@ -12,6 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
+import java.util.ArrayList;
+
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
@@ -31,8 +33,11 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class CurrentUserPermissionsObserver implements RequestObserver{
 
+	private ArrayList<User> projectUsers;
 	@Override
 	public void responseSuccess(IRequest iReq) {
+		
+		projectUsers = new ArrayList<User>();
 		
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
@@ -49,6 +54,17 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 				break;
 			}
 		}
+		//TODO FIX THE FOLLOWING CODE - CHECK WITH CASOLA
+		for (int i=0; i<users.length;i++){
+			if(   users[i].getProject() != null  && ConfigManager.getConfig().getProjectName().equals(users[i].getProject().getName()))
+			{
+				projectUsers.add(users[i]);
+			}
+		}
+		User[] projUserArray = new User[projectUsers.size()];
+		for(int i=0;i<projUserArray.length;i++)
+			projUserArray[i] = projectUsers.get(i);
+		//TODO FIX ABOVE CODE - GETPROJECT RETURNS NULL
 		CurrentUserPermissions.setUsers(user, users);
 		
 	}

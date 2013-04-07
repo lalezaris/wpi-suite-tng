@@ -20,6 +20,7 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 
@@ -86,7 +88,9 @@ public class TreeView extends JPanel {
 
 		
 		ImageIcon icon = createImageIcon("icon.png");
-		tree.setCellRenderer( new ReqTreeCellRenderer(icon));
+		DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+		renderer.setLeafIcon(icon);
+		tree.setCellRenderer(renderer);
 		
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
@@ -184,16 +188,18 @@ public class TreeView extends JPanel {
 	/** Returns an ImageIcon, or null if the path was invalid. */
     protected ImageIcon createImageIcon(String path) {
     	
-    	path = "icon.png";
-    	
-        java.net.URL imgURL = this.getClass().getResource(path);
-        System.err.println(this.getClass());
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
+    	path = "..\\RequirementsManager\\icon.png";
+    	File currentFolder = new File(".");
+    	System.out.println(currentFolder.getAbsolutePath());
+        //java.net.URL imgURL = this.getClass().getResource(path);
+        //System.err.println(this.getClass());
+        //System.out.println(imgURL);
+        //if (imgURL != null) {
+            return new ImageIcon(path);
+        //} else {
         	
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+          //  System.err.println("Couldn't find file: " + path);
+            //return null;
+        //}
     }
 }

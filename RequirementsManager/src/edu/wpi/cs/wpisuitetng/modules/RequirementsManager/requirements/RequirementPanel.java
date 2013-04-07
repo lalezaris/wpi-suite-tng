@@ -112,7 +112,7 @@ public class RequirementPanel extends JPanel{
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
-	protected JTextField txtAssignee;
+	protected JTextField txtAssignee; //TODO replace with a tab
 	protected JButton saveRequirementBottom;
 	protected JButton cancelRequirementBottom;
 	protected JButton deleteRequirementBottom;

@@ -20,9 +20,11 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.EditUserPermissionsAction;
@@ -34,14 +36,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Toolbar Panel for Requirements Manager
  * 
  * @author Tyler Stone 
  * @author Arica Liu
+ * @edited Michael French
  * 
- * @version March 21, 2013 
+ * @version April 7, 2013 
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends DefaultToolbarView {
@@ -51,6 +55,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton newIteration;
 	private JButton listIteration;
 	private JButton editUserPermissions;
+	private JLabel viewUserPermission;
+	private JLabel viewUserName;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -63,10 +69,12 @@ public class ToolbarPanel extends DefaultToolbarView {
 		JPanel iterationContent = new JPanel();
 		JPanel requirementContent = new JPanel();
 		JPanel userPermissionContent = new JPanel();
+		JPanel viewUserPermissionPanel = new JPanel();
 		
 		SpringLayout iterationLayout  = new SpringLayout();
 		SpringLayout requirementLayout = new SpringLayout();
 		SpringLayout userPermissionLayout = new SpringLayout();
+		SpringLayout viewUserPermissionLayout = new SpringLayout();
 		
 		iterationContent.setLayout(iterationLayout);
 		iterationContent.setOpaque(false);
@@ -77,8 +85,10 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionContent.setLayout(userPermissionLayout);
 		userPermissionContent.setOpaque(false);
 
+		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
+		viewUserPermissionPanel.setOpaque(false);
 		
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
 		
 		// Construct the buttons
 		newIteration = new JButton("Create Iteration");
@@ -98,6 +108,11 @@ public class ToolbarPanel extends DefaultToolbarView {
 		editUserPermissions = new JButton("Edit User Permissions");
 		editUserPermissions.setAction(new EditUserPermissionsAction(tabController));
 		
+		//construct the user permission label
+		viewUserName = new JLabel("User: " + ConfigManager.getConfig().getUserName());//returns wrong value under certain circumstances
+		viewUserPermission = new JLabel("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
+		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
+		
 		// Configure the layout of the buttons on the content panel
 		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, requirementContent);
 		requirementLayout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, requirementContent);
@@ -112,7 +127,12 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		userPermissionLayout.putConstraint(SpringLayout.NORTH, editUserPermissions, 25, SpringLayout.NORTH, userPermissionContent);
 		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 8, SpringLayout.WEST, userPermissionContent);
-
+		
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 40, SpringLayout.NORTH, viewUserPermissionPanel);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 8, SpringLayout.WEST, viewUserPermissionPanel);
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 20, SpringLayout.NORTH, viewUserPermissionPanel);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 8, SpringLayout.WEST, viewUserPermissionPanel);
+		
 		// Add buttons to the content panel
 		requirementContent.add(newRequirement);
 		requirementContent.add(listAllRequirements);
@@ -124,10 +144,15 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
 		
+		//add label to content panel
+		viewUserPermissionPanel.add(viewUserPermission);
+		viewUserPermissionPanel.add(viewUserName);
+		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
 		ToolbarGroupView toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
 		ToolbarGroupView toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
+		ToolbarGroupView toolbarGroupViewUserPermission = new ToolbarGroupView("", viewUserPermissionPanel);
 		
 		// Calculate the width of the toolbar
 		//Chris Hanna changed the above calculation to this one...
@@ -145,15 +170,21 @@ public class ToolbarPanel extends DefaultToolbarView {
 		for (Component b : userPermissionContent.getComponents()){
 			userPermissionGroupWidth += b.getPreferredSize().getWidth() + 20;
 		}
+		
+		Double viewUserPermissionGroupWidth = 0.0;
+		for (Component b : userPermissionContent.getComponents()){
+			viewUserPermissionGroupWidth += b.getPreferredSize().getWidth() + 40;
+		}
 
 		toolbarGroupIteration.setPreferredWidth(iterationGroupWidth.intValue());
 		toolbarGroupRequirement.setPreferredWidth(requirementGroupWidth.intValue());
 		toolbarGroupUserPermission.setPreferredWidth(userPermissionGroupWidth.intValue());
+		toolbarGroupViewUserPermission.setPreferredWidth(viewUserPermissionGroupWidth.intValue());
 		
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);
-		
+		addGroup(toolbarGroupViewUserPermission);
 		
 				final DefaultToolbarView p = this;
 				p.addHierarchyListener(new HierarchyListener() {
@@ -174,5 +205,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 				});
 		
+	}
+	
+	public void setPermissionText(String s){
+		viewUserPermission.setText(s);
+	}
+	
+	public void setNameText(String s){
+		viewUserPermission.setText(s);
 	}
 }

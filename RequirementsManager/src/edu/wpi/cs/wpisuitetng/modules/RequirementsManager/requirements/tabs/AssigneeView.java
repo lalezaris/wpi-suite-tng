@@ -17,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -24,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -47,9 +50,11 @@ public class AssigneeView extends JPanel{
 	private JButton btnRemove;
 	private JPanel buttonPanel;
 	
-	public AssigneeView(){
+	public AssigneeView(Requirement req){
 		this.setLayout(new FlowLayout());
 
+		assignedUserAL = req.getAssignee();
+		
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
 		
@@ -60,10 +65,10 @@ public class AssigneeView extends JPanel{
 		for(int i=0;i<projectUsers.length;i++){
 			System.out.println("USER: " + projectUsers[i].getName());
 			allUserLM.addElement(projectUsers[i].getName()); 	//TODO pull list from database
-//		assignedUserLM.addElement("USER");
 		}
 		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
 		System.out.println();
+		
 		allUserList = new JList<String>(allUserLM);
 		assignedUserList = new JList<String>(assignedUserLM);
 		
@@ -78,6 +83,54 @@ public class AssigneeView extends JPanel{
 		this.add(allUserList);
 		this.add(buttonPanel);
 		this.add(assignedUserList);
+	}
+	
+	/**
+	 * Returns button object that adds users from a requirement.
+	 * 
+	 * @return btnAdd
+	 */
+	public JButton getBtnAdd(){
+		return this.btnAdd;
+	}
+	/**
+	 * Returns button object that removes users from a requirement
+	 * 
+	 * @return btnRemove
+	 */
+	public JButton getBtnRemove(){
+		return this.btnRemove;
+	}
+
+	/**
+	 * Enter description here.
+	 * 
+	 * @param assignee
+	 */
+	public void setAssigneeList(ArrayList<String> assignee) {
+		this.assignedUserAL = assignee;
+		Collections.sort(assignee);
+		
+		assignedUserLM.clear();
+		for(String s:assignedUserAL){
+			assignedUserLM.addElement(s);
+		}
+	}
+
+	/**
+	 * returns the array list containing all users
+	 * @return the allUserAL
+	 */
+	public ArrayList<String> getAllUserAL() {
+		return allUserAL;
+	}
+
+	/**
+	 * returns the array list containing users assigned to this requirement
+	 * @return the assignedUserAL
+	 */
+	public ArrayList<String> getAssignedUserAL() {
+		return assignedUserAL;
 	}
 
 }

@@ -261,13 +261,77 @@ public class MainTabController {
 	 * 
 	 * @return Tab returns the new iteration tab
 	 */
-	public Tab addNewIterationTab() {
+	/**public Tab addNewIterationTab() {
 		Tab tab = addTab();
 		IterationView view = new IterationView(new Iteration("", null, null), IterationPanel.Mode.CREATE, tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;
+	}*/
+	
+	/**
+	 * Adds a tab that displays the given iteration in the given mode
+	 * @param iteration The iteration to display
+	 * @param mode The Mode to use
+	 */
+	public Tab addIterationTab(Iteration iteration, IterationPanel.Mode mode) {
+		/*
+		 * Since Iterations tabs are displayed on Janeway as "Iteration #1",
+		 * get the id of the Iteration, and check if a tab with that title
+		 * already exists.
+		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
+		 * Switch focus to that tab, or go ahead and create a new one.
+		 */
+		String iterationTitle = iteration.getIterationName();
+		int iterationId = iteration.getId();
+		int checkTabIndex = view.indexOfTab("Iteration #" + iterationId + " - " + iterationTitle);
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			
+			return null;
+		}
+		else{
+			Tab tab = addTab();
+			IterationView view = new IterationView(iteration, mode, tab);
+			tab.setComponent(view);
+			view.requestFocus();
+
+			return tab;
+		}
 	}
+		
+	/**
+	 * Adds a tab that displays the list of all requirements
+	 * @return the tab that has a the table of requirements on it
+	 */
+	/**public Tab addListIterationTab() {
+		//already brings focus to list tab if it was opened previously
+		Tab tab = addTab();
+		RequirementListPanel panel = view.getTableModel();
+		panel.setTab(tab);
+		tab.setComponent(panel);
+		panel.requestFocus();
+		return tab;
+		
+	}*/
+	
+	/**
+	 * Adds a tab that displays the given requirement
+	 * @param requirement the requirement to display
+	 * @return The created Tab 
+	 */
+	public Tab addEditIterationTab(Iteration iteration) {
+		return addIterationTab(iteration, IterationPanel.Mode.EDIT);
+	}
+	
+	/**
+	 * Adds a tab that allows the user to create a new Iteration
+	 * @return The created Tab
+	 */
+	public Tab addCreateIterationTab() {
+		return addIterationTab(new Iteration(), IterationPanel.Mode.CREATE);
+	}
+	
 	
 	/**
 	 * Adds Edit Users Permissions tab

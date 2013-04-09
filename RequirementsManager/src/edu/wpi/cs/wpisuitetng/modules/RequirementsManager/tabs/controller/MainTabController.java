@@ -22,6 +22,7 @@ import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -262,7 +263,7 @@ public class MainTabController {
 	 */
 	public Tab addNewIterationTab() {
 		Tab tab = addTab();
-		IterationView view = new IterationView(new Iteration("", null, null), tab);
+		IterationView view = new IterationView(new Iteration("", null, null), IterationPanel.Mode.CREATE, tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;

@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
 
 /**
@@ -102,12 +103,9 @@ public class TreeView extends JPanel {
 			}
 		});
 
-		MouseListener ml = new MouseAdapter() {
+		MouseListener requirementml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-				
-			
-				
 				
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
@@ -117,7 +115,6 @@ public class TreeView extends JPanel {
 								@Override
 								public void runWhenRecieved(String s){
 								//public void runWhenRecieved(Requirement r) {
-									
 									
 									Requirement r = Requirement.fromJSONArray(s)[0];
 									if (this.isRequirement) {
@@ -151,7 +148,50 @@ public class TreeView extends JPanel {
 			}
 		};
 		
-		tree.addMouseListener(ml);
+		MouseListener iterationml = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				int selRow = tree.getRowForLocation(e.getX(), e.getY());
+				
+				if (selRow != -1 && e.getClickCount() == 2) {
+					RetrieveIterationControllerTree<Iteration> controller = new RetrieveIterationControllerTree<Iteration>(
+							null,"iterationsmanager/iteration", new IRetrieveRequirementController<Iteration>() {
+								boolean isIteration = true;
+
+								@Override
+								public void runWhenRecieved(String s){
+								//public void runWhenRecieved(Requirement r) {
+									
+									Iteration r = Iteration.fromJSONArray(s)[0];
+									if (this.isIteration) {
+					//					r.setId(Iteration.getIterationById(r.getId()));
+										MainTabController.getController().addEditIterationTab(r);
+									}
+								}
+
+								@Override
+								public String getID() {
+									TreePath path = tree.getSelectionPath();
+									DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
+											.getLastPathComponent();
+									Object selectedObject = selectedNode
+											.getUserObject();
+									if (selectedObject instanceof Iteration) {
+										tree.expandPath(path);
+										return ""+((Iteration) selectedObject).getId();
+									} else {
+										this.isIteration = false;
+										return "-1";
+									}
+								}
+
+							});
+					controller.retrieve();
+				}
+			}
+		};
+		
+		tree.addMouseListener(requirementml);
+		tree.addMouseListener(iterationml);
 
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);

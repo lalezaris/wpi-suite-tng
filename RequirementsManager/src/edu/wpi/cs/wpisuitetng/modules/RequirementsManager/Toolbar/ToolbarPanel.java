@@ -10,12 +10,12 @@
  * Contributors:
  *  Arica Liu
  *  Tyler Stone
+ *  Evan Polekoff
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.Component;
-import java.awt.GridBagLayout;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
@@ -32,11 +32,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListAct
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ViewChartsAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Toolbar Panel for Requirements Manager
@@ -59,7 +57,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton editUserPermissions;
 	private JLabel viewUserPermission;
 	private JLabel viewUserName;
-	private JButton viewBarChart;
+	private JButton barChart;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -122,8 +120,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 		
 		//Construct Bar Chart Buttons
-		viewBarChart = new JButton("Bar Chart");
-		viewBarChart.setAction(new NewRequirementAction(tabController));
+		barChart = new JButton("Bar Chart");
+		barChart.setAction(new ViewChartsAction(tabController));
 		
 		// Configure the layout of the buttons on the content panel
 		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, requirementContent);
@@ -145,6 +143,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 20, SpringLayout.NORTH, viewUserPermissionPanel);
 		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 8, SpringLayout.WEST, viewUserPermissionPanel);
 		
+		barChartLayout.putConstraint(SpringLayout.NORTH, barChart, 25, SpringLayout.NORTH, barChartContent);
+		barChartLayout.putConstraint(SpringLayout.WEST, barChart, 8, SpringLayout.WEST, barChartContent);
+		
 		// Add buttons to the content panel
 		requirementContent.add(newRequirement);
 		requirementContent.add(listAllRequirements);
@@ -160,14 +161,17 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewUserPermissionPanel.add(viewUserPermission);
 		viewUserPermissionPanel.add(viewUserName);
 		
+		//Add bar chart buttons
+		barChartContent.add(barChart);
+		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
 		ToolbarGroupView toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
 		ToolbarGroupView toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
 		ToolbarGroupView toolbarGroupViewUserPermission = new ToolbarGroupView("", viewUserPermissionPanel);
+		ToolbarGroupView toolbarGroupBarChart = new ToolbarGroupView("View Charts", barChartContent);
 		
 		// Calculate the width of the toolbar
-		//Chris Hanna changed the above calculation to this one...
 		Double iterationGroupWidth = 0.0;
 		for (Component b : iterationContent.getComponents()){
 			iterationGroupWidth += b.getPreferredSize().getWidth() + 20;
@@ -187,35 +191,42 @@ public class ToolbarPanel extends DefaultToolbarView {
 		for (Component b : userPermissionContent.getComponents()){
 			viewUserPermissionGroupWidth += b.getPreferredSize().getWidth() + 40;
 		}
+		
+		Double barChartGroupWidth = 0.0;
+		for (Component b : userPermissionContent.getComponents()){
+			barChartGroupWidth += b.getPreferredSize().getWidth() + 40;
+		}
 
 		toolbarGroupIteration.setPreferredWidth(iterationGroupWidth.intValue());
 		toolbarGroupRequirement.setPreferredWidth(requirementGroupWidth.intValue());
 		toolbarGroupUserPermission.setPreferredWidth(userPermissionGroupWidth.intValue());
 		toolbarGroupViewUserPermission.setPreferredWidth(viewUserPermissionGroupWidth.intValue());
+		toolbarGroupBarChart.setPreferredWidth(barChartGroupWidth.intValue());
 		
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);
 		addGroup(toolbarGroupViewUserPermission);
+		addGroup(toolbarGroupBarChart);
 		
-				final DefaultToolbarView p = this;
-				p.addHierarchyListener(new HierarchyListener() {
+		final DefaultToolbarView p = this;
+		p.addHierarchyListener(new HierarchyListener() {
 
-					/* Shows changes to hierarchy
-					 * @param e HierarchyEvent to respond to
-					 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
-					 */
-					@Override
-					public void hierarchyChanged(HierarchyEvent e) {
-						if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
-								&& p.isShowing())
-						{
-							CurrentUserPermissions.updateCurrentUserPermissions();
-						}
+			/* Shows changes to hierarchy
+			 * @param e HierarchyEvent to respond to
+			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
+			 */
+			@Override
+			public void hierarchyChanged(HierarchyEvent e) {
+				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
+						&& p.isShowing())
+				{
+					CurrentUserPermissions.updateCurrentUserPermissions();
+				}
 
-					}
+			}
 
-				});
+		});
 		
 	}
 	

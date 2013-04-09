@@ -14,12 +14,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * Action to edit user permissions
  * 
  * @author Ned Shelton
+ * @author Evan Polekoff
  *
- * @version Apr 7, 2013
+ * @version Apr 9, 2013
  *
  */
 
-// 				I just copied this from EditUserPermissionsAction and ListAction, but unsurprisingly, that didn't work
+
 public class ViewChartsAction extends AbstractAction {
 	private final MainTabController controller;
 	
@@ -28,7 +29,7 @@ public class ViewChartsAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		controller.addListRequirementTab();
+		controller.addBarChartTab();
 	}
 
 	/**
@@ -36,12 +37,9 @@ public class ViewChartsAction extends AbstractAction {
 	 * 
 	 * @param controller
 	 */
-	public ListAction(MainTabController controller) {
-		super("SHOW ME THE CHARTS");
-		
-		System.out.println("Entered ListAction");
+	public ViewChartsAction(MainTabController controller) {
+		super("View Bar Chart");
 		this.controller = controller;
-		
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 	

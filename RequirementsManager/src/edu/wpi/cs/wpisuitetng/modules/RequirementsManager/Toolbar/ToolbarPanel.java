@@ -44,6 +44,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Tyler Stone 
  * @author Arica Liu
  * @edited Michael French
+ * @edited Evan Polekoff
+ * @edited Ned Shelton
  * 
  * @version April 7, 2013 
  */
@@ -57,6 +59,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton editUserPermissions;
 	private JLabel viewUserPermission;
 	private JLabel viewUserName;
+	private JButton viewBarChart;
 	
 	/**
 	 * Create a ToolbarPanel.
@@ -70,11 +73,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 		JPanel requirementContent = new JPanel();
 		JPanel userPermissionContent = new JPanel();
 		JPanel viewUserPermissionPanel = new JPanel();
+		JPanel barChartContent = new JPanel();
 		
 		SpringLayout iterationLayout  = new SpringLayout();
 		SpringLayout requirementLayout = new SpringLayout();
 		SpringLayout userPermissionLayout = new SpringLayout();
 		SpringLayout viewUserPermissionLayout = new SpringLayout();
+		SpringLayout barChartLayout = new SpringLayout();
 		
 		iterationContent.setLayout(iterationLayout);
 		iterationContent.setOpaque(false);
@@ -87,6 +92,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
 		viewUserPermissionPanel.setOpaque(false);
+		
+		barChartContent.setLayout(barChartLayout);
+		barChartContent.setOpaque(false);
 		
 		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
 		
@@ -112,6 +120,10 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewUserName = new JLabel("User: " + ConfigManager.getConfig().getUserName());//returns wrong value under certain circumstances
 		viewUserPermission = new JLabel("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
+		
+		//Construct Bar Chart Buttons
+		viewBarChart = new JButton("Bar Chart");
+		viewBarChart.setAction(new NewRequirementAction(tabController));
 		
 		// Configure the layout of the buttons on the content panel
 		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, requirementContent);

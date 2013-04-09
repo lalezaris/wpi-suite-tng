@@ -2,20 +2,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Author" content="Sam Abradi, Tushar Narayan">
 <title>WPI Suite RM Requirements Viewer</title>
 </head>
 <body>
 	<h1>WPI Suite RM Requirements Viewer</h1>
 
 	<script type="text/javascript">
+		function setProject(){
+			var projName = document.getElementById("loginproject").value;
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					document.getElementById("loginprojectspan").innerHTML = "HEY";
+				}
+			};
+			xml.open('PUT', 'login', false);
+			//xml.setRequestHeader('Content', projName);
+			xml.send(projName);
+			document.getElementById("loginprojectspan").innerHTML = "Setting Project";
+		}
+		
 		function login() {
 			//generate unencoded authentication header
-			var authString = document.getElementById("loginusername").value
+			var basicAuth = "Basic ";
+			var credentials = document.getElementById("loginusername").value
 					+ ":" + document.getElementById("loginpassword").value;
-			//Base64 encode the header
-			authString = window.btoa(authString);
-			//add the word Basic plus a space
-			authString = 'Basic ' + authString;
+			var authString = basicAuth + window.btoa(credentials);
+			
 
 			//create new XHR
 			var xml = new XMLHttpRequest();
@@ -25,49 +40,55 @@
 				if (xml.readyState == 4)//wait until response is available
 				{
 					document.getElementById("loginresponsespan").innerHTML = xml.statusText;
+					setProject();
 				}
 			};
 
-			//setup reuqest to POST to /API/Login
-			xml.open('POST', 'API/login', false);
+			//setup reuqest to POST to login
+			xml.open('POST', 'login', false);
 			//set the request header
 			xml.setRequestHeader('Authorization', authString);
 			//send the request
 			xml.send();
 		}
-		
-		function getRequirements(){
+
+		function getRequirements() {
 			var xml = new XMLHttpRequest();
-			xml.onreadystatechange = function()
-			{
-				if(xml.readyState == 4)//wait until response is available
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
 				{
 					document.getElementById("requirementspan").innerHTML = xml.statusText;
 				}
-				
-			};
-			
-			document.getElementById("requirementspan").innerHTML = action;
 
-			xml.open('GET', 'API/postboard/postboardmessage/1', false);//test/requirementsmanager/requirement
-			xml.setRequestHeader('project','test');
+			};
+
+/* 			document.getElementById("requirementspan").innerHTML = action;
+ */
+			xml.open('GET', 'requirementsmanager/requirement', false);//test/requirementsmanager/requirement
 			xml.send();
 		}
 	</script>
-
 	<h4>Login:</h4>
-	Username:
-	<input type="text" id="loginusername"></input>
-	<br> Password:
-	<input type="password" id="loginpassword"></input>
+	Username:<input type="text" id="loginusername"></input>
+	<br>
+	Password:<input type="password" id="loginpassword"></input>
+	<br>
+	Project:<input type="text" id="loginproject"></input>
 	<br>
 	<input type="button" value="Submit" onclick="login()">
 	<span id="loginresponsespan"></span>
-	<br /><br /><br /><br />
-	<input type="button" value="Get Requirements" onclick="getRequirements()">
-	<br /><br /><br />
+	<span id="loginprojectspan"></span>
+	<br />
+	<br />
+	<br />
+	<br />
+	<input type="button" value="Get Requirements"
+		onclick="getRequirements()">
+	<br />
+	<br />
+	<br />
 	<span id="requirementspan"></span>
-	
+
 
 </body>
 </html>

@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -234,7 +235,20 @@ public class RequirementPanel extends JPanel{
 		
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(12);
+		
+		//filter out the expired iterations
+		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
 		knownIterations = Refresher.getInstance().getInstantIterations();
+		for (int i = 0; i < knownIterations.length ;i++){
+			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
+				knownIts.add(knownIterations[i]);
+			}
+		}
+		knownIterations = new Iteration[knownIts.size()];
+		for (int i = 0; i < knownIterations.length; i++){
+			knownIterations[i] = knownIts.get(i);
+		}
+		
 		cmbIteration = new JComboBox(knownIterations);
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
@@ -749,7 +763,7 @@ public class RequirementPanel extends JPanel{
 		 }
 		 
 		 if (model.getStatus() == RequirementStatus.DELETED)
-			 disableStuff(new JComponent[]{cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 disableStuff(new JComponent[]{cmbPriority,txtDescription,cmbType,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
 					 deleteRequirementBottom, createChildRequirement});
 	}

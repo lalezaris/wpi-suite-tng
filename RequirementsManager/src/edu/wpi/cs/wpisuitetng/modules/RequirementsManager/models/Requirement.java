@@ -498,10 +498,10 @@ public class Requirement extends AbstractModel{
 		if (this.iteration != null){
 			this.iteration.removeRequirement(this.getId());
 		}
-			this.iteration = iteration;
-			this.iterationId = this.iteration.getId();
+		this.iteration = iteration;
+		this.iterationId = this.iteration.getId();
 			
-			this.iteration.addRequirement(this.getId());
+		this.iteration.addRequirement(this.getId());
 			
 	}
 	

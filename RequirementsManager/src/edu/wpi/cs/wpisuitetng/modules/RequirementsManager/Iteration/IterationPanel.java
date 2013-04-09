@@ -36,7 +36,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveC
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
@@ -50,6 +53,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  *
  */
 public class IterationPanel extends JPanel {
+	
+	public enum Mode {
+		CREATE,
+		EDIT, 
+	}
+	
+	protected Mode editMode;
+	
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
 
@@ -102,9 +113,10 @@ public class IterationPanel extends JPanel {
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
 	 */
-	public IterationPanel(IterationView parent, Iteration iteration) {
+	public IterationPanel(IterationView parent, Iteration iteration, Mode mode) {
 		this.model = iteration;
 		this.parent = parent;
+		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -434,7 +446,57 @@ public class IterationPanel extends JPanel {
 		//no errors
 		return  0;
 	}
+	
+	/**
+	 * Updates the IterationPanel's model to contain the values of the given Iteration and sets the 
+	 * IterationPanel's editMode to {@link Mode#EDIT}.
+	 * 
+	 * @param iteration	The Iteration which contains the new values for the model.
+	 */
+	public void updateModel(Iteration iteration) {
+		updateModel(iteration, Mode.EDIT);
+	}
+	
+	/**
+	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
+	 * 
+	 * @param	requirement	The requirement which contains the new values for the model.
+	 * @param	mode	The new editMode.
+	 */
+	protected void updateModel(Iteration iteration, Mode mode) {
+		editMode = mode;
+		
+		model.setIterationName(iteration.getIterationName());
+		model.setStartDate(iteration.getStartDate());
+		model.setEndDate(iteration.getEndDate());
+		model.setRequirements(iteration.getRequirements());
+		model.setStatus(iteration.getStatus());
+		
+		updateFields();
+		this.revalidate();
+		layout.invalidateLayout(this);
+		layout.layoutContainer(this);
+		this.repaint();
+		parent.refreshScrollPane();
+	}
 
+	private void updateFields() {
+		if(!(model.getIterationName().equals(null) || model.getIterationName().equals("")))
+			txtIterationName.setText(model.getIterationName());
+		
+		txtStartDate.setText(model.getStartDate().toString());
+		txtEndDate.setText(model.getEndDate().toString());
+				
+		/**if (editMode == Mode.EDIT) {
+			txtCreatedDate.setText(model.getCreationDate().toString());
+			txtModifiedDate.setText(model.getLastModifiedDate().toString());
+			deleteRequirementBottom.setVisible(true);
+		}*/
+	}
+
+	public Mode getEditMode() {
+		return editMode;
+	}
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.

@@ -763,7 +763,7 @@ public class RequirementPanel extends JPanel{
 		 }
 		 
 		 if (model.getStatus() == RequirementStatus.DELETED)
-			 disableStuff(new JComponent[]{cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 disableStuff(new JComponent[]{cmbPriority,txtDescription,cmbType,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
 					 deleteRequirementBottom, createChildRequirement});
 	}

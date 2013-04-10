@@ -74,8 +74,6 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						System.out.println("In UpdateInterationRequestObserver: ");
-						System.out.println(iteration.getIterationName());
 						((IterationPanel) view.getIterationPanel()).updateModel(iteration);
 						view.setEditModeDescriptors(iteration);
 					}

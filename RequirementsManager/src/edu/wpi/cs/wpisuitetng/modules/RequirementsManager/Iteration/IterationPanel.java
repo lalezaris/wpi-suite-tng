@@ -395,7 +395,6 @@ public class IterationPanel extends JPanel {
 	 */
 	public Iteration getEditedModel() {
 		Iteration iteration;
-		System.out.println("In getEditedModel");
 		if(Mode.EDIT == editMode){
 			iteration = this.model;
 		}
@@ -406,7 +405,6 @@ public class IterationPanel extends JPanel {
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
 		
-		System.out.println(iteration.getIterationName());
 		return iteration;
 	}
 
@@ -447,7 +445,7 @@ public class IterationPanel extends JPanel {
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		String idName = txtIterationName.getText();
 		for (int i = 0; i < array.length; i++) {
-			if (this.model != array[i]) {
+			if (this.model.getId() != array[i].getId()) {
 				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
 					lblIterationNameExistsError.setVisible(true);
 					return 3;

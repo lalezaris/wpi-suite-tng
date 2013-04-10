@@ -29,7 +29,7 @@ public class RequirementStatusLists{
 	
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"DELETED", "OPEN"};
+	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 	

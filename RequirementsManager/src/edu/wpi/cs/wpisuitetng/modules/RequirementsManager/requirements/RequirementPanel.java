@@ -300,19 +300,18 @@ public class RequirementPanel extends JPanel{
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
 
 		/**Iteration Listener*/
-
 		cmbIteration.addActionListener(new IterationListener());
 
 		/**Estimate Listener*/
-
-
 		txtEstimate.addKeyListener(new EstimateListener());
 
 		/**Title and Description Listener*/
-
 		txtTitle.addKeyListener(new SaveListener());
 		txtDescription.addKeyListener(new SaveListener());
 
+		/**Status Listener*/
+		cmbStatus.addActionListener(new StatusListener());
+		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -1044,7 +1043,32 @@ public class RequirementPanel extends JPanel{
 	public Requirement getModel() {
 		return model;
 	}
+	
+	public class StatusListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent status) {
+			JComboBox cb = (JComboBox)status.getSource();
+			System.out.println(cb.getSelectedItem());
 
+			changeIteration(cb);
+		}
+		
+		public void changeIteration(JComboBox cb){
+			if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && model.getIterationId() != Iteration.getBacklog().getId() ){
+				cmbIteration.setSelectedIndex(cmbIteration.getItemCount()-1);
+				cmbIteration.setEnabled(false);
+			} else if((model.getStatus() == RequirementStatus.COMPLETE || model.getStatus() == RequirementStatus.DELETED)  && model.getIterationId() != Iteration.getBacklog().getId()){ 
+				for (int i = 0; i < cmbIteration.getItemCount(); i++) {
+					if (model.getIteration().toString().equals(knownIterations[i].toString()) ){
+						cmbIteration.setSelectedIndex(i);
+						if(model.getStatus() == RequirementStatus.COMPLETE){
+							cmbIteration.setEnabled(true);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	//TODO: class exists in action package, refactor
 	public class IterationListener implements ActionListener {
@@ -1066,7 +1090,7 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-			if (model.getStatus() != RequirementStatus.DELETED){
+//			if (model.getStatus() != RequirementStatus.DELETED){
 				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
 				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == Iteration.getBacklog()){
 					setTo = model.getStatus();
@@ -1091,12 +1115,12 @@ public class RequirementPanel extends JPanel{
 					enabled = true;
 					runThatForLoop = true;
 				}
-			} else
-			{
-				setTo = RequirementStatus.DELETED;
-				enabled = true;
-				runThatForLoop = true;
-			}
+//			} else
+//			{
+//				setTo = RequirementStatus.DELETED;
+//				enabled = true;
+//				runThatForLoop = true;
+//			}
 
 			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){

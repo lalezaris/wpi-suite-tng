@@ -154,7 +154,7 @@ public class TreeView extends JPanel {
 				
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Iteration> controller = new RetrieveRequirementControllerTree<Iteration>(
-							null,"iterationsmanager/iteration", new IRetrieveRequirementController<Iteration>() {
+							null,"iterationsmanager/iteration/", new IRetrieveRequirementController<Iteration>() {
 								boolean isIteration = true;
 
 								@Override

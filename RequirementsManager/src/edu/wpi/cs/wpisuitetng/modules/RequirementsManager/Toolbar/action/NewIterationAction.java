@@ -53,7 +53,7 @@ public class NewIterationAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
-			controller.addIterationTab(null, IterationPanel.Mode.CREATE);
+			controller.addNewIterationTab(); //null, IterationPanel.Mode.CREATE
 		}
 	}
 }

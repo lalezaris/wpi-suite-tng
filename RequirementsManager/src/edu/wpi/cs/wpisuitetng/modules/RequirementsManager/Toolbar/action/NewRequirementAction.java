@@ -50,7 +50,6 @@ public class NewRequirementAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
 			controller.addCreateRequirementTab();
 		}

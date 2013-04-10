@@ -262,13 +262,13 @@ public class MainTabController {
 	 * 
 	 * @return Tab returns the new iteration tab
 	 */
-	/**public Tab addNewIterationTab() {
+	public Tab addNewIterationTab() {
 		Tab tab = addTab();
 		IterationView view = new IterationView(new Iteration("", null, null), IterationPanel.Mode.CREATE, tab);
 		tab.setComponent(view);
 		view.requestFocus();
 		return tab;
-	}*/
+	}
 	
 	/**
 	 * Adds a tab that displays the given iteration in the given mode
@@ -332,7 +332,7 @@ public class MainTabController {
 	 * @return The created Tab
 	 */
 	public Tab addCreateIterationTab() {
-		return addIterationTab(new Iteration(), IterationPanel.Mode.CREATE);
+		return addNewIterationTab(); //new Iteration(), IterationPanel.Mode.CREATE
 	}
 	
 	

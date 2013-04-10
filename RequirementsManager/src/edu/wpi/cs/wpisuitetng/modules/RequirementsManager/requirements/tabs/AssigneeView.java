@@ -27,6 +27,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -76,7 +78,11 @@ public class AssigneeView extends JPanel{
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 		
 		btnAdd = new    JButton("ADD");
+		btnAdd.addActionListener(new AddAssigneeController(this));
+		
 		btnRemove = new JButton("REMOVE");
+		//btnRemove.addActionListener(new RemoveAssigneeController(this));
+		
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
 		
@@ -113,6 +119,7 @@ public class AssigneeView extends JPanel{
 		
 		assignedUserLM.clear();
 		for(String s:assignedUserAL){
+			System.out.println(s);
 			assignedUserLM.addElement(s);
 		}
 	}
@@ -131,6 +138,29 @@ public class AssigneeView extends JPanel{
 	 */
 	public ArrayList<String> getAssignedUserAL() {
 		return assignedUserAL;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the allUserList
+	 */
+	public JList<String> getAllUserList() {
+		return allUserList;
+	}
+	
+	public ArrayList<String> getAllUserListSelectedValues() {
+		//ArrayList<String> AUL = new ArrayList<String> (allUserList.getSelectedValuesList());
+		String AUL = allUserList.getSelectedValue();
+		System.out.println(AUL);
+		System.out.println("dividerhahahahahaha");
+		ArrayList<String> aaa = new ArrayList<String>();
+		aaa.add(AUL);
+		System.out.println(allUserList.getSelectedIndex());
+		int[] test = allUserList.getSelectedIndices();
+		for(int i = 0; i<test.length; i++)
+			System.out.println(test[i]);
+		return aaa;
 	}
 
 }

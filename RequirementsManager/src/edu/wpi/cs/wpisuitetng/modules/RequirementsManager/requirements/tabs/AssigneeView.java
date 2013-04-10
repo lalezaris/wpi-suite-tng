@@ -28,6 +28,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
@@ -87,6 +88,7 @@ public class AssigneeView extends JPanel{
 		allUserList = new JList<String>(allUserLM);
 		assignedUserList = new JList<String>(assignedUserLM);
 		
+		
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 		
@@ -98,6 +100,9 @@ public class AssigneeView extends JPanel{
 		
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
+		
+		allUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		assignedUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		
 		this.add(allUserList);
 		this.add(buttonPanel);

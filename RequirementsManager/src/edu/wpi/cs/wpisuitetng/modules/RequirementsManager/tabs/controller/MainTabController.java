@@ -22,6 +22,7 @@ import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -39,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * 
  * @author Tyler Stone 
  * @author Arica Liu
+ * @edited Evan Polekoff
  *
  * @version Mar 17, 2013
  *
@@ -117,18 +119,19 @@ public class MainTabController {
 		 */
 		String requirementTitle = requirement.getTitle();
 		int requirementId = requirement.getId();
-		int checkTabIndex = view.indexOfTab("Requirement #" + requirementId + " - " + requirementTitle);
+		int checkTabIndex = view.indexOfTab("#" + requirementId + ": " + requirementTitle.substring(0, Math.min(10, requirementTitle.length())));
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			
+			System.out.println("found tab already");
 			return null;
 		}
 		else{
 			Tab tab = addTab();
-			RequirementView view = new RequirementView(requirement, mode, tab);
-			tab.setComponent(view);
-			view.requestFocus();
-
+			RequirementView Rview = new RequirementView(requirement, mode, tab);
+			tab.setComponent(Rview);
+			Rview.requestFocus();
+			view.setSelectedIndex(Rview.getTab().getThisIndex());
+			System.out.println(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}
@@ -189,6 +192,35 @@ public class MainTabController {
 	 */
 	public Tab addCreateRequirementTab() {
 		return addRequirementTab(new Requirement(), Mode.CREATE);
+	}
+	
+	/**
+	 * Adds a tab that shows the bar chart.
+	 * @param requirement The requirement to display
+	 */
+	public Tab addBarChartTab() {
+		/*
+		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",
+		 * get the id of the Requirement, and check if a tab with that title
+		 * already exists.
+		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
+		 * Switch focus to that tab, or go ahead and create a new one.
+		 */
+		String tabTitle = "Bar Chart";
+		int checkTabIndex = view.indexOfTab("Bar Chart");
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			
+			return null;
+		}
+		else{
+			Tab tab = addTab();
+			BarChartView view = new BarChartView(tab);
+			tab.setComponent(view);
+			view.requestFocus();
+
+			return tab;
+		}
 	}
 	
 	

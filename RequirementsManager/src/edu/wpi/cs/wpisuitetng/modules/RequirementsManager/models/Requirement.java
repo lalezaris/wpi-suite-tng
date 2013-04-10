@@ -62,6 +62,7 @@ public class Requirement extends AbstractModel{
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	private ArrayList<Integer> childIDs;
 	private ArrayList<HistoricalChange> history;
+	private ArrayList<AcceptanceTest> acceptanceTests;
 	
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -76,7 +77,7 @@ public class Requirement extends AbstractModel{
 		this.description = description;
 		this.notes = new ArrayList<Note>();
 		this.history = new ArrayList<HistoricalChange>();
-
+		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
 	
 	/**
@@ -96,7 +97,7 @@ public class Requirement extends AbstractModel{
 		this.creatorUsername = creatorUsername;
 		this.notes = new ArrayList<Note>();
 		this.history = new ArrayList<HistoricalChange>();
-
+		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
 	
 	/**
@@ -117,7 +118,7 @@ public class Requirement extends AbstractModel{
 		this.creatorUsername = creatorUsername;
 		this.notes = notes;
 		this.history = new ArrayList<HistoricalChange>();
-
+		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
 	
 	/**
@@ -152,6 +153,23 @@ public class Requirement extends AbstractModel{
 		this.childIDs = new ArrayList<Integer>();
 		this.history = new ArrayList<HistoricalChange>();
 		this.childRequirementId = new ArrayList<Integer>();
+		this.acceptanceTests = new ArrayList<AcceptanceTest>();
+	}
+	
+	/**
+	 * add an existing AcceptanceTest to this Requirement
+	 * 
+	 * @param existing AcceptanceTest
+	 */
+	public void addAcceptanceTest(AcceptanceTest a){
+		acceptanceTests.add(a);
+	}
+	
+	/**
+	 * @return the list of acceptance tests in this requirement
+	 */
+	public ArrayList<AcceptanceTest> getAcceptanceTests(){
+		return this.acceptanceTests;
 	}
 	
 	/**
@@ -504,10 +522,10 @@ public class Requirement extends AbstractModel{
 		if (this.iteration != null){
 			this.iteration.removeRequirement(this.getId());
 		}
-			this.iteration = iteration;
-			this.iterationId = this.iteration.getId();
+		this.iteration = iteration;
+		this.iterationId = this.iteration.getId();
 			
-			this.iteration.addRequirement(this.getId());
+		this.iteration.addRequirement(this.getId());
 			
 	}
 	

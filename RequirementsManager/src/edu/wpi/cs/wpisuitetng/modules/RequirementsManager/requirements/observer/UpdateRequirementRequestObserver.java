@@ -86,9 +86,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 							//change all children
 							batchController.instantiateChange(changedModel.getChildRequirementIds());
 						}
-						
-						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						view.setEditModeDescriptors(requirement);
+//						
+//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+//						view.setEditModeDescriptors(requirement);
 					}
 				});
 			}

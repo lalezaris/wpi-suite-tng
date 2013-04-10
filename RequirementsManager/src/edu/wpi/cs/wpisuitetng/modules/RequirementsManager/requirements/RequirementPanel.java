@@ -180,8 +180,6 @@ public class RequirementPanel extends JPanel{
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-
-	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
@@ -191,6 +189,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
+		System.out.println("NEW PANEL WITH " + model.getTitle());
 		System.out.println("\n\nChildren: " + model.getChildRequirementIds().toString());
 		this.uneditedModel = requirement;
 		this.parent = parent;
@@ -738,6 +737,7 @@ public class RequirementPanel extends JPanel{
 			 txtActual.setEnabled(false);
 
 		 }
+		 
 		 // depending on the status and sub-requirements, disable certain components
 
 		 if (model.getStatus() == RequirementStatus.INPROGRESS
@@ -746,6 +746,10 @@ public class RequirementPanel extends JPanel{
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
 			 txtEstimate.setEnabled(false);
 		 }
+		 
+//		 if (model.getChildRequirementIds().isEmpty()) {
+//			 setDeleteEnabled(false);
+//		 }
 
 
 		 //depending on the user's permission, disable certain components

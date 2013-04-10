@@ -46,7 +46,6 @@ public class RequirementTest {
 	ArrayList<Note> testNotes;
 	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
-	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	@Before
 	public void setUp(){

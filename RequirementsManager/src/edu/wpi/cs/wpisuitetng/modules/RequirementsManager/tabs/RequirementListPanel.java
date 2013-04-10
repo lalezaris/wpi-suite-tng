@@ -49,6 +49,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  *
  * @author Tianyu Li
  * @modified by Chris H on Mar 24
+ * @modified by Tianyu Li on Apr 9
+ * 
  * @version Mar 21, 2013
  *
  */
@@ -63,7 +65,7 @@ public class RequirementListPanel extends JPanel{
 	final JScrollPane mainPanelScrollPane;
 	
 	private ToolbarGroupView buttonGroup;
-	private JButton refreshButton, deleteButton;
+	private JButton refreshButton, updateButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
 	
@@ -79,6 +81,8 @@ public class RequirementListPanel extends JPanel{
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));	
+		updateButton = new JButton("Update");
+		//updateButton.setAction(a);
 		deleteButton = new JButton("Delete");
 		
 		GridBagConstraints c = new GridBagConstraints();	

@@ -24,8 +24,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 /**
  * Model for the Requirement Table
  * @author Chris Hanna
- *
+ * @modified by Tianyu Li on Apr 9
+ * 
+ * @version Apr 9th, 2013
  */
+
 public class RequirementTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
@@ -162,10 +165,19 @@ public class RequirementTableModel extends AbstractTableModel {
     public int getRowID(int row)
     {
     	return Integer.parseInt( getValueAt(row, 0).toString() );
-    
     }
     
-   
     
+    /**
+     * Make the estimate editable
+     * 
+     * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
+     */
+    public boolean isCellEditable(int row, int col) {
+    	if (col == 6) {
+    		return true;
+    	}
+    	else return false;
+    }
     
 }

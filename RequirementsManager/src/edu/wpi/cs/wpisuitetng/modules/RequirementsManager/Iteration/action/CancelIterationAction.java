@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.C
  * @version Mar 27, 2013
  *
  */
+@SuppressWarnings("serial")
 public class CancelIterationAction extends AbstractAction {
 	private final CancelIterationController controller;
 	

@@ -186,6 +186,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
+		System.out.println("\n\nChildren: " + model.getChildRequirementIds().toString());
 		this.uneditedModel = requirement;
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + model.getIterationId() + " AND " + uneditedModel.getIterationId());
@@ -253,9 +254,9 @@ public class RequirementPanel extends JPanel{
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
-		String[] requirementStatusValues = RequirementStatusLists.getList(model.getStatus());
+		String[] requirementStatusValues = RequirementStatusLists.getList(model);
 		for (int i = 0; i < requirementStatusValues.length; i++) {
-			requirementStatusValues[i] = RequirementStatusLists.getList(model.getStatus())[i];
+			requirementStatusValues[i] = RequirementStatusLists.getList(model)[i];
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
@@ -300,19 +301,18 @@ public class RequirementPanel extends JPanel{
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
 
 		/**Iteration Listener*/
-
 		cmbIteration.addActionListener(new IterationListener());
 
 		/**Estimate Listener*/
-
-
 		txtEstimate.addKeyListener(new EstimateListener());
 
 		/**Title and Description Listener*/
-
 		txtTitle.addKeyListener(new SaveListener());
 		txtDescription.addKeyListener(new SaveListener());
 
+		/**Status Listener*/
+		cmbStatus.addActionListener(new StatusListener());
+		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -431,22 +431,22 @@ public class RequirementPanel extends JPanel{
 		 cmbType.setBackground(Color.WHITE);
 		 panelOne.add(cmbType, cOne);
 		 
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridx = 2;
-		 cOne.gridy = 2;
-		 cOne.anchor = GridBagConstraints.LINE_START;
-		 panelOne.add(lblCreator, cOne);
-
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridx = 3;
-		 cOne.gridy = 2;
-		 txtCreator.setEnabled(false);
-		 txtCreator.setText(model.getCreator());
-		 txtCreator.setDisabledTextColor(Color.BLACK);
-		 cOne.anchor = GridBagConstraints.LINE_START;
-		 panelOne.add(txtCreator, cOne);		 
+//		 cOne.weightx = 0.5;
+//		 cOne.weighty = 0.5;
+//		 cOne.gridx = 2;
+//		 cOne.gridy = 2;
+//		 cOne.anchor = GridBagConstraints.LINE_START;
+//		 panelOne.add(lblCreator, cOne);
+//
+//		 cOne.weightx = 0.5;
+//		 cOne.weighty = 0.5;
+//		 cOne.gridx = 3;
+//		 cOne.gridy = 2;
+//		 txtCreator.setEnabled(false);
+//		 txtCreator.setText(model.getCreator());
+//		 txtCreator.setDisabledTextColor(Color.BLACK);
+//		 cOne.anchor = GridBagConstraints.LINE_START;
+//		 panelOne.add(txtCreator, cOne);		 
 
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -766,8 +766,17 @@ public class RequirementPanel extends JPanel{
 			 disableStuff(new JComponent[]{cmbPriority,txtDescription,cmbType,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
 					 deleteRequirementBottom, createChildRequirement});
+		 
+		 System.out.println("HELLO!!!! " + model.getChildRequirementIds().toString());
+		 if (!getEditedModel().getChildRequirementIds().isEmpty()) {
+			 disableStuff(new JComponent[]{deleteRequirementBottom});
+		 }
 	}
 
+	public void setDeleteEnabled(boolean enabled) {
+		deleteRequirementBottom.setEnabled(enabled);
+	}
+	
 	private void disableStuff(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
@@ -907,6 +916,7 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
+		requirement.setSubRequirements(model.getChildRequirementIds());
 
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.getAssignee().add(txtAssignee.getText());
@@ -1035,7 +1045,32 @@ public class RequirementPanel extends JPanel{
 	public Requirement getModel() {
 		return model;
 	}
+	
+	public class StatusListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent status) {
+			JComboBox cb = (JComboBox)status.getSource();
+			System.out.println(cb.getSelectedItem());
 
+			changeIteration(cb);
+		}
+		
+		public void changeIteration(JComboBox cb){
+			if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && model.getIterationId() != Iteration.getBacklog().getId() ){
+				cmbIteration.setSelectedIndex(cmbIteration.getItemCount()-1);
+				cmbIteration.setEnabled(false);
+			} else if((model.getStatus() == RequirementStatus.COMPLETE || model.getStatus() == RequirementStatus.DELETED)  && model.getIterationId() != Iteration.getBacklog().getId()){ 
+				for (int i = 0; i < cmbIteration.getItemCount(); i++) {
+					if (model.getIteration().toString().equals(knownIterations[i].toString()) ){
+						cmbIteration.setSelectedIndex(i);
+						if(model.getStatus() == RequirementStatus.COMPLETE && model.getParentRequirementId() == -1){
+							cmbIteration.setEnabled(true);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	//TODO: class exists in action package, refactor
 	public class IterationListener implements ActionListener {
@@ -1057,7 +1092,7 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-			if (model.getStatus() != RequirementStatus.DELETED){
+//			if (model.getStatus() != RequirementStatus.DELETED){
 				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
 				if((model.getStatus() == RequirementStatus.OPEN || model.getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == Iteration.getBacklog()){
 					setTo = model.getStatus();
@@ -1082,12 +1117,12 @@ public class RequirementPanel extends JPanel{
 					enabled = true;
 					runThatForLoop = true;
 				}
-			} else
-			{
-				setTo = RequirementStatus.DELETED;
-				enabled = true;
-				runThatForLoop = true;
-			}
+//			} else
+//			{
+//				setTo = RequirementStatus.DELETED;
+//				enabled = true;
+//				runThatForLoop = true;
+//			}
 
 			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
@@ -1183,4 +1218,14 @@ public class RequirementPanel extends JPanel{
 	}
 
 
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the notesView
+	 */
+	public NotesView getNotesView() {
+		return notesView;
+	}
+
+	
 }

@@ -16,14 +16,17 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
@@ -68,6 +71,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private ToolbarGroupView toolbarGroupViewUserPermission;
 	private ToolbarGroupView toolbarGroupBarChart;
 		
+	
+	
+	//TODO: Reorder everything so that barchart comes before viewuserpermissionpanel
 	/**
 	 * Create a ToolbarPanel.
 	 * Commented out parts are not needed for iteration 1 but are needed in the future
@@ -90,18 +96,23 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		iterationContent.setLayout(iterationLayout);
 		iterationContent.setOpaque(false);
+		iterationContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		requirementContent.setLayout(requirementLayout);
 		requirementContent.setOpaque(false);
+		requirementContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		userPermissionContent.setLayout(userPermissionLayout);
 		userPermissionContent.setOpaque(false);
+		userPermissionContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
 		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
 		viewUserPermissionPanel.setOpaque(false);
+		//viewUserPermissionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		
 		barChartContent.setLayout(barChartLayout);
 		barChartContent.setOpaque(false);
+		barChartContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
 		CurrentUserPermissions.updateCurrentUserPermissions(new ToolbarDisplayUpdater(this));
@@ -112,7 +123,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		newIteration.setVisible(false);
 		
 		listIteration = new JButton("List Iterations");
-		listIteration.setAction(new ListIterationAction("List Iterations"));
+		listIteration.setAction(new ListIterationAction(tabController));
 		listIteration.setVisible(false);
 		
 		newRequirement = new JButton("Create Requirement");
@@ -168,17 +179,18 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
+		iterationContent.add(listIteration);
 		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
 		
+		//Add bar chart buttons
+		barChartContent.add(barChart);
+		
 		//add label to content panel
 		viewUserPermissionPanel.add(viewUserPermission);
 		viewUserPermissionPanel.add(viewUserName);
-		
-		//Add bar chart buttons
-		barChartContent.add(barChart);
+
 		
 		// Construct a new toolbar group to be added to the end of the toolbar
 		toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
@@ -225,8 +237,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);
-		addGroup(toolbarGroupViewUserPermission);
 		addGroup(toolbarGroupBarChart);
+		addGroup(toolbarGroupViewUserPermission);
 		
 		final DefaultToolbarView p = this;
 		p.addHierarchyListener(new HierarchyListener() {
@@ -269,7 +281,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 			newRequirement.setVisible(false);
 			listAllRequirements.setVisible(true);		
 			editUserPermissions.setVisible(false);
-			toolbarGroupIteration.setVisible(false);
+			toolbarGroupIteration.setVisible(true);
 			toolbarGroupRequirement.setVisible(true);
 			toolbarGroupUserPermission.setVisible(false);
 		}

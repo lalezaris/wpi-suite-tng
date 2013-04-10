@@ -78,6 +78,9 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 				if (iter.getStartDate().compareTo(now) > 0){
 					setIcon(iteration_future);
 				}
+				else if (iter.getEndDate().compareTo(now) == 0){
+					setIcon(iteration_current);
+				}
 				else if (iter.getEndDate().compareTo(now) < 0){
 					setIcon(iteration_past);
 				}

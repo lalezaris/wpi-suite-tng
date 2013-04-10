@@ -67,15 +67,15 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Iteration from the body
 			final Iteration iteration = Iteration.fromJSON(response.getBody());
-
+			
 			Refresher.getInstance().refreshIterationsFromServer(view);
 			// make sure the Iteration isn't null
 			if (iteration != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-				//		Iteration unchangedModel = ((IterationPanel) view.getIterationPanel()).getUneditedModel();
-				//		Iteration changedModel = ((IterationPanel) view.getIterationPanel()).getEditedModel();
+						System.out.println("In UpdateInterationRequestObserver: ");
+						System.out.println(iteration.getIterationName());
 						((IterationPanel) view.getIterationPanel()).updateModel(iteration);
 						view.setEditModeDescriptors(iteration);
 					}

@@ -120,16 +120,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 	    			iteration.getEndDate()};
 	    	addRow(r);
 	    }
-	    
-	    /**
-	     * Removes row
-	     * 
-	     * @param row row to remove
-	     */
-	    public void removeRow(int row){
-	    	data.remove(row);
-	    }
-	    
+	   	    
 	    /**
 	     * Clears data
 	     * 

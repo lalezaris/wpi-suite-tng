@@ -60,6 +60,7 @@ public class HistoricalChange extends AbstractModel{
 		}
 		
 		//compare type
+		
 		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
 			change +="<p> "+ "Type changed from " + oldR.getType() + " to " + newR.getType() + ".</p>";
 		}

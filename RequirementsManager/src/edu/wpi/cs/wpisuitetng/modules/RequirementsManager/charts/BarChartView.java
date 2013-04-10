@@ -30,6 +30,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.AssigneeChartController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationChartController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.StatusChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.AdminPermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.NonePermissionController;
@@ -72,13 +75,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		// Instantiate the main create requirement panel
 		mainPanel = new BarChartPanel(this);
 		
-		/*mainPanel.getBtnAdmin().addActionListener(new AdminPermissionController(mainPanel));
-		mainPanel.getBtnNone().addActionListener(new NonePermissionController(mainPanel));
-		mainPanel.getBtnUpdate().addActionListener(new UpdatePermissionController(mainPanel));
-		mainPanel.getBtnUpdateAll().addActionListener(new UpdateAllPermissionsController(mainPanel, permModel));*/
-		
-		//SetUpPermissionsPanelController setUp = new SetUpPermissionsPanelController(mainPanel, permModel);
-		//setUp.setUp();
+		mainPanel.getStatusButton().addActionListener(new StatusChartController(mainPanel));
+		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel));
+		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel));
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);

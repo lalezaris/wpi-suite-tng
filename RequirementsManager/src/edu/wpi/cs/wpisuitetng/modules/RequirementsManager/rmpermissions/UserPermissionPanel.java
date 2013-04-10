@@ -137,7 +137,7 @@ public class UserPermissionPanel extends JPanel{
 		JLabel lblUpdateUsers = new JLabel("Update Users:", LABEL_ALIGNMENT);
 		JLabel lblAdminUsers = new JLabel("Admin Users:", LABEL_ALIGNMENT);
 		
-		/*set the layout manager for this an the nested panel*/
+		/*set the layout manager for this and the nested panel*/
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		this.setLayout(layout);

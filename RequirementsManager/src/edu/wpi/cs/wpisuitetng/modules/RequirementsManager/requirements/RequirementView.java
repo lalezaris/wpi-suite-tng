@@ -27,10 +27,8 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Allows users to view Requirements
@@ -71,9 +69,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		inputEnabled = true;
 		
-		containingTab.setIcon(new ImageIcon()); 
+		containingTab.setIcon(new ImageIcon());
 		if(editMode == Mode.CREATE) {
-			containingTab.setTitle("Create Requirement");
+			containingTab.setTitle("Create Requirement"); //Math.random()
 			containingTab.setToolTipText("Create a new requirement");
 		} else if (editMode == Mode.CHILD){
 			setChildModeDescriptors(requirement);
@@ -154,8 +152,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param requirement The input Requirement
 	 */
 	public void setEditModeDescriptors(Requirement requirement) {
-		containingTab.setTitle("Requirement #" + requirement.getId() + " - " + requirement.getTitle());
-		containingTab.setToolTipText("View requirement #" + requirement.getId() + " - " + requirement.getTitle());
+		containingTab.setTitle("#" + requirement.getId() + ": " + requirement.getTitle().substring(0, Math.min(10, requirement.getTitle().length())));
+		containingTab.setToolTipText("#" + requirement.getId() + ": " + requirement.getTitle());
 	}
 	
 	/**

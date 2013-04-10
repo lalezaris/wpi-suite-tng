@@ -24,7 +24,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  *
  */
 public class RequirementStatusListsTest {
+	Requirement statusCheck = new Requirement();
 	RequirementStatusLists reqList;
+	
 	RequirementStatus statusNew = RequirementStatus.NEW;
 	RequirementStatus statusInProgress = RequirementStatus.INPROGRESS;
 	RequirementStatus statusOpen = RequirementStatus.OPEN;
@@ -45,11 +47,16 @@ public class RequirementStatusListsTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testGetList() {
-		String[] arrNew = RequirementStatusLists.getList(statusNew);
-		String[] arrInProgress = RequirementStatusLists.getList(statusInProgress);
-		String[] arrOpen= RequirementStatusLists.getList(statusOpen);
-		String[] arrComplete = RequirementStatusLists.getList(statusComplete);
-		String[] arrDeleted = RequirementStatusLists.getList(statusDeleted);
+		statusCheck.setStatus(statusNew);
+		String[] arrNew = RequirementStatusLists.getList(statusCheck);
+		statusCheck.setStatus(statusInProgress);
+		String[] arrInProgress = RequirementStatusLists.getList(statusCheck);
+		statusCheck.setStatus(statusOpen);
+		String[] arrOpen= RequirementStatusLists.getList(statusCheck);
+		statusCheck.setStatus(statusComplete);
+		String[] arrComplete = RequirementStatusLists.getList(statusCheck);
+		statusCheck.setStatus(statusDeleted);
+		String[] arrDeleted = RequirementStatusLists.getList(statusCheck);
 
 		assertEquals(arrNew, RequirementStatusLists.NewList);
 		assertEquals(arrInProgress, RequirementStatusLists.InProgressList);

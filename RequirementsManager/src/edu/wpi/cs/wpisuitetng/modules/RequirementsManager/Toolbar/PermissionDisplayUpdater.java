@@ -16,6 +16,4 @@ public class PermissionDisplayUpdater implements IOnPermissionUpdate{
 	public void onUpdate() {
 		TBpanel.setPermissionText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 	}
-
-	
 }

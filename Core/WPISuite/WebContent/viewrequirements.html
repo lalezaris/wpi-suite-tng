@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Author" content="Sam Abradi, Tushar Narayan">
+<title>WPI Suite RM Requirements Viewer</title>
+</head>
+<body>
+	<h1>WPI Suite RM Requirements Viewer</h1>
+
+	<script type="text/javascript">
+		function setProject(){
+			var projName = document.getElementById("loginproject").value;
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					document.getElementById("loginprojectspan").innerHTML = "HEY";
+				}
+			};
+			xml.open('PUT', 'login', false);
+			//xml.setRequestHeader('Content', projName);
+			xml.send(projName);
+			document.getElementById("loginprojectspan").innerHTML = "Setting Project";
+		}
+		
+		function login() {
+			//generate unencoded authentication header
+			var basicAuth = "Basic ";
+			var credentials = document.getElementById("loginusername").value
+					+ ":" + document.getElementById("loginpassword").value;
+			var authString = basicAuth + window.btoa(credentials);
+			
+
+			//create new XHR
+			var xml = new XMLHttpRequest();
+
+			//define behavior for when the response is recieved
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					document.getElementById("loginresponsespan").innerHTML = xml.statusText;
+					setProject();
+				}
+			};
+
+			//setup reuqest to POST to login
+			xml.open('POST', 'login', false);
+			//set the request header
+			xml.setRequestHeader('Authorization', authString);
+			//send the request
+			xml.send();
+		}
+
+		function getRequirements() {
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					var response = xml.responseText;
+					//document.getElementById("requirementspan").innerHTML = response;
+					var requirement_array = JSON.parse(response);
+					var root = document.getElementById('requirementstable');
+
+					var tab=document.createElement('table');
+					var tbo=document.createElement('tbody');
+					var row, cell,link;
+					for(var i=0;i<requirement_array.length;i++){
+						row=document.createElement('tr');
+						
+						cell=document.createElement('td');
+						cell.appendChild(document.createTextNode('Requirement ' + requirement_array[i].id))
+						row.appendChild(cell);
+						
+						cell=document.createElement('td');
+						var newlink = document.createElement('a');//setAttribute         href=\"singlerequirement.html/#  + requirement_array[i].id
+						newlink.setAttribute('href', 'singlerequirement.html#' + requirement_array[i].id);
+						newlink.appendChild(document.createTextNode(requirement_array[i].title));
+						cell.appendChild(newlink);
+						row.appendChild(cell);
+						
+						tbo.appendChild(row);
+					}
+					tab.appendChild(tbo);
+					root.appendChild(tab);
+					/* 
+					for(var i = 0; i < requirement_array.length; i++){
+						document.getElementById("requirementspan").innerHTML = requirement_array[i].title;
+					} */
+				}
+			};
+			xml.open('GET', 'API/requirementsmanager/requirement', false);//test/requirementsmanager/requirement
+			xml.send();
+		}
+	</script>
+	<h4>Login:</h4>
+	Username:<input type="text" id="loginusername"></input>
+	<br>
+	Password:<input type="password" id="loginpassword"></input>
+	<br>
+	Project:<input type="text" id="loginproject"></input>
+	<br>
+	<input type="button" value="Submit" onclick="login()">
+	<span id="loginresponsespan"></span>
+	<span id="loginprojectspan"></span>
+	<br />
+	<br />
+	<br />
+	<br />
+	<input type="button" value="Get Requirements"
+		onclick="getRequirements()">
+	<br />
+	<br />
+	<br />
+	<!--<span id="requirementspan"></span>-->	
+ 	<div id="requirementstable"></div>
+
+
+</body>
+</html>

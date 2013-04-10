@@ -11,6 +11,7 @@
  *  Tianyu Li
  *  Mike Perrone
  *  Chris Hanna
+ *  Lauren Kahn
  *  
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
@@ -25,24 +26,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 
 /**
  * The action that is called by the refresh button that sends a message 
- * to the RetrieveAllRequirementsController.
+ * to the RetrieveAllIterationsController.
  *
- * @author Tianyu Li
+ * @author Lauren Kahn
  *
  * @version Mar 21, 2013
  *
  */
 @SuppressWarnings("serial")
-public class RefreshAction extends AbstractAction {
+public class IterationsRefreshAction extends AbstractAction {
 
-	private final RetrieveAllRequirementsController controller;
+	private final RetrieveAllIterationsController controller;
 	
-	public RefreshAction(RetrieveAllRequirementsController controller){
+	public IterationsRefreshAction(RetrieveAllIterationsController controller){
 		super("Refresh");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-
 	
 	/* Action performed by controller to refresh data
 	 * @param e ActionEvent to perform refresh of data

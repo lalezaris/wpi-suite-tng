@@ -9,30 +9,40 @@
  *
  * Contributors:
  *  Chris Hanna
- *  
+ *  Lauren Kahn
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
  * The action that the "List Iterations" button is registered to. 
  * 
  * @author Chris Hanna
  */
+@SuppressWarnings("serial")
 public class ListIterationAction extends AbstractAction {
+	
+	private final MainTabController controller;
+
 	/**
 	 * Constructor for ListIterationAction
 	 * 
 	 * @param n The button name
 	 */
-	public ListIterationAction(String n){
-		super(n);
+	public ListIterationAction(MainTabController controller){
+		super("List Iterations");
+		this.controller = controller;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 	
 	/* (non-Javadoc)
@@ -42,5 +52,8 @@ public class ListIterationAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Iteration[] i = new Iteration[0];
 		i = Refresher.getInstance().getInstantIterations(); 
+		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
+			controller.addListIterationTab(); //null, IterationPanel.Mode.CREATE
+		}
 	}
 }

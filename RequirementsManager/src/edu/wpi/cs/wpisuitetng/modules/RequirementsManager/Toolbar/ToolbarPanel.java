@@ -123,7 +123,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		newIteration.setVisible(false);
 		
 		listIteration = new JButton("List Iterations");
-		listIteration.setAction(new ListIterationAction("List Iterations"));
+		listIteration.setAction(new ListIterationAction(tabController));
 		listIteration.setVisible(false);
 		
 		newRequirement = new JButton("Create Requirement");
@@ -179,7 +179,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
+		iterationContent.add(listIteration);
 		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
@@ -281,7 +281,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 			newRequirement.setVisible(false);
 			listAllRequirements.setVisible(true);		
 			editUserPermissions.setVisible(false);
-			toolbarGroupIteration.setVisible(false);
+			toolbarGroupIteration.setVisible(true);
 			toolbarGroupRequirement.setVisible(true);
 			toolbarGroupUserPermission.setVisible(false);
 		}

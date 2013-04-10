@@ -186,7 +186,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
-		System.out.println("\n\nChildren: " + model.getChildRequirementId().toString());
+		System.out.println("\n\nChildren: " + model.getChildRequirementIds().toString());
 		this.uneditedModel = requirement;
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + model.getIterationId() + " AND " + uneditedModel.getIterationId());
@@ -768,7 +768,7 @@ public class RequirementPanel extends JPanel{
 					 deleteRequirementBottom, createChildRequirement});
 		 
 		 System.out.println("HELLO!!!! " + model.getChildRequirementIds().toString());
-		 if (!model.getChildRequirementIds().isEmpty()) {
+		 if (!getEditedModel().getChildRequirementIds().isEmpty()) {
 			 disableStuff(new JComponent[]{deleteRequirementBottom});
 		 }
 	}
@@ -916,6 +916,7 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
+		requirement.setSubRequirements(model.getChildRequirementIds());
 
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.getAssignee().add(txtAssignee.getText());

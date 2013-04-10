@@ -69,10 +69,14 @@ public class AssigneeView extends JPanel{
 		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
 		System.out.println();
+		System.out.println("assignedUserLM: " + assignedUserAL);
 		System.out.println(">> FILLING projectUsers ArrayList <<");
 		for(int i=0;i<projectUsers.length;i++){
 			System.out.println("USER: " + projectUsers[i].getUsername());
-			allUserAL.add(projectUsers[i].getUsername());
+			if(!assignedUserAL.contains(projectUsers[i].getUsername())){
+				System.out.println("     added to allUserAL");
+				allUserAL.add(projectUsers[i].getUsername());
+			}
 		}
 		for(int i=0;i<allUserAL.size();i++){
 			allUserLM.addElement(allUserAL.get(i));

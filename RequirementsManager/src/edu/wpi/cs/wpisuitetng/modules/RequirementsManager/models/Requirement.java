@@ -59,7 +59,6 @@ public class Requirement extends AbstractModel{
 	private int id;
 	private String creatorUsername;
 	private ArrayList<String> assignee; //putting this in to keep track of user
-	private ArrayList<String> usersNotAssigned;
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	private ArrayList<Integer> childIDs;
 	private ArrayList<HistoricalChange> history;
@@ -149,7 +148,6 @@ public class Requirement extends AbstractModel{
 		this.id = -1; //default id is -1
 		this.creatorUsername = "";
 		this.assignee = new ArrayList<String>();
-		this.usersNotAssigned = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
 		this.childIDs = new ArrayList<Integer>();
 		this.history = new ArrayList<HistoricalChange>();
@@ -392,18 +390,6 @@ public class Requirement extends AbstractModel{
 	 * 
 	 * @return users not assigned to this requirement
 	 */
-	public ArrayList<String> getUsersNotAssigned(){
-		return this.usersNotAssigned;
-	}
-	
-	/**
-	 * sets the array of users not assigned to this requirement.
-	 * 
-	 * @param al the list of users not assigned to this requirement.
-	 */
-	public void setUsersNotAssigned(ArrayList<String> al){
-		this.usersNotAssigned = al;
-	}
 	
 	/**
 	 * Adds note to assignee

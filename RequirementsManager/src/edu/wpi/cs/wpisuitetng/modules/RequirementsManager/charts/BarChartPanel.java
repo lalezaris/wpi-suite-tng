@@ -20,6 +20,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -51,6 +52,22 @@ public class BarChartPanel extends JPanel {
 	String xAxis = "Iteration";
 	JFreeChart barGraph;
 	
+	private JButton statusButton;
+	private JButton assigneeButton;
+	private JButton iterationButton;
+	
+	//button getters
+	public JButton getStatusButton(){
+		return statusButton;
+	}
+	
+	public JButton getIterationButton(){
+		return iterationButton;
+	}
+	
+	public JButton getAssigneeButton(){
+		return assigneeButton;
+	}
 	
 	public BarChartPanel(BarChartView view){
 		this.view = view;

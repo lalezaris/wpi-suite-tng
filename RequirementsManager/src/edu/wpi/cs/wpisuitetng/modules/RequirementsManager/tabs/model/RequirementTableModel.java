@@ -20,6 +20,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
  * Model for the Requirement Table
@@ -175,6 +176,10 @@ public class RequirementTableModel extends AbstractTableModel {
      * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int row, int col) {
+    	if (data.get(row)[3].equals(RequirementStatus.INPROGRESS) ||
+    			data.get(row)[3].equals(RequirementStatus.COMPLETE)) {
+    		return false;
+    	}
     	if (col == 5) {
     		return true;
     	}

@@ -21,6 +21,7 @@ public class EditAcceptanceTestController implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		AcceptanceTest a = new AcceptanceTest(view.getTitleTxt(), view.getBodyTxt());
+		a.setStatus(view.getStatusTxt());
 		if(view.notReady()){
 			//do nothing no text has been entered
 		} else {

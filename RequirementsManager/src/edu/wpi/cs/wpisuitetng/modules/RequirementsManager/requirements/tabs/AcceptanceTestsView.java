@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
@@ -28,6 +29,7 @@ public class AcceptanceTestsView extends JPanel{
 	//the status dropdown menu goes here
 	protected JButton addTest;
 	protected JButton editTest;
+	protected JComboBox cmbStatus;
 	
 	protected JList<AcceptanceTest> listDisplay;
 	protected DefaultListModel<AcceptanceTest> listModel;
@@ -69,6 +71,11 @@ public class AcceptanceTestsView extends JPanel{
 		editTest = new JButton("Edit Test");
 		editTest.addActionListener(new EditAcceptanceTestController(this));
 		
+		//initiate the combobox for status
+		final String[] atStatuses = {"Blank", "Passed", "Failed"};
+		cmbStatus = new JComboBox(atStatuses);
+		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
+		
 		//initiate the JList stuff
 		listModel = new DefaultListModel<AcceptanceTest>();
 
@@ -79,6 +86,15 @@ public class AcceptanceTestsView extends JPanel{
 		
 		listDisplay = new JList<AcceptanceTest>(listModel);
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
+		
+		//Add the things with style!
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		cmbStatus.setBackground(Color.WHITE);
+		this.add(cmbStatus, c);
 		
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
@@ -150,6 +166,15 @@ public class AcceptanceTestsView extends JPanel{
 	             System.out.println("clicked on Item " + index);
 	             txtTitle.setText(list.get(index).getTitle());
 	             txtBody.setText(list.get(index).getBody());
+	             
+	             if (list.get(index).getStatus().compareTo("Passed") == 0){
+		             	cmbStatus.setSelectedItem(atStatuses[1]);
+		         }else
+	             if (list.get(index).getStatus().compareTo("Failed") == 0){
+		             	cmbStatus.setSelectedItem(atStatuses[2]);
+		         }else{
+			            cmbStatus.setSelectedItem(atStatuses[0]);
+		         }
 		     }
 		 };
 		 listDisplay.addMouseListener(mouseListener);
@@ -228,6 +253,10 @@ public class AcceptanceTestsView extends JPanel{
 		}else{
 			System.out.println("ERROR: could not find Test " + a.getTitle() + "\n");
 		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
 	}
 	
 	public void clearBodyTxt(){
@@ -244,6 +273,11 @@ public class AcceptanceTestsView extends JPanel{
 	
 	public String getBodyTxt(){
 		return txtBody.getText();
+	}
+	
+	public String getStatusTxt(){
+		System.out.println("Status: " + cmbStatus.getSelectedItem().toString());
+		return cmbStatus.getSelectedItem().toString();
 	}
 	
 	public ArrayList<AcceptanceTest> getList(){

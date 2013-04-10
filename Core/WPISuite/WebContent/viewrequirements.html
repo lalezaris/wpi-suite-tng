@@ -73,9 +73,10 @@
 						row.appendChild(cell);
 						
 						cell=document.createElement('td');
-						document.createE
-						cell.appendChild(document.createElement('a href=\"singlerequirement.html/#' + requirement_array[i].id));
-						cell.appendChild(document.createTextNode(requirement_array[i].title));
+						var newlink = document.createElement('a');//setAttribute         href=\"singlerequirement.html/#  + requirement_array[i].id
+						newlink.setAttribute('href', 'singlerequirement.html#' + requirement_array[i].id);
+						newlink.appendChild(document.createTextNode(requirement_array[i].title));
+						cell.appendChild(newlink);
 						row.appendChild(cell);
 						
 						tbo.appendChild(row);

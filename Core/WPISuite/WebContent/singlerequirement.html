@@ -4,11 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="Author" content="Sam Abradi, Tushar Narayan">
 <title>WPI Suite RM Requirements Viewer</title>
-</head>
-<body>
-	<h1>WPI Suite RM Requirements Viewer</h1>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 		function getRequirements() {
 			var xml = new XMLHttpRequest();
 			xml.onreadystatechange = function() {
@@ -25,13 +22,14 @@
 			var spot = urlStr.search("#");
 			spot = spot + 1;
 			var idNum = urlStr.substring(spot, urlStr.length);
-			alert(idNum);
 			xml.open('GET', 'API/requirementsmanager/requirement/' + idNum, false);//test/requirementsmanager/requirement
 			xml.send();
 		}
 	</script>
+</head>
+<body onload="getRequirements()">
+	<h1>WPI Suite RM Requirements Viewer</h1>
 	<div id="requirement"></div>
-	<input type="button" value="Button" onclick="getRequirements()">
 	
 
 </body>

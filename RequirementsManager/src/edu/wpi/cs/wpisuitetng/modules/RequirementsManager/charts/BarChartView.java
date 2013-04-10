@@ -21,6 +21,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
@@ -45,7 +50,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
  * @author Evan Polekoff
- * @author Ned Shelton
  *
  */
 public class BarChartView extends JPanel implements IToolbarGroupProvider {
@@ -56,7 +60,12 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private Tab containingTab;
 	private boolean inputEnabled;
 	
-	private PermissionModel permModel;
+	
+	private boolean urls;
+	private boolean tooltips;
+	private boolean legend;
+	private PlotOrientation orientation;
+	private DefaultCategoryDataset dataset;
 	
 	/**Constructs a Bar Chart View so the bar chart can be viewed.
 	 * 
@@ -69,15 +78,23 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 		inputEnabled = true;
 		
-		//make the model
-		permModel = new PermissionModel();
+		//Default chart fields.
+		urls = false;
+		tooltips = true;
+		legend = true;
+		orientation = PlotOrientation.VERTICAL;
+		DefaultCategoryDataset dataset;
+		dataset = new DefaultCategoryDataset();
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new BarChartPanel(this);
+		mainPanel = new BarChartPanel(this, makeBarChart(dataset, ""));
 		
-		mainPanel.getStatusButton().addActionListener(new StatusChartController(mainPanel));
-		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel));
-		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel));
+		mainPanel.getStatusButton().addActionListener(new StatusChartController(mainPanel, this));
+		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel, this));
+		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel, this));
+		
+		//Start out with the status graph displayed.
+		mainPanel.getStatusButton().doClick();
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -93,7 +110,20 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 	}
 	
+	/**Makes the chart from the fields in this class.
+	 * @return the bar chart that was created from the fields.
+	 */
+	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){		
+		return ChartFactory.createBarChart("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
+	}
 	
+	/**Update and repaint the bar chart in the panel.
+	 * 
+	 */
+	public void repaintChart(DefaultCategoryDataset dataset, String xAxis){
+		mainPanel.setChart(makeBarChart(dataset, xAxis));
+	}
+		
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
 	 */

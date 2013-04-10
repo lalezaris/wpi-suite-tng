@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
@@ -27,9 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
- * @author Arica liu
+ * @author Lauren Kahn
  * 
- * @version March 24, 2013
+ * @version April 8, 2013
  */
 @SuppressWarnings("serial")
 public class NewIterationAction extends AbstractAction {
@@ -52,7 +53,7 @@ public class NewIterationAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
-			controller.addNewIterationTab();
+			controller.addNewIterationTab(); //null, IterationPanel.Mode.CREATE
 		}
 	}
 }

@@ -18,7 +18,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 
 /**
@@ -33,17 +36,26 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
 public class AssigneeChartController extends AbstractAction{
 
 	protected BarChartPanel panel;
+	protected BarChartView view;
 	
-	public AssigneeChartController(BarChartPanel panel){
+	public AssigneeChartController(BarChartPanel panel, BarChartView view){
+		
 		this.panel = panel;
+		this.view = view;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Actually implement stuff
 		
-		System.out.println("Asignee Button Pressed!");
+		System.out.println("Assignee Button Pressed!");
 		
+		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
+		testDataSet.setValue(110, "Requirements", "Twilight Sparkle");
+		testDataSet.setValue(200, "Requirements", "Luna");
+		testDataSet.setValue(87, "Requirements", "Celestia");
+		testDataSet.setValue(32, "Requirements", "Cadence");
+		view.repaintChart(testDataSet, "Assignee");
 	}
 
 }

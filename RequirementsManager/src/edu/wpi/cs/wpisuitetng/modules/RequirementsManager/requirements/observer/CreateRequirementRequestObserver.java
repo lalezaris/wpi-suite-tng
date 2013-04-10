@@ -83,7 +83,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							parentPanel.setDeleteEnabled(false);
 
 							//get the EDITED model currently displayed, and just add the child to it
-							parentPanel.getModel().addChildRequirement(requirement.getId());
+							parentPanel.getEditedModel().addChildRequirement(requirement.getId());
 
 							/*next get the UNEDITED model and save that to Database with the child
 							 * this ensures that the child is added in both places,

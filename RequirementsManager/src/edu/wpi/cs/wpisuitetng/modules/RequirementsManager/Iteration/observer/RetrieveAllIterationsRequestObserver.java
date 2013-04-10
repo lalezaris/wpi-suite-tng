@@ -50,7 +50,9 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
 	    // parse the response
 	    Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
-	    
+	    for(int i = 0; i < Iterations.length; i++){
+	    	System.out.println("Iteration id:" + Iterations[i].getId());
+	    }
 	    // notify the controller
 	    r.receivedData(Iterations);
 	}

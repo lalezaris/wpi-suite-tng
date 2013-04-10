@@ -73,7 +73,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
-//		newRequirement.setIteration(Iteration.getBacklog());
+		
+		HistoricalChange HChange = new HistoricalChange(new Date(), newRequirement.getId(), newRequirement.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
+		HChange.updateOnCreate(newRequirement);
+		newRequirement.addHistoricalChange(HChange);
+		
+		//		newRequirement.setIteration(Iteration.getBacklog());
 		System.out.println("THIS IS THEREQUIREMENT" + newRequirement.toJSON());
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
@@ -158,9 +163,10 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		serverReq.setIterationId(req.getIterationId());
 		
-		if(!HChange.getChange().equals("")){
+		if (!HChange.getChange().equals("")){
 			serverReq.addHistoricalChange(HChange);
 		}
+		
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
 	

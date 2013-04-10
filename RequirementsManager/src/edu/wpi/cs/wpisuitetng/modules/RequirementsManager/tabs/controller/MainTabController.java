@@ -119,18 +119,19 @@ public class MainTabController {
 		 */
 		String requirementTitle = requirement.getTitle();
 		int requirementId = requirement.getId();
-		int checkTabIndex = view.indexOfTab("Requirement #" + requirementId + " - " + requirementTitle);
+		int checkTabIndex = view.indexOfTab("#" + requirementId + ": " + requirementTitle.substring(0, Math.min(10, requirementTitle.length())));
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			
+			System.out.println("found tab already");
 			return null;
 		}
 		else{
 			Tab tab = addTab();
-			RequirementView view = new RequirementView(requirement, mode, tab);
-			tab.setComponent(view);
-			view.requestFocus();
-
+			RequirementView Rview = new RequirementView(requirement, mode, tab);
+			tab.setComponent(Rview);
+			Rview.requestFocus();
+			view.setSelectedIndex(Rview.getTab().getThisIndex());
+			System.out.println(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}

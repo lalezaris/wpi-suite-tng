@@ -431,22 +431,22 @@ public class RequirementPanel extends JPanel{
 		 cmbType.setBackground(Color.WHITE);
 		 panelOne.add(cmbType, cOne);
 		 
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridx = 2;
-		 cOne.gridy = 2;
-		 cOne.anchor = GridBagConstraints.LINE_START;
-		 panelOne.add(lblCreator, cOne);
-
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridx = 3;
-		 cOne.gridy = 2;
-		 txtCreator.setEnabled(false);
-		 txtCreator.setText(model.getCreator());
-		 txtCreator.setDisabledTextColor(Color.BLACK);
-		 cOne.anchor = GridBagConstraints.LINE_START;
-		 panelOne.add(txtCreator, cOne);		 
+//		 cOne.weightx = 0.5;
+//		 cOne.weighty = 0.5;
+//		 cOne.gridx = 2;
+//		 cOne.gridy = 2;
+//		 cOne.anchor = GridBagConstraints.LINE_START;
+//		 panelOne.add(lblCreator, cOne);
+//
+//		 cOne.weightx = 0.5;
+//		 cOne.weighty = 0.5;
+//		 cOne.gridx = 3;
+//		 cOne.gridy = 2;
+//		 txtCreator.setEnabled(false);
+//		 txtCreator.setText(model.getCreator());
+//		 txtCreator.setDisabledTextColor(Color.BLACK);
+//		 cOne.anchor = GridBagConstraints.LINE_START;
+//		 panelOne.add(txtCreator, cOne);		 
 
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -766,8 +766,17 @@ public class RequirementPanel extends JPanel{
 			 disableStuff(new JComponent[]{cmbPriority,txtDescription,cmbType,txtEstimate,txtActual,txtCreator,txtAssignee,
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
 					 deleteRequirementBottom, createChildRequirement});
+		 
+		 System.out.println("HELLO!!!! " + model.getChildRequirementIds().toString());
+		 if (!model.getChildRequirementIds().isEmpty()) {
+			 disableStuff(new JComponent[]{deleteRequirementBottom});
+		 }
 	}
 
+	public void setDeleteEnabled(boolean enabled) {
+		deleteRequirementBottom.setEnabled(enabled);
+	}
+	
 	private void disableStuff(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
@@ -1183,4 +1192,14 @@ public class RequirementPanel extends JPanel{
 	}
 
 
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the notesView
+	 */
+	public NotesView getNotesView() {
+		return notesView;
+	}
+
+	
 }

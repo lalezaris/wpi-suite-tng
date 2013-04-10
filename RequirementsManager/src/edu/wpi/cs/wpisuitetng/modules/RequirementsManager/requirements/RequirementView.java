@@ -71,7 +71,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		containingTab.setIcon(new ImageIcon()); 
 		if(editMode == Mode.CREATE) {
-			containingTab.setTitle("Create Requirement");
+			containingTab.setTitle("Create Requirement"); //Math.random()
 			containingTab.setToolTipText("Create a new requirement");
 		} else if (editMode == Mode.CHILD){
 			setChildModeDescriptors(requirement);
@@ -150,8 +150,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param defect Set the tab title, tooltip, and group name according to this Defect
 	 */
 	public void setEditModeDescriptors(Requirement requirement) {
-		containingTab.setTitle("Requirement #" + requirement.getId() + " - " + requirement.getTitle());
-		containingTab.setToolTipText("View requirement #" + requirement.getId() + " - " + requirement.getTitle());
+		containingTab.setTitle("#" + requirement.getId() + ": " + requirement.getTitle().substring(0, Math.min(10, requirement.getTitle().length())));
+		containingTab.setToolTipText("#" + requirement.getId() + ": " + requirement.getTitle());
 	}
 	
 	/**

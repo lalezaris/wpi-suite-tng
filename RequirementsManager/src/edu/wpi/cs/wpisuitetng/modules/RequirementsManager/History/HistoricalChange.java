@@ -44,6 +44,15 @@ public class HistoricalChange extends AbstractModel{
 		change = "";
 	}
 	
+	public HistoricalChange(User user){
+		this.user = user;
+		change = "";
+	}
+	
+	public void updateOnCreate(Requirement req){
+		change += "<p>" + "Requirement was created." + "</p>";
+	}
+	
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		
@@ -188,7 +197,7 @@ public class HistoricalChange extends AbstractModel{
 	
 	@Override
 	public String toString(){
-		return "<html><u>" + getUserName() + " made changes on " + getDate()+"</u>" + getChange()+"</html>";
+		return "<html style=\"padding:30px; border:1px solid black;\"><u>" + getUserName() + " on " + getDate()+":</u>" + getChange()+"</html>";
 	}
 	
 	

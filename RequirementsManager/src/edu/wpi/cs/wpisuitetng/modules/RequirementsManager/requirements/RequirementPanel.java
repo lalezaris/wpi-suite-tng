@@ -59,6 +59,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -134,6 +135,9 @@ public class RequirementPanel extends JPanel{
 	/** HistoryView for updating history **/
 	//TODO just a book mark kind of deal
 	private HistoryView hv;
+	
+	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
+	private AcceptanceTestsView atv;
 
 
 	/** A flag indicating if input is enabled on the form */
@@ -196,6 +200,9 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of history from the given requirement
 		hv = new HistoryView(model);
+		
+		//Instantiate the acceptance tests
+		atv = new AcceptanceTestsView(model);
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -277,7 +284,7 @@ public class RequirementPanel extends JPanel{
 
 		notesView.setNotesList(this.getNotesArrayList());
 		hv.setHistoryList(this.getHistoryList());
-		RTabsView = new RequirementTabsView(notesView, hv);
+		RTabsView = new RequirementTabsView(notesView, hv, atv);
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -906,6 +913,7 @@ public class RequirementPanel extends JPanel{
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
+		requirement.updateAcceptanceTests(atv.getList());
 		requirement.setParentRequirementId(model.getParentRequirementId());
 
 		if (!(txtAssignee.getText().equals(""))) {

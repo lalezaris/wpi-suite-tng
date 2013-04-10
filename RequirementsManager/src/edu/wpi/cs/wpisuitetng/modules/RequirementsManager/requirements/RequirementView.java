@@ -69,7 +69,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		inputEnabled = true;
 		
-		containingTab.setIcon(new ImageIcon()); 
+		containingTab.setIcon(new ImageIcon());
 		if(editMode == Mode.CREATE) {
 			containingTab.setTitle("Create Requirement"); //Math.random()
 			containingTab.setToolTipText("Create a new requirement");

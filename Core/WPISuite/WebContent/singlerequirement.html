@@ -14,10 +14,27 @@
 					var response = xml.responseText;
 					//document.getElementById("requirementspan").innerHTML = response;
 					var requirement = JSON.parse(response);
-					document.getElementById("requirement").innerHTML = response;
-				}
+					document.getElementById("requirement_id").innerHTML = requirement[0].id;
+					document.getElementById("requirement_title").innerHTML = requirement[0].title;
+					document.getElementById("requirement_type").innerHTML = requirement[0].type;
+					document.getElementById("requirement_releaseNumber").innerHTML = requirement[0].releaseNumber;
+					document.getElementById("requirement_description").innerHTML = requirement[0].description;
+					document.getElementById("requirement_status").innerHTML = requirement[0].status;
+					document.getElementById("requirement_priority").innerHTML = requirement[0].priority;
+					document.getElementById("requirement_estimate").innerHTML = requirement[0].estimateEffort;
+					document.getElementById("requirement_actualEffort").innerHTML = requirement[0].actualEffort;
+					document.getElementById("requirement_creationDate").innerHTML = requirement[0].creationDate;
+					document.getElementById("requirement_lastModifiedDate").innerHTML = requirement[0].lastModifiedDate;					
+					document.getElementById("requirement_iteration").innerHTML = requirement[0].iterationId;
+					document.getElementById("requirement_assigned").innerHTML = requirement[0].assignee;
+					document.getElementById("requirement_parent").innerHTML = requirement[0].parentRequirementId;
+					document.getElementById("requirement_children").innerHTML = requirement[0].childIDs;
+					document.getElementById("requirement_creator").innerHTML = requirement[0].creatorUsername;
+					document.getElementById("requirement_notes").innerHTML = requirement[0].notes;
+					document.getElementById("requirement_history").innerHTML = requirement[0].history[0].change;
+					document.getElementById("requirement_project").innerHTML = requirement[0].project[0].title;
+					}
 			};
-			
 			var urlStr = document.URL;
 			var spot = urlStr.search("#");
 			spot = spot + 1;
@@ -29,8 +46,25 @@
 </head>
 <body onload="getRequirements()">
 	<h1>WPI Suite RM Requirements Viewer</h1>
-	<div id="requirement"></div>
-	
-
+	<h2>Requirement Details:</h2>
+	<p>ID: <span id="requirement_id"></span></p>
+	<p>Title:<span id="requirement_title"></span></p>
+	<p>Type:<span id="requirement_type"></span></p>
+	<p>Release Number:<span id="requirement_releaseNumber"></span></p>
+	<p>Description:<span id="requirement_description"></span></p>
+	<p>Status:<span id="requirement_status"></span></p>
+	<p>Priority:<span id="requirement_priority"></span></p>
+	<p>Estimate:<span id="requirement_estimate"></span></p>
+	<p>Actual Effort:<span id="requirement_actualEffort"></span></p>
+	<p>Creation Date:<span id="requirement_creationDate"></span></p>
+	<p>Last Modified Date:<span id="requirement_lastModifiedDate"></span></p>
+	<p>Iteration:<span id="requirement_iteration"></span></p>
+	<p>Assigned:<span id="requirement_assigned"></span></p>
+	<p>Parent:<span id="requirement_parent"></span></p>
+	<p>Child Requirements:<span id="requirement_children"></span></p>
+	<p>Creator:<span id="requirement_creator"></span></p>
+	<p>Project:<span id="requirement_project"></span></p>
+	<p>Notes:<span id="requirement_notes"></span></p>
+	<p>History:<span id="requirement_history"></span></p>
 </body>
 </html>

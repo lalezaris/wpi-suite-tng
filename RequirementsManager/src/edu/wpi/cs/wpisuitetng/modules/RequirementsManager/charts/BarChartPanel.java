@@ -20,6 +20,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -51,25 +52,12 @@ public class BarChartPanel extends JPanel {
 	String xAxis = "Iteration";
 	JFreeChart barGraph;
 	
+	private JButton statusButton;
+	private JButton assigneeButton;
+	private JButton iterationButton;
 	
 	public BarChartPanel(BarChartView view){
 		this.view = view;
-		
-		addComponents();
-	}
-	
-	/**Put the buttons and stuff on the view.
-	 * 
-	 */
-	private void addComponents(){
-		JPanel overallPanel = new JPanel();
-		GridBagLayout layoutOverall = new GridBagLayout();	
-		overallPanel.setLayout(layoutOverall);
-		
-		/*set the layout manager for this an the nested panel*/
-		GridBagConstraints c = new GridBagConstraints();	
-		layout = new GridBagLayout();	
-		this.setLayout(new BorderLayout());
 		
 		/*Dummy Fields*/
 		urls = false;
@@ -83,17 +71,84 @@ public class BarChartPanel extends JPanel {
 		dataset.setValue(5, "Requirements", "John");
 		dataset.setValue(12, "Requirements", "Fred");
 		
+		addComponents();
+	}
+	
+	/**Put the buttons and stuff on the view.
+	 * 
+	 */
+	private void addComponents(){
+		JPanel btnPanel = new JPanel();
+		JPanel overallPanel = new JPanel();
+		
+		//Make Buttons
+		statusButton = new JButton("Status");
+		assigneeButton = new JButton("Assignee");
+		iterationButton = new JButton("Iteration");
+		
+		GridBagLayout layoutOverall = new GridBagLayout();
+		overallPanel.setLayout(layoutOverall);
+		
+		/*set the layout manager for this an the nested panel*/
+		layout = new GridBagLayout();
+		this.setLayout(new BorderLayout());
+		
 		barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
 		ChartPanel graphPanel = new ChartPanel(barGraph);
 		GridBagConstraints cGraph = new GridBagConstraints();
 		
-		GridBagLayout layoutGraph = new GridBagLayout();	
+		GridBagConstraints cBtn = new GridBagConstraints();
+		GridBagLayout layoutBtn = new GridBagLayout();
+		btnPanel.setLayout(layoutBtn);
+		
+		GridBagConstraints cOverall = new GridBagConstraints();
+		overallPanel.setLayout(layoutOverall);
+		
+		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
 		
+		/*add all of the components to the btnPanel*/
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(statusButton, cBtn);
 		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 2;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(assigneeButton, cBtn);
 		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 4;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(iterationButton, cBtn);
 		
+		//the the panels to the overall panel
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.1;
+		cOverall.weighty = 0.1;
+		cOverall.gridwidth = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(btnPanel, cOverall);
 		
+		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
 		cGraph.fill = GridBagConstraints.HORIZONTAL;
 		cGraph.gridx = 0;
@@ -106,6 +161,19 @@ public class BarChartPanel extends JPanel {
 		
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
-	}	
+	}
+	
+	//button getters
+	public JButton getStatusButton(){
+		return statusButton;
+	}
+	
+	public JButton getIterationButton(){
+		return iterationButton;
+	}
+	
+	public JButton getAssigneeButton(){
+		return assigneeButton;
+	}
 	
 }

@@ -13,6 +13,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 
 
 /**
@@ -79,20 +87,54 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		// close this tab when close button is clicked
 		final int index = tabbedPane.indexOfTabComponent(this);
 		String checkTitle = tabbedPane.getTitleAt(index);
-
+		Component component = tabbedPane.getComponentAt(index);
 		if(index > -1) {
-			if(!(checkTitle.equals("Requirement List"))){ //don't ask confirmation for closing List
-				int buttons = JOptionPane.showConfirmDialog(
-						null,
-						"Are you sure you want to exit? Your changes will not be saved.",
-						"Warning",
-						JOptionPane.YES_NO_OPTION);
-				if (buttons == JOptionPane.YES_OPTION) {
-					tabbedPane.remove(index);
+			if(!(checkTitle.equals("Requirement List")) || !(checkTitle.equals("Bar Chart"))){
+				if(component instanceof RequirementView){
+					RequirementPanel rPanel = (RequirementPanel) ((RequirementView) component).getRequirementPanel();
+					if(rPanel.isThereChanges()){
+						int buttons = JOptionPane.showConfirmDialog(
+								null,
+								"Are you sure you want to exit? Your changes will not be saved.",
+								"Warning",
+								JOptionPane.YES_NO_OPTION);
+						if (buttons == JOptionPane.YES_OPTION) {
+							tabbedPane.remove(index);
+						}
+					} else {
+						tabbedPane.remove(index);
+					}
+				} else if(component instanceof IterationView){
+					IterationPanel iPanel = (IterationPanel) ((IterationView) component).getIterationPanel(); 
+					if(iPanel.isThereChanges()){
+						int buttons = JOptionPane.showConfirmDialog(
+								null,
+								"Are you sure you want to exit? Your changes will not be saved.",
+								"Warning",
+								JOptionPane.YES_NO_OPTION);
+						if (buttons == JOptionPane.YES_OPTION) {
+							tabbedPane.remove(index);
+						}
+					} else {
+						tabbedPane.remove(index);
+					}
+				} else if(component instanceof UserPermissionView){
+					UserPermissionPanel uPPanel = (UserPermissionPanel) ((UserPermissionView) component).getUserPermissionPanel();
+					if(uPPanel.isHasChanged()){
+						int buttons = JOptionPane.showConfirmDialog(
+								null,
+								"Are you sure you want to exit? Your changes will not be saved.",
+								"Warning",
+								JOptionPane.YES_NO_OPTION);
+						if (buttons == JOptionPane.YES_OPTION) {
+							tabbedPane.remove(index);
+						}
+					} else {
+						tabbedPane.remove(index);
+					}
 				}
 			}
-			else tabbedPane.remove(index);
-		}
+		}else tabbedPane.remove(index);
 	}
 
 }

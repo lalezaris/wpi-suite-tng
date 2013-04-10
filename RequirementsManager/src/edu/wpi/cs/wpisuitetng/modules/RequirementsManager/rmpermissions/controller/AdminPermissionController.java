@@ -94,7 +94,8 @@ public class AdminPermissionController extends AbstractAction {
 		DefaultListModel newAdminModel = this.getNewModel(allAdminUsers);
 
 		//Assign the new model	
-		adminUsers.setModel(newAdminModel);	
+		adminUsers.setModel(newAdminModel);
+		this.panel.setHasChanged(true);
 	}
 	
 	

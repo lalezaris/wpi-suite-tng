@@ -242,6 +242,8 @@ public class RequirementPanel extends JPanel{
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
 				knownIts.add(knownIterations[i]);
+			} else if (knownIterations[i].getId() == model.getIteration().getId()){
+				knownIts.add(knownIterations[i]);
 			}
 		}
 		knownIterations = new Iteration[knownIts.size()];
@@ -1176,9 +1178,10 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-
-			cmbIteration.setEnabled(enabled);
-			cmbIteration.setBackground(Color.WHITE);
+			if(editMode != Mode.CHILD){
+				cmbIteration.setEnabled(enabled);
+				cmbIteration.setBackground(Color.WHITE);
+			}
 
 		}
 
@@ -1217,12 +1220,90 @@ public class RequirementPanel extends JPanel{
 
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
 	 * @return the notesView
 	 */
 	public NotesView getNotesView() {
 		return notesView;
+	}
+	
+	/**
+	 * checks to see if any changes have been made
+	 * 
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean isThereChanges(){
+		Requirement oldR = getUneditedModel();
+		Requirement newR = getEditedModel();
+		
+		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		
+		//compare titles
+		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Release Numbers
+		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
+			return true;
+		}
+		
+		//compare type
+		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Iterations
+		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
+			return true;
+		}
+				
+		//compare Descriptions
+		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Statuses
+		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Priorities
+		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare estimate efforts
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare actual efforts
+		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
+			return true;
+		}
+		
+		//TODO: come back to this
+		//compare sub-requirements 
+		for (int i = 0; i < oldR.getChildRequirementId().size(); i++){
+			if (!newR.getChildRequirementId().contains(oldR.getChildRequirementId().get(i))){
+				return true;
+			}
+		}
+		for (int i = 0; i < newR.getChildRequirementId().size(); i++){
+			if (!oldR.getChildRequirementId().contains(newR.getChildRequirementId().get(i))){
+				return true;
+			}
+		}
+	
+		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
+			return true;
+		}
+		
+		//compare notes lists
+		if (notesDifference != 0){//if old and new are not the same
+			return true;
+		}
+		return false;
 	}
 
 	

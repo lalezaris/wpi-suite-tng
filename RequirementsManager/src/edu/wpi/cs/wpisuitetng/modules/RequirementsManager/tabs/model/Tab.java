@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 import java.awt.Component;
 
 import javax.swing.Icon;
+import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 

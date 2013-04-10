@@ -52,6 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 public class IterationPanel extends JPanel {
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
+	protected Iteration uneditedModel;
 
 	/** The parent view */
 	protected IterationView parent;
@@ -103,6 +104,7 @@ public class IterationPanel extends JPanel {
 	 * @param iteration The Iteration to edit
 	 */
 	public IterationPanel(IterationView parent, Iteration iteration) {
+		this.uneditedModel = iteration;
 		this.model = iteration;
 		this.parent = parent;
 
@@ -464,4 +466,42 @@ public class IterationPanel extends JPanel {
 		} 
 		return convertedDate;
 	}
+	
+	/**
+	 * @return the uneditedModel
+	 */
+	public Iteration getUneditedModel() {
+		return uneditedModel;
+	}
+
+	/**
+	 * checks to see if any changes have been made
+	 * 
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean isThereChanges(){
+				
+		if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+			return true;
+		}
+		
+		if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
+			return true;
+		} 	
+		
+		if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
+			return true;
+		} 
+		
+//		if (oldI.getStartDate().compareTo(newI.getStartDate()) != 0){//if old and new are not the same
+//			return true;
+//		}
+//		
+//		if (oldI.getEndDate().compareTo(newI.getEndDate()) != 0){//if old and new are not the same
+//			return true;
+//		}
+		
+		return false;
+	}
+	
 }

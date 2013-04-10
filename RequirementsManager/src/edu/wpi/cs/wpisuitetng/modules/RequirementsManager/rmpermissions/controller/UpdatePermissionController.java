@@ -93,7 +93,8 @@ public class UpdatePermissionController extends AbstractAction {
 		DefaultListModel newUpdateModel = this.getNewModel(allUpdateUsers);
 		
 		//Assign the new model			
-		updateUsers.setModel(newUpdateModel);	
+		updateUsers.setModel(newUpdateModel);
+		this.panel.setHasChanged(true);
 	}
 	
 	

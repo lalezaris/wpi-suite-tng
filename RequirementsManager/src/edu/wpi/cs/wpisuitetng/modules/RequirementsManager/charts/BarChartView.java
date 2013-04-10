@@ -93,6 +93,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel, this));
 		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel, this));
 		
+		//Start out with the status graph displayed.
+		mainPanel.getStatusButton().doClick();
+		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);

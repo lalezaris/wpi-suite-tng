@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
- *  
+ *  Lauren Kahn
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 

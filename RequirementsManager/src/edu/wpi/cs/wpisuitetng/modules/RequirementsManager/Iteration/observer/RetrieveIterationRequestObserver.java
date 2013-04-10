@@ -59,6 +59,7 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		// parse the iteration received from the core
 		Iteration[] iterations = Iteration.fromJSONArray(response.getBody());
 		if (iterations.length > 0 && iterations[0] != null) {
+			System.out.println("Iteration indexed by 0:"+ iterations[0]);
 			controller.showIteration(iterations[0]);
 		}
 		else {

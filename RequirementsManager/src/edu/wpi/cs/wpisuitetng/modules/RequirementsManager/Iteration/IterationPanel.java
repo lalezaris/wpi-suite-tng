@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
  *  Arica Liu
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 

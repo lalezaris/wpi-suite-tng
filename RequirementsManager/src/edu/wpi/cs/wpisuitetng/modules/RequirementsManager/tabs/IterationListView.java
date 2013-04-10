@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Lauren
+ *  Lauren Kahn
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -48,7 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 /**
  * The primary JPanel for the list of all iterations tab
  *
- * @author Lauren
+ * @author Lauren Kahn
  *
  * @version Apr 8, 2013
  *

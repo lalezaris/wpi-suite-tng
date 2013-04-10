@@ -67,6 +67,7 @@ public class SaveIterationController {
 		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
 		Request request;
+		System.out.println("The mode is:" + panel.getEditMode());
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 
 

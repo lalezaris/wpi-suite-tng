@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Lauren
+ *  Lauren Kahn
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -32,8 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
@@ -49,7 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 /**
  * The innermost JPanel for the list of all iterations tab, which displays the iteration's information
  *
- * @author Lauren
+ * @author Lauren Kahn
  *
  * @version Apr 8, 2013
  *
@@ -187,9 +187,9 @@ public class IterationListPanel extends JPanel {
 	public void addIterations(Iteration[] iterations) {
 		clearList();		
 		for (int i = iterations.length -1; i > -1; i --){
-			//if (iterations[i].getStatus() != IterationStatus.CLOSED){
+			if (iterations[i].getStatus() != IterationStatus.CLOSED){
 				addIteration(iterations[i]);
-			//}
+			}
 		}
 		
 		table.updateUI();

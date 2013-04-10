@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Lauren
+ *  Lauren Kahn
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 /**
  * Model for the Iteration Table
  *
- * @author Lauren
+ * @author Lauren Kahn
  *
  * @version Apr 8, 2013
  *
@@ -66,9 +66,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 	    		} else if (i == 1) {
 	    			column.setPreferredWidth(100); //NAME COLUMN
 	    		} else if (i == 2) {
-	    			column.setPreferredWidth(550); //STARTDATE
+	    			column.setPreferredWidth(100); //STARTDATE
 	    		} else if (i == 3) {
-	    			column.setPreferredWidth(90); //ENDDATE
+	    			column.setPreferredWidth(100); //ENDDATE
 	    		}
 	    	}
 	    }

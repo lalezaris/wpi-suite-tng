@@ -465,7 +465,7 @@ public class Requirement extends AbstractModel{
 	 * @param id: sets the id 
 	 */
 	public void setId(int id){
-		this.id =id;
+		this.id = id;
 	}
 	
 	/**

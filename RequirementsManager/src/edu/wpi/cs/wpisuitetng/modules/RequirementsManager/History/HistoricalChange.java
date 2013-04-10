@@ -70,9 +70,14 @@ public class HistoricalChange extends AbstractModel{
 		}
 		
 		//compare type
-		
 		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
-			change +="<p> "+ "Type changed from " + oldR.getType() + " to " + newR.getType() + ".</p>";
+			String os = oldR.getType().toString();
+			String ns = newR.getType().toString();
+			if(os.equals(""))
+				os = "NO TYPE";
+			if(ns.equals(""))
+				ns = "NO TYPE";
+			change +="<p> "+ "Type changed from " + os + " to " + ns + ".</p>";
 		}
 		
 		//compare Iterations
@@ -93,7 +98,13 @@ public class HistoricalChange extends AbstractModel{
 		
 		//compare Priorities
 		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
-			change += "<p> "+"Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".</p>";
+			String op = oldR.getPriority().toString();
+			if(op.equals(""))
+				op = "NO PRIORITY";
+			String np = newR.getPriority().toString();
+			if(np.equals(""))
+				np = "NO PRIORITY";
+			change += "<p> "+"Priority changed from " + op + " to " + np + ".</p>";
 		}
 		
 		//compare estimate efforts

@@ -186,6 +186,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
+		System.out.println("\n\nChildren: " + model.getChildRequirementId().toString());
 		this.uneditedModel = requirement;
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + model.getIterationId() + " AND " + uneditedModel.getIterationId());
@@ -253,9 +254,9 @@ public class RequirementPanel extends JPanel{
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
-		String[] requirementStatusValues = RequirementStatusLists.getList(model.getStatus());
+		String[] requirementStatusValues = RequirementStatusLists.getList(model);
 		for (int i = 0; i < requirementStatusValues.length; i++) {
-			requirementStatusValues[i] = RequirementStatusLists.getList(model.getStatus())[i];
+			requirementStatusValues[i] = RequirementStatusLists.getList(model)[i];
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
@@ -1061,7 +1062,7 @@ public class RequirementPanel extends JPanel{
 				for (int i = 0; i < cmbIteration.getItemCount(); i++) {
 					if (model.getIteration().toString().equals(knownIterations[i].toString()) ){
 						cmbIteration.setSelectedIndex(i);
-						if(model.getStatus() == RequirementStatus.COMPLETE){
+						if(model.getStatus() == RequirementStatus.COMPLETE && model.getParentRequirementId() == -1){
 							cmbIteration.setEnabled(true);
 						}
 					}

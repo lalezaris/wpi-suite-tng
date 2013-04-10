@@ -394,7 +394,13 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration("", null, null);
+		Iteration iteration = null;
+		if(Mode.EDIT == editMode){
+			iteration = this.model;
+		}
+		else{
+			iteration = new Iteration("", null, null);
+		}
 		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));

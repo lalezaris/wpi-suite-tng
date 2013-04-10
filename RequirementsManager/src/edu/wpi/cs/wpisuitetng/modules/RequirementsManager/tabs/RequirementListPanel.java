@@ -96,7 +96,16 @@ public class RequirementListPanel extends JPanel{
 		c.weighty = 0;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panel.add(refreshButton, c);		
+		panel.add(refreshButton, c);
+		
+		c.anchor = GridBagConstraints.LINE_START; 
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.gridwidth = 2;
+		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		panel.add(updateButton, c);
 		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -140,7 +149,7 @@ public class RequirementListPanel extends JPanel{
 
 		});
 
-
+		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
 	}
 
@@ -199,7 +208,7 @@ public class RequirementListPanel extends JPanel{
 	/**
 	 * Demand a refresh command. This may be depreciated... Please hold.
 	 */
-	public void refreshList(){
+	public void refreshList() {
 		retrieveController.refreshData();
 	}
 	

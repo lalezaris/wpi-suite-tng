@@ -33,6 +33,7 @@ public class RequirementTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
     protected ArrayList<Object[]> data = new ArrayList<Object[]>();
+    private boolean DEBUG = false;
     
     /* Gets column count
      * @see javax.swing.table.TableModel#getColumnCount()
@@ -174,10 +175,42 @@ public class RequirementTableModel extends AbstractTableModel {
      * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int row, int col) {
-    	if (col == 6) {
+    	if (col == 5) {
     		return true;
     	}
     	else return false;
     }
     
+    public void setValueAt(Object value, int row, int col) {
+		if (DEBUG) {
+            System.out.println("Setting value at " + row + "," + col
+                               + " to " + value
+                               + " (an instance of "
+                               + value.getClass() + ")");
+        }
+
+		Object[] element = data.get(row);
+		element[5] = value;
+        data.set(row, element);
+        fireTableCellUpdated(row, col);
+
+        if (DEBUG) {
+            System.out.println("New value of data:");
+            printDebugData();
+        }
+    }
+
+    private void printDebugData() {
+        int numRows = getRowCount();
+        int numCols = getColumnCount();
+
+        for (int i=0; i < numRows; i++) {
+            System.out.print("    row " + i + ":");
+            for (int j=0; j < numCols; j++) {
+                System.out.print("  " + getValueAt(i,j));
+            }
+            System.out.println();
+        }
+        System.out.println("--------------------------");
+    }
 }

@@ -54,7 +54,9 @@ public class AssigneeView extends JPanel{
 	
 	public AssigneeView(Requirement req){
 		this.setLayout(new FlowLayout());
-
+		
+		allUserAL = new ArrayList<String>();
+		
 		assignedUserAL = req.getAssignee();
 		
 		allUserLM = new DefaultListModel<String>();
@@ -65,8 +67,11 @@ public class AssigneeView extends JPanel{
 		System.out.println();
 		System.out.println(">> FILLING projectUsers ArrayList <<");
 		for(int i=0;i<projectUsers.length;i++){
-			System.out.println("USER: " + projectUsers[i].getName());
-			allUserLM.addElement(projectUsers[i].getName()); 	//TODO pull list from database
+			System.out.println("USER: " + projectUsers[i].getUsername());
+			allUserAL.add(projectUsers[i].getUsername());
+		}
+		for(int i=0;i<allUserAL.size();i++){
+			allUserLM.addElement(allUserAL.get(i));
 		}
 		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
 		System.out.println();
@@ -125,6 +130,16 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
+	 * Sets the array list of all users not assigned to the requirement
+	 * 
+	 * @param users
+	 */
+	public void setAllUserList(ArrayList<String> users){
+		this.allUserAL = users;
+		
+	}
+	
+	/**
 	 * returns the array list containing all users
 	 * @return the allUserAL
 	 */
@@ -149,18 +164,13 @@ public class AssigneeView extends JPanel{
 		return allUserList;
 	}
 	
-	public ArrayList<String> getAllUserListSelectedValues() {
-		//ArrayList<String> AUL = new ArrayList<String> (allUserList.getSelectedValuesList());
-		String AUL = allUserList.getSelectedValue();
-		System.out.println(AUL);
-		System.out.println("dividerhahahahahaha");
-		ArrayList<String> aaa = new ArrayList<String>();
-		aaa.add(AUL);
-		System.out.println(allUserList.getSelectedIndex());
-		int[] test = allUserList.getSelectedIndices();
-		for(int i = 0; i<test.length; i++)
-			System.out.println(test[i]);
-		return aaa;
+	/**
+	 * Returns allUserLM for editing purposes
+	 * @return the allUserLM
+	 */
+	public DefaultListModel<String> getAllUserLM() {
+		return allUserLM;
 	}
+
 
 }

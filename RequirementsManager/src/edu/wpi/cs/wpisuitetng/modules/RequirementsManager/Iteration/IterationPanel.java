@@ -394,7 +394,7 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = null;
+		Iteration iteration;
 		if(Mode.EDIT == editMode){
 			iteration = this.model;
 		}
@@ -404,6 +404,7 @@ public class IterationPanel extends JPanel {
 		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
+		
 		return iteration;
 	}
 
@@ -444,21 +445,17 @@ public class IterationPanel extends JPanel {
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		String idName = txtIterationName.getText();
 		for (int i = 0; i < array.length; i++) {
-			if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
-				lblIterationNameExistsError.setVisible(true);
-				return 3;
+			if (this.model.getId() != array[i].getId()) {
+				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
+					lblIterationNameExistsError.setVisible(true);
+					return 3;
+				}
+				else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
+						|| startDate.compareTo(array[i].getEndDate()) >= 0)){
+					lblDateOverlapError.setVisible(true);
+					return 4;
+				}
 			}
-			else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
-					|| startDate.compareTo(array[i].getEndDate()) >= 0)){
-				lblDateOverlapError.setVisible(true);
-				return 4;
-			}
-		}
-
-		if (editMode == Mode.EDIT) {
-			txtIterationName.setText(model.getIterationName().toString());
-			txtStartDate.setText(DateToString(model.getStartDate()));
-			txtEndDate.setText(DateToString(model.getEndDate()));
 		}
 
 		//no errors
@@ -504,12 +501,6 @@ public class IterationPanel extends JPanel {
 
 		txtStartDate.setText(model.getStartDate().toString());
 		txtEndDate.setText(model.getEndDate().toString());
-
-		/**if (editMode == Mode.EDIT) {
-			txtCreatedDate.setText(model.getCreationDate().toString());
-			txtModifiedDate.setText(model.getLastModifiedDate().toString());
-			deleteRequirementBottom.setVisible(true);
-		}*/
 	}
 
 	public Mode getEditMode() {

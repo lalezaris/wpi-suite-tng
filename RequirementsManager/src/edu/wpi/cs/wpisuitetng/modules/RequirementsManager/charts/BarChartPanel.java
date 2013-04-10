@@ -43,33 +43,28 @@ public class BarChartPanel extends JPanel {
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
-	//Things needed for the bar chart.
-	boolean urls;
-	boolean tooltips;
-	boolean legend;
-	PlotOrientation orientation;
-	DefaultCategoryDataset dataset;
-	String xAxis = "Iteration";
+//	//Things needed for the bar chart.
+//	boolean urls;
+//	boolean tooltips;
+//	boolean legend;
+//	PlotOrientation orientation;
+//	DefaultCategoryDataset dataset;
+//	String xAxis = "Iteration";
 	JFreeChart barGraph;
 	
 	private JButton statusButton;
 	private JButton assigneeButton;
 	private JButton iterationButton;
 	
-	public BarChartPanel(BarChartView view){
+	JPanel btnPanel = new JPanel();
+	JPanel overallPanel = new JPanel();
+	
+	ChartPanel graphPanel;
+	
+	public BarChartPanel(BarChartView view, JFreeChart chart){
 		this.view = view;
-		
-		/*Dummy Fields*/
-		urls = false;
-		tooltips = true;
-		legend = true;
-		orientation = PlotOrientation.VERTICAL;
-		dataset = new DefaultCategoryDataset();
-		dataset.setValue(6, "Requirements", "Jane");
-		dataset.setValue(7, "Requirements", "Tom");
-		dataset.setValue(8, "Requirements", "Jill");
-		dataset.setValue(5, "Requirements", "John");
-		dataset.setValue(12, "Requirements", "Fred");
+		//this.barGraph = chart;
+		graphPanel = new ChartPanel(chart);
 		
 		addComponents();
 	}
@@ -78,8 +73,7 @@ public class BarChartPanel extends JPanel {
 	 * 
 	 */
 	private void addComponents(){
-		JPanel btnPanel = new JPanel();
-		JPanel overallPanel = new JPanel();
+		
 		
 		//Make Buttons
 		statusButton = new JButton("Status");
@@ -93,9 +87,9 @@ public class BarChartPanel extends JPanel {
 		layout = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 		
-		barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
-		ChartPanel graphPanel = new ChartPanel(barGraph);
-		GridBagConstraints cGraph = new GridBagConstraints();
+		//barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
+//		ChartPanel graphPanel = new ChartPanel(barGraph);
+//		GridBagConstraints cGraph = new GridBagConstraints();
 		
 		GridBagConstraints cBtn = new GridBagConstraints();
 		GridBagLayout layoutBtn = new GridBagLayout();
@@ -104,8 +98,8 @@ public class BarChartPanel extends JPanel {
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
 		
-		GridBagLayout layoutGraph = new GridBagLayout();
-		graphPanel.setLayout(layoutGraph);
+//		GridBagLayout layoutGraph = new GridBagLayout();
+//		graphPanel.setLayout(layoutGraph);
 		
 		/*add all of the components to the btnPanel*/
 		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -148,6 +142,25 @@ public class BarChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(btnPanel, cOverall);
 		
+		setChart(barGraph);
+		
+		this.add(overallPanel,BorderLayout.CENTER);
+		this.validate();
+	}
+	
+	
+	/**Set the bar graph to be what you pass in.
+	 * @param newChart The chart you are overwriting with.
+	 */
+	public void setChart(JFreeChart newChart){
+		overallPanel.remove(graphPanel);
+		
+		graphPanel = new ChartPanel(newChart);
+		GridBagConstraints cGraph = new GridBagConstraints();
+		
+		GridBagLayout layoutGraph = new GridBagLayout();
+		graphPanel.setLayout(layoutGraph);
+		
 		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
 		cGraph.fill = GridBagConstraints.HORIZONTAL;
@@ -158,6 +171,8 @@ public class BarChartPanel extends JPanel {
 		cGraph.gridheight = 1;
 		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(graphPanel,cGraph);
+		this.repaint();
+		graphPanel.updateUI();
 		
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();

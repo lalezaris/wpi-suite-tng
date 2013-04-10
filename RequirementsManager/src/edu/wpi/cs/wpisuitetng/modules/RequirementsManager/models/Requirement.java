@@ -404,6 +404,12 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * returns the array list of users not assigned to this requirement
+	 * 
+	 * @return users not assigned to this requirement
+	 */
+	
+	/**
 	 * Adds note to assignee
 	 * 
 	 * @param assignedTo who note is assigned to
@@ -465,7 +471,7 @@ public class Requirement extends AbstractModel{
 	 * @param id: sets the id 
 	 */
 	public void setId(int id){
-		this.id =id;
+		this.id = id;
 	}
 	
 	/**

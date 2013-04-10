@@ -50,28 +50,13 @@ public class SaveIterationController {
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void save() {
-		//		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
-		//		final RequestObserver requestObserver = new SaveIterationRequestObserver(view);
-		//		Request request;
-		//		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
-		//		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
-		//		
-		//		if(panel.checkRequiredFields() == 0){//no errors, see IterationPanel.checkRequiredFields() for documentation on this
-		//			request.setBody(panel.getEditedModel().toJSON());
-		//			request.addObserver(requestObserver);
-		//			request.send();
-		//			//close tab
-		//			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-		//		}
-
 		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
 		Request request;
-		System.out.println("The mode is:" + panel.getEditMode());
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 
-
-		if (panel.getEditMode() == Mode.EDIT) {
+		if(panel.checkRequiredFields() > 0){} 
+		else {
 			String JsonRequest = panel.getEditedModel().toJSON();
 			request.setBody(JsonRequest);
 			System.out.println("Sending REQ to server:" +JsonRequest );
@@ -80,22 +65,7 @@ public class SaveIterationController {
 			//close tab
 			view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
 			System.out.println("SAVE ITERATION");
-
 		}
-		else {
-			if(panel.checkRequiredFields() > 0){} 
-			else {
-				String JsonRequest = panel.getEditedModel().toJSON();
-				request.setBody(JsonRequest);
-				System.out.println("Sending REQ to server:" +JsonRequest );
-				request.addObserver(requestObserver);
-				request.send();
-				//close tab
-				view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
-				System.out.println("SAVE ITERATION");
-			}
-		}
-
 	} 
 
 	/**

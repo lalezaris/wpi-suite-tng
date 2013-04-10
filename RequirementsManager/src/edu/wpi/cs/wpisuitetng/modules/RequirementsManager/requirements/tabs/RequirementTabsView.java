@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 @SuppressWarnings("serial")
 public class RequirementTabsView extends JTabbedPane {
 
-	public RequirementTabsView(NotesView n, HistoryView hv) {
+	public RequirementTabsView(NotesView n, HistoryView hv, AssigneeView av) {
 
 		//TODO get history objects from database
 		
@@ -44,5 +44,6 @@ public class RequirementTabsView extends JTabbedPane {
 		       "Notes");
 		addTab("History", new ImageIcon(), hv,
 			       "History");
+		addTab("Assignees", new ImageIcon(), av, "Assignees");
 	}
 }

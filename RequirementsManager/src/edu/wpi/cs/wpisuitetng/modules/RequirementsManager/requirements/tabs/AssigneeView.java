@@ -8,11 +8,14 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Sam Lalezari
+ * Joe Spicola
+ * Sam Lalezari
 **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -29,6 +32,7 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -86,7 +90,7 @@ public class AssigneeView extends JPanel{
 		btnAdd.addActionListener(new AddAssigneeController(this));
 		
 		btnRemove = new JButton("REMOVE");
-		//btnRemove.addActionListener(new RemoveAssigneeController(this));
+		btnRemove.addActionListener(new RemoveAssigneeController(this));
 		
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
@@ -120,12 +124,27 @@ public class AssigneeView extends JPanel{
 	 */
 	public void setAssigneeList(ArrayList<String> assignee) {
 		this.assignedUserAL = assignee;
-		Collections.sort(assignee);
+		Collections.sort(assignedUserAL);
 		
 		assignedUserLM.clear();
 		for(String s:assignedUserAL){
-			System.out.println(s);
 			assignedUserLM.addElement(s);
+		}
+	}
+	
+	/**
+	 * Enter description here.
+	 * 
+	 * @param all
+	 */
+	public void setAllList(ArrayList<String> all) {
+		// TODO Auto-generated method stub
+		this.allUserAL = all;
+		Collections.sort(allUserAL);
+		
+		allUserLM.clear();
+		for(String s:allUserAL){
+			allUserLM.addElement(s);
 		}
 	}
 
@@ -171,6 +190,22 @@ public class AssigneeView extends JPanel{
 	public DefaultListModel<String> getAllUserLM() {
 		return allUserLM;
 	}
+	
+	/**
+	 * Returns allUserLM for editing purposes
+	 * @return the allUserLM
+	 */
+	public DefaultListModel<String> getAssignedUserLM() {
+		return assignedUserLM;
+	}
 
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the allUserList
+	 */
+	public JList<String> getAssignedUserList() {
+		return assignedUserList;
+	}
 
 }

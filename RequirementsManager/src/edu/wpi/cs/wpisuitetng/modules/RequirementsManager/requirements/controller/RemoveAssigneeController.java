@@ -14,22 +14,22 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.DefaultListModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 
+
 /**
- * Insert Description Here
+ * Controller to remove an assigned user, and update display
  *
  * @author Spicola
  *
- * @version Apr 7, 2013
+ * @version Apr 9, 2013
  *
  */
-public class AddAssigneeController implements ActionListener {
-	
+public class RemoveAssigneeController implements ActionListener {
+
 	private AssigneeView view;
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
@@ -41,38 +41,43 @@ public class AddAssigneeController implements ActionListener {
 	 * 
 	 * @param assigneeView
 	 */
-	public AddAssigneeController(AssigneeView assigneeView) {
+	public RemoveAssigneeController(AssigneeView assigneeView) {
 		this.view = assigneeView;
 
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
 		this.allUserAL = view.getAllUserAL();
-		System.out.println(allUserAL);
 		this.assignedUserAL = view.getAssignedUserAL();
-		this.selectedUsers = new ArrayList<String> (view.getAllUserList().getSelectedValuesList());
-		this.selectedUsersIndex = view.getAllUserList().getSelectedIndices();
+		this.selectedUsers = new ArrayList<String> (view.getAssignedUserList().getSelectedValuesList());
+		this.selectedUsersIndex = view.getAssignedUserList().getSelectedIndices();
 		
 		/**
 		 * Iterates through loop backward, in order to remove elements from allusers without messing
 		 * up the earlier indexes.
 		 */
+		System.out.println(selectedUsersIndex.length);
+		System.out.println(selectedUsers);
+		System.out.println(selectedUsers.get(0));
+		System.out.println(allUserAL);
 		for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
-			assignedUserAL.add(selectedUsers.get(i));//append selected user to assigned
-			allUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
-			view.getAllUserLM().remove(i); //removes the user from the list model
+			allUserAL.add(selectedUsers.get(i));//append selected user to assigned
+			assignedUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
+			view.getAssignedUserLM().remove(i); //removes the user from the list model
 		}
 		
 		//add array list to the list models
 		//view.setUserList(allUserAL);
-		System.out.println("Add worked");
+		System.out.println("Remove worked");
 		view.setAssigneeList(assignedUserAL);
-		view.setAllUserList(allUserAL);
+		view.setAllList(allUserAL);
+		
 	}
 
 }

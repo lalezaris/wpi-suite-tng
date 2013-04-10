@@ -272,6 +272,7 @@ public class RequirementPanel extends JPanel{
 		notesView.setNotesList(this.getNotesArrayList());
 		hv.setHistoryList(this.getHistoryList());
 		av.setAssigneeList(model.getAssignee());
+		av.setAllUserList(model.getUsersNotAssigned());
 		RTabsView = new RequirementTabsView(notesView, hv, av);
 
 		/**Save Button*/
@@ -922,6 +923,7 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
 		requirement.setAssignee(av.getAssignedUserAL());
+		requirement.setUsersNotAssigned(av.getAllUserAL());
 		requirement.setParentRequirementId(model.getParentRequirementId());
 
 		/*
@@ -1017,6 +1019,7 @@ public class RequirementPanel extends JPanel{
 		notesView.setNotesList(model.getNotes());
 		hv.setHistoryList(model.getHistory());
 		av.setAssigneeList(model.getAssignee());
+		av.setAllUserList(model.getUsersNotAssigned());
 	}
 
 	public Mode getEditMode() {

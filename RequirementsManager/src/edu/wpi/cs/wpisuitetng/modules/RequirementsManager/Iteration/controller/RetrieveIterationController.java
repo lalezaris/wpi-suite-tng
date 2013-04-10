@@ -53,7 +53,7 @@ public class RetrieveIterationController extends MouseAdapter {
             
             if (evt.getClickCount() == 2) {
 				Request request;
-				request = Network.getInstance().makeRequest("requirementsmanager/iteration/" + selectedIteration, HttpMethod.GET);
+				request = Network.getInstance().makeRequest("iterationsmanager/iteration/" + selectedIteration, HttpMethod.GET);
 				request.addObserver(new RetrieveIterationRequestObserver(this));
 				request.send();
             }

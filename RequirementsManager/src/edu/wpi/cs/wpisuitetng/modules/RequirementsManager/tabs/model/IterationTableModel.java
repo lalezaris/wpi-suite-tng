@@ -58,32 +58,21 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 	     */
 	    public void setColumnWidths(JTable table){
 	    	table.getTableHeader().setReorderingAllowed(false);
-			for (int i = 0 ; i < 8 ; i ++){
-				TableColumn column = table.getColumnModel().getColumn(i);
-			
-				if (i == 0) {
-			    	column.setPreferredWidth(30); // ID
-			    } else if (i == 1) {
-			        column.setPreferredWidth(100); //NAME COLUMN
-			    } else if (i == 2) {
-			    	column.setPreferredWidth(550); //DESC COLUMN
-			    } else if (i == 3) {
-			    	column.setPreferredWidth(90); //DESC STATUS
-			    } else if (i == 4) {
-			    	column.setPreferredWidth(90); //DESC PRIORITY
-			    } else if (i == 5) {
-			    	column.setPreferredWidth(30); //DESC ESTIMATE
-			    } else if (i == 6) {
-			    	column.setPreferredWidth(70); //ITERATION
-			    } else if (i == 7) {
-			    	column.setPreferredWidth(100); //ASSIGNEE
-			    }
-			    else if (i == 8) {
-			    	column.setPreferredWidth(30); //PARENT ID
-			    }
-			}
+	    	for (int i = 0 ; i < columnNames.length ; i ++){
+	    		TableColumn column = table.getColumnModel().getColumn(i);
+
+	    		if (i == 0) {
+	    			column.setPreferredWidth(30); // ID
+	    		} else if (i == 1) {
+	    			column.setPreferredWidth(100); //NAME COLUMN
+	    		} else if (i == 2) {
+	    			column.setPreferredWidth(550); //STARTDATE
+	    		} else if (i == 3) {
+	    			column.setPreferredWidth(90); //ENDDATE
+	    		}
+	    	}
 	    }
-	    
+
 	    /* Gets column name
 	     * @param col column to get the name of 
 	     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
@@ -113,9 +102,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 
 			if (col < getColumnCount() && row < getRowCount() && col > -1
 					&& row > -1) {
-				if (col == 5 && (Integer) data.get(row)[col] == -1)
-					return "";
-
 				return data.get(row)[col];
 			} else
 				return "null";

@@ -31,6 +31,8 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveIterationController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
@@ -73,7 +75,7 @@ public class IterationListPanel extends JPanel {
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllIterationsController(iterationview);
-		TableModel model = new RequirementTableModel();		
+		TableModel model = new IterationTableModel();		
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveIterationController(this));		
 		((IterationTableModel)table.getModel()).setColumnWidths(table);		
@@ -130,7 +132,7 @@ public class IterationListPanel extends JPanel {
 						&& p.isShowing())
 				{
 
-					Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
+					Refresher.getInstance().refreshIterationsFromServer(iterationview);
 				}
 
 			}
@@ -153,17 +155,17 @@ public class IterationListPanel extends JPanel {
 			containingTab = new DummyTab();
 		}
 		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("Requirement List");
-		containingTab.setToolTipText("View all Requirements");
+		containingTab.setTitle("Iteration List");
+		containingTab.setToolTipText("View all Iterations");
 	}
 	
 	/**
-	 * Add requirement
+	 * Add iteration
 	 * 
-	 * @param req the requirement to add
+	 * @param it the iteration to add
 	 */
-	private void addRequirement(Requirement req){
-		((RequirementTableModel)table.getModel()).addRow(req);
+	private void addIteration(Iteration it){
+		((IterationTableModel)table.getModel()).addRow(it);
 		
 	}
 
@@ -173,21 +175,21 @@ public class IterationListPanel extends JPanel {
 	 * 
 	 */
 	public void clearList() {
-		((RequirementTableModel)table.getModel()).clear();
+		((IterationTableModel)table.getModel()).clear();
 	}
 
 
 	/**
-	 * Adds requirements
+	 * Adds iterations
 	 * 
-	 * @param requirements requirements to add
+	 * @param iterations iterations to add
 	 */
-	public void addRequirements(Requirement[] requirements) {
+	public void addIterations(Iteration[] iterations) {
 		clearList();		
-		for (int i = requirements.length -1; i > -1; i --){
-			if (requirements[i].getStatus() != RequirementStatus.DELETED){
-				addRequirement(requirements[i]);
-			}
+		for (int i = iterations.length -1; i > -1; i --){
+			//if (iterations[i].getStatus() != IterationStatus.CLOSED){
+				addIteration(iterations[i]);
+			//}
 		}
 		
 		table.updateUI();
@@ -203,7 +205,7 @@ public class IterationListPanel extends JPanel {
 	/**
 	 * Gets table
 	 * 
-	 * @return the panel's JTable of Requirements
+	 * @return the panel's JTable of Iterations
 	 */
 	public JTable getTable() {
 		return table;

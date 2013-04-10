@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissionsObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.IterationListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
@@ -51,6 +52,8 @@ public class Refresher {
 	
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
+	private IterationListPanel iterationTable;
+
 	
 	private RetrieveAllRequirementsController reqController;
 	private RetrieveAllIterationsController iterationController;
@@ -58,11 +61,12 @@ public class Refresher {
 	private Iteration[] lastKnownIterations;
 	private boolean iterationsSet;
 	
-	public Refresher(ReqTreeModel tree, RequirementListPanel table)
+	public Refresher(ReqTreeModel tree, RequirementListPanel table, IterationListPanel iterationTable)
 	{
 		instance = this;
 		this.tree = tree;
 		this.table = table;
+		this.iterationTable = iterationTable;
 		this.iterationsSet = false;
 		CurrentUserPermissions.updateCurrentUserPermissions();
 	}
@@ -166,6 +170,7 @@ public class Refresher {
 	 */
 	public void refreshIterations(Iteration[] iterations, IterationView view) {
 		setLastKnownIterations(iterations);
+		iterationTable.addIterations(iterations);
 		this.iterationsSet = true;
 		tree.refreshTree();
 	}

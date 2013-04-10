@@ -51,6 +51,10 @@ public class MainTabView extends JTabbedPane {
 		this.table = new RequirementListPanel(controller);
 	}
 	
+	public void createIterationTableModel(MainTabController controller){
+		this.iterationtable = new IterationListPanel(controller);
+	}
+	
 	public RequirementListPanel getTableModel(){
 		return this.table;
 	}

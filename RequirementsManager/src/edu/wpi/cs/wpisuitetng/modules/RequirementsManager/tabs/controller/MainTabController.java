@@ -315,7 +315,6 @@ public class MainTabController {
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;
-		
 	}
 	
 	/**

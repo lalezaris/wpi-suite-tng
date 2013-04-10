@@ -4,14 +4,19 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
 
 
 public class AcceptanceTestsView extends JPanel{
@@ -22,6 +27,10 @@ public class AcceptanceTestsView extends JPanel{
 	protected JTextArea txtBody;
 	//the status dropdown menu goes here
 	protected JButton addTest;
+	protected JButton editTest;
+	
+	protected JList<AcceptanceTest> listDisplay;
+	protected DefaultListModel<AcceptanceTest> listModel;
 	
 	//the arraylist that actually holds the Tests
 	ArrayList<AcceptanceTest> list;
@@ -54,8 +63,22 @@ public class AcceptanceTestsView extends JPanel{
 		txtBody = new JTextArea(4, 40);
 		JLabel lblBody = new JLabel("Body: ", JLabel.TRAILING);
 		
-		addTest = new JButton("Add Note");
+		addTest = new JButton("Add Test");
 		addTest.addActionListener(new AddAcceptanceTestController(this));
+		
+		editTest = new JButton("Edit Test");
+		editTest.addActionListener(new EditAcceptanceTestController(this));
+		
+		//initiate the JList stuff
+		listModel = new DefaultListModel<AcceptanceTest>();
+
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+		
+		listDisplay = new JList<AcceptanceTest>(listModel);
+		listDisplay.setLayoutOrientation(JList.VERTICAL);
 		
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
@@ -67,8 +90,8 @@ public class AcceptanceTestsView extends JPanel{
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0;
-		c.gridx = 1;
-		c.gridy = 0;
+		c.gridx = 0;
+		c.gridy = 1;
 		this.add(txtTitle, c);		
 
 		c.anchor = GridBagConstraints.LINE_START;
@@ -90,6 +113,17 @@ public class AcceptanceTestsView extends JPanel{
 		c.gridwidth = 2;
 		this.add(scrollPaneBody, c);
 		
+		listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 2;
+		this.add(scrollPaneList, c);
+		
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
 		c.weighty = 0;
@@ -97,7 +131,28 @@ public class AcceptanceTestsView extends JPanel{
 		c.gridy = 0;
 		this.add(addTest, c);
 		
+		c.anchor = GridBagConstraints.LINE_START;
+		c.weightx = 0.5;
+		c.weighty = 0;
+		c.gridx = 1;
+		c.gridy = 0;
+		this.add(editTest, c);
+		
 		/* end panel styling */
+		
+		/**
+		 * the following courtesy of:
+		 * http://docs.oracle.com/javase/6/docs/api/javax/swing/JList.html		
+		 */
+		MouseListener mouseListener = new MouseAdapter() {
+		     public void mouseClicked(MouseEvent e) {
+		    	 int index = listDisplay.locationToIndex(e.getPoint());
+	             System.out.println("clicked on Item " + index);
+	             txtTitle.setText(list.get(index).getTitle());
+	             txtBody.setText(list.get(index).getBody());
+		     }
+		 };
+		 listDisplay.addMouseListener(mouseListener);
 
 	}
 	
@@ -115,8 +170,64 @@ public class AcceptanceTestsView extends JPanel{
 		return this.txtBody;
 	}
 	
+	public void updateMouseListener(){
+		MouseListener mouseListener = new MouseAdapter() {
+		     public void mouseClicked(MouseEvent e) {
+		    	 int index = listDisplay.locationToIndex(e.getPoint());
+	             System.out.println("clicked on Item " + index);
+	             txtTitle.setText(list.get(index).getTitle());
+	             txtBody.setText(list.get(index).getBody());
+		     }
+		 };
+		 listDisplay.addMouseListener(mouseListener);
+	}
+	
 	public void addTestToList(AcceptanceTest a){
-		list.add(a);
+		boolean hasTest = false;
+		int testLocation = 0;
+		for (int i = 0; i < list.size(); i++){
+			System.out.println("looking at: " + list.get(i).getTitle());
+			System.out.println(" body: " + list.get(i).getBody());
+			System.out.println(" status: " + list.get(i).getStatus() + "\n");
+			if (list.get(i).getTitle().compareTo(a.getTitle()) == 0){
+				hasTest = true;
+				testLocation = i;
+				i = list.size() + 1;
+			}
+		}
+		if (!hasTest){
+			list.add(a);
+		}else{
+			System.out.println("ERROR: test " + list.get(testLocation).getTitle() + " already exists");
+		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+	}
+	
+	public void replaceTest(AcceptanceTest a){
+		boolean hasTest = false;
+		int testLocation = 0;
+		for (int i = 0; i < list.size(); i++){
+			System.out.println("looking at: " + list.get(i).getTitle());
+			System.out.println(" body: " + list.get(i).getBody());
+			System.out.println(" status: " + list.get(i).getStatus() + "\n");
+			if (list.get(i).getTitle().compareTo(a.getTitle()) == 0){
+				hasTest = true;
+				testLocation = i;
+				i = list.size() + 1;
+			}
+		}
+		if (hasTest){
+			list.get(testLocation).setBody(a.getBody());
+			list.get(testLocation).setStatus(a.getStatus());
+			System.out.println(list.get(testLocation).getTitle() + "has been edited");
+			System.out.println("new body: " + list.get(testLocation).getBody());
+			System.out.println("new status: " + list.get(testLocation).getStatus());
+		}else{
+			System.out.println("ERROR: could not find Test " + a.getTitle() + "\n");
+		}
 	}
 	
 	public void clearBodyTxt(){
@@ -141,5 +252,12 @@ public class AcceptanceTestsView extends JPanel{
 	
 	public int getListSize(){
 		return list.size();
+	}
+	
+	public void updateList(){
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(0, list.get(i));}
+		}
 	}
 }

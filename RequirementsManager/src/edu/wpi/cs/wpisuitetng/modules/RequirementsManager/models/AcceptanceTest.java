@@ -50,7 +50,7 @@ public class AcceptanceTest extends AbstractModel{
 	}
 	
 	public void setStatus(String s){
-		if (s == "Blank" || s == "Failed" || s == "Passed"){
+		if (s.compareTo("Blank") == 0 || s.compareTo("Passed") == 0 || s.compareTo("Failed") == 0){
 			this.status = s;
 		}else{
 			System.out.println("Invalid Status: " + s);
@@ -99,6 +99,14 @@ public class AcceptanceTest extends AbstractModel{
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String toString(){
+		if (this.status.compareTo("Blank") == 0){
+			return " >" + this.getTitle();
+		}else{
+			return " >" + this.getTitle() + " (" + this.status + ")";
+		}
 	}
 
 }

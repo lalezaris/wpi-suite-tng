@@ -165,7 +165,7 @@ public class NotesView extends JPanel {
 	 * @return txtNotes in string format
 	 */
 	public String getNoteString(){
-		return txtNotes.getText();
+		return txtNotes.getText().trim();
 	}
 
 	/**

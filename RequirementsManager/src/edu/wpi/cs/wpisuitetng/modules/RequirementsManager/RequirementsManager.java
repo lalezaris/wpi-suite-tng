@@ -57,6 +57,7 @@ public class RequirementsManager implements IJanewayModule {
 		TreeView treeView = new TreeView();
 		
 		mainTabView.createTableModel(tabController);
+		mainTabView.createIterationTableModel(tabController);
 		System.out.println("TableModel = " + (mainTabView.getTableModel()!=null));
 		
 		//new main panel

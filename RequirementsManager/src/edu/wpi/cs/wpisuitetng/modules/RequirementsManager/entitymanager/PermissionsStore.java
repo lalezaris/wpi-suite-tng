@@ -133,7 +133,8 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 
 		String line = per.getMessage();
 		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("outPerm.txt", true)));
+			String fileName = s.getProject().getName() + "_PermissionsLog.txt";
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
 			out.println(line + System.getProperty("line.separator"));
 			out.close();
 			//Close the output stream

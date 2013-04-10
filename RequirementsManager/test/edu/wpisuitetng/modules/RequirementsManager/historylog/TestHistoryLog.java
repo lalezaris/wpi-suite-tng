@@ -226,7 +226,7 @@ public class TestHistoryLog {
 	@Test
 	public void testToString(){
 		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));
-		assertEquals(aChange.toString(), "<html><u>TwilightSparkle made changes on "+ aChange.getDate()+"</u></html>");
+		assertEquals(aChange.toString(), "<html style=\"padding:30px; border:1px solid black;\"><u>TwilightSparkle on "+ aChange.getDate()+":</u></html>");
 	}
 	
 }

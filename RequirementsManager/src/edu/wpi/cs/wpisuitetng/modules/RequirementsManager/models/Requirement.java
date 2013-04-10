@@ -656,21 +656,12 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Gets child requirement id
-	 * 
-	 * @return child requirement id
-	 */
-	public ArrayList<Integer> getChildRequirementId() {
-		return childRequirementId;
-	}
-
-	/**
 	 * Sets subrequirements
 	 * 
 	 * @param newList newlist to set subrequirement to
 	 */
 	public void setSubRequirements(ArrayList<Integer> newList) {
-		this.childRequirementId = (ArrayList<Integer>) newList.clone();
+		this.childIDs = (ArrayList<Integer>) newList.clone();
 		
 	}
 

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Author" content="Sam Abradi, Tushar Narayan">
+<title>WPI Suite RM Requirements Viewer</title>
+
+<script type="text/javascript">
+		function getRequirements() {
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					var response = xml.responseText;
+					//document.getElementById("requirementspan").innerHTML = response;
+					var requirement = JSON.parse(response);
+					document.getElementById("requirement").innerHTML = response;
+				}
+			};
+			
+			var urlStr = document.URL;
+			var spot = urlStr.search("#");
+			spot = spot + 1;
+			var idNum = urlStr.substring(spot, urlStr.length);
+			xml.open('GET', 'API/requirementsmanager/requirement/' + idNum, false);//test/requirementsmanager/requirement
+			xml.send();
+		}
+	</script>
+</head>
+<body onload="getRequirements()">
+	<h1>WPI Suite RM Requirements Viewer</h1>
+	<div id="requirement"></div>
+	
+
+</body>
+</html>

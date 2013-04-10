@@ -130,7 +130,7 @@ public class Refresher {
 	}
 	
 	/**
-	 * Gets instant iterations
+	 * Gets instant iterations.
 	 * 
 	 * @return iteration list
 	 */

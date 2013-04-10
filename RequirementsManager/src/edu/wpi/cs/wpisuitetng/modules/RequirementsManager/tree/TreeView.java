@@ -161,10 +161,10 @@ public class TreeView extends JPanel {
 								public void runWhenRecieved(String s){
 								//public void runWhenRecieved(Requirement r) {
 									
-									Iteration r = Iteration.fromJSONArray(s)[0];
+									Iteration iteration = Iteration.fromJSONArray(s)[0];
 									if (this.isIteration) {
 					//					r.setId(Iteration.getIterationById(r.getId()));
-										MainTabController.getController().addEditIterationTab(r);
+										MainTabController.getController().addEditIterationTab(iteration);
 									}
 								}
 
@@ -183,7 +183,6 @@ public class TreeView extends JPanel {
 										return "-1";
 									}
 								}
-
 							});
 					controller.retrieve();
 				}

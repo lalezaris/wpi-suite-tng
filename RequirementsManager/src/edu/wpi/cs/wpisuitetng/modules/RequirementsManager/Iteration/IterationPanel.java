@@ -128,6 +128,12 @@ public class IterationPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
+		
+		if (editMode == Mode.EDIT) {
+			txtIterationName.setText(model.getIterationName().toString());
+			txtStartDate.setText(model.getStartDate().toString());
+			txtEndDate.setText(model.getEndDate().toString());
+		}
 	}
 
 	/**
@@ -408,7 +414,6 @@ public class IterationPanel extends JPanel {
 	public int checkRequiredFields(){
 		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
 		
-		
 		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
 		}
@@ -422,7 +427,6 @@ public class IterationPanel extends JPanel {
 			//if any fields were missing
 			return 1;
 		}
-
 
 		Date startDate = StringToDate(txtStartDate.getText());
 		Date endDate = StringToDate(txtEndDate.getText());
@@ -442,6 +446,12 @@ public class IterationPanel extends JPanel {
 				lblDateOverlapError.setVisible(true);
 				return 4;
 			}
+		}
+		
+		if (editMode == Mode.EDIT) {
+			txtIterationName.setText(model.getIterationName().toString());
+			txtStartDate.setText(model.getStartDate().toString());
+			txtEndDate.setText(model.getEndDate().toString());
 		}
 		
 		//no errors
@@ -482,7 +492,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	private void updateFields() {
-		if(!(model.getIterationName().equals(null) || model.getIterationName().equals("")))
+		if((!(model.getIterationName().equals(null)) && (!(model.getIterationName().equals("")))))
 			txtIterationName.setText(model.getIterationName());
 		
 		txtStartDate.setText(model.getStartDate().toString());

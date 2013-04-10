@@ -56,9 +56,9 @@ public class IterationView extends JPanel {
 	 * @param iteration	The iteration to show.
 	 * @param tab		The Tab holding this IterationView (can be null)
 	 */
-	public IterationView(Iteration iteration, Mode editMode, Tab tab) {
+	public IterationView(Iteration iteration, Mode edit, Tab tab) {
 		containingTab = tab;
-		Mode mode = editMode;
+		Mode mode = edit;
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();

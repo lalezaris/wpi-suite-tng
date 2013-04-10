@@ -8,11 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tianyu Li
- *  Mike Perrone
- *  Chris Hanna
- *  Tyler Stone
- *  
+ *  Lauren
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -32,54 +28,58 @@ import javax.swing.JTextArea;
 import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationsRefreshAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * The innermost JPanel for the list of all requirements tab, which displays the requirement's information
+ * The innermost JPanel for the list of all iterations tab, which displays the iteration's information
  *
- * @author Tianyu Li
- * @modified by Chris H on Mar 24
- * @version Mar 21, 2013
+ * @author Lauren
+ *
+ * @version Apr 8, 2013
  *
  */
 @SuppressWarnings("serial")
-public class RequirementListPanel extends JPanel{
-
+public class IterationListPanel extends JPanel {
 	private JTextArea list;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private RetrieveAllRequirementsController retrieveController;
+	private RetrieveAllIterationsController retrieveController;
 	private JPanel panel;
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
+	private IterationView iterationview;
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
 	
-	public RequirementListPanel(MainTabController tabController){
+	public IterationListPanel(MainTabController tabController){
 		super(new GridLayout());	
 		this.tabController = tabController;
 		panel = new JPanel();		
-		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
+		retrieveController = new RetrieveAllIterationsController(iterationview);
 		TableModel model = new RequirementTableModel();		
 		table = new JTable(model);
-		table.addMouseListener(new RetrieveRequirementController(this));		
-		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
+		table.addMouseListener(new RetrieveIterationController(this));		
+		((IterationTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(retrieveController));	
+		refreshButton.setAction(new IterationsRefreshAction(retrieveController));	
 		deleteButton = new JButton("Delete");
 		
 		GridBagConstraints c = new GridBagConstraints();	
@@ -226,4 +226,5 @@ public class RequirementListPanel extends JPanel{
 	public MainTabController getTabController() {
 		return tabController;
 	}
+
 }

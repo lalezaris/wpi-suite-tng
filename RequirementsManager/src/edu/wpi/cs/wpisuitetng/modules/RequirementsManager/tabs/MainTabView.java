@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTa
 public class MainTabView extends JTabbedPane {
 	
 	private RequirementListPanel table;
+	private IterationListPanel	iterationtable;
 	
 	public MainTabView() {
 		setTabPlacement(TOP);
@@ -52,6 +53,10 @@ public class MainTabView extends JTabbedPane {
 	
 	public RequirementListPanel getTableModel(){
 		return this.table;
+	}
+	
+	public IterationListPanel getIterationTableModel(){
+		return this.iterationtable;
 	}
 	
 	/* 

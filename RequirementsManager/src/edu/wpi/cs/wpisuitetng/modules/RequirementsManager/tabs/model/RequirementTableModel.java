@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  * @author Chris Hanna
  *
  */
+@SuppressWarnings("serial")
 public class RequirementTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};

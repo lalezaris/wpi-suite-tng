@@ -52,6 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @version Mar 29, 2013
  *
  */
+@SuppressWarnings("serial")
 public class IterationPanel extends JPanel {
 	
 	public enum Mode {

@@ -139,7 +139,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
+		iterationContent.add(listIteration);
 		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);

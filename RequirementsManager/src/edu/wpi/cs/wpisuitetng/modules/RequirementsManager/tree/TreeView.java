@@ -39,7 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
 
 /**
@@ -64,7 +64,7 @@ public class TreeView extends JPanel {
 	 * 
 	 */
 	public TreeView() {
-		this.setLayout(new BorderLayout());
+		/**this.setLayout(new BorderLayout());
 
 		JLabel titleLabel = new JLabel(
 				"<html><bold>Requirements</bold></html>", JLabel.CENTER);
@@ -191,7 +191,7 @@ public class TreeView extends JPanel {
 		};
 		
 		tree.addMouseListener(requirementml);
-		tree.addMouseListener(iterationml);
+		tree.addMouseListener(iterationml);*/
 
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
@@ -200,29 +200,29 @@ public class TreeView extends JPanel {
 	/**
 	 * expand the entire tree
 	 */
-	public static void expandAll() {
+	/**public static void expandAll() {
 		int row = 0;
 		while (row < tree.getRowCount()) {
 			tree.expandRow(row);
 			row++;
 		}
-	}
+	}*/
 	
 	/**
 	 * Gets tree model
 	 * 
 	 * @return the tree model
 	 */
-	public ReqTreeModel getTreeModel() {
+	/**public ReqTreeModel getTreeModel() {
 		return treeModel;
 	}
-
+*/
 	/**
 	 * Gets tree
 	 * 
 	 * @return the JTree
 	 */
-	public JTree getTree() {
+	/**public JTree getTree() {
 		return tree;
-	}
+	}*/
 }

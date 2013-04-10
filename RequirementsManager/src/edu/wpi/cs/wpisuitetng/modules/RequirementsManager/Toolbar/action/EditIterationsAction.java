@@ -8,10 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Arica Liu
- *  Tyler Stone
+ *  Lauren
 **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -19,41 +17,37 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
- * 
- * Adapted from CreateDefectAction in the project Defect Tracker
- * @author Lauren Kahn
- * 
- * @version April 8, 2013
+ * Action that calls {@link MainTabController#addEditIterationab()}, default mnemonic key is E.
+ *
+ * @author Lauren
+ *
+ * @version Apr 8, 2013
+ *
  */
 @SuppressWarnings("serial")
-public class NewIterationAction extends AbstractAction {
-
+public class EditIterationsAction extends AbstractAction {
 	private final MainTabController controller;
-	
+	private final Iteration iteration;
 	/**
-	 * Create a NewIterationAction
-	 * @param controller When the action is performed, controller.addNewIterationTab() is called
+	 * Create a EditIterationAction
+	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
-	public NewIterationAction(MainTabController controller) {
-		super("Create Iteration");
+	public EditIterationsAction(MainTabController controller, Iteration iteration) {
+		super("Edit");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
+		this.iteration = iteration;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
 	
 	/* 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
-			controller.addIterationTab(null, IterationPanel.Mode.CREATE);
-		}
+		controller.addEditIterationTab(iteration);
 	}
+
 }

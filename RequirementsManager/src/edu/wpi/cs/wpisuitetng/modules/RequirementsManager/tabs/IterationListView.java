@@ -8,59 +8,74 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tianyu Li
- *  Mike Perrone
- *  Chris Hanna
- *  
+ *  Lauren
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationsRefreshAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * The primary JPanel for the list of all requirements tab
+ * The primary JPanel for the list of all iterations tab
  *
- * @author Tianyu Li
+ * @author Lauren
  *
- * @version Mar 21, 2013
+ * @version Apr 8, 2013
  *
  */
 @SuppressWarnings("serial")
-public class RequirementListView extends JPanel implements IToolbarGroupProvider {
-
+public class IterationListView extends JPanel implements IToolbarGroupProvider {
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton;
-	private RequirementListPanel mainPanel;
-	private RetrieveAllRequirementsController controller;
+	private IterationListPanel mainPanel;
+	private RetrieveAllIterationsController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;
 	
-	public RequirementListView(Tab tab){
+	public IterationListView(Tab tab){
 		containingTab = tab;
 
 		inputEnabled = true;
 		
 		// Instantiate the button panel
-		buttonGroup = new ToolbarGroupView("Requirements List");
+		buttonGroup = new ToolbarGroupView("Iterations List");
 		
 		containingTab.setIcon(new ImageIcon());
-		containingTab.setTitle("Requirements List");
+		containingTab.setTitle("Iterations List");
 		
 		
-		// Instantiate the main create requirement panel
+		// Instantiate the main create iteration panel
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -76,7 +91,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		controller.refreshData();
 		// Instantiate the save button and add it to the button panel
 		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(controller));
+		refreshButton.setAction(new IterationsRefreshAction(controller));
 		buttonGroup.getContent().add(refreshButton);
 		buttonGroup.setPreferredWidth(150);
 	}
@@ -88,5 +103,4 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;
 	}
-	
 }

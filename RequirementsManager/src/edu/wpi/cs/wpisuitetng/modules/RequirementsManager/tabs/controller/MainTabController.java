@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.IterationListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -304,16 +305,16 @@ public class MainTabController {
 	 * Adds a tab that displays the list of all requirements
 	 * @return the tab that has a the table of requirements on it
 	 */
-	/**public Tab addListIterationTab() {
+	public Tab addListIterationTab() {
 		//already brings focus to list tab if it was opened previously
 		Tab tab = addTab();
-		RequirementListPanel panel = view.getTableModel();
+		IterationListPanel panel = view.getIterationTableModel();
 		panel.setTab(tab);
 		tab.setComponent(panel);
 		panel.requestFocus();
 		return tab;
 		
-	}*/
+	}
 	
 	/**
 	 * Adds a tab that displays the given requirement

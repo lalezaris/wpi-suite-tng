@@ -97,7 +97,7 @@ public class UserPermissionView extends JPanel {
 	 * @return the model with the given elements
 	 */
 	public DefaultListModel getNewModel(List<String> newElements){
-		DefaultListModel newModel = new DefaultListModel();
+		DefaultListModel newModel = new DefaultListModel(); 
 		for(int i = 0; i < newElements.size(); i++){
 			newModel.addElement((Object)newElements.get(i));
 		}

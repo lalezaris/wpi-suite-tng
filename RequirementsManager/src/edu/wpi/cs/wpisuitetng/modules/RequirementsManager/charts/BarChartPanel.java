@@ -13,57 +13,18 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Date;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.text.JTextComponent;
 
-import sun.swing.DefaultLookup;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 /**
  * @author Evan Polekoff
@@ -71,8 +32,44 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  */
 public class BarChartPanel extends JPanel {
 
-	public BarChartPanel(){
+	protected BarChartView view;
+	
+	//Things needed for the bar chart.
+	boolean urls;
+	boolean tooltips;
+	boolean legend;
+	PlotOrientation orientation;
+	CategoryDataset dataset;
+	String xAxis = "Iteration";
+	JFreeChart barGraph;
+	
+	
+	public BarChartPanel(BarChartView view){
+		this.view = view;
 		
+		addComponents();
 	}
+	
+	/**Put the buttons and stuff on the view.
+	 * 
+	 */
+	private void addComponents(){
+		JPanel overallPanel = new JPanel();
+		ChartPanel graphPanel;
+		GridBagConstraints cGraph = new GridBagConstraints();	
+		
+		barGraph = ChartFactory.createBarChart3D("Bar Chart", xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
+		cGraph.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cGraph.fill = GridBagConstraints.HORIZONTAL;
+		cGraph.gridx = 0;
+		cGraph.gridy = 3;
+		cGraph.weightx = 0.5;
+		cGraph.weighty = 0.5;
+		cGraph.gridheight = 1;
+		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		
+		graphPanel = new ChartPanel(barGraph);
+		overallPanel.add(graphPanel, cGraph);
+	}	
 	
 }

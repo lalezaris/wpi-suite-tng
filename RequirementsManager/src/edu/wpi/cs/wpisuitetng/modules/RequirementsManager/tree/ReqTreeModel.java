@@ -62,8 +62,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * 
 	 * @param root
 	 *            the root of the requirement tree
-	 * @param tree
-	 *            the tree of requirements
 	 */
 	public ReqTreeModel(MutableTreeNode root) {
 		super(root);

@@ -95,7 +95,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		newIteration.setAction(new NewIterationAction(tabController));
 		
 		listIteration = new JButton("List Iterations");
-		listIteration.setAction(new ListIterationAction("List Iterations"));
+		listIteration.setAction(new ListIterationAction(tabController));
 		
 		newRequirement = new JButton("Create Requirement");
 		newRequirement.setAction(new NewRequirementAction(tabController));
@@ -139,7 +139,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
+		iterationContent.add(listIteration);
 		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);

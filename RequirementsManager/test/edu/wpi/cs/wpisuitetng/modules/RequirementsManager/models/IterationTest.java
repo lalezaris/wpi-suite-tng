@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.*;
 
 /**
- * Tester class for Requirement.java
+ * Tester class for Iteration.java
  *
  * @author Tushar Narayan
  * @author Michael Perrone

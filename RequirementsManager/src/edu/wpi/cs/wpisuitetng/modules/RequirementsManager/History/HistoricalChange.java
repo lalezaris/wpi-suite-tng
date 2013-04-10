@@ -20,6 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
  * @version Mar 31, 2013
  */
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -142,7 +143,8 @@ public class HistoricalChange extends AbstractModel{
 	 * @return the date
 	 */
 	public String getDate() {
-		return date.toGMTString();
+		SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm:ss zzz yyyy");
+		return format.format(date);
 	}
 
 	/**

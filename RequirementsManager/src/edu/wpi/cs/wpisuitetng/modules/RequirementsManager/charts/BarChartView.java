@@ -66,7 +66,6 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private boolean legend;
 	private PlotOrientation orientation;
 	private DefaultCategoryDataset dataset;
-	private String xAxis = "Iteration";
 	
 	/**Constructs a Bar Chart View so the bar chart can be viewed.
 	 * 
@@ -79,25 +78,20 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 		inputEnabled = true;
 		
-		//Dummy test chart
+		//Default chart fields.
 		urls = false;
 		tooltips = true;
 		legend = true;
 		orientation = PlotOrientation.VERTICAL;
 		DefaultCategoryDataset dataset;
 		dataset = new DefaultCategoryDataset();
-		dataset.setValue(6, "Requirements", "Jane");
-		dataset.setValue(7, "Requirements", "Tom");
-		dataset.setValue(8, "Requirements", "Jill");
-		dataset.setValue(5, "Requirements", "John");
-		dataset.setValue(12, "Requirements", "Fred");
 		
 		// Instantiate the main create requirement panel
-		mainPanel = new BarChartPanel(this, makeBarChart(dataset));
+		mainPanel = new BarChartPanel(this, makeBarChart(dataset, ""));
 		
 		mainPanel.getStatusButton().addActionListener(new StatusChartController(mainPanel, this));
-		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel));
-		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel));
+		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(mainPanel, this));
+		mainPanel.getIterationButton().addActionListener(new IterationChartController(mainPanel, this));
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -116,17 +110,15 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	/**Makes the chart from the fields in this class.
 	 * @return the bar chart that was created from the fields.
 	 */
-	private JFreeChart makeBarChart(DefaultCategoryDataset dataset){		
-		return ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
+	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){		
+		return ChartFactory.createBarChart("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
 	}
 	
 	/**Update and repaint the bar chart in the panel.
 	 * 
 	 */
-	public void repaintChart(DefaultCategoryDataset dataset){
-		System.out.println("Repaint Chart.");
-		
-		mainPanel.setChart(makeBarChart(dataset));
+	public void repaintChart(DefaultCategoryDataset dataset, String xAxis){
+		mainPanel.setChart(makeBarChart(dataset, xAxis));
 	}
 		
 	/* (non-Javadoc)

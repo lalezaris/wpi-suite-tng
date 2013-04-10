@@ -57,7 +57,7 @@ public class StatusChartController extends AbstractAction{
 		testDataSet.setValue(111, "Requirements", "Pinkie Pie");
 		testDataSet.setValue(65, "Requirements", "Applejack");
 		testDataSet.setValue(2, "Requirements", "Rarity");
-		view.repaintChart(testDataSet);
+		view.repaintChart(testDataSet, "Status");
 	}
 
 }

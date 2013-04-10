@@ -63,7 +63,8 @@ public class BarChartPanel extends JPanel {
 	
 	public BarChartPanel(BarChartView view, JFreeChart chart){
 		this.view = view;
-		this.barGraph = chart;
+		//this.barGraph = chart;
+		graphPanel = new ChartPanel(chart);
 		
 		addComponents();
 	}
@@ -152,15 +153,13 @@ public class BarChartPanel extends JPanel {
 	 * @param newChart The chart you are overwriting with.
 	 */
 	public void setChart(JFreeChart newChart){
-		System.out.println("Putting the graph panel into place.");
+		overallPanel.remove(graphPanel);
 		
 		graphPanel = new ChartPanel(newChart);
 		GridBagConstraints cGraph = new GridBagConstraints();
 		
 		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
-		
-		overallPanel.remove(graphPanel);
 		
 		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -172,8 +171,8 @@ public class BarChartPanel extends JPanel {
 		cGraph.gridheight = 1;
 		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(graphPanel,cGraph);
-		graphPanel.repaint();
 		this.repaint();
+		graphPanel.updateUI();
 		
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();

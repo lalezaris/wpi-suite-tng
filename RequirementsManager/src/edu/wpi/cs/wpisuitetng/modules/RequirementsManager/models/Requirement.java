@@ -404,6 +404,12 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * returns the array list of users not assigned to this requirement
+	 * 
+	 * @return users not assigned to this requirement
+	 */
+	
+	/**
 	 * Adds note to assignee
 	 * 
 	 * @param assignedTo who note is assigned to
@@ -465,7 +471,7 @@ public class Requirement extends AbstractModel{
 	 * @param id: sets the id 
 	 */
 	public void setId(int id){
-		this.id =id;
+		this.id = id;
 	}
 	
 	/**
@@ -656,21 +662,12 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Gets child requirement id
-	 * 
-	 * @return child requirement id
-	 */
-	public ArrayList<Integer> getChildRequirementId() {
-		return childRequirementId;
-	}
-
-	/**
 	 * Sets subrequirements
 	 * 
 	 * @param newList newlist to set subrequirement to
 	 */
 	public void setSubRequirements(ArrayList<Integer> newList) {
-		this.childRequirementId = (ArrayList<Integer>) newList.clone();
+		this.childIDs = (ArrayList<Integer>) newList.clone();
 		
 	}
 

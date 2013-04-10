@@ -10,13 +10,14 @@
  * Contributors:
  *  Tyler Stone
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
-
-
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -30,26 +31,27 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * A RequestObserver for a Request to update a Requirement.
+ * A RequestObserver for a Request to update a Iteration.
  *
- * @author Tyler Stone
+ * @author Arica Liu
  *
- * @version Mar 20, 2013
+ * @version April 9th, 2013
  *
  */
-/**
- * A RequestObserver for a Request to update a Requirement.
- */
-public class UpdateRequirementRequestObserver implements RequestObserver {
 
-	private final RequirementView view;
+/**
+ * A RequestObserver for a Request to update a Iteration.
+ */
+public class UpdateIterationRequestObserver implements RequestObserver {
+
+	private final IterationView view;
 
 	/**
-	 * Constructs a new UpdateRequirementRequestObserver
+	 * Constructs a new UpdateIterationRequestObserver
 	 * 
-	 * @param view	The RequirementView that will be affected by any updates.
+	 * @param view	The IterationView that will be affected by any updates.
 	 */
-	public UpdateRequirementRequestObserver(RequirementView view) {
+	public UpdateIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 
@@ -63,44 +65,29 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 
 		// print the body
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
-			// parse the Requirement from the body
-			final Requirement requirement = Requirement.fromJSON(response.getBody());
-
-			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
-			// make sure the Requirement isn't null
-			if (requirement != null) {
+			// parse the Iteration from the body
+			final Iteration iteration = Iteration.fromJSON(response.getBody());
+			
+			Refresher.getInstance().refreshIterationsFromServer(view);
+			// make sure the Iteration isn't null
+			if (iteration != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						Requirement unchangedModel = ((RequirementPanel) view.getRequirementPanel()).getUneditedModel();
-						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
-						
-						/* Great! the requirement was updated! 
-						 * Now we check if the iterationID was changed.
-						 * 
-						 * If so, update all children
-						 */
-						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
-							BatchRequirementEditController<Integer> batchController = 
-									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
-							//change all children
-							batchController.instantiateChange(changedModel.getChildRequirementIds());
-						}
-//						
-//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-//						view.setEditModeDescriptors(requirement);
+						((IterationPanel) view.getIterationPanel()).updateModel(iteration);
+						view.setEditModeDescriptors(iteration);
 					}
 				});
 			}
 			else {
-				JOptionPane.showMessageDialog(view, "Unable to parse requirement received from server.", 
-						"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(view, "Unable to parse iteration received from server.", 
+						"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		else {
 			JOptionPane.showMessageDialog(view, 
 					"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-					"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+					"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		always();
@@ -110,14 +97,14 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
 				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage(), 
-				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+				"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		always();
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 
-				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
+				"Save Iteration Error", JOptionPane.ERROR_MESSAGE);
 		always();
 	}
 

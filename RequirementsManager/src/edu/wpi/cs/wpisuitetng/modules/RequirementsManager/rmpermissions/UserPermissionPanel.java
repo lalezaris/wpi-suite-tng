@@ -251,7 +251,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lstAdminUsers, cPanel);
 		
 		//the the panels to the overall panel
-		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
 		cOverall.weightx = 0.1;

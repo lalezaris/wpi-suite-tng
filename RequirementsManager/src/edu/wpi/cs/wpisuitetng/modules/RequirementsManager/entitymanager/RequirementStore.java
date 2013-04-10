@@ -184,6 +184,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
+		
+		//update child requirements
+		serverReq.setSubRequirements(req.getChildRequirementIds());
 	
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {

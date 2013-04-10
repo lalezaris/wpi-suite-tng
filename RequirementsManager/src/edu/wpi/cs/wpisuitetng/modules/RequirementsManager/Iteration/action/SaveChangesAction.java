@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Mar 25, 2013
  *
  */
+@SuppressWarnings("serial")
 public class SaveChangesAction extends AbstractAction {
 	private final SaveIterationController controller;
 	

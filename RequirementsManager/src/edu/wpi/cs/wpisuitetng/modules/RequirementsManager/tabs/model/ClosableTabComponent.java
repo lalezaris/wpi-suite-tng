@@ -89,7 +89,9 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		String checkTitle = tabbedPane.getTitleAt(index);
 		Component component = tabbedPane.getComponentAt(index);
 		if(index > -1) {
-			if(!(checkTitle.equals("Requirement List")) || !(checkTitle.equals("Bar Chart"))){
+			if((checkTitle.equals("Requirement List")) || (checkTitle.equals("Bar Chart")) || (checkTitle.equals("Iteration List"))){
+				tabbedPane.remove(index);
+			} else {				
 				if(component instanceof RequirementView){
 					RequirementPanel rPanel = (RequirementPanel) ((RequirementView) component).getRequirementPanel();
 					if(rPanel.isThereChanges()){
@@ -133,8 +135,8 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 						tabbedPane.remove(index);
 					}
 				}
-			}
-		}else tabbedPane.remove(index);
+			} 
+		}
 	}
 
 }

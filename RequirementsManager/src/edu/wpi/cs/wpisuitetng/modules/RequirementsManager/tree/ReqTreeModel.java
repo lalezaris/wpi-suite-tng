@@ -62,8 +62,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * 
 	 * @param root
 	 *            the root of the requirement tree
-	 * @param tree
-	 *            the tree of requirements
 	 */
 	public ReqTreeModel(MutableTreeNode root) {
 		super(root);
@@ -83,8 +81,19 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * @param reqs
 	 */
 	public void fillTree(Requirement[] reqs) {
-		if (reqs != null) {
-			requirements = reqs;
+//		if (reqs == null){
+//			if (requirements == null)
+//				requirements = new Requirement[0];
+//		}
+		if (reqs == null){
+			if (requirements == null)
+				requirements = new Requirement[0];
+		} else {requirements = reqs;}
+		
+		
+		//{
+		//if (reqs != null) {
+			//requirements = reqs;
 
 			count = 0;
 			id = 0;
@@ -149,7 +158,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 			root.add(deleted);
 
 			TreeView.expandAll();
-		}
+		//}
 	}
 
 	/**

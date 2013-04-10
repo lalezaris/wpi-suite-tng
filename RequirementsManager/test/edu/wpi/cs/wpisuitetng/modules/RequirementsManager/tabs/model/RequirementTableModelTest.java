@@ -22,6 +22,15 @@ public class RequirementTableModelTest {
 	@Before
 	public void setUp() throws Exception {
 		rtm1 = new RequirementTableModel();
+		Requirement req1 = new Requirement();
+		req1.setEstimateEffort(-1);
+		Requirement req2 = new Requirement("req2", "des2");
+		Requirement req3 = new Requirement(3, "req3", "des3", null);
+		Requirement req4 = new Requirement(4, "req4", "des4", null, null);
+		rtm1.addRow(req1);
+		rtm1.addRow(req2);
+		rtm1.addRow(req3);
+		rtm1.addRow(req4);
 	}
 
 	@Test
@@ -29,13 +38,11 @@ public class RequirementTableModelTest {
 		assertTrue(rtm1.columnNames != null);
 		assertTrue(rtm1.data != null);
 		assertEquals(9, rtm1.columnNames.length);
-		assertEquals(0, rtm1.data.size());
+		assertEquals(4, rtm1.data.size());
 	}
 
 	@Test
 	public void dataCanBeinserted() {
-		insertTestData();
-		
 		assertEquals("Name", rtm1.getColumnName(1));
 		assertEquals(4, rtm1.getRowCount());
 		assertEquals(-1, rtm1.getValueAt(0, 0));
@@ -49,8 +56,6 @@ public class RequirementTableModelTest {
 
 	@Test
 	public void dataCanBeRemoved() {
-		insertTestData();
-		
 		rtm1.removeRow(0);
 		assertEquals(3, rtm1.getRowCount());
 		assertEquals("req2", rtm1.getValueAt(0, 1));
@@ -60,32 +65,16 @@ public class RequirementTableModelTest {
 	
 	@Test
 	public void dataCanBeCleared() {
-		insertTestData();
-		
 		rtm1.clear();
 		assertEquals(0, rtm1.getRowCount());
 	}
 	
 	@Test
 	public void cellsCannotBeEdited() {		
-		insertTestData();
-		
 		for (int i = 0; i < rtm1.getRowCount(); i++) {
 			for (int j = 0; j < rtm1.getColumnCount(); j++) {
 				assertFalse(rtm1.isCellEditable(i, j));
 			}
 		}
-	}
-	
-	private void insertTestData() {
-		Requirement req1 = new Requirement();
-		req1.setEstimateEffort(-1);
-		Requirement req2 = new Requirement("req2", "des2");
-		Requirement req3 = new Requirement(3, "req3", "des3", null);
-		Requirement req4 = new Requirement(4, "req4", "des4", null, null);
-		rtm1.addRow(req1);
-		rtm1.addRow(req2);
-		rtm1.addRow(req3);
-		rtm1.addRow(req4);
 	}
 }

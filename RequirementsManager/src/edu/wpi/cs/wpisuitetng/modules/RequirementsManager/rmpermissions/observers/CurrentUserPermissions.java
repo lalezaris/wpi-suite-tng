@@ -244,6 +244,10 @@ public class CurrentUserPermissions implements RequestObserver{
 		
 	}
 	
+	public static User[] getProjectUsers(){
+		return allCoreUsers;
+	}
+
 	public static UserPermission getUser(){
 		return user;
 	}

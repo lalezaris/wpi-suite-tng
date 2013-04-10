@@ -4,6 +4,7 @@
 
 	<property name="core-jar-dest" location="${core-lib}/RequirementsManager.jar"/>
 	<property name="janeway-jar-dest" location="../Janeway/modules/RequirementsManager.jar"/>
+	<property name="rm-lib" location="${dependencies.basedir}/RequirementsManager/jars"/>
 
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>
@@ -11,6 +12,9 @@
 		<pathelement path="../Core/WPISuite-Interfaces/build"/>
 		<fileset dir="${core-lib}">
 			<include name="gson-*.jar"/>
+		</fileset>
+		<fileset dir="${rm-lib}">
+			<include name="*.jar"/>
 		</fileset>
 		<pathelement path="build"/>
 	</path>

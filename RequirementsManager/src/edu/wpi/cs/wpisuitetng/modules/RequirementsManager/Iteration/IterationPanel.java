@@ -54,14 +54,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  */
 @SuppressWarnings("serial")
 public class IterationPanel extends JPanel {
-	
+
 	public enum Mode {
 		CREATE,
 		EDIT, 
 	}
-	
+
 	protected Mode editMode;
-	
+
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
 
@@ -128,11 +128,11 @@ public class IterationPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
-		
+
 		if (editMode == Mode.EDIT) {
 			txtIterationName.setText(model.getIterationName().toString());
-			txtStartDate.setText(model.getStartDate().toString());
-			txtEndDate.setText(model.getEndDate().toString());
+			txtStartDate.setText(DateToString(model.getStartDate()));
+			txtEndDate.setText(DateToString(model.getEndDate()));
 		}
 	}
 
@@ -413,7 +413,7 @@ public class IterationPanel extends JPanel {
 	 */
 	public int checkRequiredFields(){
 		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
-		
+
 		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
 		}
@@ -447,17 +447,17 @@ public class IterationPanel extends JPanel {
 				return 4;
 			}
 		}
-		
+
 		if (editMode == Mode.EDIT) {
 			txtIterationName.setText(model.getIterationName().toString());
-			txtStartDate.setText(model.getStartDate().toString());
-			txtEndDate.setText(model.getEndDate().toString());
+			txtStartDate.setText(DateToString(model.getStartDate()));
+			txtEndDate.setText(DateToString(model.getEndDate()));
 		}
-		
+
 		//no errors
 		return  0;
 	}
-	
+
 	/**
 	 * Updates the IterationPanel's model to contain the values of the given Iteration and sets the 
 	 * IterationPanel's editMode to {@link Mode#EDIT}.
@@ -467,7 +467,7 @@ public class IterationPanel extends JPanel {
 	public void updateModel(Iteration iteration) {
 		updateModel(iteration, Mode.EDIT);
 	}
-	
+
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
@@ -476,13 +476,13 @@ public class IterationPanel extends JPanel {
 	 */
 	protected void updateModel(Iteration iteration, Mode mode) {
 		editMode = mode;
-		
+
 		model.setIterationName(iteration.getIterationName());
 		model.setStartDate(iteration.getStartDate());
 		model.setEndDate(iteration.getEndDate());
 		model.setRequirements(iteration.getRequirements());
 		model.setStatus(iteration.getStatus());
-		
+
 		updateFields();
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -494,10 +494,10 @@ public class IterationPanel extends JPanel {
 	private void updateFields() {
 		if((!(model.getIterationName().equals(null)) && (!(model.getIterationName().equals("")))))
 			txtIterationName.setText(model.getIterationName());
-		
+
 		txtStartDate.setText(model.getStartDate().toString());
 		txtEndDate.setText(model.getEndDate().toString());
-				
+
 		/**if (editMode == Mode.EDIT) {
 			txtCreatedDate.setText(model.getCreationDate().toString());
 			txtModifiedDate.setText(model.getLastModifiedDate().toString());
@@ -535,6 +535,20 @@ public class IterationPanel extends JPanel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
+		return convertedDate;
+	}
+
+	/**
+	 * Convert a Date to a formatted String. 
+	 * 
+	 * @param aDate The Date to be converted.
+	 * @return The resulting String.
+	 */
+	private String DateToString(Date aDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String convertedDate = null;
+		convertedDate = dateFormat.format(aDate);
+
 		return convertedDate;
 	}
 }

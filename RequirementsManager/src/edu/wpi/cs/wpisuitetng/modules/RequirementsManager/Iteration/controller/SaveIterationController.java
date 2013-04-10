@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
@@ -50,26 +50,27 @@ public class SaveIterationController {
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void save() {
-//		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
-//		final RequestObserver requestObserver = new SaveIterationRequestObserver(view);
-//		Request request;
-//		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
-//		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
-//		
-//		if(panel.checkRequiredFields() == 0){//no errors, see IterationPanel.checkRequiredFields() for documentation on this
-//			request.setBody(panel.getEditedModel().toJSON());
-//			request.addObserver(requestObserver);
-//			request.send();
-//			//close tab
-//			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-//		}
-		
+		//		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
+		//		final RequestObserver requestObserver = new SaveIterationRequestObserver(view);
+		//		Request request;
+		//		request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.PUT );
+		//		System.out.println("Saving Iteartion, and Refresher is " + (Refresher.getInstance()!=null));
+		//		
+		//		if(panel.checkRequiredFields() == 0){//no errors, see IterationPanel.checkRequiredFields() for documentation on this
+		//			request.setBody(panel.getEditedModel().toJSON());
+		//			request.addObserver(requestObserver);
+		//			request.send();
+		//			//close tab
+		//			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+		//		}
+
 		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
 		Request request;
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-		if(panel.checkRequiredFields() > 0){} 
-		else {
+
+
+		if (panel.getEditMode() == Mode.EDIT) {
 			String JsonRequest = panel.getEditedModel().toJSON();
 			request.setBody(JsonRequest);
 			System.out.println("Sending REQ to server:" +JsonRequest );
@@ -77,10 +78,25 @@ public class SaveIterationController {
 			request.send();
 			//close tab
 			view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
-			System.out.println("SAVE REQUIREMENT");
+			System.out.println("SAVE ITERATION");
+
 		}
+		else {
+			if(panel.checkRequiredFields() > 0){} 
+			else {
+				String JsonRequest = panel.getEditedModel().toJSON();
+				request.setBody(JsonRequest);
+				System.out.println("Sending REQ to server:" +JsonRequest );
+				request.addObserver(requestObserver);
+				request.send();
+				//close tab
+				view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
+				System.out.println("SAVE ITERATION");
+			}
+		}
+
 	} 
-	
+
 	/**
 	 * Gets view
 	 * 

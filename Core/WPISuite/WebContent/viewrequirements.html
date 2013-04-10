@@ -57,13 +57,37 @@
 			xml.onreadystatechange = function() {
 				if (xml.readyState == 4)//wait until response is available
 				{
-					document.getElementById("requirementspan").innerHTML = xml.statusText;
+					var response = xml.responseText;
+					//document.getElementById("requirementspan").innerHTML = response;
+					var requirement_array = JSON.parse(response);
+					var root = document.getElementById('requirementstable');
+
+					var tab=document.createElement('table');
+					var tbo=document.createElement('tbody');
+					var row, cell,link;
+					for(var i=0;i<requirement_array.length;i++){
+						row=document.createElement('tr');
+						
+						cell=document.createElement('td');
+						cell.appendChild(document.createTextNode('Requirement ' + requirement_array[i].id))
+						row.appendChild(cell);
+						
+						cell=document.createElement('td');
+						document.createE
+						cell.appendChild(document.createElement('a href=\"singlerequirement.html/#' + requirement_array[i].id));
+						cell.appendChild(document.createTextNode(requirement_array[i].title));
+						row.appendChild(cell);
+						
+						tbo.appendChild(row);
+					}
+					tab.appendChild(tbo);
+					root.appendChild(tab);
+					/* 
+					for(var i = 0; i < requirement_array.length; i++){
+						document.getElementById("requirementspan").innerHTML = requirement_array[i].title;
+					} */
 				}
-
 			};
-
-/* 			document.getElementById("requirementspan").innerHTML = action;
- */
 			xml.open('GET', 'API/requirementsmanager/requirement', false);//test/requirementsmanager/requirement
 			xml.send();
 		}
@@ -87,7 +111,8 @@
 	<br />
 	<br />
 	<br />
-	<span id="requirementspan"></span>
+	<!--<span id="requirementspan"></span>-->	
+ 	<div id="requirementstable"></div>
 
 
 </body>

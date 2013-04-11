@@ -9,8 +9,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.UpdateAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllEstimateController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllRequirementsController;
 
 /**
  * Action for update all modified estimate in list view

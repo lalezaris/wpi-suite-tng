@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  *
  * @author Tianyu Li
  *
- * @version Mar 21, 2013
+ * @version Apr 11, 2013
  *
  */
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
@@ -84,25 +84,6 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		refreshController.refreshData();
-		// Instantiate the save button and add it to the button panel
-//		refreshButton = new JButton("Refresh");
-//		refreshButton.setAction(new RefreshAction(refreshController));
-//		buttonGroup.getContent().add(refreshButton);
-//		buttonGroup.setPreferredWidth(150);
-		
-		List<Requirement> reqs = getMainPanel().getModel().getRequirements();
-		HashMap<Requirement, Integer> requs = new HashMap<Requirement, Integer>();
-		for (int i = 0; i < reqs.size(); i++) {
-			requs.put(reqs.get(i), reqs.get(i).getId());
-		}
-		
-		updateController = new BatchRequirementEditController<Integer>(ChangeField.ESTIMATE, 2);
-		
-//		updateButton = new JButton("Update");
-//		updateButton.setAction(new UpdateAllEstimateAction(new UpdateAllRequirementsController(mainPanel)));
-//		
-//		buttonGroup.getContent().add(updateButton);
-//		buttonGroup.setPreferredWidth(150);
 	}
 	
 	/* Gets ToolbarGroupView

@@ -1,8 +1,17 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
+/**
+ * Observer for update requirements in the table view.
+ *
+ * @author Chris Hanna
+ * @author Tianyu Li
+ * 
+ * @version 2013-4-11
+ *
+ */
 public class UpdateRequirementObserver implements RequestObserver{
 
 	UpdateAllRequirementsController controller;

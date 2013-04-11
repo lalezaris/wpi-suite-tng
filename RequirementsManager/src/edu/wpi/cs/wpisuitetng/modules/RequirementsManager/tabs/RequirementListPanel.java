@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAct
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllEstimateController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;

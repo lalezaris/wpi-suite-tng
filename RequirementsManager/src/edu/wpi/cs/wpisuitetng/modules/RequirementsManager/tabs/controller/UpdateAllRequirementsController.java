@@ -1,22 +1,25 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
-
-import java.util.ArrayList;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllEstimateObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+/**
+ * Controller for update requirements in the table view.
+ *
+ * @author Chris Hanna
+ * @author Tianyu Li
+ *
+ * @version Apr 11th, 2013
+ *
+ */
 public class UpdateAllRequirementsController {
-	private final RetrieveAllRequirementsController controller;
 
 	RequirementListPanel panel;
 	public UpdateAllRequirementsController(RequirementListPanel panel){
-		controller = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		this.panel = panel;
 	}
 	
@@ -27,15 +30,10 @@ public class UpdateAllRequirementsController {
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
 			if (table.getRequirements().get(i) != null) {
 				saveRequirement(table.getRequirements().get(i));
-				System.out.println(table.getRequirements().get(i));
-				System.out.println("estimate: " + table.getRequirements().get(i).getEstimateEffort());
-				System.out.println("Done req");
 			}
 		}
 		((RequirementTableModel) panel.getTable().getModel()).clear();
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
-		System.out.println("Reach here for clear");
-		//controller.refreshData();
 	}
 	
 	private void saveRequirement(Requirement r){

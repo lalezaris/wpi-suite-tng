@@ -13,19 +13,19 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 /**
  * Model for the Requirement Table
@@ -120,8 +120,6 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
-//			if (col == 5 && (Integer) data.get(row)[col] == -1)
-//				return "";
 
 			return data.get(row)[col];
 		} else
@@ -183,14 +181,21 @@ public class RequirementTableModel extends AbstractTableModel {
      * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
      */
     public boolean isCellEditable(int row, int col) {
-    	if (data.get(row)[3].equals(RequirementStatus.INPROGRESS) ||
-    			data.get(row)[3].equals(RequirementStatus.COMPLETE)) {
-    		return false;
-    	}
-    	if (col == 5) {
-    		return true;
-    	}
-    	else return false;
+		RMPermissionsLevel pLevel = CurrentUserPermissions
+				.getCurrentUserPermission();
+		if (pLevel == RMPermissionsLevel.ADMIN) {
+			if (col == 5) {
+				if (data.get(row)[3].equals(RequirementStatus.INPROGRESS)
+						|| data.get(row)[3].equals(RequirementStatus.COMPLETE)) {
+					JFrame debugger = new JFrame("Input value error");
+					JOptionPane.showMessageDialog(debugger, "Can not edit it since it is in progress or completed");
+					return false;
+				} else
+					return true;
+			} else
+				return false;
+		} else
+			return false;
     }
     
     public void setValueAt(Object value, int row, int col) {
@@ -204,15 +209,11 @@ public class RequirementTableModel extends AbstractTableModel {
 		try {
         	requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		} catch (NumberFormatException e) {
-			JLabel emptyLabel = new JLabel("");
-			emptyLabel.setPreferredSize(new Dimension(175, 100));
-			
-			JFrame debugger = new JFrame("Input value must be integer");
-			debugger.setVisible(true);
-//			debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			debugger.getContentPane().add(emptyLabel, BorderLayout.CENTER);
-			debugger.pack();
-			debugger.setVisible(true);
+			illegalEstimateChange();
+		}
+		
+		if (Integer.parseInt((String)value) < 0 || Integer.parseInt((String)value) > 100) {
+			illegalEstimateChange();
 		}
 
 		Object[] element = data.get(row);
@@ -238,6 +239,11 @@ public class RequirementTableModel extends AbstractTableModel {
             System.out.println();
         }
         System.out.println("--------------------------");
+    }
+    
+    private void illegalEstimateChange() {
+		JFrame debugger = new JFrame("Input value error");
+		JOptionPane.showMessageDialog(debugger, "The value of estimate must be integer between 0 and 100.");
     }
     
     public void clearRequirements() {

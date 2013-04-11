@@ -35,29 +35,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
  */
 public class StatusChartController extends AbstractAction{
 
-	protected BarChartPanel panel;
 	protected BarChartView view;
 	
-	public StatusChartController(BarChartPanel panel, BarChartView view){
-		
-		this.panel = panel;
+	public StatusChartController(BarChartView view){
 		this.view = view;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Actually implement stuff
-		
-		System.out.println("Status Button Pressed!");
-		
-		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-		testDataSet.setValue(99, "Requirements", "Twilight Sparkle");
-		testDataSet.setValue(87, "Requirements", "Fluttershy");
-		testDataSet.setValue(130, "Requirements", "Rainbow Dash");
-		testDataSet.setValue(111, "Requirements", "Pinkie Pie");
-		testDataSet.setValue(65, "Requirements", "Applejack");
-		testDataSet.setValue(2, "Requirements", "Rarity");
-		view.repaintChart(testDataSet, "Status");
+
+//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
+//		testDataSet.setValue(99, "Requirements", "Twilight Sparkle");
+//		testDataSet.setValue(87, "Requirements", "Fluttershy");
+//		testDataSet.setValue(130, "Requirements", "Rainbow Dash");
+//		testDataSet.setValue(111, "Requirements", "Pinkie Pie");
+//		testDataSet.setValue(65, "Requirements", "Applejack");
+//		testDataSet.setValue(2, "Requirements", "Rarity");
+		view.repaintChart(view.getStatusDataset(), "Status");
 	}
 
 }

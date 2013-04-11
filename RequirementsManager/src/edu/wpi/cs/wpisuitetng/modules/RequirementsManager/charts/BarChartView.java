@@ -15,6 +15,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -161,16 +162,24 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			//Iteration
 			//==========
 			//Look at each iteration name and count the requirements in each iteration.
-//			int [] iterationCount = new int[allIterations.length];
-//			for(int r=0; r<allRequirements.length;r++){
-//				for(int i=0; i<allIterations.length; i++){
-//					if(allIterations[i].getName().equals(allRequirements[r].getIteration().getName()))
-//							iterationCount[i]++;
-//				}
-//			}
-//			for(int i=0; i<allIterations.length;i++){
-//				iterationDataset.setValue(iterationCount[i],"", allIterations[i].getName());
-//			}
+			ArrayList<Integer> allIterationsHack = new ArrayList<Integer>();
+			//Populate the initial list by looking at the requirements.
+			for(int r=0; r<allRequirements.length;r++){
+				if(!allIterationsHack.contains(allRequirements[r].getIterationId())){
+					allIterationsHack.add(allRequirements[r].getIterationId());
+				}
+			}
+			
+			int [] iterationCount = new int[allIterationsHack.size()];
+			for(int r=0; r<allRequirements.length;r++){
+				for(int i=0; i<allIterationsHack.size(); i++){
+					if(allIterationsHack.get(i) == allRequirements[r].getIterationId())
+							iterationCount[i]++;
+				}
+			}
+			for(int i=0; i<allIterationsHack.size();i++){
+				iterationDataset.setValue(iterationCount[i],"", "Iteration #" + allIterationsHack.get(i));
+			}
 			System.out.println("Got past the Iteration loop.");
 			//==========
 			//Status

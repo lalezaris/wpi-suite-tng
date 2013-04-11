@@ -35,27 +35,20 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
  */
 public class AssigneeChartController extends AbstractAction{
 
-	protected BarChartPanel panel;
 	protected BarChartView view;
 	
-	public AssigneeChartController(BarChartPanel panel, BarChartView view){
-		
-		this.panel = panel;
+	public AssigneeChartController(BarChartView view){
 		this.view = view;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Actually implement stuff
-		
-		System.out.println("Assignee Button Pressed!");
-		
-		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-		testDataSet.setValue(110, "Requirements", "Twilight Sparkle");
-		testDataSet.setValue(200, "Requirements", "Luna");
-		testDataSet.setValue(87, "Requirements", "Celestia");
-		testDataSet.setValue(32, "Requirements", "Cadence");
-		view.repaintChart(testDataSet, "Assignee");
+//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
+//		testDataSet.setValue(110, "Requirements", "Twilight Sparkle");
+//		testDataSet.setValue(200, "Requirements", "Luna");
+//		testDataSet.setValue(87, "Requirements", "Celestia");
+//		testDataSet.setValue(32, "Requirements", "Cadence");
+		view.repaintChart(view.getAssigneeDataset(), "Assignee");
 	}
 
 }

@@ -13,8 +13,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
@@ -34,6 +39,7 @@ public class RequirementTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
     protected ArrayList<Object[]> data = new ArrayList<Object[]>();
+    protected List<Requirement> requirements = new ArrayList<Requirement>();
     private boolean DEBUG = false;
     
     /* Gets column count
@@ -114,8 +120,8 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
-			if (col == 5 && (Integer) data.get(row)[col] == -1)
-				return "";
+//			if (col == 5 && (Integer) data.get(row)[col] == -1)
+//				return "";
 
 			return data.get(row)[col];
 		} else
@@ -139,6 +145,7 @@ public class RequirementTableModel extends AbstractTableModel {
     			req.getAssignee(),
     			req.getParentRequirementId()};
     	addRow(r);
+    	requirements.add(req);
     }
     
     /**
@@ -193,11 +200,25 @@ public class RequirementTableModel extends AbstractTableModel {
                                + " (an instance of "
                                + value.getClass() + ")");
         }
+		
+		try {
+        	requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+		} catch (NumberFormatException e) {
+			JLabel emptyLabel = new JLabel("");
+			emptyLabel.setPreferredSize(new Dimension(175, 100));
+			
+			JFrame debugger = new JFrame("Input value must be integer");
+			debugger.setVisible(true);
+//			debugger.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			debugger.getContentPane().add(emptyLabel, BorderLayout.CENTER);
+			debugger.pack();
+			debugger.setVisible(true);
+		}
 
 		Object[] element = data.get(row);
 		element[5] = value;
         data.set(row, element);
-        fireTableCellUpdated(row, col);
+        fireTableCellUpdated(row, col);  
 
         if (DEBUG) {
             System.out.println("New value of data:");
@@ -218,4 +239,16 @@ public class RequirementTableModel extends AbstractTableModel {
         }
         System.out.println("--------------------------");
     }
+    
+    public void clearRequirements() {
+    	requirements.clear();
+    }
+
+	/**
+	 * Gets the requirements
+	 * @return the requirements
+	 */
+	public List<Requirement> getRequirements() {
+		return requirements;
+	}
 }

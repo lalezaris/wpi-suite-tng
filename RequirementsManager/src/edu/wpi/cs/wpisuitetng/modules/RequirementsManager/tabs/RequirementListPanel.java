@@ -39,7 +39,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllEstimateController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -60,8 +62,10 @@ public class RequirementListPanel extends JPanel{
 	private JTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
+	private UpdateAllRequirementsController updateController;
 	private JPanel panel;
 	private GridBagLayout layout;
+	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
 	
 	private ToolbarGroupView buttonGroup;
@@ -74,7 +78,7 @@ public class RequirementListPanel extends JPanel{
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		TableModel model = new RequirementTableModel();		
+		model = new RequirementTableModel();		
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));		
 		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
@@ -82,7 +86,8 @@ public class RequirementListPanel extends JPanel{
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));	
 		updateButton = new JButton("Update");
-		//updateButton.setAction(a);
+		updateController = new UpdateAllRequirementsController(this);
+		updateButton.setAction(new UpdateAllEstimateAction(updateController));	
 		deleteButton = new JButton("Delete");
 		
 		GridBagConstraints c = new GridBagConstraints();	
@@ -97,13 +102,11 @@ public class RequirementListPanel extends JPanel{
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(refreshButton, c);
-		
-		c.anchor = GridBagConstraints.LINE_START; 
+
 		c.gridx = 0;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridwidth = 2;
+		c.weighty = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(updateButton, c);
 		
@@ -195,13 +198,13 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
-		clearList();		
+		clearList();	
+		((RequirementTableModel) table.getModel()).clearRequirements();
 		for (int i = requirements.length -1; i > -1; i --){
 			if (requirements[i].getStatus() != RequirementStatus.DELETED){
 				addRequirement(requirements[i]);
 			}
 		}
-		
 		table.updateUI();
 	}
 
@@ -237,5 +240,13 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public MainTabController getTabController() {
 		return tabController;
+	}
+
+	/**
+	 * Gets the model
+	 * @return the model
+	 */
+	public RequirementTableModel getModel() {
+		return model;
 	}
 }

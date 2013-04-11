@@ -32,6 +32,7 @@ public class IterationObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
+		System.out.println("EEEEEEEEEERRRRRRRRRRRROOOOOOOOOOOORRRRRRRRRRR!");
 		
 	}
 

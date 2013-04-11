@@ -155,22 +155,22 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private void doWhenRecievedAll(){
 		//update iteration chart
 		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
-		if (gotUsers && gotIterations && gotRequirements){
+		if (gotUsers /*&& gotIterations*/ && gotRequirements){
 			System.out.println("All things loaded!");
 			//==========
 			//Iteration
 			//==========
 			//Look at each iteration name and count the requirements in each iteration.
-			int [] iterationCount = new int[allIterations.length];
-			for(int r=0; r<allRequirements.length;r++){
-				for(int i=0; i<allIterations.length; i++){
-					if(allIterations[i].getName().equals(allRequirements[r].getIteration().getName()))
-							iterationCount[i]++;
-				}
-			}
-			for(int i=0; i<allIterations.length;i++){
-				iterationDataset.setValue(iterationCount[i],"", allIterations[i].getName());
-			}
+//			int [] iterationCount = new int[allIterations.length];
+//			for(int r=0; r<allRequirements.length;r++){
+//				for(int i=0; i<allIterations.length; i++){
+//					if(allIterations[i].getName().equals(allRequirements[r].getIteration().getName()))
+//							iterationCount[i]++;
+//				}
+//			}
+//			for(int i=0; i<allIterations.length;i++){
+//				iterationDataset.setValue(iterationCount[i],"", allIterations[i].getName());
+//			}
 			System.out.println("Got past the Iteration loop.");
 			//==========
 			//Status
@@ -190,17 +190,24 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			System.out.println("Got past the Status loop.");
 			
 			
-//			//update user chart
-//			int[] userCount = new int[allUsers.length];
-//			for(int r=0; r<allRequirements.length;r++){
-//				for(int i=0; i<allUsers.length; i++){
-//					if(allUsers[i].getName().equals(allRequirements[r].getUser().getName()))
-//							iterationCount[i]++;
-//				}
-//			}
-//			for(int i=0; i<allUsers.length;i++){
-//				chart.addData(userCount[i],"User", allUsers[i].getName());
-//			}
+//			//==========
+			//Assignee
+			//==========
+			//Look at each status name and count the requirements of each status.
+			int [] assigneeCount = new int[allUsers.length];
+			for(int r=0; r<allRequirements.length; r++){
+				for(int i=0; i<allUsers.length; i++){
+					for(int j = 0; j < allRequirements[r].getAssignee().size(); j ++){
+						System.out.println("Assignee: " + allRequirements[r].getAssignee().get(j));
+						if(allRequirements[r].getAssignee().get(j).equals(allUsers[i].getUsername())){
+							assigneeCount[i] ++;
+						}
+					}
+				}
+			}
+			for(int i=0; i<allUsers.length;i++){
+				assigneeDataset.setValue(assigneeCount[i],"", allUsers[i].getName());
+			}
 		}
 
 	}

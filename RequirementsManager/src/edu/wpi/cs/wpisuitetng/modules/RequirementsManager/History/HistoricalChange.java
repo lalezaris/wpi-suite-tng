@@ -173,7 +173,11 @@ public class HistoricalChange extends AbstractModel{
 		//TODO: come back to this
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
-			change += "<p> "+notesDifference + " notes added.</p>";
+			change += "<p> "+ notesDifference;
+			if(notesDifference == 1)
+				change += " note added.</p>";
+			else
+				change += " notes added.</p>";
 		}
 			
 	}

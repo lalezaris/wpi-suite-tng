@@ -29,7 +29,7 @@ public class RequirementStatusLists{
 	
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"DELETED", "OPEN"};
+	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 	
@@ -43,8 +43,8 @@ public class RequirementStatusLists{
 	 * @param status The requirement status that we are looking for the correct list for.
 	 * @return the list for that requirement status
 	 */
-	public static String[] getList(RequirementStatus status){
-		switch(status){
+	public static String[] getList(Requirement req){
+		switch(req.getStatus()){
 		case NEW:
 			return NewList;
 		case INPROGRESS:
@@ -52,7 +52,11 @@ public class RequirementStatusLists{
 		case OPEN:
 			return OpenList;
 		case COMPLETE:
-			return CompleteList;
+			if (req.getParentRequirementId() == -1) {
+				return CompleteList;
+			} else {
+				return InProgressList;
+			}
 		case DELETED:
 			return DeletedList;
 		default:

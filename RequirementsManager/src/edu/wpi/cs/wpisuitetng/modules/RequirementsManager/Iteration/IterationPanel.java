@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
  *  Arica Liu
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -36,7 +37,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveC
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
@@ -49,7 +53,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @version Mar 29, 2013
  *
  */
+@SuppressWarnings("serial")
 public class IterationPanel extends JPanel {
+
+	public enum Mode {
+		CREATE,
+		EDIT, 
+	}
+
+	protected Mode editMode;
+
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
 
@@ -102,9 +115,10 @@ public class IterationPanel extends JPanel {
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
 	 */
-	public IterationPanel(IterationView parent, Iteration iteration) {
+	public IterationPanel(IterationView parent, Iteration iteration, Mode mode) {
 		this.model = iteration;
 		this.parent = parent;
+		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -115,6 +129,12 @@ public class IterationPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
+
+		if (editMode == Mode.EDIT) {
+			txtIterationName.setText(model.getIterationName().toString());
+			txtStartDate.setText(DateToString(model.getStartDate()));
+			txtEndDate.setText(DateToString(model.getEndDate()));
+		}
 	}
 
 	/**
@@ -374,7 +394,13 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration("", null, null);
+		Iteration iteration = null;
+		if(Mode.EDIT == editMode){
+			iteration = this.model;
+		}
+		else{
+			iteration = new Iteration("", null, null);
+		}
 		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
@@ -394,8 +420,7 @@ public class IterationPanel extends JPanel {
 	 */
 	public int checkRequiredFields(){
 		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
-		
-		
+
 		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
 		}
@@ -409,7 +434,6 @@ public class IterationPanel extends JPanel {
 			//if any fields were missing
 			return 1;
 		}
-
 
 		Date startDate = StringToDate(txtStartDate.getText());
 		Date endDate = StringToDate(txtEndDate.getText());
@@ -430,11 +454,67 @@ public class IterationPanel extends JPanel {
 				return 4;
 			}
 		}
-		
+
+		if (editMode == Mode.EDIT) {
+			txtIterationName.setText(model.getIterationName().toString());
+			txtStartDate.setText(DateToString(model.getStartDate()));
+			txtEndDate.setText(DateToString(model.getEndDate()));
+		}
+
 		//no errors
 		return  0;
 	}
 
+	/**
+	 * Updates the IterationPanel's model to contain the values of the given Iteration and sets the 
+	 * IterationPanel's editMode to {@link Mode#EDIT}.
+	 * 
+	 * @param iteration	The Iteration which contains the new values for the model.
+	 */
+	public void updateModel(Iteration iteration) {
+		updateModel(iteration, Mode.EDIT);
+	}
+
+	/**
+	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
+	 * 
+	 * @param	requirement	The requirement which contains the new values for the model.
+	 * @param	mode	The new editMode.
+	 */
+	protected void updateModel(Iteration iteration, Mode mode) {
+		editMode = mode;
+
+		model.setIterationName(iteration.getIterationName());
+		model.setStartDate(iteration.getStartDate());
+		model.setEndDate(iteration.getEndDate());
+		model.setRequirements(iteration.getRequirements());
+		model.setStatus(iteration.getStatus());
+
+		updateFields();
+		this.revalidate();
+		layout.invalidateLayout(this);
+		layout.layoutContainer(this);
+		this.repaint();
+		parent.refreshScrollPane();
+	}
+
+	private void updateFields() {
+		if((!(model.getIterationName().equals(null)) && (!(model.getIterationName().equals("")))))
+			txtIterationName.setText(model.getIterationName());
+
+		txtStartDate.setText(model.getStartDate().toString());
+		txtEndDate.setText(model.getEndDate().toString());
+
+		/**if (editMode == Mode.EDIT) {
+			txtCreatedDate.setText(model.getCreationDate().toString());
+			txtModifiedDate.setText(model.getLastModifiedDate().toString());
+			deleteRequirementBottom.setVisible(true);
+		}*/
+	}
+
+	public Mode getEditMode() {
+		return editMode;
+	}
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.
@@ -462,6 +542,20 @@ public class IterationPanel extends JPanel {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
+		return convertedDate;
+	}
+
+	/**
+	 * Convert a Date to a formatted String. 
+	 * 
+	 * @param aDate The Date to be converted.
+	 * @return The resulting String.
+	 */
+	private String DateToString(Date aDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String convertedDate = null;
+		convertedDate = dateFormat.format(aDate);
+
 		return convertedDate;
 	}
 }

@@ -9,70 +9,171 @@
  *
  * Contributors:
  *  Evan Polekoff
+ *  Ned Shelton
 
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.text.JTextComponent;
 
-import sun.swing.DefaultLookup;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 /**
  * @author Evan Polekoff
- *
+ *@author Ned Shelton
  */
 public class BarChartPanel extends JPanel {
 
-	public BarChartPanel(){
+	/* the parent view*/
+	protected BarChartView view;
+	
+	/*layout manager for this panel*/
+	protected GridBagLayout layout;
+	
+	//Things needed for the bar chart.
+	boolean urls;
+	boolean tooltips;
+	boolean legend;
+	PlotOrientation orientation;
+	DefaultCategoryDataset dataset;
+	String xAxis = "Iteration";
+	JFreeChart barGraph;
+	
+	private JButton statusButton;
+	private JButton assigneeButton;
+	private JButton iterationButton;
+	
+	public BarChartPanel(BarChartView view){
+		this.view = view;
 		
+		/*Dummy Fields*/
+		urls = false;
+		tooltips = true;
+		legend = true;
+		orientation = PlotOrientation.VERTICAL;
+		dataset = new DefaultCategoryDataset();
+		dataset.setValue(6, "Requirements", "Jane");
+		dataset.setValue(7, "Requirements", "Tom");
+		dataset.setValue(8, "Requirements", "Jill");
+		dataset.setValue(5, "Requirements", "John");
+		dataset.setValue(12, "Requirements", "Fred");
+		
+		addComponents();
+	}
+	
+	/**Put the buttons and stuff on the view.
+	 * 
+	 */
+	private void addComponents(){
+		JPanel btnPanel = new JPanel();
+		JPanel overallPanel = new JPanel();
+		
+		//Make Buttons
+		statusButton = new JButton("Status");
+		assigneeButton = new JButton("Assignee");
+		iterationButton = new JButton("Iteration");
+		
+		GridBagLayout layoutOverall = new GridBagLayout();
+		overallPanel.setLayout(layoutOverall);
+		
+		/*set the layout manager for this an the nested panel*/
+		layout = new GridBagLayout();
+		this.setLayout(new BorderLayout());
+		
+		barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
+		ChartPanel graphPanel = new ChartPanel(barGraph);
+		GridBagConstraints cGraph = new GridBagConstraints();
+		
+		GridBagConstraints cBtn = new GridBagConstraints();
+		GridBagLayout layoutBtn = new GridBagLayout();
+		btnPanel.setLayout(layoutBtn);
+		
+		GridBagConstraints cOverall = new GridBagConstraints();
+		overallPanel.setLayout(layoutOverall);
+		
+		GridBagLayout layoutGraph = new GridBagLayout();
+		graphPanel.setLayout(layoutGraph);
+		
+		/*add all of the components to the btnPanel*/
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 0;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(statusButton, cBtn);
+		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 2;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(assigneeButton, cBtn);
+		
+		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBtn.fill = GridBagConstraints.HORIZONTAL;
+		cBtn.gridx = 4;
+		cBtn.gridy = 0;
+		cBtn.weightx = 0.5;
+		cBtn.weighty = 0.5;
+		cBtn.gridheight = 1;
+		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		btnPanel.add(iterationButton, cBtn);
+		
+		//the the panels to the overall panel
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.1;
+		cOverall.weighty = 0.1;
+		cOverall.gridwidth = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(btnPanel, cOverall);
+		
+		//Add the Graph to the panel
+		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
+		cGraph.fill = GridBagConstraints.HORIZONTAL;
+		cGraph.gridx = 0;
+		cGraph.gridy = 3;
+		cGraph.weightx = 0.5;
+		cGraph.weighty = 0.5;
+		cGraph.gridheight = 1;
+		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(graphPanel,cGraph);
+		
+		this.add(overallPanel,BorderLayout.CENTER);
+		this.validate();
+	}
+	
+	//button getters
+	public JButton getStatusButton(){
+		return statusButton;
+	}
+	
+	public JButton getIterationButton(){
+		return iterationButton;
+	}
+	
+	public JButton getAssigneeButton(){
+		return assigneeButton;
 	}
 	
 }

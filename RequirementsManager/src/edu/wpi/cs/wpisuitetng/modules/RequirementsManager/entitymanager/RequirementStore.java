@@ -69,14 +69,34 @@ public class RequirementStore implements EntityManager<Requirement>{
 	@Override
 	public Requirement makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
+		int parent;
 		final Requirement newRequirement = Requirement.fromJSON(content);	//still need to get fromJSON working, then this will work
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
-//		newRequirement.setIteration(Iteration.getBacklog());
+		
+		HistoricalChange HChange = new HistoricalChange(new Date(), newRequirement.getId(), newRequirement.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
+		HChange.updateOnCreate(newRequirement);
+		newRequirement.addHistoricalChange(HChange);
+		
+		//		newRequirement.setIteration(Iteration.getBacklog());
 		System.out.println("THIS IS THEREQUIREMENT" + newRequirement.toJSON());
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
+		}
+		
+		parent = newRequirement.getParentRequirementId();
+		if(parent!=-1){
+			List<Model> parentRequirements = db.retrieve(Requirement.class, "id", parent, s.getProject());
+			if(parentRequirements.size() < 1 || parentRequirements.get(0) == null) {
+				throw new WPISuiteException("ID not found");
+			}
+			Requirement parentReq = (Requirement) parentRequirements.get(0);
+			parentReq.getChildRequirementIds().add(newRequirement.getId());
+			
+			if(!db.save(parentReq, s.getProject())) {
+				throw new WPISuiteException();
+			}
 		}
 		
 		return newRequirement;
@@ -158,9 +178,10 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		serverReq.setIterationId(req.getIterationId());
 		
-		if(!HChange.getChange().equals("")){
+		if (!HChange.getChange().equals("")){
 			serverReq.addHistoricalChange(HChange);
 		}
+		
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
 		

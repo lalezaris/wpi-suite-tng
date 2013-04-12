@@ -11,18 +11,22 @@
  *  Arica Liu
  *  Tyler Stone
  *  Evan Polekoff
+ *  Tushar Narayan
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
+import javax.swing.border.EtchedBorder;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
@@ -44,6 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * @edited Michael French
  * @edited Evan Polekoff
  * @edited Ned Shelton
+ * @edited Tushar Narayan
  * 
  * @version April 7, 2013 
  */
@@ -58,7 +63,17 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JLabel viewUserPermission;
 	private JLabel viewUserName;
 	private JButton barChart;
+	private String userName;
+
+	private ToolbarGroupView toolbarGroupIteration;
+	private ToolbarGroupView toolbarGroupRequirement;
+	private ToolbarGroupView toolbarGroupUserPermission;
+	private ToolbarGroupView toolbarGroupViewUserPermission;
+	private ToolbarGroupView toolbarGroupBarChart;
+		
 	
+	
+	//TODO: Reorder everything so that barchart comes before viewuserpermissionpanel
 	/**
 	 * Create a ToolbarPanel.
 	 * Commented out parts are not needed for iteration 1 but are needed in the future
@@ -81,41 +96,53 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		iterationContent.setLayout(iterationLayout);
 		iterationContent.setOpaque(false);
+		iterationContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		requirementContent.setLayout(requirementLayout);
 		requirementContent.setOpaque(false);
+		requirementContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		userPermissionContent.setLayout(userPermissionLayout);
 		userPermissionContent.setOpaque(false);
+		userPermissionContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
 		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
 		viewUserPermissionPanel.setOpaque(false);
+		//viewUserPermissionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		
 		barChartContent.setLayout(barChartLayout);
 		barChartContent.setOpaque(false);
+		barChartContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
+		CurrentUserPermissions.updateCurrentUserPermissions(new ToolbarDisplayUpdater(this));
 		
 		// Construct the buttons
 		newIteration = new JButton("Create Iteration");
 		newIteration.setAction(new NewIterationAction(tabController));
+		newIteration.setVisible(false);
 		
 		listIteration = new JButton("List Iterations");
-		listIteration.setAction(new ListIterationAction("List Iterations"));
+		listIteration.setAction(new ListIterationAction(tabController));
+		listIteration.setVisible(false);
 		
 		newRequirement = new JButton("Create Requirement");
 		newRequirement.setAction(new NewRequirementAction(tabController));
+		newRequirement.setVisible(false);
 		
 		//construct the list button
 		listAllRequirements = new JButton("List Requirements");
 		listAllRequirements.setAction(new ListAction(tabController));
+		listAllRequirements.setVisible(false);
 		
 		//construct the edit user permissions button
 		editUserPermissions = new JButton("Edit User Permissions");
 		editUserPermissions.setAction(new EditUserPermissionsAction(tabController));
+		editUserPermissions.setVisible(false);
 		
 		//construct the user permission label
-		viewUserName = new JLabel("User: " + ConfigManager.getConfig().getUserName());//returns wrong value under certain circumstances
+		userName = ConfigManager.getConfig().getUserName(); //returns wrong value under certain circumstances
+		viewUserName = new JLabel("User: " + userName);
 		viewUserPermission = new JLabel("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 		
@@ -152,25 +179,29 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
-//		iterationContent.add(listIteration);
+		iterationContent.add(listIteration);
 		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
 		
-		//add label to content panel
-		viewUserPermissionPanel.add(viewUserPermission);
-		viewUserPermissionPanel.add(viewUserName);
-		
 		//Add bar chart buttons
 		barChartContent.add(barChart);
 		
-		// Construct a new toolbar group to be added to the end of the toolbar
-		ToolbarGroupView toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
-		ToolbarGroupView toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
-		ToolbarGroupView toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
-		ToolbarGroupView toolbarGroupViewUserPermission = new ToolbarGroupView("", viewUserPermissionPanel);
-		ToolbarGroupView toolbarGroupBarChart = new ToolbarGroupView("View Charts", barChartContent);
+		//add label to content panel
+		viewUserPermissionPanel.add(viewUserPermission);
+		viewUserPermissionPanel.add(viewUserName);
+
 		
+		// Construct a new toolbar group to be added to the end of the toolbar
+		toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
+		toolbarGroupIteration.setVisible(false);
+		toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
+		toolbarGroupRequirement.setVisible(false);
+		toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
+		toolbarGroupUserPermission.setVisible(false);
+		toolbarGroupViewUserPermission = new ToolbarGroupView("User Information", viewUserPermissionPanel);
+		toolbarGroupBarChart = new ToolbarGroupView("View Charts", barChartContent);
+
 		// Calculate the width of the toolbar
 		Double iterationGroupWidth = 0.0;
 		for (Component b : iterationContent.getComponents()){
@@ -206,8 +237,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);
-		addGroup(toolbarGroupViewUserPermission);
 		addGroup(toolbarGroupBarChart);
+		addGroup(toolbarGroupViewUserPermission);
 		
 		final DefaultToolbarView p = this;
 		p.addHierarchyListener(new HierarchyListener() {
@@ -236,5 +267,48 @@ public class ToolbarPanel extends DefaultToolbarView {
 	
 	public void setNameText(String s){
 		viewUserPermission.setText(s);
+	}
+	
+	/**
+	 * Sets view level of buttons in the main toolbar panel, depending on permission level of user.
+	 * 
+	 * @param userPermissionLevel the permission level of the current user
+	 */
+	public void setToolbarDisplay(String userPermissionLevel){
+		if(userPermissionLevel.equals("NONE")){
+			newIteration.setVisible(false);
+			listIteration.setVisible(true);
+			newRequirement.setVisible(false);
+			listAllRequirements.setVisible(true);		
+			editUserPermissions.setVisible(false);
+			toolbarGroupIteration.setVisible(true);
+			toolbarGroupRequirement.setVisible(true);
+			toolbarGroupUserPermission.setVisible(false);
+		}
+		else if(userPermissionLevel.equals("UPDATE")){
+			newIteration.setVisible(false);
+			listIteration.setVisible(true);
+			newRequirement.setVisible(false);
+			listAllRequirements.setVisible(true);		
+			editUserPermissions.setVisible(false);
+			toolbarGroupIteration.setVisible(true);
+			toolbarGroupRequirement.setVisible(true);
+			toolbarGroupUserPermission.setVisible(false);
+		}
+		else{//must be ADMIN
+			newIteration.setVisible(true);
+			listIteration.setVisible(true);
+			newRequirement.setVisible(true);
+			listAllRequirements.setVisible(true);		
+			editUserPermissions.setVisible(true);
+			toolbarGroupIteration.setVisible(true);
+			toolbarGroupRequirement.setVisible(true);
+			toolbarGroupUserPermission.setVisible(true);
+		}
+		//override for the admin user - admin user should always be able to edit permissions
+		if(this.userName.equals("admin")){
+			editUserPermissions.setVisible(true);
+			toolbarGroupUserPermission.setVisible(true);
+		}
 	}
 }

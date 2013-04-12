@@ -242,7 +242,7 @@ public class RequirementPanel extends JPanel{
 		panelTabs = new JPanel();
 		
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
-		txtReleaseNumber = new JTextField(12);
+		txtReleaseNumber = new JTextField(6);
 		
 		//filter out the expired iterations
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
@@ -719,6 +719,7 @@ public class RequirementPanel extends JPanel{
 
 		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
 		 splitPane.setDividerLocation(0.5);
+		 splitPane.resetToPreferredSizes();
 		 this.add(splitPane, BorderLayout.CENTER);
 
 		 //depending on the mode, disable certain components
@@ -780,7 +781,7 @@ public class RequirementPanel extends JPanel{
 		 
 		 // loops through assignees in a requirement to enable actual estimate field
 		 
-		 if(model.getAssignee().contains(ConfigManager.getConfig().getUserName())){
+		 if(model.getAssignee().contains(ConfigManager.getConfig().getUserName()) && pLevel != RMPermissionsLevel.NONE){
 			 enableStuff(new JComponent[]{txtActual, cancelRequirementBottom, saveRequirementBottom});
 		 }
 		 

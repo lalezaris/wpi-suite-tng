@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Lauren Kahn
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.GridBagConstraints;
@@ -32,22 +32,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationsRefreshAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * The innermost JPanel for the list of all iterations tab, which displays the iteration's information
+ * The innermost JPanel for the list of all iterations tab,
+ * which displays the iteration's information.
  *
  * @author Lauren Kahn
  *
@@ -64,12 +59,17 @@ public class IterationListPanel extends JPanel {
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	private IterationView iterationview;
-	
+
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
-	
+
+	/**
+	 * Instantiates a new iteration list panel.
+	 *
+	 * @param tabController the tab controller
+	 */
 	public IterationListPanel(MainTabController tabController){
 		super(new GridLayout());	
 		this.tabController = tabController;
@@ -83,7 +83,7 @@ public class IterationListPanel extends JPanel {
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new IterationsRefreshAction(retrieveController));	
 		deleteButton = new JButton("Delete");
-		
+
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);	
@@ -96,7 +96,7 @@ public class IterationListPanel extends JPanel {
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(refreshButton, c);		
-		
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -105,20 +105,20 @@ public class IterationListPanel extends JPanel {
 		c.weighty = 0;
 		c.gridwidth = 1;
 		panel.add(scrollPane, c);
-		
+
 		mainPanelScrollPane = new JScrollPane(panel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-						mainPanelScrollPane.repaint();
+				mainPanelScrollPane.repaint();
 			}
 		});
-		
+
 		this.add(mainPanelScrollPane);
-		
-		
+
+
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
@@ -134,18 +134,13 @@ public class IterationListPanel extends JPanel {
 
 					Refresher.getInstance().refreshIterationsFromServer(iterationview);
 				}
-
 			}
-
 		});
-
-
-
 	}
 
 	/**
-	 * Sets the tab
-	 * 
+	 * Sets the tab.
+	 *
 	 * @param tab tab to set
 	 */
 	public void setTab(Tab tab)
@@ -158,30 +153,26 @@ public class IterationListPanel extends JPanel {
 		containingTab.setTitle("Iteration List");
 		containingTab.setToolTipText("View all Iterations");
 	}
-	
+
 	/**
-	 * Add iteration
-	 * 
+	 * Add iteration.
+	 *
 	 * @param it the iteration to add
 	 */
 	private void addIteration(Iteration it){
 		((IterationTableModel)table.getModel()).addRow(it);
-		
 	}
 
-
 	/**
-	 * Clears the list
-	 * 
+	 * Clears the list.
 	 */
 	public void clearList() {
 		((IterationTableModel)table.getModel()).clear();
 	}
 
-
 	/**
-	 * Adds iterations
-	 * 
+	 * Adds iterations.
+	 *
 	 * @param iterations iterations to add
 	 */
 	public void addIterations(Iteration[] iterations) {
@@ -191,7 +182,6 @@ public class IterationListPanel extends JPanel {
 				addIteration(iterations[i]);
 			}
 		}
-		
 		table.updateUI();
 	}
 
@@ -201,32 +191,31 @@ public class IterationListPanel extends JPanel {
 	public void refreshList(){
 		retrieveController.refreshData();
 	}
-	
+
 	/**
-	 * Gets table
-	 * 
+	 * Gets table.
+	 *
 	 * @return the panel's JTable of Iterations
 	 */
 	public JTable getTable() {
 		return table;
 	}
-	
+
 	/**
-	 * Gets containing tab
-	 * 
+	 * Gets containing tab.
+	 *
 	 * @return the tab that this panel is being displayed in
 	 */
 	public Tab getContainingTab() {
 		return containingTab;
 	}
-	
+
 	/**
-	 * Gets main tab controller
-	 * 
+	 * Gets main tab controller.
+	 *
 	 * @return the mainTabController
 	 */
 	public MainTabController getTabController() {
 		return tabController;
 	}
-
 }

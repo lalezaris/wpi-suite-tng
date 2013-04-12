@@ -13,7 +13,7 @@
  *  Chris Hanna
  *  Tyler Stone
  *  
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.GridBagConstraints;
@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -47,14 +46,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Requirement
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * The innermost JPanel for the list of all requirements tab, which displays the requirement's information
+ * The innermost JPanel for the list of all requirements tab, which displays the requirement's information.
  *
  * @author Tianyu Li
  * @modified by Chris H on Mar 24
  * @modified by Tianyu Li on Apr 9
- * 
  * @version Mar 21, 2013
- *
  */
 @SuppressWarnings("serial")
 public class RequirementListPanel extends JPanel{
@@ -68,12 +65,17 @@ public class RequirementListPanel extends JPanel{
 	private GridBagLayout layout;
 	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
-	
+
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, updateButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
-	
+
+	/**
+	 * Instantiates a new requirement list panel.
+	 *
+	 * @param tabController the tab controller
+	 */
 	public RequirementListPanel(MainTabController tabController){
 		super(new GridLayout());	
 		this.tabController = tabController;
@@ -90,7 +92,7 @@ public class RequirementListPanel extends JPanel{
 		updateController = new UpdateAllRequirementsController(this);
 		updateButton.setAction(new UpdateAllEstimateAction(updateController));	
 		deleteButton = new JButton("Delete");
-		
+
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);	
@@ -110,7 +112,7 @@ public class RequirementListPanel extends JPanel{
 		c.weighty = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(updateButton, c);
-		
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -119,20 +121,20 @@ public class RequirementListPanel extends JPanel{
 		c.weighty = 0;
 		c.gridwidth = 1;
 		panel.add(scrollPane, c);
-		
+
 		mainPanelScrollPane = new JScrollPane(panel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-						mainPanelScrollPane.repaint();
+				mainPanelScrollPane.repaint();
 			}
 		});
-		
+
 		this.add(mainPanelScrollPane);
-		
-		
+
+
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
@@ -154,12 +156,11 @@ public class RequirementListPanel extends JPanel{
 		});
 
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
-
 	}
 
 	/**
-	 * Sets the tab
-	 * 
+	 * Sets the tab.
+	 *
 	 * @param tab tab to set
 	 */
 	public void setTab(Tab tab)
@@ -172,21 +173,20 @@ public class RequirementListPanel extends JPanel{
 		containingTab.setTitle("Requirement List");
 		containingTab.setToolTipText("View all Requirements");
 	}
-	
+
 	/**
-	 * Add requirement
-	 * 
+	 * Add requirement.
+	 *
 	 * @param req the requirement to add
 	 */
 	private void addRequirement(Requirement req){
 		((RequirementTableModel)table.getModel()).addRow(req);
-		
+
 	}
 
 
 	/**
-	 * Clears the list
-	 * 
+	 * Clears the list.
 	 */
 	public void clearList() {
 		((RequirementTableModel)table.getModel()).clear();
@@ -194,8 +194,8 @@ public class RequirementListPanel extends JPanel{
 
 
 	/**
-	 * Adds requirements
-	 * 
+	 * Adds requirements.
+	 *
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
@@ -215,28 +215,28 @@ public class RequirementListPanel extends JPanel{
 	public void refreshList() {
 		retrieveController.refreshData();
 	}
-	
+
 	/**
-	 * Gets table
-	 * 
+	 * Gets table.
+	 *
 	 * @return the panel's JTable of Requirements
 	 */
 	public JTable getTable() {
 		return table;
 	}
-	
+
 	/**
-	 * Gets containing tab
-	 * 
+	 * Gets containing tab.
+	 *
 	 * @return the tab that this panel is being displayed in
 	 */
 	public Tab getContainingTab() {
 		return containingTab;
 	}
-	
+
 	/**
-	 * Gets main tab controller
-	 * 
+	 * Gets main tab controller.
+	 *
 	 * @return the mainTabController
 	 */
 	public MainTabController getTabController() {
@@ -244,7 +244,8 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the model
+	 * Gets the model.
+	 *
 	 * @return the model
 	 */
 	public RequirementTableModel getModel() {

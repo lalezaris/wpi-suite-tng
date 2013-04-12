@@ -197,7 +197,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		toolbarGroupIteration.setVisible(false);
 		toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
 		toolbarGroupRequirement.setVisible(false);
-		toolbarGroupUserPermission = new ToolbarGroupView("Edit User Permissions", userPermissionContent);
+		toolbarGroupUserPermission = new ToolbarGroupView("Permissions", userPermissionContent);
 		toolbarGroupUserPermission.setVisible(false);
 		toolbarGroupViewUserPermission = new ToolbarGroupView("User Information", viewUserPermissionPanel);
 		toolbarGroupBarChart = new ToolbarGroupView("View Charts", barChartContent);

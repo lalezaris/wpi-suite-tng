@@ -82,6 +82,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						 * 
 						 * If so, update all children
 						 */
+						
 						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
 							BatchRequirementEditController<Integer> batchController = 
 									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());

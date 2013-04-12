@@ -30,14 +30,17 @@ public class AddNoteController implements ActionListener {
 	private final NotesView view;
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
-	 * @param view
+	 * @param view the NotesView
 	 */
 	public AddNoteController(NotesView view) {
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(view.getTextArea().getText().trim().equals(null)||view.getTextArea().getText().trim().equals("")){

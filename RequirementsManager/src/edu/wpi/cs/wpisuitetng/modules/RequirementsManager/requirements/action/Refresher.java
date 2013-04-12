@@ -151,9 +151,9 @@ public class Refresher {
 	}
 	
 	/**
-	 * Gets instant iterations.
+	 * Gets an array of all iterations.
 	 * 
-	 * @return iteration list
+	 * @return an array of all iterations
 	 */
 	public Iteration[] getInstantIterations() 
 	{
@@ -170,7 +170,7 @@ public class Refresher {
 	/**
 	 * Refresh requirements depending on the given mode.
 	 *
-	 * @param reqArray the req array
+	 * @param reqArray the requirements array
 	 * @param mode the mode
 	 */
 	public void refreshRequirements(Requirement[] reqArray, RefresherMode mode)

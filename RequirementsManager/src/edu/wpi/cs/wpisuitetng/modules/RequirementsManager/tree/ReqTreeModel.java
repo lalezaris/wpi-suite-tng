@@ -72,6 +72,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
+		
+		this.root.add(new DefaultMutableTreeNode(Iteration.getBacklog()));
+		this.root.add(new DefaultMutableTreeNode("Deleted"));
 	}
 
 	/**
@@ -156,7 +159,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 					deleted.add(new DefaultMutableTreeNode(requirements[r]));
 			}
 			root.add(deleted);
-
 			TreeView.expandAll();
 		//}
 	}

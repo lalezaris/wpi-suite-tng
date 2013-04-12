@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -47,7 +46,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	ModelMapper updateMapper;
 	
 	/**
-	 * Class constructor to store requirement data
+	 * Class constructor to store requirement data.
 	 * 
 	 * @param data the Data instance to use
 	 */

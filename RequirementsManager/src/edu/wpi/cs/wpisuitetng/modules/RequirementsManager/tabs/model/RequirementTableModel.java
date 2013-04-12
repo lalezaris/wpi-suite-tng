@@ -221,16 +221,21 @@ public class RequirementTableModel extends AbstractTableModel {
 					+ " (an instance of "
 					+ value.getClass() + ")");
 		}
+		JFrame debugger = new JFrame("Input value error");
 
 		try {
-			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+			Integer.parseInt((String)value);
 		} catch (NumberFormatException e) {
-			illegalEstimateChange();
+			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
+			return;
 		}
 
 		if (Integer.parseInt((String)value) < 0) {
-			illegalEstimateChange();
+			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
+			return;
 		}
+		
+		requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 
 		Object[] element = data.get(row);
 		element[5] = value;
@@ -260,13 +265,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		System.out.println("--------------------------");
 	}
 
-	/**
-	 * Show a dialog when there is an illegal estimate change.
-	 */
-	private void illegalEstimateChange() {
-		JFrame debugger = new JFrame("Input value error");
-		JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
-	}
+		
 
 	/**
 	 * Clear requirements.

@@ -13,6 +13,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
+import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -21,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -34,6 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class IterationStore implements EntityManager<Iteration> {
 	Data db;
+	ModelMapper updateMapper;
 
 	/**
 	 * Constructor for IterationStore.
@@ -42,6 +46,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 */
 	public IterationStore(Data data){
 	    db = data;
+	    this.updateMapper = new ModelMapper(); 
 	}
 	
 	/**
@@ -58,7 +63,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	public Iteration makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 		final Iteration newIteration = Iteration.fromJSON(content);	//still need to get fromJSON working, then this will work
-		
+		System.out.println("In the Entity Manager");
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newIteration.setId(Count() + 1);
 		if(!db.save(newIteration, s.getProject())) {
@@ -118,7 +123,29 @@ public class IterationStore implements EntityManager<Iteration> {
 	@Override
 	public Iteration update(Session s, String content)
 			throws WPISuiteException {
-		return null;
+		//get iteration user wants to update
+		Iteration it = Iteration.fromJSON(content);
+
+		//get requirement from server
+		List<Model> oldIterations = db.retrieve(Iteration.class, "id", it.getId(), s.getProject());
+		if(oldIterations.size() < 1 || oldIterations.get(0) == null) {
+			throw new WPISuiteException("ID not found");
+		}
+		Iteration serverIt = (Iteration) oldIterations.get(0);
+		
+		// copy values to old iteration and fill in our changeset appropriately
+		updateMapper.map(it, serverIt);
+
+		//serverIt.setIterationId(it.getId());
+		
+		//apply the changes
+		if(!db.save(serverIt, s.getProject())) {
+			throw new WPISuiteException();
+		}
+		
+		//TODO modify this function to use validators and make sure not to update if no 
+		//changes have been made.
+		return serverIt;
 	}
 
 	/**

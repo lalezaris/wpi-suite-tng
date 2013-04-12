@@ -10,6 +10,7 @@
  * Contributors:
  *  Tushar Narayan
  *  Arica Liu
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,7 +37,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveC
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
@@ -48,9 +53,19 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @version Mar 29, 2013
  *
  */
+@SuppressWarnings("serial")
 public class IterationPanel extends JPanel {
+
+	public enum Mode {
+		CREATE,
+		EDIT, 
+	}
+
+	protected Mode editMode;
+
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
+	protected Iteration uneditedModel;
 
 	/** The parent view */
 	protected IterationView parent;
@@ -74,7 +89,7 @@ public class IterationPanel extends JPanel {
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
-	JLabel lblIterationNumberError2 = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
+	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
 	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
@@ -101,9 +116,11 @@ public class IterationPanel extends JPanel {
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
 	 */
-	public IterationPanel(IterationView parent, Iteration iteration) {
+	public IterationPanel(IterationView parent, Iteration iteration, Mode mode) {
+		this.uneditedModel = iteration;
 		this.model = iteration;
 		this.parent = parent;
+		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -114,6 +131,12 @@ public class IterationPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
+
+		if (editMode == Mode.EDIT) {
+			txtIterationName.setText(model.getIterationName().toString());
+			txtStartDate.setText(DateToString(model.getStartDate()));
+			txtEndDate.setText(DateToString(model.getEndDate()));
+		}
 	}
 
 	/**
@@ -179,9 +202,9 @@ public class IterationPanel extends JPanel {
 		lblIterationNameError.setVisible(false);
 		panelOne.add(lblIterationNameError, cOne);
 
-		lblIterationNumberError2.setForeground(Color.RED);
-		lblIterationNumberError2.setVisible(false);
-		panelOne.add(lblIterationNumberError2, cOne);
+		lblIterationNameExistsError.setForeground(Color.RED);
+		lblIterationNameExistsError.setVisible(false);
+		panelOne.add(lblIterationNameExistsError, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -373,153 +396,129 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = new Iteration("", null, null);
+		Iteration iteration;
+		if(Mode.EDIT == editMode){
+			iteration = this.model;
+		}
+		else{
+			iteration = new Iteration("", null, null);
+		}
 		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
+		
 		return iteration;
 	}
 
 	/**
-	 * Check to make sure that all the fields are correctly filled in.
+	 * Check to make sure that all the fields are correctly filled in. If multiple errors are present, it returns
+	 * the error that is lowest. So if startDate is after endDate and the iteration name is missing, this will
+	 * return 1.
 	 * 
-	 * @return	1 if startDate >= endDate,
-	 * 			2 if field(s) are missing,
-	 * 			3 if iteration number already exists,
+	 * @return	1 if field(s) are missing,
+	 * 			2 if startDate >= endDate,
+	 * 			3 if iteration name already exists,
 	 * 			4 if dates overlap,
-	 * 			0 otherwise
+	 * 			0 otherwise, so no input errors
 	 */
 	public int checkRequiredFields(){
-		if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
+		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
+
+		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
 			lblIterationNameError.setVisible(true);
+		}
+		if(txtStartDate.getText().equals(null) || txtStartDate.getText().equals("")){//no start date entered
 			lblStartDateError.setVisible(true);
+		}
+		if(txtEndDate.getText() == null || txtEndDate.getText().equals("")){//no end date entered
 			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		} else if(((txtIterationName.getText()).compareTo("") == 0)
-				&&
-				(txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2; 
-		} else if((txtIterationName.getText().compareTo("") == 0)
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		} else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))
-				&&
-				(txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
+		}
+		if(lblIterationNameError.isVisible() || lblStartDateError.isVisible() || lblEndDateError.isVisible()){
+			//if any fields were missing
+			return 1;
+		}
+
+		Date startDate = StringToDate(txtStartDate.getText());
+		Date endDate = StringToDate(txtEndDate.getText());
+		if (startDate.compareTo(endDate) > 0) {//start date is after the end date
+			lblDateError.setVisible(true);
 			return 2;
 		}
-		else if((txtEndDate.getText().equals(null) || txtEndDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(true);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		}
-		else if ((txtStartDate.getText().equals(null) || txtStartDate.getText().equals(""))){
-			lblIterationNameError.setVisible(false);
-			lblStartDateError.setVisible(true);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		}
-		else if (txtIterationName.getText().compareTo("") == 0){
-			lblIterationNameError.setVisible(true);
-			lblStartDateError.setVisible(false);
-			lblEndDateError.setVisible(false);
-			lblDateError.setVisible(false);
-			lblIterationNumberError2.setVisible(false);
-			lblDateOverlapError.setVisible(false);
-			return 2;
-		}
-		else{
-			Date startDate = StringToDate(txtStartDate.getText());
-			Date endDate = StringToDate(txtEndDate.getText());
-			if (startDate.compareTo(endDate) > 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(true);
-				lblIterationNumberError2.setVisible(false);
-				lblDateOverlapError.setVisible(false);
-				return 1;
-			}
-			else{
-				return (ValidateFields());
+		Iteration[] array = Refresher.getInstance().getInstantIterations();
+		String idName = txtIterationName.getText();
+		for (int i = 0; i < array.length; i++) {
+			if (this.model.getId() != array[i].getId()) {
+				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
+					lblIterationNameExistsError.setVisible(true);
+					return 3;
+				}
+				else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
+						|| startDate.compareTo(array[i].getEndDate()) >= 0)){
+					lblDateOverlapError.setVisible(true);
+					return 4;
+				}
 			}
 		}
+
+		//no errors
+		return  0;
 	}
 
 	/**
-	 * Validate iteration against currently existing iterations.
+	 * Updates the IterationPanel's model to contain the values of the given Iteration and sets the 
+	 * IterationPanel's editMode to {@link Mode#EDIT}.
 	 * 
-	 * @param startDate The start date of the input iteration
-	 * @param endDate The end date of the input iteration
-	 * @return	3 if iteration number already exists,
-	 * 			4 if dates overlap,
-	 * 			0 otherwise
+	 * @param iteration	The Iteration which contains the new values for the model.
 	 */
-	public int ValidateFields() {
-		Date startDate = StringToDate(txtStartDate.getText());
-		Date endDate = StringToDate(txtEndDate.getText());
-		Iteration[] array = Refresher.getInstance().getInstantIterations();
-		String idName = txtIterationName.getText();
-		for (int i = 1; i < array.length; i++) {
-			if(idName.compareTo(array[i].getIterationName()) == 0) {
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(false);
-				lblIterationNumberError2.setVisible(true);
-				lblDateOverlapError.setVisible(false);
-				return 3;
-			}
-			else if ((endDate.compareTo(array[i].getStartDate()) <= 0)
-					||
-					(startDate.compareTo(array[i].getEndDate())) >= 0)
-			{
-				continue;
-			}
-			else
-			{
-				lblIterationNameError.setVisible(false);
-				lblStartDateError.setVisible(false);
-				lblEndDateError.setVisible(false);
-				lblDateError.setVisible(false);
-				lblIterationNumberError2.setVisible(false);
-				lblDateOverlapError.setVisible(true);
-				return 4;
-			}
+	public void updateModel(Iteration iteration) {
+		updateModel(iteration, Mode.EDIT);
+	}
+
+	/**
+	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
+	 * 
+	 * @param	requirement	The requirement which contains the new values for the model.
+	 * @param	mode	The new editMode.
+	 */
+	protected void updateModel(Iteration iteration, Mode mode) {
+		editMode = mode;
+
+		model.setIterationName(iteration.getIterationName());
+		model.setStartDate(iteration.getStartDate());
+		model.setEndDate(iteration.getEndDate());
+		model.setRequirements(iteration.getRequirements());
+		model.setStatus(iteration.getStatus());
+
+		updateFields();
+		this.revalidate();
+		layout.invalidateLayout(this);
+		layout.layoutContainer(this);
+		this.repaint();
+		parent.refreshScrollPane();
+	}
+
+	private void updateFields() {
+		if((!(model.getIterationName().equals(null)) && (!(model.getIterationName().equals("")))))
+			txtIterationName.setText(model.getIterationName());
+
+		txtStartDate.setText(model.getStartDate().toString());
+		txtEndDate.setText(model.getEndDate().toString());
+	}
+
+	public Mode getEditMode() {
+		return editMode;
+	}
+	/**
+	 * 
+	 * Sets the visibility of multiple JComponents to the given state.
+	 * 
+	 * @param components The JComponents to have their visibility set to b
+	 * @param b True for visible, false for not visible
+	 */
+	private void setMultipleVisibilities(JComponent[] components, boolean b){
+		for(JComponent j: components){
+			j.setVisible(b);
 		}
-		return 0;
 	}
 
 	/**
@@ -538,4 +537,67 @@ public class IterationPanel extends JPanel {
 		} 
 		return convertedDate;
 	}
+
+	
+	/**
+	 * Return the unedited Model (an Iteration).
+	 * 
+	 * @return the uneditedModel
+	 */
+	public Iteration getUneditedModel() {
+		return uneditedModel;
+	}
+
+	/**
+	 * Checks to see if any changes have been made.
+	 * 
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean isThereChanges(){
+		
+		if(editMode == Mode.CREATE){		
+			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+				return true;
+			}
+			
+			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
+				return true;
+			} 	
+			
+			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
+				return true;
+			} 
+		} else {
+			Iteration oldI = getUneditedModel();
+		
+			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+				return true;
+			}
+			
+			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+				return true;
+			}
+			
+			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
+	/**
+	 * Convert a Date to a formatted String. 
+	 * 
+	 * @param aDate The Date to be converted.
+	 * @return The resulting String.
+	 */
+	private String DateToString(Date aDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String convertedDate = null;
+		convertedDate = dateFormat.format(aDate);
+
+		return convertedDate;
+	}
+
 }

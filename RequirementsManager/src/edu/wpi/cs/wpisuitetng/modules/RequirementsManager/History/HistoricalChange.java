@@ -14,12 +14,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
 
-/**
- * @Author: Michael French
- * 
- * @version Mar 31, 2013
- */
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
@@ -27,15 +22,39 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.Requirem
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * The Class to hold a HistoricalChange object.
+ * 
+ * @Author: Michael French
+ * 
+ * @version Mar 31, 2013
+ */
 public class HistoricalChange extends AbstractModel{
 	
+	/** The date. */
 	private Date date; //date of change
+	
+	/** The change. */
 	private String change; //human readable set of changes: "this was changed to that"
+	
+	/** The id of changed object. */
 	private int idOfChangedObject; //id of the object that has been changed
+	
+	/** The id. */
 	private int id; //id of this change object (for database)
+	
+	/** The user. */
 	private User user; //User that made this change
 	
 	
+	/**
+	 * Instantiates a new historical change.
+	 *
+	 * @param date the date
+	 * @param id the id
+	 * @param idOfChangedObject the id of changed object
+	 * @param user the user
+	 */
 	public HistoricalChange(Date date, int id, int idOfChangedObject, User user){
 		this.date = date;
 		this.id = id;
@@ -44,12 +63,34 @@ public class HistoricalChange extends AbstractModel{
 		change = "";
 	}
 	
+	/**
+	 * Instantiates a new historical change.
+	 *
+	 * @param user the user
+	 */
+	public HistoricalChange(User user){
+		this.user = user;
+		change = "";
+	}
+	
+	/**
+	 * Update on create.
+	 *
+	 * @param req the requirement
+	 */
+	public void updateOnCreate(Requirement req){
+		change += "<p>" + "Requirement was created." + "</p>";
+	}
+	
+	/**
+	 * Update change from difference.
+	 *
+	 * @param oldR the old requirement
+	 * @param newR the new requirement
+	 * @param manager the manager
+	 */
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
-		boolean changedSubReqs = false;
-		int reqsRemoved = 0;
-		int reqsAdded = 0;
-		
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
@@ -57,13 +98,25 @@ public class HistoricalChange extends AbstractModel{
 		}
 		
 		//compare Release Numbers
-		if (oldR.getReleaseNumber().compareTo(newR.getReleaseNumber()) != 0){//if old and new are not the same
+		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
 			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
+			System.out.println("Checked Release Numbers.");
+			System.out.println("Change So Far: " + change);
+		}
+		
+		//compare type
+		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
+			String os = oldR.getType().toString();
+			String ns = newR.getType().toString();
+			if(os.equals(""))
+				os = "NO TYPE";
+			if(ns.equals(""))
+				ns = "NO TYPE";
+			change +="<p> "+ "Type changed from " + os + " to " + ns + ".</p>";
 		}
 		
 		//compare Iterations
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
-			
 			change += "<p> "+"Iteration changed from ID: " + oldR.getIterationId() + " to " + newR.getIterationId() + ".</p>";
 		}
 		
@@ -80,7 +133,13 @@ public class HistoricalChange extends AbstractModel{
 		
 		//compare Priorities
 		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
-			change += "<p> "+"Priority changed from " + oldR.getPriority().toString() + " to " + newR.getPriority().toString() + ".</p>";
+			String op = oldR.getPriority().toString();
+			if(op.equals(""))
+				op = "NO PRIORITY";
+			String np = newR.getPriority().toString();
+			if(np.equals(""))
+				np = "NO PRIORITY";
+			change += "<p> "+"Priority changed from " + op + " to " + np + ".</p>";
 		}
 		
 		//compare estimate efforts
@@ -95,17 +154,18 @@ public class HistoricalChange extends AbstractModel{
 		
 		//TODO: come back to this
 		//compare sub-requirements 
-		for (int i = 0; i < oldR.getChildRequirementId().size(); i++){
-			if (!newR.getChildRequirementId().contains(oldR.getChildRequirementId().get(i))){
-				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementId().get(i) + " removed</p>";					
+		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
+			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
+				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " removed</p>";					
 			}
 		}
-		for (int i = 0; i < newR.getChildRequirementId().size(); i++){
-			if (!oldR.getChildRequirementId().contains(newR.getChildRequirementId().get(i))){
-				change += "<p> "+"Sub Requirement " + newR.getChildRequirementId().get(i) + " added</p>";					
+		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
+			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
+				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";					
 			}
 		}
 	
+		//compare assignee 
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
 			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
 		}
@@ -113,43 +173,52 @@ public class HistoricalChange extends AbstractModel{
 		//TODO: come back to this
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
-			if (notesDifference == 1){
-				change += "<p> "+notesDifference + " note added.</p>";
-			}
-			else{
-				change += "<p> "+notesDifference + " notes added.</p>";
-			}
+			change += "<p> "+ notesDifference;
+			if(notesDifference == 1)
+				change += " note added.</p>";
+			else
+				change += " notes added.</p>";
 		}
 			
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		return null;
 	}
 
 	/**
-	 * Gets the date
-	 * 
+	 * Gets the date.
+	 *
 	 * @return the date
 	 */
 	public String getDate() {
-		return date.toGMTString();
+		SimpleDateFormat format = new SimpleDateFormat("MMM dd HH:mm:ss zzz yyyy");
+		return format.format(date);
 	}
 
 	/**
-	 * Gets the id of changed object
-	 * 
+	 * Gets the id of changed object.
+	 *
 	 * @return id of changed object
 	 */
 	public int getIdOfChangedObject() {
@@ -157,8 +226,8 @@ public class HistoricalChange extends AbstractModel{
 	}
 
 	/**
-	 * Gets id
-	 * 
+	 * Gets id.
+	 *
 	 * @return id
 	 */
 	public int getId() {
@@ -166,8 +235,8 @@ public class HistoricalChange extends AbstractModel{
 	}
 
 	/**
-	 * Gets user name
-	 * 
+	 * Gets user name.
+	 *
 	 * @return user name
 	 */
 	public String getUserName() {
@@ -175,24 +244,27 @@ public class HistoricalChange extends AbstractModel{
 	}
 	
 	/**
-	 * Gets change
-	 * 
+	 * Gets change.
+	 *
 	 * @return change
 	 */
 	public String getChange(){
 		return change;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString(){
-		return "<html><u>" + getUserName() + " made changes on " + getDate()+"</u>" + getChange()+"</html>";
+		return "<html style=\"padding:30px; border:1px solid black;\"><u>" + getUserName() + " on " + getDate()+":</u>" + getChange()+"</html>";
 	}
-	
-	
-	
 }

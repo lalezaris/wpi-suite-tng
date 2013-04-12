@@ -14,8 +14,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementPriority.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.*;
 
 import static org.junit.Assert.*;
 
@@ -25,7 +25,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -44,7 +45,6 @@ public class RequirementTest {
 	ArrayList<Note> testNotes;
 	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
-	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	@Before
 	public void setUp(){

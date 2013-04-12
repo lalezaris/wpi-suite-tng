@@ -12,24 +12,21 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
-
 import java.util.ArrayList;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissionsObserver;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.IterationListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.RetrieveRequirementObserverTree;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -45,12 +42,19 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class Refresher {
 	private static Refresher instance;
 	
+	/**
+	 * Gets the single instance of Refresher.
+	 *
+	 * @return single instance of Refresher
+	 */
 	public static Refresher getInstance(){
 		return instance;
 	}
 	
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
+	private IterationListPanel iterationTable;
+
 	
 	private RetrieveAllRequirementsController reqController;
 	private RetrieveAllIterationsController iterationController;
@@ -58,11 +62,19 @@ public class Refresher {
 	private Iteration[] lastKnownIterations;
 	private boolean iterationsSet;
 	
-	public Refresher(ReqTreeModel tree, RequirementListPanel table)
+	/**
+	 * Instantiates a new refresher.
+	 *
+	 * @param tree the tree
+	 * @param table the table
+	 * @param iterationTable the iteration table
+	 */
+	public Refresher(ReqTreeModel tree, RequirementListPanel table, IterationListPanel iterationTable)
 	{
 		instance = this;
 		this.tree = tree;
 		this.table = table;
+		this.iterationTable = iterationTable;
 		this.iterationsSet = false;
 		CurrentUserPermissions.updateCurrentUserPermissions();
 	}
@@ -70,6 +82,14 @@ public class Refresher {
 	
 	private User[] lastKnownUsers = null;
 	
+	/**
+	 * Gets the objects.
+	 *
+	 * @param observer the observer
+	 * @param path the path
+	 * @param id the id
+	 * @return the objects
+	 */
 	public void getObjects(RequestObserver observer, String path, String id){
 		Request request;
 		request = Network.getInstance().makeRequest(path + id, HttpMethod.GET);
@@ -77,7 +97,12 @@ public class Refresher {
 		request.send();
 	}
 
-	
+	/**
+	 * Gets the users.
+	 *
+	 * @param observer the observer
+	 * @return the users
+	 */
 	public User[] getUsers(RequestObserver observer){
 		System.out.println("GETTING USERS");
 		User[] all = null;
@@ -90,7 +115,6 @@ public class Refresher {
 						GsonBuilder builder = new GsonBuilder();
 						User[] users = builder.create().fromJson(content, User[].class);
 						lastKnownUsers = users;
-						
 					}
 
 					@Override
@@ -101,13 +125,13 @@ public class Refresher {
 				});
 		c.retrieve();
 		return lastKnownUsers;
-		
 	}
 	
 	
 	/**
-	 * refresh all requirements depending on the given
-	 * @param mode
+	 * Refresh all requirements depending on the given.
+	 *
+	 * @param mode the mode
 	 */
 	public void refreshRequirementsFromServer(RefresherMode mode)
 	{
@@ -116,8 +140,9 @@ public class Refresher {
 	}
 	
 	/**
-	 * refresh all iterations depending on the given
-	 * @param view
+	 * Refresh all iterations depending on the given.
+	 *
+	 * @param view the view
 	 */
 	public void refreshIterationsFromServer(IterationView view)
 	{
@@ -126,9 +151,9 @@ public class Refresher {
 	}
 	
 	/**
-	 * Gets instant iterations
+	 * Gets an array of all iterations.
 	 * 
-	 * @return iteration list
+	 * @return an array of all iterations
 	 */
 	public Iteration[] getInstantIterations() 
 	{
@@ -143,10 +168,10 @@ public class Refresher {
 	}
 	
 	/**
-	 * Refresh requirements depending on the given mode
-	 * 
-	 * @param reqArray
-	 * @param mode
+	 * Refresh requirements depending on the given mode.
+	 *
+	 * @param reqArray the requirements array
+	 * @param mode the mode
 	 */
 	public void refreshRequirements(Requirement[] reqArray, RefresherMode mode)
 	{
@@ -159,21 +184,22 @@ public class Refresher {
 	}
 
 	/**
-	 * Refresh iterations depending on the given mode
-	 * 
-	 * @param iterations
-	 * @param view
+	 * Refresh iterations depending on the given mode.
+	 *
+	 * @param iterations the iterations
+	 * @param view the view
 	 */
 	public void refreshIterations(Iteration[] iterations, IterationView view) {
 		setLastKnownIterations(iterations);
+		iterationTable.addIterations(iterations);
 		this.iterationsSet = true;
 		tree.refreshTree();
 	}
 
 	/**
-	 * Set last known iterations
-	 * 
-	 * @param iterations
+	 * Set last known iterations.
+	 *
+	 * @param iterations the new last known iterations
 	 */
 	public void setLastKnownIterations(Iteration[] iterations) {
 		if (iterations != null)

@@ -13,36 +13,39 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
+
 /**
  * Possible values that a status of a requirement can be set to
- * Adapted from DefectStatus in project DefectTracker
+ * Adapted from DefectStatus in project DefectTracker.
  *
- * @author Evan Polekoff 
+ * @author Evan Polekoff
  * @author Ned Shelton
  * 
  * @version Mar 27, 2013
- *
  */
 public class RequirementStatusLists{
 	
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"DELETED", "OPEN"};
+	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 	
+	/**
+	 * Instantiates a new requirement status lists.
+	 */
 	RequirementStatusLists(){
 		
 	}
 	
 	/**
-	 * Gets the list of a requirement status
-	 * 
-	 * @param status The requirement status that we are looking for the correct list for.
+	 * Gets the list of a requirement status.
+	 *
+	 * @param req the requirement
 	 * @return the list for that requirement status
 	 */
-	public static String[] getList(RequirementStatus status){
-		switch(status){
+	public static String[] getList(Requirement req){
+		switch(req.getStatus()){
 		case NEW:
 			return NewList;
 		case INPROGRESS:
@@ -50,7 +53,11 @@ public class RequirementStatusLists{
 		case OPEN:
 			return OpenList;
 		case COMPLETE:
-			return CompleteList;
+			if (req.getParentRequirementId() == -1) {
+				return CompleteList;
+			} else {
+				return InProgressList;
+			}
 		case DELETED:
 			return DeletedList;
 		default:

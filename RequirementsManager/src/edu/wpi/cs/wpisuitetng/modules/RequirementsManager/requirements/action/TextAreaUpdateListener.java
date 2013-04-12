@@ -67,7 +67,6 @@ public class TextAreaUpdateListener implements ItemListener {
 	}
 
 	/**
-	 * Commented out part not needed for iteration 1 but may be needed in the future
 	 * Checks if the field differs from the RequirementPanel's model and changes the style of the field accordingly.
 	 */
 	public void checkIfUpdated() {
@@ -83,5 +82,4 @@ public class TextAreaUpdateListener implements ItemListener {
 			component.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		}
 	}
-
 }

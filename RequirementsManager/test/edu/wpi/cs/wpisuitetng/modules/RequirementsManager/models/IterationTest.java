@@ -20,13 +20,14 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.*;
 
 /**
- * Tester class for Requirement.java
+ * Tester class for Iteration.java
  *
  * @author Tushar Narayan
  * @author Michael Perrone

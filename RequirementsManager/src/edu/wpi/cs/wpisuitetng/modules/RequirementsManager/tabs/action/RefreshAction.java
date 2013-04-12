@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 
 /**
@@ -31,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Mar 21, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RefreshAction extends AbstractAction {
 
 	private final RetrieveAllRequirementsController controller;
@@ -40,6 +42,7 @@ public class RefreshAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
+
 	
 	/* Action performed by controller to refresh data
 	 * @param e ActionEvent to perform refresh of data

@@ -16,6 +16,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,8 +28,14 @@ import javax.swing.JScrollPane;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
@@ -34,15 +43,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  *
  * @author Tianyu Li
  *
- * @version Mar 21, 2013
+ * @version Apr 11, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
 
 	private ToolbarGroupView buttonGroup;
-	private JButton refreshButton;
+	private JButton refreshButton, updateButton;
 	private RequirementListPanel mainPanel;
-	private RetrieveAllRequirementsController controller;
+	private RetrieveAllRequirementsController refreshController;
+	private BatchRequirementEditController<Integer> updateController;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;
@@ -72,12 +83,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
-		controller.refreshData();
-		// Instantiate the save button and add it to the button panel
-		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(controller));
-		buttonGroup.getContent().add(refreshButton);
-		buttonGroup.setPreferredWidth(150);
+		refreshController.refreshData();
 	}
 	
 	/* Gets ToolbarGroupView
@@ -86,6 +92,14 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	@Override
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;
+	}
+
+	/**
+	 * Gets the mainPanel
+	 * @return the mainPanel
+	 */
+	public RequirementListPanel getMainPanel() {
+		return mainPanel;
 	}
 	
 }

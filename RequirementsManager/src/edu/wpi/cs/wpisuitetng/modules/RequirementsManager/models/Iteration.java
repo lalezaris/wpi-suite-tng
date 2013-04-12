@@ -14,7 +14,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IterationStatus.NEW;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.NEW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
@@ -61,15 +62,15 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	}
 	
 	/**
-	 * Default constructor for iteration
-	 * 
+	 * Default constructor for iteration.
 	 */
 	public Iteration(){}
 	
 	
 	/**
 	 * Get the backlog for the given project.
-	 * 
+	 *
+	 * @return the backlog
 	 * @returns The backlog for the given project
 	 */
 	public static Iteration getBacklog(){
@@ -85,8 +86,9 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	/**
 	 * Get an iteration by the designated ID number.
-	 * 
+	 *
 	 * @param id The id of the iteration
+	 * @return the iteration by id
 	 */
 	public static Iteration getIterationById(int id){
 		Iteration[] allIterations = Refresher.getInstance().getInstantIterations();
@@ -213,11 +215,17 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		this.status = status;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		
@@ -225,7 +233,8 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	
 	/**
 	 * Convert this iteration into a JSON string.
-	 * 
+	 *
+	 * @return the string
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
@@ -249,7 +258,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		return json;
 	}
 	
-	/* 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -261,6 +270,9 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
@@ -320,7 +332,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		return builder.create().fromJson(json, Iteration[].class);
 	}
 	
-	/*
+	/**
 	 * Add dependencies necessary for Gson to interact with this class.
 	 * 
 	 * @param builder Builder to modify
@@ -334,18 +346,30 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	@Override
 	public int compareTo(Iteration o) {
 		if(this.startDate == null)
-			return -1;
-		if(o.startDate == null)
 			return 1;
-		return -1*(this.startDate.compareTo(o.startDate));
+		if(o.startDate == null)
+			return -1;
+		return (this.startDate.compareTo(o.startDate));
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object other){
 		if(other instanceof Iteration && this.id == ((Iteration)other).id){
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return iterationName;
 	}
 
 }

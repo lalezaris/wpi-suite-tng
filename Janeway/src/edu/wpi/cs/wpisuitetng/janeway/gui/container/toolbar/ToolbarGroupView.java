@@ -55,7 +55,7 @@ public class ToolbarGroupView extends JPanel implements Hoverable {
 		setPreferredWidth(DEFAULT_WIDTH); // default, should be changed
 		setMaximumSize(new Dimension(1, Integer.MAX_VALUE)); // don't stretch horizontally
 		setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 1));
-		this.addMouseListener(new MouseHoverListener(this));
+		//this.addMouseListener(new MouseHoverListener(this));
 	}
 	
 	/**

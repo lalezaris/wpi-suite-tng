@@ -22,5 +22,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 public enum RefresherMode {
 	TREE,
 	TABLE,
+	ITERATIONTABLE,
 	ALL
 }

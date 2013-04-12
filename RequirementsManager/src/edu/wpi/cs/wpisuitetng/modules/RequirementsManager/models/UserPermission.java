@@ -16,10 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 
 /**
- * The model to hold a username and the permission associated with that username
+ * The model to hold a username and the permission associated with that username.
  *
  * @author Michael Perrone
  *
@@ -151,7 +151,8 @@ public class UserPermission extends AbstractModel {
 	}	
 	
 	/**
-	 * Converts the given list of Users to a JSON string
+	 * Converts the given list of Users to a JSON string.
+	 *
 	 * @param ulist a list of Users
 	 * @return a string in JSON representing the list of Users
 	 */
@@ -159,10 +160,6 @@ public class UserPermission extends AbstractModel {
 		String json;
 		Gson gson = new Gson();
 		json = gson.toJson(ulist, UserPermission.class);
-		
-		
-		
-		
 		return json;
 	}
 	
@@ -175,8 +172,10 @@ public class UserPermission extends AbstractModel {
 	}
 
 	/**
-	 * @param json Json string to parse containing User
-	 * @return The User given by json
+	 * Convert a json string into an UserPermission.
+	 * 
+	 * @param json Json string to parse containing UserPermission
+	 * @return The UserPermission given by json
 	 */
 	public static UserPermission fromJSON(String json) {
 		GsonBuilder builder = new GsonBuilder();
@@ -185,8 +184,10 @@ public class UserPermission extends AbstractModel {
 	}
 	
 	/**
-	 * @param json Json string to parse containing User array
-	 * @return The User array given by json
+	 * Convert a json string into an array of UserPermission.
+	 * 
+	 * @param json Json string to parse containing UserPermission array
+	 * @return The UserPermission array given by json
 	 */
 	public static UserPermission[] fromJSONArray(String json) {
 		GsonBuilder builder = new GsonBuilder();
@@ -196,11 +197,11 @@ public class UserPermission extends AbstractModel {
 	
 	
 	/**
-	 * Add dependencies necessary for Gson to interact with this class
+	 * Add dependencies necessary for Gson to interact with this class.
+	 * 
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
 		
 	}
-
 }

@@ -16,7 +16,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,10 +25,9 @@ import javax.swing.tree.MutableTreeNode;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveAllIterationsControllerTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -62,8 +61,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * 
 	 * @param root
 	 *            the root of the requirement tree
-	 * @param tree
-	 *            the tree of requirements
 	 */
 	public ReqTreeModel(MutableTreeNode root) {
 		super(root);
@@ -74,7 +71,10 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
-		}
+		
+		this.root.add(new DefaultMutableTreeNode(Iteration.getBacklog()));
+		this.root.add(new DefaultMutableTreeNode("Deleted"));
+	}
 
 	/**
 	 * Fills the tree with requirements given in the array. Clears the existing
@@ -83,8 +83,19 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * @param reqs
 	 */
 	public void fillTree(Requirement[] reqs) {
-		if (reqs != null) {
-			requirements = reqs;
+//		if (reqs == null){
+//			if (requirements == null)
+//				requirements = new Requirement[0];
+//		}
+		if (reqs == null){
+			if (requirements == null)
+				requirements = new Requirement[0];
+		} else {requirements = reqs;}
+		
+		
+		//{
+		//if (reqs != null) {
+			//requirements = reqs;
 
 			count = 0;
 			id = 0;
@@ -99,7 +110,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 			for (int r = 0; r < iterations.length; r++) {
 				// initialize all new iteration nodes
-
+				Arrays.sort(iterations);
 				iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
 			}
 
@@ -147,9 +158,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 					deleted.add(new DefaultMutableTreeNode(requirements[r]));
 			}
 			root.add(deleted);
-
 			TreeView.expandAll();
-		}
+		//}
 	}
 
 	/**

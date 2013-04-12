@@ -40,7 +40,7 @@ public class AcceptanceTest extends AbstractModel{
 	}
 	
 	public String getStatus(){
-		if (this.status == "Blank" || this.status == "Failed" || this.status == "Passed"){
+		if (this.status.compareTo("Blank") == 0 || this.status.compareTo("Passed") == 0 || this.status.compareTo("Failed") == 0){
 			return this.status;
 		}else{
 			this.status = "Blank";

@@ -12,12 +12,11 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.DELETED;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -26,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller that handles the delete requirement action
+ * Controller that handles the delete requirement action.
  *
  * @author CDUNKERS
  *
@@ -39,7 +38,7 @@ public class DeleteRequirementController {
 	protected RequirementView view;
 
 	/**
-	 * Construct a new handler for the given view
+	 * Construct a new handler for the given view.
 	 * @param view the view containing the request fields
 	 */
 	public DeleteRequirementController(RequirementView view) {
@@ -64,6 +63,5 @@ public class DeleteRequirementController {
 			this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
 			System.out.println("DELETE REQUIREMENT");
 		} 
-
 	} 
 }

@@ -65,6 +65,7 @@ public class IterationPanel extends JPanel {
 
 	/** The Iteration displayed in this panel */
 	protected Iteration model; 
+	protected Iteration uneditedModel;
 
 	/** The parent view */
 	protected IterationView parent;
@@ -116,6 +117,7 @@ public class IterationPanel extends JPanel {
 	 * @param iteration The Iteration to edit
 	 */
 	public IterationPanel(IterationView parent, Iteration iteration, Mode mode) {
+		this.uneditedModel = iteration;
 		this.model = iteration;
 		this.parent = parent;
 		this.editMode = mode;
@@ -394,7 +396,7 @@ public class IterationPanel extends JPanel {
 	 * @return the model represented by this view
 	 */
 	public Iteration getEditedModel() {
-		Iteration iteration = null;
+		Iteration iteration;
 		if(Mode.EDIT == editMode){
 			iteration = this.model;
 		}
@@ -404,6 +406,7 @@ public class IterationPanel extends JPanel {
 		iteration.setIterationName(txtIterationName.getText()); 
 		iteration.setStartDate(StringToDate(txtStartDate.getText()));
 		iteration.setEndDate(StringToDate(txtEndDate.getText()));
+		
 		return iteration;
 	}
 
@@ -444,21 +447,17 @@ public class IterationPanel extends JPanel {
 		Iteration[] array = Refresher.getInstance().getInstantIterations();
 		String idName = txtIterationName.getText();
 		for (int i = 0; i < array.length; i++) {
-			if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
-				lblIterationNameExistsError.setVisible(true);
-				return 3;
+			if (this.model.getId() != array[i].getId()) {
+				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
+					lblIterationNameExistsError.setVisible(true);
+					return 3;
+				}
+				else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
+						|| startDate.compareTo(array[i].getEndDate()) >= 0)){
+					lblDateOverlapError.setVisible(true);
+					return 4;
+				}
 			}
-			else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
-					|| startDate.compareTo(array[i].getEndDate()) >= 0)){
-				lblDateOverlapError.setVisible(true);
-				return 4;
-			}
-		}
-
-		if (editMode == Mode.EDIT) {
-			txtIterationName.setText(model.getIterationName().toString());
-			txtStartDate.setText(DateToString(model.getStartDate()));
-			txtEndDate.setText(DateToString(model.getEndDate()));
 		}
 
 		//no errors
@@ -504,12 +503,6 @@ public class IterationPanel extends JPanel {
 
 		txtStartDate.setText(model.getStartDate().toString());
 		txtEndDate.setText(model.getEndDate().toString());
-
-		/**if (editMode == Mode.EDIT) {
-			txtCreatedDate.setText(model.getCreationDate().toString());
-			txtModifiedDate.setText(model.getLastModifiedDate().toString());
-			deleteRequirementBottom.setVisible(true);
-		}*/
 	}
 
 	public Mode getEditMode() {
@@ -545,6 +538,52 @@ public class IterationPanel extends JPanel {
 		return convertedDate;
 	}
 
+	
+	/**
+	 * @return the uneditedModel
+	 */
+	public Iteration getUneditedModel() {
+		return uneditedModel;
+	}
+
+	/**
+	 * checks to see if any changes have been made
+	 * 
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean isThereChanges(){
+		
+		if(editMode == Mode.CREATE){		
+			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+				return true;
+			}
+			
+			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
+				return true;
+			} 	
+			
+			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
+				return true;
+			} 
+		} else {
+			Iteration oldI = getUneditedModel();
+		
+			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+				return true;
+			}
+			
+			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+				return true;
+			}
+			
+			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+				return true;
+			}
+		}
+		return false;
+	}
+	
+
 	/**
 	 * Convert a Date to a formatted String. 
 	 * 
@@ -558,4 +597,5 @@ public class IterationPanel extends JPanel {
 
 		return convertedDate;
 	}
+
 }

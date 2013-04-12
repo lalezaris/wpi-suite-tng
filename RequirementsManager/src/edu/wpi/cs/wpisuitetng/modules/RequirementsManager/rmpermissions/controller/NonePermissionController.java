@@ -109,6 +109,7 @@ public class NonePermissionController extends AbstractAction {
 		
 		//assign the new model
 		noneUsers.setModel(newNoneModel);	
+		this.panel.setHasChanged(true);
 	}
 	
 	

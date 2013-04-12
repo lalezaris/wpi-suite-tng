@@ -43,6 +43,7 @@ import javax.swing.text.JTextComponent;
 
 import sun.swing.DefaultLookup;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
@@ -60,6 +61,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -114,7 +116,7 @@ public class RequirementPanel extends JPanel{
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
-	protected JTextField txtAssignee;
+//	protected JTextField txtAssignee; //TODO replace with a tab
 	protected JButton saveRequirementBottom;
 	protected JButton cancelRequirementBottom;
 	protected JButton deleteRequirementBottom;
@@ -133,12 +135,14 @@ public class RequirementPanel extends JPanel{
 	private NotesView notesView; //= new NotesView();
 
 	/** HistoryView for updating history **/
-	//TODO just a book mark kind of deal
 	private HistoryView hv;
-	
+
 	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
 	private AcceptanceTestsView atv;
 
+	/** AssigneeView for updating assignees **/
+	//TODO finish implementing av
+	private AssigneeView av;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -179,8 +183,6 @@ public class RequirementPanel extends JPanel{
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-
-	RetrieveAllChildRequirementsController childList = new RetrieveAllChildRequirementsController();
 	
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
@@ -190,6 +192,7 @@ public class RequirementPanel extends JPanel{
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
+		System.out.println("NEW PANEL WITH " + model.getTitle());
 		System.out.println("\n\nChildren: " + model.getChildRequirementIds().toString());
 		this.uneditedModel = requirement;
 		this.parent = parent;
@@ -205,6 +208,9 @@ public class RequirementPanel extends JPanel{
 		//Instantiate the acceptance tests
 		atv = new AcceptanceTestsView(model);
 
+		//get the list of history from the given requirement
+		av = new AssigneeView(model);
+				
 		// Indicate that input is enabled
 		inputEnabled = true;
 
@@ -250,6 +256,8 @@ public class RequirementPanel extends JPanel{
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
 				knownIts.add(knownIterations[i]);
+			} else if (knownIterations[i].getId() == model.getIteration().getId()){
+				knownIts.add(knownIterations[i]);
 			}
 		}
 		knownIterations = new Iteration[knownIts.size()];
@@ -281,11 +289,14 @@ public class RequirementPanel extends JPanel{
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
-		txtAssignee = new JTextField(12);
+//		txtAssignee = new JTextField(12);
 
 		notesView.setNotesList(this.getNotesArrayList());
 		hv.setHistoryList(this.getHistoryList());
-		RTabsView = new RequirementTabsView(notesView, hv, atv);
+		av.setAssigneeList(model.getAssignee());
+		RTabsView = new RequirementTabsView(notesView, hv, atv, av);
+//		av.setAssigneeList(model.getAssignee());
+//		RTabsView = new RequirementTabsView(notesView, hv, av);
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -601,7 +612,7 @@ public class RequirementPanel extends JPanel{
 		 cFour.gridx = 1;
 		 cFour.gridy = 2;
 		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtAssignee, cFour);
+//		 panelFour.add(txtAssignee, cFour);
 
 
 		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
@@ -736,6 +747,7 @@ public class RequirementPanel extends JPanel{
 			 txtActual.setEnabled(false);
 
 		 }
+		 
 		 // depending on the status and sub-requirements, disable certain components
 
 		 if (model.getStatus() == RequirementStatus.INPROGRESS
@@ -744,33 +756,44 @@ public class RequirementPanel extends JPanel{
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
 			 txtEstimate.setEnabled(false);
 		 }
+		 
+//		 if (model.getChildRequirementIds().isEmpty()) {
+//			 setDeleteEnabled(false);
+//		 }
 
 
 		 //depending on the user's permission, disable certain components
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		 switch (pLevel){
 		 case NONE:
-			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(),saveRequirementBottom, 
-					 deleteRequirementBottom, cancelRequirementBottom, createChildRequirement});
-			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+					 deleteRequirementBottom, cancelRequirementBottom, createChildRequirement, av.getBtnAdd(), av.getBtnRemove()});
+			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/
 					 txtTitle,txtReleaseNumber,notesView.getTextArea()});
-			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/
 					 txtTitle,txtReleaseNumber});
 			 makeStuffNotVisible(new JComponent[]{panelButtons});
 			 break;
 		 case UPDATE: 
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,
-					 txtCreator,txtAssignee,txtTitle,txtReleaseNumber,cmbIteration, deleteRequirementBottom, createChildRequirement});
-			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber,});
-			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,txtAssignee,txtTitle,txtReleaseNumber});
+					 txtCreator,/*txtAssignee,*/txtTitle,txtReleaseNumber,cmbIteration, deleteRequirementBottom, createChildRequirement, av.getBtnAdd(), av.getBtnRemove()});
+			 changeBackground(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,/*txtAssignee,*/txtTitle,txtReleaseNumber,});
+			 makeTextBlack(new JTextComponent[]{txtDescription,txtEstimate,txtCreator,/*txtAssignee,*/txtTitle,txtReleaseNumber});
 			 makeStuffNotVisible(new JComponent[]{deleteRequirementBottom, createChildRequirement});
 			 break;		
 		 case ADMIN: break;
 		 }
 		 
+		 
+		 // loops through assignees in a requirement to enable actual estimate field
+		 for(int i=0; i < model.getAssignee().size(); i++)
+		 if(ConfigManager.getConfig().getUserName().equals(model.getAssignee().get(i))){
+			 enableStuff(new JComponent[]{txtActual});
+		 }
+		 
 		 if (model.getStatus() == RequirementStatus.DELETED)
-			 disableStuff(new JComponent[]{cmbPriority,txtDescription,cmbType,txtEstimate,txtActual,txtCreator,txtAssignee,
+			 disableStuff(new JComponent[]{cmbPriority,txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/
 					 txtTitle,txtReleaseNumber,cmbIteration,notesView.getSaveButton(),notesView.getTextArea(), 
 					 deleteRequirementBottom, createChildRequirement});
 		 
@@ -788,6 +811,19 @@ public class RequirementPanel extends JPanel{
 		for(JComponent com:components){
 			if (com!=null)
 				com.setEnabled(false);
+		}
+	}
+	
+
+	/**
+	 * Enables components for editing purposes.
+	 * 
+	 * @param components to be enabled
+	 */
+	private void enableStuff(JComponent[] components){
+		for(JComponent com:components){
+			if (com!=null)
+				com.setEnabled(true);
 		}
 	}
 	
@@ -923,13 +959,16 @@ public class RequirementPanel extends JPanel{
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
 		requirement.updateAcceptanceTests(atv.getList());
+		requirement.setAssignee(av.getAssignedUserAL());
 		requirement.setParentRequirementId(model.getParentRequirementId());
 		requirement.setSubRequirements(model.getChildRequirementIds());
 
+		/*
 		if (!(txtAssignee.getText().equals(""))) {
 			requirement.getAssignee().add(txtAssignee.getText());
 			requirement.setAssignee(requirement.getAssignee());
 		}
+		*/
 
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
@@ -1006,15 +1045,17 @@ public class RequirementPanel extends JPanel{
 			txtCreator.setText(model.getCreator());
 		}
 
+		/*
 		if (model.getAssignee() != null) {
 			txtAssignee.setText(model.getAssignee().toString().equals("[]")? "" : model.getAssignee().toString().replaceAll("\\[", "").replaceAll("\\]", ""));	
 			//if (!(txtAssignee.getText().equals("")))
 			//(!(txtAssignee.getText().equals(""))) {
 			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
+		*/
 		notesView.setNotesList(model.getNotes());
 		hv.setHistoryList(model.getHistory());
-		//TODO setHistoryList
+		av.setAssigneeList(model.getAssignee());
 	}
 
 	public Mode getEditMode() {
@@ -1186,9 +1227,10 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-
-			cmbIteration.setEnabled(enabled);
-			cmbIteration.setBackground(Color.WHITE);
+			if(editMode != Mode.CHILD){
+				cmbIteration.setEnabled(enabled);
+				cmbIteration.setBackground(Color.WHITE);
+			}
 
 		}
 
@@ -1227,12 +1269,90 @@ public class RequirementPanel extends JPanel{
 
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
 	 * @return the notesView
 	 */
 	public NotesView getNotesView() {
 		return notesView;
+	}
+	
+	/**
+	 * checks to see if any changes have been made
+	 * 
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean isThereChanges(){
+		Requirement oldR = getUneditedModel();
+		Requirement newR = getEditedModel();
+		
+		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		
+		//compare titles
+		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Release Numbers
+		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
+			return true;
+		}
+		
+		//compare type
+		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Iterations
+		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
+			return true;
+		}
+				
+		//compare Descriptions
+		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Statuses
+		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare Priorities
+		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare estimate efforts
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+			return true;
+		}
+		
+		//compare actual efforts
+		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
+			return true;
+		}
+		
+		//TODO: come back to this
+		//compare sub-requirements 
+		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
+			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
+				return true;
+			}
+		}
+		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
+			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
+				return true;
+			}
+		}
+	
+		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
+			return true;
+		}
+		
+		//compare notes lists
+		if (notesDifference != 0){//if old and new are not the same
+			return true;
+		}
+		return false;
 	}
 
 	

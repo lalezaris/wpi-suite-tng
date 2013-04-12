@@ -49,6 +49,6 @@ public enum RequirementType {
 		if(name.equals("USER STORY")) return USERSTORY;
 		if(name.equals("NON FUNCTIONAL")) return NONFUNCTIONAL;
 		if(name.equals("SCENARIO")) return SCENARIO;
-		return null;
+		return BLANK;
 	}
 }

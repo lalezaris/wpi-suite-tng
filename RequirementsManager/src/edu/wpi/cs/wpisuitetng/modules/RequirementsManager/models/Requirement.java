@@ -135,7 +135,7 @@ public class Requirement extends AbstractModel{
 	public Requirement(){
 		this.releaseNumber = "";
 		this.iteration = Iteration.getBacklog(); //should be backlog
-		this.iterationId = -1;
+		this.iterationId = 0;
 		this.type = RequirementType.BLANK;		
 		this.status = RequirementStatus.NEW; //default status is New
 		this.priority = RequirementPriority.MEDIUM; //default priority is medium
@@ -413,6 +413,12 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
+	 * returns the array list of users not assigned to this requirement
+	 * 
+	 * @return users not assigned to this requirement
+	 */
+	
+	/**
 	 * Adds note to assignee
 	 * 
 	 * @param assignedTo who note is assigned to
@@ -474,7 +480,7 @@ public class Requirement extends AbstractModel{
 	 * @param id: sets the id 
 	 */
 	public void setId(int id){
-		this.id =id;
+		this.id = id;
 	}
 	
 	/**

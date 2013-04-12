@@ -315,9 +315,7 @@ public class MainTabController {
 		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
 		 * Switch focus to that tab, or go ahead and create a new one.
 		 */
-		System.out.println("At add iteration tab");
 		String iterationTitle = iteration.getIterationName();
-		System.out.println("After 1st line");
 		int iterationId = iteration.getId();
 		int checkTabIndex = view.indexOfTab("Iteration #" + iterationId + " - " + iterationTitle);
 		if(checkTabIndex != -1){

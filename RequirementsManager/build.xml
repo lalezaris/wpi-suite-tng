@@ -4,7 +4,6 @@
 
 	<property name="core-jar-dest" location="${core-lib}/RequirementsManager.jar"/>
 	<property name="janeway-jar-dest" location="../Janeway/modules/RequirementsManager.jar"/>
-	<property name="rm-lib" location="${dependencies.basedir}/RequirementsManager/jars"/>
 
 	<path id="classpath">
 		<pathelement path="../Janeway/build"/>

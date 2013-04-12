@@ -63,6 +63,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class UserPermissionPanel extends JPanel{
 		
+	boolean hasChanged = false;
+	
 	/* the parent view*/
 	protected UserPermissionView view;
 
@@ -100,9 +102,6 @@ public class UserPermissionPanel extends JPanel{
 		
 		addComponents();
 	}
-	
-
-
 
 	private void addComponents(){
 		/* create a panel to store everything in*/
@@ -252,7 +251,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lstAdminUsers, cPanel);
 		
 		//the the panels to the overall panel
-		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
 		cOverall.weightx = 0.1;
@@ -280,11 +279,6 @@ public class UserPermissionPanel extends JPanel{
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
 	}	
-		
-		
-	
-		
-		
 		
 		/**
 		 * The function takes a DefaultListModel and converts it to a list of string
@@ -421,10 +415,18 @@ public class UserPermissionPanel extends JPanel{
 			this.adminUsersList = adminUsersList;
 		}
 
+		/**
+		 * @return the hasChanged
+		 */
+		public boolean isHasChanged() {
+			return hasChanged;
+		}
 
+		/**
+		 * @param hasChanged: the hasChanged to set
+		 */
+		public void setHasChanged(boolean hasChanged) {
+			this.hasChanged = hasChanged;
+		}
 
-
-
-		
-		
 }

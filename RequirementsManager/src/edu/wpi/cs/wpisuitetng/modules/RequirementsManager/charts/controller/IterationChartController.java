@@ -18,7 +18,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.jfree.data.category.DefaultCategoryDataset;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 
 /**
@@ -32,18 +35,21 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
  */
 public class IterationChartController extends AbstractAction{
 
-	protected BarChartPanel panel;
+	protected BarChartView view;
 	
-	public IterationChartController(BarChartPanel panel){
-		this.panel = panel;
+	public IterationChartController(BarChartView view){
+		this.view = view;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Actually implement stuff
 		
-		System.out.println("Iteration Button Pressed!");
-		
+//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
+//		
+//		testDataSet.setValue(130, "Requirements", "Scootaloo");
+//		testDataSet.setValue(130, "Requirements", "Apple Bloom");
+//		testDataSet.setValue(130, "Requirements", "Sweetie Belle");
+		view.repaintChart(view.getIterationDataset(), "Iteration");
 	}
 
 }

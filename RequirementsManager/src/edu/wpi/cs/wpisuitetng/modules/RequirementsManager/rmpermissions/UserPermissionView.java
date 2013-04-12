@@ -176,6 +176,12 @@ public class UserPermissionView extends JPanel {
 		return permModel;
 	}
 	
+	/**
+	 * @return the permModel
+	 */
+	public JPanel getUserPermissionPanel() {
+		return mainPanel;
+	}
 	
 	
 }

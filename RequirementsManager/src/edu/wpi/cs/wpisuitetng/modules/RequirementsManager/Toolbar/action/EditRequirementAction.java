@@ -52,5 +52,4 @@ public class EditRequirementAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		controller.addEditRequirementTab(requirement);
 	}
-
 }

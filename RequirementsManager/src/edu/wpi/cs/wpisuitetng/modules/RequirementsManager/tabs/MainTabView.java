@@ -9,16 +9,14 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
-
 
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
@@ -37,32 +35,55 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTa
  */
 @SuppressWarnings("serial")
 public class MainTabView extends JTabbedPane {
-	
+
 	private RequirementListPanel table;
 	private IterationListPanel	iterationtable;
-	
+
+	/**
+	 * Instantiates a new main tab view.
+	 */
 	public MainTabView() {
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
 	}
-	
+
+	/**
+	 * Creates the table model.
+	 *
+	 * @param controller the controller
+	 */
 	public void createTableModel(MainTabController controller){
 		this.table = new RequirementListPanel(controller);
 	}
-	
+
+	/**
+	 * Creates the iteration table model.
+	 *
+	 * @param controller the controller
+	 */
 	public void createIterationTableModel(MainTabController controller){
 		this.iterationtable = new IterationListPanel(controller);
 	}
-	
+
+	/**
+	 * Gets the table model.
+	 *
+	 * @return the table model
+	 */
 	public RequirementListPanel getTableModel(){
 		return this.table;
 	}
-	
+
+	/**
+	 * Gets the iteration table model.
+	 *
+	 * @return the iteration table model
+	 */
 	public IterationListPanel getIterationTableModel(){
 		return this.iterationtable;
 	}
-	
+
 	/* 
 	 * Inserts tab
 	 * @param title title of tab
@@ -81,7 +102,7 @@ public class MainTabView extends JTabbedPane {
 			setTabComponentAt(index, new ClosableTabComponent(this));
 		}
 	}
-	
+
 	/* 
 	 * Removes tab at index
 	 * @param index index of tab to remove
@@ -94,7 +115,7 @@ public class MainTabView extends JTabbedPane {
 			super.removeTabAt(index);
 		}
 	}
-	
+
 	/* 
 	 * Sets component  to an index
 	 * @param index index of component
@@ -106,8 +127,6 @@ public class MainTabView extends JTabbedPane {
 		super.setComponentAt(index, component);
 		fireStateChanged(); 
 		//TODO: improve functionality for making sure toolbar knows if component changes
-		
-		
+
 	}
-	
 }

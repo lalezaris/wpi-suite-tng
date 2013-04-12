@@ -19,15 +19,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
  * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is I.
+ * Adapted from CreateDefectAction in the project Defect Tracker.
  * 
- * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Lauren Kahn
  * 
  * @version April 8, 2013
@@ -38,7 +37,8 @@ public class NewIterationAction extends AbstractAction {
 	private final MainTabController controller;
 	
 	/**
-	 * Create a NewIterationAction
+	 * Create a NewIterationAction.
+	 * 
 	 * @param controller When the action is performed, controller.addNewIterationTab() is called
 	 */
 	public NewIterationAction(MainTabController controller) {

@@ -29,8 +29,8 @@ public class DummyTab extends Tab {
 	private Component component;
 
 	/**
-	 * Construct a DummyTab - arguments ignored
-	 * 
+	 * Construct a DummyTab - arguments ignored.
+	 *
 	 * @param view ignored
 	 * @param tabComponent ignored
 	 */
@@ -39,48 +39,71 @@ public class DummyTab extends Tab {
 	}
 	
 	/**
-	 * Same as DummyTab(null, null)
+	 * Same as DummyTab(null, null).
 	 */
 	public DummyTab() {
 		this(null, null);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#getTitle()
+	 */
 	@Override
 	public String getTitle() {
 		return title;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#setTitle(java.lang.String)
+	 */
 	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#getIcon()
+	 */
 	@Override
 	public Icon getIcon() {
 		return icon;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#setIcon(javax.swing.Icon)
+	 */
 	@Override
 	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#getToolTipText()
+	 */
 	@Override
 	public String getToolTipText() {
 		return toolTipText;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#setToolTipText(java.lang.String)
+	 */
 	@Override
 	public void setToolTipText(String toolTipText) {
 		this.toolTipText = toolTipText;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#getComponent()
+	 */
 	public Component getComponent() {
 		return component;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab#setComponent(java.awt.Component)
+	 */
 	public void setComponent(Component component) {
 		this.component = component;
 	}
-
 }

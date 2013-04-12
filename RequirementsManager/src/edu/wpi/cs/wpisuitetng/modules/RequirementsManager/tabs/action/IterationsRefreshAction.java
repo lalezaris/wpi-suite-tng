@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 
 /**
  * The action that is called by the refresh button that sends a message 
@@ -38,6 +37,11 @@ public class IterationsRefreshAction extends AbstractAction {
 
 	private final RetrieveAllIterationsController controller;
 	
+	/**
+	 * Instantiates a new iterations refresh action.
+	 *
+	 * @param controller the controller
+	 */
 	public IterationsRefreshAction(RetrieveAllIterationsController controller){
 		super("Refresh");
 		this.controller = controller;
@@ -52,5 +56,4 @@ public class IterationsRefreshAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		controller.refreshData();
 	}
-
 }

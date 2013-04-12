@@ -43,37 +43,33 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
-import sun.swing.DefaultLookup;
-
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 /**
- * Panel to display and edit the basic fields for a requirement
- * Adapted from DefectPanel in project DefectTracker
+ * Panel to display and edit the basic fields for a requirement.
+ * Adapted from DefectPanel in project DefectTracker.
  *
  * @author Chris Dunkers 
  * @author Joe Spicola
@@ -86,7 +82,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 @SuppressWarnings("serial")
 public class RequirementPanel extends JPanel{
 
-
+	/**
+	 * The Enum Mode.
+	 */
 	public enum Mode {
 		CREATE,
 		EDIT, 
@@ -129,7 +127,6 @@ public class RequirementPanel extends JPanel{
 
 	/** the ArrayList of HistoricalChange **/
 	protected ArrayList<HistoricalChange> history = new ArrayList<HistoricalChange>();
-
 
 	/** NotesView for updating notes **/
 	private NotesView notesView; //= new NotesView();
@@ -184,9 +181,10 @@ public class RequirementPanel extends JPanel{
 	
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
-	 * 
+	 *
 	 * @param parent The parent of the requirement
 	 * @param requirement The Requirement to edit
+	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Requirement requirement, Mode mode) {
 		this.model = requirement;
@@ -220,8 +218,7 @@ public class RequirementPanel extends JPanel{
 
 	/**
 	 * Adds the components to the panel and places constraints on them
-	 * for the SpringLayout manager.
-	 * @param layout the layout manager
+	 * for the GridBagLayout manager.
 	 */
 	protected void addComponents() {
 		//create a new constrain variable
@@ -800,10 +797,20 @@ public class RequirementPanel extends JPanel{
 		 }
 	}
 
+	/**
+	 * Sets the delete button enabled.
+	 *
+	 * @param enabled a boolean indicating whether or not to Enabled
+	 */
 	public void setDeleteEnabled(boolean enabled) {
 		deleteRequirementBottom.setEnabled(enabled);
 	}
 	
+	/**
+	 * Disable stuff.
+	 *
+	 * @param components the components to be disabled
+	 */
 	private void disableStuff(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
@@ -824,6 +831,11 @@ public class RequirementPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Change background.
+	 *
+	 * @param components the components
+	 */
 	private void changeBackground(JTextComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
@@ -831,6 +843,11 @@ public class RequirementPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Make text black.
+	 *
+	 * @param components the components
+	 */
 	private void makeTextBlack(JTextComponent[] components){
 		for(JTextComponent com:components){
 			if (com!=null)
@@ -838,6 +855,11 @@ public class RequirementPanel extends JPanel{
 			}
 	}
 	
+	/**
+	 * Make stuff not visible.
+	 *
+	 * @param components the components
+	 */
 	private void makeStuffNotVisible(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
@@ -856,8 +878,8 @@ public class RequirementPanel extends JPanel{
 
 
 	/**
-	 *Sets if the input is enabled
-	 * 
+	 * Sets if the input is enabled.
+	 *
 	 * @param enabled shows if input is enabled
 	 */
 	protected void setInputEnabled(boolean enabled) {
@@ -875,7 +897,7 @@ public class RequirementPanel extends JPanel{
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement and sets the 
 	 * RequirementPanel's editMode to {@link Mode#EDIT}.
 	 * 
-	 * @param requirement	The Requirement which contains the new values for the model.
+	 * @param requirement The Requirement which contains the new values for the model
 	 */
 	public void updateModel(Requirement requirement) {
 		updateModel(requirement, Mode.EDIT);
@@ -884,8 +906,8 @@ public class RequirementPanel extends JPanel{
 	/**
 	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
 	 * 
-	 * @param	requirement	The requirement which contains the new values for the model.
-	 * @param	mode	The new editMode.
+	 * @param	requirement	The requirement which contains the new values for the model
+	 * @param	mode	The new editMode
 	 */
 	protected void updateModel(Requirement requirement, Mode mode) {
 		editMode = mode;
@@ -920,8 +942,10 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * checks to see if it is an empty string returns -1 if the string is less than 0 or blank and returns the integer value otherwise
-	 * 
+	 * Checks to see if it is an empty string.
+	 * Returns -1 if the string is less than 0 or blank;
+	 * returns the integer value otherwise.
+	 *
 	 * @param intf the IntergerField in question
 	 * @return the integer that is either -1 or the integer value of the string
 	 */
@@ -933,7 +957,7 @@ public class RequirementPanel extends JPanel{
 		}		
 	}
 
-	/**Commented out parts are not needed for iteration 1 but may be needed in the future
+	/**
 	 * Returns the model object represented by this view's fields.
 	 * 
 	 * TODO: Do some basic input verification
@@ -975,9 +999,9 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * Checks to make sure the title and description are filled in 
-	 * 
-	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise 
+	 * Checks to make sure the title and description are filled in.
+	 *
+	 * @return 3 if both title and description not filled in, 2 if only title, 1 if only description, 0 otherwise
 	 */
 	public int checkRequiredFields(){
 		String tempTitle = txtTitle.getText().trim();
@@ -999,6 +1023,9 @@ public class RequirementPanel extends JPanel{
 			return 0;
 	}
 
+	/**
+	 * Update fields.
+	 */
 	private void updateFields() {
 		if(!(model.getTitle().equals(null) || model.getTitle().equals("")))
 			txtTitle.setText(model.getTitle());
@@ -1054,44 +1081,86 @@ public class RequirementPanel extends JPanel{
 		av.setAssigneeList(model.getAssignee());
 	}
 
+	/**
+	 * Gets the edits the mode.
+	 *
+	 * @return the edits the mode
+	 */
 	public Mode getEditMode() {
 		return editMode;
 	}
 
 	//TODO: Getter and Setter for Notes
+	/**
+	 * Gets the notes array list.
+	 *
+	 * @return the notes array list
+	 */
 	public ArrayList<Note> getNotesArrayList() {
 		return notes;
 	}
 
+	/**
+	 * Gets the history list.
+	 *
+	 * @return the history list
+	 */
 	public ArrayList<HistoricalChange> getHistoryList(){
 		return history;
 	}
 
+	/**
+	 * Sets the notes array list.
+	 *
+	 * @param aln the new notes array list
+	 */
 	public void setNotesArrayList(ArrayList<Note> aln) {
 		notes = aln;
 	}
 
 	/**
+	 * Gets the unedited model.
+	 *
 	 * @return the unedited requirement model
 	 */
 	public Requirement getUneditedModel() {
 		return uneditedModel;
 	}
 	
+	/**
+	 * Sets the history array list.
+	 *
+	 * @param alh the new history array list
+	 */
 	public void setHistoryArrayList(ArrayList<HistoricalChange> alh){
 		history = alh;
 	}
 
 	/**
-	 * Gets the model
-	 * 
+	 * Gets the model.
+	 *
 	 * @return the model
 	 */
 	public Requirement getModel() {
 		return model;
 	}
 	
+	/**
+	 * The listener interface for receiving status events.
+	 * The class that is interested in processing a status
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addStatusListener<code> method. When
+	 * the status event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see StatusEvent
+	 */
 	public class StatusListener implements ActionListener{
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent status) {
 			JComboBox cb = (JComboBox)status.getSource();
@@ -1100,6 +1169,11 @@ public class RequirementPanel extends JPanel{
 			changeIteration(cb);
 		}
 		
+		/**
+		 * Change the iteration to which a requirement belongs.
+		 *
+		 * @param cb the JComboBox which contains all the iterations.
+		 */
 		public void changeIteration(JComboBox cb){
 			if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && model.getIterationId() != Iteration.getBacklog().getId() ){
 				cmbIteration.setSelectedIndex(cmbIteration.getItemCount()-1);
@@ -1118,6 +1192,17 @@ public class RequirementPanel extends JPanel{
 	}
 
 	//TODO: class exists in action package, refactor
+	/**
+	 * The listener interface for receiving iteration events.
+	 * The class that is interested in processing a iteration
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addIterationListener<code> method. When
+	 * the iteration event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see IterationEvent
+	 */
 	public class IterationListener implements ActionListener {
 		/* (non-Javadoc)
 		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
@@ -1131,6 +1216,11 @@ public class RequirementPanel extends JPanel{
 			changeStatus(cb);
 		}
 
+		/**
+		 * Change the status of a requriement.
+		 *
+		 * @param cb the JComboBox which contains the list of status
+		 */
 		public void changeStatus(JComboBox cb){
 			int i; //For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
@@ -1198,14 +1288,41 @@ public class RequirementPanel extends JPanel{
 	}
 
 	//A Key Listener on the Estimate to grey out the Iteration drop down until there is a value in the estimate.
+	/**
+	 * The listener interface for receiving estimate events.
+	 * The class that is interested in processing a estimate
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addEstimateListener<code> method. When
+	 * the estimate event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see EstimateEvent
+	 */
 	public class EstimateListener implements KeyListener {
 
+		/**
+		 * Action performed.
+		 *
+		 * @param estimate the estimate
+		 */
 		public void actionPerformed(ActionEvent estimate) {}
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyTyped(KeyEvent e) {}
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent e) {}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
@@ -1227,21 +1344,45 @@ public class RequirementPanel extends JPanel{
 				cmbIteration.setEnabled(enabled);
 				cmbIteration.setBackground(Color.WHITE);
 			}
-
 		}
-
 	}
 
-
 	//A Key Listener on the Title and Description to grey out the save button until there is text in them.
+	/**
+	 * The listener interface for receiving save events.
+	 * The class that is interested in processing a save
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addSaveListener<code> method. When
+	 * the save event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see SaveEvent
+	 */
 	public class SaveListener implements KeyListener {
 
+		/**
+		 * Action performed.
+		 *
+		 * @param estimate the estimate
+		 */
 		public void actionPerformed(ActionEvent estimate) {}
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyTyped(KeyEvent e) {}
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent e) {}
 
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
@@ -1260,11 +1401,11 @@ public class RequirementPanel extends JPanel{
 			}
 			saveRequirementBottom.setEnabled(enabled);
 		}
-
 	}
 
-
 	/**
+	 * Gets the notes view.
+	 *
 	 * @return the notesView
 	 */
 	public NotesView getNotesView() {
@@ -1272,8 +1413,8 @@ public class RequirementPanel extends JPanel{
 	}
 	
 	/**
-	 * checks to see if any changes have been made
-	 * 
+	 * Checks to see if any changes have been made.
+	 *
 	 * @return true if changes has been made otherwise false
 	 */
 	public boolean isThereChanges(){
@@ -1360,14 +1501,20 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @return the av
+	 * Get the AssigneeView.
+	 * 
+	 * @return the AssigneeView
 	 */
 	public AssigneeView getAv() {
 		return av;
 	}
 	
+	/**
+	 * Get all elements in the model.
+	 * 
+	 * @param model The model to get elements from
+	 * @return A list of elements
+	 */
 	private List<String> getAllElementsInModel(DefaultListModel model){
 		List<String> modelElements = new ArrayList<String>();
 		for(int i = 0; i < model.getSize(); i++){
@@ -1375,6 +1522,4 @@ public class RequirementPanel extends JPanel{
 		}
 		return modelElements;
 	}
-
-	
 }

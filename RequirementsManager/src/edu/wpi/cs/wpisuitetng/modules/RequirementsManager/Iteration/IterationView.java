@@ -92,7 +92,6 @@ public class IterationView extends JPanel {
 		controller = new SaveIterationController(this);
 	}
 
-
 	/**
 	 * Return the main panel with the data fields.
 	 * 
@@ -101,7 +100,6 @@ public class IterationView extends JPanel {
 	public JPanel getIterationPanel() {
 		return mainPanel;
 	}
-
 
 	/**
 	 * Set whether the input is enabled.

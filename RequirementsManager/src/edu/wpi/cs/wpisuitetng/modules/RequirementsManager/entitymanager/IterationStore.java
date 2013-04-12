@@ -221,8 +221,6 @@ public class IterationStore implements EntityManager<Iteration> {
 		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new Iteration()).size();
 	}
-
-
 	
 	/* 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)

@@ -18,9 +18,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.jfree.data.category.DefaultCategoryDataset;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 
@@ -61,5 +58,4 @@ public class IterationChartController extends AbstractAction{
 //		testDataSet.setValue(130, "Requirements", "Sweetie Belle");
 		view.repaintChart(view.getIterationDataset(), "Iteration");
 	}
-
 }

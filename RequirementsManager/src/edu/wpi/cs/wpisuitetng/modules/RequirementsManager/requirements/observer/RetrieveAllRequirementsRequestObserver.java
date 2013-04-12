@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Takes a response to a request, and passes it to the controller that it was instantiated with
+ * Takes a response to a request, and passes it to the controller that it was instantiated with.
  *
  * @author Sam Abradi
  *
@@ -30,10 +30,21 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 	RetrieveAllRequirementsController r;
+	
+	/**
+	 * This method is called when information about an RetrieveAllRequirementsRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param r the requirement
+	 */
 	public RetrieveAllRequirementsRequestObserver(RetrieveAllRequirementsController r){
 		this.r = r;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to request
@@ -53,12 +64,18 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.print("Response Error: " + iReq.getBody() + "  ::  " + iReq.toString() );
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		

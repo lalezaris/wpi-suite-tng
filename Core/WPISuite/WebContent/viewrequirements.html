@@ -15,13 +15,13 @@
 			xml.onreadystatechange = function() {
 				if (xml.readyState == 4)//wait until response is available
 				{
-					document.getElementById("loginprojectspan").innerHTML = "HEY";
+					document.getElementById("loginprojectspan").innerHTML = "OK";
 				}
 			};
 			xml.open('PUT', 'login', false);
 			//xml.setRequestHeader('Content', projName);
 			xml.send(projName);
-			document.getElementById("loginprojectspan").innerHTML = "Setting Project";
+			document.getElementById("loginprojectspan").innerHTML = "<input type=\"button\" value=\"Get Requirements\" onclick=\"getRequirements()\">";
 		}
 		
 		function login() {
@@ -93,7 +93,7 @@
 			xml.send();
 		}
 	</script>
-	<h4>Login:</h4>
+	<h4>Please login to view requirements:</h4>
 	Username:<input type="text" id="loginusername"></input>
 	<br>
 	Password:<input type="password" id="loginpassword"></input>
@@ -102,13 +102,11 @@
 	<br>
 	<input type="button" value="Submit" onclick="login()">
 	<span id="loginresponsespan"></span>
+	<br />
+	<br />
+	<br />
+	<br />
 	<span id="loginprojectspan"></span>
-	<br />
-	<br />
-	<br />
-	<br />
-	<input type="button" value="Get Requirements"
-		onclick="getRequirements()">
 	<br />
 	<br />
 	<br />

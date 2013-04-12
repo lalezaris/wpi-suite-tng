@@ -11,8 +11,7 @@
  *  Tianyu Li
  *  Mike Perrone
  *  Chris Hanna
- *  
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +19,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 
 /**
@@ -36,21 +34,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 public class RefreshAction extends AbstractAction {
 
 	private final RetrieveAllRequirementsController controller;
-	
+
+	/**
+	 * Instantiates a new refresh action.
+	 *
+	 * @param controller the controller
+	 */
 	public RefreshAction(RetrieveAllRequirementsController controller){
 		super("Refresh");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 
-	
-	/* Action performed by controller to refresh data
-	 * @param e ActionEvent to perform refresh of data
+	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.refreshData();
 	}
-
 }

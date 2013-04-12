@@ -294,4 +294,25 @@ public class AssigneeView extends JPanel{
 		this.isButtonPressed = isButtonPressed;
 	}
 
+	/**
+	 * Updates the not assigned list
+	 * 
+	 */
+	public void updateNotAssigned() {
+		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
+
+		allUserAL.clear();
+		for(int i=0;i<projectUsers.length;i++){
+			if(!assignedUserAL.contains(projectUsers[i].getUsername())){
+				allUserAL.add(projectUsers[i].getUsername());
+			}
+		}
+		
+		allUserLM.clear();
+
+		for(int i=0;i<allUserAL.size();i++){
+			allUserLM.addElement(allUserAL.get(i));
+		}		
+	}
+
 }

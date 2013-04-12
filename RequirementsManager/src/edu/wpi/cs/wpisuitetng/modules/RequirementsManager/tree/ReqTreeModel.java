@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
- * The Model for the Requirement Tree
+ * The Model for the Requirement Tree.
  * 
  * @author Sam Lalezari
  * @version Mar 19, 2013
@@ -57,7 +57,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	int childCount = 0;
 
 	/**
-	 * Class constructor
+	 * Class constructor for ReqTreeModel.
 	 * 
 	 * @param root
 	 *            the root of the requirement tree
@@ -71,94 +71,90 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
-		
+
 		this.root.add(new DefaultMutableTreeNode(Iteration.getBacklog()));
 		this.root.add(new DefaultMutableTreeNode("Deleted"));
 	}
 
 	/**
 	 * Fills the tree with requirements given in the array. Clears the existing
-	 * tree first, so that there are no duplicates
+	 * tree first, so that there are no duplicates.
 	 * 
-	 * @param reqs
+	 * @param reqs A list of requirements
 	 */
 	public void fillTree(Requirement[] reqs) {
-//		if (reqs == null){
-//			if (requirements == null)
-//				requirements = new Requirement[0];
-//		}
+		//		if (reqs == null){
+		//			if (requirements == null)
+		//				requirements = new Requirement[0];
+		//		}
 		if (reqs == null){
 			if (requirements == null)
 				requirements = new Requirement[0];
 		} else {requirements = reqs;}
-		
-		
+
+
 		//{
 		//if (reqs != null) {
-			//requirements = reqs;
+		//requirements = reqs;
 
-			count = 0;
-			id = 0;
+		count = 0;
+		id = 0;
 
-			this.iterations = Refresher.getInstance().getInstantIterations();
-			this.root.removeAllChildren();
+		this.iterations = Refresher.getInstance().getInstantIterations();
+		this.root.removeAllChildren();
 
-			this.reload();
+		this.reload();
 
-			LinkedList<DefaultMutableTreeNode> iterationNodes = new LinkedList<DefaultMutableTreeNode>();
-			LinkedList<DefaultMutableTreeNode> nodes = new LinkedList<DefaultMutableTreeNode>();
+		LinkedList<DefaultMutableTreeNode> iterationNodes = new LinkedList<DefaultMutableTreeNode>();
+		LinkedList<DefaultMutableTreeNode> nodes = new LinkedList<DefaultMutableTreeNode>();
 
-			for (int r = 0; r < iterations.length; r++) {
-				// initialize all new iteration nodes
-				Arrays.sort(iterations);
-				iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
+		for (int r = 0; r < iterations.length; r++) {
+			// initialize all new iteration nodes
+			Arrays.sort(iterations);
+			iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
+		}
+
+		for (int r = 0; r < requirements.length; r++) {
+			// initialize all new tree nodes
+			if (requirements[r].getStatus() != RequirementStatus.DELETED) {
+				nodes.add(new DefaultMutableTreeNode(requirements[r]));
 			}
+		}
 
-			for (int r = 0; r < requirements.length; r++) {
-				// initialize all new tree nodes
-				if (requirements[r].getStatus() != RequirementStatus.DELETED) {
-					nodes.add(new DefaultMutableTreeNode(requirements[r]));
-				}
-			}
+		for (int r = 0; r < nodes.size(); r++) { // iterate through every requirement
+			Requirement leafReq = (Requirement) nodes.get(r).getUserObject();
 
-			for (int r = 0; r < nodes.size(); r++) { // iterate through every requirement
-				
-				
-				Requirement leafReq = (Requirement) nodes.get(r).getUserObject();
+			if (!(leafReq.getParentRequirementId() == -1)) { // check if it isn't top level
+				int parentID = leafReq.getParentRequirementId(); // get parent id
+				for (int z = 0; z < nodes.size(); z++) { // iterate through all reqs
+					Requirement potentialParent = (Requirement) nodes.get(z).getUserObject();
 
-				if (!(leafReq.getParentRequirementId() == -1)) { // check if it isn't top level
-					int parentID = leafReq.getParentRequirementId(); // get parent id
-					for (int z = 0; z < nodes.size(); z++) { // iterate through all reqs
-						Requirement potentialParent = (Requirement) nodes.get(z).getUserObject();
-
-						if (potentialParent.getId() == parentID) {
-							nodes.get(z).add(nodes.get(r));
-						}
+					if (potentialParent.getId() == parentID) {
+						nodes.get(z).add(nodes.get(r));
 					}
-				} else {
+				}
+			} else {
+				int reqIterationID = leafReq.getIterationId();
+				for (int z = 0; z < iterations.length; z++) {
+					Iteration potentialIteration = (Iteration) iterationNodes.get(z).getUserObject();
 
-					int reqIterationID = leafReq.getIterationId();
-					for (int z = 0; z < iterations.length; z++) {
-						Iteration potentialIteration = (Iteration) iterationNodes.get(z).getUserObject();
-
-						if (potentialIteration.getId() == reqIterationID) {
-							iterationNodes.get(z).add(nodes.get(r));
-						}
-
+					if (potentialIteration.getId() == reqIterationID) {
+						iterationNodes.get(z).add(nodes.get(r));
 					}
 				}
 			}
+		}
 
-			for (int r = 0; r < iterations.length; r++) {
-				root.add(iterationNodes.get(r));
-			}
-			DefaultMutableTreeNode deleted = new DefaultMutableTreeNode("Deleted");
-			for (int r = 0 ; r < requirements.length ; r ++){
-				if (requirements[r].getStatus() == RequirementStatus.DELETED)
-					deleted.add(new DefaultMutableTreeNode(requirements[r]));
-			}
-			root.add(deleted);
-			TreeView.expandAll();
+		for (int r = 0; r < iterations.length; r++) {
+			root.add(iterationNodes.get(r));
+		}
+		DefaultMutableTreeNode deleted = new DefaultMutableTreeNode("Deleted");
+		for (int r = 0 ; r < requirements.length ; r ++){
+			if (requirements[r].getStatus() == RequirementStatus.DELETED)
+				deleted.add(new DefaultMutableTreeNode(requirements[r]));
+		}
+		root.add(deleted);
+		TreeView.expandAll();
 		//}
 	}
 
@@ -173,7 +169,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 	/**
 	 * Add iterations to the tree
 	 * 
-	 * @param iterations
+	 * @param iterations The iterations to be added
 	 */
 	public void addIterations(Iteration[] iterations) {
 		this.iterations = iterations;

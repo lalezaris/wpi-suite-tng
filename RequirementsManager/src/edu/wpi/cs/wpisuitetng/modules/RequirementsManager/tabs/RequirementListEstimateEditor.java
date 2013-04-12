@@ -1,3 +1,16 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Tianyu Li
+ **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Component;
@@ -28,10 +41,18 @@ import javax.swing.text.NumberFormatter;
  */
 public class RequirementListEstimateEditor extends DefaultCellEditor {
     JFormattedTextField ftf;
+    
+    /** The integer format. */
     NumberFormat integerFormat;
     private Integer minimum, maximum;
     private boolean DEBUG = false;
 
+    /**
+     * Instantiates a new requirement list estimate editor.
+     *
+     * @param min the min
+     * @param max the max
+     */
     public RequirementListEstimateEditor(int min, int max) {
         super(new JFormattedTextField());
         ftf = (JFormattedTextField)getComponent();

@@ -43,5 +43,4 @@ public class ToolbarDisplayUpdater implements IOnPermissionUpdate{
 	public void onUpdate() {
 		TBpanel.setToolbarDisplay(CurrentUserPermissions.getCurrentUserPermission().toString());
 	}
-
 }

@@ -69,7 +69,7 @@ public class SaveIterationController {
 	} 
 
 	/**
-	 * Gets view
+	 * Gets view.
 	 * 
 	 * @return the view
 	 */

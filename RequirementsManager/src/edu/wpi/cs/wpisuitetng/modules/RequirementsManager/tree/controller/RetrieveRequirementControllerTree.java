@@ -13,7 +13,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.RetrieveRequirementObserverTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -22,10 +21,10 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Retrieve Requirements for the treeView
- * 
- * @author Chris Hanna
+ * Retrieve Requirements for the treeView.
  *
+ * @param <T> the generic type
+ * @author Chris Hanna
  */
 public class RetrieveRequirementControllerTree<T> {
 
@@ -33,12 +32,13 @@ public class RetrieveRequirementControllerTree<T> {
 	private String address;
 	private RequestObserver observer;
 	
+
 	/**
-	 * Default constructor
-	 * 
-	 * @param observer
-	 * @param address
-	 * @param caller
+	 * Instantiates a new retrieve requirement controller tree.
+	 *
+	 * @param observer the observer
+	 * @param address the address
+	 * @param caller the caller
 	 */
 	public RetrieveRequirementControllerTree(RequestObserver observer, String address, IRetrieveRequirementController<T> caller)
 	{
@@ -48,8 +48,7 @@ public class RetrieveRequirementControllerTree<T> {
 	}
 	
 	/**
-	 * Retrieve requirement controller tree
-	 * 
+	 * Retrieve requirement controller tree.
 	 */
 	public void retrieve(){
 
@@ -61,6 +60,11 @@ public class RetrieveRequirementControllerTree<T> {
 		request.send();
 	}
 
+	/**
+	 * Recieve data.
+	 *
+	 * @param content the content
+	 */
 	public void recieveData(String content){
 		caller.runWhenRecieved(content);
 	}
@@ -68,6 +72,8 @@ public class RetrieveRequirementControllerTree<T> {
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.
+	 *
+	 * @param error the error
 	 */
 	public void errorRetrievingRequirement(String error) {
 		//TODO

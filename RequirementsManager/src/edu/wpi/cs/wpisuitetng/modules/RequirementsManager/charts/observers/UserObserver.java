@@ -1,6 +1,15 @@
-/*
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Evan Polekoff
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
 
 import com.google.gson.GsonBuilder;
@@ -12,11 +21,11 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * An asynchronous update interface for receiving notifications
  * about User information as the User is constructed.
+ * 
+ * @author Evan Polekoff
  */
 public class UserObserver implements RequestObserver{
 	
@@ -67,5 +76,4 @@ public class UserObserver implements RequestObserver{
 		// TODO Auto-generated method stub
 
 	}
-
 }

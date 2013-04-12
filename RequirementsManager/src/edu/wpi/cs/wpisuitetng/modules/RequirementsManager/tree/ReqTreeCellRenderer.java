@@ -1,4 +1,13 @@
 /**
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
  * Chris Hanna
  * Tyler Stone
  */
@@ -16,8 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
+ * The Class to hold ReqTreeCellRenderer.
+ * 
  * @author Chris Hanna
- *
  */
 public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 	private ImageIcon no_priority_icon = new ImageIcon("..\\RequirementsManager\\src\\media\\req_no_priority.png");
@@ -28,9 +38,15 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 	private ImageIcon iteration_past = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_past.png");
 	private ImageIcon iteration_future = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_future.png");
 	private ImageIcon iteration_current = new ImageIcon("..\\RequirementsManager\\src\\media\\iter_folder_current.png");
-	
+
+	/**
+	 * Instantiates a new req tree cell renderer.
+	 */
 	public ReqTreeCellRenderer(){}
-	
+
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+	 */
 	@Override
 	public Component getTreeCellRendererComponent(
 			JTree tree,
@@ -40,18 +56,16 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 			boolean leaf,
 			int row,
 			boolean hasFocus) {
-	
-
 		Component comp = super.getTreeCellRendererComponent(
 				tree, value, sel,
 				expanded, leaf, row,
 				hasFocus); 
-		
+
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-		
+
 		if (node.getUserObject() instanceof Requirement) {
 			Requirement req = (Requirement) node.getUserObject();
-			
+
 			switch (req.getPriority()) {
 			case BLANK:
 				setIcon(no_priority_icon);
@@ -70,7 +84,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 			}
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
-			
+
 			if (iter.getName() == "Backlog") {
 				setIcon(default_folder);
 			} else{
@@ -94,8 +108,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer{
 				setIcon(default_folder);
 			}
 		}
-		
+
 		return comp;
 	}
-	
 }

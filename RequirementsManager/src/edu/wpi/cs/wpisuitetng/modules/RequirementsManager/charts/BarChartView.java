@@ -10,7 +10,7 @@
  * Contributors:
  *  Evan Polekoff
  *  Ned Shelton
-
+ *  Chris Hannah
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
@@ -29,25 +29,28 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.AssigneeChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.RequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.StatusChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
+ * The Class BarChartView.
+ *
  * @author Evan Polekoff
  * @author Ned Shelton
  * @author Chris Hannah
  */
+
 public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarChartView instance;
@@ -75,15 +78,11 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;
-
-
 	private boolean urls;
 	private boolean tooltips;
 	private boolean legend;
 	private PlotOrientation orientation;
 	private DefaultCategoryDataset dataset;
-
-
 	private UserController userController;
 	private RequirementController requirementController;
 	private IterationController iterationController;
@@ -98,8 +97,10 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private DefaultCategoryDataset statusDataset = new DefaultCategoryDataset();;
 	private DefaultCategoryDataset assigneeDataset = new DefaultCategoryDataset();;
 
-	/**Constructs a Bar Chart View so the bar chart can be viewed.
-	 * 
+	/**
+	 * Constructs a Bar Chart View so the bar chart can be viewed.
+	 *
+	 * @param tab the tab
 	 */
 	public BarChartView(Tab tab){
 		System.out.println("Bar Chart View Created!");
@@ -108,7 +109,6 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		
 		containingTab = tab;
 		containingTab.setTitle("Bar Chart");
-
 
 		//make controllers and send requests
 		gotUsers = false;
@@ -175,15 +175,22 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 	}
 
-	/**Makes the chart from the fields in this class.
+	/**
+	 * Makes the chart from the fields in this class.
+	 *
+	 * @param dataset the dataset
+	 * @param xAxis the x axis
 	 * @return the bar chart that was created from the fields.
 	 */
 	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){		
 		return ChartFactory.createBarChart("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
 	}
 
-	/**Update and repaint the bar chart in the panel.
-	 * 
+	/**
+	 * Update and repaint the bar chart in the panel.
+	 *
+	 * @param dataset the dataset
+	 * @param xAxis the x axis
 	 */
 	public void repaintChart(DefaultCategoryDataset dataset, String xAxis){
 		mainPanel.setChart(makeBarChart(dataset, xAxis));
@@ -198,7 +205,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		return null;
 	}
 
-
+	/**
+	 * Implement when recieved all.
+	 */
 	private void doWhenRecievedAll(){
 		//update iteration chart
 		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
@@ -250,7 +259,6 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			}
 			System.out.println("Got past the Status loop.");
 			
-			
 //			//==========
 			//Assignee
 			//==========
@@ -274,6 +282,11 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 	}
 
+	/**
+	 * Recieve server users.
+	 *
+	 * @param users the users
+	 */
 	public void recieveServerUsers(User[] users) {
 		System.out.println("recieveUsers.");
 		gotUsers = true;
@@ -281,6 +294,11 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		doWhenRecievedAll();
 	}
 
+	/**
+	 * Recieve server iterations.
+	 *
+	 * @param iterations the iterations
+	 */
 	public void recieveServerIterations(Iteration[] iterations) {
 		System.out.println("recieveIterations.");
 		gotIterations = true;
@@ -289,6 +307,11 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 	}
 
+	/**
+	 * Recieve server requirements.
+	 *
+	 * @param reqs the reqs
+	 */
 	public void recieveServerRequirements(Requirement[] reqs) {
 		System.out.println("recieveRequirements.");
 		gotRequirements = true;
@@ -298,6 +321,8 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
+	 * Gets the iteration dataset.
+	 *
 	 * @return the iterationDataset
 	 */
 	public DefaultCategoryDataset getIterationDataset() {
@@ -305,6 +330,8 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the status dataset.
+	 *
 	 * @return the statusDataset
 	 */
 	public DefaultCategoryDataset getStatusDataset() {
@@ -312,6 +339,8 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the assignee dataset.
+	 *
 	 * @return the assigneeDataset
 	 */
 	public DefaultCategoryDataset getAssigneeDataset() {

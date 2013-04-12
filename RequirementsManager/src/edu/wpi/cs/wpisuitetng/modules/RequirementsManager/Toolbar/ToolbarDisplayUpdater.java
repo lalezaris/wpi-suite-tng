@@ -16,7 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.IOnPermi
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 /**
- * Insert Description Here
+ * Update the toobar buttons according to the current user permission.
  *
  * @author Tushar Narayan
  *
@@ -27,10 +27,18 @@ public class ToolbarDisplayUpdater implements IOnPermissionUpdate{
 
 	ToolbarPanel TBpanel;
 	
+	/**
+	 * Construct ToolbarDisplayUpdater.
+	 * 
+	 * @param t A ToolbarPanel
+	 */
 	public ToolbarDisplayUpdater(ToolbarPanel t){
 		this.TBpanel = t;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.IOnPermissionUpdate#onUpdate()
+	 */
 	@Override
 	public void onUpdate() {
 		TBpanel.setToolbarDisplay(CurrentUserPermissions.getCurrentUserPermission().toString());

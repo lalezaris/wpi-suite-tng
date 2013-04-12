@@ -7,7 +7,9 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Sam Lalezari
+ * Contributors: 
+ * 		Sam Lalezari
+ * 		Arica Liu
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
@@ -46,8 +48,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.Retrie
  * TreeView class shows requirements with parents and children in a tree.
  * 
  * @author Sam Lalezari
+ * @author Arica Liu
  * 
- * @version Mar 18, 2013
+ * @version April 10th, 2013
  * 
  */
 @SuppressWarnings("serial")

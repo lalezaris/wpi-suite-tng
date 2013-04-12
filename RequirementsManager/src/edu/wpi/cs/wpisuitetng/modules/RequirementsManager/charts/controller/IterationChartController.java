@@ -37,10 +37,20 @@ public class IterationChartController extends AbstractAction{
 
 	protected BarChartView view;
 	
+	/**
+	 * Constructor for IterationChartController.
+	 * 
+	 * @param view The BarChartView
+	 */
 	public IterationChartController(BarChartView view){
 		this.view = view;
 	}
 	
+	/**
+	 * Action to be performed when the Iteration Button is pressed.
+	 * 
+	 * @param e A ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		

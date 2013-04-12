@@ -18,9 +18,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.jfree.data.category.DefaultCategoryDataset;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 
@@ -37,10 +34,18 @@ public class StatusChartController extends AbstractAction{
 
 	protected BarChartView view;
 	
+	/**
+	 * Constructer for StatusChartController.
+	 * 
+	 * @param view The BarChartView
+	 */
 	public StatusChartController(BarChartView view){
 		this.view = view;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

@@ -10,7 +10,6 @@
  * Contributors:
  *  Evan Polekoff
  *  Ned Shelton
-
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
@@ -30,10 +29,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-
 /**
+ * The Class BarChartPanel.
+ *
  * @author Evan Polekoff
- *@author Ned Shelton
+ * @author Ned Shelton
  */
 public class BarChartPanel extends JPanel {
 
@@ -50,17 +50,33 @@ public class BarChartPanel extends JPanel {
 //	PlotOrientation orientation;
 //	DefaultCategoryDataset dataset;
 //	String xAxis = "Iteration";
-	JFreeChart barGraph;
+	/** The bar graph. */
+JFreeChart barGraph;
 	
+	/** The status button. */
 	private JButton statusButton;
+	
+	/** The assignee button. */
 	private JButton assigneeButton;
+	
+	/** The iteration button. */
 	private JButton iterationButton;
 	
+	/** The button panel. */
 	JPanel btnPanel = new JPanel();
+	
+	/** The overall panel. */
 	JPanel overallPanel = new JPanel();
 	
+	/** The graph panel. */
 	ChartPanel graphPanel;
 	
+	/**
+	 * Instantiates a new bar chart panel.
+	 *
+	 * @param view the view
+	 * @param chart the chart
+	 */
 	public BarChartPanel(BarChartView view, JFreeChart chart){
 		this.view = view;
 		//this.barGraph = chart;
@@ -73,8 +89,6 @@ public class BarChartPanel extends JPanel {
 	 * 
 	 */
 	private void addComponents(){
-		
-		
 		//Make Buttons
 		statusButton = new JButton("Status");
 		assigneeButton = new JButton("Assignee");
@@ -179,14 +193,29 @@ public class BarChartPanel extends JPanel {
 	}
 	
 	//button getters
+	/**
+	 * Gets the status button.
+	 *
+	 * @return the status button
+	 */
 	public JButton getStatusButton(){
 		return statusButton;
 	}
 	
+	/**
+	 * Gets the iteration button.
+	 *
+	 * @return the iteration button
+	 */
 	public JButton getIterationButton(){
 		return iterationButton;
 	}
 	
+	/**
+	 * Gets the assignee button.
+	 *
+	 * @return the assignee button
+	 */
 	public JButton getAssigneeButton(){
 		return assigneeButton;
 	}

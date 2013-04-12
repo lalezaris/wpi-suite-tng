@@ -142,8 +142,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		//construct the user permission label
 		userName = ConfigManager.getConfig().getUserName(); //returns wrong value under certain circumstances
-		viewUserName = new JLabel("User: " + userName);
-		viewUserPermission = new JLabel("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
+		viewUserName = new JLabel("");//new JLabel("User: " + userName);
+		viewUserPermission = new JLabel("Permission Level: \n" + CurrentUserPermissions.getCurrentUserPermission().toString());
 		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 		
 		//Construct Bar Chart Buttons

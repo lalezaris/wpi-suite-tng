@@ -73,6 +73,8 @@ public class AddAssigneeController implements ActionListener {
 		System.out.println("Add worked");
 		view.setAssigneeList(assignedUserAL);
 		view.setAllUserList(allUserAL);
+		
+		view.setButtonPressed(true);
 	}
 
 }

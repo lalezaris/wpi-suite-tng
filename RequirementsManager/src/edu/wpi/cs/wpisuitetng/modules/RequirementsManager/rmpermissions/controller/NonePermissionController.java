@@ -113,9 +113,9 @@ public class NonePermissionController extends AbstractAction {
 		
 		//assign the new model
 		noneUsers.setModel(newNoneModel);	
-		if(!originalNoneListModel.equals(newNoneModel)){this.panel.setHasChanged(true);}
-		if(!originalUpdateListModel.equals(newUpdateModel)){this.panel.setHasChanged(true);}
-		if(!originalAdminListModel.equals(newAdminModel)){this.panel.setHasChanged(true);}
+		if(!this.getAllElementsInModel(originalNoneListModel).containsAll(this.getAllElementsInModel(newNoneModel))){this.panel.setHasChanged(true);}
+		if(!this.getAllElementsInModel(originalUpdateListModel).containsAll(this.getAllElementsInModel(newUpdateModel))){this.panel.setHasChanged(true);}
+		if(!this.getAllElementsInModel(originalAdminListModel).containsAll(this.getAllElementsInModel(newAdminModel))){this.panel.setHasChanged(true);}
 
 	}
 	

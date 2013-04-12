@@ -28,7 +28,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -1325,6 +1327,14 @@ public class RequirementPanel extends JPanel{
 			return true;
 		}
 		
+		if (!this.getNotesView().getNoteString().equals("") && !this.getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+			return true;
+		}
+		
+		if (this.getAv().isButtonPressed()){//if old and new are not the same
+			return true;
+		}
+		
 		//TODO: come back to this
 		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
@@ -1347,6 +1357,23 @@ public class RequirementPanel extends JPanel{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the av
+	 */
+	public AssigneeView getAv() {
+		return av;
+	}
+	
+	private List<String> getAllElementsInModel(DefaultListModel model){
+		List<String> modelElements = new ArrayList<String>();
+		for(int i = 0; i < model.getSize(); i++){
+			modelElements.add((String)model.getElementAt(i));
+		}
+		return modelElements;
 	}
 
 	

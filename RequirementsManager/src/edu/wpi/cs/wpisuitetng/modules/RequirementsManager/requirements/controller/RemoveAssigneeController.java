@@ -77,6 +77,7 @@ public class RemoveAssigneeController implements ActionListener {
 		System.out.println("Remove worked");
 		view.setAssigneeList(assignedUserAL);
 		view.setAllList(allUserAL);
+		view.setButtonPressed(true);
 		
 	}
 

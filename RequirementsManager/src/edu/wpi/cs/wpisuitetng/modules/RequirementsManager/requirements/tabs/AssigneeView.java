@@ -56,8 +56,10 @@ public class AssigneeView extends JPanel{
 	private JButton btnAdd;
 	private JButton btnRemove;
 	private JPanel buttonPanel;
+	private boolean isButtonPressed; 
 	
 	public AssigneeView(Requirement req){
+		isButtonPressed = false;
 		this.setLayout(new FlowLayout());
 		
 		allUserAL = new ArrayList<String>();
@@ -209,12 +211,26 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
 	 * @return the allUserList
 	 */
 	public JList<String> getAssignedUserList() {
 		return assignedUserList;
 	}
+
+	/**
+	 * @return the isButtonPressed
+	 */
+	public boolean isButtonPressed() {
+		return isButtonPressed;
+	}
+
+	/**
+	 * @param isButtonPressed: the isButtonPressed to set
+	 */
+	public void setButtonPressed(boolean isButtonPressed) {
+		this.isButtonPressed = isButtonPressed;
+	}
+	
+	
 
 }

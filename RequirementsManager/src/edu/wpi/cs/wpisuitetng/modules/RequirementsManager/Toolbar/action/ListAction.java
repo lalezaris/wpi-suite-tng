@@ -44,7 +44,7 @@ public class ListAction extends AbstractAction {
 	}
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
 	 * @param controller
 	 */
@@ -56,5 +56,4 @@ public class ListAction extends AbstractAction {
 		
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
-	
 }

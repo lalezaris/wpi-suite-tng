@@ -10,13 +10,12 @@
  * Contributors:
  *  Tyler Stone
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.awt.Component;
 
 import javax.swing.Icon;
-import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 
@@ -45,67 +44,67 @@ public class Tab {
 		this.view = view;
 		this.tabComponent = tabComponent;
 	}
-	
+
 	/**
-	 * Gets the index
+	 * Gets the index.
 	 * 
 	 * @return the index
 	 */
 	private int getIndex() {
 		return view.indexOfTabComponent(tabComponent);
 	}
-	
+
 	/**
-	 * Gets the title
+	 * Gets the title.
 	 * 
 	 * @return the title at an index
 	 */
 	public String getTitle() {
 		return view.getTitleAt(getIndex());
 	}
-	
+
 	/**
-	 * Sets the title
+	 * Sets the title.
 	 * 
 	 * @param title Set the title of the Tab to this String
 	 */
 	public void setTitle(String title) {
-		
+
 		if (getIndex() > -1){
 			view.setTitleAt(getIndex(), title);
 			tabComponent.invalidate(); // needed to make tab shrink with smaller title
 		} else System.out.println("Blank ID. title");
 	}
-	
+
 	/**
-	 * Gets the icon
+	 * Gets the icon.
 	 * 
 	 * @return the icon at an index
 	 */
 	public Icon getIcon() {
 		return view.getIconAt(getIndex());
 	}
-	
+
 	/**
-	 * Sets the icon of the tab
+	 * Sets the icon of the tab.
 	 * 
 	 * @param icon Set the icon of the Tab to this Icon
 	 */
 	public void setIcon(Icon icon) {
 		view.setIconAt(getIndex(), icon);
 	}
-	
+
 	/**
-	 * Gets the Tool Tip Text
+	 * Gets the Tool Tip Text.
 	 * 
 	 * @return gets the tool tip text at an index
 	 */
 	public String getToolTipText() {
 		return view.getToolTipTextAt(getIndex());
 	}
-	
+
 	/**
-	 * Sets the Tool Tip Text
+	 * Sets the Tool Tip Text.
 	 * 
 	 * @param toolTipText Set the tooltip of the Tab to this String
 	 */
@@ -114,41 +113,40 @@ public class Tab {
 			view.setToolTipTextAt(getIndex(), toolTipText);
 		} else System.out.println("Blank ID. Tooltip");
 	}
-	
+
 	/**
-	 * Get a Component
+	 * Get a Component.
 	 * 
 	 * @return Get the Component at an index
 	 */
 	public Component getComponent() {
 		return view.getComponentAt(getIndex());
 	}
-	
+
 	/**
-	 * Sets the Component
+	 * Sets the Component.
 	 * 
 	 * @param component Set the component contained by this Tab to this Component
 	 */
 	public void setComponent(Component component) {
 		view.setComponentAt(getIndex(), component);
 	}
-	
+
 	/**
-	 * Gets this index
+	 * Gets this index.
 	 * 
 	 * @return the index
 	 */
 	public int getThisIndex() {
 		return view.indexOfTabComponent(tabComponent);
 	}
-	
+
 	/**
-	 * Gets view
+	 * Gets view.
 	 * 
 	 * @return view
 	 */
 	public MainTabView getView() {
 		return view;
 	}
-	
 }

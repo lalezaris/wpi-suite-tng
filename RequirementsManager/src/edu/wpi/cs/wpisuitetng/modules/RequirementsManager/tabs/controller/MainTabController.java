@@ -54,7 +54,7 @@ public class MainTabController {
 	private static MainTabController staticView;
 
 	/**
-	 * Controls the MainTab
+	 * Controls the MainTab.
 	 * 
 	 * @param view Create a controller that controls this MainTabView
 	 */
@@ -79,7 +79,6 @@ public class MainTabController {
 		return staticView;
 	}
 
-
 	/**
 	 * Adds a tab.
 	 * 
@@ -99,7 +98,8 @@ public class MainTabController {
 
 
 	/**
-	 * Adds a tab
+	 * Adds a tab.
+	 * 
 	 * @return Same as addTab(null, null, null, null)
 	 */
 	public Tab addTab() {
@@ -107,7 +107,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that displays the given requirement in the given mode
+	 * Adds a tab that displays the given requirement in the given mode.
+	 * 
 	 * @param requirement The requirement to display
 	 * @param mode The Mode to use
 	 */
@@ -139,7 +140,7 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds requirement tab
+	 * Adds requirement tab.
 	 * 
 	 * @param requirement requirement to add
 	 * @param parentView view to add requirement tab to
@@ -150,13 +151,12 @@ public class MainTabController {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 
-
 	/**
-	 * Adds a tab that displays the list of all requirements
+	 * Adds a tab that displays the list of all requirements.
+	 * 
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
-
 		int checkTabIndex = view.indexOfTab("Requirement List");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
@@ -176,7 +176,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds child requirement tab
+	 * Adds child requirement tab.
+	 * 
 	 * @param requirement requirement to add
 	 * @param parentView view to add requirement to
 	 * @return tab 
@@ -189,7 +190,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that displays the given requirement
+	 * Adds a tab that displays the given requirement.
+	 * 
 	 * @param requirement the requirement to display
 	 * @return The created Tab 
 	 */
@@ -198,7 +200,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that allows the user to create a new Requirement
+	 * Adds a tab that allows the user to create a new Requirement.
+	 * 
 	 * @return The created Tab
 	 */
 	public Tab addCreateRequirementTab() {
@@ -207,6 +210,7 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that shows the bar chart.
+	 * 
 	 * @param requirement The requirement to display
 	 */
 	public Tab addBarChartTab() {
@@ -234,9 +238,9 @@ public class MainTabController {
 		}
 	}
 
-
 	/**
 	 * Add a change listener to the view this is controlling.
+	 * 
 	 * @param listener the ChangeListener that should receive ChangeEvents
 	 */
 	public void addChangeListener(ChangeListener listener) {
@@ -244,7 +248,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Changes the selected tab to the tab left of the current tab
+	 * Changes the selected tab to the tab left of the current tab.
+	 * 
 	 */
 	public void switchToLeftTab() {
 		if (view.getSelectedIndex() > 0) {
@@ -253,14 +258,14 @@ public class MainTabController {
 	}
 
 	/**
-	 * Changes the selected tab to the tab right of the current tab
+	 * Changes the selected tab to the tab right of the current tab.
 	 */
 	public void switchToRightTab() {
 		switchToTab(view.getSelectedIndex() + 1);
 	}
 
 	/**
-	 * Closes the currently active tab
+	 * Closes the currently active tab.
 	 */
 	public void closeCurrentTab() {
 		try {
@@ -272,7 +277,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Changes the selected tab to the tab with the given index
+	 * Changes the selected tab to the tab with the given index.
+	 * 
 	 * @param tabIndex the index of the tab to select
 	 */
 	private void switchToTab(int tabIndex) {
@@ -286,6 +292,7 @@ public class MainTabController {
 
 	/**
 	 * Close tabs upon middle clicks.
+	 * 
 	 * @param event MouseEvent that happened on this.view
 	 */
 	private void onMouseClick(MouseEvent event) {
@@ -299,7 +306,7 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds new iteration tab
+	 * Adds new iteration tab.
 	 * 
 	 * @return Tab returns the new iteration tab
 	 */
@@ -312,7 +319,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that displays the given iteration in the given mode
+	 * Adds a tab that displays the given iteration in the given mode.
+	 * 
 	 * @param iteration The iteration to display
 	 * @param mode The Mode to use
 	 */
@@ -343,7 +351,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that displays the list of all requirements
+	 * Adds a tab that displays the list of all requirements.
+	 * 
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListIterationTab() {
@@ -365,7 +374,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that displays the given requirement
+	 * Adds a tab that displays the given requirement.
+	 * 
 	 * @param requirement the requirement to display
 	 * @return The created Tab 
 	 */
@@ -374,7 +384,8 @@ public class MainTabController {
 	}
 
 	/**
-	 * Adds a tab that allows the user to create a new Iteration
+	 * Adds a tab that allows the user to create a new Iteration.
+	 * 
 	 * @return The created Tab
 	 */
 	public Tab addCreateIterationTab() {
@@ -383,7 +394,7 @@ public class MainTabController {
 
 
 	/**
-	 * Adds Edit Users Permissions tab
+	 * Adds Edit Users Permissions tab.
 	 * 
 	 * @return Tab returns the edit user tab
 	 */

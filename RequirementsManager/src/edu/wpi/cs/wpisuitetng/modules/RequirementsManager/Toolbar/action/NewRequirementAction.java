@@ -36,7 +36,8 @@ public class NewRequirementAction extends AbstractAction {
 	private final MainTabController controller;
 	
 	/**
-	 * Create a NewRequirementAction
+	 * Create a NewRequirementAction.
+	 * 
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
 	public NewRequirementAction(MainTabController controller) {

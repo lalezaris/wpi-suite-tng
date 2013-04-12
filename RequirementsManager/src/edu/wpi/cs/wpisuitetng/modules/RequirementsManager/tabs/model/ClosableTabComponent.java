@@ -33,10 +33,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 
-
 /**
- * This provides a tab component with a close button to the left of the title
- * Adapted from Defect Tracker
+ * This provides a tab component with a close button to the left of the title.
+ * Adapted from Defect Tracker.
  * 
  * @author Tyler Stone 
  *
@@ -51,6 +50,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 	/**
 	 * Create a closable tab component belonging to the given tabbedPane.
 	 * The title is extracted with {@link JTabbedPane#getTitleAt(int)}.
+	 * 
 	 * @param tabbedPane  The JTabbedPane this tab component belongs to
 	 */
 	public ClosableTabComponent(JTabbedPane tabbedPane) {
@@ -138,5 +138,4 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 			} 
 		}
 	}
-
 }

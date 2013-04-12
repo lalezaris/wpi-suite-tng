@@ -212,7 +212,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			illegalEstimateChange();
 		}
 		
-		if (Integer.parseInt((String)value) < 0 || Integer.parseInt((String)value) > 100) {
+		if (Integer.parseInt((String)value) < 0) {
 			illegalEstimateChange();
 		}
 

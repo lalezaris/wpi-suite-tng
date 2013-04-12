@@ -20,6 +20,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
@@ -75,7 +76,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private ToolbarGroupView toolbarGroupViewUserPermission;
 	private ToolbarGroupView toolbarGroupBarChart;
 
-	//TODO: Reorder everything so that barchart comes before viewuserpermissionpanel
 	/**
 	 * Create a ToolbarPanel.
 	 * 
@@ -107,13 +107,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionContent.setOpaque(false);
 		userPermissionContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
-		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
-		viewUserPermissionPanel.setOpaque(false);
-		//viewUserPermissionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
-
 		barChartContent.setLayout(barChartLayout);
 		barChartContent.setOpaque(false);
 		barChartContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		
+		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
+		viewUserPermissionPanel.setOpaque(false);
+		//viewUserPermissionPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		CurrentUserPermissions.updateCurrentUserPermissions(new PermissionDisplayUpdater(this));
 		CurrentUserPermissions.updateCurrentUserPermissions(new ToolbarDisplayUpdater(this));
@@ -126,7 +126,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listIteration = new JButton("List Iterations");
 		listIteration.setAction(new ListIterationAction(tabController));
 		listIteration.setVisible(false);
-
+		listIteration.setPreferredSize(newIteration.getPreferredSize()); //set equal to the button above
+		
 		newRequirement = new JButton("Create Requirement");
 		newRequirement.setAction(new NewRequirementAction(tabController));
 		newRequirement.setVisible(false);
@@ -135,6 +136,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listAllRequirements = new JButton("List Requirements");
 		listAllRequirements.setAction(new ListAction(tabController));
 		listAllRequirements.setVisible(false);
+		listAllRequirements.setPreferredSize(newRequirement.getPreferredSize());//set equal to button above
 
 		//construct the edit user permissions button
 		editUserPermissions = new JButton("Edit User Permissions");
@@ -152,36 +154,41 @@ public class ToolbarPanel extends DefaultToolbarView {
 		barChart.setAction(new ViewChartsAction(tabController));
 
 		// Configure the layout of the buttons on the content panel
-		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 25, SpringLayout.NORTH, requirementContent);
-		requirementLayout.putConstraint(SpringLayout.WEST, newRequirement, 8, SpringLayout.WEST, requirementContent);
-		requirementLayout.putConstraint(SpringLayout.WEST, listAllRequirements, 10, SpringLayout.EAST, newRequirement);
-		requirementLayout.putConstraint(SpringLayout.VERTICAL_CENTER, listAllRequirements, 0, SpringLayout.VERTICAL_CENTER, newRequirement);
-
-
-		iterationLayout.putConstraint(SpringLayout.NORTH, newIteration, 25, SpringLayout.NORTH, iterationContent);
-		iterationLayout.putConstraint(SpringLayout.WEST, newIteration, 8, SpringLayout.WEST, iterationContent);
-		iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.EAST, newIteration);
-		iterationLayout.putConstraint(SpringLayout.VERTICAL_CENTER, listIteration, 0, SpringLayout.VERTICAL_CENTER, newIteration);
-
+		iterationLayout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, iterationContent);
+		iterationLayout.putConstraint(SpringLayout.WEST, newIteration, 10, SpringLayout.WEST, iterationContent);
+		
+		iterationLayout.putConstraint(SpringLayout.NORTH, listIteration, 10, SpringLayout.SOUTH, newIteration);
+		iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.WEST, iterationContent);
+		
+		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, requirementContent);
+		requirementLayout.putConstraint(SpringLayout.WEST, newRequirement, 10, SpringLayout.WEST, requirementContent);
+		
+		requirementLayout.putConstraint(SpringLayout.NORTH, listAllRequirements, 10, SpringLayout.SOUTH, newRequirement);
+		requirementLayout.putConstraint(SpringLayout.WEST, listAllRequirements, 10, SpringLayout.WEST, requirementContent);
+		
 		userPermissionLayout.putConstraint(SpringLayout.NORTH, editUserPermissions, 25, SpringLayout.NORTH, userPermissionContent);
-		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 8, SpringLayout.WEST, userPermissionContent);
-
-		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 40, SpringLayout.NORTH, viewUserPermissionPanel);
-		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 8, SpringLayout.WEST, viewUserPermissionPanel);
-		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 20, SpringLayout.NORTH, viewUserPermissionPanel);
-		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 8, SpringLayout.WEST, viewUserPermissionPanel);
-
+		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 10, SpringLayout.WEST, userPermissionContent);
+		
 		barChartLayout.putConstraint(SpringLayout.NORTH, barChart, 25, SpringLayout.NORTH, barChartContent);
-		barChartLayout.putConstraint(SpringLayout.WEST, barChart, 8, SpringLayout.WEST, barChartContent);
+		barChartLayout.putConstraint(SpringLayout.WEST, barChart, 10, SpringLayout.WEST, barChartContent);
+		
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 5, SpringLayout.NORTH, viewUserPermissionPanel);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 10, SpringLayout.WEST, viewUserPermissionPanel);
 
-		// Add buttons to the content panel
-		requirementContent.add(newRequirement);
-		requirementContent.add(listAllRequirements);
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 10, SpringLayout.SOUTH, viewUserName);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 10, SpringLayout.WEST, viewUserPermissionPanel);
+		
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 10, SpringLayout.SOUTH, viewUserName);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 10, SpringLayout.WEST, viewUserPermissionPanel);
 
 		// Add buttons to the content panel
 		iterationContent.add(newIteration);
 		iterationContent.add(listIteration);
 
+		// Add buttons to the content panel
+		requirementContent.add(newRequirement);
+		requirementContent.add(listAllRequirements);
+		
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
 
@@ -196,45 +203,57 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Construct a new toolbar group to be added to the end of the toolbar
 		toolbarGroupIteration = new ToolbarGroupView("Iteration", iterationContent);
 		toolbarGroupIteration.setVisible(false);
+		
 		toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
 		toolbarGroupRequirement.setVisible(false);
+
 		toolbarGroupUserPermission = new ToolbarGroupView("Permissions", userPermissionContent);
 		toolbarGroupUserPermission.setVisible(false);
+		
+		toolbarGroupBarChart = new ToolbarGroupView("Charts", barChartContent);
+		
 		toolbarGroupViewUserPermission = new ToolbarGroupView("User Information", viewUserPermissionPanel);
-		toolbarGroupBarChart = new ToolbarGroupView("View Charts", barChartContent);
+
 
 		// Calculate the width of the toolbar
-		Double iterationGroupWidth = 0.0;
+		Double iterationGroupHeight = 0.0;
 		for (Component b : iterationContent.getComponents()){
-			iterationGroupWidth += b.getPreferredSize().getWidth() + 20;
+			iterationGroupHeight += b.getPreferredSize().getHeight();
 		}
 
-		Double requirementGroupWidth = 0.0;
+		Double requirementGroupHeight = 0.0;
 		for (Component b : requirementContent.getComponents()){
-			requirementGroupWidth += b.getPreferredSize().getWidth() + 20;
+			requirementGroupHeight += b.getPreferredSize().getHeight();
 		}
 
-		Double userPermissionGroupWidth = 0.0;
+		Double userPermissionGroupHeight = 0.0;
 		for (Component b : userPermissionContent.getComponents()){
-			userPermissionGroupWidth += b.getPreferredSize().getWidth() + 20;
+			userPermissionGroupHeight += b.getPreferredSize().getHeight();
 		}
-
-		Double viewUserPermissionGroupWidth = 0.0;
+		
+		Double barChartGroupHeight = 0.0;
 		for (Component b : userPermissionContent.getComponents()){
-			viewUserPermissionGroupWidth += b.getPreferredSize().getWidth() + 40;
+			barChartGroupHeight += b.getPreferredSize().getHeight();
 		}
-
-		Double barChartGroupWidth = 0.0;
+		
+		Double viewUserPermissionGroupHeight = 0.0;
 		for (Component b : userPermissionContent.getComponents()){
-			barChartGroupWidth += b.getPreferredSize().getWidth() + 40;
+			viewUserPermissionGroupHeight += b.getPreferredSize().getHeight();
 		}
+		
+		toolbarGroupIteration.setPreferredSize(new Dimension(30 + ((int)(newIteration.getPreferredSize().getWidth())), iterationGroupHeight.intValue()));
+		toolbarGroupRequirement.setPreferredSize(new Dimension(30 + ((int)(newRequirement.getPreferredSize().getWidth())), requirementGroupHeight.intValue()));
+		toolbarGroupUserPermission.setPreferredSize(new Dimension(30 + ((int)(editUserPermissions.getPreferredSize().getWidth())), userPermissionGroupHeight.intValue()));
+		toolbarGroupBarChart.setPreferredSize(new Dimension(30 + ((int)(barChart.getPreferredSize().getWidth())), barChartGroupHeight.intValue()));
+		toolbarGroupViewUserPermission.setPreferredSize(new Dimension(30 + ((int)(viewUserPermission.getPreferredSize().getWidth())), viewUserPermissionGroupHeight.intValue()));
 
-		toolbarGroupIteration.setPreferredWidth(iterationGroupWidth.intValue());
-		toolbarGroupRequirement.setPreferredWidth(requirementGroupWidth.intValue());
-		toolbarGroupUserPermission.setPreferredWidth(userPermissionGroupWidth.intValue());
-		toolbarGroupViewUserPermission.setPreferredWidth(viewUserPermissionGroupWidth.intValue());
-		toolbarGroupBarChart.setPreferredWidth(barChartGroupWidth.intValue());
-
+		
+		toolbarGroupIteration.setMinimumSize(toolbarGroupIteration.getPreferredSize());
+		toolbarGroupRequirement.setMinimumSize(toolbarGroupRequirement.getPreferredSize());
+		toolbarGroupUserPermission.setMinimumSize(toolbarGroupUserPermission.getPreferredSize());
+		toolbarGroupBarChart.setMinimumSize(toolbarGroupBarChart.getPreferredSize());
+		toolbarGroupViewUserPermission.setMinimumSize(toolbarGroupViewUserPermission.getPreferredSize());
+		
 		addGroup(toolbarGroupIteration);
 		addGroup(toolbarGroupRequirement);
 		addGroup(toolbarGroupUserPermission);

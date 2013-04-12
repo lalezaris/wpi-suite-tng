@@ -66,7 +66,6 @@ public class RemoveAssigneeController implements ActionListener {
 		System.out.println(selectedUsers.get(0));
 		System.out.println(allUserAL);
 		for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
-			allUserAL.add(selectedUsers.get(i));//append selected user to assigned
 			assignedUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
 			view.getAssignedUserLM().remove(i); //removes the user from the list model
 		}
@@ -75,7 +74,7 @@ public class RemoveAssigneeController implements ActionListener {
 		//view.setUserList(allUserAL);
 		System.out.println("Remove worked");
 		view.setAssigneeList(assignedUserAL);
-		view.setAllList(allUserAL);
+		view.updateNotAssigned();
 		view.setButtonPressed(true);
 
 	}

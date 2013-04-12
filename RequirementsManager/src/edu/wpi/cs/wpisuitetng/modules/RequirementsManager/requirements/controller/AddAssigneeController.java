@@ -62,17 +62,16 @@ public class AddAssigneeController implements ActionListener {
 		 */
 		for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
 			assignedUserAL.add(selectedUsers.get(i));//append selected user to assigned
-			allUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
-			view.getAllUserLM().remove(i); //removes the user from the list model
+			
 		}
 		
 		//add array list to the list models
 		//view.setUserList(allUserAL);
 		System.out.println("Add worked");
 		view.setAssigneeList(assignedUserAL);
-		view.setAllUserList(allUserAL);
-		
+		view.updateNotAssigned();
 		view.setButtonPressed(true);
+		
 	}
 
 }

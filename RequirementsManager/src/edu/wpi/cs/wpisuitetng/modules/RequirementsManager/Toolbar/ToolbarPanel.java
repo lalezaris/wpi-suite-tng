@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIte
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ViewChartsAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
@@ -288,6 +289,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 			newRequirement.setVisible(false);
 			listAllRequirements.setVisible(true);		
 			editUserPermissions.setVisible(false);
+			
 			toolbarGroupIteration.setVisible(true);
 			toolbarGroupRequirement.setVisible(true);
 			toolbarGroupUserPermission.setVisible(false);
@@ -298,6 +300,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 			newRequirement.setVisible(false);
 			listAllRequirements.setVisible(true);		
 			editUserPermissions.setVisible(false);
+			
 			toolbarGroupIteration.setVisible(true);
 			toolbarGroupRequirement.setVisible(true);
 			toolbarGroupUserPermission.setVisible(false);
@@ -308,12 +311,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 			newRequirement.setVisible(true);
 			listAllRequirements.setVisible(true);		
 			editUserPermissions.setVisible(true);
+			
 			toolbarGroupIteration.setVisible(true);
 			toolbarGroupRequirement.setVisible(true);
 			toolbarGroupUserPermission.setVisible(true);
 		}
 		//override for the admin user - admin user should always be able to edit permissions
-		if(this.userName.equals("admin")){
+		if(CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
 			editUserPermissions.setVisible(true);
 			toolbarGroupUserPermission.setVisible(true);
 		}

@@ -22,27 +22,22 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
-//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
 
 /**
  * TreeView class shows requirements with parents and children in a tree.
@@ -62,8 +57,7 @@ public class TreeView extends JPanel {
 	ReqTreeModel treeModel;
 
 	/**
-	 * Creates the tree view of the requirements Commented out parts are not
-	 * needed in iteration 1 but may be needed in the future
+	 * Creates the tree view of the requirements.
 	 * 
 	 */
 	public TreeView() {
@@ -160,6 +154,9 @@ public class TreeView extends JPanel {
 							null,"iterationsmanager/iteration/", new IRetrieveRequirementController<Iteration>() {
 								boolean isIteration = true;
 
+								/* (non-Javadoc)
+								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#runWhenRecieved(java.lang.String)
+								 */
 								@Override
 								public void runWhenRecieved(String s){
 								//public void runWhenRecieved(Requirement r) {
@@ -200,7 +197,7 @@ public class TreeView extends JPanel {
 	}
 
 	/**
-	 * expand the entire tree
+	 * Expand the entire tree.
 	 */
 	public static void expandAll() {
 		int row = 0;
@@ -211,7 +208,7 @@ public class TreeView extends JPanel {
 	}
 	
 	/**
-	 * Gets tree model
+	 * Gets tree model.
 	 * 
 	 * @return the tree model
 	 */

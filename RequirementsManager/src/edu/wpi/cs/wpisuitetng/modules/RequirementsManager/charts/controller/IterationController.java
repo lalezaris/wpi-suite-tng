@@ -14,7 +14,7 @@ public class IterationController {
 		this.view = view;
 	}
 	public void retreive(){
-		Request request = Network.getInstance().makeRequest("requirementsmanager/iteration", HttpMethod.GET);
+		Request request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(new IterationObserver(view));
 		request.send();
 	}

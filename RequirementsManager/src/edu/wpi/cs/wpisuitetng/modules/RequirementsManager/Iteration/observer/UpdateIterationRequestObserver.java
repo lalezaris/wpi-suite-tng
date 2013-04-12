@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
@@ -62,7 +63,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
+		BarChartView.update();
 		// print the body
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Iteration from the body

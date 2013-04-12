@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Lauren
-**************************************************/
+ *  Lauren Kahn
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 /**
  * Action that calls {@link MainTabController#addEditIterationab()}, default mnemonic key is E.
  *
- * @author Lauren
+ * @author Lauren Kahn
  *
  * @version Apr 8, 2013
  *
@@ -33,7 +33,8 @@ public class EditIterationsAction extends AbstractAction {
 	private final MainTabController controller;
 	private final Iteration iteration;
 	/**
-	 * Create a EditIterationAction
+	 * Create a EditIterationAction.
+	 * 
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
 	public EditIterationsAction(MainTabController controller, Iteration iteration) {
@@ -42,12 +43,11 @@ public class EditIterationsAction extends AbstractAction {
 		this.iteration = iteration;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
-	
+
 	/* 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
 		controller.addEditIterationTab(iteration);
 	}
-
 }

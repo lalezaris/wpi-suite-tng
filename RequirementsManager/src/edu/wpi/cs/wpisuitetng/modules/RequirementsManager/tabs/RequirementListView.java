@@ -16,9 +16,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,15 +24,8 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
@@ -58,6 +48,11 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	private Tab containingTab;
 	private boolean inputEnabled;
 	
+	/**
+	 * Instantiates a new requirement list view.
+	 *
+	 * @param tab the tab
+	 */
 	public RequirementListView(Tab tab){
 		containingTab = tab;
 
@@ -95,11 +90,11 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	}
 
 	/**
-	 * Gets the mainPanel
+	 * Gets the mainPanel.
+	 * 
 	 * @return the mainPanel
 	 */
 	public RequirementListPanel getMainPanel() {
 		return mainPanel;
 	}
-	
 }

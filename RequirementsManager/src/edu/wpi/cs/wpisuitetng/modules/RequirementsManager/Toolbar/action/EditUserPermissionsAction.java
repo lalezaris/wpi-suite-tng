@@ -17,13 +17,12 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action to edit user permissions
+ * Action to edit user permissions.
  * 
  * @author CDUNKERS
  *
@@ -46,9 +45,9 @@ public class EditUserPermissionsAction extends AbstractAction {
 	}
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
-	 * @param controller
+	 * @param controller The MainTabController
 	 */
 	public EditUserPermissionsAction(MainTabController controller) {
 		super("Edit User Permissions");
@@ -57,5 +56,4 @@ public class EditUserPermissionsAction extends AbstractAction {
 		
 		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}
-
 }

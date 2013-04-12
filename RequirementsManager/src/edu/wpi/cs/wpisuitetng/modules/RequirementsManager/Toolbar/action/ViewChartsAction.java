@@ -1,3 +1,17 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Ned Shelton
+ *  Evan Polekoff
+**************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -5,9 +19,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
@@ -19,7 +30,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * @version Apr 9, 2013
  *
  */
-
 
 public class ViewChartsAction extends AbstractAction {
 	private final MainTabController controller;
@@ -33,7 +43,7 @@ public class ViewChartsAction extends AbstractAction {
 	}
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 * 
 	 * @param controller
 	 */
@@ -42,5 +52,4 @@ public class ViewChartsAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
-	
 }

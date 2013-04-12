@@ -37,6 +37,9 @@ public class HistoryObject extends JPanel {
 
 	String date, time, changes, id, user;
 
+	/**
+	 * Instantiates a new history object.
+	 */
 	public HistoryObject(){
 		this.date = "31/03/2013";
 		this.time = "13:56:00";
@@ -47,14 +50,17 @@ public class HistoryObject extends JPanel {
 		this.setUp();
 	}
  
+	/* (non-Javadoc)
+	 * @see java.awt.Component#toString()
+	 */
 	@Override
 	public String toString(){
 		String eol = System.getProperty("line.separator"); 	
 		return "#"+this.id+" - "+date+" at "+time+" by "+user+": "+changes;
 	}
+	
 	/**
-	 * Sets up the history object
-	 * 
+	 * Sets up the history object.
 	 */
 	private void setUp(){
 		// Set the border variable
@@ -139,5 +145,4 @@ public class HistoryObject extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		this.add(panel, c);	
 	}
-
 }

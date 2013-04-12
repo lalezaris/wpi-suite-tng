@@ -31,8 +31,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
 /**
- * Allows users to view Requirements
- * Adapted from DefectView in project DefectTracker
+ * Allows users to view Requirements.
+ * Adapted from DefectView in project DefectTracker.
  * 
  * @author Chris Dunkers 
  * @author Joe Spicola
@@ -106,11 +106,11 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
-	 * Constructor that allows user to send a parent view for reference
+	 * Constructor that allows user to send a parent view for reference.
 	 * 
-	 * @param requirement
-	 * @param editMode
-	 * @param tab
+	 * @param requirement The requirement to be displayed
+	 * @param editMode The mode the view should be opened with
+	 * @param tab The tab
 	 * @param parentView
 	 */
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab, RequirementView parentView) {
@@ -119,9 +119,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
-	 * Tooltip info for new child requirement
+	 * Tooltip info for new child requirement.
 	 * 
-	 * @param requirement
+	 * @param requirement The requirement to be created with a child requirement
 	 */
 	public void setChildModeDescriptors(Requirement requirement) {
 		containingTab.setTitle("New Child Requirement");
@@ -130,7 +130,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
-	 * Returns the main panel with the data fields
+	 * Returns the main panel with the data fields.
 	 * 
 	 * @return the main panel with the data fields
 	 */
@@ -157,9 +157,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
-	 * Sets whether the input is enabled
+	 * Sets whether the input is enabled.
 	 * 
-	 * @param enabled
+	 * @param enabled A boolean indicating whether or not to be Enabled.
 	 */
 	public void setInputEnabled(boolean enabled) {
 	    inputEnabled = enabled;
@@ -168,6 +168,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
+	 * Return containingTab.
+	 * 
 	 * @return the containing tab
 	 */
 	public Tab getTab() {
@@ -175,16 +177,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
-	 * Revalidates and repaints the scroll pane containing the DefectPanel
+	 * Revalidates and repaints the scroll pane containing the RequirementPanel.
 	 */
 	public void refreshScrollPane() {
 		mainPanelScrollPane.revalidate();
 		mainPanelScrollPane.repaint();
 	}
 
-
 	/**
-	 * set the parentview of this requirementview
+	 * Set the parentview of this requirementview.
 	 * 
 	 * @param parentView the parent requirement view
 	 */
@@ -193,6 +194,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	/**
+	 * Returns the parent's requirementview.
+	 * 
 	 * @return the parent's requirementview
 	 */
 	public RequirementView getParentView() {

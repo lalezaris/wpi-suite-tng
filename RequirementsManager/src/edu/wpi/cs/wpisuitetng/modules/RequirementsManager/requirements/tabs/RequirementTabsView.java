@@ -13,17 +13,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
-import java.awt.Dimension;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
-
-
 /**
- * Holds the components responsible for creating the attachments, notes and history tabs
+ * Holds the components responsible for creating the attachments,
+ * notes and history tabs.
  *
  * @author Chris Dunkers
  *
@@ -33,6 +29,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 @SuppressWarnings("serial")
 public class RequirementTabsView extends JTabbedPane {
 
+	/**
+	 * Instantiates a new requirement tabs view.
+	 *
+	 * @param n the NotesView
+	 * @param hv the HistoryView
+	 * @param av the AssigneeView
+	 */
 	public RequirementTabsView(NotesView n, HistoryView hv, AssigneeView av) {
 
 		//TODO get history objects from database

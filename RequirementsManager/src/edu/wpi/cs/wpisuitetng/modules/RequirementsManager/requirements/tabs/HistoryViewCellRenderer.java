@@ -34,7 +34,7 @@ public class HistoryViewCellRenderer extends DefaultListCellRenderer {
 	private int width;	
 	
 	/**
-	 * Constructor for HistoryViewCellRenderer
+	 * Constructor for HistoryViewCellRenderer.
 	 * 
 	 * @param w the width
 	 */
@@ -54,5 +54,4 @@ public class HistoryViewCellRenderer extends DefaultListCellRenderer {
 		return super.getListCellRendererComponent(list, text, index, isSelected,
 				cellHasFocus);
 	}
-
 }

@@ -14,9 +14,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -25,10 +23,9 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The jPanel for all requirement history
+ * The JPanel for all requirement history.
  * TODO: implementation
  *
  * @author Arica Liu
@@ -45,7 +42,7 @@ public class HistoryView extends JPanel {
 	protected ArrayList<HistoricalChange> historyAL;
 
 	/**
-	 * HistoryView Constructor
+	 * HistoryView Constructor.
 	 * 
 	 * @param req Requirement to view the history of 
 	 */
@@ -73,7 +70,7 @@ public class HistoryView extends JPanel {
 	}
 
 	/**
-	 * Changes the history array list to the given array list..
+	 * Changes the history array list to the given array list.
 	 * 
 	 * @param history
 	 */
@@ -82,7 +79,7 @@ public class HistoryView extends JPanel {
 	}
 
 	/**
-	 * Gets history list
+	 * Gets history list.
 	 * 
 	 * @return list of history
 	 */

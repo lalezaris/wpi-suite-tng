@@ -13,7 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 /**
- * Enum for Permission Save Mode
+ * Enum for Permission Save Mode.
  * 
  * @author Chris Hanna
  *

@@ -540,6 +540,8 @@ public class IterationPanel extends JPanel {
 
 	
 	/**
+	 * Return the unedited Model (an Iteration).
+	 * 
 	 * @return the uneditedModel
 	 */
 	public Iteration getUneditedModel() {
@@ -547,7 +549,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * checks to see if any changes have been made
+	 * Checks to see if any changes have been made.
 	 * 
 	 * @return true if changes has been made otherwise false
 	 */

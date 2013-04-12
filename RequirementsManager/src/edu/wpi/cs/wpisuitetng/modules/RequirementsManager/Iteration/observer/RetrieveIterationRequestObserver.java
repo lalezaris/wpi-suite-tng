@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
@@ -22,12 +22,10 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Request Observer to retrieve a single iteration
+ * Request Observer to retrieve a single iteration.
  *
- * @author Tyler, adapted from RetrieveDefectRequestObserver
- *
+ * @author Tyler Stone, adapted from RetrieveDefectRequestObserver
  * @version Mar 27, 2013
- *
  */
 public class RetrieveIterationRequestObserver implements RequestObserver {
 
@@ -35,13 +33,17 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 	protected RetrieveIterationController controller;
 
 	/**
-	 * Construct a new observer
+	 * Construct a new observer.
+	 *
 	 * @param controller the controller managing the request
 	 */
 	public RetrieveIterationRequestObserver(RetrieveIterationController controller) {
 		this.controller = controller;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request
@@ -67,11 +69,17 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		controller.errorRetrievingIteration("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO deal with exception

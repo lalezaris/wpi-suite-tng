@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * A mouse listener for the iteration table on the dashboard
+ * A mouse listener for the iteration table on the dashboard.
  *
  * @author Tyler Stone
  *
@@ -37,13 +37,23 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class RetrieveIterationController extends MouseAdapter {
+	
+	/** The iteration list panel. */
 	IterationListPanel iterationListPanel;
 	private int selectedIteration;
 	
+	/**
+	 * Instantiates a new retrieve iteration controller.
+	 *
+	 * @param iterationListPanel the iteration list panel
+	 */
 	public RetrieveIterationController(IterationListPanel iterationListPanel) { 
 		this.iterationListPanel = iterationListPanel;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         int row = iterationListPanel.getTable().rowAtPoint(evt.getPoint());
@@ -61,8 +71,8 @@ public class RetrieveIterationController extends MouseAdapter {
     }
 	
 	/**
-	 * Gets selected iteration
-	 * 
+	 * Gets selected iteration.
+	 *
 	 * @return selected iteration
 	 */
 	public int getSelectedIteration() {
@@ -83,6 +93,8 @@ public class RetrieveIterationController extends MouseAdapter {
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.
+	 *
+	 * @param error the error
 	 */
 	public void errorRetrievingIteration(String error) {
 		JOptionPane.showMessageDialog(iterationListPanel, 

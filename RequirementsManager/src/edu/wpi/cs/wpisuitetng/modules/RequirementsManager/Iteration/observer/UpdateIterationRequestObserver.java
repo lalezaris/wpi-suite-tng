@@ -19,13 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPan
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -40,9 +34,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 
-/**
- * A RequestObserver for a Request to update a Iteration.
- */
 public class UpdateIterationRequestObserver implements RequestObserver {
 
 	private final IterationView view;

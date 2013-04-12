@@ -73,7 +73,6 @@ public class UserPermissionPanel extends JPanel{
 	protected JList lstNoneUsers;
 	protected JList lstUpdateUsers;
 	protected JList lstAdminUsers;
-
 	
 	/* the Default list models for the lists*/
 	DefaultListModel noneUsersList;

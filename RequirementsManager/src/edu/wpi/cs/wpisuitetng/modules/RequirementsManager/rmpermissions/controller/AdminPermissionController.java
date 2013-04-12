@@ -38,12 +38,17 @@ public class AdminPermissionController extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
 	protected UserPermissionPanel panel;
+	DefaultListModel originalNoneListModel, originalUpdateListModel, originalAdminListModel;
 	
 	public AdminPermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.panel = panel;
+		this.originalNoneListModel = (DefaultListModel) noneUsers.getModel();
+		this.originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
+		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
+		
 //		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	} 
 	
@@ -95,7 +100,11 @@ public class AdminPermissionController extends AbstractAction {
 
 		//Assign the new model	
 		adminUsers.setModel(newAdminModel);
-		this.panel.setHasChanged(true);
+		if(!originalNoneListModel.equals(newNoneModel)){this.panel.setHasChanged(true);}
+		if(!originalUpdateListModel.equals(newUpdateModel)){this.panel.setHasChanged(true);}
+		if(!originalAdminListModel.equals(newAdminModel)){this.panel.setHasChanged(true);}
+
+		
 	}
 	
 	

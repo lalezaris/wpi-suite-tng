@@ -156,7 +156,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
 		
-		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {

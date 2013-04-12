@@ -137,7 +137,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listAllRequirements.setAction(new ListAction(tabController));
 		listAllRequirements.setVisible(false);
 		listAllRequirements.setPreferredSize(newRequirement.getPreferredSize());//set equal to button above
-		
+
 		//construct the edit user permissions button
 		editUserPermissions = new JButton("Edit User Permissions");
 		editUserPermissions.setAction(new EditUserPermissionsAction(tabController));
@@ -160,13 +160,11 @@ public class ToolbarPanel extends DefaultToolbarView {
 		iterationLayout.putConstraint(SpringLayout.NORTH, listIteration, 10, SpringLayout.SOUTH, newIteration);
 		iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.WEST, iterationContent);
 		
-		
 		requirementLayout.putConstraint(SpringLayout.NORTH, newRequirement, 5, SpringLayout.NORTH, requirementContent);
 		requirementLayout.putConstraint(SpringLayout.WEST, newRequirement, 10, SpringLayout.WEST, requirementContent);
 		
 		requirementLayout.putConstraint(SpringLayout.NORTH, listAllRequirements, 10, SpringLayout.SOUTH, newRequirement);
 		requirementLayout.putConstraint(SpringLayout.WEST, listAllRequirements, 10, SpringLayout.WEST, requirementContent);
-
 		
 		userPermissionLayout.putConstraint(SpringLayout.NORTH, editUserPermissions, 25, SpringLayout.NORTH, userPermissionContent);
 		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 10, SpringLayout.WEST, userPermissionContent);
@@ -176,6 +174,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 5, SpringLayout.NORTH, viewUserPermissionPanel);
 		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 10, SpringLayout.WEST, viewUserPermissionPanel);
+
+		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 10, SpringLayout.SOUTH, viewUserName);
+		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 10, SpringLayout.WEST, viewUserPermissionPanel);
 		
 		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserPermission, 10, SpringLayout.SOUTH, viewUserName);
 		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 10, SpringLayout.WEST, viewUserPermissionPanel);
@@ -205,8 +206,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		
 		toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
 		toolbarGroupRequirement.setVisible(false);
-		toolbarGroupUserPermission = new ToolbarGroupView("Permissions", userPermissionContent);
 
+		toolbarGroupUserPermission = new ToolbarGroupView("Permissions", userPermissionContent);
 		toolbarGroupUserPermission.setVisible(false);
 		
 		toolbarGroupBarChart = new ToolbarGroupView("Charts", barChartContent);

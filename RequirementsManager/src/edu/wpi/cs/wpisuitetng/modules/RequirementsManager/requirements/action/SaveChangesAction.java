@@ -18,9 +18,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 /**
  * Adapted from JPage
@@ -37,7 +35,8 @@ public class SaveChangesAction extends AbstractAction {
 	private final SaveRequirementController controller;
 	
 	/**
-	 * Create a SaveChangesAction
+	 * Construct a SaveChangesAction.
+	 * 
 	 * @param controller When the action is performed, controller.save will be called
 	 */
 	public SaveChangesAction(SaveRequirementController controller) {

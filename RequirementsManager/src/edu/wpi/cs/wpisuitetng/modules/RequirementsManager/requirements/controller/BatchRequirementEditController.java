@@ -7,7 +7,7 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Tyler
+ * Contributors: Tyler Stone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
@@ -18,23 +18,26 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.BatchRequirementEditRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.BatchUpdateRequirementRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * A general class for editing a single field for multiple requirements
- * 
+ * A general class for editing a single field for multiple requirements.
+ *
+ * @param <T> the generic type
  * @author Tyler Stone
- * 
  * @version Apr 4, 2013
  * 
- *          TODO: update date modified on each requirement edit!!!!
+ * TODO: update date modified on each requirement edit!!!!
  */
 
 public class BatchRequirementEditController<T> {
+
+	/**
+	 * The Enum ChangeField.
+	 */
 	public enum ChangeField {
 		RELEASENUMBER, // string
 		ITERATIONID, // int
@@ -45,31 +48,38 @@ public class BatchRequirementEditController<T> {
 		ASSIGNEE, // username
 		PARENTID // int
 	}
-	
+
 	private ChangeField changeField;
 	private T changeToMake; // generic type because it can be either a string,
-							// int, requirementStatus, or requirementPriority
+	// int, requirementStatus, or requirementPriority
 
+	/**
+	 * Instantiates a new batch requirement edit controller.
+	 *
+	 * @param changeField the field containing the change 
+	 * @param changeToMake the change to make
+	 */
 	public BatchRequirementEditController(ChangeField changeField, T changeToMake) {
 		this.changeField = changeField;
 		this.changeToMake = changeToMake;
 	}
-	
+
 	/**
-	 * Begin changing the specified requirements
-	 * 
+	 * Begin changing the specified requirements.
+	 *
 	 * @param requirementIDs the ids of the requirements to change
 	 */
 	public void instantiateChange(ArrayList<Integer> requirementIDs) {
 		getEachRequirement(requirementIDs);
 	}
-	
+
 	/**
 	 * Get each requirement from the server, and then have the request
 	 * observer send the received data to the changeSingleRequirement
-	 * function
-	 * 
+	 * function.
+	 *
 	 * @param requirementIDs the ids of the requirements to fetch
+	 * @return the each requirement
 	 */
 	private void getEachRequirement(ArrayList<Integer> requirementIDs) {
 		/* send a request for each id */
@@ -84,9 +94,9 @@ public class BatchRequirementEditController<T> {
 	}
 
 	/**
-	 * Change a single requirement, called by the 
-	 * request observer that received the requirement data
-	 * 
+	 * Change a single requirement, called by the
+	 * request observer that received the requirement data.
+	 *
 	 * @param requirement the requirement to change
 	 */
 	public void changeSingleRequirement(Requirement requirement) {
@@ -121,17 +131,22 @@ public class BatchRequirementEditController<T> {
 		}
 
 		final RequestObserver requestObserver = new BatchUpdateRequirementRequestObserver();
-		
+
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
-		
+
 		String JsonRequest = requirement.toJSON();
 		request.setBody(JsonRequest);
-		
+
 		request.addObserver(requestObserver);
 		request.send();
 	}
 
+	/**
+	 * Print out an error if encountered one when retrieving requirement.
+	 *
+	 * @param string the error message
+	 */
 	public void errorRetrievingRequirement(String string) {
 		System.out.println(string);
 	}

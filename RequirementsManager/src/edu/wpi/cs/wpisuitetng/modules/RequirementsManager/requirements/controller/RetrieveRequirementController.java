@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * A mouse listener for the requirement table on the dashboard
+ * A mouse listener for the requirement table on the dashboard.
  *
  * @author Tyler Stone
  *
@@ -37,10 +37,18 @@ public class RetrieveRequirementController extends MouseAdapter {
 	RequirementListPanel requirementListPanel;
 	private int selectedRequirement;
 	
+	/**
+	 * Instantiates a new retrieve requirement controller.
+	 *
+	 * @param requirementListPanel the requirement list panel
+	 */
 	public RetrieveRequirementController(RequirementListPanel requirementListPanel) { 
 		this.requirementListPanel = requirementListPanel;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         int row = requirementListPanel.getTable().rowAtPoint(evt.getPoint());
@@ -58,9 +66,9 @@ public class RetrieveRequirementController extends MouseAdapter {
     }
 	
 	/**
-	 * Gets selected requirement
-	 * 
-	 * @return selected requirement
+	 * Gets the selected requirement.
+	 *
+	 * @return the selected requirement
 	 */
 	public int getSelectedRequirement() {
 		return selectedRequirement;
@@ -69,7 +77,8 @@ public class RetrieveRequirementController extends MouseAdapter {
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when the response
 	 * is received from the server.
-	 * @param defect the defect that was retrieved
+	 *
+	 * @param requirement the requirement
 	 */
 	public void showRequirement(Requirement requirement) {
 		// Make a new requirement view to display the requirement that was received
@@ -80,6 +89,8 @@ public class RetrieveRequirementController extends MouseAdapter {
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.
+	 *
+	 * @param error the error to be displayed
 	 */
 	public void errorRetrievingRequirement(String error) {
 		JOptionPane.showMessageDialog(requirementListPanel, 

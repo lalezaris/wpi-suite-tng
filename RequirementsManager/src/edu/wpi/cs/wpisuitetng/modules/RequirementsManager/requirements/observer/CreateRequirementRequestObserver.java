@@ -8,14 +8,14 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Tyler Stone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 /**
- * The request observer for a create request to the server
+ * The request observer for a create request to the server.
  *
- * @author Tyler, adapted from Defect Tracker
+ * @author Tyler Stone, adapted from Defect Tracker
  *
  * @version Mar 24, 2013
  *
@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -45,15 +44,19 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 	private final RequirementView view;
 
 	/**
-	 * Constructs a new CreateRequirementRequestObserver
-	 * 
-	 * @param view	The RequirementView that will be affected by any updates.
+	 * Constructs a new CreateRequirementRequestObserver.
+	 *
+	 * @param view The RequirementView that will be affected by any updates.
 	 */
 	public CreateRequirementRequestObserver(RequirementView view) {
 		this.view = view;
 	}
 
 	/**
+	 * This method is called when information about an CreateRequirementRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
 	 * @param iReq the request
 	 */
 	@Override
@@ -123,6 +126,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
@@ -131,6 +137,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 

@@ -8,12 +8,11 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -21,9 +20,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Assi
 
 
 /**
- * Controller to remove an assigned user, and update display
+ * Controller to remove an assigned user, and update display.
  *
- * @author Spicola
+ * @author Joe Spicola
  *
  * @version Apr 9, 2013
  *
@@ -37,7 +36,7 @@ public class RemoveAssigneeController implements ActionListener {
 	private int[] selectedUsersIndex; //index of where the users are in the list
 	
 	/**
-	 * Enter Description here.
+	 * Construct a RemoveAssigneeController.
 	 * 
 	 * @param assigneeView
 	 */
@@ -77,7 +76,5 @@ public class RemoveAssigneeController implements ActionListener {
 		System.out.println("Remove worked");
 		view.setAssigneeList(assignedUserAL);
 		view.setAllList(allUserAL);
-		
 	}
-
 }

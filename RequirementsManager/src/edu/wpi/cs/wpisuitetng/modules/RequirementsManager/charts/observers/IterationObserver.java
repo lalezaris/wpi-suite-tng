@@ -17,7 +17,6 @@ import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -58,7 +57,6 @@ public class IterationObserver implements RequestObserver{
 		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
 		//this.panel.setAllusers(users);
 		this.view.recieveServerIterations(iterations);
-		
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +66,6 @@ public class IterationObserver implements RequestObserver{
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
 		System.out.println("EEEEEEEEEERRRRRRRRRRRROOOOOOOOOOOORRRRRRRRRRR!");
-		
 	}
 
 	/* (non-Javadoc)

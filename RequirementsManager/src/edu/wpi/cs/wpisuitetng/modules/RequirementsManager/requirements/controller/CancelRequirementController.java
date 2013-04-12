@@ -14,9 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
-
 /**
- * Controller that handles the cancel requirement action
+ * Controller that handles the cancel requirement action.
  *
  * @author CDUNKERS
  *
@@ -29,7 +28,8 @@ public class CancelRequirementController {
 	protected RequirementView view;
 
 	/**
-	 * Construct a new handler for the given view
+	 * Construct a new handler for the given view.
+	 * 
 	 * @param view the view containing the request fields
 	 */
 	public CancelRequirementController(RequirementView view) {

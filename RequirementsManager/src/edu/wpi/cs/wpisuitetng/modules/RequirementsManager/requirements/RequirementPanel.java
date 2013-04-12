@@ -28,7 +28,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -56,7 +58,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Sa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
@@ -564,47 +565,47 @@ public class RequirementPanel extends JPanel{
 
 		 cFour.insets = new Insets(10,10,10,0);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 0;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(lblCreatedDate, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 0;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(lblCreatedDate, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 0;
+//		 txtCreatedDate.setText(model.getCreationDate().toString());
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(txtCreatedDate, cFour);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 0;
-		 txtCreatedDate.setText(model.getCreationDate().toString());
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtCreatedDate, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 1;
+//		 panelFour.add(lblModifiedDate, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 1;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(txtModifiedDate, cFour);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 1;
-		 panelFour.add(lblModifiedDate, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 1;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtModifiedDate, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 2;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(lblAssignee, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 2;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-//		 panelFour.add(txtAssignee, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 2;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(lblAssignee, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 2;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+////		 panelFour.add(txtAssignee, cFour);
 
 
 		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
@@ -757,6 +758,9 @@ public class RequirementPanel extends JPanel{
 
 		 //depending on the user's permission, disable certain components
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		 if(!model.getAssignee().contains(ConfigManager.getConfig().getUserName()) && pLevel == RMPermissionsLevel.UPDATE){
+			 pLevel = RMPermissionsLevel.NONE;
+		 }
 		 switch (pLevel){
 		 case NONE:
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/
@@ -1323,6 +1327,14 @@ public class RequirementPanel extends JPanel{
 			return true;
 		}
 		
+		if (!this.getNotesView().getNoteString().equals("") && !this.getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+			return true;
+		}
+		
+		if (this.getAv().isButtonPressed()){//if old and new are not the same
+			return true;
+		}
+		
 		//TODO: come back to this
 		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
@@ -1345,6 +1357,23 @@ public class RequirementPanel extends JPanel{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the av
+	 */
+	public AssigneeView getAv() {
+		return av;
+	}
+	
+	private List<String> getAllElementsInModel(DefaultListModel model){
+		List<String> modelElements = new ArrayList<String>();
+		for(int i = 0; i < model.getSize(); i++){
+			modelElements.add((String)model.getElementAt(i));
+		}
+		return modelElements;
 	}
 
 	

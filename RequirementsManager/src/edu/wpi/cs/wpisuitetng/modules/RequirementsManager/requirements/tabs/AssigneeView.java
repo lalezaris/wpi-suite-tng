@@ -21,7 +21,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import javax.swing.Box;
@@ -35,19 +34,19 @@ import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * The Class to hold AssigneeView.
  *
  * @author Sam Lalezari
  *
  * @version Apr 7, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AssigneeView extends JPanel{
 
 	private ArrayList<String> allUserAL;
@@ -60,11 +59,20 @@ public class AssigneeView extends JPanel{
 	private JButton btnRemove;
 	private JPanel buttonPanel;
 
+
+	private boolean isButtonPressed; 
+
+	/**
+	 * Instantiates a new assignee view.
+	 *
+	 * @param req the requirement
+	 */
 	@SuppressWarnings("serial")
 	public AssigneeView(Requirement req){
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
+		isButtonPressed = false;
 
 		allUserAL = new ArrayList<String>();
 
@@ -98,12 +106,12 @@ public class AssigneeView extends JPanel{
 		buttonPanel = new JPanel(){
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
-			    return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
 			@Override
 			public int getBaseline(int width, int height) {
-			    return 0;
+				return 0;
 			}
 		};
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
@@ -164,22 +172,23 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Returns button object that adds users from a requirement.
 	 * 
-	 * @return btnAdd
+	 * @return The button that adds users from a requirement
 	 */
 	public JButton getBtnAdd(){
 		return this.btnAdd;
 	}
+
 	/**
-	 * Returns button object that removes users from a requirement
+	 * Returns button object that removes users from a requirement.
 	 * 
-	 * @return btnRemove
+	 * @return button that removes users from a requirement
 	 */
 	public JButton getBtnRemove(){
 		return this.btnRemove;
 	}
 
 	/**
-	 * Enter description here.
+	 * Set the Assignee list.
 	 * 
 	 * @param assignee
 	 */
@@ -194,9 +203,9 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Enter description here.
-	 * 
-	 * @param all
+	 * Sets the array list of all users.
+	 *
+	 * @param all the new all users list
 	 */
 	public void setAllList(ArrayList<String> all) {
 		// TODO Auto-generated method stub
@@ -210,9 +219,9 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Sets the array list of all users not assigned to the requirement
+	 * Sets the array list of all users not assigned to the requirement.
 	 * 
-	 * @param users
+	 * @param all users who are not assigned to the requirement
 	 */
 	public void setAllUserList(ArrayList<String> users){
 		this.allUserAL = users;
@@ -220,32 +229,35 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * returns the array list containing all users
-	 * @return the allUserAL
+	 * Returns the array list containing all users.
+	 * 
+	 * @return the array list containing all users
 	 */
 	public ArrayList<String> getAllUserAL() {
 		return allUserAL;
 	}
 
 	/**
-	 * returns the array list containing users assigned to this requirement
-	 * @return the assignedUserAL
+	 * Returns the array list containing users assigned to this requirement.
+	 * 
+	 * @return the array list containing users assigned to this requirement
 	 */
 	public ArrayList<String> getAssignedUserAL() {
 		return assignedUserAL;
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @return the allUserList
+	 * Get a list of all users.
+	 * 
+	 * @return a list of all users
 	 */
 	public JList<String> getAllUserList() {
 		return allUserList;
 	}
 
 	/**
-	 * Returns allUserLM for editing purposes
+	 * Returns allUserLM for editing purposes.
+	 * 
 	 * @return the allUserLM
 	 */
 	public DefaultListModel<String> getAllUserLM() {
@@ -253,7 +265,8 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Returns allUserLM for editing purposes
+	 * Returns allUserLM for editing purposes.
+	 * 
 	 * @return the allUserLM
 	 */
 	public DefaultListModel<String> getAssignedUserLM() {
@@ -261,12 +274,24 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
 	 * @return the allUserList
 	 */
 	public JList<String> getAssignedUserList() {
 		return assignedUserList;
+	}
+
+	/**
+	 * @return the isButtonPressed
+	 */
+	public boolean isButtonPressed() {
+		return isButtonPressed;
+	}
+
+	/**
+	 * @param isButtonPressed: the isButtonPressed to set
+	 */
+	public void setButtonPressed(boolean isButtonPressed) {
+		this.isButtonPressed = isButtonPressed;
 	}
 
 }

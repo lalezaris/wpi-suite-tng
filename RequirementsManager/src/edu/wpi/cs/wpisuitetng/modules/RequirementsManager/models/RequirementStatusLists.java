@@ -13,17 +13,15 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
  * Possible values that a status of a requirement can be set to
- * Adapted from DefectStatus in project DefectTracker
+ * Adapted from DefectStatus in project DefectTracker.
  *
- * @author Evan Polekoff 
+ * @author Evan Polekoff
  * @author Ned Shelton
  * 
  * @version Mar 27, 2013
- *
  */
 public class RequirementStatusLists{
 	
@@ -33,14 +31,17 @@ public class RequirementStatusLists{
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 	
+	/**
+	 * Instantiates a new requirement status lists.
+	 */
 	RequirementStatusLists(){
 		
 	}
 	
 	/**
-	 * Gets the list of a requirement status
-	 * 
-	 * @param status The requirement status that we are looking for the correct list for.
+	 * Gets the list of a requirement status.
+	 *
+	 * @param req the requirement
 	 * @return the list for that requirement status
 	 */
 	public static String[] getList(Requirement req){

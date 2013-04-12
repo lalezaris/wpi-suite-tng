@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
@@ -16,14 +16,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 
 /**
- * Insert Description Here
+ * Controller for the button which when pushed will add an assignee.
  *
- * @author Spicola
+ * @author Joe Spicola
  *
  * @version Apr 7, 2013
  *
@@ -37,9 +35,9 @@ public class AddAssigneeController implements ActionListener {
 	private int[] selectedUsersIndex; //index of where the users are in the list
 	
 	/**
-	 * Enter Description here.
-	 * 
-	 * @param assigneeView
+	 * Construct an AddAssigneeController.
+	 *
+	 * @param assigneeView the assignee view
 	 */
 	public AddAssigneeController(AssigneeView assigneeView) {
 		this.view = assigneeView;
@@ -58,7 +56,7 @@ public class AddAssigneeController implements ActionListener {
 		this.selectedUsers = new ArrayList<String> (view.getAllUserList().getSelectedValuesList());
 		this.selectedUsersIndex = view.getAllUserList().getSelectedIndices();
 		
-		/**
+		/*
 		 * Iterates through loop backward, in order to remove elements from allusers without messing
 		 * up the earlier indexes.
 		 */
@@ -73,6 +71,8 @@ public class AddAssigneeController implements ActionListener {
 		System.out.println("Add worked");
 		view.setAssigneeList(assignedUserAL);
 		view.setAllUserList(allUserAL);
+		
+		view.setButtonPressed(true);
 	}
 
 }

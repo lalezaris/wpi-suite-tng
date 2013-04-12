@@ -14,12 +14,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History;
 
-/**
- * @Author: Michael French
- * 
- * @version Mar 31, 2013
- */
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,15 +22,39 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.Requirem
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * The Class to hold a HistoricalChange object.
+ * 
+ * @Author: Michael French
+ * 
+ * @version Mar 31, 2013
+ */
 public class HistoricalChange extends AbstractModel{
 	
+	/** The date. */
 	private Date date; //date of change
+	
+	/** The change. */
 	private String change; //human readable set of changes: "this was changed to that"
+	
+	/** The id of changed object. */
 	private int idOfChangedObject; //id of the object that has been changed
+	
+	/** The id. */
 	private int id; //id of this change object (for database)
+	
+	/** The user. */
 	private User user; //User that made this change
 	
 	
+	/**
+	 * Instantiates a new historical change.
+	 *
+	 * @param date the date
+	 * @param id the id
+	 * @param idOfChangedObject the id of changed object
+	 * @param user the user
+	 */
 	public HistoricalChange(Date date, int id, int idOfChangedObject, User user){
 		this.date = date;
 		this.id = id;
@@ -45,15 +63,32 @@ public class HistoricalChange extends AbstractModel{
 		change = "";
 	}
 	
+	/**
+	 * Instantiates a new historical change.
+	 *
+	 * @param user the user
+	 */
 	public HistoricalChange(User user){
 		this.user = user;
 		change = "";
 	}
 	
+	/**
+	 * Update on create.
+	 *
+	 * @param req the requirement
+	 */
 	public void updateOnCreate(Requirement req){
 		change += "<p>" + "Requirement was created." + "</p>";
 	}
 	
+	/**
+	 * Update change from difference.
+	 *
+	 * @param oldR the old requirement
+	 * @param newR the new requirement
+	 * @param manager the manager
+	 */
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		
@@ -138,29 +173,42 @@ public class HistoricalChange extends AbstractModel{
 		//TODO: come back to this
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
-			change += "<p> "+notesDifference + " notes added.</p>";
+			change += "<p> "+ notesDifference;
+			if(notesDifference == 1)
+				change += " note added.</p>";
+			else
+				change += " notes added.</p>";
 		}
 			
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		return null;
 	}
 
 	/**
-	 * Gets the date
-	 * 
+	 * Gets the date.
+	 *
 	 * @return the date
 	 */
 	public String getDate() {
@@ -169,8 +217,8 @@ public class HistoricalChange extends AbstractModel{
 	}
 
 	/**
-	 * Gets the id of changed object
-	 * 
+	 * Gets the id of changed object.
+	 *
 	 * @return id of changed object
 	 */
 	public int getIdOfChangedObject() {
@@ -178,8 +226,8 @@ public class HistoricalChange extends AbstractModel{
 	}
 
 	/**
-	 * Gets id
-	 * 
+	 * Gets id.
+	 *
 	 * @return id
 	 */
 	public int getId() {
@@ -187,8 +235,8 @@ public class HistoricalChange extends AbstractModel{
 	}
 
 	/**
-	 * Gets user name
-	 * 
+	 * Gets user name.
+	 *
 	 * @return user name
 	 */
 	public String getUserName() {
@@ -196,24 +244,27 @@ public class HistoricalChange extends AbstractModel{
 	}
 	
 	/**
-	 * Gets change
-	 * 
+	 * Gets change.
+	 *
 	 * @return change
 	 */
 	public String getChange(){
 		return change;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString(){
 		return "<html style=\"padding:30px; border:1px solid black;\"><u>" + getUserName() + " on " + getDate()+":</u>" + getChange()+"</html>";
 	}
-	
-	
-	
 }

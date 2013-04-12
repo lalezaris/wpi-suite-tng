@@ -21,9 +21,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 
-
 /**
- * Controller to create child requirements
+ * Controller to create child requirements.
  *
  * @author Tushar Narayan
  *
@@ -35,6 +34,11 @@ public class CreateChildRequirementController {
 	private Requirement childRequirement;
 	private RequirementView view;
 	
+	/**
+	 * Instantiates a CreateChildRequirementController.
+	 *
+	 * @param view the RequirementView
+	 */
 	public CreateChildRequirementController(RequirementView view) {
 		this.view = view;
 
@@ -42,10 +46,10 @@ public class CreateChildRequirementController {
 	}
 
 	/**
-	 * Serve up the child requirement
+	 * Serve up the child requirement.
 	 */
 	public void viewChild() {
-		childRequirement.setIteration(((RequirementPanel) view.getRequirementPanel()).getModel().getIteration());
+		childRequirement.setIterationId(((RequirementPanel) view.getRequirementPanel()).getModel().getIterationId());
 		childRequirement.setReleaseNumber(((RequirementPanel) view.getRequirementPanel()).getModel().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
 		childRequirement.setStatus(((RequirementPanel) view.getRequirementPanel()).getModel().getStatus());
@@ -53,11 +57,15 @@ public class CreateChildRequirementController {
 		showRequirement(childRequirement);
 	} 
 	
+	/**
+	 * Show requirement.
+	 *
+	 * @param childRequirement the child requirement to be shown
+	 */
 	public void showRequirement(Requirement childRequirement) {
 		// Make a new requirement view to display the requirement that was received
 		childRequirement.setIteration(Iteration.getIterationById(childRequirement.getIterationId()));
 		MainTabController.getController().addChildRequirementTab(childRequirement, view);
 	}
-	
 }
 

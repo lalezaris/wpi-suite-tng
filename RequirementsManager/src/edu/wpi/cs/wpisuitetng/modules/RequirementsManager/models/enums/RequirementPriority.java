@@ -14,13 +14,11 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
- * Possible values that a priority of a requirement can be set to
+ * Possible values that a priority of a requirement can be set to.
  *
  * @author Chris Dunkers
  * @author Joe Spicola
- *
  * @version Mar 17, 2013
- *
  */
 public enum RequirementPriority {
 	BLANK(""),
@@ -29,19 +27,39 @@ public enum RequirementPriority {
 	LOW("LOW");   // requires attention at some point in the iteration
 	
 	private String name;
+	
+	/**
+	 * Instantiates a new requirement priority.
+	 *
+	 * @param name the name
+	 */
 	RequirementPriority(String name){
 		this.name = name;
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString(){
 		return name;
 	}
 	
+	/**
+	 * Get value from a string.
+	 *
+	 * @param name the name
+	 * @return the requirement priority
+	 */
 	public static RequirementPriority valueFromString(String name){
 		if(name.equals("")) return BLANK;
 		if(name.equals("HIGH")) return HIGH;

@@ -13,8 +13,6 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import javax.swing.JOptionPane;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
@@ -40,7 +38,7 @@ public class RetrieveAllRequirementsController {
 	protected RefresherMode refreshMode;
 	
 	/**
-	 * Constructs a new RetrieveAllRequirementsController
+	 * Constructs a new RetrieveAllRequirementsController.
 	 * 
 	 * @param view the search Requirements view
 	 */
@@ -49,7 +47,7 @@ public class RetrieveAllRequirementsController {
 	}
 
 	/**
-	 * Sends a request for all of the Requirements
+	 * Sends a request for all of the Requirements.
 	 */
 	public void refreshData() {		
 		final RequestObserver requestObserver = new RetrieveAllRequirementsRequestObserver(this);
@@ -61,12 +59,11 @@ public class RetrieveAllRequirementsController {
 
 	/**
 	 * This method is called by the {@link RetrieveAllRequirementsRequestObserver} when the
-	 * response is received
+	 * response is received.
 	 * 
 	 * @param Requirements an array of Requirements returned by the server
 	 */
 	public void receivedData(Requirement[] Requirements) {	
-		
 		if (Requirements.length > 0) {
 			// save the data
 			this.data = Requirements;
@@ -86,5 +83,4 @@ public class RetrieveAllRequirementsController {
 	 * error occurs retrieving the Requirements from the server.
 	 */
 	public void errorReceivingData(String error) { }
-
 }

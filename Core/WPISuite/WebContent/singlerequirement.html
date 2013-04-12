@@ -17,7 +17,7 @@
 					document.getElementById("requirement_id").innerHTML = requirement[0].id;
 					document.getElementById("requirement_title").innerHTML = requirement[0].title;
 					document.getElementById("requirement_type").innerHTML = requirement[0].type;
-					document.getElementById("requirement_releaseNumber").innerHTML = requirement[0].releaseNumber;
+					document.getElementById("requirement_releaseNumber").innerHTML = (requirement[0].releaseNumber == '')? 'No release currently assigned.' : requirement[0].releaseNumber;
 					document.getElementById("requirement_description").innerHTML = requirement[0].description;
 					document.getElementById("requirement_status").innerHTML = requirement[0].status;
 					document.getElementById("requirement_priority").innerHTML = requirement[0].priority;
@@ -28,26 +28,36 @@
 					document.getElementById("requirement_iteration").innerHTML = (requirement[0].iterationId == 0)? 'Backlog': 'Iteration ' + requirement[0].iterationId;
 					document.getElementById("requirement_parent").innerHTML = (requirement[0].parentRequirementId == -1)? 'None': 'Requirement ' + requirement[0].parentRequirementId;
 					document.getElementById("requirement_creator").innerHTML = requirement[0].creatorUsername;
-					document.getElementById("requirement_project").innerHTML = requirement[0].project.title;
-					document.getElementById("requirement_assigned").innerHTML = requirement[0].assignee;
-					document.getElementById("requirement_children").innerHTML = requirement[0].childIDs;
-					
-					
-					document.getElementById("requirement_notes").innerHTML = '<ul>';//requirement[0].notes; //list-ish
-					for(var i = 0; i < requirement[0].notes.length; i++){
-						var tmp = 'On ' + requirement[0].notes[i].creationDate + ' by user' + requirement[0].notes[i].creator + ': <ul type="none"><li>' + requirement[0].notes[i].body +'</li></ul>';
-						tmp = tmp.replace('<p>',': ');
-						tmp = tmp.replace('</p>',' ');
-						document.getElementById("requirement_notes").innerHTML += '<li>' + tmp + '</li>'; 
+					document.getElementById("requirement_project").innerHTML = requirement[0].project.name;
+					document.getElementById("requirement_assigned").innerHTML = (requirement[0].assignee == '')? 'None assigned yet.' : requirement[0].assignee;
+
+					if(requirement[0].childIDs.length == 0) document.getElementById("requirement_children").innerHTML = 'None';
+					else{
+						document.getElementById("requirement_children").innerHTML = '<ul>';
+						for(var i = 0; i < requirement[0].childIDs.length; i++){
+							var tmp = 'Requirement ' + requirement[0].childIDs[i];
+							document.getElementById("requirement_children").innerHTML += '<li>' + tmp + '</li>'; 
+						}
+						document.getElementById("requirement_children").innerHTML += '<ul>';
 					}
-					document.getElementById("requirement_notes").innerHTML += '<ul>';
 					
+					if(requirement[0].notes.length == 0) document.getElementById("requirement_notes").innerHTML = 'None';
+					else{
+						document.getElementById("requirement_notes").innerHTML = '<ul>';
+						for(var i = 0; i < requirement[0].notes.length; i++){
+							var tmp = 'On ' + requirement[0].notes[i].creationDate + ' by user ' + requirement[0].notes[i].creator + ': <ul type="none"><li>' + requirement[0].notes[i].body +'</li></ul>';
+							tmp = tmp.replace('<p>',': ');
+							tmp = tmp.replace('</p>',' ');
+							document.getElementById("requirement_notes").innerHTML += '<li>' + tmp + '</li>'; 
+						}
+						document.getElementById("requirement_notes").innerHTML += '<ul>';
+					}
 					
 					document.getElementById("requirement_history").innerHTML = '<ul>';
 					for(var i = 0; i < requirement[0].history.length; i++){
-						var tmp = requirement[0].history[i].date + ' ' + requirement[0].history[i].change;
-						tmp = tmp.replace('<p>',': ');
-						tmp = tmp.replace('</p>',' ');
+						var tmp = 'On ' + requirement[0].history[i].date + ' by user ' + requirement[0].history[i].user.username + ': <ul type="none"><li>' + requirement[0].history[i].change +'</li></ul>';
+						tmp = tmp.replace('<p>','');
+						tmp = tmp.replace('</p>','');
 						document.getElementById("requirement_history").innerHTML += '<li>' + tmp + '</li>'; 
 					}
 					document.getElementById("requirement_history").innerHTML += '</ul>';

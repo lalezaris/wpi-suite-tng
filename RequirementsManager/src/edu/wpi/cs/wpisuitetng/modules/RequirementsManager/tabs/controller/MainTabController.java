@@ -11,7 +11,7 @@
  *  Tyler Stone
  *  Arica Liu
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
@@ -48,11 +48,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  *
  */
 public class MainTabController {
-	
+
 	MainTabView view;
 
 	private static MainTabController staticView;
-	
+
 	/**
 	 * Controls the MainTab
 	 * 
@@ -68,7 +68,7 @@ public class MainTabController {
 			}
 		});
 	}
-	
+
 	//TODO: improve implementation
 	/**
 	 * Gets MainTabController
@@ -78,8 +78,8 @@ public class MainTabController {
 	public static MainTabController getController(){
 		return staticView;
 	}
-	
-	
+
+
 	/**
 	 * Adds a tab.
 	 * 
@@ -95,9 +95,9 @@ public class MainTabController {
 		view.setSelectedIndex(index);
 		return new Tab(view, view.getTabComponentAt(index));
 	}
-	
 
-	
+
+
 	/**
 	 * Adds a tab
 	 * @return Same as addTab(null, null, null, null)
@@ -105,7 +105,7 @@ public class MainTabController {
 	public Tab addTab() {
 		return addTab(null, null, null, null);
 	}
-	
+
 	/**
 	 * Adds a tab that displays the given requirement in the given mode
 	 * @param requirement The requirement to display
@@ -137,7 +137,7 @@ public class MainTabController {
 			return tab;
 		}
 	}
-	
+
 	/**
 	 * Adds requirement tab
 	 * 
@@ -149,23 +149,32 @@ public class MainTabController {
 	public Tab addRequirementTab(Requirement requirement, RequirementView parentView, Mode mode) {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
-	
-	
+
+
 	/**
 	 * Adds a tab that displays the list of all requirements
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListRequirementTab() {
-		//already brings focus to list tab if it was opened previously
-		Tab tab = addTab();
-		RequirementListPanel panel = view.getTableModel();
-		panel.setTab(tab);
-		tab.setComponent(panel);
-		panel.requestFocus();
-		return tab;
-		
+
+		int checkTabIndex = view.indexOfTab("Requirement List");
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			System.out.println("found tab already");
+			return null;
+		}
+		else{
+			//already brings focus to list tab if it was opened previously
+
+			Tab tab = addTab();
+			RequirementListPanel panel = view.getTableModel();
+			panel.setTab(tab);
+			tab.setComponent(panel);
+			panel.requestFocus();
+			return tab;
+		}
 	}
-	
+
 	/**
 	 * Adds child requirement tab
 	 * @param requirement requirement to add
@@ -175,10 +184,10 @@ public class MainTabController {
 	public Tab addChildRequirementTab(Requirement requirement, RequirementView parentView) {
 		Tab newTab = addRequirementTab(requirement, Mode.CHILD);
 		((RequirementView) newTab.getComponent()).setParentView(parentView);
-		
+
 		return newTab;
 	}
-	
+
 	/**
 	 * Adds a tab that displays the given requirement
 	 * @param requirement the requirement to display
@@ -187,7 +196,7 @@ public class MainTabController {
 	public Tab addEditRequirementTab(Requirement requirement) {
 		return addRequirementTab(requirement, Mode.EDIT);
 	}
-	
+
 	/**
 	 * Adds a tab that allows the user to create a new Requirement
 	 * @return The created Tab
@@ -195,7 +204,7 @@ public class MainTabController {
 	public Tab addCreateRequirementTab() {
 		return addRequirementTab(new Requirement(), Mode.CREATE);
 	}
-	
+
 	/**
 	 * Adds a tab that shows the bar chart.
 	 * @param requirement The requirement to display
@@ -212,7 +221,7 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("Bar Chart");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			
+
 			return null;
 		}
 		else{
@@ -224,8 +233,8 @@ public class MainTabController {
 			return tab;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Add a change listener to the view this is controlling.
 	 * @param listener the ChangeListener that should receive ChangeEvents
@@ -233,7 +242,7 @@ public class MainTabController {
 	public void addChangeListener(ChangeListener listener) {
 		view.addChangeListener(listener);
 	}
-	
+
 	/**
 	 * Changes the selected tab to the tab left of the current tab
 	 */
@@ -242,14 +251,14 @@ public class MainTabController {
 			switchToTab(view.getSelectedIndex() - 1);
 		}
 	}
-	
+
 	/**
 	 * Changes the selected tab to the tab right of the current tab
 	 */
 	public void switchToRightTab() {
 		switchToTab(view.getSelectedIndex() + 1);
 	}
-	
+
 	/**
 	 * Closes the currently active tab
 	 */
@@ -261,7 +270,7 @@ public class MainTabController {
 			// do nothing, tried to close tab that does not exist
 		}
 	}
-	
+
 	/**
 	 * Changes the selected tab to the tab with the given index
 	 * @param tabIndex the index of the tab to select
@@ -274,7 +283,7 @@ public class MainTabController {
 			// an invalid tab was requested, do nothing
 		}
 	}
-	
+
 	/**
 	 * Close tabs upon middle clicks.
 	 * @param event MouseEvent that happened on this.view
@@ -301,7 +310,7 @@ public class MainTabController {
 		view.requestFocus();
 		return tab;
 	}
-	
+
 	/**
 	 * Adds a tab that displays the given iteration in the given mode
 	 * @param iteration The iteration to display
@@ -320,7 +329,7 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("Iteration #" + iterationId + " - " + iterationTitle);
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			
+
 			return null;
 		}
 		else{
@@ -332,21 +341,29 @@ public class MainTabController {
 			return tab;
 		}
 	}
-		
+
 	/**
 	 * Adds a tab that displays the list of all requirements
 	 * @return the tab that has a the table of requirements on it
 	 */
 	public Tab addListIterationTab() {
-		//already brings focus to list tab if it was opened previously
-		Tab tab = addTab();
-		IterationListPanel panel = view.getIterationTableModel();
-		panel.setTab(tab);
-		tab.setComponent(panel);
-		panel.requestFocus();
-		return tab;
+		int checkTabIndex = view.indexOfTab("Iteration List");
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			System.out.println("found tab already");
+			return null;
+		}
+		else{
+			//already brings focus to list tab if it was opened previously
+			Tab tab = addTab();
+			IterationListPanel panel = view.getIterationTableModel();
+			panel.setTab(tab);
+			tab.setComponent(panel);
+			panel.requestFocus();
+			return tab;
+		}
 	}
-	
+
 	/**
 	 * Adds a tab that displays the given requirement
 	 * @param requirement the requirement to display
@@ -355,7 +372,7 @@ public class MainTabController {
 	public Tab addEditIterationTab(Iteration iteration) {
 		return addIterationTab(iteration, IterationPanel.Mode.EDIT);
 	}
-	
+
 	/**
 	 * Adds a tab that allows the user to create a new Iteration
 	 * @return The created Tab
@@ -363,8 +380,8 @@ public class MainTabController {
 	public Tab addCreateIterationTab() {
 		return addNewIterationTab(); //new Iteration(), IterationPanel.Mode.CREATE
 	}
-	
-	
+
+
 	/**
 	 * Adds Edit Users Permissions tab
 	 * 

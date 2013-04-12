@@ -98,12 +98,18 @@ public class JPlaceholderTextField extends JTextField {
 		this.setForeground(Color.gray);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.text.JTextComponent#setText(java.lang.String)
+	 */
 	@Override
 	public void setText(String newText) {
 		super.setText(newText);
 		this.setForeground(Color.black);
 	}
 	
+	/* (non-Javadoc)
+	 * @see javax.swing.text.JTextComponent#getText()
+	 */
 	@Override
 	public String getText(){
 		if(super.getText().equals(placeholderText)){

@@ -9,10 +9,8 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
-
-
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -46,14 +44,17 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	private final RequirementView view;
 
 	/**
-	 * Constructs a new UpdateRequirementRequestObserver
-	 * 
-	 * @param view	The RequirementView that will be affected by any updates.
+	 * Constructs a new UpdateRequirementRequestObserver.
+	 *
+	 * @param view The RequirementView that will be affected by any updates.
 	 */
 	public UpdateRequirementRequestObserver(RequirementView view) {
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		BarChartView.update();
@@ -76,7 +77,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 					public void run() {
 						Requirement unchangedModel = ((RequirementPanel) view.getRequirementPanel()).getUneditedModel();
 						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
-						
+
 						/* Great! the requirement was updated! 
 						 * Now we check if the iterationID was changed.
 						 * 
@@ -89,9 +90,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 							//change all children
 							batchController.instantiateChange(changedModel.getChildRequirementIds());
 						}
-//						
-//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-//						view.setEditModeDescriptors(requirement);
+						//						
+						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+						//						view.setEditModeDescriptors(requirement);
 					}
 				});
 			}
@@ -109,6 +110,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
@@ -117,6 +121,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 

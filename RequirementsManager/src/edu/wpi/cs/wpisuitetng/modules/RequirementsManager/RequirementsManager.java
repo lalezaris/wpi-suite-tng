@@ -31,8 +31,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
- * Manages the Requirements
- * Adapted from JanewayModule in the project DefectTracker
+ * Manages the Requirements.
+ * Adapted from JanewayModule in the project DefectTracker.
  *
  * @author Tyler Stone
  *

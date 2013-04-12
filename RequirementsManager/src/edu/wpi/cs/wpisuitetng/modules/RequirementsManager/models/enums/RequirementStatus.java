@@ -18,8 +18,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
- * Possible values that a status of a requirement can be set to
- * Adapted from DefectStatus in project DefectTracker
+ * Possible values that a status of a requirement can be set to.
+ * Adapted from DefectStatus in project DefectTracker.
  *
  * @author Chris Dunkers 
  * @author Joe Spicola
@@ -33,4 +33,3 @@ public enum RequirementStatus {
 	COMPLETE,   // a finished requirement but not tested
 	DELETED		// requirement has been deleted from the list.
 }
-		

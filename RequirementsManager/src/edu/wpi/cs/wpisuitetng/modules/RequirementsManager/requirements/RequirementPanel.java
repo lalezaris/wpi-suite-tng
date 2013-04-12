@@ -58,7 +58,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Sa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
@@ -784,9 +783,9 @@ public class RequirementPanel extends JPanel{
 		 
 		 
 		 // loops through assignees in a requirement to enable actual estimate field
-		 for(int i=0; i < model.getAssignee().size(); i++)
-		 if(ConfigManager.getConfig().getUserName().equals(model.getAssignee().get(i))){
-			 enableStuff(new JComponent[]{txtActual});
+		 
+		 if(model.getAssignee().contains(ConfigManager.getConfig().getUserName())){
+			 enableStuff(new JComponent[]{txtActual, cancelRequirementBottom, saveRequirementBottom});
 		 }
 		 
 		 if (model.getStatus() == RequirementStatus.DELETED)

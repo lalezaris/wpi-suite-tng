@@ -25,8 +25,8 @@ import javax.swing.JComboBox;
  */
 public class IterationListener implements ActionListener {
 
-	/* 
-	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent iterations) {
@@ -34,5 +34,4 @@ public class IterationListener implements ActionListener {
 		System.out.println(cb.getSelectedItem());
 		
 	}
-
 }

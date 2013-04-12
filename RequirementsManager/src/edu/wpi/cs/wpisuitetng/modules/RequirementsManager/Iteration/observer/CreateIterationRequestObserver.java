@@ -8,14 +8,14 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
+ *  Arica Liu
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 /**
- * The request observer for a create request to the server
+ * The request observer for a create request to the server.
  *
- * @author Arica Liu, adapted from Defect Tracker
+ * @author Arica Liu
  *
  * @version April 9th, 2013
  *
@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -40,16 +41,16 @@ public class CreateIterationRequestObserver implements RequestObserver {
 	private final IterationView view;
 
 	/**
-	 * Constructs a new CreateIterationRequestObserver
+	 * Constructs a new CreateIterationRequestObserver.
 	 * 
-	 * @param view	The IterationView that will be affected by any updates.
+	 * @param view	The IterationView that will be affected by any updates
 	 */
 	public CreateIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 
-	/**
-	 * @param iReq the request
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
@@ -58,7 +59,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
+		BarChartView.update();
 		if (response.getStatusCode() == 201) {
 			// parse the Iteration from the body
 			final Iteration iteration = Iteration.fromJSON(response.getBody());
@@ -87,6 +88,9 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
@@ -95,6 +99,9 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 

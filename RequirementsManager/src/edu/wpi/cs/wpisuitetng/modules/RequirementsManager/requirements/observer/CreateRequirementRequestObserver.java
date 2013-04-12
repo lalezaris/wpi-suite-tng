@@ -23,6 +23,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -64,6 +65,8 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		ResponseModel response = request.getResponse();
 
 		if (response.getStatusCode() == 201) {
+			BarChartView.update();
+			
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);

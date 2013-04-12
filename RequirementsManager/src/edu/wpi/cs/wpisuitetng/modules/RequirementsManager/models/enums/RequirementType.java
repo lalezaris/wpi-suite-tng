@@ -13,12 +13,10 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
- * Insert Description Here
+ * Enum for Requirement types.
  *
  * @author CDUNKERS
- *
  * @version Apr 6, 2013
- *
  */
 public enum RequirementType {
 	BLANK(""),
@@ -29,19 +27,39 @@ public enum RequirementType {
 	SCENARIO("SCENARIO");   // requires attention at some point in the iteration
 	
 	private String name;
+	
+	/**
+	 * Instantiates a new requirement type.
+	 *
+	 * @param name the name
+	 */
 	RequirementType(String name){
 		this.name = name;
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString(){
 		return name;
 	}
 	
+	/**
+	 * Get value from a string.
+	 *
+	 * @param name the name
+	 * @return the requirement type
+	 */
 	public static RequirementType valueFromString(String name){
 		if(name.equals("")) return BLANK;
 		if(name.equals("EPIC")) return EPIC;

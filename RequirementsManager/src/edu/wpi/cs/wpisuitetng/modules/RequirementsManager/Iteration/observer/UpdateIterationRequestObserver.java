@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Arica Liu
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
@@ -17,14 +17,9 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -39,22 +34,22 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 
-/**
- * A RequestObserver for a Request to update a Iteration.
- */
 public class UpdateIterationRequestObserver implements RequestObserver {
 
 	private final IterationView view;
 
 	/**
-	 * Constructs a new UpdateIterationRequestObserver
+	 * Constructs a new UpdateIterationRequestObserver.
 	 * 
-	 * @param view	The IterationView that will be affected by any updates.
+	 * @param view	The IterationView that will be affected by any updates
 	 */
 	public UpdateIterationRequestObserver(IterationView view) {
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request
@@ -62,7 +57,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-
+		BarChartView.update();
 		// print the body
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Iteration from the body
@@ -93,6 +88,9 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		JOptionPane.showMessageDialog(view, 
@@ -101,6 +99,9 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		JOptionPane.showMessageDialog(view, "Unable to complete request: " + exception.getMessage(), 

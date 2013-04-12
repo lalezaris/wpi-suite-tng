@@ -28,7 +28,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveAllIterationsControllerTree;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -72,6 +71,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 
 		this.root = (DefaultMutableTreeNode) root;
 		controller.refreshData();
+		
+		this.root.add(new DefaultMutableTreeNode(Iteration.getBacklog()));
+		this.root.add(new DefaultMutableTreeNode("Deleted"));
 	}
 
 	/**
@@ -156,7 +158,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 					deleted.add(new DefaultMutableTreeNode(requirements[r]));
 			}
 			root.add(deleted);
-
 			TreeView.expandAll();
 		//}
 	}

@@ -19,7 +19,7 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 
 /**
- * Creates child requirement action
+ * Creates child requirement action.
  * 
  * @author Tushar Narayan
  *
@@ -31,7 +31,7 @@ public class CreateChildRequirementAction extends AbstractAction{
 	private final CreateChildRequirementController controller;
 	
 	/**
-	 * Default constructor
+	 * Default constructor for CreateChildRequirementController.
 	 * 
 	 * @param controller controller to perform the action
 	 */
@@ -40,7 +40,10 @@ public class CreateChildRequirementAction extends AbstractAction{
 		this.controller = controller;
 	}
 	
-	/** 
+	/**
+	 * Action performed.
+	 *
+	 * @param arg0 the arg0
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent arg0) {

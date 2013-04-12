@@ -84,7 +84,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 						if(parentView != null){
 							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
 							parentPanel.setDeleteEnabled(false);
-
+							
 							//get the EDITED model currently displayed, and just add the child to it
 							parentPanel.getEditedModel().addChildRequirement(requirement.getId());
 

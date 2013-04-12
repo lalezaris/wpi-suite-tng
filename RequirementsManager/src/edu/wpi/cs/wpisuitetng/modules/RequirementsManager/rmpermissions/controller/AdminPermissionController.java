@@ -13,26 +13,20 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 /**
- * The controller for the button to move a object to the None Permissions list
+ * The controller for the button to move a object to the None Permissions list.
  *
  * @author Chris Dunkers
- *
  * @version Apr 2, 2013
- *
  */
 public class AdminPermissionController extends AbstractAction {
 	
@@ -40,6 +34,11 @@ public class AdminPermissionController extends AbstractAction {
 	protected UserPermissionPanel panel;
 	DefaultListModel originalNoneListModel, originalUpdateListModel, originalAdminListModel;
 	
+	/**
+	 * Instantiates a new admin permission controller.
+	 *
+	 * @param panel the UserPermissionPanel
+	 */
 	public AdminPermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
@@ -52,7 +51,7 @@ public class AdminPermissionController extends AbstractAction {
 //		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	} 
 	
-	/* 
+	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
@@ -103,14 +102,11 @@ public class AdminPermissionController extends AbstractAction {
 		if(!this.getAllElementsInModel(originalNoneListModel).containsAll(this.getAllElementsInModel(newNoneModel))){this.panel.setHasChanged(true);}
 		if(!this.getAllElementsInModel(originalUpdateListModel).containsAll(this.getAllElementsInModel(newUpdateModel))){this.panel.setHasChanged(true);}
 		if(!this.getAllElementsInModel(originalAdminListModel).containsAll(this.getAllElementsInModel(newAdminModel))){this.panel.setHasChanged(true);}
-
-		
 	}
 	
-	
 	/**
-	 * The function takes a DefaultListModel and converts it to a list of string
-	 * 
+	 * The function takes a DefaultListModel and converts it to a list of string.
+	 *
 	 * @param model the model to be converted
 	 * @return a list of the items in the model
 	 */
@@ -123,8 +119,9 @@ public class AdminPermissionController extends AbstractAction {
 	}
 	
 	/**
-	 * the function takes in a List and takes all of the elements from the list and adds them to the default list model
-	 * 
+	 * The function takes in a List and takes all of the elements
+	 * from the list and adds them to the default list model.
+	 *
 	 * @param newElements a list of the elements to be put into the model
 	 * @return the model with the given elements
 	 */

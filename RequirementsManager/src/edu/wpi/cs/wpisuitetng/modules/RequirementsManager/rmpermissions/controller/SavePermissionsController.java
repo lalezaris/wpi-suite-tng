@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to save permissions
+ * Controller to save permissions.
  *
  * @author Chris Hanna
  *

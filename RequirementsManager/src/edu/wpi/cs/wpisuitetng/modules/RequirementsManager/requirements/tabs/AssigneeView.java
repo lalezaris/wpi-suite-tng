@@ -10,17 +10,24 @@
  * Contributors:
  * Joe Spicola
  * Sam Lalezari
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -39,8 +46,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version Apr 7, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AssigneeView extends JPanel{
-	
+
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
 	private JList<String> allUserList;
@@ -50,24 +58,29 @@ public class AssigneeView extends JPanel{
 	private JButton btnAdd;
 	private JButton btnRemove;
 	private JPanel buttonPanel;
+
+
 	private boolean isButtonPressed; 
-	
+
 	/**
 	 * Instantiates a new assignee view.
 	 *
 	 * @param req the requirement
 	 */
+	@SuppressWarnings("serial")
 	public AssigneeView(Requirement req){
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setAlignOnBaseline(true);
+		this.setLayout(flowLayout);
 		isButtonPressed = false;
-		this.setLayout(new FlowLayout());
-		
+
 		allUserAL = new ArrayList<String>();
-		
+
 		assignedUserAL = req.getAssignee();
-		
+
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
-		
+
 		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
 		System.out.println();
@@ -85,31 +98,77 @@ public class AssigneeView extends JPanel{
 		}
 		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
 		System.out.println();
-		
+
 		allUserList = new JList<String>(allUserLM);
 		assignedUserList = new JList<String>(assignedUserLM);
-		
-		
-		buttonPanel = new JPanel();
+
+
+		buttonPanel = new JPanel(){
+			@Override
+			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
+				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+			}
+
+			@Override
+			public int getBaseline(int width, int height) {
+				return 0;
+			}
+		};
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
-		
+
 		btnAdd = new    JButton("ADD");
 		btnAdd.addActionListener(new AddAssigneeController(this));
-		
+
 		btnRemove = new JButton("REMOVE");
 		btnRemove.addActionListener(new RemoveAssigneeController(this));
-		
+
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
-		
+
 		allUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		assignedUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
-		this.add(allUserList);
+
+		JPanel leftPanel = new JPanel()	{
+			@Override
+			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
+				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+			}
+
+			@Override
+			public int getBaseline(int width, int height) {
+				return 0;
+			}
+		};
+		leftPanel.setLayout(new BorderLayout());
+		JLabel leftLabel = new JLabel("Not Assigned");
+		leftPanel.add(leftLabel, BorderLayout.NORTH);
+		allUserList.setAlignmentX(CENTER_ALIGNMENT);
+		leftPanel.add(allUserList);
+		this.add(leftPanel, BorderLayout.CENTER);
+
 		this.add(buttonPanel);
-		this.add(assignedUserList);
+
+		JPanel rightPanel = new JPanel(){	
+			@Override
+			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
+				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
+			}
+
+			@Override
+			public int getBaseline(int width, int height) {
+				return 0;
+			}
+		};
+		rightPanel.setLayout(new BorderLayout());
+		JLabel rightLabel = new JLabel("Assigned");
+		rightPanel.add(rightLabel, BorderLayout.NORTH);
+		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
+		rightPanel.add(assignedUserList, BorderLayout.CENTER);
+		leftPanel.setAlignmentX(CENTER_ALIGNMENT);
+
+		this.add(rightPanel);
 	}
-	
+
 	/**
 	 * Returns button object that adds users from a requirement.
 	 * 
@@ -118,7 +177,7 @@ public class AssigneeView extends JPanel{
 	public JButton getBtnAdd(){
 		return this.btnAdd;
 	}
-	
+
 	/**
 	 * Returns button object that removes users from a requirement.
 	 * 
@@ -136,13 +195,13 @@ public class AssigneeView extends JPanel{
 	public void setAssigneeList(ArrayList<String> assignee) {
 		this.assignedUserAL = assignee;
 		Collections.sort(assignedUserAL);
-		
+
 		assignedUserLM.clear();
 		for(String s:assignedUserAL){
 			assignedUserLM.addElement(s);
 		}
 	}
-	
+
 	/**
 	 * Sets the array list of all users.
 	 *
@@ -152,7 +211,7 @@ public class AssigneeView extends JPanel{
 		// TODO Auto-generated method stub
 		this.allUserAL = all;
 		Collections.sort(allUserAL);
-		
+
 		allUserLM.clear();
 		for(String s:allUserAL){
 			allUserLM.addElement(s);
@@ -166,9 +225,9 @@ public class AssigneeView extends JPanel{
 	 */
 	public void setAllUserList(ArrayList<String> users){
 		this.allUserAL = users;
-		
+
 	}
-	
+
 	/**
 	 * Returns the array list containing all users.
 	 * 
@@ -195,7 +254,7 @@ public class AssigneeView extends JPanel{
 	public JList<String> getAllUserList() {
 		return allUserList;
 	}
-	
+
 	/**
 	 * Returns allUserLM for editing purposes.
 	 * 
@@ -204,7 +263,7 @@ public class AssigneeView extends JPanel{
 	public DefaultListModel<String> getAllUserLM() {
 		return allUserLM;
 	}
-	
+
 	/**
 	 * Returns allUserLM for editing purposes.
 	 * 

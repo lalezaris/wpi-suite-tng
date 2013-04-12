@@ -564,47 +564,47 @@ public class RequirementPanel extends JPanel{
 
 		 cFour.insets = new Insets(10,10,10,0);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 0;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(lblCreatedDate, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 0;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(lblCreatedDate, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 0;
+//		 txtCreatedDate.setText(model.getCreationDate().toString());
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(txtCreatedDate, cFour);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 0;
-		 txtCreatedDate.setText(model.getCreationDate().toString());
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtCreatedDate, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 1;
+//		 panelFour.add(lblModifiedDate, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 1;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(txtModifiedDate, cFour);
 
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 1;
-		 panelFour.add(lblModifiedDate, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 1;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(txtModifiedDate, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 0;
-		 cFour.gridy = 2;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-		 panelFour.add(lblAssignee, cFour);
-
-		 cFour.weightx = 0.5;
-		 cFour.weighty = 0.5;
-		 cFour.gridx = 1;
-		 cFour.gridy = 2;
-		 cFour.anchor = GridBagConstraints.LINE_START;
-//		 panelFour.add(txtAssignee, cFour);
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 0;
+//		 cFour.gridy = 2;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+//		 panelFour.add(lblAssignee, cFour);
+//
+//		 cFour.weightx = 0.5;
+//		 cFour.weighty = 0.5;
+//		 cFour.gridx = 1;
+//		 cFour.gridy = 2;
+//		 cFour.anchor = GridBagConstraints.LINE_START;
+////		 panelFour.add(txtAssignee, cFour);
 
 
 		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
@@ -756,6 +756,9 @@ public class RequirementPanel extends JPanel{
 
 		 //depending on the user's permission, disable certain components
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		 if(!model.getAssignee().contains(ConfigManager.getConfig().getUserName()) && pLevel == RMPermissionsLevel.UPDATE){
+			 pLevel = RMPermissionsLevel.NONE;
+		 }
 		 switch (pLevel){
 		 case NONE:
 			 disableStuff(new JComponent[]{cmbStatus,cmbPriority,cmbType,txtDescription,txtEstimate,txtActual,txtCreator,/*txtAssignee,*/

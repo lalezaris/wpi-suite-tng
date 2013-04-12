@@ -243,7 +243,7 @@ public class RequirementTableModel extends AbstractTableModel {
     
     private void illegalEstimateChange() {
 		JFrame debugger = new JFrame("Input value error");
-		JOptionPane.showMessageDialog(debugger, "The value of estimate must be integer between 0 and 100.");
+		JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
     }
     
     public void clearRequirements() {

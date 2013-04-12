@@ -178,7 +178,8 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 				}
 			}
 			for(int i=0; i<allIterationsHack.size();i++){
-				iterationDataset.setValue(iterationCount[i],"", "Iteration #" + allIterationsHack.get(i));
+				String iterationName = Iteration.getIterationById(allIterationsHack.get(i)).getName();
+				iterationDataset.setValue(iterationCount[i],"", "Iteration:" + iterationName);
 			}
 			System.out.println("Got past the Iteration loop.");
 			//==========

@@ -58,7 +58,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
-	
+	protected RequirementPanel.Mode mode;
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton saveButton;
@@ -78,7 +78,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
-		
+		this.mode = editMode;
 		this.reqModel = new RequirementModel(requirement, this);
 		
 		containingTab = tab;
@@ -105,7 +105,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			requirement.setCreator(ConfigManager.getConfig().getUserName());
 		}
 		
-		mainPanel = new RequirementPanel(this, editMode);
+		mainPanel = new RequirementPanel(this);
 		
 		//set create child button action
 		mainPanel.getCreateChildRequirement().setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this)));
@@ -342,6 +342,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 if (!mainPanel.getEditedModel().getChildRequirementIds().isEmpty()) {
 			 mainPanel.disableStuff(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
 		 }
+		 
+		 
+	}
+
+
+	/**
+	 * @return the mode
+	 */
+	public RequirementPanel.Mode getMode() {
+		return mode;
 	}
 	
 	

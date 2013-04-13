@@ -170,12 +170,12 @@ public class RequirementPanel extends JPanel{
 	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
-	public RequirementPanel(RequirementView parent, Mode mode) {
+	public RequirementPanel(RequirementView parent) {
 
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
 				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
-		this.editMode = mode;
+		this.editMode = parent.getMode();
 
 		//get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
@@ -237,8 +237,8 @@ public class RequirementPanel extends JPanel{
 		for (int i = 0; i < knownIterations.length; i++){
 			knownIterations[i] = knownIts.get(i);
 		}
-		
 		cmbIteration = new JComboBox(knownIterations);
+
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);

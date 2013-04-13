@@ -58,6 +58,7 @@ public class IterationView extends JPanel {
 	private Tab containingTab;
 	private boolean inputEnabled;
 	protected IterationModel iterationModel;
+	IterationPanel.Mode mode;
 
 	/**
 	 * Construct a new IterationView where the user can view (and edit) a iteration.
@@ -67,16 +68,16 @@ public class IterationView extends JPanel {
 	 */
 	public IterationView(Iteration iteration, Mode edit, Tab tab) {
 		
-		Mode mode = edit;
+		this.mode = edit;
 		iterationModel = new IterationModel(iteration, this); // have to get the iteration we want, or create a new iteration if in the Create Mode
 
 		inputEnabled = true;
 
 		containingTab = tab;
 		
-//		if(containingTab == null) {
-//			containingTab = new DummyTab();
-//		}		
+		if(containingTab == null) {
+			containingTab = new DummyTab();
+		}		
 		containingTab.setIcon(new ImageIcon());
 		if (mode == Mode.CREATE) {
 			containingTab.setTitle("Create Iteration");
@@ -86,7 +87,7 @@ public class IterationView extends JPanel {
 		}
 
 		// Instantiate the main create iteration panel
-		mainPanel = new IterationPanel(this, mode);
+		mainPanel = new IterationPanel(this/*, mode*/);
 		
 		mainPanel.getBtnSaveIteration().setAction(new SaveChangesAction(new SaveIterationController(this)));
 		mainPanel.getBtnCancelIteration().setAction(new CancelIterationAction(new CancelIterationController(this)));
@@ -180,6 +181,23 @@ public class IterationView extends JPanel {
 	}
 	
 	/**
+	 * Revalidates and repaints the scroll pane containing the DefectPanel
+	 */
+	public void refreshScrollPane() {
+		mainPanelScrollPane.revalidate();
+		mainPanelScrollPane.repaint();
+	}
+
+	/*
+	 * This function will be used in future iterations.
+	 * 
+	 * @param iterations Iterations to be added.
+	 */
+	public void addIterations(Iteration[] iterations){
+		//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
+	}
+	
+	/**
 	 * @return the iterationModel
 	 */
 	public IterationModel getIterationModel() {
@@ -213,22 +231,9 @@ public class IterationView extends JPanel {
 	public Tab getTab() {
 		return containingTab;
 	}
-
-	/**
-	 * Revalidates and repaints the scroll pane containing the DefectPanel
-	 */
-	public void refreshScrollPane() {
-		mainPanelScrollPane.revalidate();
-		mainPanelScrollPane.repaint();
-	}
-
-	/*
-	 * This function will be used in future iterations.
-	 * 
-	 * @param iterations Iterations to be added.
-	 */
-	public void addIterations(Iteration[] iterations){
-		//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
-	}
 	
+	public IterationPanel.Mode getMode(){
+		return this.mode;
+	}
+
 }

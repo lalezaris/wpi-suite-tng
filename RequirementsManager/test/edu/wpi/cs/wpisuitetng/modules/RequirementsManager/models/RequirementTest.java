@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.*;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType.*;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +28,7 @@ import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -201,4 +203,20 @@ public class RequirementTest {
 //		assertEquals(r6.getAssignee(), testUser2);
 		
 	}
+	
+	@Test
+	public void testEnums(){
+		assertEquals(RequirementPriority.BLANK,RequirementPriority.valueFromString(""));
+		assertEquals(RequirementPriority.LOW,RequirementPriority.valueFromString("LOW"));
+		assertEquals(RequirementPriority.MEDIUM,RequirementPriority.valueFromString("MEDIUM"));
+		assertEquals(RequirementPriority.HIGH,RequirementPriority.valueFromString("HIGH"));
+		
+		assertEquals(RequirementType.BLANK,RequirementType.valueFromString(""));
+		assertEquals(RequirementType.EPIC,RequirementType.valueFromString("EPIC"));
+		assertEquals(RequirementType.THEME,RequirementType.valueFromString("THEME"));
+		assertEquals(RequirementType.USERSTORY,RequirementType.valueFromString("USER STORY"));
+		assertEquals(RequirementType.NONFUNCTIONAL,RequirementType.valueFromString("NON FUNCTIONAL"));
+		assertEquals(RequirementType.SCENARIO,RequirementType.valueFromString("SCENARIO"));
+	}
+	
 }

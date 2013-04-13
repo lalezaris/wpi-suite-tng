@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
@@ -78,7 +79,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
+						view.setUp(requirement, Mode.CREATE);
+						
 						view.setEditModeDescriptors(requirement);
 
 						//to deal with child Requirements
@@ -96,7 +99,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							 * and doesn't require the parent Requirement to be explicitly
 							 * saved again by the user if they don't want to
 							 */
-							Requirement uneditedParent = parentPanel.getUneditedModel();
+							Requirement uneditedParent = view.getReqModel().getUneditedRequirement();
 							Requirement uneditedParentWithChild = uneditedParent;
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
 

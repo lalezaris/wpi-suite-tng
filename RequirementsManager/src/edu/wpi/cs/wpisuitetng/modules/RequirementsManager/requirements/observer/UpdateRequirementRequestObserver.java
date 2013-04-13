@@ -75,7 +75,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						Requirement unchangedModel = ((RequirementPanel) view.getRequirementPanel()).getUneditedModel();
+						Requirement unchangedModel = view.getReqModel().getUneditedRequirement();
 						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
 
 						/* Great! the requirement was updated! 

@@ -66,6 +66,8 @@ public class UserPermissionView extends JPanel {
 		mainPanel.getBtnUpdate().addActionListener(new UpdatePermissionController(mainPanel));
 		mainPanel.getBtnUpdateAll().addActionListener(new UpdateAllPermissionsController(mainPanel, permModel));
 
+		
+		
 		SetUpPermissionsPanelController setUp = new SetUpPermissionsPanelController(mainPanel, permModel);
 		setUp.setUp();
 

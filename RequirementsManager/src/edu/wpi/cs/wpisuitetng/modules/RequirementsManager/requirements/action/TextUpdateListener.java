@@ -95,7 +95,8 @@ public class TextUpdateListener implements KeyListener {
 		try {
 			// Get the field from the Requirement model that corresponds with the name of component.
 			// For instance, if the component's name is "Title" Requirement#getTitle will be called.
-			Object field = panel.getModel().getClass().getDeclaredMethod("get" + component.getName()).invoke(panel.getModel());
+			Object field = panel.getParent().getReqModel().getRequirement().getClass().getDeclaredMethod(
+					"get" + component.getName()).invoke(panel.getParent().getReqModel().getRequirement());
 			
 			// If field is null, set base to an empty String.
 			if (field == null) {

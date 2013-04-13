@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPan
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 
@@ -93,8 +94,9 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 				tabbedPane.remove(index);
 			} else {				
 				if(component instanceof RequirementView){
-					RequirementPanel rPanel = (RequirementPanel) ((RequirementView) component).getRequirementPanel();
-					if(rPanel.isThereChanges()){
+					//RequirementPanel rPanel = (RequirementPanel) ((RequirementView) component).getRequirementPanel();
+					RequirementView rView = ((RequirementView) component);
+					if(rView.getReqModel().isThereChanges()){
 						int buttons = JOptionPane.showConfirmDialog(
 								null,
 								"Are you sure you want to exit? Your changes will not be saved.",

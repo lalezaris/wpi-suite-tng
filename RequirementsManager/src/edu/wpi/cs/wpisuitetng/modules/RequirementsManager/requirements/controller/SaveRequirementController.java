@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -53,9 +54,11 @@ public class SaveRequirementController {
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? new CreateRequirementRequestObserver(getView()) : new UpdateRequirementRequestObserver(getView());
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.PUT : HttpMethod.POST);
-		if(panel.checkRequiredFields() > 0){} 
+		if(view.checkRequiredFields() > 0){} 
 		else {
 			panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
+			
+			System.out.println("Mode:" + panel.getEditMode());
 			String JsonRequest = panel.getEditedModel().toJSON();
 			request.setBody(JsonRequest);
 			System.out.println("Sending REQ to server:" +JsonRequest );

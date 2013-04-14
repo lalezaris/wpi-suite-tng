@@ -88,7 +88,7 @@ public class RequirementPanel extends JPanel{
 	
 	/** The parent view **/
 	protected RequirementView parent;
-
+	protected RequirementPanel.Mode mode;
 	/*
 	 * Form elements
 	 */
@@ -168,13 +168,13 @@ public class RequirementPanel extends JPanel{
 	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
-	public RequirementPanel(RequirementView parent) {
+	public RequirementPanel(RequirementView parent, Mode mode) {
 
 		this.parent = parent;
-		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
-				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
+//		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
+//				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
 
-		parent.getMode();
+		this.mode = mode;
 
 
 		//get the list of notes from the given requirement

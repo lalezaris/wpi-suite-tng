@@ -84,12 +84,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
 		this.mode = editMode;
 		this.reqModel = new RequirementModel(requirement, this);
-
+		boolean test = false;
 		containingTab = tab;
 		this.parentView = null;
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();
+			test = true;
 		}
 		
 		inputEnabled = true;
@@ -109,7 +110,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			requirement.setCreator(ConfigManager.getConfig().getUserName());
 		}
 		
-		mainPanel = new RequirementPanel(this);
+		mainPanel = new RequirementPanel(this,mode);
 		
 		//set create child button action
 		mainPanel.getCreateChildRequirement().setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this)));
@@ -125,10 +126,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
 		
-		
-		//populate the Iterations combobox
-		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-		iterationsController.retrieve();
+//		if(test == false){
+			//populate the Iterations combobox
+			RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+			iterationsController.retrieve();
+//		} else {// for testing purposes
+//			
+//			
+//			setIterationComboBox(iterations);
+//		}
 		
 		
 		this.setLayout(new BorderLayout());

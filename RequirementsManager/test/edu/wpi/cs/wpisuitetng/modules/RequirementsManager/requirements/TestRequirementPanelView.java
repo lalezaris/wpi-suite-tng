@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 
 /**
- * Insert Description Here
+ * Test for the Requirements Panel
  *
  * @author Chris Dunkers
  *
@@ -36,17 +36,19 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  */
 public class TestRequirementPanelView {
 	
-	RequirementView view;
+	RequirementPanel view;
 	
 	@Before
 	public void setUp() {
-		view = new RequirementView(new Requirement(), Mode.CREATE, null);
+		view = new RequirementPanel(null,RequirementPanel.Mode.CREATE);
 	}
 	
 	@Test
 	public void testChangeStatus(){
-		view.getRequirementPanel().txtEstimate.setText("5");
-		view.getRequirementPanel().txtEstimate.postActionEvent();
+		KeyEvent keyEvent = new KeyEvent(view.txtEstimate, 
+				1, 20, 1, 10, 'a');
+		view.txtEstimate.dispatchEvent(keyEvent);
+//		view.getRequirementPanel().txtEstimate.postActionEvent();
 		
 //		view.getRequirementPanel().txtEstimate;
 //		
@@ -59,8 +61,8 @@ public class TestRequirementPanelView {
 //		e.printStackTrace(); 
 //		} 
 		
-		assertEquals("5", view.getRequirementPanel().txtEstimate.getText());
-		assertEquals(true, view.getRequirementPanel().getCmbIteration().isEnabled());
+		assertEquals("5", view.txtEstimate.getText());
+		assertEquals(true, view.getCmbIteration().isEnabled());
 	}
 
 }

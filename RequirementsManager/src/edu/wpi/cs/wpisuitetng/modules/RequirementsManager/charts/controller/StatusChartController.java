@@ -20,7 +20,6 @@ import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
-
 /**
  * Prep the data to display based on status.
  *
@@ -58,5 +57,4 @@ public class StatusChartController extends AbstractAction{
 //		testDataSet.setValue(2, "Requirements", "Rarity");
 		view.repaintChart(view.getStatusDataset(), "Status");
 	}
-
 }

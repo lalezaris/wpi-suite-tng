@@ -13,11 +13,15 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
+import javax.swing.JOptionPane;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.CheckIterationFieldsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.CreateIterationRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.UpdateIterationRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -50,26 +54,49 @@ public class SaveIterationController {
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void save() {
-		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
+//		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
+//		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
+//		Request request;
+//		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
+//
+//		if(view.checkRequiredFields() == 0){
+//			String JsonRequest = view.getIterationModel().getEditedModel().toJSON();
+//			request.setBody(JsonRequest);
+//			System.out.println("Sending REQ to server:" +JsonRequest );
+//			request.addObserver(requestObserver);
+//			request.send();
+//			//close tab
+//			view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
+//			System.out.println("SAVE ITERATION");
+//		}
+		
 		Request request;
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
+		request.addObserver(new CheckIterationFieldsObserver(this));
+		request.send();
+		
+	} 
+	
+	public void checkIterationField(Iteration[] iterations){
+		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
+		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : new UpdateIterationRequestObserver(view);
+		Request requestSave;
+		requestSave = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 
-		if(panel.checkRequiredFields() > 0){} 
-		else {
-			String JsonRequest = panel.getEditedModel().toJSON();
-			request.setBody(JsonRequest);
+		if(view.checkRequiredFields(iterations) == 0){
+			String JsonRequest = view.getIterationModel().getEditedModel().toJSON();
+			requestSave.setBody(JsonRequest);
 			System.out.println("Sending REQ to server:" +JsonRequest );
-			request.addObserver(requestObserver);
-			request.send();
+			requestSave.addObserver(requestObserver);
+			requestSave.send();
 			//close tab
-			view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
+			view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
 			System.out.println("SAVE ITERATION");
 		}
-	} 
-
+	}
+	
 	/**
-	 * Gets view
+	 * Gets view.
 	 * 
 	 * @return the view
 	 */

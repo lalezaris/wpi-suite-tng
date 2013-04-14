@@ -43,6 +43,7 @@ public class AddNoteController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.out.println("NOTE:" + view.getTextArea().getText().trim());
 		if(view.getTextArea().getText().trim().equals(null)||view.getTextArea().getText().trim().equals("")){
 			//do nothing no text has been entered
 		} else {

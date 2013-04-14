@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
  * The JPanel for all requirement history.
@@ -46,9 +47,9 @@ public class HistoryView extends JPanel {
 	 * 
 	 * @param req Requirement to view the history of 
 	 */
-	public HistoryView(Requirement req) {
+	public HistoryView(RequirementView parent) {
 		super(new BorderLayout());
-		this.setHistoryList(req.getHistory());
+		this.setHistoryList(parent.getReqModel().getRequirement().getHistory());
 		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 
 
@@ -76,8 +77,32 @@ public class HistoryView extends JPanel {
 	 */
 	public void setHistoryList(ArrayList<HistoricalChange> history) {
 		this.historyAL = history;
+		redisplay();
 	}
 
+	protected void redisplay(){
+
+		listModel = new DefaultListModel<HistoricalChange>();
+
+		for(int i = 0; i <this.historyAL.size(); i++){
+			if(!listModel.contains(historyAL.get(i))){
+				listModel.add(0, historyAL.get(i));}
+		}
+		
+		if (list!=null)
+		this.remove(list);
+		
+		//Create the list and put it in a scroll pane.
+		list = new JList<HistoricalChange>(listModel);
+		list.setLayoutOrientation(JList.VERTICAL);
+
+		list.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane listScrollPane = new JScrollPane(list);
+
+		add(listScrollPane, BorderLayout.CENTER);
+	}
+	
+	
 	/**
 	 * Gets history list.
 	 * 

@@ -20,7 +20,6 @@ import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
-
 /**
  * Prep the data to display based on asignee.
  *
@@ -55,5 +54,4 @@ public class AssigneeChartController extends AbstractAction{
 //		testDataSet.setValue(32, "Requirements", "Cadence");
 		view.repaintChart(view.getAssigneeDataset(), "Assignee");
 	}
-
 }

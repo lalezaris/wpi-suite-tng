@@ -11,6 +11,7 @@
  *  Tushar Narayan
  *  Arica Liu
  *  Lauren Kahn
+ *  Chris Dunkers
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -32,16 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.CancelIterationAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -56,6 +48,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 @SuppressWarnings("serial")
 public class IterationPanel extends JPanel {
 
+	/**
+	 * The Enum Mode.
+	 */
 	public enum Mode {
 		CREATE,
 		EDIT, 
@@ -77,8 +72,8 @@ public class IterationPanel extends JPanel {
 	protected JLabel txtEndDate;
 	protected JButton selectEndDate = new JButton(" Select End Date ");
 	protected JButton saveIterationTop;
-	protected JButton saveIterationBottom;
-	protected JButton cancelIterationBottom;
+	protected JButton btnSaveIteration;
+	protected JButton btnCancelIteration;
 	protected JFrame f = new JFrame();
 
 	/** A flag indicating if input is enabled on the form */
@@ -112,15 +107,14 @@ public class IterationPanel extends JPanel {
 
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
-	 * 
+	 *
 	 * @param parent The parent of the iteration
 	 * @param iteration The Iteration to edit
+	 * @param mode the mode
 	 */
-	public IterationPanel(IterationView parent, Iteration iteration, Mode mode) {
-		this.uneditedModel = iteration;
-		this.model = iteration;
+	public IterationPanel(IterationView parent /*, Mode mode*/) {
 		this.parent = parent;
-		this.editMode = mode;
+//		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -131,18 +125,12 @@ public class IterationPanel extends JPanel {
 
 		// Add all components to this panel
 		addComponents();
-
-		if (editMode == Mode.EDIT) {
-			txtIterationName.setText(model.getIterationName().toString());
-			txtStartDate.setText(DateToString(model.getStartDate()));
-			txtEndDate.setText(DateToString(model.getEndDate()));
-		}
 	}
 
 	/**
 	 * Add the components to the panel and place constraints on them
 	 * using the GridBagLayout manager.
-	 * @param layout The layout manager.
+	 *
 	 */
 	protected void addComponents() {
 		// Create new constraint variables
@@ -160,12 +148,9 @@ public class IterationPanel extends JPanel {
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
-
 		// Buttons for "Save" and "Cancel"
-		saveIterationBottom = new JButton("Save");
-		saveIterationBottom.setAction(new SaveChangesAction(new SaveIterationController(this.getParent())));
-		cancelIterationBottom = new JButton("Cancel");
-		cancelIterationBottom.setAction(new CancelIterationAction(new CancelIterationController(this.getParent())));
+		btnSaveIteration = new JButton("Save");
+		btnCancelIteration = new JButton("Cancel");
 
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
@@ -304,13 +289,13 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		panelTwo.add(saveIterationBottom, cTwo);
+		panelTwo.add(btnSaveIteration, cTwo);
 
 		cTwo.gridx = 2;
 		cTwo.gridy = 2;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		panelTwo.add(cancelIterationBottom, cTwo);
+		panelTwo.add(btnCancelIteration, cTwo);
 
 		cTwo.gridx = 3;
 		cTwo.gridy = 2;
@@ -362,7 +347,6 @@ public class IterationPanel extends JPanel {
 		return parent;
 	}
 
-
 	/**
 	 * Set certain input fields to Enabled or Not Enabled.
 	 * 
@@ -375,139 +359,14 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * Check to see if the given IntegerField is empty.  
-	 * 
-	 * @param intf The IntergerField passed in.
-	 * @return -1 if the string is less than 0 or blank;
-	 * 		   the integer value otherwise.
-	 * 
+	 * Gets the editMode.
+	 *
+	 * @return the editMode
 	 */
-	protected int getValue(IntegerField intf){
-		if(intf.getText().equals(null) || intf.getText().equals("")){
-			return -1;
-		} else {
-			return Integer.parseInt(intf.getText());
-		}		
-	}
-
-	/**
-	 * Return the model object represented by this view's fields.
-	 * 
-	 * @return the model represented by this view
-	 */
-	public Iteration getEditedModel() {
-		Iteration iteration;
-		if(Mode.EDIT == editMode){
-			iteration = this.model;
-		}
-		else{
-			iteration = new Iteration("", null, null);
-		}
-		iteration.setIterationName(txtIterationName.getText()); 
-		iteration.setStartDate(StringToDate(txtStartDate.getText()));
-		iteration.setEndDate(StringToDate(txtEndDate.getText()));
-		
-		return iteration;
-	}
-
-	/**
-	 * Check to make sure that all the fields are correctly filled in. If multiple errors are present, it returns
-	 * the error that is lowest. So if startDate is after endDate and the iteration name is missing, this will
-	 * return 1.
-	 * 
-	 * @return	1 if field(s) are missing,
-	 * 			2 if startDate >= endDate,
-	 * 			3 if iteration name already exists,
-	 * 			4 if dates overlap,
-	 * 			0 otherwise, so no input errors
-	 */
-	public int checkRequiredFields(){
-		setMultipleVisibilities(new JComponent[]{lblIterationNameError,lblStartDateError,lblEndDateError,lblDateError,lblIterationNameExistsError,lblDateOverlapError} , false);
-
-		if(txtIterationName.getText().equals("") || txtIterationName.getText() == null){//no iteration name entered
-			lblIterationNameError.setVisible(true);
-		}
-		if(txtStartDate.getText().equals(null) || txtStartDate.getText().equals("")){//no start date entered
-			lblStartDateError.setVisible(true);
-		}
-		if(txtEndDate.getText() == null || txtEndDate.getText().equals("")){//no end date entered
-			lblEndDateError.setVisible(true);
-		}
-		if(lblIterationNameError.isVisible() || lblStartDateError.isVisible() || lblEndDateError.isVisible()){
-			//if any fields were missing
-			return 1;
-		}
-
-		Date startDate = StringToDate(txtStartDate.getText());
-		Date endDate = StringToDate(txtEndDate.getText());
-		if (startDate.compareTo(endDate) > 0) {//start date is after the end date
-			lblDateError.setVisible(true);
-			return 2;
-		}
-		Iteration[] array = Refresher.getInstance().getInstantIterations();
-		String idName = txtIterationName.getText();
-		for (int i = 0; i < array.length; i++) {
-			if (this.model.getId() != array[i].getId()) {
-				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
-					lblIterationNameExistsError.setVisible(true);
-					return 3;
-				}
-				else if (! (endDate.compareTo(array[i].getStartDate()) <= 0
-						|| startDate.compareTo(array[i].getEndDate()) >= 0)){
-					lblDateOverlapError.setVisible(true);
-					return 4;
-				}
-			}
-		}
-
-		//no errors
-		return  0;
-	}
-
-	/**
-	 * Updates the IterationPanel's model to contain the values of the given Iteration and sets the 
-	 * IterationPanel's editMode to {@link Mode#EDIT}.
-	 * 
-	 * @param iteration	The Iteration which contains the new values for the model.
-	 */
-	public void updateModel(Iteration iteration) {
-		updateModel(iteration, Mode.EDIT);
-	}
-
-	/**
-	 * Updates the RequirementPanel's model to contain the values of the given Requirement.
-	 * 
-	 * @param	requirement	The requirement which contains the new values for the model.
-	 * @param	mode	The new editMode.
-	 */
-	protected void updateModel(Iteration iteration, Mode mode) {
-		editMode = mode;
-
-		model.setIterationName(iteration.getIterationName());
-		model.setStartDate(iteration.getStartDate());
-		model.setEndDate(iteration.getEndDate());
-		model.setRequirements(iteration.getRequirements());
-		model.setStatus(iteration.getStatus());
-
-		updateFields();
-		this.revalidate();
-		layout.invalidateLayout(this);
-		layout.layoutContainer(this);
-		this.repaint();
-		parent.refreshScrollPane();
-	}
-
-	private void updateFields() {
-		if((!(model.getIterationName().equals(null)) && (!(model.getIterationName().equals("")))))
-			txtIterationName.setText(model.getIterationName());
-
-		txtStartDate.setText(model.getStartDate().toString());
-		txtEndDate.setText(model.getEndDate().toString());
-	}
-
 	public Mode getEditMode() {
 		return editMode;
 	}
+	
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.
@@ -515,7 +374,7 @@ public class IterationPanel extends JPanel {
 	 * @param components The JComponents to have their visibility set to b
 	 * @param b True for visible, false for not visible
 	 */
-	private void setMultipleVisibilities(JComponent[] components, boolean b){
+	public void setMultipleVisibilities(JComponent[] components, boolean b){
 		for(JComponent j: components){
 			j.setVisible(b);
 		}
@@ -527,7 +386,7 @@ public class IterationPanel extends JPanel {
 	 * @param aDate The string to be converted.
 	 * @return The resulting Date.
 	 */
-	private Date StringToDate(String aDate) {
+	public Date StringToDate(String aDate) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Date convertedDate = new Date();
 		try {
@@ -538,66 +397,132 @@ public class IterationPanel extends JPanel {
 		return convertedDate;
 	}
 
-	
-	/**
-	 * Return the unedited Model (an Iteration).
-	 * 
-	 * @return the uneditedModel
-	 */
-	public Iteration getUneditedModel() {
-		return uneditedModel;
-	}
-
 	/**
 	 * Checks to see if any changes have been made.
 	 * 
 	 * @return true if changes has been made otherwise false
 	 */
 	public boolean isThereChanges(){
-		
-		if(editMode == Mode.CREATE){		
+
+		if(this.getParent().getMode() == Mode.CREATE){		
 			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
 				return true;
 			}
-			
+
 			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
 				return true;
 			} 	
-			
+
 			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
 				return true;
 			} 
 		} else {
-			Iteration oldI = getUneditedModel();
-		
+			Iteration oldI = getParent().getIterationModel().getUneditedModel();
+
 			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
 				return true;
 			}
-			
+
 			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
-			
+
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
 		}
 		return false;
 	}
-	
 
 	/**
-	 * Convert a Date to a formatted String. 
-	 * 
-	 * @param aDate The Date to be converted.
-	 * @return The resulting String.
+	 * @return the btnSaveIteration
 	 */
-	private String DateToString(Date aDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		String convertedDate = null;
-		convertedDate = dateFormat.format(aDate);
-
-		return convertedDate;
+	public JButton getBtnSaveIteration() {
+		return btnSaveIteration;
 	}
 
+	/**
+	 * @return the btnCancelIteration
+	 */
+	public JButton getBtnCancelIteration() {
+		return btnCancelIteration;
+	}
+
+	/**
+	 * @return the txtIterationName
+	 */
+	public JTextField getTxtIterationName() {
+		return txtIterationName;
+	}
+
+	/**
+	 * @return the txtStartDate
+	 */
+	public JLabel getTxtStartDate() {
+		return txtStartDate;
+	}
+
+	/**
+	 * @return the txtEndDate
+	 */
+	public JLabel getTxtEndDate() {
+		return txtEndDate;
+	}
+
+	/**
+	 * @return the lblIterationNameError
+	 */
+	public JLabel getLblIterationNameError() {
+		return lblIterationNameError;
+	}
+
+	/**
+	 * @return the lblStartDateError
+	 */
+	public JLabel getLblStartDateError() {
+		return lblStartDateError;
+	}
+
+	/**
+	 * @return the lblEndDateError
+	 */
+	public JLabel getLblEndDateError() {
+		return lblEndDateError;
+	}
+
+	/**
+	 * @return the lblDateError
+	 */
+	public JLabel getLblDateError() {
+		return lblDateError;
+	}
+
+	/**
+	 * @return the lblIterationNameExistsError
+	 */
+	public JLabel getLblIterationNameExistsError() {
+		return lblIterationNameExistsError;
+	}
+
+	/**
+	 * @return the lblDateOverlapError
+	 */
+	public JLabel getLblDateOverlapError() {
+		return lblDateOverlapError;
+	}
+
+	/**
+	 * @param editMode: the editMode to set
+	 */
+	public void setEditMode(Mode editMode) {
+		this.editMode = editMode;
+	}
+
+	/**
+	 * @return the layout
+	 */
+	public GridBagLayout getPanelLayout() {
+		return layout;
+	}
+	
 }

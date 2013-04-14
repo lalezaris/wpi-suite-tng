@@ -51,4 +51,3 @@ public class CancelIterationAction extends AbstractAction {
 		controller.cancel();		
 	}
 }
-

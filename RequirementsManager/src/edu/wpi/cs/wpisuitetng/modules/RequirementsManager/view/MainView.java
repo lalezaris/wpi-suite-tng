@@ -21,14 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissionsObserver;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.PermissionsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 
 /**
- * Main View Panel class for our Requirements Manager
+ * Main View Panel class for our Requirements Manager.
  * 
  * @author Tyler Stone
  * @author Sam Lalezari
@@ -41,7 +38,7 @@ public class MainView extends JPanel {
 	Refresher refresher;
 	MainTabView view;
 	/**
-	 * Constructs the Main View Panel
+	 * Constructs the Main View Panel.
 	 * 
 	 * @param mainTabView
 	 */
@@ -74,6 +71,5 @@ public class MainView extends JPanel {
 		System.out.println("MainView make refresher");
 		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel(), view.getIterationTableModel());
 		refresher.refreshIterationsFromServer(null);
-		
 	}
 }

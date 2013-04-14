@@ -4,20 +4,24 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 
 public class AcceptanceTestsView extends JPanel{
@@ -53,8 +57,20 @@ public class AcceptanceTestsView extends JPanel{
 	
 	
 	protected void addComponents() {
-		//create a new constrain variable
-		GridBagConstraints c = new GridBagConstraints();
+		//create Panels
+		JPanel Ptop = new JPanel();
+		Ptop.setLayout(new GridBagLayout());
+		JPanel Pbot = new JPanel();
+		Pbot.setLayout(new GridBagLayout());
+		
+		JPanel panelOverall = new JPanel();
+		panelOverall.setLayout(new GridBagLayout());
+		
+		//create constraint variables
+		GridBagConstraints all = new GridBagConstraints();
+		GridBagConstraints overall = new GridBagConstraints();
+		GridBagConstraints top = new GridBagConstraints();
+		GridBagConstraints bot = new GridBagConstraints();
 
 
 		//TODO: Set borders
@@ -75,6 +91,7 @@ public class AcceptanceTestsView extends JPanel{
 		final String[] atStatuses = {"Blank", "Passed", "Failed"};
 		cmbStatus = new JComboBox(atStatuses);
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
+		JLabel lblStatus = new JLabel("Status: ", JLabel.TRAILING);
 		
 		//initiate the JList stuff
 		listModel = new DefaultListModel<AcceptanceTest>();
@@ -87,78 +104,119 @@ public class AcceptanceTestsView extends JPanel{
 		listDisplay = new JList<AcceptanceTest>(listModel);
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
 		
-		//Add the things with style!
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridx = 1;
-		c.gridy = 1;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
+		//Add ALL the things with style!
+		//add the "Title: " label
+		top.anchor = GridBagConstraints.LINE_START;
+		top.weightx = 0.5;
+		top.weighty = 0.5;
+		top.gridx = 0;
+		top.gridy = 0;
+		Ptop.add(lblTitle, top);
+
+		//add the Title text field
+		top.anchor = GridBagConstraints.LINE_START;
+		top.weightx = 0.5;
+		top.weighty = 0.5;
+		top.gridx = 1;
+		top.gridy = 0;
+		Ptop.add(txtTitle, top);
+		
+		//add the "Status: " label
+		top.anchor = GridBagConstraints.LINE_START;
+		top.gridx = 0;
+		top.gridy = 1;
+		top.weightx = 0.5;
+		top.weighty = 0.5;
+		Ptop.add(lblStatus, top);
+		
+		//add the Status menu
+		top.anchor = GridBagConstraints.LINE_START;
+		top.gridx = 1;
+		top.gridy = 1;
+		top.weightx = 0.5;
+		top.weighty = 0.5;
 		cmbStatus.setBackground(Color.WHITE);
-		this.add(cmbStatus, c);
-		
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridx = 0;
-		c.gridy = 0;
-		this.add(lblTitle, c);
+		Ptop.add(cmbStatus, top);		
 
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridx = 0;
-		c.gridy = 1;
-		this.add(txtTitle, c);		
-
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.NONE;
-		c.insets = new Insets(5,0,5,0);
-		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridx = 0;
-		c.gridy = 2;
-		this.add(lblBody, c);
+		//add the "Body: " label
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.fill = GridBagConstraints.NONE;
+		bot.insets = new Insets(5,0,5,0);
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 0;
+		Pbot.add(lblBody, bot);
 		
+		//add the Body text area
 		JScrollPane scrollPaneBody = new JScrollPane(txtBody);
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.gridwidth = 2;
-		this.add(scrollPaneBody, c);
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.fill = GridBagConstraints.BOTH;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 1;
+		bot.gridwidth = 4;
+		Pbot.add(scrollPaneBody, bot);
 		
+		//add the "Add Test" button
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.fill = GridBagConstraints.NONE;
+		bot.weightx = 0;
+		bot.weighty = 0;
+		bot.gridx = 0;
+		bot.gridy = 2;
+		bot.gridwidth = 1;
+		Pbot.add(addTest, bot);
+		
+		//add the "Edit Test" button
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.weightx = 0;
+		bot.weighty = 0;
+		bot.gridx = 1;
+		bot.gridy = 2;
+		Pbot.add(editTest, bot);
+		
+		//Add the list of AcceptanceTests gui element
 		listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
 		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.gridwidth = 2;
-		this.add(scrollPaneList, c);
+		bot.anchor = GridBagConstraints.LINE_START;
+//		bot.fill = GridBagConstraints.BOTH;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 3;
+		bot.gridwidth = 4;
+		Pbot.add(scrollPaneList, bot);
 		
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridx = 2;
-		c.gridy = 0;
-		this.add(addTest, c);
+		//compile all the panels into overall
+		overall.anchor = GridBagConstraints.LINE_START;
+		overall.weightx = 0.5;
+		overall.weighty = 0.5;
+		overall.gridx = 0;
+		overall.gridy = 0;
+		overall.gridwidth = 1;
+		panelOverall.add(Ptop, overall);
+		overall.gridy = 1;
+		panelOverall.add(Pbot, overall);
 		
-		c.anchor = GridBagConstraints.LINE_START;
-		c.weightx = 0.5;
-		c.weighty = 0;
-		c.gridx = 1;
-		c.gridy = 0;
-		this.add(editTest, c);
+		//DO IT!
+		all.anchor = GridBagConstraints.FIRST_LINE_START;
+		all.weightx = 0.5;
+		all.weighty = 0.5;
+		all.gridx = 0;
+		all.gridy = 0;
+		this.add(panelOverall, all);
+		
+		
 		
 		/* end panel styling */
 		
 		/**
-		 * the following courtesy of:
-		 * http://docs.oracle.com/javase/6/docs/api/javax/swing/JList.html		
+		 * the following is based off of code from:
+		 * http://docs.oracle.com/javase/6/docs/api/javax/swing/JList.html
+		 * it makes it so when the user clicks on a list item, the body, title, and
+		 * status fields are populated with that item's characteristics
 		 */
 		MouseListener mouseListener = new MouseAdapter() {
 		     public void mouseClicked(MouseEvent e) {
@@ -178,7 +236,34 @@ public class AcceptanceTestsView extends JPanel{
 		     }
 		 };
 		 listDisplay.addMouseListener(mouseListener);
+		 
+		 //setup permission features
+		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		 switch (pLevel){
+		 case NONE:
+			 disableAll();
+			 break;
+		 case UPDATE: 
+			 //full access
+			 break;		
+		 case ADMIN:
+			 //full access
+			 break;
+		 }
 
+	}
+	
+	//disables the components of the AcceptanceTest view
+	public void disableAll(){
+		addTest.setEnabled(false);
+		editTest.setEnabled(false);
+		txtTitle.setEnabled(false);
+		txtTitle.setDisabledTextColor(Color.BLACK);
+		txtTitle.setBackground(this.getBackground());
+		txtBody.setEnabled(false);
+		txtBody.setDisabledTextColor(Color.BLACK);
+		txtBody.setBackground(this.getBackground());
+		cmbStatus.setEnabled(false);
 	}
 	
 	//returns weather or not both the title field

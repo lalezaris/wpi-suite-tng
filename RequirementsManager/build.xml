@@ -37,6 +37,7 @@
 	<target name="janeway-jar" depends="compile-base">
 		<jar destfile="${janeway-jar-dest}">
 			<fileset dir="build"/>
+			<fileset dir="media"/>
 			<fileset file="manifest.txt"/>
 		</jar>
 	</target>

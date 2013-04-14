@@ -226,8 +226,6 @@ public class RequirementPanel extends JPanel{
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(6);
 		
-		//filter out the expired iterations
-
 		cmbIteration = new JComboBox();
 
 		txtDescription = new JTextArea(10,35);
@@ -253,7 +251,6 @@ public class RequirementPanel extends JPanel{
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
-//		txtAssignee = new JTextField(12);
 
 		notesView.setNotesList(parent.getReqModel().getRequirement().getNotes());
 		hv.setHistoryList(parent.getReqModel().getRequirement().getHistory());
@@ -269,14 +266,6 @@ public class RequirementPanel extends JPanel{
 		//cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
 
 		createChildRequirement = new JButton("Add Child Requirement");
-//		if (editMode == Mode.EDIT) {
-//			if(model.getStatus() == RequirementStatus.NEW ||
-//					model.getStatus() == RequirementStatus.OPEN ||
-//					model.getStatus() == RequirementStatus.INPROGRESS){
-//				//createChildRequirement = new JButton("Add Child Requirement");
-//				//createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
-//			}
-//		}
 		
 		//make sit so that all combo boxes will have black text when disabled for easier readability
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
@@ -308,12 +297,6 @@ public class RequirementPanel extends JPanel{
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
-		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
-		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
-		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
-
-		//int labelWidth = lblDescription.getPreferredSize().width;
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -415,23 +398,6 @@ public class RequirementPanel extends JPanel{
 		 cmbType.setBackground(Color.WHITE);
 		 panelOne.add(cmbType, cOne);
 		 
-//		 cOne.weightx = 0.5;
-//		 cOne.weighty = 0.5;
-//		 cOne.gridx = 2;
-//		 cOne.gridy = 2;
-//		 cOne.anchor = GridBagConstraints.LINE_START;
-//		 panelOne.add(lblCreator, cOne);
-//
-//		 cOne.weightx = 0.5;
-//		 cOne.weighty = 0.5;
-//		 cOne.gridx = 3;
-//		 cOne.gridy = 2;
-//		 txtCreator.setEnabled(false);
-//		 txtCreator.setText(model.getCreator());
-//		 txtCreator.setDisabledTextColor(Color.BLACK);
-//		 cOne.anchor = GridBagConstraints.LINE_START;
-//		 panelOne.add(txtCreator, cOne);		 
-
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
 		 layoutTwo = new GridBagLayout();

@@ -48,14 +48,6 @@ public class StatusChartController extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-//		testDataSet.setValue(99, "Requirements", "Twilight Sparkle");
-//		testDataSet.setValue(87, "Requirements", "Fluttershy");
-//		testDataSet.setValue(130, "Requirements", "Rainbow Dash");
-//		testDataSet.setValue(111, "Requirements", "Pinkie Pie");
-//		testDataSet.setValue(65, "Requirements", "Applejack");
-//		testDataSet.setValue(2, "Requirements", "Rarity");
 		view.repaintChart(view.getStatusDataset(), "Status");
 	}
 

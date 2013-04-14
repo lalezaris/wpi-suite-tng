@@ -37,7 +37,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.Stat
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
@@ -63,9 +65,6 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		gotUsers = false;
 		gotRequirements = false;
 		gotIterations = false;
-		//statusDataset = new DefaultCategoryDataset();
-		//iterationDataset = new DefaultCategoryDataset();
-		//assigneeDataset = new DefaultCategoryDataset();
 		iterationDataset.clear();
 		statusDataset.clear();
 		assigneeDataset.clear();
@@ -91,6 +90,8 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private Iteration[] allIterations;
 	private Requirement[] allRequirements;
 	private RequirementStatus[] allStatuses = {RequirementStatus.NEW, RequirementStatus.INPROGRESS, RequirementStatus.OPEN, RequirementStatus.DELETED, RequirementStatus.COMPLETE};
+	private RequirementPriority[] allPriorities = {RequirementPriority.HIGH, RequirementPriority.MEDIUM, RequirementPriority.LOW, RequirementPriority.BLANK};
+	private RequirementType[] allTypes = {RequirementType.BLANK, RequirementType.EPIC, RequirementType.THEME, RequirementType.USERSTORY, RequirementType.NONFUNCTIONAL, RequirementType.SCENARIO};
 	
 	//Data to pass to the different controllers
 	private DefaultCategoryDataset iterationDataset = new DefaultCategoryDataset();;
@@ -183,7 +184,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	 * @return the bar chart that was created from the fields.
 	 */
 	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){		
-		return ChartFactory.createBarChart("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
+		return ChartFactory.createStackedBarChart3D("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
 	}
 
 	/**
@@ -212,7 +213,6 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		//update iteration chart
 		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
 		if (gotUsers /*&& gotIterations*/ && gotRequirements){
-			System.out.println("All things loaded!");
 			//==========
 			//Iteration
 			//==========
@@ -241,25 +241,31 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 				String iterationName = Iteration.getIterationById(allIterationsHack.get(i)).getName();
 				iterationDataset.setValue(iterationCount[i],"", "Iteration:" + iterationName);
 			}
-			System.out.println("Got past the Iteration loop.");
+			
 			//==========
 			//Status
 			//==========
 			//Look at each status name and count the requirements of each status.
 			int [] statusCount = new int[allStatuses.length];
+			int [][] priorityCount = new int[allStatuses.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allStatuses.length; i++){
 					if(allRequirements[r].getStatus() == allStatuses[i]){
 						statusCount[i] ++;
+						//Set the priority
+						for(int j = 0; j < allPriorities.length; j ++){
+							if(allPriorities[j] == allRequirements[r].getPriority()){
+								priorityCount[i][j] ++;
+							}
+						}
 					}
 				}
 			}
 			for(int i=0; i<allStatuses.length;i++){
 				statusDataset.setValue(statusCount[i],"", allStatuses[i].toString());
 			}
-			System.out.println("Got past the Status loop.");
 			
-//			//==========
+			//==========
 			//Assignee
 			//==========
 			//Look at each status name and count the requirements of each status.

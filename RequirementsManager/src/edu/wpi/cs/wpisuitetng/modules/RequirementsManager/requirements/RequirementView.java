@@ -15,9 +15,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +29,7 @@ import javax.swing.text.JTextComponent;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
@@ -40,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
@@ -69,7 +74,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
 //	private RequirementPanel reqPanel;
-	
+	private RequirementPanel.Mode mode;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
@@ -80,7 +85,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
 		
 		this.reqModel = new RequirementModel(requirement, this);
-		
+		this.mode = editMode;
 		containingTab = tab;
 		this.parentView = null;
 		
@@ -105,7 +110,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			requirement.setCreator(ConfigManager.getConfig().getUserName());
 		}
 		
-		mainPanel = new RequirementPanel(this, editMode);
+		mainPanel = new RequirementPanel(this);
 		
 		//set create child button action
 		mainPanel.getCreateChildRequirement().setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this)));
@@ -120,6 +125,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
+		
+		
+		//populate the Iterations combobox
+		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+		iterationsController.retrieve();
+		
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -136,7 +147,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 		
-		setUp(requirement, editMode);
+		
 	}
 	
 	
@@ -344,5 +355,33 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 	}
 	
+	public void setIterationComboBox(Iteration[] knownIterations){
+		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
+
+		for (int i = 0; i < knownIterations.length ;i++){
+			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
+				knownIts.add(knownIterations[i]);
+			} else if (knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+				knownIts.add(knownIterations[i]);
+			}
+		}
+		knownIterations = new Iteration[knownIts.size()];
+		for (int i = 0; i < knownIterations.length; i++){
+			knownIterations[i] = knownIts.get(i);
+			System.out.println("Iteration got:" + knownIterations[i]);
+		}
+		
+		
+		
+		mainPanel.setIterations(knownIterations);
+		
+		
+		
+		setUp(this.reqModel.getRequirement(), mode);
+	}
+	
+	public RequirementPanel.Mode getMode(){
+		return this.mode;
+	}
 	
 }

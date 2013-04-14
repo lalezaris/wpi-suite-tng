@@ -153,8 +153,6 @@ public class RequirementPanel extends JPanel{
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 
-	/** An enum indicating if the form is in create mode or edit mode */
-	protected Mode editMode;
 
 	/*
 	 * Constants used to layout the form
@@ -170,12 +168,12 @@ public class RequirementPanel extends JPanel{
 	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
-	public RequirementPanel(RequirementView parent, Mode mode) {
+	public RequirementPanel(RequirementView parent) {
 
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
 				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
-		this.editMode = mode;
+		
 
 		//get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
@@ -197,6 +195,9 @@ public class RequirementPanel extends JPanel{
 		addComponents();
 	}
 
+	
+	
+	
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
@@ -224,21 +225,21 @@ public class RequirementPanel extends JPanel{
 		txtReleaseNumber = new JTextField(6);
 		
 		//filter out the expired iterations
-		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
-		knownIterations = Refresher.getInstance().getInstantIterations();
-		for (int i = 0; i < knownIterations.length ;i++){
-			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
-				knownIts.add(knownIterations[i]);
-			} else if (knownIterations[i].getId() == parent.getReqModel().getRequirement().getIteration().getId()){
-				knownIts.add(knownIterations[i]);
-			}
-		}
-		knownIterations = new Iteration[knownIts.size()];
-		for (int i = 0; i < knownIterations.length; i++){
-			knownIterations[i] = knownIts.get(i);
-		}
+//		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
+//		knownIterations = Refresher.getInstance().getInstantIterations();
+//		for (int i = 0; i < knownIterations.length ;i++){
+//			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
+//				knownIts.add(knownIterations[i]);
+//			} else if (knownIterations[i].getId() == parent.getReqModel().getRequirement().getIteration().getId()){
+//				knownIts.add(knownIterations[i]);
+//			}
+//		}
+//		knownIterations = new Iteration[knownIts.size()];
+//		for (int i = 0; i < knownIterations.length; i++){
+//			knownIterations[i] = knownIts.get(i);
+//		}
 		
-		cmbIteration = new JComboBox(knownIterations);
+		cmbIteration = new JComboBox();
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
@@ -553,7 +554,7 @@ public class RequirementPanel extends JPanel{
 		 panelButtons.setLayout(layoutButtons);
 
 		 cButtons.insets = new Insets(10,10,10,10);
-		 if (editMode == Mode.EDIT) { 
+		 if (parent.getMode() == Mode.EDIT) { 
 			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
 					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
 					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
@@ -663,17 +664,17 @@ public class RequirementPanel extends JPanel{
 		 this.add(splitPane, BorderLayout.CENTER);
 
 		 //depending on the mode, disable certain components
-		 if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
+		 if (parent.getMode() == Mode.CREATE || parent.getMode() == Mode.CHILD) {
 			 cmbStatus.setEnabled(false);
 			 txtActual.setEnabled(false);
 		 }
 
-		 if (editMode == Mode.CHILD) {
+		 if (parent.getMode() == Mode.CHILD) {
 			 cmbIteration.setEnabled(false);
 			 txtReleaseNumber.setEnabled(false);
 		 }
 
-		 if(editMode == Mode.EDIT && !parent.getReqModel().getRequirement().isTopLevelRequirement()){
+		 if(parent.getMode() == Mode.EDIT && !parent.getReqModel().getRequirement().isTopLevelRequirement()){
 			 cmbStatus.setEnabled(false);
 			 cmbIteration.setEnabled(false);
 			 txtReleaseNumber.setEnabled(false);
@@ -795,11 +796,11 @@ public class RequirementPanel extends JPanel{
 	}
 
 	
+//	public void setUpPanel(){
+//		setUpPanel(Mode.EDIT);
+//	}
 	public void setUpPanel(){
-		setUpPanel(Mode.EDIT);
-	}
-	public void setUpPanel(Mode editMode){
-		this.editMode = editMode;
+		
 		//updateFields();
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -871,7 +872,7 @@ public class RequirementPanel extends JPanel{
 	 * @return the edits the mode
 	 */
 	public Mode getEditMode() {
-		return editMode;
+		return parent.getMode();
 	}
 
 
@@ -1020,7 +1021,7 @@ public class RequirementPanel extends JPanel{
 
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN && editMode != Mode.CHILD){
+			if (pLevel == RMPermissionsLevel.ADMIN && parent.getMode() != Mode.CHILD){
 				cmbStatus.setEnabled(enabled);
 				cmbStatus.setBackground(Color.WHITE);
 			}
@@ -1081,7 +1082,7 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			if(editMode != Mode.CHILD){
+			if(parent.getMode() != Mode.CHILD){
 				cmbIteration.setEnabled(enabled);
 				cmbIteration.setBackground(Color.WHITE);
 			}
@@ -1303,6 +1304,7 @@ public class RequirementPanel extends JPanel{
 	public Iteration[] getKnownIterations() {
 		return knownIterations;
 	}
+	
 
 	/**
 	 * @return the hv
@@ -1319,4 +1321,11 @@ public class RequirementPanel extends JPanel{
 	}
 
 
+	public void setIterations(Iteration[] iterations){
+		this.knownIterations = iterations;
+		this.cmbIteration.removeAllItems();
+		for (int i = 0 ; i < iterations.length; i ++)
+			this.cmbIteration.addItem(iterations[i]);
+		
+	}
 }

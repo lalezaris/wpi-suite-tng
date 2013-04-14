@@ -14,6 +14,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 
 /**
  * The Class BarChartPanel.
@@ -97,19 +99,12 @@ public class BarChartPanel extends JPanel {
 		layout = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 
-		//barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
-		//		ChartPanel graphPanel = new ChartPanel(barGraph);
-		//		GridBagConstraints cGraph = new GridBagConstraints();
-
 		GridBagConstraints cBtn = new GridBagConstraints();
 		GridBagLayout layoutBtn = new GridBagLayout();
 		btnPanel.setLayout(layoutBtn);
 
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
-
-		//		GridBagLayout layoutGraph = new GridBagLayout();
-		//		graphPanel.setLayout(layoutGraph);
 
 		/*add all of the components to the btnPanel*/
 		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -170,6 +165,13 @@ public class BarChartPanel extends JPanel {
 		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
 
+		//Set Chart Proprties
+		if(newChart!=null){
+			newChart.setBackgroundPaint(Color.getHSBColor(174, 240, 211));
+			final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
+	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+		}
+		
 		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
 		cGraph.fill = GridBagConstraints.HORIZONTAL;

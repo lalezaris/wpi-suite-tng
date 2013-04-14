@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.util.ArrayList;

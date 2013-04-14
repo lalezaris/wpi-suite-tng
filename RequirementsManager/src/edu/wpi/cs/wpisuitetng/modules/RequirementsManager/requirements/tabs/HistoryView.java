@@ -49,19 +49,19 @@ public class HistoryView extends JPanel {
 	 */
 	public HistoryView(RequirementView parent) {
 		super(new BorderLayout());
-		this.setHistoryList(parent.getReqModel().getRequirement().getHistory());
-		int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
+		//this.setHistoryList(parent.getReqModel().getRequirement().getHistory());
+		//int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 
 
-		listModel = new DefaultListModel<HistoricalChange>();
-
-		for(int i = 0; i <numObjects; i++){
-			if(!listModel.contains(historyAL.get(i))){
-				listModel.add(0, historyAL.get(i));}
-		}
+//		listModel = new DefaultListModel<HistoricalChange>();
+//
+//		for(int i = 0; i <numObjects; i++){
+//			if(!listModel.contains(historyAL.get(i))){
+//				listModel.add(0, historyAL.get(i));}
+//		}
 
 		//Create the list and put it in a scroll pane.
-		list = new JList<HistoricalChange>(listModel);
+		list = new JList<HistoricalChange>();
 		list.setLayoutOrientation(JList.VERTICAL);
 
 		list.setCellRenderer(new HistoryViewCellRenderer(350));

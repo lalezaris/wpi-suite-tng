@@ -26,6 +26,8 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
+
 /**
  * The Class BarChartPanel.
  *
@@ -39,14 +41,7 @@ public class BarChartPanel extends JPanel {
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
-
-	//	//Things needed for the bar chart.
-	//	boolean urls;
-	//	boolean tooltips;
-	//	boolean legend;
-	//	PlotOrientation orientation;
-	//	DefaultCategoryDataset dataset;
-	//	String xAxis = "Iteration";
+	
 	/** The bar graph. */
 	JFreeChart barGraph;
 
@@ -67,7 +62,7 @@ public class BarChartPanel extends JPanel {
 
 	/** The graph panel. */
 	ChartPanel graphPanel;
-
+	DefaultToolbarView toolbar;
 	/**
 	 * Instantiates a new bar chart panel.
 	 *
@@ -87,6 +82,9 @@ public class BarChartPanel extends JPanel {
 	 * 
 	 */
 	private void addComponents(){
+		//Make a toolbar.
+		toolbar = new DefaultToolbarView();
+		
 		//Make Buttons
 		statusButton = new JButton("Status");
 		assigneeButton = new JButton("Assignee");

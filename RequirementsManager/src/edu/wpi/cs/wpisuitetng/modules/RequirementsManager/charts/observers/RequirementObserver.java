@@ -54,7 +54,7 @@ public class RequirementObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		Requirement[] reqs = builder.create().fromJson(response.getBody(), Requirement[].class);
 		//this.panel.setAllusers(users);
-		this.view.recieveServerRequirements(reqs);
+		this.view.receiveServerRequirements(reqs);
 		
 	}
 

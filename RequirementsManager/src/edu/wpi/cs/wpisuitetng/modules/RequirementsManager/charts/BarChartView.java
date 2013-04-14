@@ -212,9 +212,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * Implement when recieved all.
+	 * Implement when received all.
 	 */
-	private void doWhenRecievedAll(){
+	private void doWhenReceivedAll(){
 		//update iteration chart
 		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
 		if (gotUsers && gotIterations && gotRequirements){
@@ -222,26 +222,34 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			//Iteration
 			//==========
 			//Look at each iteration name and count the requirements in each iteration.
-			int [] iterationCount = new int[allIterations.length];
+			int [][] priorityCount = new int[allIterations.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length;r++){
 				for(int i=0; i<allIterations.length; i++){
 					if(allIterations[i].getId() == allRequirements[r].getIterationId()&&
-							allRequirements[r].getStatus() != RequirementStatus.DELETED)//Ignore the iterations of deleted requirements.
-							iterationCount[i]++;
+							allRequirements[r].getStatus() != RequirementStatus.DELETED){//Ignore the iterations of deleted requirements.
+						//Set the priority
+						for(int j = 0; j < allPriorities.length; j ++){
+							if(allPriorities[j] == allRequirements[r].getPriority()){
+								priorityCount[i][j]++;
+							}
+						}
+					}
 				}
 			}
 			
 			//Get the names of the iterations by their ID numbers for the chart.
 			for(int i=0; i<allIterations.length;i++){
 				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
-				iterationDataset.setValue(iterationCount[i],"", "Iteration:" + iterationName);
+				for(int j = 0; j < allPriorities.length; j++){
+					iterationDataset.setValue(priorityCount[i][j], allPriorities[j], "Iteration: " + iterationName);
+				}
 			}
 			
 			//==========
 			//Status
 			//==========
 			//Look at each status name and count the requirements of each status.
-			int [][] priorityCount = new int[allStatuses.length][allPriorities.length];
+			priorityCount = new int[allStatuses.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allStatuses.length; i++){
 					if(allRequirements[r].getStatus() == allStatuses[i]){
@@ -256,68 +264,74 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			}
 			for(int i=0; i<allStatuses.length;i++){
 				for(int j = 0; j < allPriorities.length; j++){
-					statusDataset.setValue(priorityCount[i][j],allPriorities[j], allStatuses[i].toString());
+					statusDataset.setValue(priorityCount[i][j], allPriorities[j], allStatuses[i].toString());
 				}
 			}
 			
 			//==========
 			//Assignee
 			//==========
-			//Look at each status name and count the requirements of each status.
-			int [] assigneeCount = new int[allUsers.length];
+			//Look at each user name and count the requirements of each user.
+			priorityCount = new int[allUsers.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allUsers.length; i++){
 					for(int j = 0; j < allRequirements[r].getAssignee().size(); j ++){
 						System.out.println("Assignee: " + allRequirements[r].getAssignee().get(j));
 						if(allRequirements[r].getAssignee().get(j).equals(allUsers[i].getUsername())&&
 								allRequirements[r].getStatus() != RequirementStatus.DELETED){
-							assigneeCount[i] ++;
+							for(int k = 0; k < allPriorities.length; k ++){
+								if(allPriorities[k] == allRequirements[r].getPriority()){
+									priorityCount[i][k] ++;
+								}
+							}
 						}
 					}
 				}
 			}
 			for(int i=0; i<allUsers.length;i++){
-				assigneeDataset.setValue(assigneeCount[i],"", allUsers[i].getName());
+				for(int j = 0; j < allPriorities.length; j++){
+					assigneeDataset.setValue(priorityCount[i][j], allPriorities[j], allUsers[i].getName());
+				}
 			}
 		}
 
 	}
 
 	/**
-	 * Recieve server users.
+	 * Receive server users.
 	 *
 	 * @param users the users
 	 */
-	public void recieveServerUsers(User[] users) {
+	public void receiveServerUsers(User[] users) {
 		System.out.println("recieveUsers.");
 		gotUsers = true;
 		allUsers = users;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 	}
 
 	/**
-	 * Recieve server iterations.
+	 * Receive server iterations.
 	 *
 	 * @param iterations the iterations
 	 */
-	public void recieveServerIterations(Iteration[] iterations) {
+	public void receiveServerIterations(Iteration[] iterations) {
 		System.out.println("recieveIterations.");
 		gotIterations = true;
 		allIterations = iterations;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 
 	}
 
 	/**
-	 * Recieve server requirements.
+	 * Receive server requirements.
 	 *
 	 * @param reqs the reqs
 	 */
-	public void recieveServerRequirements(Requirement[] reqs) {
+	public void receiveServerRequirements(Requirement[] reqs) {
 		System.out.println("recieveRequirements.");
 		gotRequirements = true;
 		allRequirements = reqs;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 
 	}
 	

@@ -250,12 +250,10 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			//Status
 			//==========
 			//Look at each status name and count the requirements of each status.
-			int [] statusCount = new int[allStatuses.length];
 			int [][] priorityCount = new int[allStatuses.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allStatuses.length; i++){
 					if(allRequirements[r].getStatus() == allStatuses[i]){
-						statusCount[i] ++;
 						//Set the priority
 						for(int j = 0; j < allPriorities.length; j ++){
 							if(allPriorities[j] == allRequirements[r].getPriority()){
@@ -266,7 +264,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 				}
 			}
 			for(int i=0; i<allStatuses.length;i++){
-				statusDataset.setValue(statusCount[i],"", allStatuses[i].toString());
+				for(int j = 0; j < allPriorities.length; j++){
+					statusDataset.setValue(priorityCount[i][j],allPriorities[j], allStatuses[i].toString());
+				}
 			}
 			
 			//==========

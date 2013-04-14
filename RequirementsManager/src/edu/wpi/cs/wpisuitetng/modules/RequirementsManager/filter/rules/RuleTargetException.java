@@ -20,31 +20,17 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 14, 2013
  *
  */
-public interface IFilterRule{
-//	/**
-//	 * Call this function. 
-//	 * If the object meets the rule, then it is returned
-//	 * If the object does not meet the rule, then null is returned
-//	 * 
-//	 * @param object
-//	 * @return
-//	 */
-//	T applyRule(T object);
+public class RuleTargetException extends Exception {
 	
+	String msg;
+	public RuleTargetException(String attempt){
+		super();
+		
+		this.msg = "Tried to make a rule with target: "+ attempt +", but it did not exist. Typo?";
+	}
 	
-	/**
-	 * Call this function.
-	 * If the rule should be ANDed together with other rules, this returns true
-	 * If the rule should be ORed together with other rules, this returns false
-	 * 
-	 * @return
-	 */
-	boolean isAnd();
-	
-	void setIsAnd(boolean isAnd);
-
-	boolean apply(Object parent) throws RuleTargetException;
-
-	//boolean apply(T target, Object parent, String rule);
-	
+	@Override
+	public String getMessage(){
+		return msg;
+	}
 }

@@ -15,23 +15,88 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.IFilterRule;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTargetException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
  * The basic filter class that may be applied to different objects 'n things.
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
  */
 public class Filter{
 	
-	private ArrayList<IFilterRule<Requirement>> rules;
-	
+	private ArrayList<Rule> rules;
 	
 	public Filter(){
-		//this.rules = new ArrayList
+		this.rules = new ArrayList<Rule>();
+	}
+	
+	/**
+	 * Add a filter rule
+	 * 
+	 * @param rule
+	 */
+	public void addRule(Rule rule){
+		this.rules.add(rule);
+	}
+	
+	/**
+	 * Return all the rules
+	 * 
+	 * @return
+	 */
+	public ArrayList<Rule> getRules(){
+		return this.rules;
+	}
+	
+	/**
+	 * filter a list of objects based on the filters within this Filter
+	 * 
+	 * @param in
+	 * @return the objects that passed all the tests
+	 * @throws RuleTargetException 
+	 */
+	public Requirement[] getFilteredObjects(Requirement[] in) throws RuleTargetException{
+		ArrayList<Requirement> out = new ArrayList<Requirement>();
+		
+		for (int i = 0 ; i < in.length ; i ++){
+			
+			boolean alreadyTakenCareOf = false;
+			int filterPassCount = 0;
+			for (int r = 0 ; r < rules.size();r++){
+				boolean passedFilter = (rules.get(r).apply(in[i]) == true);
+				if (!passedFilter){
+					if (rules.get(r).isAnd()){
+						//AN AND FAILED. NO MATTER WHAT, DO NOT ADD OUT
+						alreadyTakenCareOf = true;
+						break;
+					}
+				} else{
+					filterPassCount++;
+					if (!rules.get(r).isAnd()){
+						//AN OR PASSED. NO MATTER WHAT, ADD TO OUT
+						alreadyTakenCareOf = true;
+						out.add(in[i]);
+						break;
+					}
+				}
+			}
+			if (!alreadyTakenCareOf){
+				if (filterPassCount == rules.size()){
+					out.add(in[i]);
+				}
+			}
+			
+		}
+		
+		Requirement[] outArray = new Requirement[out.size()];
+		for (int i = 0 ; i < outArray.length ; i ++)
+			outArray[i] = out.get(i);
+		return outArray;
 	}
 	
 }

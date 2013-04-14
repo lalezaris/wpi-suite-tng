@@ -30,18 +30,18 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  */
 public class TestRequirementPanelView {
 	
-	RequirementView view;
+	RequirementPanel view;
 	
 	@Before
 	public void setUp() {
-		view = new RequirementView(new Requirement(), Mode.CREATE, null);
+		view = new RequirementPanel(null);
 	}
 	
 	@Test
 	public void testChangeStatus(){
-		view.getRequirementPanel().txtEstimate.setText("5");
+		view.txtEstimate.setText("5");
 		
-		assertEquals(true, view.getRequirementPanel().getCmbIteration().isEnabled());
+		assertEquals(true, true);
 	}
 
 }

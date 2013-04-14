@@ -76,6 +76,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		assigneeDataset.clear();
 		userController.retrieve();
 		requirementController.retrieve();
+		iterationController.retreive();
 	}
 	
 	private BarChartPanel mainPanel;
@@ -126,7 +127,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		iterationController = new IterationController(this);
 		userController.retrieve();
 		requirementController.retrieve();
-		//iterationController.retreive();
+		iterationController.retreive();
 		inputEnabled = true;
 
 		//Default chart fields.
@@ -172,7 +173,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 					statusDataset.clear();
 					userController.retrieve();
 					requirementController.retrieve();
-					//iterationController.retreive();
+					iterationController.retreive();
 				}
 			}
 		});
@@ -216,33 +217,23 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private void doWhenRecievedAll(){
 		//update iteration chart
 		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
-		if (gotUsers /*&& gotIterations*/ && gotRequirements){
+		if (gotUsers && gotIterations && gotRequirements){
 			//==========
 			//Iteration
 			//==========
 			//Look at each iteration name and count the requirements in each iteration.
-			ArrayList<Integer> allIterationsHack = new ArrayList<Integer>();
-			//Populate the initial list by looking at the requirements.
+			int [] iterationCount = new int[allIterations.length];
 			for(int r=0; r<allRequirements.length;r++){
-				if(!allIterationsHack.contains(allRequirements[r].getIterationId()) &&
-						allRequirements[r].getStatus() != RequirementStatus.DELETED){
-					allIterationsHack.add(allRequirements[r].getIterationId());
-				}
-			}
-			
-			int [] iterationCount = new int[allIterationsHack.size()];
-			for(int r=0; r<allRequirements.length;r++){
-				for(int i=0; i<allIterationsHack.size(); i++){
-					if(allIterationsHack.get(i) == allRequirements[r].getIterationId()&&
-							allRequirements[r].getStatus() != RequirementStatus.DELETED)
+				for(int i=0; i<allIterations.length; i++){
+					if(allIterations[i].getId() == allRequirements[r].getIterationId()&&
+							allRequirements[r].getStatus() != RequirementStatus.DELETED)//Ignore the iterations of deleted requirements.
 							iterationCount[i]++;
 				}
 			}
 			
-			
-			
-			for(int i=0; i<allIterationsHack.size();i++){
-				String iterationName = Iteration.getIterationById(allIterationsHack.get(i)).getName();
+			//Get the names of the iterations by their ID numbers for the chart.
+			for(int i=0; i<allIterations.length;i++){
+				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
 				iterationDataset.setValue(iterationCount[i],"", "Iteration:" + iterationName);
 			}
 			

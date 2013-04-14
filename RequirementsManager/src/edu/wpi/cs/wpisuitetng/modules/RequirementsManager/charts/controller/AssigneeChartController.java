@@ -47,11 +47,6 @@ public class AssigneeChartController extends AbstractAction{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-//		testDataSet.setValue(110, "Requirements", "Twilight Sparkle");
-//		testDataSet.setValue(200, "Requirements", "Luna");
-//		testDataSet.setValue(87, "Requirements", "Celestia");
-//		testDataSet.setValue(32, "Requirements", "Cadence");
 		view.repaintChart(view.getAssigneeDataset(), "Assignee");
 	}
 }

@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -35,12 +37,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @version Apr 9th, 2013
  */
 @SuppressWarnings("serial")
-public class RequirementTableModel extends AbstractTableModel {
 
+public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
-	protected ArrayList<Object[]> data = new ArrayList<Object[]>();
+	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
-	private boolean DEBUG = false;
+	private static final boolean DEBUG = false;
 
 	/* Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
@@ -131,10 +133,9 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
-
 			return data.get(row)[col];
 		} else
-			return "null";
+			return null;
 	}
 
 	/**
@@ -180,8 +181,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param row row to get ID of
 	 * @return id of row
 	 */
-	public int getRowID(int row)
-	{
+	public int getRowID(int row){
 		return Integer.parseInt( getValueAt(row, 0).toString() );
 	}
 
@@ -282,5 +282,56 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	public void sortTable(final int col){
+		if(!(this.getValueAt(col,1) instanceof Comparable)){//can't sort if this column has no notion of an order
+			return;
+		}
+		//initially have highest on top.
+		//gotta sort data, which is an arraylist of object[]
+		//but really i have to sort one such object[]
+		//then propogate that sort to the rest
+		//well i have to sort based on comparing object[i]s
+		//alrighty then
+		Comparator<Object[]> c = new Comparator<Object[]>(){
+			@Override
+			public int compare(Object[] a, Object[] b){
+				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col]);
+			}
+			@Override
+			public boolean equals(Object o){
+				return false;
+			}
+		};
+		Object[][] dataArray = new Object[data.size()][data.get(0).length];
+		for(int i=0; i<data.size(); i++){
+			dataArray[i] = data.get(i);
+		}
+		for (int i =0; i < data.size(); i++) {
+			for (int j = 0; j < data.get(0).length; j++) {
+				System.out.print(" " + dataArray[i][j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("-------------------------------------");
+		Arrays.sort(dataArray , c);
+		data = Arrays.asList(dataArray);
+		for (int i =0; i < data.size(); i++) {
+			for (int j = 0; j < data.get(0).length; j++) {
+				System.out.print(" " + dataArray[i][j]);
+			}
+			System.out.println("");
+		}
+		System.out.println("-------------------------------------");
+		
+		
+		//TODO sort shit
+		//TODO check ascending vs descending
+		//TODO remane stuff
 	}
 }

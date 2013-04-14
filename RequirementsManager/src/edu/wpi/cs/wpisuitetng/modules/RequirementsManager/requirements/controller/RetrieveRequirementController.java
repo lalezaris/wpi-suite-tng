@@ -52,7 +52,6 @@ public class RetrieveRequirementController extends MouseAdapter {
 	@Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         int row = requirementListPanel.getTable().rowAtPoint(evt.getPoint());
-   
         if (row >= 0) {
         	selectedRequirement = ((RequirementTableModel)requirementListPanel.getTable().getModel()).getRowID(row);
             

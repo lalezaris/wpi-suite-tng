@@ -21,6 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.CheckIterationFieldsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.CreateIterationRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer.UpdateIterationRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -71,10 +72,28 @@ public class SaveIterationController {
 		
 		Request request;
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
-		request.addObserver(new CheckIterationFieldsObserver(this.view));
+		request.addObserver(new CheckIterationFieldsObserver(this));
 		request.send();
 		
 	} 
+	
+	public void checkIterationField(Iteration[] iterations){
+		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
+		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : new UpdateIterationRequestObserver(view);
+		Request requestSave;
+		requestSave = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
+
+		if(view.checkRequiredFields(iterations) == 0){
+			String JsonRequest = view.getIterationModel().getEditedModel().toJSON();
+			requestSave.setBody(JsonRequest);
+			System.out.println("Sending REQ to server:" +JsonRequest );
+			requestSave.addObserver(requestObserver);
+			requestSave.send();
+			//close tab
+			view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
+			System.out.println("SAVE ITERATION");
+		}
+	}
 	
 	/**
 	 * Gets view.

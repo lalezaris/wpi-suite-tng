@@ -33,13 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.CancelIterationAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -118,9 +112,9 @@ public class IterationPanel extends JPanel {
 	 * @param iteration The Iteration to edit
 	 * @param mode the mode
 	 */
-	public IterationPanel(IterationView parent, Mode mode) {
+	public IterationPanel(IterationView parent /*, Mode mode*/) {
 		this.parent = parent;
-		this.editMode = mode;
+//		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -364,22 +358,6 @@ public class IterationPanel extends JPanel {
 		txtIterationName.setEnabled(enabled);
 	}
 
-//	/**
-//	 * Check to see if the given IntegerField is empty.  
-//	 * 
-//	 * @param intf The IntergerField passed in.
-//	 * @return -1 if the string is less than 0 or blank;
-//	 * 		   the integer value otherwise.
-//	 * 
-//	 */
-//	protected int getValue(IntegerField intf){
-//		if(intf.getText().equals(null) || intf.getText().equals("")){
-//			return -1;
-//		} else {
-//			return Integer.parseInt(intf.getText());
-//		}		
-//	}
-
 	/**
 	 * Gets the editMode.
 	 *
@@ -426,7 +404,7 @@ public class IterationPanel extends JPanel {
 	 */
 	public boolean isThereChanges(){
 
-		if(editMode == Mode.CREATE){		
+		if(this.getParent().getMode() == Mode.CREATE){		
 			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
 				return true;
 			}

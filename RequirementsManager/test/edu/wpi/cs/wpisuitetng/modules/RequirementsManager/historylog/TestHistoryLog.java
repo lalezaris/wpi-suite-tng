@@ -1,4 +1,4 @@
-package edu.wpisuitetng.modules.RequirementsManager.historylog;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.historylog;
 
 import static org.junit.Assert.*;
 

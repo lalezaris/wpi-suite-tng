@@ -34,16 +34,16 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class CheckIterationFieldsObserver implements RequestObserver {
 
-	/** The View using the information obtained*/
-	protected IterationView iterationView;
+	/** The controller calling the observer*/
+	protected SaveIterationController controller;
 
 	/**
 	 * Construct a new observer.
 	 *
 	 * @param controller the controller managing the request
 	 */
-	public CheckIterationFieldsObserver(IterationView iterationView) {
-		this.iterationView = iterationView;
+	public CheckIterationFieldsObserver(SaveIterationController controller) {
+		this.controller = controller;
 	}
 
 	/* (non-Javadoc)
@@ -59,34 +59,14 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 
 		// check the response code of the request
 		if (response.getStatusCode() != 200) {
-			iterationView.errorReceivingIterations("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			controller.getView().errorReceivingIterations("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 			return;
 		}
 
 		// parse the iteration received from the core
 		Iteration[] iterations = Iteration.fromJSONArray(response.getBody());
-//		if (iterations.length > 0 && iterations[0] != null) {
-//			System.out.println("Iteration indexed by 0:"+ iterations[0]);
-//		}
-//		else {
-//			iterationView.errorReceivingIterations("No iteration received.");
-//		}
+		controller.checkIterationField(iterations); //not the check can have the most recent list of iterations
 		
-		final IterationPanel panel = (IterationPanel) iterationView.getIterationPanel();
-		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(iterationView) : new UpdateIterationRequestObserver(iterationView);
-		Request requestSave;
-		requestSave = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-
-		if(iterationView.checkRequiredFields(iterations) == 0){
-			String JsonRequest = iterationView.getIterationModel().getEditedModel().toJSON();
-			requestSave.setBody(JsonRequest);
-			System.out.println("Sending REQ to server:" +JsonRequest );
-			requestSave.addObserver(requestObserver);
-			requestSave.send();
-			//close tab
-			iterationView.getTab().getView().removeTabAt(iterationView.getTab().getThisIndex());
-			System.out.println("SAVE ITERATION");
-		}
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +74,7 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		iterationView.errorReceivingIterations("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+		controller.getView().errorReceivingIterations("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
 	/* (non-Javadoc)
@@ -103,7 +83,7 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO deal with exception
-		iterationView.errorReceivingIterations("Unable to complete request: " + exception.getMessage());
+		controller.getView().errorReceivingIterations("Unable to complete request: " + exception.getMessage());
 	}
 	
 	

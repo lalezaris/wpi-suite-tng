@@ -63,7 +63,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
-	
+	protected RequirementPanel.Mode mode;
 	
 	private ToolbarGroupView buttonGroup;
 	private JButton saveButton;
@@ -74,7 +74,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
 //	private RequirementPanel reqPanel;
-	private RequirementPanel.Mode mode;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
@@ -83,9 +82,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
-		
-		this.reqModel = new RequirementModel(requirement, this);
 		this.mode = editMode;
+		this.reqModel = new RequirementModel(requirement, this);
+
 		containingTab = tab;
 		this.parentView = null;
 		
@@ -353,6 +352,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 if (!mainPanel.getEditedModel().getChildRequirementIds().isEmpty()) {
 			 mainPanel.disableStuff(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
 		 }
+		 
+		 
+	}
+
+
+	/**
+	 * @return the mode
+	 */
+	public RequirementPanel.Mode getMode() {
+		return mode;
 	}
 	
 	public void setIterationComboBox(Iteration[] knownIterations){
@@ -380,8 +389,5 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		setUp(this.reqModel.getRequirement(), mode);
 	}
 	
-	public RequirementPanel.Mode getMode(){
-		return this.mode;
-	}
-	
+
 }

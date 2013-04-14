@@ -173,7 +173,9 @@ public class RequirementPanel extends JPanel{
 		this.parent = parent;
 		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
 				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
-		
+
+		parent.getMode();
+
 
 		//get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
@@ -225,21 +227,9 @@ public class RequirementPanel extends JPanel{
 		txtReleaseNumber = new JTextField(6);
 		
 		//filter out the expired iterations
-//		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
-//		knownIterations = Refresher.getInstance().getInstantIterations();
-//		for (int i = 0; i < knownIterations.length ;i++){
-//			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
-//				knownIts.add(knownIterations[i]);
-//			} else if (knownIterations[i].getId() == parent.getReqModel().getRequirement().getIteration().getId()){
-//				knownIts.add(knownIterations[i]);
-//			}
-//		}
-//		knownIterations = new Iteration[knownIts.size()];
-//		for (int i = 0; i < knownIterations.length; i++){
-//			knownIterations[i] = knownIts.get(i);
-//		}
-		
+
 		cmbIteration = new JComboBox();
+
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);

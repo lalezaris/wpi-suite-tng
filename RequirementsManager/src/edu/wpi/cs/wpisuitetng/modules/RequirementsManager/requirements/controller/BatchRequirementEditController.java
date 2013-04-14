@@ -83,7 +83,12 @@ public class BatchRequirementEditController<T> {
 	 */
 	private void getEachRequirement(ArrayList<Integer> requirementIDs) {
 		/* send a request for each id */
-		for (int iterate : requirementIDs) {
+		System.out.println("in getEachRequirement size: " + requirementIDs.size());
+		
+		for (int iterate = 0; iterate < requirementIDs.size(); iterate++) {
+			System.out.println("iterate: " + iterate);
+			System.out.println("requirementID: " + requirementIDs.get(iterate));
+			
 			Request request;
 			request = Network.getInstance().makeRequest(
 					"requirementsmanager/requirement/"
@@ -106,6 +111,7 @@ public class BatchRequirementEditController<T> {
 			requirement.setReleaseNumber((String) changeToMake);
 			break;
 		case ITERATIONID:
+			System.out.println("iteration changeeed");
 			requirement.setIterationId((Integer) changeToMake);
 			break;
 		case STATUS:

@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 public class RequirementModel {
 
 	private Requirement requirement;
-	private final Requirement uneditedRequirement;
+	private Requirement uneditedRequirement;
 	private RequirementView view;
 	
 	public RequirementModel(Requirement requirement, RequirementView view){

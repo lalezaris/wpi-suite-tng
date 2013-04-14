@@ -54,7 +54,6 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private int parentRequirementId;
-	private ArrayList<Integer> childRequirementId;
 	private int id;
 	private String creatorUsername;
 	private ArrayList<String> assignee; //putting this in to keep track of user
@@ -151,7 +150,6 @@ public class Requirement extends AbstractModel{
 		this.notes = new ArrayList<Note>();
 		this.childIDs = new ArrayList<Integer>();
 		this.history = new ArrayList<HistoricalChange>();
-		this.childRequirementId = new ArrayList<Integer>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
 	

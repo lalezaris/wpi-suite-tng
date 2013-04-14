@@ -9,44 +9,40 @@
  *
  * Contributors:
  *  Evan Polekoff
- *  Ned Shelton
 **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.chartType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 /**
- * Prep the data to display based on status.
- *
  * @author Evan Polekoff
- * @author Ned Shelton
- *
- * @version Apr 10, 2013
  *
  */
-public class StatusChartController extends AbstractAction{
-
+public class ChartTypeListener implements ActionListener{
+	
 	protected BarChartView view;
 	
-	/**
-	 * Constructer for StatusChartController.
-	 * 
-	 * @param view The BarChartView
-	 */
-	public StatusChartController(BarChartView view){
+	public ChartTypeListener(BarChartView view){
 		this.view = view;
 	}
-	
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		view.repaintChart(view.getStatusDataset(), "Status");
+		JComboBox cb = (JComboBox)e.getSource();
+		
+		if(cb.getSelectedItem() == chartType.Bar){
+			System.out.println("Selected Bar Chart.");
+		}
+		else if(cb.getSelectedItem() == chartType.Pie){
+			System.out.println("Selected Pie Chart.");
+		}
 	}
+
 }

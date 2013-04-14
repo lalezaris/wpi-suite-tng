@@ -29,13 +29,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.AssigneeChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationChartController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.RequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.StatusChartController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SubDivisionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -145,7 +143,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
-		mainPanel.getSubDivideBox().addActionListener(new IterationChartController(this));
+		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
 
 		//Start out with the status graph displayed.
 		//mainPanel.getChartBox().doClick();

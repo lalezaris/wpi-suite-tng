@@ -20,7 +20,6 @@ import javax.swing.AbstractAction;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
-
 /**
  * Prep the data to display based on status.
  *
@@ -50,5 +49,4 @@ public class StatusChartController extends AbstractAction{
 	public void actionPerformed(ActionEvent e) {
 		view.repaintChart(view.getStatusDataset(), "Status");
 	}
-
 }

@@ -42,11 +42,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class BarChartView.
+ * The Class to hold BarChartView.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
@@ -56,11 +55,18 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarChartView instance;
+	
+	/**
+	 * Update instance from server.
+	 */
 	public static void update(){
 		if (instance!=null)
 			instance.updateFromServer();
-			
 	}
+	
+	/**
+	 * Update from server.
+	 */
 	public void updateFromServer(){
 		gotUsers = false;
 		gotRequirements = false;
@@ -151,12 +157,10 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 				mainPanelScrollPane.repaint();
 			}
 		});
-
 		
 		// Updates the tree view when it is first focused
 		final BarChartView bv = this;
 		bv.addHierarchyListener(new HierarchyListener() {
-
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
 				if (HierarchyEvent.SHOWING_CHANGED != 0 && bv.isShowing()) {
@@ -352,5 +356,4 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	public DefaultCategoryDataset getAssigneeDataset() {
 		return assigneeDataset;
 	}
-
 }

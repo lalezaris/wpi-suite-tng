@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 
 /**
@@ -61,17 +62,18 @@ public class NotesView extends JPanel {
 	 *
 	 * @param req the requirement holding the notes
 	 */
-	public NotesView(Requirement req) {
+	public NotesView(RequirementView parent) {
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
 
-		setNotesList(req.getNotes());
+		setNotesList(parent.getReqModel().getRequirement().getNotes());
 
 		// Add all components to this panel
 		addComponents();
 
+		setNotesList(parent.getReqModel().getRequirement().getNotes());
 	}
 
 	/**
@@ -103,7 +105,7 @@ public class NotesView extends JPanel {
 		JLabel lblNotesSaved = new JLabel("Saved Notes:", LABEL_ALIGNMENT);
 
 		addNote = new JButton("Add Note");
-		addNote.addActionListener(new AddNoteController(this));
+		//addNote.addActionListener(new AddNoteController(this));
 
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;
@@ -193,6 +195,8 @@ public class NotesView extends JPanel {
 	 */
 	public void setNotesList(ArrayList<Note> aln){
 		this.notes = aln;
+		if (txtNotesSaved!=null)
+			txtNotesSaved.setText(notesListToString());
 	}
 
 	/**

@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
- * A tree node for the requirement tree
+ * A tree node for the requirement tree.
  *
  * @author Sam Lalezari
  *
@@ -29,23 +29,31 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 
 	protected Requirement req = null;
 	
+	/**
+	 * Instantiates a new requirement tree node.
+	 *
+	 * @param req the requirement
+	 */
 	public ReqTreeNode(Requirement req){
 		super(req.getTitle());
 		this.req = req;
 	}
 	
 	/**
+	 * Gets the name.
+	 *
 	 * @return the name of the requirement within the node
 	 */
 	public String getName(){
 		return this.req.getTitle();
 	}
 	
-	/** 
+	/**
+	 * Gets the requirement.
+	 *
 	 * @return the requirement within the node
 	 */
 	public Requirement getRequirement() {
 		return req;
 	}
-	
 }

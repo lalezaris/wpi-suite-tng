@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class AdminPermissionController extends AbstractAction {
 	 * @param panel the UserPermissionPanel
 	 */
 	public AdminPermissionController(UserPermissionPanel panel){
+//		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
@@ -47,8 +49,6 @@ public class AdminPermissionController extends AbstractAction {
 		this.originalNoneListModel = (DefaultListModel) noneUsers.getModel();
 		this.originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
 		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
-		
-//		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	} 
 	
 	/* (non-Javadoc)

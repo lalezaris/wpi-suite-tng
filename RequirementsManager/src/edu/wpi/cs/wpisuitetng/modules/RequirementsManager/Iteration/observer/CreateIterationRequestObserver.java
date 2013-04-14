@@ -69,7 +69,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						((IterationPanel) view.getIterationPanel()).updateModel(iteration);
+						view.getIterationModel().updateModel(iteration);
 						view.setEditModeDescriptors(iteration);
 					}
 				});

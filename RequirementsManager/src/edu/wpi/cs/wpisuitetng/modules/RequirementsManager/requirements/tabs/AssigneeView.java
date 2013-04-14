@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -68,7 +69,7 @@ public class AssigneeView extends JPanel{
 	 * @param req the requirement
 	 */
 	@SuppressWarnings("serial")
-	public AssigneeView(Requirement req){
+	public AssigneeView(RequirementView parent){
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
@@ -76,7 +77,7 @@ public class AssigneeView extends JPanel{
 
 		allUserAL = new ArrayList<String>();
 
-		assignedUserAL = req.getAssignee();
+		assignedUserAL = parent.getReqModel().getRequirement().getAssignee();
 
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
@@ -86,11 +87,13 @@ public class AssigneeView extends JPanel{
 		System.out.println();
 		System.out.println("assignedUserLM: " + assignedUserAL);
 		System.out.println(">> FILLING projectUsers ArrayList <<");
-		for(int i=0;i<projectUsers.length;i++){
-			System.out.println("USER: " + projectUsers[i].getUsername());
-			if(!assignedUserAL.contains(projectUsers[i].getUsername())){
-				System.out.println("     added to allUserAL");
-				allUserAL.add(projectUsers[i].getUsername());
+		if(projectUsers != null){
+			for(int i=0;i<projectUsers.length;i++){
+				System.out.println("USER: " + projectUsers[i].getUsername());
+				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
+					System.out.println("     added to allUserAL");
+					allUserAL.add(projectUsers[i].getUsername());
+				}
 			}
 		}
 		for(int i=0;i<allUserAL.size();i++){
@@ -116,11 +119,11 @@ public class AssigneeView extends JPanel{
 		};
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 
-		btnAdd = new    JButton("ADD");
-		btnAdd.addActionListener(new AddAssigneeController(this));
+		btnAdd = new JButton("ADD");
+		//btnAdd.addActionListener(new AddAssigneeController(this));
 
 		btnRemove = new JButton("REMOVE");
-		btnRemove.addActionListener(new RemoveAssigneeController(this));
+		//btnRemove.addActionListener(new RemoveAssigneeController(this));
 
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);

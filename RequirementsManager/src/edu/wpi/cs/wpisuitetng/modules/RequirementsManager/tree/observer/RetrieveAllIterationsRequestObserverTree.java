@@ -28,52 +28,52 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class RetrieveAllIterationsRequestObserverTree implements RequestObserver{
-    RetrieveAllIterationsControllerTree r;
-    public RetrieveAllIterationsRequestObserverTree(RetrieveAllIterationsControllerTree r){
-	this.r = r;
-    }
-    
-    /* Respond to the request
-     * @param iReq Request to respond to
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
-    @Override
+	RetrieveAllIterationsControllerTree r;
+	public RetrieveAllIterationsRequestObserverTree(RetrieveAllIterationsControllerTree r){
+		this.r = r;
+	}
+
+	/* Respond to the request
+	 * @param iReq Request to respond to
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	@Override
 	public void responseSuccess(IRequest iReq) {
-	// cast observable to request
-	Request request = (Request) iReq;
-	
-	// get the response from the request
-	ResponseModel response = request.getResponse();
-	System.out.println("GOT RESPONSE");
-	if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
-	    // parse the response
-	    Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
-	    
-	    // notify the controller
-	    r.receivedData(Iterations);
+		// cast observable to request
+		Request request = (Request) iReq;
+
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+		System.out.println("GOT RESPONSE");
+		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
+			// parse the response
+			Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
+
+			// notify the controller
+			r.receivedData(Iterations);
+		}
+		else {
+			r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+		}
 	}
-	else {
-	    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
-	}
-    }
-    
-    /* Responds when there is an error
-     * @param iReq IRequest that has an error to respond to
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
-    @Override
+
+	/* Responds when there is an error
+	 * @param iReq IRequest that has an error to respond to
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	@Override
 	public void responseError(IRequest iReq) {
-	System.out.print("Response Error");
-	
-    }
-    
-    /* Responds where there is a failure
-     * @param iReq IRequest to respond to the failure
-     * @param exception exception causing the failure
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-     */
-    @Override
+		System.out.print("Response Error");
+
+	}
+
+	/* Responds where there is a failure
+	 * @param iReq IRequest to respond to the failure
+	 * @param exception exception causing the failure
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
+	@Override
 	public void fail(IRequest iReq, Exception exception) {
-	
-    }
+
+	}
 }

@@ -48,11 +48,11 @@ public class BarChartPanel extends JPanel {
 	
 	/** The chart box. */
 	private JComboBox chartBox;
-	public enum chartType{
+	public enum TypeOfChart{
 		Bar,
 		Pie
 	}
-	chartType[] chartTypeArray = {chartType.Bar, chartType.Pie };
+	TypeOfChart[] chartTypeArray = {TypeOfChart.Bar, TypeOfChart.Pie };
 	
 	/** The characteristic box. */
 	private JComboBox characteristicBox;
@@ -164,7 +164,7 @@ public class BarChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(barGraph);
+		setChart(barGraph, TypeOfChart.Bar);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -173,7 +173,7 @@ public class BarChartPanel extends JPanel {
 	/**Set the bar graph to be what you pass in.
 	 * @param newChart The chart you are overwriting with.
 	 */
-	public void setChart(JFreeChart newChart){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType){
 		overallPanel.remove(graphPanel);
 
 		graphPanel = new ChartPanel(newChart);
@@ -183,10 +183,12 @@ public class BarChartPanel extends JPanel {
 		graphPanel.setLayout(layoutGraph);
 
 		//Set Chart Proprties
-		if(newChart!=null){
+		if(newChart != null){
 			newChart.setBackgroundPaint(Color.getHSBColor(174, 240, 211));
-			final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
-	        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			if(chartType == TypeOfChart.Bar){
+				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
+		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
 		}
 		
 		//Add the Graph to the panel
@@ -206,6 +208,12 @@ public class BarChartPanel extends JPanel {
 		this.validate();
 	}
 
+	/**Gray out or un-gray out the combo box.
+	 * @param enabled Whether or not the box is enabled.
+	 */
+	public void setSubDivideEnable(boolean enabled){
+		subDivideBox.setEnabled(enabled);
+	}
 	
 	//Combo Box Getters
 	/**
@@ -230,6 +238,4 @@ public class BarChartPanel extends JPanel {
 		return subDivideBox;
 	}
 
-
-	
 }

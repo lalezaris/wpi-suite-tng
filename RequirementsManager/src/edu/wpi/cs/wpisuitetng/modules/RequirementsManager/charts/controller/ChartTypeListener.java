@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.chartType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 /**
@@ -37,11 +37,15 @@ public class ChartTypeListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();
 		
-		if(cb.getSelectedItem() == chartType.Bar){
+		if(cb.getSelectedItem() == TypeOfChart.Bar){
 			System.out.println("Selected Bar Chart.");
+			view.setChartType(TypeOfChart.Bar);
+			view.repaintChart();
 		}
-		else if(cb.getSelectedItem() == chartType.Pie){
+		else if(cb.getSelectedItem() == TypeOfChart.Pie){
 			System.out.println("Selected Pie Chart.");
+			view.setChartType(TypeOfChart.Pie);
+			view.repaintChart();
 		}
 	}
 

@@ -19,7 +19,7 @@ import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.chartType;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
 
 /**
  * @author Evan Polekoff
@@ -30,6 +30,9 @@ public class CharacteristicListener implements ActionListener{
 	
 	public CharacteristicListener(BarChartView view){
 		this.view = view;
+		//Defaults to Status.
+		view.setCurrentCharacteristic("Status");
+		view.repaintChart();
 	}
 
 	@Override
@@ -38,15 +41,18 @@ public class CharacteristicListener implements ActionListener{
 		
 		if(cb.getSelectedItem() == characteristic.Status){
 			System.out.println("Selected Status.");
-			view.repaintChart(view.getStatusDataset(), "Status");
+			view.setCurrentCharacteristic("Status");
+			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == characteristic.Iteration){
 			System.out.println("Selected Iteration.");
-			view.repaintChart(view.getIterationDataset(), "Iteration");
+			view.setCurrentCharacteristic("Iteration");
+			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == characteristic.Assignee){
 			System.out.println("Selected Assignee.");
-			view.repaintChart(view.getAssigneeDataset(), "Assignee");
+			view.setCurrentCharacteristic("Assignee");
+			view.repaintChart();
 		}
 	}
 }

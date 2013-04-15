@@ -55,6 +55,15 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllChildRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
@@ -116,11 +125,13 @@ public class RequirementPanel extends JPanel{
 
 	/** HistoryView for updating history **/
 	private HistoryView hv;
-	
+
+	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
+	private AcceptanceTestsView atv;
+
 	/** AssigneeView for updating assignees **/
 	//TODO finish implementing av
 	private AssigneeView av;
-
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -180,6 +191,10 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of history from the given requirement
 		this.hv = new HistoryView(parent);
+//		hv = new HistoryView(model);
+		
+		//Instantiate the acceptance tests
+		this.atv = new AcceptanceTestsView(parent);
 
 		//get the list of history from the given requirement
 		this.av = new AssigneeView(parent);
@@ -258,8 +273,15 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-
-		RTabsView = new RequirementTabsView(notesView, hv, av);
+//		RTabsView = new RequirementTabsView(notesView, hv, av, );
+//=======
+//		notesView.setNotesList(this.getNotesArrayList());
+//		hv.setHistoryList(this.getHistoryList());
+//		av.setAssigneeList(model.getAssignee());
+		RTabsView = new RequirementTabsView(notesView, hv, atv, av);
+//		av.setAssigneeList(model.getAssignee());
+//		RTabsView = new RequirementTabsView(notesView, hv, av);
+//>>>>>>> origin/team1-acceptanceTests
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -765,6 +787,7 @@ public class RequirementPanel extends JPanel{
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
+		requirement.updateAcceptanceTests(atv.getList());
 		requirement.setAssignee(av.getAssignedUserAL());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());

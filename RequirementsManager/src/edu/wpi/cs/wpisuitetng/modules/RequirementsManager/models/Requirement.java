@@ -167,6 +167,15 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Gets the acceptance tests.
 	 *
+	 * replaces the current acceptance test list with the given one
+	 * 
+	 * @param arraylist of acceptance tests
+	 */
+	public void updateAcceptanceTests(ArrayList<AcceptanceTest> a){
+		this.acceptanceTests = a;
+	}
+	
+	/**
 	 * @return the list of acceptance tests in this requirement
 	 */
 	public ArrayList<AcceptanceTest> getAcceptanceTests(){

@@ -84,7 +84,6 @@ public class RequirementPanel extends JPanel{
 		EDIT, 
 		CHILD;
 	}
-
 	
 	/** The parent view **/
 	protected RequirementView parent;
@@ -176,7 +175,6 @@ public class RequirementPanel extends JPanel{
 
 		this.mode = mode;
 
-
 		//get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
 
@@ -231,30 +229,36 @@ public class RequirementPanel extends JPanel{
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
-		String[] requirementStatusValues = RequirementStatusLists.getList(parent.getReqModel().getRequirement());
+
+		String[] requirementStatusValues =new String[RequirementStatus.values().length];
 		for (int i = 0; i < requirementStatusValues.length; i++) {
-			requirementStatusValues[i] = RequirementStatusLists.getList(parent.getReqModel().getRequirement())[i];
+			requirementStatusValues[i] = RequirementStatus.values()[i].toString();
+			System.out.println("Status:" + requirementStatusValues[i]);
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
+		
+		System.out.println("Status selected:" + cmbStatus.getSelectedItem());
+		
+		
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
 		for (int i = 0; i < RequirementPriority.values().length; i++) {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
+		
 		String[] requirementTypeValues = new String[RequirementType.values().length];
 		for (int i = 0; i < RequirementType.values().length; i++) {
 			requirementTypeValues[i] = RequirementType.values()[i].toString();
 		}
 		cmbType = new JComboBox(requirementTypeValues);
+		
 		txtEstimate = new IntegerField(4);
 		txtActual = new IntegerField(4);
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		notesView.setNotesList(parent.getReqModel().getRequirement().getNotes());
-		hv.setHistoryList(parent.getReqModel().getRequirement().getHistory());
-		av.setAssigneeList(parent.getReqModel().getRequirement().getAssignee());
+
 		RTabsView = new RequirementTabsView(notesView, hv, av);
 
 		/**Save Button*/
@@ -281,7 +285,7 @@ public class RequirementPanel extends JPanel{
 		txtDescription.addKeyListener(new SaveListener());
 
 		/**Status Listener*/
-		cmbStatus.addActionListener(new StatusListener());
+		//cmbStatus.addActionListener(new StatusListener());
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -352,31 +356,8 @@ public class RequirementPanel extends JPanel{
 		 cOne.gridwidth = 1;
 		 panelOne.add(txtReleaseNumber, cOne);
 
-		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
-		 if(parent.getReqModel().getRequirement().getEstimateEffort() > 0) {
-			 cmbIteration.setEnabled(true);
-			 cmbIteration.setBackground(Color.WHITE);
-		 }
-		 else
-			 cmbIteration.setEnabled(false);
+		 
 
-		 //Default the save button depending on what is filled in (Title and Description).
-		 if(!parent.getReqModel().getRequirement().getTitle().equals("") && 
-				 !parent.getReqModel().getRequirement().getDescription().equals("") && 
-				 parent.getReqModel().getRequirement().getTitle() != null && 
-				 parent.getReqModel().getRequirement().getDescription() != null){
-			 saveRequirementBottom.setEnabled(true);
-		 }
-		 else{
-			 saveRequirementBottom.setEnabled(false);
-		 }
-
-		 //Move the requirement to the backlog if it is set to OPEN.
-		 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN){
-			 parent.getReqModel().getRequirement().setIteration(Iteration.getBacklog());
-			 cmbIteration.setEnabled(true);
-			 cmbStatus.setEnabled(true);
-		 }
 
 //		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
 //			 deleteRequirementBottom.setEnabled(false);
@@ -510,19 +491,26 @@ public class RequirementPanel extends JPanel{
 		 panelButtons.setLayout(layoutButtons);
 
 		 cButtons.insets = new Insets(10,10,10,10);
-		 if (parent.getMode() == Mode.EDIT) { 
-			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
-					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
-					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-				 cButtons.weightx = 0.5;
-				 cButtons.weighty = 0.5;
-				 cButtons.gridx = 0;
-				 cButtons.gridy = 0;
-				 cButtons.gridwidth = 3;
-				 panelButtons.add(createChildRequirement, cButtons);
-			 }
-		 }
-
+//		 if (parent.getMode() == Mode.EDIT) { 
+//			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
+//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
+//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
+//				 cButtons.weightx = 0.5;
+//				 cButtons.weighty = 0.5;
+//				 cButtons.gridx = 0;
+//				 cButtons.gridy = 0;
+//				 cButtons.gridwidth = 3;
+//				 panelButtons.add(createChildRequirement, cButtons);
+//			 }
+//		 }
+		 cButtons.weightx = 0.5;
+		 cButtons.weighty = 0.5;
+		 cButtons.gridx = 0;
+		 cButtons.gridy = 0;
+		 cButtons.gridwidth = 3;
+		 panelButtons.add(createChildRequirement, cButtons);
+		 
+		 
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 0;
@@ -619,33 +607,7 @@ public class RequirementPanel extends JPanel{
 		 splitPane.resetToPreferredSizes();
 		 this.add(splitPane, BorderLayout.CENTER);
 
-		 //depending on the mode, disable certain components
-		 if (parent.getMode() == Mode.CREATE || parent.getMode() == Mode.CHILD) {
-			 cmbStatus.setEnabled(false);
-			 txtActual.setEnabled(false);
-		 }
 
-		 if (parent.getMode() == Mode.CHILD) {
-			 cmbIteration.setEnabled(false);
-			 txtReleaseNumber.setEnabled(false);
-		 }
-
-		 if(parent.getMode() == Mode.EDIT && !parent.getReqModel().getRequirement().isTopLevelRequirement()){
-			 cmbStatus.setEnabled(false);
-			 cmbIteration.setEnabled(false);
-			 txtReleaseNumber.setEnabled(false);
-			 txtActual.setEnabled(false);
-
-		 }
-		 
-		 // depending on the status and sub-requirements, disable certain components
-
-		 if (parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
-				 || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
-			 //TODO: uncomment the next line once busy waiting issue is fixed
-			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
-			 txtEstimate.setEnabled(false);
-		 }
 		 
 //		 if (model.getChildRequirementIds().isEmpty()) {
 //			 setDeleteEnabled(false);
@@ -843,51 +805,6 @@ public class RequirementPanel extends JPanel{
 
 
 
-	/**
-	 * The listener interface for receiving status events.
-	 * The class that is interested in processing a status
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addStatusListener<code> method. When
-	 * the status event occurs, that object's appropriate
-	 * method is invoked.
-	 *
-	 * @see StatusEvent
-	 */
-	public class StatusListener implements ActionListener{
-		
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed(ActionEvent status) {
-			JComboBox cb = (JComboBox)status.getSource();
-			System.out.println(cb.getSelectedItem());
-
-			changeIteration(cb);
-		}
-		
-		/**
-		 * Change the iteration to which a requirement belongs.
-		 *
-		 * @param cb the JComboBox which contains all the iterations.
-		 */
-		public void changeIteration(JComboBox cb){
-			if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId() ){
-				cmbIteration.setSelectedIndex(cmbIteration.getItemCount()-1);
-				cmbIteration.setEnabled(false);
-			} else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)  && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId()){ 
-				for (int i = 0; i < cmbIteration.getItemCount(); i++) {
-					if (parent.getReqModel().getRequirement().getIteration().toString().equals(knownIterations[i].toString()) ){
-						cmbIteration.setSelectedIndex(i);
-						if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE && parent.getReqModel().getRequirement().getParentRequirementId() == -1){
-							cmbIteration.setEnabled(true);
-						}
-					}
-				}
-			}
-		}
-	}
 
 	//TODO: class exists in action package, refactor
 	/**

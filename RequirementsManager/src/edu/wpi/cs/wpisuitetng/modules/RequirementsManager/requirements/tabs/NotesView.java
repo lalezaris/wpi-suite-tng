@@ -57,6 +57,9 @@ public class NotesView extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
+	
+	protected RequirementView parent;
+	
 	/**
 	 * Instantiates a new notes view.
 	 *
@@ -67,13 +70,11 @@ public class NotesView extends JPanel {
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
-
-		setNotesList(parent.getReqModel().getRequirement().getNotes());
-
+		this.parent = parent;
 		// Add all components to this panel
 		addComponents();
 
-		setNotesList(parent.getReqModel().getRequirement().getNotes());
+		
 	}
 
 	/**

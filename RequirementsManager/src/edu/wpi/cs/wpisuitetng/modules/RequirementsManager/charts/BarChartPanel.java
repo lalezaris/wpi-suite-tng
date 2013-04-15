@@ -14,15 +14,20 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+
+import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 /**
  * The Class BarChartPanel.
@@ -37,35 +42,46 @@ public class BarChartPanel extends JPanel {
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
-
-	//	//Things needed for the bar chart.
-	//	boolean urls;
-	//	boolean tooltips;
-	//	boolean legend;
-	//	PlotOrientation orientation;
-	//	DefaultCategoryDataset dataset;
-	//	String xAxis = "Iteration";
+	
 	/** The bar graph. */
 	JFreeChart barGraph;
+	
+	/** The chart box. */
+	private JComboBox chartBox;
+	public enum TypeOfChart{
+		Bar,
+		Pie
+	}
+	TypeOfChart[] chartTypeArray = {TypeOfChart.Bar, TypeOfChart.Pie };
+	
+	/** The characteristic box. */
+	private JComboBox characteristicBox;
+	public enum characteristic{
+		Status,
+		Iteration,
+		Assignee
+	}
+	characteristic[] characteristicArray = {characteristic.Status, characteristic.Iteration, characteristic.Assignee };
 
-	/** The status button. */
-	private JButton statusButton;
+	/** The characteristic box. */
+	private JComboBox subDivideBox;
+	public enum SubDivision{
+		None,
+		Priority,
+		Type
+	}
+	SubDivision[] subDivisionArray = {SubDivision.None, SubDivision.Priority, SubDivision.Type};
 
-	/** The assignee button. */
-	private JButton assigneeButton;
-
-	/** The iteration button. */
-	private JButton iterationButton;
 
 	/** The button panel. */
-	JPanel btnPanel = new JPanel();
+	JPanel boxPanel = new JPanel();
 
 	/** The overall panel. */
 	JPanel overallPanel = new JPanel();
 
 	/** The graph panel. */
 	ChartPanel graphPanel;
-
+	DefaultToolbarView toolbar;
 	/**
 	 * Instantiates a new bar chart panel.
 	 *
@@ -85,10 +101,13 @@ public class BarChartPanel extends JPanel {
 	 * 
 	 */
 	private void addComponents(){
-		//Make Buttons
-		statusButton = new JButton("Status");
-		assigneeButton = new JButton("Assignee");
-		iterationButton = new JButton("Iteration");
+		//Make a toolbar.
+		toolbar = new DefaultToolbarView();
+		
+		//Make ComboBoxes
+		chartBox = new JComboBox(chartTypeArray);
+		characteristicBox = new JComboBox(characteristicArray);
+		subDivideBox = new JComboBox(subDivisionArray);
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -97,50 +116,43 @@ public class BarChartPanel extends JPanel {
 		layout = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 
-		//barGraph = ChartFactory.createBarChart("Bar Chart", xAxis, "Number of Requirements", dataset, orientation, legend, tooltips, urls);
-		//		ChartPanel graphPanel = new ChartPanel(barGraph);
-		//		GridBagConstraints cGraph = new GridBagConstraints();
-
-		GridBagConstraints cBtn = new GridBagConstraints();
+		GridBagConstraints cBox = new GridBagConstraints();
 		GridBagLayout layoutBtn = new GridBagLayout();
-		btnPanel.setLayout(layoutBtn);
+		boxPanel.setLayout(layoutBtn);
 
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
 
-		//		GridBagLayout layoutGraph = new GridBagLayout();
-		//		graphPanel.setLayout(layoutGraph);
-
 		/*add all of the components to the btnPanel*/
-		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 0;
-		cBtn.gridy = 0;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(statusButton, cBtn);
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 0;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(chartBox, cBox);
 
-		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 2;
-		cBtn.gridy = 0;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(assigneeButton, cBtn);
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 2;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(characteristicBox, cBox);
 
-		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 4;
-		cBtn.gridy = 0;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(iterationButton, cBtn);
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 4;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(subDivideBox, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -150,9 +162,9 @@ public class BarChartPanel extends JPanel {
 		cOverall.weighty = 0.1;
 		cOverall.gridwidth = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		overallPanel.add(btnPanel, cOverall);
+		overallPanel.add(boxPanel, cOverall);
 
-		setChart(barGraph);
+		setChart(barGraph, TypeOfChart.Bar);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -161,7 +173,7 @@ public class BarChartPanel extends JPanel {
 	/**Set the bar graph to be what you pass in.
 	 * @param newChart The chart you are overwriting with.
 	 */
-	public void setChart(JFreeChart newChart){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType){
 		overallPanel.remove(graphPanel);
 
 		graphPanel = new ChartPanel(newChart);
@@ -170,6 +182,15 @@ public class BarChartPanel extends JPanel {
 		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
 
+		//Set Chart Proprties
+		if(newChart != null){
+			newChart.setBackgroundPaint(Color.getHSBColor(174, 240, 211));
+			if(chartType == TypeOfChart.Bar){
+				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
+		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
+		}
+		
 		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
 		cGraph.fill = GridBagConstraints.HORIZONTAL;
@@ -187,31 +208,34 @@ public class BarChartPanel extends JPanel {
 		this.validate();
 	}
 
-	//button getters
-	/**
-	 * Gets the status button.
-	 *
-	 * @return the status button
+	/**Gray out or un-gray out the combo box.
+	 * @param enabled Whether or not the box is enabled.
 	 */
-	public JButton getStatusButton(){
-		return statusButton;
+	public void setSubDivideEnable(boolean enabled){
+		subDivideBox.setEnabled(enabled);
+	}
+	
+	//Combo Box Getters
+	/**
+	 * @return the chartBox
+	 */
+	public JComboBox getChartBox() {
+		return chartBox;
 	}
 
 	/**
-	 * Gets the iteration button.
-	 *
-	 * @return the iteration button
+	 * @return the characteristicBox
 	 */
-	public JButton getIterationButton(){
-		return iterationButton;
+	public JComboBox getCharacteristicBox() {
+		return characteristicBox;
 	}
 
+
 	/**
-	 * Gets the assignee button.
-	 *
-	 * @return the assignee button
+	 * @return the subDivideBox
 	 */
-	public JButton getAssigneeButton(){
-		return assigneeButton;
+	public JComboBox getSubDivideBox() {
+		return subDivideBox;
 	}
+
 }

@@ -9,53 +9,44 @@
  *
  * Contributors:
  *  Evan Polekoff
- *  Ned Shelton
 **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
-
 /**
- * Prep the data to display based on iterations.
- *
  * @author Evan Polekoff
- * @author Ned Shelton
- *
- * @version Apr 10, 2013
  *
  */
-public class IterationChartController extends AbstractAction{
-
+public class ChartTypeListener implements ActionListener{
+	
 	protected BarChartView view;
 	
-	/**
-	 * Constructor for IterationChartController.
-	 * 
-	 * @param view The BarChartView
-	 */
-	public IterationChartController(BarChartView view){
+	public ChartTypeListener(BarChartView view){
 		this.view = view;
 	}
-	
-	/**
-	 * Action to be performed when the Iteration Button is pressed.
-	 * 
-	 * @param e A ActionEvent
-	 */
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		JComboBox cb = (JComboBox)e.getSource();
 		
-//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-//		
-//		testDataSet.setValue(130, "Requirements", "Scootaloo");
-//		testDataSet.setValue(130, "Requirements", "Apple Bloom");
-//		testDataSet.setValue(130, "Requirements", "Sweetie Belle");
-		view.repaintChart(view.getIterationDataset(), "Iteration");
+		if(cb.getSelectedItem() == TypeOfChart.Bar){
+			System.out.println("Selected Bar Chart.");
+			view.setChartType(TypeOfChart.Bar);
+			view.repaintChart();
+		}
+		else if(cb.getSelectedItem() == TypeOfChart.Pie){
+			System.out.println("Selected Pie Chart.");
+			view.setChartType(TypeOfChart.Pie);
+			view.repaintChart();
+		}
 	}
+
 }

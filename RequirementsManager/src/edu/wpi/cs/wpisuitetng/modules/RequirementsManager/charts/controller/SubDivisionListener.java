@@ -9,49 +9,42 @@
  *
  * Contributors:
  *  Evan Polekoff
- *  Ned Shelton
 **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
+import javax.swing.JComboBox;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.SubDivision;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
 
 /**
- * Prep the data to display based on asignee.
- *
  * @author Evan Polekoff
- * @author Ned Shelton
- *
- * @version Apr 10, 2013
  *
  */
-public class AssigneeChartController extends AbstractAction{
-
+public class SubDivisionListener implements ActionListener{
+	
 	protected BarChartView view;
 	
-	/**
-	 * Constructer for AssigneeChartController.
-	 * 
-	 * @param view The BarChartView
-	 */
-	public AssigneeChartController(BarChartView view){
+	public SubDivisionListener(BarChartView view){
 		this.view = view;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		DefaultCategoryDataset testDataSet = new DefaultCategoryDataset();
-//		testDataSet.setValue(110, "Requirements", "Twilight Sparkle");
-//		testDataSet.setValue(200, "Requirements", "Luna");
-//		testDataSet.setValue(87, "Requirements", "Celestia");
-//		testDataSet.setValue(32, "Requirements", "Cadence");
-		view.repaintChart(view.getAssigneeDataset(), "Assignee");
+		JComboBox cb = (JComboBox)e.getSource();
+		
+		if(cb.getSelectedItem() == SubDivision.None){
+			System.out.println("Selected None.");
+		}
+		else if(cb.getSelectedItem() == SubDivision.Priority){
+			System.out.println("Selected Priority.");
+		}
+		else if(cb.getSelectedItem() == SubDivision.Type){
+			System.out.println("Selected Type.");
+		}
 	}
 }

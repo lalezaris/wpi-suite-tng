@@ -17,7 +17,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 import java.awt.BorderLayout;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,24 +25,29 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.AssigneeChartController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationChartController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.RequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.StatusChartController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SubDivisionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class to hold BarChartView.
+ * The Class to hold BarChartView. 
  *
  * @author Evan Polekoff
  * @author Ned Shelton
@@ -69,26 +73,23 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		gotUsers = false;
 		gotRequirements = false;
 		gotIterations = false;
-		//statusDataset = new DefaultCategoryDataset();
-		//iterationDataset = new DefaultCategoryDataset();
-		//assigneeDataset = new DefaultCategoryDataset();
-		iterationDataset.clear();
-		statusDataset.clear();
-		assigneeDataset.clear();
+		iterationBarDataset.clear();
+		statusBarDataset.clear();
+		assigneeBarDataset.clear();
 		userController.retrieve();
 		requirementController.retrieve();
+		iterationController.retreive();
 	}
 	
 	private BarChartPanel mainPanel;
-	private RetrieveAllRequirementsController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-	private boolean inputEnabled;
+	private TypeOfChart chartType = TypeOfChart.Bar;
+	private String currentCharacteristic = "Status";
 	private boolean urls;
 	private boolean tooltips;
 	private boolean legend;
 	private PlotOrientation orientation;
-	private DefaultCategoryDataset dataset;
 	private UserController userController;
 	private RequirementController requirementController;
 	private IterationController iterationController;
@@ -97,11 +98,17 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	private Iteration[] allIterations;
 	private Requirement[] allRequirements;
 	private RequirementStatus[] allStatuses = {RequirementStatus.NEW, RequirementStatus.INPROGRESS, RequirementStatus.OPEN, RequirementStatus.DELETED, RequirementStatus.COMPLETE};
+	private RequirementPriority[] allPriorities = {RequirementPriority.HIGH, RequirementPriority.MEDIUM, RequirementPriority.LOW, RequirementPriority.BLANK};
+	private RequirementType[] allTypes = {RequirementType.BLANK, RequirementType.EPIC, RequirementType.THEME, RequirementType.USERSTORY, RequirementType.NONFUNCTIONAL, RequirementType.SCENARIO};
 	
 	//Data to pass to the different controllers
-	private DefaultCategoryDataset iterationDataset = new DefaultCategoryDataset();;
-	private DefaultCategoryDataset statusDataset = new DefaultCategoryDataset();;
-	private DefaultCategoryDataset assigneeDataset = new DefaultCategoryDataset();;
+	private DefaultCategoryDataset iterationBarDataset = new DefaultCategoryDataset();
+	private DefaultCategoryDataset statusBarDataset = new DefaultCategoryDataset();
+	private DefaultCategoryDataset assigneeBarDataset = new DefaultCategoryDataset();
+	
+	private DefaultPieDataset iterationPieDataset = new DefaultPieDataset();
+	private DefaultPieDataset statusPieDataset = new DefaultPieDataset();
+	private DefaultPieDataset assigneePieDataset = new DefaultPieDataset();
 
 	/**
 	 * Constructs a Bar Chart View so the bar chart can be viewed.
@@ -125,8 +132,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		iterationController = new IterationController(this);
 		userController.retrieve();
 		requirementController.retrieve();
-		//iterationController.retreive();
-		inputEnabled = true;
+		iterationController.retreive();
 
 		//Default chart fields.
 		urls = false;
@@ -139,12 +145,9 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		// Instantiate the main create requirement panel
 		mainPanel = new BarChartPanel(this, makeBarChart(dataset, ""));
 
-		mainPanel.getStatusButton().addActionListener(new StatusChartController(this));
-		mainPanel.getAssigneeButton().addActionListener(new AssigneeChartController(this));
-		mainPanel.getIterationButton().addActionListener(new IterationChartController(this));
-
-		//Start out with the status graph displayed.
-		mainPanel.getStatusButton().doClick();
+		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
+		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
+		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
 
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -163,15 +166,14 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
 				if (HierarchyEvent.SHOWING_CHANGED != 0 && bv.isShowing()) {
-					//mainPanel.getStatusButton().doClick();
 					gotUsers = false;
 					gotRequirements = false;
 					gotIterations = false;
-					iterationDataset.clear();
-					statusDataset.clear();
+					iterationBarDataset.clear();
+					statusBarDataset.clear();
 					userController.retrieve();
 					requirementController.retrieve();
-					//iterationController.retreive();
+					iterationController.retreive();
 				}
 			}
 		});
@@ -186,18 +188,52 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param xAxis the x axis
 	 * @return the bar chart that was created from the fields.
 	 */
-	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){		
-		return ChartFactory.createBarChart("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
+	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){
+		return ChartFactory.createStackedBarChart3D("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
+	}
+	
+	/**
+	 * Makes the chart from the fields in this class.
+	 *
+	 * @param dataset the dataset
+	 * @param characterisitc the characteristic being filtered by.
+	 * @return the pie chart that was created from the fields.
+	 */
+	private JFreeChart makePieChart(PieDataset dataset, String characteristic){
+		return ChartFactory.createPieChart3D("Number of Requirements for Each " + characteristic, dataset, legend, tooltips, urls);
 	}
 
 	/**
 	 * Update and repaint the bar chart in the panel.
-	 *
-	 * @param dataset the dataset
-	 * @param xAxis the x axis
 	 */
-	public void repaintChart(DefaultCategoryDataset dataset, String xAxis){
-		mainPanel.setChart(makeBarChart(dataset, xAxis));
+	public void repaintChart(){
+		if(chartType == TypeOfChart.Bar){
+			if(currentCharacteristic.equals("Status")){
+				mainPanel.setChart(makeBarChart(statusBarDataset, currentCharacteristic), TypeOfChart.Bar);
+			}
+			else if(currentCharacteristic.equals("Assignee")){
+				mainPanel.setChart(makeBarChart(assigneeBarDataset, currentCharacteristic), TypeOfChart.Bar);
+			}
+			else if (currentCharacteristic.equals("Iteration")){
+				mainPanel.setChart(makeBarChart(iterationBarDataset, currentCharacteristic), TypeOfChart.Bar);
+			}
+			//Set the subdivide to be ungrayed out.
+			mainPanel.setSubDivideEnable(true);
+		}
+		else if(chartType == TypeOfChart.Pie){
+			if(currentCharacteristic.equals("Status")){
+				mainPanel.setChart(makePieChart(statusPieDataset, currentCharacteristic), TypeOfChart.Pie);
+			}
+			else if(currentCharacteristic.equals("Assignee")){
+				mainPanel.setChart(makePieChart(assigneePieDataset, currentCharacteristic), TypeOfChart.Pie);
+			}
+			else if (currentCharacteristic.equals("Iteration")){
+				mainPanel.setChart(makePieChart(iterationPieDataset, currentCharacteristic), TypeOfChart.Pie);
+			}
+			//Set the subdivide to be grayed out.
+			mainPanel.setSubDivideEnable(false);
+		}
+			
 	}
 
 	/* (non-Javadoc)
@@ -210,144 +246,149 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * Implement when recieved all.
+	 * Implement when received all.
 	 */
-	private void doWhenRecievedAll(){
+	private void doWhenReceivedAll(){
 		//update iteration chart
-		System.out.println("Called doWhenRecievedAll: " + gotUsers + gotIterations + gotRequirements);
-		if (gotUsers /*&& gotIterations*/ && gotRequirements){
-			System.out.println("All things loaded!");
+		if (gotUsers && gotIterations && gotRequirements){
 			//==========
 			//Iteration
 			//==========
 			//Look at each iteration name and count the requirements in each iteration.
-			ArrayList<Integer> allIterationsHack = new ArrayList<Integer>();
-			//Populate the initial list by looking at the requirements.
+			int [][] priorityCount = new int[allIterations.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length;r++){
-				if(!allIterationsHack.contains(allRequirements[r].getIterationId()) &&
-						allRequirements[r].getStatus() != RequirementStatus.DELETED){
-					allIterationsHack.add(allRequirements[r].getIterationId());
+				for(int i=0; i<allIterations.length; i++){
+					if(allIterations[i].getId() == allRequirements[r].getIterationId()&&
+							allRequirements[r].getStatus() != RequirementStatus.DELETED){//Ignore the iterations of deleted requirements.
+						//Set the priority
+						for(int j = 0; j < allPriorities.length; j ++){
+							if(allPriorities[j] == allRequirements[r].getPriority()){
+								priorityCount[i][j]++;
+							}
+						}
+					}
 				}
 			}
 			
-			int [] iterationCount = new int[allIterationsHack.size()];
-			for(int r=0; r<allRequirements.length;r++){
-				for(int i=0; i<allIterationsHack.size(); i++){
-					if(allIterationsHack.get(i) == allRequirements[r].getIterationId()&&
-							allRequirements[r].getStatus() != RequirementStatus.DELETED)
-							iterationCount[i]++;
+			//Get the names of the iterations by their ID numbers for the chart.
+			for(int i=0; i<allIterations.length;i++){
+				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
+				int cumulativePieData = 0;
+				for(int j = 0; j < allPriorities.length; j++){
+					cumulativePieData += priorityCount[i][j];//Accumulate the variables to get the total.
+					iterationBarDataset.setValue(priorityCount[i][j], allPriorities[j], "Iteration: " + iterationName);
+					iterationPieDataset.setValue("Iteration: " + iterationName, cumulativePieData);
 				}
 			}
 			
-			
-			
-			for(int i=0; i<allIterationsHack.size();i++){
-				String iterationName = Iteration.getIterationById(allIterationsHack.get(i)).getName();
-				iterationDataset.setValue(iterationCount[i],"", "Iteration:" + iterationName);
-			}
-			System.out.println("Got past the Iteration loop.");
 			//==========
 			//Status
 			//==========
 			//Look at each status name and count the requirements of each status.
-			int [] statusCount = new int[allStatuses.length];
+			priorityCount = new int[allStatuses.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allStatuses.length; i++){
 					if(allRequirements[r].getStatus() == allStatuses[i]){
-						statusCount[i] ++;
+						//Set the priority
+						for(int j = 0; j < allPriorities.length; j ++){
+							if(allPriorities[j] == allRequirements[r].getPriority()){
+								priorityCount[i][j] ++;
+							}
+						}
 					}
 				}
 			}
 			for(int i=0; i<allStatuses.length;i++){
-				statusDataset.setValue(statusCount[i],"", allStatuses[i].toString());
+				int cumulativePieData = 0;
+				for(int j = 0; j < allPriorities.length; j++){
+					cumulativePieData += priorityCount[i][j];//Accumulate the variables to get the total.
+					statusBarDataset.setValue(priorityCount[i][j], allPriorities[j], allStatuses[i].toString());
+					statusPieDataset.setValue(allStatuses[i].toString(), cumulativePieData);
+				}
 			}
-			System.out.println("Got past the Status loop.");
 			
-//			//==========
+			//==========
 			//Assignee
 			//==========
-			//Look at each status name and count the requirements of each status.
-			int [] assigneeCount = new int[allUsers.length];
+			//Look at each user name and count the requirements of each user.
+			priorityCount = new int[allUsers.length][allPriorities.length];
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allUsers.length; i++){
 					for(int j = 0; j < allRequirements[r].getAssignee().size(); j ++){
 						System.out.println("Assignee: " + allRequirements[r].getAssignee().get(j));
 						if(allRequirements[r].getAssignee().get(j).equals(allUsers[i].getUsername())&&
 								allRequirements[r].getStatus() != RequirementStatus.DELETED){
-							assigneeCount[i] ++;
+							for(int k = 0; k < allPriorities.length; k ++){
+								if(allPriorities[k] == allRequirements[r].getPriority()){
+									priorityCount[i][k] ++;
+								}
+							}
 						}
 					}
 				}
 			}
 			for(int i=0; i<allUsers.length;i++){
-				assigneeDataset.setValue(assigneeCount[i],"", allUsers[i].getName());
+				int cumulativePieData = 0;
+				for(int j = 0; j < allPriorities.length; j++){
+					cumulativePieData += priorityCount[i][j];//Accumulate the variables to get the total.
+					assigneeBarDataset.setValue(priorityCount[i][j], allPriorities[j], allUsers[i].getName());
+					assigneePieDataset.setValue(allUsers[i].getName(), cumulativePieData);
+				}
 			}
 		}
-
+		
 	}
 
 	/**
-	 * Recieve server users.
+	 * Receive server users.
 	 *
 	 * @param users the users
 	 */
-	public void recieveServerUsers(User[] users) {
+	public void receiveServerUsers(User[] users) {
 		System.out.println("recieveUsers.");
 		gotUsers = true;
 		allUsers = users;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 	}
 
 	/**
-	 * Recieve server iterations.
+	 * Receive server iterations.
 	 *
 	 * @param iterations the iterations
 	 */
-	public void recieveServerIterations(Iteration[] iterations) {
+	public void receiveServerIterations(Iteration[] iterations) {
 		System.out.println("recieveIterations.");
 		gotIterations = true;
 		allIterations = iterations;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 
 	}
 
 	/**
-	 * Recieve server requirements.
+	 * Receive server requirements.
 	 *
 	 * @param reqs the reqs
 	 */
-	public void recieveServerRequirements(Requirement[] reqs) {
+	public void receiveServerRequirements(Requirement[] reqs) {
 		System.out.println("recieveRequirements.");
 		gotRequirements = true;
 		allRequirements = reqs;
-		doWhenRecievedAll();
+		doWhenReceivedAll();
 
 	}
 	
-	/**
-	 * Gets the iteration dataset.
-	 *
-	 * @return the iterationDataset
-	 */
-	public DefaultCategoryDataset getIterationDataset() {
-		return iterationDataset;
-	}
 
-	/**
-	 * Gets the status dataset.
-	 *
-	 * @return the statusDataset
+	/**Set the type of graph to display.
+	 * @param newType The new type of graph to display.
 	 */
-	public DefaultCategoryDataset getStatusDataset() {
-		return statusDataset;
+	public void setChartType(TypeOfChart newType){
+		chartType = newType;
 	}
-
-	/**
-	 * Gets the assignee dataset.
-	 *
-	 * @return the assigneeDataset
+	
+	/**Set the type of characteristic to display.
+	 * @param newChar The characteristc to set it to.
 	 */
-	public DefaultCategoryDataset getAssigneeDataset() {
-		return assigneeDataset;
+	public void setCurrentCharacteristic(String newChar){
+		currentCharacteristic = newChar;
 	}
 }

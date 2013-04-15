@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
@@ -43,6 +44,14 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
 	private static final boolean DEBUG = false;
+
+
+	private static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
+	//if the column has been sorted in ascending order (down arrow)
+
+	private static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
+	//if the column has been sorted in descending order(up arrow)
+
 
 	/* Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
@@ -283,25 +292,27 @@ public class RequirementTableModel extends AbstractTableModel {
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
-	
-	/**
+
+	/** Sorts the table in ascending order bases on the column given. If it was already 
+	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
+	 * It will also append a suffix to the header of the column being sorted indicating
+	 * the order of the sort.
 	 * 
-	 * 
+	 *  @param col the column by which the table is sorted.
 	 */
-	public void sortTable(final int col){
-		if(!(this.getValueAt(col,1) instanceof Comparable)){//can't sort if this column has no notion of an order
+	public void sortTable(final int col, TableColumnModel cm){
+		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
 			return;
 		}
-		//initially have highest on top.
-		//gotta sort data, which is an arraylist of object[]
-		//but really i have to sort one such object[]
-		//then propogate that sort to the rest
-		//well i have to sort based on comparing object[i]s
-		//alrighty then
-		Comparator<Object[]> c = new Comparator<Object[]>(){
+
+		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		final boolean wasJustAscending = currentHeader.equals(columnNames[col]+ASCENDING_SUFFIX);//true if the header is the original
+		//false if it has something appended to it
+
+		Comparator<Object[]> comparator = new Comparator<Object[]>(){
 			@Override
 			public int compare(Object[] a, Object[] b){
-				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col]);
+				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);
 			}
 			@Override
 			public boolean equals(Object o){
@@ -312,26 +323,17 @@ public class RequirementTableModel extends AbstractTableModel {
 		for(int i=0; i<data.size(); i++){
 			dataArray[i] = data.get(i);
 		}
-		for (int i =0; i < data.size(); i++) {
-			for (int j = 0; j < data.get(0).length; j++) {
-				System.out.print(" " + dataArray[i][j]);
-			}
-			System.out.println("");
+		Arrays.sort(dataArray , comparator);
+		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
+
+		//reset the headers
+		for(int i=0; i<columnNames.length; i++){
+			System.out.println(cm.getColumn(i).getHeaderValue());
+			cm.getColumn(i).setHeaderValue(columnNames[i]);
 		}
-		System.out.println("-------------------------------------");
-		Arrays.sort(dataArray , c);
-		data = Arrays.asList(dataArray);
-		for (int i =0; i < data.size(); i++) {
-			for (int j = 0; j < data.get(0).length; j++) {
-				System.out.print(" " + dataArray[i][j]);
-			}
-			System.out.println("");
-		}
-		System.out.println("-------------------------------------");
-		
-		
-		//TODO sort shit
-		//TODO check ascending vs descending
-		//TODO remane stuff
+
+		//set new header for ascending or descending
+		currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		cm.getColumn(col).setHeaderValue(wasJustAscending ? currentHeader+DESCENDING_SUFFIX : currentHeader+ASCENDING_SUFFIX );
 	}
 }

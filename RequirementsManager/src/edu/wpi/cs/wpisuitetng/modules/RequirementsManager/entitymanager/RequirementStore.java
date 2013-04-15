@@ -183,6 +183,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
 		
+		//update Acceptance Tests List
+		serverReq.updateAcceptanceTests(req.getAcceptanceTests());
+
 		//update child requirements
 		serverReq.setSubRequirements(req.getChildRequirementIds());
 	

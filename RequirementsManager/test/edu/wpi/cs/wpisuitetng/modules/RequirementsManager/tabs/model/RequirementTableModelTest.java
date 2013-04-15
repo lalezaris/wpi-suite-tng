@@ -77,4 +77,29 @@ public class RequirementTableModelTest {
 			}
 		}
 	}
+	
+	@Test
+	public void testSortedAscending(){
+		//TODO
+	}
+	
+	@Test
+	public void testSortedDescending(){
+		//TODO
+	}
+	
+	@Test
+	public void testHeaderAscending(){
+		//TODO		
+	}
+	
+	@Test
+	public void testHeaderDescending(){
+		//TODO
+	}
+	
+	@Test
+	public void testHeaderResets(){
+		//TODO
+	}
 }

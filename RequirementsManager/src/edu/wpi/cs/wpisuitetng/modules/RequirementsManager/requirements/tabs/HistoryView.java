@@ -53,7 +53,7 @@ public class HistoryView extends JPanel {
 		//int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
 
 
-//		listModel = new DefaultListModel<HistoricalChange>();
+		listModel = new DefaultListModel<HistoricalChange>();
 //
 //		for(int i = 0; i <numObjects; i++){
 //			if(!listModel.contains(historyAL.get(i))){
@@ -61,7 +61,7 @@ public class HistoryView extends JPanel {
 //		}
 
 		//Create the list and put it in a scroll pane.
-		list = new JList<HistoricalChange>();
+		list = new JList(listModel);
 		list.setLayoutOrientation(JList.VERTICAL);
 
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
@@ -77,6 +77,13 @@ public class HistoryView extends JPanel {
 	 */
 	public void setHistoryList(ArrayList<HistoricalChange> history) {
 		this.historyAL = history;
+		for(int i = 0; i <historyAL.size(); i++){
+			if(!listModel.contains(historyAL.get(i))){
+				listModel.add(0, historyAL.get(i));}
+		}
+		redisplay();
+		repaint();
+		revalidate();
 		redisplay();
 	}
 

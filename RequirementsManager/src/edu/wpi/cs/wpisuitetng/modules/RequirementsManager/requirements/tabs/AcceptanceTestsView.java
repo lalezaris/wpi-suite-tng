@@ -43,9 +43,8 @@ public class AcceptanceTestsView extends JPanel{
 	ArrayList<AcceptanceTest> list;
 	
 	public AcceptanceTestsView(RequirementView rView){
-		//list = new ArrayList<AcceptanceTest>();
+		list = new ArrayList();
 //		list = req.getAcceptanceTests();
-		System.out.println("AccTest list size: " + this.getListSize());
 		
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
@@ -97,12 +96,7 @@ public class AcceptanceTestsView extends JPanel{
 		//initiate the JList stuff
 		listModel = new DefaultListModel<AcceptanceTest>();
 
-		for(int i = 0; i < list.size(); i++){
-			if(!listModel.contains(list.get(i))){
-				listModel.add(i, list.get(i));}
-		}
-		
-		listDisplay = new JList<AcceptanceTest>(listModel);
+		listDisplay = new JList(listModel);
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
 		
 		//Add ALL the things with style!
@@ -380,4 +374,20 @@ public class AcceptanceTestsView extends JPanel{
 				listModel.add(0, list.get(i));}
 		}
 	}
+
+	/**
+	 * @param list: the list to set
+	 */
+	public void setList(ArrayList<AcceptanceTest> list) {
+		this.list = list;
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+		
+		this.repaint();
+		this.revalidate();
+	}
+	
+	
 }

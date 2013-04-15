@@ -517,12 +517,8 @@ public class RequirementPanel extends JPanel{
 //			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
 //					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
 //					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-//				 cButtons.weightx = 0.5;
-//				 cButtons.weighty = 0.5;
-//				 cButtons.gridx = 0;
-//				 cButtons.gridy = 0;
-//				 cButtons.gridwidth = 3;
-//				 panelButtons.add(createChildRequirement, cButtons);
+//				 createChildRequirement.setEnabled(false);
+//				 createChildRequirement.setVisible(false);
 //			 }
 //		 }
 		 cButtons.weightx = 0.5;
@@ -1208,6 +1204,23 @@ public class RequirementPanel extends JPanel{
 	public HistoryView getHv() {
 		return hv;
 	}
+	
+	/**
+	 * @return the atv
+	 */
+	public AcceptanceTestsView getAtv() {
+		return atv;
+	}
+
+	/**
+	 * @param atv: the atv to set
+	 */
+	public void setAtv(AcceptanceTestsView atv) {
+		this.atv = atv;
+	}
+
+
+
 
 	/**
 	 * @return the txtActual

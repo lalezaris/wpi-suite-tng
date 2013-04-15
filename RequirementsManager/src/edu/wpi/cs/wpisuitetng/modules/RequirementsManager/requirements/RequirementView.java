@@ -324,7 +324,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getNotesView().setNotesList(this.getReqModel().getRequirement().getNotes());
 		mainPanel.getHv().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAv().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
-		
+		mainPanel.getAv().setLists();
+		mainPanel.getAtv().setList(this.getReqModel().getRequirement().getAcceptanceTests());
 		
 		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		 if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {

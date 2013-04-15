@@ -38,13 +38,16 @@ public class SubDivisionListener implements ActionListener{
 		JComboBox cb = (JComboBox)e.getSource();
 		
 		if(cb.getSelectedItem() == SubDivision.None){
-			System.out.println("Selected None.");
+			view.setCurrentSubDivision(SubDivision.None);
+			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == SubDivision.Priority){
-			System.out.println("Selected Priority.");
+			view.setCurrentSubDivision(SubDivision.Priority);
+			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == SubDivision.Type){
-			System.out.println("Selected Type.");
+			view.setCurrentSubDivision(SubDivision.Type);
+			view.repaintChart();
 		}
 	}
 }

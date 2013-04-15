@@ -16,6 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import org.junit.Before;
@@ -45,21 +46,10 @@ public class TestRequirementPanelView {
 	
 	@Test
 	public void testChangeStatus(){
-		KeyEvent keyEvent = new KeyEvent(view.txtEstimate, 
-				1, 20, 1, 10, 'a');
-		view.txtEstimate.dispatchEvent(keyEvent);
-//		view.getRequirementPanel().txtEstimate.postActionEvent();
-		
-//		view.getRequirementPanel().txtEstimate;
-//		
-//		view.getRequirementPanel().txtEstimate.requestFocus();
-//		try { 
-//		    Robot robot = new Robot(); 
-//
-//		    robot.keyPress(KeyEvent.VK_3); 
-//		} catch (AWTException e) { 
-//		e.printStackTrace(); 
-//		} 
+		view.txtEstimate.setText("5");
+		ActionEvent aEvent = new ActionEvent(view.txtEstimate, 1, 
+				"2");
+		view.txtEstimate.dispatchEvent(aEvent);
 		
 		assertEquals("5", view.txtEstimate.getText());
 		assertEquals(true, view.getCmbIteration().isEnabled());

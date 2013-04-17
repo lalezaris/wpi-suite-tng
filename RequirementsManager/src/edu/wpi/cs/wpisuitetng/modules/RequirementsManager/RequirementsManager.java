@@ -49,6 +49,7 @@ public class RequirementsManager implements IJanewayModule {
 	 * Constructor for RequirementsManager.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	public RequirementsManager() {
 		tabs = new ArrayList<JanewayTabModel>();
 		

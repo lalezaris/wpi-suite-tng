@@ -10,10 +10,13 @@
  * Contributors:
  *  Chris Hanna
  *  Tushar Narayan
+ *  Michael Perrone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -21,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
@@ -32,16 +36,25 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  *
  * @author Chris Hanna
  * @modified by Tianyu Li on Apr 9
+ * @modified by Michael Perrone on April 16
  * @version Apr 9th, 2013
  */
 @SuppressWarnings("serial")
-public class RequirementTableModel extends AbstractTableModel {
 
+public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
-	protected ArrayList<Object[]> data = new ArrayList<Object[]>();
+	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
-	//protected List<Requirement> allRequirements = new ArrayList<Requirement>();
-	private boolean DEBUG = false;
+
+	private static final boolean DEBUG = false;
+
+
+	public static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
+	//if the column has been sorted in ascending order (down arrow)
+
+	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
+	//if the column has been sorted in descending order(up arrow)
+
 
 	/* Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
@@ -132,10 +145,9 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
-
 			return data.get(row)[col];
 		} else
-			return "null";
+			return null;
 	}
 
 	/**
@@ -144,22 +156,18 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req Requirement to add a row to
 	 */
 	public void addRow(Requirement req){
-		if (req.getStatus() != RequirementStatus.DELETED){
-			Object[] r = {
-					req.getId() ,
-					req.getTitle() ,
-					req.getDescription() ,
-					req.getStatus(),
-					req.getPriority(),
-					req.getEstimateEffort() ,
-					req.getIteration(),
-					req.getAssignee(),
-					req.getParentRequirementId()};
-			addRow(r);
-			requirements.add(req);
-//			if (!allRequirements.contains(req))
-//				allRequirements.add(req);
-		}
+		Object[] r = {
+				req.getId() ,
+				req.getTitle() ,
+				req.getDescription() ,
+				req.getStatus(),
+				req.getPriority(),
+				req.getEstimateEffort() ,
+				req.getIteration(),
+				req.getAssignee(),
+				req.getParentRequirementId() == -1 ? "None" : req.getParentRequirementId()};
+		addRow(r);
+		requirements.add(req);
 	}
 
 //	public void setVisibleRequirements(Requirement[] in){
@@ -193,8 +201,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param row row to get ID of
 	 * @return id of row
 	 */
-	public int getRowID(int row)
-	{
+	public int getRowID(int row){
 		return Integer.parseInt( getValueAt(row, 0).toString() );
 	}
 
@@ -296,5 +303,63 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
+	}
+
+	/** Sorts the table in ascending order bases on the column given. If it was already 
+	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
+	 * It will also append a suffix to the header of the column being sorted indicating
+	 * the order of the sort.
+	 * 
+	 *  @param col the column by which the table is sorted.
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void sortTable(final int col, TableColumnModel cm){
+		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
+			return;
+		}
+
+		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		final boolean wasJustAscending = currentHeader.equals(columnNames[col]+ASCENDING_SUFFIX);//true if the header is the original
+		//false if it has something appended to it
+
+		Comparator<Object[]> comparator = new Comparator<Object[]>(){
+			
+			@Override
+			public int compare(Object[] a, Object[] b){
+				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);
+			}
+			@Override
+			public boolean equals(Object o){
+				return false;
+			}
+		};
+		Object[][] dataArray = new Object[data.size()][data.get(0).length];
+		for(int i=0; i<data.size(); i++){
+			dataArray[i] = data.get(i);
+		}
+		
+		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
+			if(dataArray[j][8].equals("None")){//pretty hacky to make sure it is sorted properly
+				dataArray[j][8] = -1;
+			}
+		}
+		
+		Arrays.sort(dataArray , comparator);
+		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
+		
+		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
+			if(dataArray[j][8].equals(-1)){//see before the sort for why this happens
+				dataArray[j][8] = "None";
+			}
+		}
+		
+		//reset the headers
+		for(int i=0; i<cm.getColumnCount(); i++){
+			cm.getColumn(i).setHeaderValue(columnNames[i]);
+		}
+
+		//set new header for ascending or descending
+		currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		cm.getColumn(col).setHeaderValue(wasJustAscending ? currentHeader+DESCENDING_SUFFIX : currentHeader+ASCENDING_SUFFIX );
 	}
 }

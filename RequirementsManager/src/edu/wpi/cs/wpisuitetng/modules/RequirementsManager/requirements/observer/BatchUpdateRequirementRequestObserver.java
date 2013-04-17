@@ -41,6 +41,7 @@ public class BatchUpdateRequirementRequestObserver implements RequestObserver {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request

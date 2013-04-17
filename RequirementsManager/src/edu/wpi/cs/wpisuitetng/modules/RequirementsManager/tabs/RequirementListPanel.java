@@ -40,8 +40,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RequirementTableSortAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
@@ -55,7 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @modified by Tianyu Li on Apr 9
  * @version Mar 21, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
 
 	private JTextArea list;
@@ -90,7 +92,8 @@ public class RequirementListPanel extends JPanel{
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel();		
 		table = new JTable(model);
-		table.addMouseListener(new RetrieveRequirementController(this));		
+		table.addMouseListener(new RetrieveRequirementController(this));	
+		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
 		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
@@ -221,7 +224,7 @@ public class RequirementListPanel extends JPanel{
 	
 	
 	/**
-	 * Adds requirements.
+	 * Adds requirements. (If they are not deleted)
 	 *
 	 * @param requirements requirements to add
 	 */

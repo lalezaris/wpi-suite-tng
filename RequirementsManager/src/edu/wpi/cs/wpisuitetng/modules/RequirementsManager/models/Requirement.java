@@ -41,7 +41,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * @version Mar 23, 2013
  *
  */
+
 public class Requirement extends AbstractModel{
+	
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
@@ -54,7 +56,6 @@ public class Requirement extends AbstractModel{
 	private int actualEffort;
 	private Date creationDate, lastModifiedDate;
 	private int parentRequirementId;
-	private ArrayList<Integer> childRequirementId;
 	private int id;
 	private String creatorUsername;
 	private ArrayList<String> assignee; //putting this in to keep track of user
@@ -119,13 +120,6 @@ public class Requirement extends AbstractModel{
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
-	
-	/*
-	 * Constructs a new requirement including list of children ids
-	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes, ArrayList<Integer> childIDs) {
-		this(id, title, description, creator, notes);
-		this.childIDs = childIDs;
-	}*/
 
 	/**
 	 * Basic constructor with default arguments.
@@ -151,7 +145,6 @@ public class Requirement extends AbstractModel{
 		this.notes = new ArrayList<Note>();
 		this.childIDs = new ArrayList<Integer>();
 		this.history = new ArrayList<HistoricalChange>();
-		this.childRequirementId = new ArrayList<Integer>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
 	
@@ -167,6 +160,15 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Gets the acceptance tests.
 	 *
+	 * replaces the current acceptance test list with the given one
+	 * 
+	 * @param arraylist of acceptance tests
+	 */
+	public void updateAcceptanceTests(ArrayList<AcceptanceTest> a){
+		this.acceptanceTests = a;
+	}
+	
+	/**
 	 * @return the list of acceptance tests in this requirement
 	 */
 	public ArrayList<AcceptanceTest> getAcceptanceTests(){
@@ -705,10 +707,11 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Sets subrequirements.
-	 *
-	 * @param newList new list to set subrequirement to
+	 * Sets sub-requirements.
+	 * 
+	 * @param newList the new list to set list of sub-requirements to
 	 */
+	@SuppressWarnings("unchecked")
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childIDs = (ArrayList<Integer>) newList.clone();
 	}

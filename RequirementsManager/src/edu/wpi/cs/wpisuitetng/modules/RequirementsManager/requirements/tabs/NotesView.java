@@ -27,9 +27,7 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 
 /**
  * Tab panel for adding and viewing notes.
@@ -38,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @edited Michael French
  * @version Mar 27, 2013
  */
+@SuppressWarnings("serial")
 public class NotesView extends JPanel {
 
 	/** The layout manager for this panel */
@@ -57,6 +56,9 @@ public class NotesView extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
+	
+	protected RequirementView parent;
+	
 	/**
 	 * Instantiates a new notes view.
 	 *
@@ -67,13 +69,11 @@ public class NotesView extends JPanel {
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
-
-		setNotesList(parent.getReqModel().getRequirement().getNotes());
-
+		this.parent = parent;
 		// Add all components to this panel
 		addComponents();
 
-		setNotesList(parent.getReqModel().getRequirement().getNotes());
+		
 	}
 
 	/**
@@ -83,6 +83,7 @@ public class NotesView extends JPanel {
 	 */
 	public NotesView(ArrayList<Note> notes){
 		this.notes = notes;
+		addComponents();
 	}
 
 	/**
@@ -235,7 +236,7 @@ public class NotesView extends JPanel {
 
 	/**
 	 * Takes the given string and converts it to a Note,
-	 * setting it's creator as the current user.
+	 * setting it's creator to the current user.
 	 *
 	 * @param s the string
 	 * @return note the new note object converted from the string
@@ -269,5 +270,14 @@ public class NotesView extends JPanel {
 	 */
 	public JTextArea getTextArea(){
 		return this.txtNotes;
+	}
+	
+	/**
+	 * gets the text area for displaying the saved notes
+	 * 
+	 * @return returns the text area for displaying the saved notes
+	 */
+	public JTextArea getSavedTextArea(){
+		return txtNotesSaved;
 	}
 }

@@ -22,7 +22,7 @@ import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -213,6 +213,7 @@ public class MainTabController {
 	 * 
 	 * @param requirement The requirement to display
 	 */
+	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
 		/*
 		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",
@@ -230,7 +231,7 @@ public class MainTabController {
 		}
 		else{
 			Tab tab = addTab();
-			BarChartView view = new BarChartView(tab);
+			BarPieChartView view = new BarPieChartView(tab);
 			tab.setComponent(view);
 			view.requestFocus();
 

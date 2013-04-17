@@ -42,7 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version Apr 3, 2013
  *
  */
-public class TestUserPermissionPanel {
+public class UserPermissionPanelTest {
 
 	private UserPermissionPanel panel;
 		

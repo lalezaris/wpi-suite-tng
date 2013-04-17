@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action to edit user permissions
+ * Action to view charts.
  * 
  * @author Ned Shelton
  * @author Evan Polekoff
@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  *
  */
 
+@SuppressWarnings("serial")
 public class ViewChartsAction extends AbstractAction {
 	private final MainTabController controller;
 	
@@ -48,7 +49,7 @@ public class ViewChartsAction extends AbstractAction {
 	 * @param controller
 	 */
 	public ViewChartsAction(MainTabController controller) {
-		super("View Bar Chart");
+		super("View Charts");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}

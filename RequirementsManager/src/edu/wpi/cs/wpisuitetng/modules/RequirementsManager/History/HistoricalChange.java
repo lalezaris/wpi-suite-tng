@@ -23,7 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class to hold a HistoricalChange object.
+ * The Class to hold a HistoricalChange object for recording the history of a requirement. 
+ * Contains the date, object id, user, change id.
  * 
  * @Author: Michael French
  * 
@@ -91,6 +92,7 @@ public class HistoricalChange extends AbstractModel{
 	 */
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		int acceptanceTestDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
@@ -178,6 +180,19 @@ public class HistoricalChange extends AbstractModel{
 				change += " note added.</p>";
 			else
 				change += " notes added.</p>";
+		}
+		
+		//compare Acceptance Test list size
+		if (acceptanceTestDifference != 0){//if old and new are not the same
+			change += "<p> "+ acceptanceTestDifference+ " Acceptance Tests added.</p>";
+		}
+		
+		//compare Acceptance Test list contents
+		for (int i = 0; i < oldR.getAcceptanceTests().size(); i++){
+			if (oldR.getAcceptanceTests().get(i).getBody().compareTo(newR.getAcceptanceTests().get(i).getBody()) != 0 ||
+					oldR.getAcceptanceTests().get(i).getStatus().compareTo(newR.getAcceptanceTests().get(i).getStatus()) != 0 ){
+				change += "<p> Acceptance Test " + oldR.getAcceptanceTests().get(i).getTitle() + " was updated";
+			}
 		}
 			
 	}

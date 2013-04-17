@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
  * @version Apr 13, 2013
  *
  */
-public class TestIterationPanel {
+public class IterationPanelTest {
 	
 	IterationView parent;
 	Iteration iteration1, iteration2, iteration3, iteration4, iteration5; 

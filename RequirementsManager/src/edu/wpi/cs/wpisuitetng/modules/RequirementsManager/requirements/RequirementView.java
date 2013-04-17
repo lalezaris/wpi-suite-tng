@@ -15,12 +15,12 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvide
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -60,6 +61,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Mar 17, 2013
  *
  */
+@SuppressWarnings({"serial", "unused"})
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
@@ -84,12 +86,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
 		this.mode = editMode;
 		this.reqModel = new RequirementModel(requirement, this);
-
+		boolean test = false;
 		containingTab = tab;
 		this.parentView = null;
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();
+			test = true;
 		}
 		
 		inputEnabled = true;
@@ -109,7 +112,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			requirement.setCreator(ConfigManager.getConfig().getUserName());
 		}
 		
-		mainPanel = new RequirementPanel(this);
+		mainPanel = new RequirementPanel(this,mode);
 		
 		//set create child button action
 		mainPanel.getCreateChildRequirement().setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this)));
@@ -125,10 +128,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
 		
-		
-		//populate the Iterations combobox
-		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-		iterationsController.retrieve();
+//		if(test == false){
+			//populate the Iterations combobox
+			RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+			iterationsController.retrieve();
+//		} else {// for testing purposes
+//			
+//			
+//			setIterationComboBox(iterations);
+//		}
 		
 		
 		this.setLayout(new BorderLayout());
@@ -146,7 +154,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 		
-		
+
 	}
 	
 	
@@ -300,8 +308,81 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return reqModel;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setUp(Requirement requirement, Mode editMode) {
+		
+		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
+		mainPanel.getCmbStatus().removeAllItems();
+		for (int i = 0; i < requirementStatusValues.length; i++) {
+			requirementStatusValues[i] = RequirementStatusLists.getList(this.getReqModel().getRequirement())[i];
+			mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+		}
+		
 		reqModel.update(requirement, editMode);
+		
+
+		
+		mainPanel.getNotesView().setNotesList(this.getReqModel().getRequirement().getNotes());
+		mainPanel.getHv().setHistoryList(this.getReqModel().getRequirement().getHistory());
+		mainPanel.getAv().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
+		mainPanel.getAv().setLists();
+		mainPanel.getAtv().setList(this.getReqModel().getRequirement().getAcceptanceTests());
+		
+		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
+		 if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {
+			 mainPanel.getCmbIteration().setEnabled(true);
+			 mainPanel.getCmbIteration().setBackground(Color.WHITE);
+		 }
+		 else
+			 mainPanel.getCmbIteration().setEnabled(false);
+
+		 //Default the save button depending on what is filled in (Title and Description).
+		 if(!this.getReqModel().getRequirement().getTitle().equals("") && 
+				 !this.getReqModel().getRequirement().getDescription().equals("") && 
+				 this.getReqModel().getRequirement().getTitle() != null && 
+				 this.getReqModel().getRequirement().getDescription() != null){
+			 mainPanel.getSaveRequirementBottom().setEnabled(true);
+		 }
+		 else{
+			 mainPanel.getSaveRequirementBottom().setEnabled(false);
+		 }
+
+		 //Move the requirement to the backlog if it is set to OPEN.
+		 if(this.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN){
+			 this.getReqModel().getRequirement().setIteration(Iteration.getBacklog());
+			 mainPanel.getCmbIteration().setEnabled(true);
+			 mainPanel.getCmbStatus().setEnabled(true);
+		 }
+		 
+		 
+		 //depending on the mode, disable certain components
+		 if (this.getMode() == Mode.CREATE || this.getMode() == Mode.CHILD) {
+			 mainPanel.getCmbStatus().setEnabled(false);
+			 mainPanel.getTxtActual().setEnabled(false);
+		 }
+
+		 if (this.getMode() == Mode.CHILD) {
+			 mainPanel.getCmbIteration().setEnabled(false);
+			 mainPanel.getTxtReleaseNumber().setEnabled(false);
+		 }
+
+		 if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
+			 mainPanel.getCmbStatus().setEnabled(false);
+			 mainPanel.getCmbIteration().setEnabled(false);
+			 mainPanel.getTxtReleaseNumber().setEnabled(false);
+			 mainPanel.getTxtActual().setEnabled(false);
+
+		 }
+		 
+		 // depending on the status and sub-requirements, disable certain components
+
+		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
+				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
+			 //TODO: uncomment the next line once busy waiting issue is fixed
+			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
+			 mainPanel.getTxtEstimate().setEnabled(false);
+		 }
+		
 		setUpPermissions();
 		//mainPanel.setUpPanel();
 	}
@@ -349,7 +430,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 
 		 System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
-		 if (!mainPanel.getEditedModel().getChildRequirementIds().isEmpty()) {
+		 if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
 			 mainPanel.disableStuff(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
 		 }
 		 
@@ -374,10 +455,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 				knownIts.add(knownIterations[i]);
 			}
 		}
+		
+		knownIts.add(Iteration.getBacklog());
+		
 		knownIterations = new Iteration[knownIts.size()];
 		for (int i = 0; i < knownIterations.length; i++){
 			knownIterations[i] = knownIts.get(i);
-			System.out.println("Iteration got:" + knownIterations[i]);
 		}
 		
 		
@@ -387,6 +470,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		
 		setUp(this.reqModel.getRequirement(), mode);
+		
+	
+		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
+		
 	}
 	
 

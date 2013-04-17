@@ -15,7 +15,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * @author tli
  *
  */
-public class TestSaveRequirementController {
+public class SaveRequirementControllerTest {
 	SaveRequirementController controller;
 	RequirementView view;
 	

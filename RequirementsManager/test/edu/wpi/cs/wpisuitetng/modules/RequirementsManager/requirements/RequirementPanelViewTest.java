@@ -12,6 +12,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.awt.AWTException;
@@ -22,10 +23,16 @@ import java.awt.event.KeyEvent;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.EstimateListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.SaveListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
  * Test for the Requirements Panel
@@ -37,22 +44,46 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  */
 public class RequirementPanelViewTest {
 	
-	RequirementPanel view;
+	//RequirementPanel view;
+	RequirementView reqView;
+	Requirement req;
 	
 	@Before
 	public void setUp() {
-		view = new RequirementPanel(null,RequirementPanel.Mode.CREATE);
+
+		Network.initNetwork(new MockNetwork());
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+		
+		req = new Requirement();
+		reqView = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
+		reqView.setUp(req, RequirementPanel.Mode.CREATE, RMPermissionsLevel.ADMIN);
+		//view = new RequirementPanel(reqView,RequirementPanel.Mode.CREATE);
 	}
 	
+	//test that the save button is enabled/disabled properly
+	@Test
+	public void testSaveButtonEnable(){
+		assertEquals(false, reqView.getRequirementPanel().getSaveRequirementBottom().isEnabled());
+		reqView.getRequirementPanel().txtDescription.getKeyListeners()[0].keyReleased(null);
+		reqView.getRequirementPanel().txtDescription.setText("new desc");
+		reqView.getRequirementPanel().txtTitle.setText("new Title");
+		reqView.getRequirementPanel().txtDescription.getKeyListeners()[0].keyReleased(null);
+		reqView.getRequirementPanel().txtTitle.getKeyListeners()[0].keyReleased(null);
+		assertEquals(true, reqView.getRequirementPanel().getSaveRequirementBottom().isEnabled());
+
+	}
+	
+	//test that changing the status enables the Iteration field
 	@Test
 	public void testChangeStatus(){
-		view.txtEstimate.setText("5");
-		ActionEvent aEvent = new ActionEvent(view.txtEstimate, 1, 
-				"2");
-		view.txtEstimate.dispatchEvent(aEvent);
-		
-		assertEquals("5", view.txtEstimate.getText());
-		assertEquals(true, view.getCmbIteration().isEnabled());
+
+		reqView.getRequirementPanel().txtEstimate.setText("5");
+		reqView.getRequirementPanel().txtEstimate.getKeyListeners()[0].keyReleased(null);
+		assertEquals("5", reqView.getRequirementPanel().txtEstimate.getText());
+		assertEquals(true, reqView.getRequirementPanel().getCmbIteration().isEnabled());
+
 	}
+	
+
 
 }

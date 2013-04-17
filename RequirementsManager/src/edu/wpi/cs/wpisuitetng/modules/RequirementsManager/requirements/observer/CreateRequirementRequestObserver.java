@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -80,7 +81,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 					@Override
 					public void run() {
 						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						view.setUp(requirement, Mode.CREATE);
+						view.setUp(requirement, Mode.CREATE, CurrentUserPermissions.getCurrentUserPermission());
 						
 						view.setEditModeDescriptors(requirement);
 

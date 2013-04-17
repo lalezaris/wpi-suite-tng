@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -59,7 +59,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-		BarChartView.update();
+		BarPieChartView.update();
 		if (response.getStatusCode() == 201) {
 			// parse the Iteration from the body
 			final Iteration iteration = Iteration.fromJSON(response.getBody());

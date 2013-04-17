@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class UserObserver implements RequestObserver{
 	
 	/** The view. */
-	BarChartView view;
+	BarPieChartView view;
 	
 	/**
 	 * This method is called when information about an User
@@ -39,7 +39,7 @@ public class UserObserver implements RequestObserver{
 	 *
 	 * @param view the view
 	 */
-	public UserObserver(BarChartView view){
+	public UserObserver(BarPieChartView view){
 		this.view = view;
 
 	}

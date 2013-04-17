@@ -16,26 +16,31 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractAction;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 
+// TODO: Auto-generated Javadoc
 /**
- * Insert Description Here
+ * Insert Description Here.
  *
  * @author "Michael Perrone"
- *
  * @version Apr 14, 2013
- *
  */
 public class RequirementTableSortAction extends MouseAdapter {
 
 	private RequirementTableSortController rtsController;
 	
+	/**
+	 * Instantiates a new requirement table sort action.
+	 *
+	 * @param rtsController the requirement table sort controller
+	 */
 	public RequirementTableSortAction(RequirementTableSortController rtsController){
 		this.rtsController = rtsController;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
 		((RequirementTableSortController) rtsController).sortTable(e.getPoint());

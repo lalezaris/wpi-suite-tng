@@ -36,10 +36,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Iteration
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationTableSortAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationsRefreshAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RequirementTableSortAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.IterationTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -53,7 +51,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Apr 8, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class IterationListPanel extends JPanel {
 	private JTextArea list;
 	private JTable table;

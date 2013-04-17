@@ -39,6 +39,7 @@ import javax.swing.text.NumberFormatter;
  * @version Apr 9, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RequirementListEstimateEditor extends DefaultCellEditor {
     JFormattedTextField ftf;
     

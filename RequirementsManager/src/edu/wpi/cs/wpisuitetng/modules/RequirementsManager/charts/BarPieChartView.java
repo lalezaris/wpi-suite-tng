@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -83,6 +84,9 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	private BarPieChartPanel mainPanel;
+	private JComboBox chartBox;
+	private JComboBox characteristicBox;
+	private JComboBox subDivideBox;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private TypeOfChart chartType = TypeOfChart.Bar;
@@ -126,13 +130,17 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param tab the tab
 	 */
 	public BarPieChartView(Tab tab){
-		System.out.println("Bar Chart View Created!");
+		this();
+
+		containingTab = tab;
+		containingTab.setTitle("Bar Chart");
+		
+		
+	}
+	public BarPieChartView(){
 
 		instance = this;
 		
-		containingTab = tab;
-		containingTab.setTitle("Bar Chart");
-
 		//make controllers and send requests
 		gotUsers = false;
 		gotIterations = false;
@@ -155,9 +163,13 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		// Instantiate the main create requirement panel
 		mainPanel = new BarPieChartPanel(this, makeBarChart(dataset, ""));
 
+		//Deal with the Combo Boxes
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
+		chartBox = mainPanel.getChartBox();
+		characteristicBox = mainPanel.getCharacteristicBox();
+		subDivideBox = mainPanel.getSubDivideBox();
 
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -291,9 +303,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					}
 				}
 			}
-			
-			//Get the names of the iterations by their ID numbers for the chart.
-			for(int i=0; i<allIterations.length;i++){
+			for(int i=0; i<allIterations.length;i++){//Get the names of the iterations by their ID numbers for the chart.
 				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
 				int cumulativeData = 0;
 				for(int j = 0; j < allPriorities.length; j++){
@@ -450,4 +460,333 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	public void setCurrentSubDivision(SubDivision newSub){
 		currentSubDivision = newSub;
 	}
+
+	/**
+	 * @return the gotUsers
+	 */
+	public boolean isGotUsers() {
+		return gotUsers;
+	}
+
+	/**
+	 * @param gotUsers the gotUsers to set
+	 */
+	public void setGotUsers(boolean gotUsers) {
+		this.gotUsers = gotUsers;
+	}
+
+	/**
+	 * @return the gotIterations
+	 */
+	public boolean isGotIterations() {
+		return gotIterations;
+	}
+
+	/**
+	 * @param gotIterations the gotIterations to set
+	 */
+	public void setGotIterations(boolean gotIterations) {
+		this.gotIterations = gotIterations;
+	}
+
+	/**
+	 * @return the gotRequirements
+	 */
+	public boolean isGotRequirements() {
+		return gotRequirements;
+	}
+
+	/**
+	 * @param gotRequirements the gotRequirements to set
+	 */
+	public void setGotRequirements(boolean gotRequirements) {
+		this.gotRequirements = gotRequirements;
+	}
+
+	/**
+	 * @return the allUsers
+	 */
+	public User[] getAllUsers() {
+		return allUsers;
+	}
+
+	/**
+	 * @param allUsers the allUsers to set
+	 */
+	public void setAllUsers(User[] allUsers) {
+		this.allUsers = allUsers;
+	}
+
+	/**
+	 * @return the allIterations
+	 */
+	public Iteration[] getAllIterations() {
+		return allIterations;
+	}
+
+	/**
+	 * @param allIterations the allIterations to set
+	 */
+	public void setAllIterations(Iteration[] allIterations) {
+		this.allIterations = allIterations;
+	}
+	
+	/**Call the private function so we can test it.
+	 * 
+	 */
+	public void testDoWhenReceivedAll(){
+		doWhenReceivedAll();
+	}
+
+	/**
+	 * @return the allRequirements
+	 */
+	public Requirement[] getAllRequirements() {
+		return allRequirements;
+	}
+
+	/**
+	 * @param allRequirements the allRequirements to set
+	 */
+	public void setAllRequirements(Requirement[] allRequirements) {
+		this.allRequirements = allRequirements;
+	}
+
+	/**
+	 * @return the iterationNoneBarDataset
+	 */
+	public DefaultCategoryDataset getIterationNoneBarDataset() {
+		return iterationNoneBarDataset;
+	}
+
+	/**
+	 * @param iterationNoneBarDataset the iterationNoneBarDataset to set
+	 */
+	public void setIterationNoneBarDataset(
+			DefaultCategoryDataset iterationNoneBarDataset) {
+		this.iterationNoneBarDataset = iterationNoneBarDataset;
+	}
+
+	/**
+	 * @return the statusNoneBarDataset
+	 */
+	public DefaultCategoryDataset getStatusNoneBarDataset() {
+		return statusNoneBarDataset;
+	}
+
+	/**
+	 * @param statusNoneBarDataset the statusNoneBarDataset to set
+	 */
+	public void setStatusNoneBarDataset(DefaultCategoryDataset statusNoneBarDataset) {
+		this.statusNoneBarDataset = statusNoneBarDataset;
+	}
+
+	/**
+	 * @return the assigneeNoneBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneeNoneBarDataset() {
+		return assigneeNoneBarDataset;
+	}
+
+	/**
+	 * @param assigneeNoneBarDataset the assigneeNoneBarDataset to set
+	 */
+	public void setAssigneeNoneBarDataset(
+			DefaultCategoryDataset assigneeNoneBarDataset) {
+		this.assigneeNoneBarDataset = assigneeNoneBarDataset;
+	}
+
+	/**
+	 * @return the iterationPrioBarDataset
+	 */
+	public DefaultCategoryDataset getIterationPrioBarDataset() {
+		return iterationPrioBarDataset;
+	}
+
+	/**
+	 * @param iterationPrioBarDataset the iterationPrioBarDataset to set
+	 */
+	public void setIterationPrioBarDataset(
+			DefaultCategoryDataset iterationPrioBarDataset) {
+		this.iterationPrioBarDataset = iterationPrioBarDataset;
+	}
+
+	/**
+	 * @return the statusPrioBarDataset
+	 */
+	public DefaultCategoryDataset getStatusPrioBarDataset() {
+		return statusPrioBarDataset;
+	}
+
+	/**
+	 * @param statusPrioBarDataset the statusPrioBarDataset to set
+	 */
+	public void setStatusPrioBarDataset(DefaultCategoryDataset statusPrioBarDataset) {
+		this.statusPrioBarDataset = statusPrioBarDataset;
+	}
+
+	/**
+	 * @return the assigneePrioBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneePrioBarDataset() {
+		return assigneePrioBarDataset;
+	}
+
+	/**
+	 * @param assigneePrioBarDataset the assigneePrioBarDataset to set
+	 */
+	public void setAssigneePrioBarDataset(
+			DefaultCategoryDataset assigneePrioBarDataset) {
+		this.assigneePrioBarDataset = assigneePrioBarDataset;
+	}
+
+	/**
+	 * @return the iterationTypeBarDataset
+	 */
+	public DefaultCategoryDataset getIterationTypeBarDataset() {
+		return iterationTypeBarDataset;
+	}
+
+	/**
+	 * @param iterationTypeBarDataset the iterationTypeBarDataset to set
+	 */
+	public void setIterationTypeBarDataset(
+			DefaultCategoryDataset iterationTypeBarDataset) {
+		this.iterationTypeBarDataset = iterationTypeBarDataset;
+	}
+
+	/**
+	 * @return the statusTypeBarDataset
+	 */
+	public DefaultCategoryDataset getStatusTypeBarDataset() {
+		return statusTypeBarDataset;
+	}
+
+	/**
+	 * @param statusTypeBarDataset the statusTypeBarDataset to set
+	 */
+	public void setStatusTypeBarDataset(DefaultCategoryDataset statusTypeBarDataset) {
+		this.statusTypeBarDataset = statusTypeBarDataset;
+	}
+
+	/**
+	 * @return the assigneeTypeBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneeTypeBarDataset() {
+		return assigneeTypeBarDataset;
+	}
+
+	/**
+	 * @param assigneeTypeBarDataset the assigneeTypeBarDataset to set
+	 */
+	public void setAssigneeTypeBarDataset(
+			DefaultCategoryDataset assigneeTypeBarDataset) {
+		this.assigneeTypeBarDataset = assigneeTypeBarDataset;
+	}
+
+	/**
+	 * @return the iterationPieDataset
+	 */
+	public DefaultPieDataset getIterationPieDataset() {
+		return iterationPieDataset;
+	}
+
+	/**
+	 * @param iterationPieDataset the iterationPieDataset to set
+	 */
+	public void setIterationPieDataset(DefaultPieDataset iterationPieDataset) {
+		this.iterationPieDataset = iterationPieDataset;
+	}
+
+	/**
+	 * @return the statusPieDataset
+	 */
+	public DefaultPieDataset getStatusPieDataset() {
+		return statusPieDataset;
+	}
+
+	/**
+	 * @param statusPieDataset the statusPieDataset to set
+	 */
+	public void setStatusPieDataset(DefaultPieDataset statusPieDataset) {
+		this.statusPieDataset = statusPieDataset;
+	}
+
+	/**
+	 * @return the assigneePieDataset
+	 */
+	public DefaultPieDataset getAssigneePieDataset() {
+		return assigneePieDataset;
+	}
+
+	/**
+	 * @param assigneePieDataset the assigneePieDataset to set
+	 */
+	public void setAssigneePieDataset(DefaultPieDataset assigneePieDataset) {
+		this.assigneePieDataset = assigneePieDataset;
+	}
+
+	/**
+	 * @return the chartType
+	 */
+	public TypeOfChart getChartType() {
+		return chartType;
+	}
+
+	/**
+	 * @return the currentCharacteristic
+	 */
+	public String getCurrentCharacteristic() {
+		return currentCharacteristic;
+	}
+
+	/**
+	 * @return the currentSubDivision
+	 */
+	public SubDivision getCurrentSubDivision() {
+		return currentSubDivision;
+	}
+
+	/**
+	 * @return the chartBox
+	 */
+	public JComboBox getChartBox() {
+		return chartBox;
+	}
+
+	/**
+	 * @param chartBox the chartBox to set
+	 */
+	public void setChartBox(JComboBox chartBox) {
+		this.chartBox = chartBox;
+	}
+
+	/**
+	 * @return the characteristicBox
+	 */
+	public JComboBox getCharacteristicBox() {
+		return characteristicBox;
+	}
+
+	/**
+	 * @param characteristicBox the characteristicBox to set
+	 */
+	public void setCharacteristicBox(JComboBox characteristicBox) {
+		this.characteristicBox = characteristicBox;
+	}
+
+	/**
+	 * @return the subDivideBox
+	 */
+	public JComboBox getSubDivideBox() {
+		return subDivideBox;
+	}
+
+	/**
+	 * @param subDivideBox the subDivideBox to set
+	 */
+	public void setSubDivideBox(JComboBox subDivideBox) {
+		this.subDivideBox = subDivideBox;
+	}
+	
 }

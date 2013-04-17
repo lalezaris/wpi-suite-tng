@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
  * @version Apr 1, 2013
  *
  */
+@SuppressWarnings({"rawtypes", "serial"})
 public class UserPermissionPanel extends JPanel{
 
 	boolean hasChanged = false;
@@ -76,6 +77,7 @@ public class UserPermissionPanel extends JPanel{
 	/**
 	 * Adds the components.
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
 		/* create a panel to store everything in*/
 		JPanel listPanel = new JPanel();
@@ -266,6 +268,7 @@ public class UserPermissionPanel extends JPanel{
 	 * @param model the model to be converted
 	 * @return a list of the items in the model
 	 */
+	@SuppressWarnings("unused")
 	private List<String> getAllElementsInModel(DefaultListModel model){
 		List<String> modelElements = new ArrayList<String>();
 		for(int i = 0; i < model.getSize(); i++){

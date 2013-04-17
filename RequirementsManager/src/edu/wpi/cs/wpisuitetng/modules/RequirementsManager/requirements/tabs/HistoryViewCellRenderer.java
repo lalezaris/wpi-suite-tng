@@ -27,6 +27,7 @@ import javax.swing.JList;
  * @version Apr 4, 2013
  *
  */
+@SuppressWarnings("serial")
 public class HistoryViewCellRenderer extends DefaultListCellRenderer {
 	public static final String HTML_1 = "<html><body style='width: ";
 	public static final String HTML_2 = "px'>";

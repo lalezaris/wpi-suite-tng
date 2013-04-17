@@ -25,6 +25,7 @@ import javax.swing.text.PlainDocument;
  *
  * @version Mar 22, 2013
  */
+@SuppressWarnings("serial")
 public class IntegerField extends JTextField {
 
 	/**

@@ -173,11 +173,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		try{ estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The estimate is too big to save. Error.");
+			mainPanel.getLblEstimateError().setVisible(true);
 			estimate = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		try{ actual = Integer.parseInt(mainPanel.getTxtActual().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The actual was just too dayum big!. Error");
+			mainPanel.getLblActualError().setVisible(true);
 			actual = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		if (estimate == -1 && actual == -1){

@@ -130,6 +130,8 @@ public class RequirementPanel extends JPanel{
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -482,6 +484,24 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridx = 3;
 		 cThree.gridy = 1;
 		 panelThree.add(txtActual, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 2;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblActualError.setVisible(false);
+		 lblActualError.setForeground(Color.RED);
+		 panelThree.add(lblActualError, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblEstimateError.setVisible(false);
+		 lblEstimateError.setForeground(Color.RED);
+		 panelThree.add(lblEstimateError, cThree);
 
 		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -497,14 +517,6 @@ public class RequirementPanel extends JPanel{
 		 panelButtons.setLayout(layoutButtons);
 
 		 cButtons.insets = new Insets(10,10,10,10);
-//		 if (parent.getMode() == Mode.EDIT) { 
-//			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-//				 createChildRequirement.setEnabled(false);
-//				 createChildRequirement.setVisible(false);
-//			 }
-//		 }
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 0;
@@ -1210,15 +1222,28 @@ public class RequirementPanel extends JPanel{
 		this.atv = atv;
 	}
 
-
-
-
 	/**
 	 * @return the txtActual
 	 */
 	public IntegerField getTxtActual() {
 		return txtActual;
 	}
+	
+	/**
+	 * @return the lblEstimateError
+	 */
+	public JLabel getLblEstimateError() {
+		return lblEstimateError;
+	}
+
+	/**
+	 * @return the lblActualError
+	 */
+	public JLabel getLblActualError() {
+		return lblActualError;
+	}
+
+
 
 
 	@SuppressWarnings("unchecked")

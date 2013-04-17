@@ -41,7 +41,7 @@ public class IterationPanelTest {
 	@Before 
 	public void setup(){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		parent = new IterationView(new Iteration(), Mode.CREATE, null);
+		parent = new IterationView(new Iteration(), Mode.CREATE, null,true);
 		iteration1 = new Iteration();
 		iteration1.setId(1);
 		iteration1.setIterationName("1");
@@ -190,7 +190,7 @@ public class IterationPanelTest {
 	@Test
 	public void testEditingPanel(){
 		
-		IterationView view = new IterationView(iteration1, Mode.EDIT, null);
+		IterationView view = new IterationView(iteration1, Mode.EDIT, null,true);
 		
 		assertEquals(view.getIterationModel().getEditedModel(),view.getIterationModel().getUneditedModel());
 	}
@@ -200,7 +200,7 @@ public class IterationPanelTest {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		Iteration test = new Iteration();
-		IterationView view = new IterationView(new Iteration(), Mode.CREATE, null);
+		IterationView view = new IterationView(new Iteration(), Mode.CREATE, null,true);
 		
 		test.setIterationName("test");
 		try {

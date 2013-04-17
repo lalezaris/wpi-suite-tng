@@ -24,6 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Iteration
 /**
  * 
  * @author Lauren Kahn
+ * @wuthor Sam Abradi
+ * @author Ned Shelton
  * @authoer Michael Perrone
  *
  */
@@ -84,12 +86,14 @@ public class IterationTableModelTest {
 	@Test
 	public void dataCanBeinserted() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
+		String SDFdate = sdf.format(startDate2);
 		assertEquals("ID", it1.getColumnName(0));
 		assertEquals(2, it1.getRowCount());
 		assertEquals(1, it1.getValueAt(0, 0));
 		assertEquals(1, it1.getRowID(0));
 		assertEquals("2", it1.getValueAt(1, 1));
-		assertEquals(sdf.format(startDate2), it1.getValueAt(1, 2));
+		assertEquals(/*startDate2*/SDFdate, it1.getValueAt(1, 2));
+//		assertEquals(sdf.format(startDate2), it1.getValueAt(1, 2));
 		assertEquals("null", it1.getValueAt(5, 0));
 	}
 	

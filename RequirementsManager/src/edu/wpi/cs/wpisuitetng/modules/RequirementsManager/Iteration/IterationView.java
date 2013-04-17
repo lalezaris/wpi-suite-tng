@@ -103,6 +103,46 @@ public class IterationView extends JPanel {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
 	}
+	public IterationView(Iteration iteration, Mode edit, Tab tab,boolean isThisATest) {
+		
+		this.mode = edit;
+		iterationModel = new IterationModel(iteration, this); // have to get the iteration we want, or create a new iteration if in the Create Mode
+
+		inputEnabled = true;
+
+		containingTab = tab;
+		
+		if(containingTab == null) {
+			containingTab = new DummyTab();
+		}		
+		containingTab.setIcon(new ImageIcon());
+		if (mode == Mode.CREATE) {
+			containingTab.setTitle("Create Iteration");
+			containingTab.setToolTipText("Create a new iteration");
+		} else if (mode == Mode.EDIT) {
+			setEditModeDescriptors(iterationModel.getUneditedModel());
+		}
+
+		// Instantiate the main create iteration panel
+		mainPanel = new IterationPanel(this/*, mode*/,true);
+		
+		mainPanel.getBtnSaveIteration().setAction(new SaveChangesAction(new SaveIterationController(this)));
+		mainPanel.getBtnCancelIteration().setAction(new CancelIterationAction(new CancelIterationController(this)));
+		
+		this.setLayout(new BorderLayout());
+		mainPanelScrollPane = new JScrollPane(mainPanel);
+		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
+
+		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
+		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
+			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
+				mainPanelScrollPane.repaint();
+			}
+		});
+
+		this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		iterationModel.updateModel(iteration, edit);
+	}
 	
 	/**
 	 * Set the tab title, tooltip, and group name according to this Iteration.

@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Apr 13, 2013
  *
  */
-public class TestRequirementPanelView {
+public class RequirementPanelViewTest {
 	
 	RequirementPanel view;
 	

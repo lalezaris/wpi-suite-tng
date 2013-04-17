@@ -17,9 +17,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.SubDivision;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.characteristic;
 
 /**
  * @author Evan Polekoff
@@ -27,9 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.c
  */
 public class SubDivisionListener implements ActionListener{
 	
-	protected BarChartView view;
+	protected BarPieChartView view;
 	
-	public SubDivisionListener(BarChartView view){
+	public SubDivisionListener(BarPieChartView view){
 		this.view = view;
 	}
 	

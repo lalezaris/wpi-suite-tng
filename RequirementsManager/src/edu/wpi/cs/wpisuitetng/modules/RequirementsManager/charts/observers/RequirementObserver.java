@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class RequirementObserver implements RequestObserver{
 
 	/** The view. */
-	BarChartView view;
+	BarPieChartView view;
 	
 	/**
 	 * This method is called when information about an Requirement
@@ -39,7 +39,7 @@ public class RequirementObserver implements RequestObserver{
 	 *
 	 * @param view the view
 	 */
-	public RequirementObserver(BarChartView view){
+	public RequirementObserver(BarPieChartView view){
 		this.view = view;
 	}
 	

@@ -71,6 +71,11 @@ public class AssigneeView extends JPanel{
 
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
+		
+		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
+
+		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
+		System.out.println();
 
 		allUserList = new JList<String>(allUserLM);
 		assignedUserList = new JList<String>(assignedUserLM);

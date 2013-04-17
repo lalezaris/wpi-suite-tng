@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class Rule implements IFilterRule{
 
-	boolean isAnd = true;
+	boolean isAnd = true, isEnabled = true;
 	Comparable target;
 	RuleComparisonMode compareMode;
 	String rule;
@@ -44,9 +44,18 @@ public class Rule implements IFilterRule{
 	public boolean apply(Object parent) throws RuleTargetException{
 		Comparable source = null;
 		
+
 		source = FilterTable.getInstance().getSource(rule, parent);
-	
+		
+		//System.out.println("Rule: " + rule + ", " + target + " : " + source);
+		
+		//System.out.println("parentClass: " + target.getClass() + ", sourceClass: "+source.getClass());
 		if (source!=null){
+			
+			if (source instanceof RuleEditableType)
+				if ( ((RuleEditableType)source) == RuleEditableType.ALL){
+					return true;
+				}
 			
 			if (compareMode == RuleComparisonMode.EQUALS)
 				return (target.compareTo(source) == 0);
@@ -80,6 +89,27 @@ public class Rule implements IFilterRule{
 	@Override
 	public void setIsAnd(boolean and){
 		this.isAnd = and;
+	}
+	
+	/**
+	 * Gets the isEnabled
+	 * @return the isEnabled
+	 */
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	/**
+	 * Sets the isEnabled
+	 * @param isEnabled: sets the isEnabled 
+	 */
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
+	}
+
+	@Override
+	public String toString(){
+		return "rule: Only show items with " + rule + " " + compareMode + " " + target;
 	}
 	
 }

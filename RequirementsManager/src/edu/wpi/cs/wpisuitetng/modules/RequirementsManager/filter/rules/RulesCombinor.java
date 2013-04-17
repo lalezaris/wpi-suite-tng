@@ -17,26 +17,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  *
  * @author Chris
  *
- * @version Apr 14, 2013
+ * @version Apr 16, 2013
  *
  */
-public enum RuleComparisonMode {
-	EQUALS("EQUALS"),
-	GREATER("IS GREATER THAN"),
-	EQUALSGREATER("IS GREATER THAN OR EQUAL TO"),
-	LESS("IS LESS THAN"),
-	EQUALSLESS("IS LESS THAN OR EQUAL TO"),
-	NOTEQUALS("IS NOT EQUAL TO"),
-	CONTAINS("CONTAINS");
-	
-	private String name;
-	
-	private RuleComparisonMode(String name){
-		this.name = name;
-	}
-	
-	@Override
-	public String toString(){
-		return name;
-	}
+public enum RulesCombinor {
+	MUST,
+	ANY
 }

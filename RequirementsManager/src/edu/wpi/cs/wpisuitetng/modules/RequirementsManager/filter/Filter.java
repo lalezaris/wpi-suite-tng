@@ -53,6 +53,10 @@ public class Filter{
 		return this.rules;
 	}
 	
+	public void removeAllRules(){
+		this.rules.clear();
+	}
+	
 	/**
 	 * filter a list of objects based on the filters within this Filter
 	 * 
@@ -62,37 +66,39 @@ public class Filter{
 	 */
 	public Requirement[] getFilteredObjects(Requirement[] in) throws RuleTargetException{
 		ArrayList<Requirement> out = new ArrayList<Requirement>();
-		
-		for (int i = 0 ; i < in.length ; i ++){
-			
-			boolean alreadyTakenCareOf = false;
-			int filterPassCount = 0;
-			for (int r = 0 ; r < rules.size();r++){
-				boolean passedFilter = (rules.get(r).apply(in[i]) == true);
-				if (!passedFilter){
-					if (rules.get(r).isAnd()){
-						//AN AND FAILED. NO MATTER WHAT, DO NOT ADD OUT
-						alreadyTakenCareOf = true;
-						break;
+		if (in!=null){
+			for (int i = 0 ; i < in.length ; i ++){
+				
+				boolean alreadyTakenCareOf = false;
+				int filterPassCount = 0;
+				for (int r = 0 ; r < rules.size();r++){
+					boolean passedFilter = (rules.get(r).apply(in[i]) == true);
+					if (!passedFilter){
+						if (rules.get(r).isAnd()){
+							//AN AND FAILED. NO MATTER WHAT, DO NOT ADD OUT
+							alreadyTakenCareOf = true;
+							System.out.println("AND complete" + r);
+							break;
+						}
+					} else{
+						filterPassCount++;
+						if (!rules.get(r).isAnd()){
+							//AN OR PASSED. NO MATTER WHAT, ADD TO OUT
+							alreadyTakenCareOf = true;
+							System.out.println("OR complete" + r);
+							out.add(in[i]);
+							break;
+						}
 					}
-				} else{
-					filterPassCount++;
-					if (!rules.get(r).isAnd()){
-						//AN OR PASSED. NO MATTER WHAT, ADD TO OUT
-						alreadyTakenCareOf = true;
+				}
+				if (!alreadyTakenCareOf){
+					if (filterPassCount == rules.size()){
 						out.add(in[i]);
-						break;
 					}
 				}
+				
 			}
-			if (!alreadyTakenCareOf){
-				if (filterPassCount == rules.size()){
-					out.add(in[i]);
-				}
-			}
-			
 		}
-		
 		Requirement[] outArray = new Requirement[out.size()];
 		for (int i = 0 ; i < outArray.length ; i ++)
 			outArray[i] = out.get(i);

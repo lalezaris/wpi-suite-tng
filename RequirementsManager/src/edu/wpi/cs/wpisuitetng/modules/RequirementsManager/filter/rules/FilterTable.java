@@ -13,6 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 /**
  * Insert Description Here
@@ -47,12 +50,59 @@ public class FilterTable{
 		return null;
 	}
 	
+	
+	private static String[] reqTargetNames = {
+		"all",
+		"status", 
+		"estimate",
+		"priority",
+		"actual",
+		"type",
+		"title"
+	};
+	/**
+	 * The order of this array MUST match the order of the reqTargetNames array
+	 */
+	private static RuleEditableType[] reqTargetTypes = { 
+		RuleEditableType.ALL,
+		RuleEditableType.ENUM,
+		RuleEditableType.NUMBER,
+		RuleEditableType.ENUM,
+		RuleEditableType.NUMBER,
+		RuleEditableType.ENUM,
+		RuleEditableType.STRING
+	};
+	
+	
+	public static String[] getRequirementTargets(){
+		return reqTargetNames;
+	}
+	public static RuleEditableType[] getRequirementTargetTypes(){
+		return reqTargetTypes;
+	}
+	
+	public Enum[] getEnumFromString(String input){
+		input = input.toLowerCase();
+		if (input.equals("all")){
+			RuleEditableType[] all = {RuleEditableType.ALL};
+			return all;
+		}
+		else if (input.equals("status"))
+			return RequirementStatus.values();
+		else if (input.equals("priority"))
+			return RequirementPriority.values();
+		else if (input.equals("type"))
+			return RequirementType.values();
+		return null;
+	}
+	
 	public Comparable getSourceRequirement(String input, Object parent) throws RuleTargetException{
 		
 		if (parent instanceof Requirement){
 			Requirement req = (Requirement)parent;
-			
-			if (input.equals("status"))
+			if (input.equals("all"))
+				return RuleEditableType.ALL;
+			else if (input.equals("status"))
 				return req.getStatus();
 			else if (input.equals("estimate"))
 				return (Integer)req.getEstimateEffort();

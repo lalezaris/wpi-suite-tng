@@ -40,6 +40,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
 	protected ArrayList<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
+	//protected List<Requirement> allRequirements = new ArrayList<Requirement>();
 	private boolean DEBUG = false;
 
 	/* Gets column count
@@ -143,20 +144,32 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req Requirement to add a row to
 	 */
 	public void addRow(Requirement req){
-		Object[] r = {
-				req.getId() ,
-				req.getTitle() ,
-				req.getDescription() ,
-				req.getStatus(),
-				req.getPriority(),
-				req.getEstimateEffort() ,
-				req.getIteration(),
-				req.getAssignee(),
-				req.getParentRequirementId()};
-		addRow(r);
-		requirements.add(req);
+		if (req.getStatus() != RequirementStatus.DELETED){
+			Object[] r = {
+					req.getId() ,
+					req.getTitle() ,
+					req.getDescription() ,
+					req.getStatus(),
+					req.getPriority(),
+					req.getEstimateEffort() ,
+					req.getIteration(),
+					req.getAssignee(),
+					req.getParentRequirementId()};
+			addRow(r);
+			requirements.add(req);
+//			if (!allRequirements.contains(req))
+//				allRequirements.add(req);
+		}
 	}
 
+//	public void setVisibleRequirements(Requirement[] in){
+//		data.clear();
+//		requirements.clear();
+//		for (int i = 0 ; i < in.length; i ++)
+//			this.addRow(in[i]);
+//		super.get
+//	}
+	
 	/**
 	 * Removes row.
 	 * 
@@ -273,6 +286,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clearRequirements() {
 		requirements.clear();
+		//allRequirements.clear();
 	}
 
 	/**

@@ -10,33 +10,38 @@
  * Contributors:
  *  Chris
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
  * Insert Description Here
  *
  * @author Chris
  *
- * @version Apr 14, 2013
+ * @version Apr 16, 2013
  *
  */
-public enum RuleComparisonMode {
-	EQUALS("EQUALS"),
-	GREATER("IS GREATER THAN"),
-	EQUALSGREATER("IS GREATER THAN OR EQUAL TO"),
-	LESS("IS LESS THAN"),
-	EQUALSLESS("IS LESS THAN OR EQUAL TO"),
-	NOTEQUALS("IS NOT EQUAL TO"),
-	CONTAINS("CONTAINS");
-	
-	private String name;
-	
-	private RuleComparisonMode(String name){
-		this.name = name;
+public class EnableAction extends AbstractAction{
+
+	FilterController controller;
+	/**
+	 * Enter Description here.
+	 * 
+	 */
+	public EnableAction(FilterController controller) {
+		super("Enable Filters");
+		this.controller = controller;
 	}
-	
+
 	@Override
-	public String toString(){
-		return name;
+	public void actionPerformed(ActionEvent e) {
+		controller.getPanel().enableSelected();
+		
 	}
+
 }

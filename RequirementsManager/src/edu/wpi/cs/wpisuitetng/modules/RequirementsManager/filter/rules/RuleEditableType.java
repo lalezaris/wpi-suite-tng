@@ -20,23 +20,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 14, 2013
  *
  */
-public enum RuleComparisonMode {
-	EQUALS("EQUALS"),
-	GREATER("IS GREATER THAN"),
-	EQUALSGREATER("IS GREATER THAN OR EQUAL TO"),
-	LESS("IS LESS THAN"),
-	EQUALSLESS("IS LESS THAN OR EQUAL TO"),
-	NOTEQUALS("IS NOT EQUAL TO"),
-	CONTAINS("CONTAINS");
-	
-	private String name;
-	
-	private RuleComparisonMode(String name){
-		this.name = name;
-	}
-	
-	@Override
-	public String toString(){
-		return name;
-	}
+public enum RuleEditableType {
+	NUMBER,
+	ENUM,
+	STRING,
+	ALL
 }

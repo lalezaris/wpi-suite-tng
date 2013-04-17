@@ -171,10 +171,10 @@ public class RequirementPanel extends JPanel{
 	public RequirementPanel(RequirementView parent) {
 
 		this.parent = parent;
-		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
-				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
+//		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
+//				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
 
-		parent.getMode();
+		//parent.getMode();
 
 
 		//get the list of notes from the given requirement

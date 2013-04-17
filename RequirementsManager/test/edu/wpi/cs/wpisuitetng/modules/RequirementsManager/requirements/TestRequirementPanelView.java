@@ -39,6 +39,7 @@ public class TestRequirementPanelView {
 	
 	@Test
 	public void testChangeStatus(){
+		
 		view.txtEstimate.setText("5");
 		
 		assertEquals(true, true);

@@ -83,7 +83,7 @@ public class RequirementListPanel extends JPanel{
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		model = new RequirementTableModel();		
+		model = new RequirementTableModel();
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));

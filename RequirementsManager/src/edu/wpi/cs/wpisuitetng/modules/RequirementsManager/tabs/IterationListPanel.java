@@ -34,8 +34,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.R
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationTableSortAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.IterationsRefreshAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RequirementTableSortAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.IterationTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
@@ -77,7 +81,8 @@ public class IterationListPanel extends JPanel {
 		retrieveController = new RetrieveAllIterationsController(iterationview);
 		TableModel model = new IterationTableModel();		
 		table = new JTable(model);
-		table.addMouseListener(new RetrieveIterationController(this));		
+		table.addMouseListener(new RetrieveIterationController(this));
+		table.getTableHeader().addMouseListener(new IterationTableSortAction(new IterationTableSortController(table)));
 		((IterationTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");

@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 
 /**
  * @author Evan Polekoff
@@ -27,9 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
  */
 public class ChartTypeListener implements ActionListener{
 	
-	protected BarChartView view;
+	protected BarPieChartView view;
 	
-	public ChartTypeListener(BarChartView view){
+	public ChartTypeListener(BarPieChartView view){
 		this.view = view;
 	}
 

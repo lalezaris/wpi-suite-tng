@@ -30,9 +30,9 @@ import org.jfree.data.general.PieDataset;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.SubDivision;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.characteristic;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
@@ -55,9 +55,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Chris Hannah
  */
 
-public class BarChartView extends JPanel implements IToolbarGroupProvider {
+public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
-	private static BarChartView instance;
+	private static BarPieChartView instance;
 	
 	/**
 	 * Update instance from server.
@@ -82,7 +82,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		iterationController.retreive();
 	}
 	
-	private BarChartPanel mainPanel;
+	private BarPieChartPanel mainPanel;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private TypeOfChart chartType = TypeOfChart.Bar;
@@ -125,7 +125,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 	 *
 	 * @param tab the tab
 	 */
-	public BarChartView(Tab tab){
+	public BarPieChartView(Tab tab){
 		System.out.println("Bar Chart View Created!");
 
 		instance = this;
@@ -153,7 +153,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		dataset = new DefaultCategoryDataset();
 
 		// Instantiate the main create requirement panel
-		mainPanel = new BarChartPanel(this, makeBarChart(dataset, ""));
+		mainPanel = new BarPieChartPanel(this, makeBarChart(dataset, ""));
 
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
@@ -171,7 +171,7 @@ public class BarChartView extends JPanel implements IToolbarGroupProvider {
 		});
 		
 		// Updates the tree view when it is first focused
-		final BarChartView bv = this;
+		final BarPieChartView bv = this;
 		bv.addHierarchyListener(new HierarchyListener() {
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {

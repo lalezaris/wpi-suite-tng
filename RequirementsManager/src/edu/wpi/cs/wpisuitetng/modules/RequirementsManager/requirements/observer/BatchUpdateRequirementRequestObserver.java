@@ -30,14 +30,6 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class BatchUpdateRequirementRequestObserver implements RequestObserver {
-	
-	/**
-	 * This method is called when information about an BatchUpdateRequirementRequest
-	 * which was previously requested using an asynchronous
-	 * interface becomes available.
-	 */
-	public BatchUpdateRequirementRequestObserver() { }
-	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */

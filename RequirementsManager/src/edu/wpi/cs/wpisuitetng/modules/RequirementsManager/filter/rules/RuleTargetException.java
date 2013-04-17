@@ -23,9 +23,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 public class RuleTargetException extends Exception {
 	
 	String msg;
-	public RuleTargetException(String attempt){
-		super();
-		
+	public RuleTargetException(String attempt){		
 		this.msg = "Tried to make a rule with target: "+ attempt +", but it did not exist. Typo?";
 	}
 	

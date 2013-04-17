@@ -309,7 +309,7 @@ public class AcceptanceTestsView extends JPanel{
 		System.out.println(t);
 		String b = txtBody.getText().trim();
 		System.out.println(b);
-		return (b == null && b == "" && t == null && t == "");
+		return ((b == null || b.equals("")) && (t == null || t.equals("")));
 	}
 	
 	/**

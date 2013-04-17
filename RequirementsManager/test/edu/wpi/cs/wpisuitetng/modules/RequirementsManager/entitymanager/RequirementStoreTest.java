@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashSet;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;

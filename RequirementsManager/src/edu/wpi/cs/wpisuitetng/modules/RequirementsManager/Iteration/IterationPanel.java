@@ -15,6 +15,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,9 +32,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.tabs.IterationTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.tabs.RequirementsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -75,6 +82,11 @@ public class IterationPanel extends JPanel {
 	protected JButton btnSaveIteration;
 	protected JButton btnCancelIteration;
 	protected JFrame f = new JFrame();
+	protected IterationTabsView ITabsView;
+	protected JSplitPane splitPane;
+
+	/** RequirementsView for viewing Requirements **/
+	private RequirementsView reqView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -89,11 +101,13 @@ public class IterationPanel extends JPanel {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
+	protected GridBagLayout layoutTabs;
 
 	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
+	protected JPanel panelTabs;
 
 	/** The layout managers for other panels */
 	protected GridBagLayout layoutOverall;
@@ -112,9 +126,12 @@ public class IterationPanel extends JPanel {
 	 * @param iteration The Iteration to edit
 	 * @param mode the mode
 	 */
-	public IterationPanel(IterationView parent /*, Mode mode*/) {
+	public IterationPanel(IterationView parent, Mode mode) {
 		this.parent = parent;
-//		this.editMode = mode;
+
+		this.editMode = mode;
+
+		this.reqView = new RequirementsView(parent);
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -143,10 +160,13 @@ public class IterationPanel extends JPanel {
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
+		panelTabs = new JPanel();
 
 		txtIterationName = new JTextField("", 20);;
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
+		
+		ITabsView = new IterationTabsView(reqView);
 
 		// Buttons for "Save" and "Cancel"
 		btnSaveIteration = new JButton("Save");
@@ -310,6 +330,20 @@ public class IterationPanel extends JPanel {
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
 
+		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
+		 //Use a grid bag layout manager
+		 layoutTabs = new GridBagLayout();
+		 panelTabs.setLayout(layoutTabs);
+
+		 cOverall.fill = GridBagConstraints.BOTH;
+		 cOverall.weightx = 0.5;
+		 cOverall.weighty = 0.5;
+		 cOverall.gridx = 0;
+		 cOverall.gridy = 0;
+		 cOverall.anchor = GridBagConstraints.LINE_START;
+		 panelTabs.add(ITabsView, cOverall);
+
+		 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutOverall = new GridBagLayout();
@@ -335,7 +369,26 @@ public class IterationPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(panelOverall, c);		
+		this.add(panelOverall, c);
+
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new GridBagLayout());
+		GridBagConstraints cPane = new GridBagConstraints();
+
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 0.1;
+		c.weighty = 0.1;
+		c.gridx = 0;
+		c.gridy = 0;
+		leftPanel.add(panelOverall, cPane);
+
+		JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
+		splitPane.setDividerLocation(0.5);
+		splitPane.resetToPreferredSizes();
+		this.add(splitPane, BorderLayout.CENTER);
 	}
 
 	/**
@@ -366,7 +419,7 @@ public class IterationPanel extends JPanel {
 	public Mode getEditMode() {
 		return editMode;
 	}
-	
+
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.
@@ -524,5 +577,11 @@ public class IterationPanel extends JPanel {
 	public GridBagLayout getPanelLayout() {
 		return layout;
 	}
-	
+
+	/**
+	 * @return the reqView
+	 */
+	public RequirementsView getReqView() {
+		return reqView;
+	}
 }

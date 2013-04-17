@@ -27,7 +27,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -43,28 +42,16 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -142,8 +129,7 @@ public class RequirementPanel extends JPanel{
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
 
-	/* origin/team1-theHistoryLogBackEnd
-	 */	/** The other panels */
+	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -152,8 +138,7 @@ public class RequirementPanel extends JPanel{
 	protected JPanel panelButtons;
 	protected JPanel panelTabs;
 
-	/** The layout managers for  
-	 *  other panels */
+	/** The layout managers for other panels */
 	protected GridBagLayout layoutOverall;
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
@@ -209,9 +194,6 @@ public class RequirementPanel extends JPanel{
 		addComponents();
 	}
 
-	
-	
-	
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
@@ -273,14 +255,12 @@ public class RequirementPanel extends JPanel{
 		txtCreator = new JTextField(12);
 
 //		RTabsView = new RequirementTabsView(notesView, hv, av, );
-//=======
 //		notesView.setNotesList(this.getNotesArrayList());
 //		hv.setHistoryList(this.getHistoryList());
 //		av.setAssigneeList(model.getAssignee());
 		RTabsView = new RequirementTabsView(notesView, hv, atv, av);
 //		av.setAssigneeList(model.getAssignee());
 //		RTabsView = new RequirementTabsView(notesView, hv, av);
-//>>>>>>> origin/team1-acceptanceTests
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -376,9 +356,6 @@ public class RequirementPanel extends JPanel{
 		 cOne.weighty = 0.5;
 		 cOne.gridwidth = 1;
 		 panelOne.add(txtReleaseNumber, cOne);
-
-		 
-
 
 //		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
 //			 deleteRequirementBottom.setEnabled(false);
@@ -624,16 +601,10 @@ public class RequirementPanel extends JPanel{
 		 splitPane.resetToPreferredSizes();
 		 this.add(splitPane, BorderLayout.CENTER);
 
-
-		 
 //		 if (model.getChildRequirementIds().isEmpty()) {
 //			 setDeleteEnabled(false);
 //		 }
-
-
 	}
-
-	
 	
 	/**
 	 * Sets the delete button enabled.

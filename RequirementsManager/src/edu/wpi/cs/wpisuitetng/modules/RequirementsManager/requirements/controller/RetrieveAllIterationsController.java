@@ -26,12 +26,17 @@ public class RetrieveAllIterationsController {
 	public void retrieve(){
 		final RequestObserver requestObserver = new RetrieveAllIterationsObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}
 	
 	public void received(Iteration[] iterations){
 		view.setIterationComboBox(iterations);
+		
+		if (view.getReqModel().getRequirement().getParentRequirementId() != -1) {
+			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(view);
+			recieveParentController.retrieveParent();
+		}
 	}
 }

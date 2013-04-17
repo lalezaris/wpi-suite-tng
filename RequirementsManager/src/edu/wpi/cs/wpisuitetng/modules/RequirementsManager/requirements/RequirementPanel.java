@@ -129,7 +129,6 @@ public class RequirementPanel extends JPanel{
 	private AcceptanceTestsView atv;
 
 	/** AssigneeView for updating assignees **/
-	//TODO finish implementing av
 	private AssigneeView av;
 
 	/** A flag indicating if input is enabled on the form */
@@ -142,8 +141,7 @@ public class RequirementPanel extends JPanel{
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
 
-	/* origin/team1-theHistoryLogBackEnd
-	 */	/** The other panels */
+	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -902,19 +900,19 @@ public class RequirementPanel extends JPanel{
 						System.out.println("Found Index!");
 					}
 				}
+				
 				if(!listHasStatus){
 					cmbStatus.addItem(setTo.toString());
 					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
-					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
 				}
 			}
 			runThatForLoop = false;
 
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN && parent.getMode() != Mode.CHILD){
-				cmbStatus.setEnabled(enabled);
+			if (pLevel == RMPermissionsLevel.ADMIN){
 				cmbStatus.setBackground(Color.WHITE);
+				cmbStatus.setEnabled(enabled);
 			}
 		}
 
@@ -973,10 +971,9 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			if(parent.getMode() != Mode.CHILD){
-				cmbIteration.setEnabled(enabled);
-				cmbIteration.setBackground(Color.WHITE);
-			}
+			
+			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
 		}
 	}
 

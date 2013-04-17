@@ -65,6 +65,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
+	private Requirement parentRequirement;
 	protected RequirementPanel.Mode mode;
 	
 	private ToolbarGroupView buttonGroup;
@@ -127,15 +128,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
 		
-//		if(test == false){
-			//populate the Iterations combobox
-			RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-			iterationsController.retrieve();
-//		} else {// for testing purposes
-//			
-//			
-//			setIterationComboBox(iterations);
-//		}
+		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+		iterationsController.retrieve();
 		
 		
 		this.setLayout(new BorderLayout());
@@ -445,12 +439,18 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	public void setIterationComboBox(Iteration[] knownIterations){
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
-
+		
 		for (int i = 0; i < knownIterations.length ;i++){
-			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
-				knownIts.add(knownIterations[i]);
-			} else if (knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
-				knownIts.add(knownIterations[i]);
+			if (parentRequirement != null) {
+				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
+					knownIts.add(knownIterations[i]);
+				}
+			} else {
+				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
+					knownIts.add(knownIterations[i]);
+				} else if (knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+					knownIts.add(knownIterations[i]);
+				}
 			}
 		}
 		
@@ -472,6 +472,21 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
 		
+	}
+
+
+	/**
+	 * @param parent the parent requirement to add
+	 */
+	public void setParentRequirement(Requirement parent) {
+		parentRequirement = parent;
+	}
+	
+	/**
+	 * @return the parent requirement
+	 */
+	public Requirement getParentRequirement() {
+		return parentRequirement;
 	}
 	
 

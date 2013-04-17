@@ -83,6 +83,7 @@ public class NotesView extends JPanel {
 	 */
 	public NotesView(ArrayList<Note> notes){
 		this.notes = notes;
+		addComponents();
 	}
 
 	/**
@@ -235,7 +236,7 @@ public class NotesView extends JPanel {
 
 	/**
 	 * Takes the given string and converts it to a Note,
-	 * setting it's creator as the current user.
+	 * setting it's creator to the current user.
 	 *
 	 * @param s the string
 	 * @return note the new note object converted from the string
@@ -269,5 +270,14 @@ public class NotesView extends JPanel {
 	 */
 	public JTextArea getTextArea(){
 		return this.txtNotes;
+	}
+	
+	/**
+	 * gets the text area for displaying the saved notes
+	 * 
+	 * @return returns the text area for displaying the saved notes
+	 */
+	public JTextArea getSavedTextArea(){
+		return txtNotesSaved;
 	}
 }

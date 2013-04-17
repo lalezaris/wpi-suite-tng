@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.table.DefaultTableColumnModel;
@@ -82,12 +83,13 @@ public class IterationTableModelTest {
 
 	@Test
 	public void dataCanBeinserted() {
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		assertEquals("ID", it1.getColumnName(0));
 		assertEquals(2, it1.getRowCount());
 		assertEquals(0, it1.getValueAt(0, 0));
 		assertEquals(0, it1.getRowID(0));
 		assertEquals("2", it1.getValueAt(1, 1));
-		assertEquals(startDate2, it1.getValueAt(1, 2));
+		assertEquals(sdf.format(startDate2), it1.getValueAt(1, 2));
 		assertEquals("null", it1.getValueAt(5, 0));
 	}
 	

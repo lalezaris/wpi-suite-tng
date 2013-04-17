@@ -8,38 +8,39 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Ned Shelton
- *  Evan Polekoff
+ *  Arica Liu
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.AbstractAction;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
-
 /**
- * Action to view charts.
+ * Action to open the User Guide webpage.
  * 
- * @author Ned Shelton
- * @author Evan Polekoff
+ * @author Arica Liu
  *
- * @version Apr 9, 2013
+ * @version Apr 16, 2013
  *
  */
 
-public class ViewChartsAction extends AbstractAction {
-	private final MainTabController controller;
-	
+public class OpenHelpAction extends AbstractAction {
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		controller.addBarChartTab();
+		try {
+	        openWebpage(new URI("https://github.com/cmdunkers/wpi-suite-tng/wiki/User-Guide-to-Requirements-Manager"));
+	    } catch (URISyntaxException e1) {
+	        e1.printStackTrace();
+	    }
 	}
 
 	/**
@@ -47,9 +48,24 @@ public class ViewChartsAction extends AbstractAction {
 	 * 
 	 * @param controller
 	 */
-	public ViewChartsAction(MainTabController controller) {
-		super("View Charts");
-		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+	public OpenHelpAction() {
+		super("User Guide");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_H);
+	}
+	
+	/**
+	 * Open a webpage.
+	 *
+	 * @param uri the uri
+	 */
+	public static void openWebpage(URI uri) {
+	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+	    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+	        try {
+	            desktop.browse(uri);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
 }

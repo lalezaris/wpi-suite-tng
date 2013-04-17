@@ -323,15 +323,31 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().txtActual.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().txtActual.setBackground(Color.WHITE);//change to white background in case of reset
-		/*TODO: Figure these out?
+		
+		//set notes field to yellow
 		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
-			return true;
+			view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.YELLOW);
+			flag = true;
 		}
+		else
+			if(this.view.getRequirementPanel().getNotesView().getTextArea().getBackground().equals(Color.YELLOW))
+					view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.WHITE);
 		
+		
+		//set Assigneeview to yellow
 		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
-			return true;
+			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+			flag = true;
 		}
 		
+		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
+			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+			flag = true;
+		}*/
+		else
+			if(this.view.getRequirementPanel().getAv().getBackgroundColor().equals(Color.YELLOW))
+				view.getRequirementPanel().getAv().setBackgroundColors(Color.WHITE);
+		/*
 		//TODO: come back to this
 		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
@@ -344,20 +360,17 @@ public class RequirementModel {
 				return true;
 			}
 		}
-		
-		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			view.getRequirementPanel()..setBackground(Color.YELLOW);
-			flag = true;
+		*/
 		
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
-			view.getRequirementPanel().getNotesView().setBackground(Color.YELLOW);
+			view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.YELLOW);
 			flag = true;
 		}
 		else //no change
-			if(view.getRequirementPanel().txtReleaseNumber.getBackground().equals(Color.YELLOW))
-				view.getRequirementPanel().txtReleaseNumber.setBackground(Color.WHITE);//change to white background in case of reset
-		*/
+			if(view.getRequirementPanel().getNotesView().getSavedTextArea().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.WHITE);//change to white background in case of reset
+		
 		return flag;
 	}
 	

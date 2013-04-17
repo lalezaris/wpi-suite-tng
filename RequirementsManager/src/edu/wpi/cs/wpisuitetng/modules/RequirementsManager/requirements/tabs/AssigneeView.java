@@ -15,6 +15,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -41,7 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 @SuppressWarnings("serial")
-public class AssigneeView extends JPanel{
+public class AssigneeView extends JPanel {
 
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
@@ -52,6 +53,7 @@ public class AssigneeView extends JPanel{
 	private JButton btnAdd;
 	private JButton btnRemove;
 	private JPanel buttonPanel;
+	private RequirementView parent;
 
 
 	private boolean isButtonPressed; 
@@ -61,7 +63,8 @@ public class AssigneeView extends JPanel{
 	 *
 	 * @param req the requirement
 	 */
-	public AssigneeView(RequirementView parent){
+	public AssigneeView(RequirementView p){
+		this.parent = p;
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
@@ -94,8 +97,10 @@ public class AssigneeView extends JPanel{
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 
 		btnAdd = new JButton("ADD");
+		//btnAdd.addFocusListener(this);
 
 		btnRemove = new JButton("REMOVE");
+		//btnRemove.addFocusListener(this);
 
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
@@ -307,5 +312,21 @@ public class AssigneeView extends JPanel{
 			allUserLM.addElement(allUserAL.get(i));
 		}		
 	}
+	
+	public void setBackgroundColors(Color c) {
+		allUserList.setBackground(c);
+		assignedUserList.setBackground(c);
+	}
+	
+	public Color getBackgroundColor() {
+		return allUserList.getBackground();
+	}
 
+	/* 
+	 * call the background color refresher
+	 */
+	public void refreshAllBackgrounds() {
+		parent.getReqModel().updateBackgrounds();
+	}
+	
 }

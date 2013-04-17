@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -37,7 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends JPanel {
+public class NotesView extends JPanel implements FocusListener {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -99,6 +101,7 @@ public class NotesView extends JPanel {
 
 		/* begin panel styling */
 		txtNotes = new JTextArea(4, 40);
+		txtNotes.addFocusListener(this);
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
@@ -278,6 +281,33 @@ public class NotesView extends JPanel {
 	 * @return returns the text area for displaying the saved notes
 	 */
 	public JTextArea getSavedTextArea(){
-		return txtNotesSaved;
+		return this.txtNotesSaved;
+	}
+	
+	public void setTxtNotesBackgroundColor(Color c) {
+		this.txtNotes.setBackground(c);
+	}
+	
+	public void setTxtNotesSavedBackgroundColor(Color c) {
+		this.txtNotesSaved.setBackground(c);
+	}
+
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();		
 	}
 }

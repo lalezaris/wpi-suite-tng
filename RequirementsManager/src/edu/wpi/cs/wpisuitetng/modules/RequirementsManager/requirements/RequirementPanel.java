@@ -172,9 +172,8 @@ public class RequirementPanel extends JPanel{
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
-
+		
 		this.parent = parent;
-
 
 		this.mode = mode;
 
@@ -309,6 +308,8 @@ public class RequirementPanel extends JPanel{
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+		
+		setUpToolTips();
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -628,6 +629,20 @@ public class RequirementPanel extends JPanel{
 //		 }
 
 
+	}
+	
+	public void setUpToolTips(){
+		this.txtTitle.setToolTipText("Required: A title less than 100 character.");
+		this.txtReleaseNumber.setToolTipText("The release number for this requirement.");
+		this.txtDescription.setToolTipText("Required: A description for this requirement.");
+		this.txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+				"This field must be greater than 0 to assign to an iteration.");
+		this.txtActual.setToolTipText("The actual effort for this requirement.");
+		this.cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+				"This field cannot be filled in until a estimate is entered.");
+		this.cmbPriority.setToolTipText("The priority of this requirement.");
+		this.cmbStatus.setToolTipText("The Status of the requirement.");
+		this.cmbType.setToolTipText("Set the type of requirement this requirement is.");		
 	}
 
 	

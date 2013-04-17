@@ -67,8 +67,7 @@ public class RequirementValidator {
 				issues.add(new ValidationIssue("Cannot be null", "Status"));
 		}
 		
-		if(requirement.getTitle() == null || requirement.getTitle().equals("") || requirement.getTitle().length() > 100
-				|| requirement.getTitle().length() < 5) {
+		if(requirement.getTitle() == null || requirement.getTitle().equals("") || requirement.getTitle().length() > 100) {
 			issues.add(new ValidationIssue("Required, must be 5-100 characters", "Title"));
 		}
 		

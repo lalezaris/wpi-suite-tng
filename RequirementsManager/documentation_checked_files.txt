@@ -19,3 +19,23 @@ entitymanager
   RequirementStore.java
 History
   HistoricalChange.java
+Iteration
+  action
+  	CancelIterationAction.java
+  	SaveChangesAction.java
+  controller
+  	CancelIterationController.java
+  	RetrieveAllIterationsController.java
+  	RetrieveIterationController.java
+  	SaveIterationController.java
+  observer
+  	CheckIterationFieldsObserver.java
+  	CreateIterationRequestObserver.java
+  	RetrieveAllIterationsRequestObserver.java
+  	RetrieveIterationRequestObserver.java
+  	SaveIterationRequestObserver.java
+  	UpdateIterationRequestObserver.java
+  DatePicker.java
+  IterationModel.java
+  IterationPanel.java
+  IterationView.java

@@ -50,8 +50,6 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		// cast observable to a Request
 		Request request = (Request) iReq;
 
-		// get the response from the request
-		ResponseModel response = request.getResponse();
 		Refresher.getInstance().refreshIterationsFromServer(null);
 		always();
 	}

@@ -32,10 +32,5 @@ public class RetrieveAllIterationsController {
 	
 	public void received(Iteration[] iterations){
 		view.setIterationComboBox(iterations);
-		
-		if (view.getReqModel().getRequirement().getParentRequirementId() != -1) {
-			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(view);
-			recieveParentController.retrieveParent();
-		}
 	}
 }

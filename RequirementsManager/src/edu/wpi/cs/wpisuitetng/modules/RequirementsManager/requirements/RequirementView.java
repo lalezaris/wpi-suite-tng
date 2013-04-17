@@ -46,6 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveParentRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
@@ -130,6 +131,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
 		iterationsController.retrieve();
 		
+		if (reqModel.getRequirement().getParentRequirementId() != -1) {
+			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);
+			recieveParentController.retrieveParent();
+		}
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);

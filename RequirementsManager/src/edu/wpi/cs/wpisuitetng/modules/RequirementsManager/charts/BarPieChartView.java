@@ -32,7 +32,6 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvide
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.characteristic;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
@@ -55,6 +54,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Chris Hannah
  */
 
+@SuppressWarnings("serial")
 public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarPieChartView instance;
@@ -257,7 +257,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 */
 	@Override
 	public ToolbarGroupView getGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

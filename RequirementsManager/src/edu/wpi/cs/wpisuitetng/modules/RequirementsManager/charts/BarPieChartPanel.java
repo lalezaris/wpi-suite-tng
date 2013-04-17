@@ -19,16 +19,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.util.Rotation;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 /**
@@ -37,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
  * @author Evan Polekoff
  * @author Ned Shelton
  */
+@SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
 
 	/* the parent view*/
@@ -102,6 +99,7 @@ public class BarPieChartPanel extends JPanel {
 	 * Put the buttons and stuff on the view.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
 		//Make a toolbar.
 		toolbar = new DefaultToolbarView();

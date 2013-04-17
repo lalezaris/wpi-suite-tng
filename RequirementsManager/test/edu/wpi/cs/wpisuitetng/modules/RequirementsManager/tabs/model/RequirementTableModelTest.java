@@ -75,13 +75,13 @@ public class RequirementTableModelTest {
 	public void dataCanBeinserted() {
 		assertEquals("Name", rtm1.getColumnName(1));
 		assertEquals(4, rtm1.getRowCount());
-		assertEquals(-1, rtm1.getValueAt(0, 0));
-		assertEquals(-1, rtm1.getRowID(0));
+		assertEquals(1, rtm1.getValueAt(0, 0));
+		assertEquals(1, rtm1.getRowID(0));
 		assertEquals(-1, rtm1.getValueAt(0, 5));
 		assertEquals("req2", rtm1.getValueAt(1, 1));
 		assertEquals("des3", rtm1.getValueAt(2, 2));
 		assertEquals(4, rtm1.getValueAt(3, 0));
-		assertEquals("null", rtm1.getValueAt(5, 0));
+		assertEquals(null, rtm1.getValueAt(5, 0));
 	}
 
 	@Test

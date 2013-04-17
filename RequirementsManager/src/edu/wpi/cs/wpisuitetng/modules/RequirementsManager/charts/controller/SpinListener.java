@@ -33,7 +33,11 @@ public class SpinListener implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		view.setPieSpin(!view.isPieSpin());
+		if(view.isPieSpin())
+			view.getMainPanel().getRotator().start();
+		else
+			view.getMainPanel().getRotator().stop();
 	}
 	
 	

@@ -27,6 +27,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.util.Rotation;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
@@ -77,6 +78,7 @@ public class BarPieChartPanel extends JPanel {
 
 	/** The Spin Button */
 	JButton spinButton;
+	PieRotator rotator;
 	
 	/** The button panel. */
 	JPanel boxPanel = new JPanel();
@@ -181,7 +183,7 @@ public class BarPieChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(displayedChart, TypeOfChart.Bar);
+		setChart(displayedChart, TypeOfChart.Bar, false);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -190,7 +192,7 @@ public class BarPieChartPanel extends JPanel {
 	/**Set the bar graph to be what you pass in.
 	 * @param newChart The chart you are overwriting with.
 	 */
-	public void setChart(JFreeChart newChart, TypeOfChart chartType){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin){
 		overallPanel.remove(graphPanel);
 		displayedChart = newChart;
 		
@@ -202,14 +204,19 @@ public class BarPieChartPanel extends JPanel {
 
 		//Set Chart Properties
 		if(newChart != null){
-			newChart.setBackgroundPaint(Color.getHSBColor(174, 240, 211));
+			newChart.setBackgroundPaint(Color.white);
 			if(chartType == TypeOfChart.Bar){
 				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
 		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 			}
+			//Pie
 			else{
-				final PieRotator rotator = new PieRotator((PiePlot3D) newChart.getPlot());
-		        rotator.start();
+				PiePlot3D plot = (PiePlot3D) newChart.getPlot();
+				plot.setStartAngle(0);
+		        plot.setForegroundAlpha(1);
+				rotator = new PieRotator(plot);
+				if(pieSpin)
+					rotator.start();
 			}
 		}
 		
@@ -282,5 +289,13 @@ public class BarPieChartPanel extends JPanel {
 	public JButton getSpinButton() {
 		return spinButton;
 	}
+
+	/**
+	 * @return the rotator
+	 */
+	public PieRotator getRotator() {
+		return rotator;
+	}
+	
 	
 }

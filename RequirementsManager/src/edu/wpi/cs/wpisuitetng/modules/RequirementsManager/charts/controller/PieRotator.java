@@ -30,7 +30,7 @@ public class PieRotator extends Timer implements ActionListener{
     private PiePlot3D plot;
 
     /** The angle. */
-    private int angle = 270;
+    private int angle = 0;
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ public class PieRotator extends Timer implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		plot.setStartAngle(this.angle);
+		plot.setStartAngle(angle);
         angle += 2;
         //Don't increase to infinity.
         if (angle >= 360) {

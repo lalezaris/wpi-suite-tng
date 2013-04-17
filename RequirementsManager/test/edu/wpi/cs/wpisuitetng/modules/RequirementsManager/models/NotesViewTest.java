@@ -63,6 +63,11 @@ public class NotesViewTest {
 		nv.getTextArea().setText("another Note!");
 		nv.getSaveButton().doClick();
 		assertEquals(nv.getSavedTextArea().getText(), nv.notesListToString());
+		assertTrue(nv.getSavedTextArea().getText().contains("another Note!"));
+		for (int i = 0; i < nv.getNotesList().size(); i++){
+			assertTrue(nv.getSavedTextArea().getText().contains(nv.getNotesList().get(i).getBody()));
+		}
+		assertEquals("", nv.getTextArea().getText());
 	}
 
 }

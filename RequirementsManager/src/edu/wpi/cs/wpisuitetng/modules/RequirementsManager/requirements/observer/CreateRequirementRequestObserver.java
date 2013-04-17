@@ -79,7 +79,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						//((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						view.setUp(requirement, Mode.EDIT);
 						
 						view.setEditModeDescriptors(requirement);
@@ -90,9 +89,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 						if(parentView != null){
 							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
 							parentPanel.setDeleteEnabled(false);
-							
-							//get the EDITED model currently displayed, and just add the child to it
-							//parentPanel.getEditedModel().addChildRequirement(requirement.getId());
 
 							/*next get the UNEDITED model and save that to Database with the child
 							 * this ensures that the child is added in both places,

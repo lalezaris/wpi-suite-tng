@@ -126,7 +126,7 @@ public class HistoryLogTest {
 		 * Change Title, Description, Asignee
 		 */
 		aChange2.updateChangeFromDiff(req1, req2, manager);
-		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
+		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n to \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
 	
 		/*
 		 * Change EVERYTHING
@@ -192,7 +192,7 @@ public class HistoryLogTest {
 		req2.addNote(new Note("TwilightIsBestPony", "Twilight"));
 		
 		changeEverything.updateChangeFromDiff(req1, req2, manager);
-		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Type changed from EPIC to USER STORY.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n -TO- \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
+		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Type changed from EPIC to USER STORY.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n to \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
 						changeEverything.getChange());
 	}
 	

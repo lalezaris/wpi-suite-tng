@@ -49,7 +49,7 @@ public class RequirementValidatorTest {
 	public void testInValidTitleAndDescription(){
 		//requirement with too short of title and no description (invalid)
 		//should report 2 issues no matter what mode it is in
-		req.setTitle("R"); //set a invalid title
+		req.setTitle(""); //set a invalid title
 		req.setDescription(""); //set a invalid description
 		
 		try {
@@ -88,7 +88,7 @@ public class RequirementValidatorTest {
 		}
 		assertEquals(1,issues.size()); 
 		
-		req.setTitle("Re"); //set a invalid title
+		req.setTitle(""); //set a invalid title
 		req.setDescription("a das"); //set a valid description
 		
 		try {

@@ -50,7 +50,6 @@ public class FilterPanel extends JPanel{
 	 * 
 	 */
 	public FilterPanel(FilterController view) {
-		super();
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		//this.setLayout(layout);
 		this.rules = new ArrayList<RulePanel>();

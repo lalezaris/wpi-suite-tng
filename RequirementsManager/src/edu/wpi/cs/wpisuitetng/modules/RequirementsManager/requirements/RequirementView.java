@@ -377,7 +377,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 
 		 // depending on the status and sub-requirements, disable certain components
 
-		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
+		 if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
 				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
 			 //TODO: uncomment the next line once busy waiting issue is fixed
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
@@ -390,8 +390,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 //RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		 if(!this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+		 if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel == RMPermissionsLevel.UPDATE){
 			 pLevel = RMPermissionsLevel.NONE;
 		 }

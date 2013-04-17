@@ -29,11 +29,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.EstimateListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.SaveListener;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
+
 
 /**
  * Test for the Requirements Panel

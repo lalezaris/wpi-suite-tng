@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Mike French
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import static org.junit.Assert.*;
@@ -18,12 +30,10 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 /**
- * 
- * @author Michael
  * Test the Notes View
- *
+ * 
+ * @author Michael French
  */
-
 public class NotesViewTest {
 	NotesView nv;
 	Requirement req1;

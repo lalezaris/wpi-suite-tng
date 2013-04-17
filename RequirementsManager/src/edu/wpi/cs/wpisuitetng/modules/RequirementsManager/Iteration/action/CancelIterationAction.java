@@ -48,6 +48,6 @@ public class CancelIterationAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		controller.cancel();		
+		controller.cancel();	
 	}
 }

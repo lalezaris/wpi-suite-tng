@@ -379,7 +379,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 
 		 // depending on the status and sub-requirements, disable certain components
 
-		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
+		 if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
 				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
 			 //TODO: uncomment the next line once busy waiting issue is fixed
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
@@ -392,8 +392,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 //RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		 if(!this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+		 if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel == RMPermissionsLevel.UPDATE){
 			 pLevel = RMPermissionsLevel.NONE;
 		 }
@@ -428,7 +427,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 		 
 		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 

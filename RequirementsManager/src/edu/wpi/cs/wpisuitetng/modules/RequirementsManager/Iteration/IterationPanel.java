@@ -144,7 +144,7 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationName = new JTextField("", 20);;
+		txtIterationName = new JTextField("", 20);
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
@@ -160,7 +160,7 @@ public class IterationPanel extends JPanel {
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a GridGagLayout manager
 		layoutOne = new GridBagLayout();
-		panelOne.setLayout(layoutOne);	
+		panelOne.setLayout(layoutOne);
 
 		cOne.anchor = GridBagConstraints.LINE_START; 
 		cOne.gridx = 0;
@@ -335,7 +335,7 @@ public class IterationPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(panelOverall, c);		
+		this.add(panelOverall, c);
 	}
 
 	/**
@@ -404,14 +404,14 @@ public class IterationPanel extends JPanel {
 	 */
 	public boolean isThereChanges(){
 
-		if(this.getParent().getMode() == Mode.CREATE){		
+		if(this.getParent().getMode() == Mode.CREATE){	
 			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
 				return true;
 			}
 
 			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
 				return true;
-			} 	
+			}
 
 			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
 				return true;

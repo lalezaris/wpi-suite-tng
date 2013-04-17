@@ -74,7 +74,7 @@ public class IterationView extends JPanel {
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();
-		}		
+		}
 		containingTab.setIcon(new ImageIcon());
 		if (mode == Mode.CREATE) {
 			containingTab.setTitle("Create Iteration");

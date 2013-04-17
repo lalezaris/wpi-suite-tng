@@ -53,7 +53,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Hist
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -974,7 +973,7 @@ public class RequirementPanel extends JPanel{
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
 			try{
-				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
+				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){

@@ -57,8 +57,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * 
  * @author Chris Dunkers 
  * @author Joe Spicola
+ * @author Michael French
  *
- * @version Mar 17, 2013
+ * @version April 17, 2013
  *
  */
 @SuppressWarnings({"serial", "unused"})
@@ -309,7 +310,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setUp(Requirement requirement, Mode editMode) {
+	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
 		
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
 		mainPanel.getCmbStatus().removeAllItems();
@@ -383,13 +384,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			 mainPanel.getTxtEstimate().setEnabled(false);
 		 }
 		
-		setUpPermissions();
+		setUpPermissions(pLevel);
 		//mainPanel.setUpPanel();
 	}
 	
-	private void setUpPermissions(){
+	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		 //RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		 if(!this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel == RMPermissionsLevel.UPDATE){
 			 pLevel = RMPermissionsLevel.NONE;
@@ -469,7 +470,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		
 		
-		setUp(this.reqModel.getRequirement(), mode);
+		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
 		
 	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));

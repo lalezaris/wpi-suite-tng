@@ -1,4 +1,4 @@
-Charts
+charts
   controller
 	CharactersiticListener.java
 	ChartTypeListener.java
@@ -12,3 +12,10 @@ Charts
 	UserObserver.java
   BarPieChartPanel.java
   BarPieChartView.java
+entitymanager
+  IterationStore.java
+  ModelMapper.java
+  PermissionsStore.java
+  RequirementStore.java
+History
+  HistoricalChange.java

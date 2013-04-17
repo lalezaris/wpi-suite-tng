@@ -45,6 +45,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
+
 	private static final boolean DEBUG = false;
 
 
@@ -169,6 +170,14 @@ public class RequirementTableModel extends AbstractTableModel {
 		requirements.add(req);
 	}
 
+//	public void setVisibleRequirements(Requirement[] in){
+//		data.clear();
+//		requirements.clear();
+//		for (int i = 0 ; i < in.length; i ++)
+//			this.addRow(in[i]);
+//		super.get
+//	}
+	
 	/**
 	 * Removes row.
 	 * 
@@ -283,6 +292,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clearRequirements() {
 		requirements.clear();
+		//allRequirements.clear();
 	}
 
 	/**

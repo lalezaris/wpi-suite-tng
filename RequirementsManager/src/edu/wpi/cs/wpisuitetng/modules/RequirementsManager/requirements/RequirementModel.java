@@ -8,8 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- * Christina Hannah
+ * Chris Hanna
  **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;

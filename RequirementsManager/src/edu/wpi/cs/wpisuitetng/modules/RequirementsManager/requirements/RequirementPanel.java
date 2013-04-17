@@ -52,6 +52,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -118,6 +120,9 @@ public class RequirementPanel extends JPanel{
 	/** AssigneeView for updating assignees **/
 	//TODO finish implementing av
 	private AssigneeView av;
+	
+	/** ChildrenView for viewing child requirements **/
+	private ChildrenView cv;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -167,8 +172,7 @@ public class RequirementPanel extends JPanel{
 	public RequirementPanel(RequirementView parent, Mode mode) {
 
 		this.parent = parent;
-//		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
-//				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
+
 
 		this.mode = mode;
 
@@ -184,7 +188,10 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of history from the given requirement
 		this.av = new AssigneeView(parent);
-				
+		
+		//get the list of children from the given requirement
+		this.cv = new ChildrenView(parent);
+		
 		// Indicate that input is enabled
 		this.inputEnabled = true;
 
@@ -258,15 +265,7 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-//		RTabsView = new RequirementTabsView(notesView, hv, av, );
-//=======
-//		notesView.setNotesList(this.getNotesArrayList());
-//		hv.setHistoryList(this.getHistoryList());
-//		av.setAssigneeList(model.getAssignee());
-		RTabsView = new RequirementTabsView(notesView, hv, atv, av);
-//		av.setAssigneeList(model.getAssignee());
-//		RTabsView = new RequirementTabsView(notesView, hv, av);
-//>>>>>>> origin/team1-acceptanceTests
+		RTabsView = new RequirementTabsView(notesView, hv, atv, av, cv);
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -770,6 +769,7 @@ public class RequirementPanel extends JPanel{
 		requirement.updateHistory(hv.getHistoryList());
 		requirement.updateAcceptanceTests(atv.getList());
 		requirement.setAssignee(av.getAssignedUserAL());
+		requirement.setSubRequirements(cv.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 
@@ -1040,6 +1040,10 @@ public class RequirementPanel extends JPanel{
 	 */
 	public AssigneeView getAv() {
 		return av;
+	}
+	
+	public ChildrenView getCv(){
+		return cv;
 	}
 	
 	/**

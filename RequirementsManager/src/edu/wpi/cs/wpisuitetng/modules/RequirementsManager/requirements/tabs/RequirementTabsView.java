@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -36,20 +37,15 @@ public class RequirementTabsView extends JTabbedPane {
 	 * @param hv the HistoryView
 	 * @param av the AssigneeView
 	 */
-	public RequirementTabsView(NotesView n, HistoryView hv, AcceptanceTestsView atv, AssigneeView av) {
-//	public RequirementTabsView(NotesView n, HistoryView hv, AssigneeView av) {
-
+	public RequirementTabsView(NotesView n, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, ChildrenView cv) {
 		//TODO get history objects from database
-		
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
-		addTab("Notes", new ImageIcon(), /*new NotesView()*/ n,
-		       "Notes");
-		addTab("History", new ImageIcon(), hv,
-			       "History");
+		addTab("Notes", new ImageIcon(), n, "Notes");
+		addTab("History", new ImageIcon(), hv, "History");
 		addTab("Assigned To", new ImageIcon(), av, "Assigned To");
-		addTab("AcceptanceTests", new ImageIcon(), atv,
-			       "AcceptanceTests");
+		addTab("Acceptance Tests", new ImageIcon(), atv, "Acceptance Tests");
+		addTab("Children Requirements", new ImageIcon(), cv, "Children Requirements");
 	}
 }

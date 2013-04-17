@@ -52,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  * @author Evan Polekoff
  * @author Ned Shelton
- * @author Chris Hannah
+ * @author Chris Hanna
  */
 
 @SuppressWarnings("serial")
@@ -462,109 +462,10 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @return the gotUsers
-	 */
-	public boolean isGotUsers() {
-		return gotUsers;
-	}
-
-	/**
-	 * @param gotUsers the gotUsers to set
-	 */
-	public void setGotUsers(boolean gotUsers) {
-		this.gotUsers = gotUsers;
-	}
-
-	/**
-	 * @return the gotIterations
-	 */
-	public boolean isGotIterations() {
-		return gotIterations;
-	}
-
-	/**
-	 * @param gotIterations the gotIterations to set
-	 */
-	public void setGotIterations(boolean gotIterations) {
-		this.gotIterations = gotIterations;
-	}
-
-	/**
-	 * @return the gotRequirements
-	 */
-	public boolean isGotRequirements() {
-		return gotRequirements;
-	}
-
-	/**
-	 * @param gotRequirements the gotRequirements to set
-	 */
-	public void setGotRequirements(boolean gotRequirements) {
-		this.gotRequirements = gotRequirements;
-	}
-
-	/**
-	 * @return the allUsers
-	 */
-	public User[] getAllUsers() {
-		return allUsers;
-	}
-
-	/**
-	 * @param allUsers the allUsers to set
-	 */
-	public void setAllUsers(User[] allUsers) {
-		this.allUsers = allUsers;
-	}
-
-	/**
-	 * @return the allIterations
-	 */
-	public Iteration[] getAllIterations() {
-		return allIterations;
-	}
-
-	/**
-	 * @param allIterations the allIterations to set
-	 */
-	public void setAllIterations(Iteration[] allIterations) {
-		this.allIterations = allIterations;
-	}
-	
-	/**Call the private function so we can test it.
-	 * 
-	 */
-	public void testDoWhenReceivedAll(){
-		doWhenReceivedAll();
-	}
-
-	/**
-	 * @return the allRequirements
-	 */
-	public Requirement[] getAllRequirements() {
-		return allRequirements;
-	}
-
-	/**
-	 * @param allRequirements the allRequirements to set
-	 */
-	public void setAllRequirements(Requirement[] allRequirements) {
-		this.allRequirements = allRequirements;
-	}
-
-	/**
 	 * @return the iterationNoneBarDataset
 	 */
 	public DefaultCategoryDataset getIterationNoneBarDataset() {
 		return iterationNoneBarDataset;
-	}
-
-	/**
-	 * @param iterationNoneBarDataset the iterationNoneBarDataset to set
-	 */
-	public void setIterationNoneBarDataset(
-			DefaultCategoryDataset iterationNoneBarDataset) {
-		this.iterationNoneBarDataset = iterationNoneBarDataset;
 	}
 
 	/**
@@ -575,26 +476,12 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @param statusNoneBarDataset the statusNoneBarDataset to set
-	 */
-	public void setStatusNoneBarDataset(DefaultCategoryDataset statusNoneBarDataset) {
-		this.statusNoneBarDataset = statusNoneBarDataset;
-	}
-
-	/**
 	 * @return the assigneeNoneBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneeNoneBarDataset() {
 		return assigneeNoneBarDataset;
 	}
 
-	/**
-	 * @param assigneeNoneBarDataset the assigneeNoneBarDataset to set
-	 */
-	public void setAssigneeNoneBarDataset(
-			DefaultCategoryDataset assigneeNoneBarDataset) {
-		this.assigneeNoneBarDataset = assigneeNoneBarDataset;
-	}
 
 	/**
 	 * @return the iterationPrioBarDataset
@@ -603,13 +490,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		return iterationPrioBarDataset;
 	}
 
-	/**
-	 * @param iterationPrioBarDataset the iterationPrioBarDataset to set
-	 */
-	public void setIterationPrioBarDataset(
-			DefaultCategoryDataset iterationPrioBarDataset) {
-		this.iterationPrioBarDataset = iterationPrioBarDataset;
-	}
 
 	/**
 	 * @return the statusPrioBarDataset
@@ -619,40 +499,18 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @param statusPrioBarDataset the statusPrioBarDataset to set
-	 */
-	public void setStatusPrioBarDataset(DefaultCategoryDataset statusPrioBarDataset) {
-		this.statusPrioBarDataset = statusPrioBarDataset;
-	}
-
-	/**
 	 * @return the assigneePrioBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneePrioBarDataset() {
 		return assigneePrioBarDataset;
 	}
 
-	/**
-	 * @param assigneePrioBarDataset the assigneePrioBarDataset to set
-	 */
-	public void setAssigneePrioBarDataset(
-			DefaultCategoryDataset assigneePrioBarDataset) {
-		this.assigneePrioBarDataset = assigneePrioBarDataset;
-	}
 
 	/**
 	 * @return the iterationTypeBarDataset
 	 */
 	public DefaultCategoryDataset getIterationTypeBarDataset() {
 		return iterationTypeBarDataset;
-	}
-
-	/**
-	 * @param iterationTypeBarDataset the iterationTypeBarDataset to set
-	 */
-	public void setIterationTypeBarDataset(
-			DefaultCategoryDataset iterationTypeBarDataset) {
-		this.iterationTypeBarDataset = iterationTypeBarDataset;
 	}
 
 	/**
@@ -663,39 +521,18 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @param statusTypeBarDataset the statusTypeBarDataset to set
-	 */
-	public void setStatusTypeBarDataset(DefaultCategoryDataset statusTypeBarDataset) {
-		this.statusTypeBarDataset = statusTypeBarDataset;
-	}
-
-	/**
 	 * @return the assigneeTypeBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneeTypeBarDataset() {
 		return assigneeTypeBarDataset;
 	}
 
-	/**
-	 * @param assigneeTypeBarDataset the assigneeTypeBarDataset to set
-	 */
-	public void setAssigneeTypeBarDataset(
-			DefaultCategoryDataset assigneeTypeBarDataset) {
-		this.assigneeTypeBarDataset = assigneeTypeBarDataset;
-	}
 
 	/**
 	 * @return the iterationPieDataset
 	 */
 	public DefaultPieDataset getIterationPieDataset() {
 		return iterationPieDataset;
-	}
-
-	/**
-	 * @param iterationPieDataset the iterationPieDataset to set
-	 */
-	public void setIterationPieDataset(DefaultPieDataset iterationPieDataset) {
-		this.iterationPieDataset = iterationPieDataset;
 	}
 
 	/**
@@ -706,24 +543,10 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @param statusPieDataset the statusPieDataset to set
-	 */
-	public void setStatusPieDataset(DefaultPieDataset statusPieDataset) {
-		this.statusPieDataset = statusPieDataset;
-	}
-
-	/**
 	 * @return the assigneePieDataset
 	 */
 	public DefaultPieDataset getAssigneePieDataset() {
 		return assigneePieDataset;
-	}
-
-	/**
-	 * @param assigneePieDataset the assigneePieDataset to set
-	 */
-	public void setAssigneePieDataset(DefaultPieDataset assigneePieDataset) {
-		this.assigneePieDataset = assigneePieDataset;
 	}
 
 	/**
@@ -755,24 +578,10 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * @param chartBox the chartBox to set
-	 */
-	public void setChartBox(JComboBox chartBox) {
-		this.chartBox = chartBox;
-	}
-
-	/**
 	 * @return the characteristicBox
 	 */
 	public JComboBox getCharacteristicBox() {
 		return characteristicBox;
-	}
-
-	/**
-	 * @param characteristicBox the characteristicBox to set
-	 */
-	public void setCharacteristicBox(JComboBox characteristicBox) {
-		this.characteristicBox = characteristicBox;
 	}
 
 	/**
@@ -782,11 +591,12 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		return subDivideBox;
 	}
 
+
 	/**
-	 * @param subDivideBox the subDivideBox to set
+	 * @return the mainPanel
 	 */
-	public void setSubDivideBox(JComboBox subDivideBox) {
-		this.subDivideBox = subDivideBox;
+	public BarPieChartPanel getMainPanel() {
+		return mainPanel;
 	}
 	
 }

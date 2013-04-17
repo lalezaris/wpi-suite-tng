@@ -13,7 +13,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers.IterationObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -27,13 +27,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class IterationController {
 
-	BarChartView view;
+	BarPieChartView view;
 	/**
 	 * Construct a IterationController.
 	 * 
 	 * @param view A BarChartView
 	 */
-	public IterationController(BarChartView view){
+	public IterationController(BarPieChartView view){
 		this.view = view;
 	}
 	/**

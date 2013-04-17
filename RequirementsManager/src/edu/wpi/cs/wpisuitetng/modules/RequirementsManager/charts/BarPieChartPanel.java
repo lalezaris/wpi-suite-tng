@@ -37,10 +37,10 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
  * @author Evan Polekoff
  * @author Ned Shelton
  */
-public class BarChartPanel extends JPanel {
+public class BarPieChartPanel extends JPanel {
 
 	/* the parent view*/
-	protected BarChartView view;
+	protected BarPieChartView view;
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
@@ -90,7 +90,7 @@ public class BarChartPanel extends JPanel {
 	 * @param view the view
 	 * @param chart the chart
 	 */
-	public BarChartPanel(BarChartView view, JFreeChart chart){
+	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
 		this.view = view;
 		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);

@@ -55,6 +55,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Assi
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 /**
  * Panel to display and edit the basic fields for a requirement.
@@ -122,6 +123,9 @@ public class RequirementPanel extends JPanel{
 	
 	/** ChildrenView for viewing child requirements **/
 	private ChildrenView cv;
+	
+	/** TasksView for updating tasks **/
+	private TasksView tv;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -191,6 +195,9 @@ public class RequirementPanel extends JPanel{
 		
 		//get the list of children from the given requirement
 		this.cv = new ChildrenView(parent);
+		
+		//get the list of tasks from the given requirement
+		this.tv = new TasksView(parent);
 		
 		// Indicate that input is enabled
 		this.inputEnabled = true;

@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to retrieve requireemtns into the chart.
+ * Controller to retrieve requirements into the chart.
  * 
  * @author Ned Shelton
  *

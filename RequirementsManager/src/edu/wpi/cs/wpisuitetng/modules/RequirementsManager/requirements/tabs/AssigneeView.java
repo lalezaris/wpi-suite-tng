@@ -77,28 +77,28 @@ public class AssigneeView extends JPanel{
 
 		allUserAL = new ArrayList<String>();
 
-		assignedUserAL = parent.getReqModel().getRequirement().getAssignee();
+		//assignedUserAL = parent.getReqModel().getRequirement().getAssignee();
 
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
 
 		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
-		System.out.println();
-		System.out.println("assignedUserLM: " + assignedUserAL);
-		System.out.println(">> FILLING projectUsers ArrayList <<");
-		if(projectUsers != null){
-			for(int i=0;i<projectUsers.length;i++){
-				System.out.println("USER: " + projectUsers[i].getUsername());
-				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
-					System.out.println("     added to allUserAL");
-					allUserAL.add(projectUsers[i].getUsername());
-				}
-			}
-		}
-		for(int i=0;i<allUserAL.size();i++){
-			allUserLM.addElement(allUserAL.get(i));
-		}
+//		System.out.println();
+//		System.out.println("assignedUserLM: " + assignedUserAL);
+//		System.out.println(">> FILLING projectUsers ArrayList <<");
+//		if(projectUsers != null){
+//			for(int i=0;i<projectUsers.length;i++){
+//				System.out.println("USER: " + projectUsers[i].getUsername());
+//				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
+//					System.out.println("     added to allUserAL");
+//					allUserAL.add(projectUsers[i].getUsername());
+//				}
+//			}
+//		}
+//		for(int i=0;i<allUserAL.size();i++){
+//			allUserLM.addElement(allUserAL.get(i));
+//		}
 		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
 		System.out.println();
 
@@ -218,6 +218,26 @@ public class AssigneeView extends JPanel{
 		allUserLM.clear();
 		for(String s:allUserAL){
 			allUserLM.addElement(s);
+		}
+	}
+	
+	public void setLists(){
+		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
+
+//		System.out.println();
+//		System.out.println("assignedUserLM: " + assignedUserAL);
+//		System.out.println(">> FILLING projectUsers ArrayList <<");
+		if(projectUsers != null){
+			for(int i=0;i<projectUsers.length;i++){
+//				System.out.println("USER: " + projectUsers[i].getUsername());
+				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
+//					System.out.println("     added to allUserAL");
+					allUserAL.add(projectUsers[i].getUsername());
+				}
+			}
+		}
+		for(int i=0;i<allUserAL.size();i++){
+			allUserLM.addElement(allUserAL.get(i));
 		}
 	}
 

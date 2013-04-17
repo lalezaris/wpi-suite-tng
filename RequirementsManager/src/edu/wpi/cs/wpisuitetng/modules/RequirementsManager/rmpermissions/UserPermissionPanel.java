@@ -156,15 +156,15 @@ public class UserPermissionPanel extends JPanel{
 		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		btnPanel.add(btnAdmin, cBtn);
 
-		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 0;
-		cBtn.gridy = 3;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(btnUpdateAll, cBtn);
+//		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
+//		cBtn.fill = GridBagConstraints.HORIZONTAL;
+//		cBtn.gridx = 0;
+//		cBtn.gridy = 3;
+//		cBtn.weightx = 0.5;
+//		cBtn.weighty = 0.5;
+//		cBtn.gridheight = 1;
+//		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
+//		btnPanel.add(btnUpdateAll, cBtn);
 
 		/*add all of the components to the listPanel*/
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -229,11 +229,20 @@ public class UserPermissionPanel extends JPanel{
 		cOverall.weighty = 0.1;
 		cOverall.gridwidth = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		overallPanel.add(btnUpdateAll, cOverall);
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
+		cOverall.gridx = 1;
+		cOverall.gridy = 1;
+		cOverall.weightx = 0.1;
+		cOverall.weighty = 0.1;
+		cOverall.gridwidth = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(btnPanel, cOverall);
 
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cOverall.gridx = 1;
-		cOverall.gridy = 0;
+		cOverall.gridx = 0;
+		cOverall.gridy = 1;
 		cOverall.weightx = 0.1;
 		cOverall.weighty = 0.1;
 		cOverall.gridwidth = 1;

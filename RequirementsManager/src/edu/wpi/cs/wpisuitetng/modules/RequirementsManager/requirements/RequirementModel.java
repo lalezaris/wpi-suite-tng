@@ -58,6 +58,7 @@ public class RequirementModel {
 		}
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
+			
 			if (requirement.getIteration().toString().equals(panel.getKnownIterations()[i].toString()) ){
 				panel.getCmbIteration().setSelectedIndex(i);
 
@@ -92,7 +93,7 @@ public class RequirementModel {
 		panel.getAv().setAssigneeList(requirement.getAssignee());
 		
 		
-		panel.setUpPanel(editMode);
+		panel.setUpPanel();
 	}
 	
 	/**

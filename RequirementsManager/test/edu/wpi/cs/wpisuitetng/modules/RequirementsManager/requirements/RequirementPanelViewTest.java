@@ -8,40 +8,51 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.EstimateListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 
 /**
- * Insert Description Here
+ * Test for the Requirements Panel
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Apr 13, 2013
  *
  */
-public class TestRequirementPanelView {
+public class RequirementPanelViewTest {
 	
-	RequirementView view;
+	RequirementPanel view;
 	
 	@Before
 	public void setUp() {
-		view = new RequirementView(new Requirement(), Mode.CREATE, null);
+		view = new RequirementPanel(null,RequirementPanel.Mode.CREATE);
 	}
 	
 	@Test
 	public void testChangeStatus(){
-		view.getRequirementPanel().txtEstimate.setText("5");
+		view.txtEstimate.setText("5");
+		ActionEvent aEvent = new ActionEvent(view.txtEstimate, 1, 
+				"2");
+		view.txtEstimate.dispatchEvent(aEvent);
 		
-		assertEquals(true, view.getRequirementPanel().getCmbIteration().isEnabled());
+		assertEquals("5", view.txtEstimate.getText());
+		assertEquals(true, view.getCmbIteration().isEnabled());
 	}
 
 }

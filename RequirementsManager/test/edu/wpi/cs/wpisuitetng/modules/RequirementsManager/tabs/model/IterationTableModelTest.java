@@ -11,6 +11,9 @@ import static org.junit.Assert.assertTrue;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Iteration
 /**
  * 
  * @author Lauren Kahn
+ * @authoer Michael Perrone
  *
  */
 
@@ -30,7 +34,10 @@ public class IterationTableModelTest {
 	Date startDate2, endDate2;
 	Iteration iteration1, iteration2;
 	IterationStatus itstatus1, itstatus2, itstatus3;
-
+	
+	DefaultTableColumnModel itcm;
+	
+	
 	Requirement r1, r2, r2copy, r3, r4;
 
 	@Before
@@ -42,11 +49,28 @@ public class IterationTableModelTest {
 		endDate2 = new Date(2013, 5, 30, 5, 10, 10);
 		iteration1 = new Iteration("1", startDate, endDate);
 		iteration2 = new Iteration("2", startDate2, endDate2);
+		iteration1.setId(1);
+		iteration2.setId(2);
 		itstatus1 = NEW;
 		itstatus2 = OPEN;
 		itstatus3 = CLOSED;
 		it1.addRow(iteration1);
 		it1.addRow(iteration2);
+		
+		
+		itcm = new DefaultTableColumnModel();
+		TableColumn tc1 = new TableColumn();
+		tc1.setHeaderValue("ID");
+		TableColumn tc2 = new TableColumn();
+		tc2.setHeaderValue("Name");
+		TableColumn tc3 = new TableColumn();
+		tc3.setHeaderValue("Start Date");
+		TableColumn tc4 = new TableColumn();
+		tc4.setHeaderValue("End Date");
+		itcm.addColumn(tc1);
+		itcm.addColumn(tc2);
+		itcm.addColumn(tc3);
+		itcm.addColumn(tc4);
 	}
 
 	@Test
@@ -82,5 +106,44 @@ public class IterationTableModelTest {
 				assertFalse(it1.isCellEditable(i, j));
 			}
 		}
+	}
+	
+
+	@Test
+	public void testSortedAscending(){
+		it1.sortTable(0, itcm);//sort by ID
+		assertEquals(it1.getValueAt(0, 1) ,"1");
+		assertEquals(it1.getValueAt(1, 1) ,"2");
+	}
+	
+	@Test
+	public void testSortedDescending(){
+		it1.sortTable(1,itcm);//sort by name
+		it1.sortTable(1,itcm);//sory by name descending
+		assertEquals(it1.getValueAt(0, 1) ,"2");
+		assertEquals(it1.getValueAt(1, 1) ,"1");
+	}
+	
+	@Test
+	public void testHeaderAscending(){
+		it1.sortTable(2,itcm);
+		assertEquals("Start Date"+RequirementTableModel.ASCENDING_SUFFIX , itcm.getColumn(2).getHeaderValue().toString());
+	}
+	
+	@Test
+	public void testHeaderDescending(){
+		it1.sortTable(2,itcm);
+		it1.sortTable(2,itcm);
+		assertEquals("Start Date"+RequirementTableModel.DESCENDING_SUFFIX , itcm.getColumn(2).getHeaderValue().toString());
+	}
+	
+	@Test
+	public void testHeaderResets(){
+		it1.sortTable(2,itcm);
+		it1.sortTable(2,itcm);
+		it1.sortTable(1,itcm);
+		it1.sortTable(0,itcm);
+		assertEquals("Start Date", itcm.getColumn(2).getHeaderValue().toString());
+		assertEquals("Name", itcm.getColumn(1).getHeaderValue().toString());
 	}
 }

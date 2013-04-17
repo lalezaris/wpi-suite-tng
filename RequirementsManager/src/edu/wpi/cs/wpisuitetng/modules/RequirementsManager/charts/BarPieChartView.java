@@ -37,6 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.Char
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.RequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SpinListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SubDivisionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -167,6 +168,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
+		mainPanel.getSpinButton().addActionListener(new SpinListener(this));
 		chartBox = mainPanel.getChartBox();
 		characteristicBox = mainPanel.getCharacteristicBox();
 		subDivideBox = mainPanel.getSubDivideBox();
@@ -247,6 +249,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			}
 			//Set the subdivide to be ungrayed out.
 			mainPanel.setSubDivideEnable(true);
+			mainPanel.setSpinVisible(false);
 		}
 		else if(chartType == TypeOfChart.Pie){
 			if(currentCharacteristic.equals("Status")){
@@ -260,6 +263,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			}
 			//Set the subdivide to be grayed out.
 			mainPanel.setSubDivideEnable(false);
+			mainPanel.setSpinVisible(true);
 		}
 			
 	}

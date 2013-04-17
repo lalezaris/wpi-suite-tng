@@ -19,6 +19,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -71,7 +72,9 @@ public class BarPieChartPanel extends JPanel {
 	}
 	SubDivision[] subDivisionArray = {SubDivision.None, SubDivision.Priority, SubDivision.Type};
 
-
+	/** The Spin Button */
+	JButton spinButton;
+	
 	/** The button panel. */
 	JPanel boxPanel = new JPanel();
 
@@ -108,6 +111,7 @@ public class BarPieChartPanel extends JPanel {
 		chartBox = new JComboBox(chartTypeArray);
 		characteristicBox = new JComboBox(characteristicArray);
 		subDivideBox = new JComboBox(subDivisionArray);
+		spinButton = new JButton("Spin");//The button to spin the pie chart.
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -153,6 +157,16 @@ public class BarPieChartPanel extends JPanel {
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		boxPanel.add(subDivideBox, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 6;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(spinButton, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -218,6 +232,13 @@ public class BarPieChartPanel extends JPanel {
 			subDivideBox.setSelectedIndex(0);
 	}
 	
+	/**Determine whether or not you can see the button.
+	 * @param enabled Whether or not it is visible
+	 */
+	public void setSpinVisible(boolean enabled){
+		spinButton.setVisible(enabled);
+	}
+	
 	//Combo Box Getters
 	/**
 	 * @return the chartBox
@@ -246,6 +267,13 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public JFreeChart getDisplayedChart() {
 		return displayedChart;
+	}
+	
+	/**
+	 * @return the spinButton
+	 */
+	public JButton getSpinButton() {
+		return spinButton;
 	}
 	
 }

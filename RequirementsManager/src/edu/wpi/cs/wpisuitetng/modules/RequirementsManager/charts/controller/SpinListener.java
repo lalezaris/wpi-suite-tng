@@ -15,48 +15,26 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JComboBox;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 
 /**
- * Chart type listener for charts.
+ * Listener for the spin button to spin Pie charts.
  * 
  * @author Evan Polekoff
- *
+ * 
  */
-public class ChartTypeListener implements ActionListener{
+public class SpinListener implements ActionListener{
 	
 	protected BarPieChartView view;
 	
-	/**
-	 * Instantiates a new chart type listener.
-	 *
-	 * @param view the view
-	 */
-	public ChartTypeListener(BarPieChartView view){
+	public SpinListener(BarPieChartView view){
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JComboBox cb = (JComboBox)e.getSource();
 		
-		if(cb.getSelectedItem() == TypeOfChart.Bar){
-			System.out.println("Selected Bar Chart.");
-			view.setChartType(TypeOfChart.Bar);
-			view.repaintChart();
-		}
-		else if(cb.getSelectedItem() == TypeOfChart.Pie){
-			System.out.println("Selected Pie Chart.");
-			view.setChartType(TypeOfChart.Pie);
-			view.repaintChart();
-		}
 	}
-
+	
+	
 }

@@ -48,13 +48,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class to hold BarChartView. 
+ * The view for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
- * @author Chris Hannah
+ * @author Chris Hanna
  */
 
+@SuppressWarnings("serial")
 public class BarChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarChartView instance;

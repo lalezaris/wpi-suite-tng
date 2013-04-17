@@ -22,11 +22,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.T
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 
 /**
+ * Prepares the data to display based on iterations.
+ *
  * @author Evan Polekoff
  *
  */
 public class ChartTypeListener implements ActionListener{
-	
 	protected BarChartView view;
 	
 	public ChartTypeListener(BarChartView view){

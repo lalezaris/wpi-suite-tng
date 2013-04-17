@@ -58,7 +58,7 @@ public class RetrieveRequirementRequestObserver implements RequestObserver {
 			return;
 		}
 
-		// parse the defect received from the core
+		// parse the requirement received from the core
 		Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
 		if (requirements.length > 0 && requirements[0] != null) {
 			controller.showRequirement(requirements[0]);

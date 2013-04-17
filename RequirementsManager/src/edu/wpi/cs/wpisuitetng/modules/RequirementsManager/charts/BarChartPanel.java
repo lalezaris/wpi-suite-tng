@@ -32,11 +32,12 @@ import org.jfree.util.Rotation;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 /**
- * The Class BarChartPanel.
+ * The panel for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
  */
+@SuppressWarnings("serial")
 public class BarChartPanel extends JPanel {
 
 	/* the parent view*/

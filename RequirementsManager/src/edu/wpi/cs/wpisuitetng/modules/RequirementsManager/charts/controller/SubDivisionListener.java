@@ -22,6 +22,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.characteristic;
 
 /**
+ * Prepares the data to display based on assignee.
+ * 
  * @author Evan Polekoff
  *
  */

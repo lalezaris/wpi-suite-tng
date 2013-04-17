@@ -4,25 +4,31 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveEvent;
 
 
 public class AcceptanceTestsView extends JPanel{
@@ -219,6 +225,13 @@ public class AcceptanceTestsView extends JPanel{
 	             System.out.println("clicked on Item " + index);
 	             txtTitle.setText(list.get(index).getTitle());
 	             txtBody.setText(list.get(index).getBody());
+	             if (hasTitle(txtTitle.getText())){
+					addTest.setEnabled(false);
+					editTest.setEnabled(true);
+				}else{
+					addTest.setEnabled(true);
+					editTest.setEnabled(false);
+				}
 	             
 	             if (list.get(index).getStatus().compareTo("Passed") == 0){
 		             	cmbStatus.setSelectedItem(atStatuses[1]);
@@ -231,6 +244,7 @@ public class AcceptanceTestsView extends JPanel{
 		     }
 		 };
 		 listDisplay.addMouseListener(mouseListener);
+		 txtTitle.addKeyListener(new ButtonsListener());
 		 
 		 //setup permission features
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
@@ -245,6 +259,7 @@ public class AcceptanceTestsView extends JPanel{
 			 //full access
 			 break;
 		 }
+		 
 
 	}
 	
@@ -389,5 +404,58 @@ public class AcceptanceTestsView extends JPanel{
 		this.revalidate();
 	}
 	
+	/**
+	 * checks if the given title is in the list already. returns true if so.
+	 */
+	public boolean hasTitle(String s){
+		boolean result = false;
+		for (int i = 0; i < list.size(); i++){
+			if (list.get(i).getTitle().compareTo(s) == 0){
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
+		/**
+		 * If the title written is already in the list, disable the addTest button and enable the
+		 * editTest button. Otherwise, do the opposite.
+		 */
+		public class ButtonsListener implements KeyListener {
+
+			/**
+			 * Action performed.
+			 *
+			 * @param estimate the estimate
+			 */
+			public void actionPerformed(ActionEvent estimate) {}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyPressed(KeyEvent e) {}
+
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (hasTitle(txtTitle.getText())){
+					addTest.setEnabled(false);
+					editTest.setEnabled(true);
+				}else{
+					addTest.setEnabled(true);
+					editTest.setEnabled(false);
+				}
+			}
+		}
 	
 }

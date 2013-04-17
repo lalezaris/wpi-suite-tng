@@ -19,16 +19,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.util.Rotation;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 /**
@@ -37,11 +33,10 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
  * @author Evan Polekoff
  * @author Ned Shelton
  */
-@SuppressWarnings("serial")
-public class BarChartPanel extends JPanel {
-
+@SuppressWarnings({"serial", "rawtypes"})
+public class BarPieChartPanel extends JPanel {
 	/* the parent view*/
-	protected BarChartView view;
+	protected BarPieChartView view;
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
@@ -91,7 +86,7 @@ public class BarChartPanel extends JPanel {
 	 * @param view the view
 	 * @param chart the chart
 	 */
-	public BarChartPanel(BarChartView view, JFreeChart chart){
+	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
 		this.view = view;
 		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);
@@ -103,6 +98,7 @@ public class BarChartPanel extends JPanel {
 	 * Put the buttons and stuff on the view.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
 		//Make a toolbar.
 		toolbar = new DefaultToolbarView();
@@ -216,6 +212,8 @@ public class BarChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setEnabled(enabled);
+		if(enabled == false)
+			subDivideBox.setSelectedIndex(0);
 	}
 	
 	//Combo Box Getters

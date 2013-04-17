@@ -13,7 +13,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAllIterationsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveParentRequirementObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;

@@ -15,10 +15,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.control
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.UpdatePermissionObserver;
-
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
-
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**

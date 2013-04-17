@@ -15,7 +15,6 @@ import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javax.swing.ImageIcon;

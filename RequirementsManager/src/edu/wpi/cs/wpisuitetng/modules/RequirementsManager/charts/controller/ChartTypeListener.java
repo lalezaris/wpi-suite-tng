@@ -15,25 +15,34 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartPanel.TypeOfChart;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 
 /**
- * Prepares the data to display based on iterations.
- *
+ * Chart type listner for charts.
+ * 
  * @author Evan Polekoff
  *
  */
 public class ChartTypeListener implements ActionListener{
-	protected BarChartView view;
 	
-	public ChartTypeListener(BarChartView view){
+	protected BarPieChartView view;
+	
+	/**
+	 * Instantiates a new chart type listener.
+	 *
+	 * @param view the view
+	 */
+	public ChartTypeListener(BarPieChartView view){
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();

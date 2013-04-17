@@ -35,6 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  *
  * @author Chris Hanna
  * @modified by Tianyu Li on Apr 9
+ * @modified by Michael Perrone on April 16
  * @version Apr 9th, 2013
  */
 @SuppressWarnings("serial")
@@ -46,10 +47,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	private static final boolean DEBUG = false;
 
 
-	private static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
+	public static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
 	//if the column has been sorted in ascending order (down arrow)
 
-	private static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
+	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
 
@@ -327,8 +328,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
 
 		//reset the headers
-		for(int i=0; i<columnNames.length; i++){
-			System.out.println(cm.getColumn(i).getHeaderValue());
+		for(int i=0; i<cm.getColumnCount(); i++){
 			cm.getColumn(i).setHeaderValue(columnNames[i]);
 		}
 

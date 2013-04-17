@@ -5,32 +5,62 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
  * 
  * @author Tianyu Li
- *
+ * @author Michael Perrone
  */
 
 public class RequirementTableModelTest {
 	RequirementTableModel rtm1;
+	DefaultTableColumnModel dtcm;
 
 	@Before
 	public void setUp() throws Exception {
 		rtm1 = new RequirementTableModel();
-		Requirement req1 = new Requirement();
+		Requirement req1 = new Requirement(1,"req1","des1",null);
 		req1.setEstimateEffort(-1);
-		Requirement req2 = new Requirement("req2", "des2");
+		Requirement req2 = new Requirement(2,"req2", "des2",null);
 		Requirement req3 = new Requirement(3, "req3", "des3", null);
 		Requirement req4 = new Requirement(4, "req4", "des4", null, null);
+		req2.setStatus(RequirementStatus.COMPLETE);
+		req3.setStatus(RequirementStatus.INPROGRESS);
+		req4.setStatus(RequirementStatus.NEW);
+		req1.setPriority(RequirementPriority.HIGH);
+		req2.setPriority(RequirementPriority.LOW);
+		req3.setPriority(RequirementPriority.MEDIUM);
+		
+		
 		rtm1.addRow(req1);
 		rtm1.addRow(req2);
 		rtm1.addRow(req3);
 		rtm1.addRow(req4);
+		
+		
+		dtcm = new DefaultTableColumnModel();
+		TableColumn tc1 = new TableColumn();
+		tc1.setHeaderValue("ID");
+		TableColumn tc2 = new TableColumn();
+		tc2.setHeaderValue("Name");
+		TableColumn tc3 = new TableColumn();
+		tc3.setHeaderValue("Description");
+		TableColumn tc4 = new TableColumn();
+		tc4.setHeaderValue("Status");
+		dtcm.addColumn(tc1);
+		dtcm.addColumn(tc2);
+		dtcm.addColumn(tc3);
+		dtcm.addColumn(tc4);
 	}
 
 	@Test
@@ -80,22 +110,36 @@ public class RequirementTableModelTest {
 	
 	@Test
 	public void testSortedAscending(){
-		//TODO
+		rtm1.sortTable(0, dtcm);//sort by ID
+		assertEquals(rtm1.getValueAt(0, 1) ,"req1");
+		assertEquals(rtm1.getValueAt(1, 1) ,"req2");
+		assertEquals(rtm1.getValueAt(2, 1) ,"req3");
+		assertEquals(rtm1.getValueAt(3, 1) ,"req4");
 	}
 	
 	@Test
 	public void testSortedDescending(){
-		//TODO
+		rtm1.sortTable(1,dtcm);//sort by name
+		rtm1.sortTable(1,dtcm);//sory by name descending
+		assertEquals(rtm1.getValueAt(0, 1) ,"req4");
+		assertEquals(rtm1.getValueAt(1, 1) ,"req3");
+		assertEquals(rtm1.getValueAt(2, 1) ,"req2");
+		assertEquals(rtm1.getValueAt(3, 1) ,"req1");
 	}
 	
 	@Test
 	public void testHeaderAscending(){
-		//TODO		
+		rtm1.sortTable(2,dtcm);
+		assertEquals("Description"+RequirementTableModel.ASCENDING_SUFFIX , dtcm.getColumn(2).getHeaderValue().toString());
 	}
 	
 	@Test
 	public void testHeaderDescending(){
-		//TODO
+		rtm1.sortTable(2,dtcm);
+		rtm1.sortTable(2,dtcm);
+
+		System.out.println( dtcm.getColumn(2).getHeaderValue().toString());
+		assertEquals("Description"+RequirementTableModel.DESCENDING_SUFFIX , dtcm.getColumn(2).getHeaderValue().toString());
 	}
 	
 	@Test

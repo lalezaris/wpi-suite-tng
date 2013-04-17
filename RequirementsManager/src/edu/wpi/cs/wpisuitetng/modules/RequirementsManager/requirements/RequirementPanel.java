@@ -172,8 +172,7 @@ public class RequirementPanel extends JPanel{
 	public RequirementPanel(RequirementView parent, Mode mode) {
 
 		this.parent = parent;
-//		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
-//				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
+
 
 		this.mode = mode;
 

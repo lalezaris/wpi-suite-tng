@@ -20,7 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
  * @author Joe Spicola
  * @version Mar 17, 2013
  */
-public enum RequirementPriority {
+public enum RequirementPriority{
 	BLANK(""),
 	HIGH("HIGH"),       // requires immediate attention
 	MEDIUM("MEDIUM"), // requires attention shortly
@@ -54,6 +54,7 @@ public enum RequirementPriority {
 		return name;
 	}
 	
+	
 	/**
 	 * Get value from a string.
 	 *
@@ -65,6 +66,6 @@ public enum RequirementPriority {
 		if(name.equals("HIGH")) return HIGH;
 		if(name.equals("MEDIUM")) return MEDIUM;
 		if(name.equals("LOW")) return LOW;
-		return null;
+		return BLANK;
 	}
 }

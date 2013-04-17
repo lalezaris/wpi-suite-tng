@@ -52,6 +52,7 @@ public class RequirementPanelViewTest {
 	
 	@Before
 	public void setUp() {
+
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		
@@ -71,15 +72,18 @@ public class RequirementPanelViewTest {
 		reqView.getRequirementPanel().txtDescription.getKeyListeners()[0].keyReleased(null);
 		reqView.getRequirementPanel().txtTitle.getKeyListeners()[0].keyReleased(null);
 		assertEquals(true, reqView.getRequirementPanel().getSaveRequirementBottom().isEnabled());
+
 	}
 	
 	//test that changing the status enables the Iteration field
 	@Test
 	public void testChangeStatus(){
+
 		reqView.getRequirementPanel().txtEstimate.setText("5");
 		reqView.getRequirementPanel().txtEstimate.getKeyListeners()[0].keyReleased(null);
 		assertEquals("5", reqView.getRequirementPanel().txtEstimate.getText());
 		assertEquals(true, reqView.getRequirementPanel().getCmbIteration().isEnabled());
+
 	}
 	
 	//test that the view is indeed populating the fields with the given requirement's information

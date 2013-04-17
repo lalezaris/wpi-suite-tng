@@ -42,8 +42,8 @@ public class BarPieChartPanel extends JPanel {
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
-	/** The bar graph. */
-	JFreeChart barGraph;
+	/** The chart. */
+	private JFreeChart displayedChart;
 	
 	/** The chart box. */
 	private JComboBox chartBox;
@@ -164,7 +164,7 @@ public class BarPieChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(barGraph, TypeOfChart.Bar);
+		setChart(displayedChart, TypeOfChart.Bar);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -175,7 +175,8 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setChart(JFreeChart newChart, TypeOfChart chartType){
 		overallPanel.remove(graphPanel);
-
+		displayedChart = newChart;
+		
 		graphPanel = new ChartPanel(newChart);
 		GridBagConstraints cGraph = new GridBagConstraints();
 
@@ -240,4 +241,11 @@ public class BarPieChartPanel extends JPanel {
 		return subDivideBox;
 	}
 
+	/**
+	 * @return the displayedChart
+	 */
+	public JFreeChart getDisplayedChart() {
+		return displayedChart;
+	}
+	
 }

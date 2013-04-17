@@ -425,7 +425,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 		 
 		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 

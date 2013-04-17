@@ -13,7 +13,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers.UserObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -26,13 +26,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class UserController {
-	BarChartView view;
+	BarPieChartView view;
 	/**
 	 * Construct a UserController.
 	 * 
 	 * @param view A BarChartView
 	 */
-	public UserController(BarChartView view){
+	public UserController(BarPieChartView view){
 		this.view = view;
 	}
 

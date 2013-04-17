@@ -13,7 +13,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPerm
  * @author Chris Dunkers
  * @version Apr 2, 2013
  */
+@SuppressWarnings({"rawtypes","serial"})
 public class AdminPermissionController extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
@@ -54,6 +54,7 @@ public class AdminPermissionController extends AbstractAction {
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@SuppressWarnings({ "unused", "unchecked" })
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
@@ -125,6 +126,7 @@ public class AdminPermissionController extends AbstractAction {
 	 * @param newElements a list of the elements to be put into the model
 	 * @return the model with the given elements
 	 */
+	@SuppressWarnings("unchecked")
 	private DefaultListModel getNewModel(List<String> newElements){
 		DefaultListModel newModel = new DefaultListModel();
 		for(int i = 0; i < newElements.size(); i++){

@@ -180,6 +180,7 @@ public class IterationTableModel extends AbstractTableModel {
 		//false if it has something appended to it
 
 		Comparator<Object[]> comparator = new Comparator<Object[]>(){
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public int compare(Object[] a, Object[] b){
 				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);

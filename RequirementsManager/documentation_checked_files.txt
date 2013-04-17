@@ -2,6 +2,7 @@
 
 em dubs french, M. French Fried - Michael French
 chrissy-hanny-boo-boo, channamontana, Christina Hannah, chrisfresher hanmiester - Chris Hanna
+Lady Nails - Michael Perrone
 
 //// Documents checked for javadoc comments
 
@@ -108,3 +109,65 @@ requirements
   RequirmentPanel.java
   RequirementView.java
   StatusListener.java
+rmpermissions
+  controller
+  	AdminPermissionController.java
+  	NonePermissionController.java
+  	PermissionSaveMode.java
+  	SavePermissionsPanelController.java
+  	SetUpPermissionsPanelController.java
+  	UpdateAllPermissionsController.java
+  	UpdatePermissionController.java
+  model
+  	PermissionModel.java
+  observers
+  	CurrentUserPermissions.java
+  	CurrentUserPermissionsObserver.java
+  	PermissionsObserver.java
+  	UpdatePermissionObserver.java
+  	UsersObserver.java
+  IOnPermissionUpdate.java
+  UserPermissionPanel.java
+  UserPermissionView.java
+tabs
+  action
+  	IterationsRefreshAction.java
+  	IterationTableSortAction.java
+  	RefreshAction.java
+  	RequirementTableSortAction.java
+  	UpdateAllEstimateAction.java
+  controller
+  	IterationTableSortController.java
+  	MainTabController.java
+  	RequirementTableSortController.java
+  	UpdateAllRequirementsController.java
+  	UpdateRequirementObserver.java
+  model
+  	ClosableTabComponent.java
+  	DashboardTab.java
+  	DummyTab.java
+  	IterationTableModel.java
+  	RequirementTableModel.java
+  	Tab.java
+  IterationListPanel.java
+  IterationListView.java
+  MainTabView.java
+  RequirementListEstimateEditor.java
+  RequirementListPanel.java
+  RequirementListView.java
+Toolbar
+  action
+  	EditIterationsAction.java
+  	EditRequirementAction.java
+  	EditUserPermissionsAction.java
+  	ListAction.java
+  	ListIterationAction.java
+  	NewIterationAction.java
+  	NewRequirementAction.java
+  	OpenHelpAction.java
+  	ViewChartsAction.java
+  PermissionDisplayUpdater.java
+  ToolbarController.java
+  ToolbarDisplayUpdater.java
+  ToolbarPanel.java
+  	

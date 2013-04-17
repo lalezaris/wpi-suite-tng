@@ -55,7 +55,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @modified by Tianyu Li on Apr 9
  * @version Mar 21, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
 
 	private JTextArea list;

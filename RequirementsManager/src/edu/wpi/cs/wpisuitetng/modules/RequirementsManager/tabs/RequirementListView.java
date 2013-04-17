@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Apr 11, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"unused", "serial"})
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
 
 	private ToolbarGroupView buttonGroup;

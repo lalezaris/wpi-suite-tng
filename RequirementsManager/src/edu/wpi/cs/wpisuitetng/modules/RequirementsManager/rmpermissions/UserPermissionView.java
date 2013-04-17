@@ -19,7 +19,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.AdminPermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.NonePermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.SetUpPermissionsPanelController;
@@ -34,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @author CDUNKERS
  * @version Apr 1, 2013
  */
+@SuppressWarnings("serial")
 public class UserPermissionView extends JPanel {
 
 	private UserPermissionPanel mainPanel;
@@ -92,6 +92,7 @@ public class UserPermissionView extends JPanel {
 	 * @param newElements a list of the elements to be put into the model
 	 * @return the model with the given elements
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public DefaultListModel getNewModel(List<String> newElements){
 		DefaultListModel newModel = new DefaultListModel(); 
 		for(int i = 0; i < newElements.size(); i++){

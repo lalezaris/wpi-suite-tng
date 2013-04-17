@@ -98,6 +98,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							Requirement uneditedParent = parentView.getReqModel().getRequirement();
 							Requirement uneditedParentWithChild = uneditedParent;
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
+							uneditedParent.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
 							
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
@@ -107,6 +108,16 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							request.setBody(JsonRequest);
 							request.addObserver(requestObserver);
 							request.send();
+							
+							//now to save the uneditedParent to database
+							String JsonRequest2 = uneditedParent.toJSON();
+							final RequestObserver requestObserver2 = new UpdateRequirementRequestObserver(parentView);
+							Request request2;
+							request2 = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
+							request2.setBody(JsonRequest2);
+							request2.addObserver(requestObserver2);
+							request2.send();
+							System.out.println("in createreqrequestobserver");
 						}
 					}
 				});

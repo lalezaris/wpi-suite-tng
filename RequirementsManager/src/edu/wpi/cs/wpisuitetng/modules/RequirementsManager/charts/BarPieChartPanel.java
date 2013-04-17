@@ -26,7 +26,10 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PiePlot3D;
+
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
 
 /**
  * The Class BarChartPanel.
@@ -203,6 +206,10 @@ public class BarPieChartPanel extends JPanel {
 			if(chartType == TypeOfChart.Bar){
 				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
 		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
+			else{
+				final PieRotator rotator = new PieRotator((PiePlot3D) newChart.getPlot());
+		        rotator.start();
 			}
 		}
 		

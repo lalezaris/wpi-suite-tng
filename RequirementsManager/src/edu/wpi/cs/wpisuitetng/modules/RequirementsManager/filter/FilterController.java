@@ -46,7 +46,7 @@ public class FilterController{
 		
 		this.panel = new FilterPanel(this);
 		this.model = new FilterModel();
-		
+
 		this.panel.getAddButton().setAction( new AddAction(this) );
 		this.panel.getRemoveButton().setAction( new RemoveAction(this));
 		this.panel.getDisableButton().setAction( new DisableAction(this));

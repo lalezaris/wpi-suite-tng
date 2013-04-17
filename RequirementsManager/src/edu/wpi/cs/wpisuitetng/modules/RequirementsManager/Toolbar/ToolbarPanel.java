@@ -67,7 +67,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton editUserPermissions;
 	private JLabel viewUserPermission;
 	private JLabel viewUserName;
-	private JButton barChart;
+	private JButton viewChart;
 	private String userName;
 
 	private ToolbarGroupView toolbarGroupIteration;
@@ -87,13 +87,13 @@ public class ToolbarPanel extends DefaultToolbarView {
 		JPanel requirementContent = new JPanel();
 		JPanel userPermissionContent = new JPanel();
 		JPanel viewUserPermissionPanel = new JPanel();
-		JPanel barChartContent = new JPanel();
+		JPanel chartContent = new JPanel();
 
 		SpringLayout iterationLayout  = new SpringLayout();
 		SpringLayout requirementLayout = new SpringLayout();
 		SpringLayout userPermissionLayout = new SpringLayout();
 		SpringLayout viewUserPermissionLayout = new SpringLayout();
-		SpringLayout barChartLayout = new SpringLayout();
+		SpringLayout chartLayout = new SpringLayout();
 
 		iterationContent.setLayout(iterationLayout);
 		iterationContent.setOpaque(false);
@@ -107,9 +107,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionContent.setOpaque(false);
 		userPermissionContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
-		barChartContent.setLayout(barChartLayout);
-		barChartContent.setOpaque(false);
-		barChartContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		chartContent.setLayout(chartLayout);
+		chartContent.setOpaque(false);
+		chartContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		viewUserPermissionPanel.setLayout(viewUserPermissionLayout);
 		viewUserPermissionPanel.setOpaque(false);
@@ -150,8 +150,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		//viewUserPermission.setText("Permission Level: " + CurrentUserPermissions.getCurrentUserPermission().toString());
 
 		//Construct Bar Chart Buttons
-		barChart = new JButton("Bar Chart");
-		barChart.setAction(new ViewChartsAction(tabController));
+		viewChart = new JButton("Chart");
+		viewChart.setAction(new ViewChartsAction(tabController));
 
 		// Configure the layout of the buttons on the content panel
 		iterationLayout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, iterationContent);
@@ -169,8 +169,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		userPermissionLayout.putConstraint(SpringLayout.NORTH, editUserPermissions, 25, SpringLayout.NORTH, userPermissionContent);
 		userPermissionLayout.putConstraint(SpringLayout.WEST, editUserPermissions, 10, SpringLayout.WEST, userPermissionContent);
 		
-		barChartLayout.putConstraint(SpringLayout.NORTH, barChart, 25, SpringLayout.NORTH, barChartContent);
-		barChartLayout.putConstraint(SpringLayout.WEST, barChart, 10, SpringLayout.WEST, barChartContent);
+		chartLayout.putConstraint(SpringLayout.NORTH, viewChart, 25, SpringLayout.NORTH, chartContent);
+		chartLayout.putConstraint(SpringLayout.WEST, viewChart, 10, SpringLayout.WEST, chartContent);
 		
 		viewUserPermissionLayout.putConstraint(SpringLayout.NORTH, viewUserName, 5, SpringLayout.NORTH, viewUserPermissionPanel);
 		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserName, 10, SpringLayout.WEST, viewUserPermissionPanel);
@@ -192,8 +192,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		// Add buttons to the content panel
 		userPermissionContent.add(editUserPermissions);
 
-		//Add bar chart buttons
-		barChartContent.add(barChart);
+		//Add chart buttons
+		chartContent.add(viewChart);
 
 		//add label to content panel
 		viewUserPermissionPanel.add(viewUserPermission);
@@ -210,7 +210,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		toolbarGroupUserPermission = new ToolbarGroupView("Permissions", userPermissionContent);
 		toolbarGroupUserPermission.setVisible(false);
 		
-		toolbarGroupBarChart = new ToolbarGroupView("Charts", barChartContent);
+		toolbarGroupBarChart = new ToolbarGroupView("Charts", chartContent);
 		
 		toolbarGroupViewUserPermission = new ToolbarGroupView("User Information", viewUserPermissionPanel);
 
@@ -244,7 +244,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		toolbarGroupIteration.setPreferredSize(new Dimension(30 + ((int)(newIteration.getPreferredSize().getWidth())), iterationGroupHeight.intValue()));
 		toolbarGroupRequirement.setPreferredSize(new Dimension(30 + ((int)(newRequirement.getPreferredSize().getWidth())), requirementGroupHeight.intValue()));
 		toolbarGroupUserPermission.setPreferredSize(new Dimension(30 + ((int)(editUserPermissions.getPreferredSize().getWidth())), userPermissionGroupHeight.intValue()));
-		toolbarGroupBarChart.setPreferredSize(new Dimension(30 + ((int)(barChart.getPreferredSize().getWidth())), barChartGroupHeight.intValue()));
+		toolbarGroupBarChart.setPreferredSize(new Dimension(30 + ((int)(viewChart.getPreferredSize().getWidth())), barChartGroupHeight.intValue()));
 		toolbarGroupViewUserPermission.setPreferredSize(new Dimension(30 + ((int)(viewUserPermission.getPreferredSize().getWidth())), viewUserPermissionGroupHeight.intValue()));
 
 		

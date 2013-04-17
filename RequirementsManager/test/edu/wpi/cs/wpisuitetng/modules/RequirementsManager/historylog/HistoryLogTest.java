@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 
-public class TestHistoryLog {
+public class HistoryLogTest {
 	
 	MockData db;
 	RequirementStore manager;

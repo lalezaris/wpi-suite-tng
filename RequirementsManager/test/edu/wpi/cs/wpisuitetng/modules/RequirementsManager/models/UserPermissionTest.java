@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
  * @version Apr 2, 2013
  *
  */
-public class UserPermissionTests {
+public class UserPermissionTest {
 
 	UserPermission uPerm1, uPerm2, uPerm3;
 	

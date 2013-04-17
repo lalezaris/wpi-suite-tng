@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class IterationObserver implements RequestObserver{
 
 	/** The view. */
-	BarChartView view;
+	BarPieChartView view;
 	
 	/**
 	 * This method is called when information about an Iteration
@@ -41,7 +41,7 @@ public class IterationObserver implements RequestObserver{
 	 *
 	 * @param view the view
 	 */
-	public IterationObserver(BarChartView view){
+	public IterationObserver(BarPieChartView view){
 		this.view = view;
 	}
 	
@@ -56,7 +56,7 @@ public class IterationObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
 		//this.panel.setAllusers(users);
-		this.view.recieveServerIterations(iterations);
+		this.view.receiveServerIterations(iterations);
 	}
 
 	/* (non-Javadoc)

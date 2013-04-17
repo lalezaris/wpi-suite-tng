@@ -13,7 +13,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -113,11 +115,22 @@ public class IterationTableModel extends AbstractTableModel {
 	 * @param req Requirement to add a row to
 	 */
 	public void addRow(Iteration iteration){
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
+		String start = "";
+		String end = "";
+		try {
+			start = sdf.format(iteration.getStartDate());
+			end = sdf.format(iteration.getEndDate());
+			System.out.println("set the Iteration dates to teh new format!");
+		} catch (Exception e) {
+			System.out.println(e);			
+		}
+		
 		Object[] r = {
 				iteration.getId() ,
 				iteration.getIterationName(),
-				iteration.getStartDate(),
-				iteration.getEndDate()};
+				start,
+				end};
 		addRow(r);
 	}
 

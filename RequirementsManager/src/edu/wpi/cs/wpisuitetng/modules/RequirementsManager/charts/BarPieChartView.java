@@ -37,6 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.Char
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.RequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SpinListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.SubDivisionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.UserController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -96,6 +97,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	private boolean tooltips;
 	private boolean legend;
 	private PlotOrientation orientation;
+	private boolean pieSpin;
 	private UserController userController;
 	private RequirementController requirementController;
 	private IterationController iterationController;
@@ -145,6 +147,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		gotUsers = false;
 		gotIterations = false;
 		gotRequirements = false;
+		pieSpin = false;
 		userController = new UserController(this);
 		requirementController = new RequirementController(this);
 		iterationController = new IterationController(this);
@@ -167,6 +170,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
+		mainPanel.getSpinButton().addActionListener(new SpinListener(this));
 		chartBox = mainPanel.getChartBox();
 		characteristicBox = mainPanel.getCharacteristicBox();
 		subDivideBox = mainPanel.getSubDivideBox();
@@ -231,35 +235,37 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	public void repaintChart(){
 		if(chartType == TypeOfChart.Bar){
 			if(currentCharacteristic.equals("Status")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(statusTypeBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(statusPrioBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(statusNoneBarDataset, currentCharacteristic), TypeOfChart.Bar);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(statusTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(statusPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(statusNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
 			}
 			else if(currentCharacteristic.equals("Assignee")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(assigneeTypeBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(assigneePrioBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(assigneeNoneBarDataset, currentCharacteristic), TypeOfChart.Bar);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(assigneeTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(assigneePrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(assigneeNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
 			}
 			else if (currentCharacteristic.equals("Iteration")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(iterationTypeBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(iterationPrioBarDataset, currentCharacteristic), TypeOfChart.Bar);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(iterationNoneBarDataset, currentCharacteristic), TypeOfChart.Bar);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(iterationTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(iterationPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(iterationNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
 			}
 			//Set the subdivide to be ungrayed out.
 			mainPanel.setSubDivideEnable(true);
+			mainPanel.setSpinVisible(false);
 		}
 		else if(chartType == TypeOfChart.Pie){
 			if(currentCharacteristic.equals("Status")){
-				mainPanel.setChart(makePieChart(statusPieDataset, currentCharacteristic), TypeOfChart.Pie);
+				mainPanel.setChart(makePieChart(statusPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
 			}
 			else if(currentCharacteristic.equals("Assignee")){
-				mainPanel.setChart(makePieChart(assigneePieDataset, currentCharacteristic), TypeOfChart.Pie);
+				mainPanel.setChart(makePieChart(assigneePieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
 			}
 			else if (currentCharacteristic.equals("Iteration")){
-				mainPanel.setChart(makePieChart(iterationPieDataset, currentCharacteristic), TypeOfChart.Pie);
+				mainPanel.setChart(makePieChart(iterationPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
 			}
 			//Set the subdivide to be grayed out.
 			mainPanel.setSubDivideEnable(false);
+			mainPanel.setSpinVisible(true);
 		}
 			
 	}
@@ -597,6 +603,20 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 */
 	public BarPieChartPanel getMainPanel() {
 		return mainPanel;
+	}
+
+	/**
+	 * @return the pieSpin
+	 */
+	public boolean isPieSpin() {
+		return pieSpin;
+	}
+
+	/**
+	 * @param pieSpin the pieSpin to set
+	 */
+	public void setPieSpin(boolean pieSpin) {
+		this.pieSpin = pieSpin;
 	}
 	
 }

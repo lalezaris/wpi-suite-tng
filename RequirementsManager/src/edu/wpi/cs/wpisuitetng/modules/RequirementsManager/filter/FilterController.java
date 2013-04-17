@@ -13,7 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.ApplyAction;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.EnableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.RemoveAction;
@@ -48,7 +48,7 @@ public class FilterController{
 		this.panel = new FilterPanel(this);
 		this.model = new FilterModel();
 		
-		this.panel.getApplyButton().setAction( new ApplyAction(this) );
+		
 		this.panel.getAddButton().setAction( new AddAction(this) );
 		this.panel.getRemoveButton().setAction( new RemoveAction(this));
 		this.panel.getDisableButton().setAction( new DisableAction(this));

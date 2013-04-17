@@ -18,6 +18,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -359,14 +360,22 @@ public class IterationPanel extends JPanel {
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(left);
 		
+
 		JPanel right = new JPanel();
-		right.setLayout(new BorderLayout());
-		reqListPanel = new RequirementListPanel(MainTabController.getController());
-		reqListPanel.hideButtons();
-		
-		right.add(reqListPanel,BorderLayout.CENTER);
+		if(this.getParent().getMode() == Mode.EDIT){
+			right.setLayout(new BorderLayout());
+			reqListPanel = new RequirementListPanel(MainTabController.getController());
+			reqListPanel.hideButtons();
+
+			right.add(reqListPanel,BorderLayout.CENTER);
+			JPanel rightSub = new JPanel();
+			rightSub.setLayout(new FlowLayout());
+			rightSub.add(new JLabel("Requirements in this iteration:"),1.0);
+			right.add(rightSub,BorderLayout.NORTH);
+		}
+
 		splitPane.setRightComponent(right);
-		
+
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
 		this.add(splitPane,BorderLayout.CENTER);

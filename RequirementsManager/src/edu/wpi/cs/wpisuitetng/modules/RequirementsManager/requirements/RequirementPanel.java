@@ -55,6 +55,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
@@ -84,11 +92,10 @@ public class RequirementPanel extends JPanel{
 		EDIT, 
 		CHILD;
 	}
-
 	
 	/** The parent view **/
 	protected RequirementView parent;
-
+	protected RequirementPanel.Mode mode;
 	/*
 	 * Form elements
 	 */
@@ -117,11 +124,12 @@ public class RequirementPanel extends JPanel{
 
 	/** HistoryView for updating history **/
 	private HistoryView hv;
-	
-	/** AssigneeView for updating assignees **/
-	//TODO finish implementing av
-	private AssigneeView av;
 
+	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
+	private AcceptanceTestsView atv;
+
+	/** AssigneeView for updating assignees **/
+	private AssigneeView av;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -133,8 +141,7 @@ public class RequirementPanel extends JPanel{
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
 
-	/* origin/team1-theHistoryLogBackEnd
-	 */	/** The other panels */
+	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -153,8 +160,6 @@ public class RequirementPanel extends JPanel{
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 
-	/** An enum indicating if the form is in create mode or edit mode */
-	protected Mode editMode;
 
 	/*
 	 * Constants used to layout the form
@@ -170,18 +175,23 @@ public class RequirementPanel extends JPanel{
 	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
-	public RequirementPanel(RequirementView parent) {
+	public RequirementPanel(RequirementView parent, Mode mode) {
 
 		this.parent = parent;
-		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
-				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
-		this.editMode = parent.getMode();
+//		System.out.println("INITIALIZED REQUIREMENTPANEL WITH MODEL: " + parent.getReqModel().getRequirement().getIterationId() + 
+//				" AND " + parent.getReqModel().getUneditedRequirement().getIterationId());
+
+		this.mode = mode;
 
 		//get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
 
 		//get the list of history from the given requirement
 		this.hv = new HistoryView(parent);
+//		hv = new HistoryView(model);
+		
+		//Instantiate the acceptance tests
+		this.atv = new AcceptanceTestsView(parent);
 
 		//get the list of history from the given requirement
 		this.av = new AssigneeView(parent);
@@ -197,6 +207,9 @@ public class RequirementPanel extends JPanel{
 		addComponents();
 	}
 
+	
+	
+	
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
@@ -223,51 +236,49 @@ public class RequirementPanel extends JPanel{
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(6);
 		
-		//filter out the expired iterations
-		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
-		knownIterations = Refresher.getInstance().getInstantIterations();
-		for (int i = 0; i < knownIterations.length ;i++){
-			if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
-				knownIts.add(knownIterations[i]);
-			} else if (knownIterations[i].getId() == parent.getReqModel().getRequirement().getIteration().getId()){
-				knownIts.add(knownIterations[i]);
-			}
-		}
-		knownIterations = new Iteration[knownIts.size()];
-		for (int i = 0; i < knownIterations.length; i++){
-			knownIterations[i] = knownIts.get(i);
-		}
-		cmbIteration = new JComboBox(knownIterations);
+		cmbIteration = new JComboBox();
 
 		txtDescription = new JTextArea(10,35);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
-		String[] requirementStatusValues = RequirementStatusLists.getList(parent.getReqModel().getRequirement());
+
+		String[] requirementStatusValues =new String[RequirementStatus.values().length];
 		for (int i = 0; i < requirementStatusValues.length; i++) {
-			requirementStatusValues[i] = RequirementStatusLists.getList(parent.getReqModel().getRequirement())[i];
+			requirementStatusValues[i] = RequirementStatus.values()[i].toString();
+			System.out.println("Status:" + requirementStatusValues[i]);
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
+		
+		System.out.println("Status selected:" + cmbStatus.getSelectedItem());
+		
+		
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
 		for (int i = 0; i < RequirementPriority.values().length; i++) {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
+		
 		String[] requirementTypeValues = new String[RequirementType.values().length];
 		for (int i = 0; i < RequirementType.values().length; i++) {
 			requirementTypeValues[i] = RequirementType.values()[i].toString();
 		}
 		cmbType = new JComboBox(requirementTypeValues);
+		
 		txtEstimate = new IntegerField(4);
 		txtActual = new IntegerField(4);
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
-//		txtAssignee = new JTextField(12);
 
-		notesView.setNotesList(parent.getReqModel().getRequirement().getNotes());
-		hv.setHistoryList(parent.getReqModel().getRequirement().getHistory());
-		av.setAssigneeList(parent.getReqModel().getRequirement().getAssignee());
-		RTabsView = new RequirementTabsView(notesView, hv, av);
+//		RTabsView = new RequirementTabsView(notesView, hv, av, );
+//=======
+//		notesView.setNotesList(this.getNotesArrayList());
+//		hv.setHistoryList(this.getHistoryList());
+//		av.setAssigneeList(model.getAssignee());
+		RTabsView = new RequirementTabsView(notesView, hv, atv, av);
+//		av.setAssigneeList(model.getAssignee());
+//		RTabsView = new RequirementTabsView(notesView, hv, av);
+//>>>>>>> origin/team1-acceptanceTests
 
 		/**Save Button*/
 		saveRequirementBottom = new JButton("Save");
@@ -278,14 +289,6 @@ public class RequirementPanel extends JPanel{
 		//cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
 
 		createChildRequirement = new JButton("Add Child Requirement");
-//		if (editMode == Mode.EDIT) {
-//			if(model.getStatus() == RequirementStatus.NEW ||
-//					model.getStatus() == RequirementStatus.OPEN ||
-//					model.getStatus() == RequirementStatus.INPROGRESS){
-//				//createChildRequirement = new JButton("Add Child Requirement");
-//				//createChildRequirement.setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this.getParent())));
-//			}
-//		}
 		
 		//make sit so that all combo boxes will have black text when disabled for easier readability
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
@@ -301,7 +304,7 @@ public class RequirementPanel extends JPanel{
 		txtDescription.addKeyListener(new SaveListener());
 
 		/**Status Listener*/
-		cmbStatus.addActionListener(new StatusListener());
+		//cmbStatus.addActionListener(new StatusListener());
 		
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -317,12 +320,6 @@ public class RequirementPanel extends JPanel{
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		JLabel lblCreatedDate = new JLabel("Date Created:", LABEL_ALIGNMENT);
-		JLabel lblModifiedDate = new JLabel("Date Modified:", LABEL_ALIGNMENT);
-		JLabel lblCreator = new JLabel("Creator:", LABEL_ALIGNMENT);
-		JLabel lblAssignee = new JLabel("Assignee:", LABEL_ALIGNMENT);
-
-		//int labelWidth = lblDescription.getPreferredSize().width;
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -378,31 +375,8 @@ public class RequirementPanel extends JPanel{
 		 cOne.gridwidth = 1;
 		 panelOne.add(txtReleaseNumber, cOne);
 
-		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
-		 if(parent.getReqModel().getRequirement().getEstimateEffort() > 0) {
-			 cmbIteration.setEnabled(true);
-			 cmbIteration.setBackground(Color.WHITE);
-		 }
-		 else
-			 cmbIteration.setEnabled(false);
+		 
 
-		 //Default the save button depending on what is filled in (Title and Description).
-		 if(!parent.getReqModel().getRequirement().getTitle().equals("") && 
-				 !parent.getReqModel().getRequirement().getDescription().equals("") && 
-				 parent.getReqModel().getRequirement().getTitle() != null && 
-				 parent.getReqModel().getRequirement().getDescription() != null){
-			 saveRequirementBottom.setEnabled(true);
-		 }
-		 else{
-			 saveRequirementBottom.setEnabled(false);
-		 }
-
-		 //Move the requirement to the backlog if it is set to OPEN.
-		 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN){
-			 parent.getReqModel().getRequirement().setIteration(Iteration.getBacklog());
-			 cmbIteration.setEnabled(true);
-			 cmbStatus.setEnabled(true);
-		 }
 
 //		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
 //			 deleteRequirementBottom.setEnabled(false);
@@ -424,23 +398,6 @@ public class RequirementPanel extends JPanel{
 		 cmbType.setBackground(Color.WHITE);
 		 panelOne.add(cmbType, cOne);
 		 
-//		 cOne.weightx = 0.5;
-//		 cOne.weighty = 0.5;
-//		 cOne.gridx = 2;
-//		 cOne.gridy = 2;
-//		 cOne.anchor = GridBagConstraints.LINE_START;
-//		 panelOne.add(lblCreator, cOne);
-//
-//		 cOne.weightx = 0.5;
-//		 cOne.weighty = 0.5;
-//		 cOne.gridx = 3;
-//		 cOne.gridy = 2;
-//		 txtCreator.setEnabled(false);
-//		 txtCreator.setText(model.getCreator());
-//		 txtCreator.setDisabledTextColor(Color.BLACK);
-//		 cOne.anchor = GridBagConstraints.LINE_START;
-//		 panelOne.add(txtCreator, cOne);		 
-
 		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
 		 layoutTwo = new GridBagLayout();
@@ -553,19 +510,22 @@ public class RequirementPanel extends JPanel{
 		 panelButtons.setLayout(layoutButtons);
 
 		 cButtons.insets = new Insets(10,10,10,10);
-		 if (editMode == Mode.EDIT) { 
-			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
-					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
-					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-				 cButtons.weightx = 0.5;
-				 cButtons.weighty = 0.5;
-				 cButtons.gridx = 0;
-				 cButtons.gridy = 0;
-				 cButtons.gridwidth = 3;
-				 panelButtons.add(createChildRequirement, cButtons);
-			 }
-		 }
-
+//		 if (parent.getMode() == Mode.EDIT) { 
+//			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
+//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
+//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
+//				 createChildRequirement.setEnabled(false);
+//				 createChildRequirement.setVisible(false);
+//			 }
+//		 }
+		 cButtons.weightx = 0.5;
+		 cButtons.weighty = 0.5;
+		 cButtons.gridx = 0;
+		 cButtons.gridy = 0;
+		 cButtons.gridwidth = 3;
+		 panelButtons.add(createChildRequirement, cButtons);
+		 
+		 
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 0;
@@ -662,33 +622,7 @@ public class RequirementPanel extends JPanel{
 		 splitPane.resetToPreferredSizes();
 		 this.add(splitPane, BorderLayout.CENTER);
 
-		 //depending on the mode, disable certain components
-		 if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
-			 cmbStatus.setEnabled(false);
-			 txtActual.setEnabled(false);
-		 }
 
-		 if (editMode == Mode.CHILD) {
-			 cmbIteration.setEnabled(false);
-			 txtReleaseNumber.setEnabled(false);
-		 }
-
-		 if(editMode == Mode.EDIT && !parent.getReqModel().getRequirement().isTopLevelRequirement()){
-			 cmbStatus.setEnabled(false);
-			 cmbIteration.setEnabled(false);
-			 txtReleaseNumber.setEnabled(false);
-			 txtActual.setEnabled(false);
-
-		 }
-		 
-		 // depending on the status and sub-requirements, disable certain components
-
-		 if (parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
-				 || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
-			 //TODO: uncomment the next line once busy waiting issue is fixed
-			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
-			 txtEstimate.setEnabled(false);
-		 }
 		 
 //		 if (model.getChildRequirementIds().isEmpty()) {
 //			 setDeleteEnabled(false);
@@ -795,11 +729,11 @@ public class RequirementPanel extends JPanel{
 	}
 
 	
+//	public void setUpPanel(){
+//		setUpPanel(Mode.EDIT);
+//	}
 	public void setUpPanel(){
-		setUpPanel(Mode.EDIT);
-	}
-	public void setUpPanel(Mode editMode){
-		this.editMode = editMode;
+		
 		//updateFields();
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -846,6 +780,7 @@ public class RequirementPanel extends JPanel{
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(hv.getHistoryList());
+		requirement.updateAcceptanceTests(atv.getList());
 		requirement.setAssignee(av.getAssignedUserAL());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
@@ -871,7 +806,7 @@ public class RequirementPanel extends JPanel{
 	 * @return the edits the mode
 	 */
 	public Mode getEditMode() {
-		return editMode;
+		return parent.getMode();
 	}
 
 
@@ -886,51 +821,6 @@ public class RequirementPanel extends JPanel{
 
 
 
-	/**
-	 * The listener interface for receiving status events.
-	 * The class that is interested in processing a status
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addStatusListener<code> method. When
-	 * the status event occurs, that object's appropriate
-	 * method is invoked.
-	 *
-	 * @see StatusEvent
-	 */
-	public class StatusListener implements ActionListener{
-		
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed(ActionEvent status) {
-			JComboBox cb = (JComboBox)status.getSource();
-			System.out.println(cb.getSelectedItem());
-
-			changeIteration(cb);
-		}
-		
-		/**
-		 * Change the iteration to which a requirement belongs.
-		 *
-		 * @param cb the JComboBox which contains all the iterations.
-		 */
-		public void changeIteration(JComboBox cb){
-			if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId() ){
-				cmbIteration.setSelectedIndex(cmbIteration.getItemCount()-1);
-				cmbIteration.setEnabled(false);
-			} else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)  && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId()){ 
-				for (int i = 0; i < cmbIteration.getItemCount(); i++) {
-					if (parent.getReqModel().getRequirement().getIteration().toString().equals(knownIterations[i].toString()) ){
-						cmbIteration.setSelectedIndex(i);
-						if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE && parent.getReqModel().getRequirement().getParentRequirementId() == -1){
-							cmbIteration.setEnabled(true);
-						}
-					}
-				}
-			}
-		}
-	}
 
 	//TODO: class exists in action package, refactor
 	/**
@@ -1010,19 +900,19 @@ public class RequirementPanel extends JPanel{
 						System.out.println("Found Index!");
 					}
 				}
+				
 				if(!listHasStatus){
 					cmbStatus.addItem(setTo.toString());
 					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
-					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
 				}
 			}
 			runThatForLoop = false;
 
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN && editMode != Mode.CHILD){
-				cmbStatus.setEnabled(enabled);
+			if (pLevel == RMPermissionsLevel.ADMIN){
 				cmbStatus.setBackground(Color.WHITE);
+				cmbStatus.setEnabled(enabled);
 			}
 		}
 
@@ -1081,10 +971,9 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			if(editMode != Mode.CHILD){
-				cmbIteration.setEnabled(enabled);
-				cmbIteration.setBackground(Color.WHITE);
-			}
+			
+			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
 		}
 	}
 
@@ -1303,6 +1192,7 @@ public class RequirementPanel extends JPanel{
 	public Iteration[] getKnownIterations() {
 		return knownIterations;
 	}
+	
 
 	/**
 	 * @return the hv
@@ -1310,6 +1200,23 @@ public class RequirementPanel extends JPanel{
 	public HistoryView getHv() {
 		return hv;
 	}
+	
+	/**
+	 * @return the atv
+	 */
+	public AcceptanceTestsView getAtv() {
+		return atv;
+	}
+
+	/**
+	 * @param atv: the atv to set
+	 */
+	public void setAtv(AcceptanceTestsView atv) {
+		this.atv = atv;
+	}
+
+
+
 
 	/**
 	 * @return the txtActual
@@ -1319,4 +1226,11 @@ public class RequirementPanel extends JPanel{
 	}
 
 
+	public void setIterations(Iteration[] iterations){
+		this.knownIterations = iterations;
+		this.cmbIteration.removeAllItems();
+		for (int i = 0 ; i < iterations.length; i ++)
+			this.cmbIteration.addItem(iterations[i]);
+		
+	}
 }

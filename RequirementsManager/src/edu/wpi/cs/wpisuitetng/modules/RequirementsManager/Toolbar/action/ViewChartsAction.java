@@ -48,7 +48,7 @@ public class ViewChartsAction extends AbstractAction {
 	 * @param controller
 	 */
 	public ViewChartsAction(MainTabController controller) {
-		super("View Bar Chart");
+		super("View Charts");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}

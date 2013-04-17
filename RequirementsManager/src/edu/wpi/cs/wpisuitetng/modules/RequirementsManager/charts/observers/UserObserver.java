@@ -55,7 +55,7 @@ public class UserObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
 		//this.panel.setAllusers(users);
-		this.view.recieveServerUsers(users);
+		this.view.receiveServerUsers(users);
 		//CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 

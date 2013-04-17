@@ -23,8 +23,10 @@ import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -51,7 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @author Tianyu Li
  * @modified by Chris H on Mar 24
  * @modified by Tianyu Li on Apr 9
- * @version Mar 21, 2013
+ * @version Apr 14, 2013
  */
 @SuppressWarnings("serial")
 public class RequirementListPanel extends JPanel{
@@ -155,7 +157,7 @@ public class RequirementListPanel extends JPanel{
 
 		});
 
-		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
+		setUpStatusColumn();
 	}
 
 	/**
@@ -214,6 +216,20 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public void refreshList() {
 		retrieveController.refreshData();
+	}
+	
+	/**
+	 * Set the drop down menu to the status
+	 */
+	private void setUpStatusColumn() {
+		JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
+		comboBox.addItem(RequirementStatus.NEW);
+		comboBox.addItem(RequirementStatus.OPEN);
+		comboBox.addItem(RequirementStatus.INPROGRESS);
+		comboBox.addItem(RequirementStatus.COMPLETE);
+		comboBox.addItem(RequirementStatus.DELETED);
+		
+		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
 	}
 
 	/**

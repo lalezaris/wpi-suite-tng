@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Hanna
  *  Tushar Narayan
+ *  Tianyu Li
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
@@ -22,8 +23,10 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
@@ -196,19 +199,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		RMPermissionsLevel pLevel = CurrentUserPermissions
 				.getCurrentUserPermission();
-		if (pLevel == RMPermissionsLevel.ADMIN) {
-			if (col == 5) {
-				if (data.get(row)[3].equals(RequirementStatus.INPROGRESS)
-						|| data.get(row)[3].equals(RequirementStatus.COMPLETE)) {
-					JFrame debugger = new JFrame("Input value error");
-					JOptionPane.showMessageDialog(debugger, "Can not edit it since it is in progress or completed");
-					return false;
-				} else
-					return true;
-			} else
-				return false;
-		} else
-			return false;
+//		if () {
+//			return false;
+//		}
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -221,24 +215,38 @@ public class RequirementTableModel extends AbstractTableModel {
 					+ " (an instance of "
 					+ value.getClass() + ")");
 		}
-		JFrame debugger = new JFrame("Input value error");
-
-		try {
-			Integer.parseInt((String)value);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
-			return;
-		}
-
-		if (Integer.parseInt((String)value) < 0) {
-			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
-			return;
+		
+		Requirement temp = requirements.get(row);
+		
+		switch (col) {
+		case 0 :
+			requirements.get(row).setId(Integer.parseInt((String)value));
+		case 1:	
+			requirements.get(row).setTitle((String)value);
+		case 2:
+			requirements.get(row).setDescription((String)value);
+		case 3:
+			requirements.get(row).setStatus(RequirementStatusConventer(value));
+		case 4:
+			requirements.get(row).setPriority(RequirementPriorityConverter(value));
+		case 5:
+			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+		case 6:
+			requirements.get(row).setIteration((Iteration)value);
+		case 7:
+			requirements.get(row).setParentRequirementId(Integer.parseInt((String)value));
+		case 8:
+			requirements.get(row).setActualEffort(Integer.parseInt((String)value));
 		}
 		
-		requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+//		if () {
+//			requirements.set(row, temp);
+//			return;
+//		}
+		
 
 		Object[] element = data.get(row);
-		element[5] = value;
+		element[col] = value;
 		data.set(row, element);
 		fireTableCellUpdated(row, col);  
 
@@ -265,7 +273,41 @@ public class RequirementTableModel extends AbstractTableModel {
 		System.out.println("--------------------------");
 	}
 
+	private RequirementStatus RequirementStatusConventer (Object input) {
+		String value = ((String) input).toUpperCase();
 		
+		switch (value) {
+		case "NEW":
+			return RequirementStatus.NEW;
+		case "OPEN":
+			return RequirementStatus.OPEN;
+		case "INPROGRESS":
+			return RequirementStatus.INPROGRESS;
+		case "COMPLETE":
+			return RequirementStatus.COMPLETE;
+		case "DELETED":
+			return RequirementStatus.DELETED;
+		}
+		
+		return null;
+	}
+	
+
+	private RequirementPriority RequirementPriorityConverter(Object input) {
+		String value = ((String) input).toUpperCase();
+		
+		switch (value) {
+		case "HIGH":
+			return RequirementPriority.HIGH;
+		case "MEDIUM":
+			return RequirementPriority.MEDIUM;
+		case "LOW":
+			return RequirementPriority.LOW;
+		case "	":
+			return RequirementPriority.BLANK;
+		}
+		return null;
+	}
 
 	/**
 	 * Clear requirements.

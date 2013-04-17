@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class BatchRequirementEditRequestObserver implements RequestObserver {
 	/** The retrieve defect controller using this observer */
+	@SuppressWarnings("rawtypes")
 	protected BatchRequirementEditController controller;
 
 	/**
@@ -37,6 +38,7 @@ public class BatchRequirementEditRequestObserver implements RequestObserver {
 	 *
 	 * @param controller the controller managing the request
 	 */
+	@SuppressWarnings("rawtypes")
 	public BatchRequirementEditRequestObserver(BatchRequirementEditController controller) {
 		this.controller = controller;
 	}

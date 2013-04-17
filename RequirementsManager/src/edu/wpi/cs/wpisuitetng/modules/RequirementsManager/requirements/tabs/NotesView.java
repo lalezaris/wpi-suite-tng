@@ -27,9 +27,7 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 
 /**
  * Tab panel for adding and viewing notes.
@@ -38,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @edited Michael French
  * @version Mar 27, 2013
  */
+@SuppressWarnings("serial")
 public class NotesView extends JPanel {
 
 	/** The layout manager for this panel */

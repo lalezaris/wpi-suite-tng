@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 
 /**
  * The JPanel for all requirement history.
- * TODO: implementation
  *
  * @author Arica Liu
  * @author Sam Lalezari
@@ -35,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version April 2nd, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class HistoryView extends JPanel {	
 	private JList<HistoricalChange> list;
 	private DefaultListModel<HistoricalChange> listModel;
@@ -47,20 +46,12 @@ public class HistoryView extends JPanel {
 	 * 
 	 * @param req Requirement to view the history of 
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HistoryView(RequirementView parent) {
 		super(new BorderLayout());
-		//this.setHistoryList(parent.getReqModel().getRequirement().getHistory());
-		//int numObjects = historyAL.size(); // NUMBER OF HistoryObjects to add
-
 
 		listModel = new DefaultListModel<HistoricalChange>();
-//
-//		for(int i = 0; i <numObjects; i++){
-//			if(!listModel.contains(historyAL.get(i))){
-//				listModel.add(0, historyAL.get(i));}
-//		}
 
-		//Create the list and put it in a scroll pane.
 		list = new JList(listModel);
 		list.setLayoutOrientation(JList.VERTICAL);
 

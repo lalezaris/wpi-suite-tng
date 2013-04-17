@@ -24,6 +24,7 @@ import javax.swing.JPanel;
  * @version Mar 25, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AttachmentsView extends JPanel {
 	public AttachmentsView() {
 		JLabel attachmentsLabel = new JLabel("Attachments");

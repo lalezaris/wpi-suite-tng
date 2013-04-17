@@ -1,7 +1,7 @@
 //// THOSE WHO FEEL THAT THEY ARE BETTER THAN COMMENTS -- WALL OF SHAME \\\\
 
-em dubs french - Michael French
-chrissy-hanny-boo-boo - Chris Hanna
+em dubs french, M. French Fried - Michael French
+chrissy-hanny-boo-boo, channamontana, Christina Hannah, chrisfresher hanmiester - Chris Hanna
 
 //// Documents checked for javadoc comments
 
@@ -86,3 +86,25 @@ requirements
   	RetrieveAllRequirementsController.java
   	RetrieveRequirementController.java
   	SaveRequirementController.java
+  observer
+  	BatchRequirementEditRequestObserver.java
+  	BatchUpdateRequirementRequestObserver.java
+  	CreateRequirementRequestObserver.java
+  	RetrieveAllIterationsObserver.java
+  	RetrieveAllRequirementsRequestObserver.java
+  	RetrieveRequirementRequestObserver.java
+  	UpdateRequirementRequestObserver.java
+  tabs
+  	AcceptanceTestView.java
+  	AssigneeView.java
+  	AttachmentsView.java
+  	HistoryView.java
+  	HistoryViewCellRenderer.java
+  	NotesView.java
+  	RequirementTabsView.java
+  IntegerField.java
+  JPlaceholderTextField.java
+  RequirementModel.java
+  RequirmentPanel.java
+  RequirementView.java
+  StatusListener.java

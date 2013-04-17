@@ -154,8 +154,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		//this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
-		
-
 	}
 	
 	
@@ -486,6 +484,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if(getReqModel().getUneditedRequirement().getStatus().equals(RequirementStatus.COMPLETE)){
 			mainPanel.getCreateChildRequirement().setEnabled(false);				
 		}
+		
+		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
+		mainPanel.getSplitPane().setDividerLocation(0.35);
 		
 	}
 	

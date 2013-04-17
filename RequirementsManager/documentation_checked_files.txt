@@ -1,3 +1,10 @@
+//// THOSE WHO FEEL THAT THEY ARE BETTER THAN COMMENTS -- WALL OF SHAME \\\\
+
+em dubs french - Michael French
+chrissy-hanny-boo-boo - Chris Hanna
+
+//// Documents checked for javadoc comments
+
 charts
   controller
 	CharactersiticListener.java
@@ -65,3 +72,17 @@ requirements
   	SaveChangesAction.java
   	TextAreaUpdateListener.java
   	TextUpdateListener.java
+  controller
+  	AddAcceptanceTestController.java
+  	AddAssigneeController.java
+  	AddNoteController.java
+  	BatchRequirementEditController.java
+  	CancelRequirementController.java
+  	CreateChildRequirmentController.java
+  	DeleteRequirementController.java
+  	EditAcceptanceTestController.java
+  	RemoveAssigneeController.java
+  	RetrieveAllIterationsController.java
+  	RetrieveAllRequirementsController.java
+  	RetrieveRequirementController.java
+  	SaveRequirementController.java

@@ -128,13 +128,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
 		
-		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-		iterationsController.retrieve();
-		
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);
 			recieveParentController.retrieveParent();
 		}
+		
+		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+		iterationsController.retrieve();
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -446,10 +446,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
+				System.out.println("Parent: " + parentRequirement.getTitle());
 				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
 					knownIts.add(knownIterations[i]);
 				}
 			} else {
+				System.out.println("No parent...");
 				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
 					knownIts.add(knownIterations[i]);
 				} else if (knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){

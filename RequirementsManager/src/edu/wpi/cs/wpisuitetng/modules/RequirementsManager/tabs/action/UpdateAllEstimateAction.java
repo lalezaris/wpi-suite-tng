@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.Update
  * @version Apr 10, 2013
  * 
  */
+@SuppressWarnings("serial")
 public class UpdateAllEstimateAction extends AbstractAction {
 
 	private final UpdateAllRequirementsController controller;

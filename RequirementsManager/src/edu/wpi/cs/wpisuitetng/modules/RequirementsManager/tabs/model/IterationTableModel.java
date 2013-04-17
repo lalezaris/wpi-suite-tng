@@ -9,17 +9,20 @@
  *
  * Contributors:
  *  Lauren Kahn
+ *  Michael Perrone
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 
@@ -27,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
  * Model for the Iteration Table.
  *
  * @author Lauren Kahn
+ * @author Michael Perrone
  *
  * @version Apr 8, 2013
  *
@@ -37,6 +41,12 @@ public class IterationTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Start Date", "End Date"};
 	protected ArrayList<Object[]> data = new ArrayList<Object[]>();
+	
+	public static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
+	//if the column has been sorted in ascending order (down arrow)
+
+	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
+	//if the column has been sorted in descending order(up arrow)
 
 	/* Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
@@ -151,5 +161,50 @@ public class IterationTableModel extends AbstractTableModel {
 	public int getRowID(int row)
 	{
 		return Integer.parseInt( getValueAt(row, 0).toString() );
+	}
+	
+	/** Sorts the table in ascending order bases on the column given. If it was already 
+	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
+	 * It will also append a suffix to the header of the column being sorted indicating
+	 * the order of the sort.
+	 * 
+	 *  @param col the column by which the table is sorted.
+	 */
+	public void sortTable(final int col, TableColumnModel cm){
+		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
+			return;
+		}
+
+		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		final boolean wasJustAscending = currentHeader.equals(columnNames[col]+ASCENDING_SUFFIX);//true if the header is the original
+		//false if it has something appended to it
+
+		Comparator<Object[]> comparator = new Comparator<Object[]>(){
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			@Override
+			public int compare(Object[] a, Object[] b){
+				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);
+			}
+			@Override
+			public boolean equals(Object o){
+				return false;
+			}
+		};
+		Object[][] dataArray = new Object[data.size()][data.get(0).length];
+		for(int i=0; i<data.size(); i++){
+			dataArray[i] = data.get(i);
+		}
+		
+		Arrays.sort(dataArray , comparator);
+		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
+		
+		//reset the headers
+		for(int i=0; i<cm.getColumnCount(); i++){
+			cm.getColumn(i).setHeaderValue(columnNames[i]);
+		}
+
+		//set new header for ascending or descending
+		currentHeader = cm.getColumn(col).getHeaderValue().toString();
+		cm.getColumn(col).setHeaderValue(wasJustAscending ? currentHeader+DESCENDING_SUFFIX : currentHeader+ASCENDING_SUFFIX );
 	}
 }

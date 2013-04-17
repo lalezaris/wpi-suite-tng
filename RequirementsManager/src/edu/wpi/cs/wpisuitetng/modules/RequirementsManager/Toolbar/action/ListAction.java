@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * @version Mar 21, 2013
  *
  */
+@SuppressWarnings("serial")
 public class ListAction extends AbstractAction {
 	private final MainTabController controller;
 	

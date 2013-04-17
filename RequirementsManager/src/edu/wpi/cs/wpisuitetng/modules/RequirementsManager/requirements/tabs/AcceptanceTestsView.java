@@ -1,30 +1,45 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  M. French Fried
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AcceptanceTestsView creates a panel for viewing acceptance tests.
+ * 
+ * @author Michael Frenched
+ */
+@SuppressWarnings({"rawtypes", "serial"})
 public class AcceptanceTestsView extends JPanel{
 	
 	protected GridBagLayout layout;
@@ -42,6 +57,12 @@ public class AcceptanceTestsView extends JPanel{
 	//the arraylist that actually holds the Tests
 	ArrayList<AcceptanceTest> list;
 	
+	/**
+	 * Instantiates a new acceptance tests view.
+	 *
+	 * @param rView the parent requirement view 
+	 */
+	@SuppressWarnings("unchecked")
 	public AcceptanceTestsView(RequirementView rView){
 		list = new ArrayList();
 //		list = req.getAcceptanceTests();
@@ -56,6 +77,10 @@ public class AcceptanceTestsView extends JPanel{
 	}
 	
 	
+	/**
+	 * Adds the components.
+	 */
+	@SuppressWarnings("unchecked")
 	protected void addComponents() {
 		//create Panels
 		JPanel Ptop = new JPanel();
@@ -219,6 +244,13 @@ public class AcceptanceTestsView extends JPanel{
 	             System.out.println("clicked on Item " + index);
 	             txtTitle.setText(list.get(index).getTitle());
 	             txtBody.setText(list.get(index).getBody());
+	             if (hasTitle(txtTitle.getText())){
+					addTest.setEnabled(false);
+					editTest.setEnabled(true);
+				}else{
+					addTest.setEnabled(true);
+					editTest.setEnabled(false);
+				}
 	             
 	             if (list.get(index).getStatus().compareTo("Passed") == 0){
 		             	cmbStatus.setSelectedItem(atStatuses[1]);
@@ -231,6 +263,7 @@ public class AcceptanceTestsView extends JPanel{
 		     }
 		 };
 		 listDisplay.addMouseListener(mouseListener);
+		 txtTitle.addKeyListener(new ButtonsListener());
 		 
 		 //setup permission features
 		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
@@ -245,10 +278,13 @@ public class AcceptanceTestsView extends JPanel{
 			 //full access
 			 break;
 		 }
+		 
 
 	}
 	
-	//disables the components of the AcceptanceTest view
+	/**
+	 * disables the components of the AcceptanceTest view.
+	 */
 	public void disableAll(){
 		addTest.setEnabled(false);
 		editTest.setEnabled(false);
@@ -261,20 +297,32 @@ public class AcceptanceTestsView extends JPanel{
 		cmbStatus.setEnabled(false);
 	}
 	
-	//returns weather or not both the title field
-	//and body field are filled in
+
+	/**
+	 * returns weather or not both the title field and body field are filled in.
+	 *
+	 * @return true, if both title and body fields are filled in. False otherwise.
+	 */
 	public boolean notReady(){
 		String t = txtTitle.getText().trim();
 		System.out.println(t);
 		String b = txtBody.getText().trim();
 		System.out.println(b);
-		return (b == null && b == "" && t == null && t == "");
+		return ((b == null || b.equals("")) && (t == null || t.equals("")));
 	}
 	
+	/**
+	 * Gets the text area.
+	 *
+	 * @return the text area
+	 */
 	public JTextArea getTextArea(){
 		return this.txtBody;
 	}
 	
+	/**
+	 * Update mouse listener.
+	 */
 	public void updateMouseListener(){
 		MouseListener mouseListener = new MouseAdapter() {
 		     public void mouseClicked(MouseEvent e) {
@@ -287,6 +335,11 @@ public class AcceptanceTestsView extends JPanel{
 		 listDisplay.addMouseListener(mouseListener);
 	}
 	
+	/**
+	 * Adds the test to list.
+	 *
+	 * @param a the acceptance test to add to the listModel
+	 */
 	public void addTestToList(AcceptanceTest a){
 		boolean hasTest = false;
 		int testLocation = 0;
@@ -311,6 +364,11 @@ public class AcceptanceTestsView extends JPanel{
 		}
 	}
 	
+	/**
+	 * Replace test.
+	 *
+	 * @param a the acceptance test to replace
+	 */
 	public void replaceTest(AcceptanceTest a){
 		boolean hasTest = false;
 		int testLocation = 0;
@@ -339,35 +397,69 @@ public class AcceptanceTestsView extends JPanel{
 		}
 	}
 	
+	/**
+	 * Clear body txt.
+	 */
 	public void clearBodyTxt(){
 		txtBody.setText("");
 	}
 	
+	/**
+	 * Clear title txt.
+	 */
 	public void clearTitleTxt(){
 		txtTitle.setText("");
 	}
 	
+	/**
+	 * Gets the title txt.
+	 *
+	 * @return the title txt
+	 */
 	public String getTitleTxt(){
 		return txtTitle.getText();
 	}
 	
+	/**
+	 * Gets the body txt.
+	 *
+	 * @return the body txt
+	 */
 	public String getBodyTxt(){
 		return txtBody.getText();
 	}
 	
+	/**
+	 * Gets the status txt.
+	 *
+	 * @return the status txt
+	 */
 	public String getStatusTxt(){
 		System.out.println("Status: " + cmbStatus.getSelectedItem().toString());
 		return cmbStatus.getSelectedItem().toString();
 	}
 	
+	/**
+	 * Gets the list.
+	 *
+	 * @return the list
+	 */
 	public ArrayList<AcceptanceTest> getList(){
 		return this.list;
 	}
 	
+	/**
+	 * Gets the list size.
+	 *
+	 * @return the list size
+	 */
 	public int getListSize(){
 		return list.size();
 	}
 	
+	/**
+	 * Update list.
+	 */
 	public void updateList(){
 		for(int i = 0; i < list.size(); i++){
 			if(!listModel.contains(list.get(i))){
@@ -376,7 +468,9 @@ public class AcceptanceTestsView extends JPanel{
 	}
 
 	/**
-	 * @param list: the list to set
+	 * Sets the list.
+	 *
+	 * @param list the new list
 	 */
 	public void setList(ArrayList<AcceptanceTest> list) {
 		this.list = list;
@@ -389,5 +483,63 @@ public class AcceptanceTestsView extends JPanel{
 		this.revalidate();
 	}
 	
+	/**
+	 * checks if the given title is in the list already. returns true if so.
+	 *
+	 * @param s the s
+	 * @return true, if successful
+	 */
+	public boolean hasTitle(String s){
+		boolean result = false;
+		for (int i = 0; i < list.size(); i++){
+			if (list.get(i).getTitle().compareTo(s) == 0){
+				result = true;
+			}
+		}
+		return result;
+	}
+	
+	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
+		/**
+	 * If the title written is already in the list, disable the addTest button and enable the
+	 * editTest button. Otherwise, do the opposite.
+	 *
+	 * @see ButtonsEvent
+	 */
+		public class ButtonsListener implements KeyListener {
+
+			/**
+			 * Action performed.
+			 *
+			 * @param estimate the estimate
+			 */
+			public void actionPerformed(ActionEvent estimate) {}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyPressed(KeyEvent e) {}
+
+			/* (non-Javadoc)
+			 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (hasTitle(txtTitle.getText())){
+					addTest.setEnabled(false);
+					editTest.setEnabled(true);
+				}else{
+					addTest.setEnabled(true);
+					editTest.setEnabled(false);
+				}
+			}
+		}
 	
 }

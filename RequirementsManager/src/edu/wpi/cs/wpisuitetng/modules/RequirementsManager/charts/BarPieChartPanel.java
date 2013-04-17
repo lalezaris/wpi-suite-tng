@@ -19,16 +19,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.util.Rotation;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 
 /**
@@ -37,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
  * @author Evan Polekoff
  * @author Ned Shelton
  */
+@SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
 
 	/* the parent view*/
@@ -45,8 +42,8 @@ public class BarPieChartPanel extends JPanel {
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
-	/** The bar graph. */
-	JFreeChart barGraph;
+	/** The chart. */
+	private JFreeChart displayedChart;
 	
 	/** The chart box. */
 	private JComboBox chartBox;
@@ -102,6 +99,7 @@ public class BarPieChartPanel extends JPanel {
 	 * Put the buttons and stuff on the view.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
 		//Make a toolbar.
 		toolbar = new DefaultToolbarView();
@@ -166,7 +164,7 @@ public class BarPieChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(barGraph, TypeOfChart.Bar);
+		setChart(displayedChart, TypeOfChart.Bar);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -177,7 +175,8 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setChart(JFreeChart newChart, TypeOfChart chartType){
 		overallPanel.remove(graphPanel);
-
+		displayedChart = newChart;
+		
 		graphPanel = new ChartPanel(newChart);
 		GridBagConstraints cGraph = new GridBagConstraints();
 
@@ -215,6 +214,8 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setEnabled(enabled);
+		if(!enabled)
+			subDivideBox.setSelectedIndex(0);
 	}
 	
 	//Combo Box Getters
@@ -240,4 +241,11 @@ public class BarPieChartPanel extends JPanel {
 		return subDivideBox;
 	}
 
+	/**
+	 * @return the displayedChart
+	 */
+	public JFreeChart getDisplayedChart() {
+		return displayedChart;
+	}
+	
 }

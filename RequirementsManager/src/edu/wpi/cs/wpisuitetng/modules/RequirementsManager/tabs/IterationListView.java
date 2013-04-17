@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @author Lauren Kahn
  * @version Apr 8, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class IterationListView extends JPanel implements IToolbarGroupProvider {
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton;

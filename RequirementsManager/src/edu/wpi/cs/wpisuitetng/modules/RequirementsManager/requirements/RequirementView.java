@@ -21,7 +21,6 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -58,10 +57,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * 
  * @author Chris Dunkers 
  * @author Joe Spicola
+ * @author Michael French
  *
- * @version Mar 17, 2013
+ * @version April 17, 2013
  *
  */
+@SuppressWarnings({"serial", "unused"})
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
@@ -172,11 +173,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		try{ estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The estimate is too big to save. Error.");
+			mainPanel.getLblEstimateError().setVisible(true);  
 			estimate = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		try{ actual = Integer.parseInt(mainPanel.getTxtActual().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The actual was just too dayum big!. Error");
+			mainPanel.getLblActualError().setVisible(true);
 			actual = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		if (estimate == -1 && actual == -1){
@@ -308,7 +311,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return reqModel;
 	}
 
-	public void setUp(Requirement requirement, Mode editMode) {
+	@SuppressWarnings("unchecked")
+	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
 		
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
 		mainPanel.getCmbStatus().removeAllItems();
@@ -375,21 +379,20 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 
 		 // depending on the status and sub-requirements, disable certain components
 
-		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
+		 if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
 				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
 			 //TODO: uncomment the next line once busy waiting issue is fixed
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
 			 mainPanel.getTxtEstimate().setEnabled(false);
 		 }
 		
-		setUpPermissions();
+		setUpPermissions(pLevel);
 		//mainPanel.setUpPanel();
 	}
 	
-	private void setUpPermissions(){
+	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		 if(!this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+		 if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel == RMPermissionsLevel.UPDATE){
 			 pLevel = RMPermissionsLevel.NONE;
 		 }
@@ -424,7 +427,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 		 
 		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 
@@ -468,10 +471,21 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		
 		
-		setUp(this.reqModel.getRequirement(), mode);
+		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
 		
 	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
+		
+		//if the requirement is being created dont allow the user to create children
+		if(mode == RequirementPanel.Mode.CREATE){
+			mainPanel.getCreateChildRequirement().setEnabled(false);
+			mainPanel.getCreateChildRequirement().setVisible(false);
+		}
+		
+		//if the requirement is completed disable the child requirement 
+		if(getReqModel().getUneditedRequirement().getStatus().equals(RequirementStatus.COMPLETE)){
+			mainPanel.getCreateChildRequirement().setEnabled(false);				
+		}
 		
 	}
 	

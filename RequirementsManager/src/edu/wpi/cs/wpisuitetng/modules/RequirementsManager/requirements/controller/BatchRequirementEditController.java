@@ -99,6 +99,7 @@ public class BatchRequirementEditController<T> {
 	 *
 	 * @param requirement the requirement to change
 	 */
+	@SuppressWarnings("unchecked")
 	public void changeSingleRequirement(Requirement requirement) {
 		/* depending on the specified field, make the change for this specific requirement */
 		switch (changeField) {

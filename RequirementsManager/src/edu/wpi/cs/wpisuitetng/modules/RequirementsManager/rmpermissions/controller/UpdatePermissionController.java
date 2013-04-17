@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPerm
  * @version Apr 2, 2013
  *
  */
+@SuppressWarnings({"rawtypes","serial"})
 public class UpdatePermissionController extends AbstractAction {
 	
 	protected JList noneUsers,updateUsers,adminUsers;
@@ -50,6 +51,7 @@ public class UpdatePermissionController extends AbstractAction {
 	/* 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@SuppressWarnings({ "unused", "unchecked" })
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
@@ -120,6 +122,7 @@ public class UpdatePermissionController extends AbstractAction {
 	 * @param newElements a list of the elements to be put into the model
 	 * @return the model with the given elements
 	 */
+	@SuppressWarnings("unchecked")
 	private DefaultListModel getNewModel(List<String> newElements){
 		DefaultListModel newModel = new DefaultListModel();
 		for(int i = 0; i < newElements.size(); i++){

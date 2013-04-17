@@ -12,6 +12,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * The panel displayed when editing the permissions for the project users.
@@ -32,6 +34,7 @@ import javax.swing.JPanel;
  * @version Apr 1, 2013
  *
  */
+@SuppressWarnings({"rawtypes", "serial"})
 public class UserPermissionPanel extends JPanel{
 
 	boolean hasChanged = false;
@@ -74,6 +77,7 @@ public class UserPermissionPanel extends JPanel{
 	/**
 	 * Adds the components.
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
 		/* create a panel to store everything in*/
 		JPanel listPanel = new JPanel();
@@ -83,13 +87,14 @@ public class UserPermissionPanel extends JPanel{
 		/*initialize all of the components to be displayed*/
 		noneUsersList = new DefaultListModel();
 		lstNoneUsers = new JList(noneUsersList);
-		lstNoneUsers.setFixedCellWidth(75);
+		lstNoneUsers.setFixedCellWidth(250);
 		updateUsersList = new DefaultListModel();
 		lstUpdateUsers = new JList(updateUsersList);
-		lstUpdateUsers.setFixedCellWidth(75);
+		lstUpdateUsers.setFixedCellWidth(250);
 		adminUsersList = new DefaultListModel();
 		lstAdminUsers = new JList(adminUsersList);
-		lstAdminUsers.setFixedCellWidth(75);
+		lstAdminUsers.setFixedCellWidth(250);
+		
 
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton("Move to None");
@@ -127,99 +132,96 @@ public class UserPermissionPanel extends JPanel{
 
 		/*add all of the components to the btnPanel*/
 		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 0;
-		cBtn.gridy = 0;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(btnNone, cBtn);
+		cPanel.fill = GridBagConstraints.HORIZONTAL;
+		cPanel.gridx = 0;
+		cPanel.gridy = 0;
+		cPanel.weightx = 0.5;
+		cPanel.weighty = 0.5;
+		cPanel.gridheight = 1;
+		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		listPanel.add(btnNone, cPanel);
 
 		cBtn.anchor = GridBagConstraints.FIRST_LINE_START;
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 0;
-		cBtn.gridy = 1;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(btnUpdate, cBtn);
+		cPanel.fill = GridBagConstraints.HORIZONTAL;
+		cPanel.gridx = 1;
+		cPanel.gridy = 0;
+		cPanel.weightx = 0.5;
+		cPanel.weighty = 0.5;
+		cPanel.gridheight = 1;
+		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		listPanel.add(btnUpdate, cPanel);
 
 		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBtn.fill = GridBagConstraints.HORIZONTAL;
-		cBtn.gridx = 0;
-		cBtn.gridy = 2;
-		cBtn.weightx = 0.5;
-		cBtn.weighty = 0.5;
-		cBtn.gridheight = 1;
-		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		btnPanel.add(btnAdmin, cBtn);
-
-//		cBtn.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		cBtn.fill = GridBagConstraints.HORIZONTAL;
-//		cBtn.gridx = 0;
-//		cBtn.gridy = 3;
-//		cBtn.weightx = 0.5;
-//		cBtn.weighty = 0.5;
-//		cBtn.gridheight = 1;
-//		cBtn.insets = new Insets(10,10,10,0); //top,left,bottom,right
-//		btnPanel.add(btnUpdateAll, cBtn);
+		cPanel.fill = GridBagConstraints.HORIZONTAL;
+		cPanel.gridx = 2;
+		cPanel.gridy = 0;
+		cPanel.weightx = 0.5;
+		cPanel.weighty = 0.5;
+		cPanel.gridheight = 1;
+		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		listPanel.add(btnAdmin, cPanel);
 
 		/*add all of the components to the listPanel*/
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cPanel.fill = GridBagConstraints.NONE;
 		cPanel.gridx = 0;
-		cPanel.gridy = 0;
+		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridwidth = 1;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		listPanel.add(lblNoneUsers, cPanel);
-
+		
+		JScrollPane noneScrollPane = new JScrollPane(lstNoneUsers);
+		noneScrollPane.setPreferredSize(new Dimension(300,600));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
-		cPanel.gridy = 1;
+		cPanel.gridy = 2;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(lstNoneUsers, cPanel);
+		listPanel.add(noneScrollPane, cPanel);
 
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 1;
-		cPanel.gridy = 0;
+		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridwidth = 1;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		listPanel.add(lblUpdateUsers, cPanel);
 
+		JScrollPane updateScrollPane = new JScrollPane(lstUpdateUsers);
+		updateScrollPane.setPreferredSize(new Dimension(300,600));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 1;
-		cPanel.gridy = 1;
+		cPanel.gridy = 2;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(lstUpdateUsers, cPanel);
+		listPanel.add(updateScrollPane, cPanel);
 
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 2;
-		cPanel.gridy = 0;
+		cPanel.gridy = 1;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridwidth = 1;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		listPanel.add(lblAdminUsers, cPanel);
 
+		JScrollPane adminScrollPane = new JScrollPane(lstAdminUsers);
+		adminScrollPane.setPreferredSize(new Dimension(300,600));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 2;
-		cPanel.gridy = 1;
+		cPanel.gridy = 2;
 		cPanel.weightx = 0.5;
 		cPanel.weighty = 0.5;
 		cPanel.gridheight = 3;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		listPanel.add(lstAdminUsers, cPanel);
+		listPanel.add(adminScrollPane, cPanel);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -231,14 +233,14 @@ public class UserPermissionPanel extends JPanel{
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(btnUpdateAll, cOverall);
 		
-		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
-		cOverall.gridx = 1;
-		cOverall.gridy = 1;
-		cOverall.weightx = 0.1;
-		cOverall.weighty = 0.1;
-		cOverall.gridwidth = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		overallPanel.add(btnPanel, cOverall);
+//		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
+//		cOverall.gridx = 0;
+//		cOverall.gridy = 1;
+//		cOverall.weightx = 0.1;
+//		cOverall.weighty = 0.1;
+//		cOverall.gridwidth = 1;
+//		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+//		overallPanel.add(btnPanel, cOverall);
 
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
@@ -246,7 +248,7 @@ public class UserPermissionPanel extends JPanel{
 		cOverall.weightx = 0.1;
 		cOverall.weighty = 0.1;
 		cOverall.gridwidth = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cOverall.insets = new Insets(0,0,0,0); //top,left,bottom,right
 		overallPanel.add(listPanel, cOverall);
 
 		//add the overall panel to this
@@ -256,7 +258,7 @@ public class UserPermissionPanel extends JPanel{
 		c.weightx = 0.1;
 		c.weighty = 0.1;
 		c.gridwidth = 1;
-		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
+//		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
 	}	
 
@@ -266,6 +268,7 @@ public class UserPermissionPanel extends JPanel{
 	 * @param model the model to be converted
 	 * @return a list of the items in the model
 	 */
+	@SuppressWarnings("unused")
 	private List<String> getAllElementsInModel(DefaultListModel model){
 		List<String> modelElements = new ArrayList<String>();
 		for(int i = 0; i < model.getSize(); i++){

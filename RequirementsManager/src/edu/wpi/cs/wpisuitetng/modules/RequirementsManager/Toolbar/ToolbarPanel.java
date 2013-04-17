@@ -68,6 +68,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JLabel viewUserPermission;
 	private JLabel viewUserName;
 	private JButton viewChart;
+	@SuppressWarnings("unused")
 	private String userName;
 
 	private ToolbarGroupView toolbarGroupIteration;

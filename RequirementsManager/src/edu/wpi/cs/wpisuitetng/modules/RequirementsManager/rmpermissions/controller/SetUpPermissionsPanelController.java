@@ -105,6 +105,7 @@ public class SetUpPermissionsPanelController {
 	/**
 	 * Sets up the panel.
 	 */
+	@SuppressWarnings("unchecked")
 	private void setUpPanel(){
 		
 		if (this.model.isGotPermissions() && this.model.isGotUsers()){

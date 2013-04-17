@@ -28,6 +28,7 @@ public class IterationListener implements ActionListener {
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent iterations) {
 		JComboBox cb = (JComboBox)iterations.getSource();

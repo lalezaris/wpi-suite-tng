@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -32,7 +33,6 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvide
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.characteristic;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
@@ -52,9 +52,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  * @author Evan Polekoff
  * @author Ned Shelton
- * @author Chris Hannah
+ * @author Chris Hanna
  */
 
+@SuppressWarnings("serial")
 public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarPieChartView instance;
@@ -83,6 +84,9 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 	
 	private BarPieChartPanel mainPanel;
+	private JComboBox chartBox;
+	private JComboBox characteristicBox;
+	private JComboBox subDivideBox;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private TypeOfChart chartType = TypeOfChart.Bar;
@@ -126,13 +130,17 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param tab the tab
 	 */
 	public BarPieChartView(Tab tab){
-		System.out.println("Bar Chart View Created!");
+		this();
+
+		containingTab = tab;
+		containingTab.setTitle("Bar Chart");
+		
+		
+	}
+	public BarPieChartView(){
 
 		instance = this;
 		
-		containingTab = tab;
-		containingTab.setTitle("Bar Chart");
-
 		//make controllers and send requests
 		gotUsers = false;
 		gotIterations = false;
@@ -155,9 +163,13 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		// Instantiate the main create requirement panel
 		mainPanel = new BarPieChartPanel(this, makeBarChart(dataset, ""));
 
+		//Deal with the Combo Boxes
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
+		chartBox = mainPanel.getChartBox();
+		characteristicBox = mainPanel.getCharacteristicBox();
+		subDivideBox = mainPanel.getSubDivideBox();
 
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -257,7 +269,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 */
 	@Override
 	public ToolbarGroupView getGroup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -292,9 +303,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					}
 				}
 			}
-			
-			//Get the names of the iterations by their ID numbers for the chart.
-			for(int i=0; i<allIterations.length;i++){
+			for(int i=0; i<allIterations.length;i++){//Get the names of the iterations by their ID numbers for the chart.
 				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
 				int cumulativeData = 0;
 				for(int j = 0; j < allPriorities.length; j++){
@@ -451,4 +460,143 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	public void setCurrentSubDivision(SubDivision newSub){
 		currentSubDivision = newSub;
 	}
+
+	/**
+	 * @return the iterationNoneBarDataset
+	 */
+	public DefaultCategoryDataset getIterationNoneBarDataset() {
+		return iterationNoneBarDataset;
+	}
+
+	/**
+	 * @return the statusNoneBarDataset
+	 */
+	public DefaultCategoryDataset getStatusNoneBarDataset() {
+		return statusNoneBarDataset;
+	}
+
+	/**
+	 * @return the assigneeNoneBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneeNoneBarDataset() {
+		return assigneeNoneBarDataset;
+	}
+
+
+	/**
+	 * @return the iterationPrioBarDataset
+	 */
+	public DefaultCategoryDataset getIterationPrioBarDataset() {
+		return iterationPrioBarDataset;
+	}
+
+
+	/**
+	 * @return the statusPrioBarDataset
+	 */
+	public DefaultCategoryDataset getStatusPrioBarDataset() {
+		return statusPrioBarDataset;
+	}
+
+	/**
+	 * @return the assigneePrioBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneePrioBarDataset() {
+		return assigneePrioBarDataset;
+	}
+
+
+	/**
+	 * @return the iterationTypeBarDataset
+	 */
+	public DefaultCategoryDataset getIterationTypeBarDataset() {
+		return iterationTypeBarDataset;
+	}
+
+	/**
+	 * @return the statusTypeBarDataset
+	 */
+	public DefaultCategoryDataset getStatusTypeBarDataset() {
+		return statusTypeBarDataset;
+	}
+
+	/**
+	 * @return the assigneeTypeBarDataset
+	 */
+	public DefaultCategoryDataset getAssigneeTypeBarDataset() {
+		return assigneeTypeBarDataset;
+	}
+
+
+	/**
+	 * @return the iterationPieDataset
+	 */
+	public DefaultPieDataset getIterationPieDataset() {
+		return iterationPieDataset;
+	}
+
+	/**
+	 * @return the statusPieDataset
+	 */
+	public DefaultPieDataset getStatusPieDataset() {
+		return statusPieDataset;
+	}
+
+	/**
+	 * @return the assigneePieDataset
+	 */
+	public DefaultPieDataset getAssigneePieDataset() {
+		return assigneePieDataset;
+	}
+
+	/**
+	 * @return the chartType
+	 */
+	public TypeOfChart getChartType() {
+		return chartType;
+	}
+
+	/**
+	 * @return the currentCharacteristic
+	 */
+	public String getCurrentCharacteristic() {
+		return currentCharacteristic;
+	}
+
+	/**
+	 * @return the currentSubDivision
+	 */
+	public SubDivision getCurrentSubDivision() {
+		return currentSubDivision;
+	}
+
+	/**
+	 * @return the chartBox
+	 */
+	public JComboBox getChartBox() {
+		return chartBox;
+	}
+
+	/**
+	 * @return the characteristicBox
+	 */
+	public JComboBox getCharacteristicBox() {
+		return characteristicBox;
+	}
+
+	/**
+	 * @return the subDivideBox
+	 */
+	public JComboBox getSubDivideBox() {
+		return subDivideBox;
+	}
+
+
+	/**
+	 * @return the mainPanel
+	 */
+	public BarPieChartPanel getMainPanel() {
+		return mainPanel;
+	}
+	
 }

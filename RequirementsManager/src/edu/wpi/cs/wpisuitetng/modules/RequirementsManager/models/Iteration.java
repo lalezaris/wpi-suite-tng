@@ -52,8 +52,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param startDate The start date of the iteration
 	 * @param endDate The end date of the iteration
 	 */
-	public Iteration(String iterationNumber, Date startDate, Date endDate) {
-		super();
+	public Iteration(String iterationNumber, Date startDate, Date endDate){
 		this.iterationName = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -263,7 +262,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	@Override
 	public String toString() {
-		if (this.iterationName == Iteration.getBacklog().iterationName)
+		if (this.iterationName.equals(Iteration.getBacklog().iterationName))
 			return this.getIterationName();
 		else
 			return "Iteration " + this.getIterationName();

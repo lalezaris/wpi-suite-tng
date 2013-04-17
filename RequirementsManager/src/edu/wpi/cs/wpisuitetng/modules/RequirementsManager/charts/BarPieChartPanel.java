@@ -214,7 +214,7 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setEnabled(enabled);
-		if(enabled == false)
+		if(!enabled)
 			subDivideBox.setSelectedIndex(0);
 	}
 	

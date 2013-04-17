@@ -31,9 +31,7 @@ public class IntegerField extends JTextField {
 	/**
 	 * Instantiates a new integer field.
 	 */
-	public IntegerField() {
-		super();
-	}
+	public IntegerField() {}
 
 	/**
 	 * Instantiates a new integer field.

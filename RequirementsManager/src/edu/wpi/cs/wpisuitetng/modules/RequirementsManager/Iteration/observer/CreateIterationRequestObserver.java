@@ -115,7 +115,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				view.setInputEnabled(true);				
+				view.setInputEnabled(true);	
 			}
 		});
 	}

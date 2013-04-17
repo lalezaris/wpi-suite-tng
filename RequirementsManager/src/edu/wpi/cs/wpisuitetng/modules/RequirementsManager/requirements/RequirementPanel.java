@@ -53,7 +53,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Hist
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -130,6 +129,8 @@ public class RequirementPanel extends JPanel{
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -170,9 +171,8 @@ public class RequirementPanel extends JPanel{
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
-
+		
 		this.parent = parent;
-
 
 		this.mode = mode;
 
@@ -307,6 +307,8 @@ public class RequirementPanel extends JPanel{
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+		
+		setUpToolTips();
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -482,6 +484,24 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridx = 3;
 		 cThree.gridy = 1;
 		 panelThree.add(txtActual, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 2;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblActualError.setVisible(false);
+		 lblActualError.setForeground(Color.RED);
+		 panelThree.add(lblActualError, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblEstimateError.setVisible(false);
+		 lblEstimateError.setForeground(Color.RED);
+		 panelThree.add(lblEstimateError, cThree);
 
 		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -497,14 +517,6 @@ public class RequirementPanel extends JPanel{
 		 panelButtons.setLayout(layoutButtons);
 
 		 cButtons.insets = new Insets(10,10,10,10);
-//		 if (parent.getMode() == Mode.EDIT) { 
-//			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-//				 createChildRequirement.setEnabled(false);
-//				 createChildRequirement.setVisible(false);
-//			 }
-//		 }
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 0;
@@ -616,6 +628,20 @@ public class RequirementPanel extends JPanel{
 //		 }
 
 
+	}
+	
+	public void setUpToolTips(){
+		this.txtTitle.setToolTipText("Required: A title less than 100 character.");
+		this.txtReleaseNumber.setToolTipText("The release number for this requirement.");
+		this.txtDescription.setToolTipText("Required: A description for this requirement.");
+		this.txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+				"This field must be greater than 0 to assign to an iteration.");
+		this.txtActual.setToolTipText("The actual effort for this requirement.");
+		this.cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+				"This field cannot be filled in until a estimate is entered.");
+		this.cmbPriority.setToolTipText("The priority of this requirement.");
+		this.cmbStatus.setToolTipText("The Status of the requirement.");
+		this.cmbType.setToolTipText("Set the type of requirement this requirement is.");		
 	}
 
 	
@@ -947,7 +973,7 @@ public class RequirementPanel extends JPanel{
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
 			try{
-				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
+				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
@@ -1210,15 +1236,28 @@ public class RequirementPanel extends JPanel{
 		this.atv = atv;
 	}
 
-
-
-
 	/**
 	 * @return the txtActual
 	 */
 	public IntegerField getTxtActual() {
 		return txtActual;
 	}
+	
+	/**
+	 * @return the lblEstimateError
+	 */
+	public JLabel getLblEstimateError() {
+		return lblEstimateError;
+	}
+
+	/**
+	 * @return the lblActualError
+	 */
+	public JLabel getLblActualError() {
+		return lblActualError;
+	}
+
+
 
 
 	@SuppressWarnings("unchecked")

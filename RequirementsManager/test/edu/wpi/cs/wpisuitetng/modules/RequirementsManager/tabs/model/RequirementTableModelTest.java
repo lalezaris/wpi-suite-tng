@@ -137,13 +137,16 @@ public class RequirementTableModelTest {
 	public void testHeaderDescending(){
 		rtm1.sortTable(2,dtcm);
 		rtm1.sortTable(2,dtcm);
-
-		System.out.println( dtcm.getColumn(2).getHeaderValue().toString());
 		assertEquals("Description"+RequirementTableModel.DESCENDING_SUFFIX , dtcm.getColumn(2).getHeaderValue().toString());
 	}
 	
 	@Test
 	public void testHeaderResets(){
-		//TODO
+		rtm1.sortTable(2,dtcm);
+		rtm1.sortTable(2,dtcm);
+		rtm1.sortTable(1,dtcm);
+		rtm1.sortTable(0,dtcm);
+		assertEquals("Description", dtcm.getColumn(2).getHeaderValue().toString());
+		assertEquals("Name", dtcm.getColumn(1).getHeaderValue().toString());
 	}
 }

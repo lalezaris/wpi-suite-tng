@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Hanna
  *  Tushar Narayan
+ *  Michael Perrone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
@@ -163,7 +164,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				req.getEstimateEffort() ,
 				req.getIteration(),
 				req.getAssignee(),
-				req.getParentRequirementId()};
+				req.getParentRequirementId() == -1 ? "None" : req.getParentRequirementId()};
 		addRow(r);
 		requirements.add(req);
 	}
@@ -324,9 +325,22 @@ public class RequirementTableModel extends AbstractTableModel {
 		for(int i=0; i<data.size(); i++){
 			dataArray[i] = data.get(i);
 		}
+		
+		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
+			if(dataArray[j][8].equals("None")){//pretty hacky to make sure it is sorted properly
+				dataArray[j][8] = -1;
+			}
+		}
+		
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-
+		
+		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
+			if(dataArray[j][8].equals(-1)){//see before the sort for why this happens
+				dataArray[j][8] = "None";
+			}
+		}
+		
 		//reset the headers
 		for(int i=0; i<cm.getColumnCount(); i++){
 			cm.getColumn(i).setHeaderValue(columnNames[i]);

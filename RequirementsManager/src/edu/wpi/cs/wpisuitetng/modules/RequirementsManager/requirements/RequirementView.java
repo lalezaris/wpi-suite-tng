@@ -474,6 +474,17 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
 		
+		//if the requirement is being created dont allow the user to create children
+		if(mode == RequirementPanel.Mode.CREATE){
+			mainPanel.getCreateChildRequirement().setEnabled(false);
+			mainPanel.getCreateChildRequirement().setVisible(false);
+		}
+		
+		//if the requirement is completed disable the child requirement 
+		if(getReqModel().getUneditedRequirement().getStatus().equals(RequirementStatus.COMPLETE)){
+			mainPanel.getCreateChildRequirement().setEnabled(false);				
+		}
+		
 	}
 	
 

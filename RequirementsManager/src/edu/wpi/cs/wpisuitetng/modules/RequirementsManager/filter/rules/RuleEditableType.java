@@ -13,9 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * Insert Description Here
+ * Different types of things to compare
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *

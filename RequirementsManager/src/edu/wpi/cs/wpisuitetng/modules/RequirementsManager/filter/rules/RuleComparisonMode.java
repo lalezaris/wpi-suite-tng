@@ -13,9 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * Insert Description Here
+ * The different types of comparison modes. 
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *

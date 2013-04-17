@@ -12,12 +12,10 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-
 /**
  * Insert Description Here
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
@@ -35,10 +33,6 @@ public class Rule implements IFilterRule{
 		this.rule = rule;
 	}
 	
-//	@Override 
-//	public Requirement applyRule(Requirement in){
-//		return null;
-//	}
 	
 	@Override
 	public boolean apply(Object parent) throws RuleTargetException{
@@ -46,10 +40,6 @@ public class Rule implements IFilterRule{
 		
 
 		source = FilterTable.getInstance().getSource(rule, parent);
-		
-		//System.out.println("Rule: " + rule + ", " + target + " : " + source);
-		
-		//System.out.println("parentClass: " + target.getClass() + ", sourceClass: "+source.getClass());
 		if (source!=null){
 			
 			if (source instanceof RuleEditableType)

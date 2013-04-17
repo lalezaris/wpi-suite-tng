@@ -18,9 +18,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
 /**
- * Insert Description Here
+ * A singleton that is responsible for finding filterable elements
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
@@ -39,6 +39,14 @@ public class FilterTable{
 		
 	}
 	
+	/**
+	 * Get the object you are looking to compare to. The input tells what field to pull from the parent
+	 * 
+	 * @param input
+	 * @param parent
+	 * @return
+	 * @throws RuleTargetException
+	 */
 	public Comparable getSource(String input, Object parent) throws RuleTargetException{
 		
 		input = input.toLowerCase();
@@ -81,6 +89,12 @@ public class FilterTable{
 		return reqTargetTypes;
 	}
 	
+	/**
+	 * parse a string to an array of enum values. 
+	 * 
+	 * @param input
+	 * @return
+	 */
 	public Enum[] getEnumFromString(String input){
 		input = input.toLowerCase();
 		if (input.equals("all")){
@@ -96,6 +110,14 @@ public class FilterTable{
 		return null;
 	}
 	
+	/**
+	 * Get the field of a requirement you are looking to compare to. The input tells what field to pull from the parent Requirement
+	 * 
+	 * @param input
+	 * @param parent
+	 * @return
+	 * @throws RuleTargetException
+	 */
 	public Comparable getSourceRequirement(String input, Object parent) throws RuleTargetException{
 		
 		if (parent instanceof Requirement){

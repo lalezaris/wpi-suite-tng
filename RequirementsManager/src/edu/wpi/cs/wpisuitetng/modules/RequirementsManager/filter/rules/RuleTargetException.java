@@ -13,9 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * Insert Description Here
+ * Thrown when a field cannot be found.
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *

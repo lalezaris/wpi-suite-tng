@@ -20,9 +20,9 @@ import javax.swing.Icon;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
- * Insert Description Here
+ * The action to add a new rule to the filter
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 16, 2013
  *
@@ -33,7 +33,7 @@ public class AddAction extends AbstractAction {
 	
 	
 	/**
-	 * Enter Description here.
+	 * Make a new AddAction
 	 * 
 	 */
 	public AddAction(FilterController controller) {

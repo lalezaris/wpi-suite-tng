@@ -68,7 +68,7 @@ public class RulePanel extends JPanel{
 	private boolean enabled = true;
 	private GridBagConstraints constraint;
 	/**
-	 * Enter Description here.
+	 * create a blank panel for a rule.
 	 * 
 	 */
 	public RulePanel(FilterPanel parent) {
@@ -85,23 +85,15 @@ public class RulePanel extends JPanel{
 		
 		this.setLayout(new GridBagLayout());
 		constraint = new GridBagConstraints();
-//		field.addItemListener(new ItemListener(){
-//			@Override
-//			public void itemStateChanged(ItemEvent e) {
-////				updateCompareBox();
-////				updatePossibleValues();
-//			}});
+
 
 		
 
 		compareMode.setMaximumSize(new Dimension(100, field.getSize().height));
-		//compareMode.setMinimumSize(new Dimension(100, field.getSize().height));
 
 		field.setMaximumSize(new Dimension(100, field.getSize().height));
-		//field.setMinimumSize(new Dimension(100, field.getSize().height));
 
 		possibleValues.setMaximumSize(new Dimension(100, field.getSize().height));
-		//possibleValues.setMinimumSize(new Dimension(100, field.getSize().height));
 
 		possibleValuesText.setSize(200, possibleValues.getHeight());
 		possibleValuesText.setMinimumSize(new Dimension((int)possibleValuesText.getPreferredSize().getWidth(), possibleValues.getHeight()));
@@ -120,6 +112,11 @@ public class RulePanel extends JPanel{
 		setRuleEnabled(true);
 	}
 
+	/**
+	 * enable or disable the rule. The color of the components will change to let the user know
+	 * 
+	 * @param enabled
+	 */
 	protected void setRuleEnabled(boolean enabled){
 		this.enabled = enabled;
 		Color backColor = new Color(238, 255, 238);
@@ -135,11 +132,12 @@ public class RulePanel extends JPanel{
 		
 	}
 	
+	/**
+	 * Assigns the listeners to different components to make sure that auto-refresh is working
+	 * 
+	 */
 	protected void addListeners(){
 		
-		
-		
-
 		final RulePanel rp = this;
 		ItemListener l1 = new ItemListener(){
 
@@ -184,7 +182,6 @@ public class RulePanel extends JPanel{
 				if (test){
 					filterPanel.triggerTableUpdate();
 				}
-				//setColors();
 			}
 			
 		};
@@ -198,8 +195,10 @@ public class RulePanel extends JPanel{
 		enabledBox.addChangeListener(c);
 	}
 	
-
-	
+	/**
+	 * set up the rule panel
+	 * 
+	 */
 	public void setUp(){
 		String[] fieldNames = getPossibleFields();
 		for (int i = 0 ; i < fieldNames.length; i++)
@@ -207,9 +206,12 @@ public class RulePanel extends JPanel{
 
 		updateCompareBox();
 		updatePossibleValues();
-		//updateCompareBox();
 	}
 
+	/**
+	 * Change the values component so that it reflects correctly what the user can filter
+	 * 
+	 */
 	private void updatePossibleValues(){
 
 		int possibleValuesIndex = -1, possibleValuesTextIndex = -1;
@@ -243,9 +245,7 @@ public class RulePanel extends JPanel{
 				possibleValuesText.addKeyListener(new KeyAdapter(){
 					   public void keyTyped(KeyEvent e) {
 						      char c = e.getKeyChar();
-						      //System.out.println("KEYBOARD:" + c);
 						      if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-						    	  //System.out.println("EAT!");
 						         e.consume();  // ignore event
 						      }
 						   }
@@ -256,13 +256,9 @@ public class RulePanel extends JPanel{
 			if (possibleValuesIndex != -1)
 				this.remove(possibleValues);
 		} else if (editType == RuleEditableType.STRING){
-			//if (!hasKeyListener(numEnforce)){
 			removeAllListeners();
-			
 			possibleValuesText.setText("");
-			//System.out.println("WAGHAdding numEnforcer!");
-			//possibleValuesText.addKeyListener(numEnforce);
-		//}
+
 			if (possibleValuesTextIndex ==-1)
 				this.add(possibleValuesText, constraint);
 			if (possibleValuesIndex != -1)
@@ -273,6 +269,10 @@ public class RulePanel extends JPanel{
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
+	/**
+	 * reset the listeners of the possible values text component
+	 * 
+	 */
 	private void removeAllListeners(){
 		this.remove(possibleValuesText);
 		possibleValuesText = new JTextField(12);
@@ -287,6 +287,10 @@ public class RulePanel extends JPanel{
 		});
 	}
 	
+	/**
+	 * Change the values of the comparison mode box so that is reflects correctly how the user can compare things
+	 * 
+	 */
 	private void updateCompareBox(){
 
 		
@@ -298,6 +302,11 @@ public class RulePanel extends JPanel{
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
+	/**
+	 * Get the valid comparison modes depending on what field is being filtered
+	 * 
+	 * @return
+	 */
 	private RuleComparisonMode[] getValidComparisonModes(){
 		RuleComparisonMode[] output = null;
 
@@ -340,6 +349,11 @@ public class RulePanel extends JPanel{
 		return output;
 	}
 
+	/**
+	 * Get the valid fields to filter by
+	 * 
+	 * @return
+	 */
 	private String[] getPossibleFields(){
 
 		return FilterTable.getRequirementTargets();
@@ -347,6 +361,11 @@ public class RulePanel extends JPanel{
 
 	
 	
+	/**
+	 * create a new rule depending on what is shown in the panel
+	 * 
+	 * @return
+	 */
 	public Rule extractRule(){
 		Rule r = null;
 		if (editType == RuleEditableType.ENUM){

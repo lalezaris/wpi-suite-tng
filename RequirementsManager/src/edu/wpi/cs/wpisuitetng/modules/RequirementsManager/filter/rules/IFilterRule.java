@@ -13,24 +13,15 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * Insert Description Here
+ * 
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
  */
 public interface IFilterRule{
-//	/**
-//	 * Call this function. 
-//	 * If the object meets the rule, then it is returned
-//	 * If the object does not meet the rule, then null is returned
-//	 * 
-//	 * @param object
-//	 * @return
-//	 */
-//	T applyRule(T object);
-	
+
 	
 	/**
 	 * Call this function.
@@ -43,8 +34,15 @@ public interface IFilterRule{
 	
 	void setIsAnd(boolean isAnd);
 
+	/**
+	 * Returns true if the parent meets the rule, or false otherwise
+	 * 
+	 * @param parent
+	 * @return
+	 * @throws RuleTargetException
+	 */
 	boolean apply(Object parent) throws RuleTargetException;
 
-	//boolean apply(T target, Object parent, String rule);
+	
 	
 }

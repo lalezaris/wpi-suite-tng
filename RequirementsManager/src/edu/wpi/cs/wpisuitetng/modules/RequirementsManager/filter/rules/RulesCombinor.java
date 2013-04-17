@@ -13,9 +13,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * Insert Description Here
+ * The enum for a rule's isAnd or not isAnd. 
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 16, 2013
  *

@@ -19,9 +19,9 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
- * Insert Description Here
+ * The action that happens when you remove rules
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 16, 2013
  *
@@ -31,7 +31,7 @@ public class RemoveAction extends AbstractAction{
 	FilterController controller;
 	
 	/**
-	 * Enter Description here.
+	 * make a new remove action
 	 * 
 	 */
 	public RemoveAction(FilterController controller) {

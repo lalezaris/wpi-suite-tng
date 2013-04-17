@@ -19,9 +19,9 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
- * Insert Description Here
+ * The action that happens when you toggle visibility of filters
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 17, 2013
  *
@@ -30,7 +30,7 @@ public class VisibleAction extends AbstractAction{
 
 	FilterController controller;
 	/**
-	 * Enter Description here.
+	 * make a new visibility action
 	 * 
 	 */
 	public VisibleAction(FilterController controller) {

@@ -19,9 +19,9 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
- * Insert Description Here
+ * The action that happens when you enable rules
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 16, 2013
  *
@@ -30,7 +30,7 @@ public class EnableAction extends AbstractAction{
 
 	FilterController controller;
 	/**
-	 * Enter Description here.
+	 * make a new enable action
 	 * 
 	 */
 	public EnableAction(FilterController controller) {

@@ -12,10 +12,6 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
-import java.awt.Component;
-
-import javax.swing.JPanel;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.ApplyAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableAction;
@@ -25,7 +21,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.VisibleA
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTargetException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 
 /**
  * Insert Description Here
@@ -42,7 +37,7 @@ public class FilterController{
 	protected FilterModel model;
 	protected RequirementListPanel listPanel;
 	/**
-	 * Enter Description here.
+	 * create a new controller. Set up the buttons of the panel
 	 * 
 	 */
 	public FilterController(RequirementListPanel listPanel) {
@@ -68,6 +63,11 @@ public class FilterController{
 		return this.model;
 	}
 	
+	/**
+	 * filter the requirements table. 
+	 * 
+	 * @return The filtered the requirements
+	 */
 	public Requirement[] setFilteredInTable(){
 		
 		Requirement[] all = this.listPanel.getContent();

@@ -12,36 +12,26 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-
 /**
  * Insert Description Here
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
@@ -54,8 +44,9 @@ public class FilterPanel extends JPanel{
 	private JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
 	private ArrayList<RulePanel> rules;
 	private JPanel ruleHolderPanel, mainPanel;
+	
 	/**
-	 * Enter Description here.
+	 * create a filter panel and add all the components
 	 * 
 	 */
 	public FilterPanel(FilterController view) {
@@ -81,31 +72,18 @@ public class FilterPanel extends JPanel{
 		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-		//this.add(applyButton,c);
+
 		
 		ruleHolderPanel = new JPanel();
 		GridBagLayout pLayout = new GridBagLayout();
 		ruleHolderPanel.setLayout(pLayout);
-		//ruleHolderPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		//p.setLayout(new FlowLayout());
-		//p.setLayout(layoutBox);
 
-		//scrollPane.setLayout(layoutBox);
 
-		c.anchor = GridBagConstraints.LINE_START; 
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridwidth = 1;
-		c.gridheight =1;
-		//this.add(applyButton, c);
 
 		JPanel buttonPanel = new JPanel();
 		GridBagLayout bLayout = new GridBagLayout();
 		buttonPanel.setLayout(bLayout);
 		addButton = new JButton("New Filter");
-		//addButton.setPreferredSize(new Dimension(60,35));
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -115,7 +93,7 @@ public class FilterPanel extends JPanel{
 		c.gridheight =1;
 		buttonPanel.add(addButton, c);
 		enableButton = new JButton("Enable Filter");
-		//addButton.setPreferredSize(new Dimension(60,35));
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 2;
 		c.gridy = 0;
@@ -125,7 +103,7 @@ public class FilterPanel extends JPanel{
 		c.gridheight =1;
 		buttonPanel.add(enableButton, c);
 		disableButton = new JButton("Disable Filter");
-		//addButton.setPreferredSize(new Dimension(60,35));
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 3;
 		c.gridy = 0;
@@ -135,7 +113,7 @@ public class FilterPanel extends JPanel{
 		c.gridheight =1;
 		buttonPanel.add(disableButton, c);
 		removeButton = new JButton("Remove Filter");
-		//addButton.setPreferredSize(new Dimension(60,35));
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 1;
 		c.gridy = 0;
@@ -191,7 +169,7 @@ public class FilterPanel extends JPanel{
 			}
 		}); 
 		
-		//scrollPane.setPreferredSize(new Dimension((int)(super.getWidth()*.8),50));
+
 		Border b = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		scrollPane.setViewportBorder(b);
 		
@@ -247,22 +225,22 @@ public class FilterPanel extends JPanel{
 		
 	}
 
+	/**
+	 * Add a blank rule to the panel.
+	 * 
+	 */
 	public void addRule(){
 		GridBagConstraints c = new GridBagConstraints();
 		RulePanel rule = new RulePanel(this);
 		rule.setMinimumSize(new Dimension(600,40));
-		//rule.setUp();
+
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = view.getModel().getFilter().getRules().size();
 		c.weightx = 1;
 		c.weighty = .5;
-		//c.gridwidth = 1;
-		//c.gridheight = 1;
+
 		c.insets = new Insets(5, 5, 0, 0);
-		//c.fill = GridBagConstraints.HORIZONTAL;
-		//rule.setBorder(BorderFactory.createLineBorder(Color.ORANGE));
-		
 		view.getModel().getFilter().addRule(rule.extractRule());
 		ruleHolderPanel.setPreferredSize(new Dimension(
 				(int)ruleHolderPanel.getMinimumSize().getWidth(),
@@ -273,24 +251,21 @@ public class FilterPanel extends JPanel{
 		
 		scrollPane.revalidate();
 		scrollPane.repaint();
-		//ruleHolderPanel.revalidate();
-		//ruleHolderPanel.repaint();
-		//System.out.println("AAAAADDDDDDDDDDING!!!!!!!!!!!");
-		//triggerTableUpdate();
-	}
-	
-	public void setUp(FilterModel model){
-//		ArrayList<Rule> all = model.getFilter().getRules();
-//		for (int i = 0 ; i < all.size(); i ++){
-//			JLabel text = new JLabel(all.get(i).toString());
-//			this.add(text);
-//		}
+
 	}
 
+	/**
+	 * update the table with the rules
+	 * 
+	 */
 	protected void triggerTableUpdate(){
 		this.view.setFilteredInTable();
 	}
 
+	/**
+	 * change the visibility of the filterpanel. The "Show Filters" button will remain, regardless
+	 * 
+	 */
 	public void toggleVisibility(){
 		if (mainPanel.isVisible()){
 			showButton.setText("Show Filters");
@@ -301,13 +276,15 @@ public class FilterPanel extends JPanel{
 		}
 	}
 	
+	/**
+	 * Of all the rule panels in the filter panel, delete the ones that are selected
+	 * 
+	 */
 	public void deleteSelected(){
 		
 		ArrayList<RulePanel> delete = new ArrayList<RulePanel>();
 		for (int i = 0 ; i < rules.size(); i ++)
 			if (rules.get(i).getEnabledBox().isSelected()){
-				//ruleHolderPanel.remove(rules.get(i));
-				//rules.remove(i);
 				delete.add(rules.get(i));
 			}
 		
@@ -321,8 +298,6 @@ public class FilterPanel extends JPanel{
 		
 		scrollPane.revalidate();
 		scrollPane.repaint();
-//		ruleHolderPanel.validate();
-//		ruleHolderPanel.repaint();
 		this.view.getModel().setModelFromPanel(this);
 		ruleHolderPanel.setPreferredSize(new Dimension(
 				(int)ruleHolderPanel.getMinimumSize().getWidth(),
@@ -330,9 +305,12 @@ public class FilterPanel extends JPanel{
 
 		this.revalidate();
 		this.repaint();
-		//System.out.println("DEEEELEETING!");
 	}
 	
+	/**
+	 * Of all the rule panels in the filter panel, enable the ones that are selected
+	 * 
+	 */
 	public void enableSelected(){
 		for (int i = 0 ; i < rules.size(); i ++)
 			if (rules.get(i).getEnabledBox().isSelected()){
@@ -340,6 +318,12 @@ public class FilterPanel extends JPanel{
 				rules.get(i).getEnabledBox().setSelected(false);
 			}
 	}
+	
+	
+	/**
+	 * Of all the rule panels in the filter panel, disable the ones that are selected
+	 * 
+	 */
 	public void disableSelected(){
 		for (int i = 0 ; i < rules.size() ; i ++)
 			if (rules.get(i).getEnabledBox().isSelected()){

@@ -17,9 +17,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleCompa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
- * Insert Description Here
+ * The filter model
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
@@ -29,7 +29,7 @@ public class FilterModel {
 	Filter filter;
 	
 	/**
-	 * Enter Description here.
+	 * create a new model
 	 * 
 	 */
 	public FilterModel() {
@@ -43,6 +43,11 @@ public class FilterModel {
 		return this.filter;
 	}
 	
+	/**
+	 * Refresh the model from the information in a panel
+	 * 
+	 * @param panel
+	 */
 	public void setModelFromPanel(FilterPanel panel){
 		this.filter.removeAllRules();
 		System.out.println("Finding Filters");

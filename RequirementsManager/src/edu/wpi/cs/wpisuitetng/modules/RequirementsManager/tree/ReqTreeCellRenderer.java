@@ -15,7 +15,6 @@ import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import javax.swing.ImageIcon;
@@ -31,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  * 
  * @author Chris Hanna
  */
+@SuppressWarnings("serial")
 public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 	private ImageIcon no_priority_icon;
 	private ImageIcon low_priority_icon;

@@ -21,7 +21,6 @@ import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -62,6 +61,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Mar 17, 2013
  *
  */
+@SuppressWarnings({"serial", "unused"})
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
@@ -308,6 +308,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return reqModel;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setUp(Requirement requirement, Mode editMode) {
 		
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());

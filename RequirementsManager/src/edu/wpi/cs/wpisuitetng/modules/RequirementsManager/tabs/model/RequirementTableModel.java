@@ -302,6 +302,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * 
 	 *  @param col the column by which the table is sorted.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void sortTable(final int col, TableColumnModel cm){
 		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
 			return;
@@ -312,6 +313,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		//false if it has something appended to it
 
 		Comparator<Object[]> comparator = new Comparator<Object[]>(){
+			
 			@Override
 			public int compare(Object[] a, Object[] b){
 				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);

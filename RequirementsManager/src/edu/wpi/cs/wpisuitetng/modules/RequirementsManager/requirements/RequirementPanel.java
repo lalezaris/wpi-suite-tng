@@ -27,7 +27,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -43,28 +42,16 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
-import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -81,7 +68,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @version Mar 17, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial","rawtypes"})
 public class RequirementPanel extends JPanel{
 
 	/**
@@ -216,6 +203,7 @@ public class RequirementPanel extends JPanel{
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints cOverall = new GridBagConstraints();
@@ -224,8 +212,6 @@ public class RequirementPanel extends JPanel{
 		GridBagConstraints cThree = new GridBagConstraints();
 		GridBagConstraints cFour = new GridBagConstraints();
 		GridBagConstraints cButtons = new GridBagConstraints();
-		GridBagConstraints c = new GridBagConstraints();
-
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
@@ -854,6 +840,7 @@ public class RequirementPanel extends JPanel{
 		 *
 		 * @param cb the JComboBox which contains the list of status
 		 */
+		@SuppressWarnings("unchecked")
 		public void changeStatus(JComboBox cb){
 			int i; //For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
@@ -1061,6 +1048,7 @@ public class RequirementPanel extends JPanel{
 	 * @param model The model to get elements from
 	 * @return A list of elements
 	 */
+	@SuppressWarnings("unused")
 	private List<String> getAllElementsInModel(DefaultListModel model){
 		List<String> modelElements = new ArrayList<String>();
 		for(int i = 0; i < model.getSize(); i++){
@@ -1229,6 +1217,7 @@ public class RequirementPanel extends JPanel{
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations){
 		this.knownIterations = iterations;
 		this.cmbIteration.removeAllItems();

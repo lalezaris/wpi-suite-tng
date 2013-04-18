@@ -52,6 +52,7 @@ public class AcceptanceTestsView extends JPanel{
 	protected JButton addTest;
 	protected JButton editTest;
 	protected JComboBox cmbStatus;
+	protected RMPermissionsLevel pLevel;
 	
 	//the error labels
 	protected JLabel lblTitleError;
@@ -72,7 +73,7 @@ public class AcceptanceTestsView extends JPanel{
 	public AcceptanceTestsView(RequirementView rView){
 		list = new ArrayList();
 //		list = req.getAcceptanceTests();
-		
+		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
@@ -109,7 +110,10 @@ public class AcceptanceTestsView extends JPanel{
 		//TODO: Set borders
 
 		/* begin panel styling */
-		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
+		if(pLevel != RMPermissionsLevel.NONE){
+			txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
+		} else
+			txtTitle = new JPlaceholderTextField("", 20);
 		JLabel lblTitle = new JLabel("Title: ", JLabel.TRAILING);
 		txtBody = new JTextArea(4, 40);
 		JLabel lblBody = new JLabel("Body: ", JLabel.TRAILING);
@@ -231,7 +235,9 @@ public class AcceptanceTestsView extends JPanel{
 		Pbot.add(editTest, bot);
 		
 		//Add the list of AcceptanceTests gui element
-		listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
+		if(pLevel != RMPermissionsLevel.NONE){
+			listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
+		}
 		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.fill = GridBagConstraints.BOTH;
@@ -295,7 +301,10 @@ public class AcceptanceTestsView extends JPanel{
 		         }
 		     }
 		 };
-		 listDisplay.addMouseListener(mouseListener);
+		 
+		 if(pLevel != RMPermissionsLevel.NONE){
+			 listDisplay.addMouseListener(mouseListener);
+		 }
 		 txtTitle.addKeyListener(new ButtonsListener());
 		 
 		 //setup permission features
@@ -624,5 +633,12 @@ public class AcceptanceTestsView extends JPanel{
 				}
 			}
 		}
-	
+
+		/**
+		 * @return the listDisplay
+		 */
+		public JList<AcceptanceTest> getListDisplay() {
+			return listDisplay;
+		}
+		
 }

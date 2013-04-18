@@ -78,6 +78,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private Tab containingTab;
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
+	private RMPermissionsLevel pLevel;
 	//	private RequirementPanel reqPanel;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
@@ -86,7 +87,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 * @param editMode	The editMode for editing the Requirement
 	 * @param tab		The Tab holding this RequirementView (can be null)
 	 */
-	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {		
+	public RequirementView(Requirement requirement, Mode editMode, Tab tab) {	
+		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		this.mode = editMode;
 		this.reqModel = new RequirementModel(requirement, this);
 		boolean test = false;
@@ -406,7 +408,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		case NONE:
 			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
-					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
+					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove(),mainPanel.getAtv().getListDisplay()});
 			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
 			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
@@ -490,5 +492,11 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 	}
 
-
+	/**
+	 * @return the pLevel
+	 */
+	public RMPermissionsLevel getpLevel() {
+		return pLevel;
+	}
+	
 }

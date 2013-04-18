@@ -195,7 +195,7 @@ public class AcceptanceTestsView extends JPanel{
 		bot.weighty = 0.5;
 		bot.gridx = 1;
 		bot.gridy = 0;
-		bot.gridwidth = 3;
+		bot.gridwidth = 2;
 		lblBodyError.setVisible(false);
 		lblBodyError.setForeground(Color.RED);
 		Pbot.add(lblBodyError, bot);
@@ -214,8 +214,8 @@ public class AcceptanceTestsView extends JPanel{
 		//add the "Add Test" button
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.fill = GridBagConstraints.NONE;
-		bot.weightx = 0;
-		bot.weighty = 0;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
 		bot.gridx = 0;
 		bot.gridy = 2;
 		bot.gridwidth = 1;
@@ -223,10 +223,11 @@ public class AcceptanceTestsView extends JPanel{
 		
 		//add the "Edit Test" button
 		bot.anchor = GridBagConstraints.LINE_START;
-		bot.weightx = 0;
-		bot.weighty = 0;
-		bot.gridx = 3;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 1;
 		bot.gridy = 2;
+		bot.gridwidth = 2;
 		Pbot.add(editTest, bot);
 		
 		//Add the list of AcceptanceTests gui element

@@ -154,8 +154,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		//this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
-		
-
 	}
 	
 	
@@ -173,11 +171,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		try{ estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The estimate is too big to save. Error.");
+			mainPanel.getLblEstimateError().setVisible(true);  
 			estimate = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		try{ actual = Integer.parseInt(mainPanel.getTxtActual().getText()); }
 		catch (NumberFormatException e){
 			System.out.println("The actual was just too dayum big!. Error");
+			mainPanel.getLblActualError().setVisible(true);
 			actual = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
 		if (estimate == -1 && actual == -1){
@@ -377,7 +377,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 
 		 // depending on the status and sub-requirements, disable certain components
 
-		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS
+		 if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
 				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
 			 //TODO: uncomment the next line once busy waiting issue is fixed
 			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
@@ -390,8 +390,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 //RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		 if(!this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+		 if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel == RMPermissionsLevel.UPDATE){
 			 pLevel = RMPermissionsLevel.NONE;
 		 }
@@ -426,7 +425,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 		 
 		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 
@@ -474,6 +473,20 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
+		
+		//if the requirement is being created dont allow the user to create children
+		if(mode == RequirementPanel.Mode.CREATE){
+			mainPanel.getCreateChildRequirement().setEnabled(false);
+			mainPanel.getCreateChildRequirement().setVisible(false);
+		}
+		
+		//if the requirement is completed disable the child requirement 
+		if(getReqModel().getUneditedRequirement().getStatus().equals(RequirementStatus.COMPLETE)){
+			mainPanel.getCreateChildRequirement().setEnabled(false);				
+		}
+		
+		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
+		mainPanel.getSplitPane().setDividerLocation(0.35);
 		
 	}
 	

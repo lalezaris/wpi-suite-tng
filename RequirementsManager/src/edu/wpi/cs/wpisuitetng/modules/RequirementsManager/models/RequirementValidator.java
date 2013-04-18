@@ -15,13 +15,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 
@@ -67,8 +64,7 @@ public class RequirementValidator {
 				issues.add(new ValidationIssue("Cannot be null", "Status"));
 		}
 		
-		if(requirement.getTitle() == null || requirement.getTitle().equals("") || requirement.getTitle().length() > 100
-				|| requirement.getTitle().length() < 5) {
+		if(requirement.getTitle() == null || requirement.getTitle().equals("") || requirement.getTitle().length() > 100) {
 			issues.add(new ValidationIssue("Required, must be 5-100 characters", "Title"));
 		}
 		

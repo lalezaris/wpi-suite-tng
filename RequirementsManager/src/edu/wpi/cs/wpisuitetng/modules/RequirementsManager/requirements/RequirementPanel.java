@@ -19,6 +19,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -53,7 +54,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Hist
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -107,7 +107,8 @@ public class RequirementPanel extends JPanel{
 	protected RequirementTabsView RTabsView;
 	protected JButton createChildRequirement;
 	protected JSplitPane splitPane;
-
+	protected JSplitPane splitPaneLeft;
+	
 	/** NotesView for updating notes **/
 	private NotesView notesView; //= new NotesView();
 
@@ -130,6 +131,8 @@ public class RequirementPanel extends JPanel{
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -170,9 +173,8 @@ public class RequirementPanel extends JPanel{
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
-
+		
 		this.parent = parent;
-
 
 		this.mode = mode;
 
@@ -307,6 +309,8 @@ public class RequirementPanel extends JPanel{
 		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+		
+		setUpToolTips();
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -482,35 +486,45 @@ public class RequirementPanel extends JPanel{
 		 cThree.gridx = 3;
 		 cThree.gridy = 1;
 		 panelThree.add(txtActual, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 2;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblActualError.setVisible(false);
+		 lblActualError.setForeground(Color.RED);
+		 panelThree.add(lblActualError, cThree);
+		 
+		 cThree.weightx = 0.5;
+		 cThree.weighty = 0.5;
+		 cThree.gridx = 0;
+		 cThree.gridy = 2;
+		 cThree.gridwidth = 2;
+		 lblEstimateError.setVisible(false);
+		 lblEstimateError.setForeground(Color.RED);
+		 panelThree.add(lblEstimateError, cThree);
 
-		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-
-		 layoutFour = new GridBagLayout();
-		 panelFour.setLayout(layoutFour);
-
-		 cFour.insets = new Insets(10,10,10,0);
+//		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
+//		 //Use a grid bag layout manager
+//
+//		 layoutFour = new GridBagLayout();
+//		 panelFour.setLayout(layoutFour);
+//
+//		 cFour.insets = new Insets(10,10,10,0);
 
 		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
 		 //Use a grid bag layout manager
 		 layoutButtons = new GridBagLayout();
 		 panelButtons.setLayout(layoutButtons);
 
-		 cButtons.insets = new Insets(10,10,10,10);
-//		 if (parent.getMode() == Mode.EDIT) { 
-//			 if(parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN ||
-//					parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS){
-//				 createChildRequirement.setEnabled(false);
-//				 createChildRequirement.setVisible(false);
-//			 }
-//		 }
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 0;
-		 cButtons.gridy = 0;
-		 cButtons.gridwidth = 3;
-		 panelButtons.add(createChildRequirement, cButtons);
+//		 cButtons.insets = new Insets(10,10,10,10);
+//		 cButtons.weightx = 0.5;
+//		 cButtons.weighty = 0.5;
+//		 cButtons.gridx = 0;
+//		 cButtons.gridy = 0;
+//		 cButtons.gridwidth = 3;
+//		 panelButtons.add(createChildRequirement, cButtons);
 		 
 		 
 		 cButtons.weightx = 0.5;
@@ -572,50 +586,71 @@ public class RequirementPanel extends JPanel{
 		 cOverall.gridy = 2;
 		 cOverall.anchor = GridBagConstraints.LINE_START;
 		 panelOverall.add(panelThree, cOverall);
-
+		 
+		 cOverall.fill = GridBagConstraints.NONE;
 		 cOverall.weightx = 0.5;
 		 cOverall.weighty = 0.5;
 		 cOverall.gridx = 0;
 		 cOverall.gridy = 3;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelFour, cOverall);
+		 cOverall.gridwidth = 4;
+		 cOverall.anchor = GridBagConstraints.CENTER;
+		 panelOverall.add(createChildRequirement, cOverall);
+
+//		 cOverall.weightx = 0.5;
+//		 cOverall.weighty = 0.5;
+//		 cOverall.gridx = 0;
+//		 cOverall.gridy = 3;
+//		 cOverall.anchor = GridBagConstraints.LINE_START;
+//		 panelOverall.add(panelFour, cOverall);
 		 
 		 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 4;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelButtons, cOverall);
+//		 cOverall.weightx = 0.5;
+//		 cOverall.weighty = 0.5;
+//		 cOverall.gridx = 0;
+//		 cOverall.gridy = 4;
+//		 cOverall.anchor = GridBagConstraints.LINE_START;
+//		 panelOverall.add(panelButtons, cOverall);
 
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
 
-		 JPanel leftPanel = new JPanel();
-		 leftPanel.setLayout(new GridBagLayout());
-		 GridBagConstraints cPane = new GridBagConstraints();
+		 JPanel leftPaneltop = new JPanel();
+		 leftPaneltop.setLayout(new GridBagLayout());
+		 GridBagConstraints cPaneTop = new GridBagConstraints();
 
-		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
-		 cPane.weightx = 0.1;
-		 cPane.weighty = 0.1;
-		 cPane.gridx = 0;
-		 cPane.gridy = 0;
-		 leftPanel.add(panelOverall,cPane);
+		 cPaneTop.anchor = GridBagConstraints.FIRST_LINE_START;
+		 cPaneTop.weightx = 0.1;
+		 cPaneTop.weighty = 0.1;
+		 cPaneTop.gridx = 0;
+		 cPaneTop.gridy = 0;
+		 leftPaneltop.add(panelOverall,cPaneTop);
 		 
-		 JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		 JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
 		 JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		 splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
+		 splitPaneLeft.setEnabled(true);
 
-		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
-		 splitPane.setDividerLocation(0.5);
-		 splitPane.resetToPreferredSizes();
+		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, scrollPaneTabs);
 		 this.add(splitPane, BorderLayout.CENTER);
-
-
 		 
 //		 if (model.getChildRequirementIds().isEmpty()) {
 //			 setDeleteEnabled(false);
 //		 }
 
 
+	}
+	
+	public void setUpToolTips(){
+		txtTitle.setToolTipText("Required: A title less than 100 character.");
+		txtReleaseNumber.setToolTipText("The release number for this requirement.");
+		txtDescription.setToolTipText("Required: A description for this requirement.");
+		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+				"This field must be greater than 0 to assign to an iteration.");
+		txtActual.setToolTipText("The actual effort for this requirement.");
+		cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+				"This field cannot be filled in until a estimate is entered.");
+		cmbPriority.setToolTipText("The priority of this requirement.");
+		cmbStatus.setToolTipText("The Status of the requirement.");
+		cmbType.setToolTipText("Set the type of requirement this requirement is.");		
 	}
 
 	
@@ -947,7 +982,7 @@ public class RequirementPanel extends JPanel{
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
 			try{
-				if(txtEstimate.getText() == "" || txtEstimate.getText() == null){
+				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
@@ -1210,16 +1245,40 @@ public class RequirementPanel extends JPanel{
 		this.atv = atv;
 	}
 
-
-
-
 	/**
 	 * @return the txtActual
 	 */
 	public IntegerField getTxtActual() {
 		return txtActual;
 	}
+	
+	/**
+	 * @return the lblEstimateError
+	 */
+	public JLabel getLblEstimateError() {
+		return lblEstimateError;
+	}
 
+	/**
+	 * @return the lblActualError
+	 */
+	public JLabel getLblActualError() {
+		return lblActualError;
+	}
+
+	/**
+	 * @return the splitPane
+	 */
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
+
+	/**
+	 * @return the splitPaneLeft
+	 */
+	public JSplitPane getSplitPaneLeft() {
+		return splitPaneLeft;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations){

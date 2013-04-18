@@ -452,7 +452,25 @@ public class RulePanel extends JPanel{
 	 */
 	private String[] getPossibleFields(){
 
-		return FilterTable.getRequirementTargets();
+		String[] removeFields = null;
+		
+		if (this.filterPanel != null)
+			removeFields = this.filterPanel.getRemoveFields();
+		
+		String[] allFields = FilterTable.getRequirementTargets();
+		ArrayList<String> validFields = new ArrayList<String>();
+		for (int i = 0 ; i < allFields.length; i ++)
+			validFields.add(allFields[i]);
+		if (removeFields!=null)
+			for (int i = 0 ; i < removeFields.length; i ++)
+				if (validFields.contains(removeFields[i]))
+					validFields.remove(removeFields[i]);
+		
+		String[] validFieldArray = new String[validFields.size()];
+		for (int i = 0 ; i < validFields.size(); i ++)
+			validFieldArray[i] = validFields.get(i);
+		
+		return validFieldArray;
 	}
 
 	

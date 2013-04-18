@@ -47,13 +47,12 @@ public class FilterPanel extends JPanel{
 	private JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
 	private ArrayList<RulePanel> rules;
 	private JPanel ruleHolderPanel, mainPanel;
-	
+	private String[] removeFields;
 	/**
 	 * create a filter panel and add all the components
 	 * 
 	 */
 	public FilterPanel(FilterController view) {
-		super();
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		//this.setLayout(layout);
 		this.rules = new ArrayList<RulePanel>();
@@ -153,7 +152,7 @@ public class FilterPanel extends JPanel{
 		
 		//TODO figure out how to correctly get the width of the window
 		System.out.println("WIDTH:" + this.getSize().getWidth());
-		ruleHolderPanel.setPreferredSize(new Dimension(1000,150));
+		ruleHolderPanel.setPreferredSize(new Dimension(900,150));
 		
 		
 		scrollPane = new JScrollPane();
@@ -228,6 +227,16 @@ public class FilterPanel extends JPanel{
 		
 	}
 
+	public void setWidth(int width){
+		//mainPanel.setPreferredSize(new Dimension(width, 150));
+		//ruleHolderPanel.setPreferredSize(new Dimension(width, (int)ruleHolderPanel.getPreferredSize().getHeight()));
+		scrollPane.setPreferredSize(new Dimension(width+40, 150));
+	}
+	
+	public void removeFields(String[] remove){
+		this.removeFields = remove;
+	}
+	
 	/**
 	 * Add a blank rule to the panel.
 	 * 
@@ -323,6 +332,14 @@ public class FilterPanel extends JPanel{
 	}
 	
 	
+	/**
+	 * Gets the removeFields
+	 * @return the removeFields
+	 */
+	public String[] getRemoveFields() {
+		return removeFields;
+	}
+
 	/**
 	 * Of all the rule panels in the filter panel, disable the ones that are selected
 	 * 

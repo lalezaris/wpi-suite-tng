@@ -110,7 +110,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
 
-			if (iter.getName() == "Backlog") {
+			if (iter.getName().equals("Backlog")) {
 				setIcon(default_folder);
 			} else {
 				Date now = new Date();

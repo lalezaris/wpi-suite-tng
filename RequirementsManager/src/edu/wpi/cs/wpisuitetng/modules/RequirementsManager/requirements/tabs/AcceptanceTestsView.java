@@ -53,6 +53,10 @@ public class AcceptanceTestsView extends JPanel{
 	protected JButton editTest;
 	protected JComboBox cmbStatus;
 	
+	//the error labels
+	protected JLabel lblTitleError;
+	protected JLabel lblBodyError;
+	
 	protected JList<AcceptanceTest> listDisplay;
 	protected DefaultListModel<AcceptanceTest> listModel;
 	
@@ -99,6 +103,8 @@ public class AcceptanceTestsView extends JPanel{
 		GridBagConstraints top = new GridBagConstraints();
 		GridBagConstraints bot = new GridBagConstraints();
 
+		lblTitleError = new JLabel("ERROR: Must have a title", JLabel.TRAILING);
+		lblBodyError = new JLabel("ERROR: Must have a body", JLabel.TRAILING);
 
 		//TODO: Set borders
 
@@ -145,6 +151,16 @@ public class AcceptanceTestsView extends JPanel{
 		top.gridwidth = 3;
 		Ptop.add(txtTitle, top);
 		
+		top.anchor = GridBagConstraints.LINE_START;
+		top.weightx = 0.5;
+		top.weighty = 0.5;
+		top.gridx = 2;
+		top.gridy = 0;
+		top.gridwidth = 3;
+		lblTitleError.setVisible(false);
+		lblTitleError.setForeground(Color.RED);
+		Ptop.add(lblTitleError, top);
+		
 		//add the "Status: " label
 		top.anchor = GridBagConstraints.LINE_START;
 		top.insets = new Insets(5,10,5,0); //top,left,bottom,right
@@ -174,6 +190,16 @@ public class AcceptanceTestsView extends JPanel{
 		bot.gridy = 0;
 		Pbot.add(lblBody, bot);
 		
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 1;
+		bot.gridy = 0;
+		bot.gridwidth = 3;
+		lblBodyError.setVisible(false);
+		lblBodyError.setForeground(Color.RED);
+		Pbot.add(lblBodyError, bot);
+		
 		//add the Body text area
 		JScrollPane scrollPaneBody = new JScrollPane(txtBody);
 		bot.anchor = GridBagConstraints.LINE_START;
@@ -199,7 +225,7 @@ public class AcceptanceTestsView extends JPanel{
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.weightx = 0;
 		bot.weighty = 0;
-		bot.gridx = 1;
+		bot.gridx = 3;
 		bot.gridy = 2;
 		Pbot.add(editTest, bot);
 		
@@ -311,10 +337,23 @@ public class AcceptanceTestsView extends JPanel{
 	 */
 	public boolean notReady(){
 		String t = txtTitle.getText().trim();
-		System.out.println(t);
 		String b = txtBody.getText().trim();
-		System.out.println(b);
-		return ((b == null || b.equals("")) && (t == null || t.equals("")));
+		if((t == null || t.equals("")) &&  (b == null || b.equals(""))){
+			lblBodyError.setVisible(true);
+			lblTitleError.setVisible(true);
+			return true;
+		}
+		if(b == null || b.equals("")){
+			lblBodyError.setVisible(true);
+			lblTitleError.setVisible(false);
+			return true;
+		}
+		if(t == null || t.equals("")){
+			lblTitleError.setVisible(true);
+			lblBodyError.setVisible(false);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -408,13 +447,15 @@ public class AcceptanceTestsView extends JPanel{
 	 */
 	public void clearBodyTxt(){
 		txtBody.setText("");
+		lblBodyError.setVisible(false);
 	}
 	
 	/**
 	 * Clear title txt.
 	 */
 	public void clearTitleTxt(){
-		txtTitle.setText("");
+		txtTitle.setText(null);
+		lblTitleError.setVisible(false);
 	}
 	
 	/**

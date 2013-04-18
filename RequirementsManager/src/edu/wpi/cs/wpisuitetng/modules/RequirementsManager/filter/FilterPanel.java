@@ -43,10 +43,10 @@ public class FilterPanel extends JPanel{
 
 	protected FilterController view;
 	
-	private JScrollPane scrollPane;
-	private JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
-	private ArrayList<RulePanel> rules;
-	private JPanel ruleHolderPanel, mainPanel;
+	private final JScrollPane scrollPane;
+	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
+	private final ArrayList<RulePanel> rules;
+	private final JPanel ruleHolderPanel, mainPanel;
 	private String[] removeFields;
 	/**
 	 * create a filter panel and add all the components

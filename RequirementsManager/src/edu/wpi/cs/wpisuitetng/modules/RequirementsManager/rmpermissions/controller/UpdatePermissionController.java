@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.awt.event.ActionEvent;
@@ -32,11 +32,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPerm
  */
 @SuppressWarnings({"rawtypes","serial"})
 public class UpdatePermissionController extends AbstractAction {
-	
+
 	protected JList noneUsers,updateUsers,adminUsers;
 	protected UserPermissionPanel panel;
 	DefaultListModel originalNoneListModel, originalUpdateListModel, originalAdminListModel;
-	
+
 	public UpdatePermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
@@ -45,9 +45,9 @@ public class UpdatePermissionController extends AbstractAction {
 		this.originalNoneListModel = (DefaultListModel) noneUsers.getModel();
 		this.originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
 		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
-//		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
+		//		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}  
-	
+
 	/* 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -59,48 +59,54 @@ public class UpdatePermissionController extends AbstractAction {
 		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
 		List<String> selectedAdminUsers = adminUsers.getSelectedValuesList();
-		
+
 		//gets all model for each of the list
 		DefaultListModel noneListModel = (DefaultListModel) noneUsers.getModel();
 		DefaultListModel updateListModel = (DefaultListModel) updateUsers.getModel();
 		DefaultListModel adminListModel = (DefaultListModel) adminUsers.getModel();
-		
+
 		//gets the list of items in each of the lists from the model
 		List<String> allNoneUsers = this.getAllElementsInModel(noneListModel);
 		List<String> allUpdateUsers = this.getAllElementsInModel(updateListModel);
 		List<String> allAdminUsers = this.getAllElementsInModel(adminListModel);
-		
+
 		//remove the selected items from the none total list 
 		List<String> newNoneUsers = allNoneUsers;
 		newNoneUsers.removeAll(selectedNoneUsers);
-		
+
 		//create a new model with the remaining items
 		DefaultListModel newNoneModel = this.getNewModel(newNoneUsers);
-		
+
 		//assign the new model
 		noneUsers.setModel(newNoneModel);
-		
+
 		//remove the selected items from the admin total list 
 		List<String> newAdminUsers = allAdminUsers;
 		newAdminUsers.removeAll(selectedAdminUsers);
-		
+
 		//create a new model with the remaining items
 		DefaultListModel newAdminModel = this.getNewModel(newAdminUsers);
 		//assign the new model
 		adminUsers.setModel(newAdminModel);
-		
+
 		//update the list for Update users to contain the selected items and convert it to a new default list model
 		allUpdateUsers.addAll(selectedNoneUsers);
 		allUpdateUsers.addAll(selectedAdminUsers);
 		DefaultListModel newUpdateModel = this.getNewModel(allUpdateUsers);
-		
+
 		//Assign the new model			
 		updateUsers.setModel(newUpdateModel);
-		if(!this.getAllElementsInModel(originalNoneListModel).containsAll(this.getAllElementsInModel(newNoneModel))){this.panel.setHasChanged(true);}
-		if(!this.getAllElementsInModel(originalUpdateListModel).containsAll(this.getAllElementsInModel(newUpdateModel))){this.panel.setHasChanged(true);}
-		if(!this.getAllElementsInModel(originalAdminListModel).containsAll(this.getAllElementsInModel(newAdminModel))){this.panel.setHasChanged(true);}
+		if(!this.getAllElementsInModel(originalNoneListModel).containsAll(this.getAllElementsInModel(newNoneModel))){
+			this.panel.setHasChanged(true);
+		}
+		if(!this.getAllElementsInModel(originalUpdateListModel).containsAll(this.getAllElementsInModel(newUpdateModel))){
+			this.panel.setHasChanged(true);
+		}
+		if(!this.getAllElementsInModel(originalAdminListModel).containsAll(this.getAllElementsInModel(newAdminModel))){
+			this.panel.setHasChanged(true);
+		}
 	}
-	
+
 	/**
 	 * The function takes a DefaultListModel and converts it to a list of string.
 	 * 
@@ -114,7 +120,7 @@ public class UpdatePermissionController extends AbstractAction {
 		}
 		return modelElements;
 	}
-	
+
 	/**
 	 * The function takes in a List and takes all of the elements from
 	 * the list and adds them to the default list model.

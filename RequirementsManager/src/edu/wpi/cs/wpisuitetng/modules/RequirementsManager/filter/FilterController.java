@@ -50,14 +50,14 @@ public class FilterController{
 		
 		this.listPanel = listPanel;
 		
-		this.panel = new FilterPanel(this);
-		this.model = new FilterModel();
+		panel = new FilterPanel(this);
+		model = new FilterModel();
 
-		this.panel.getAddButton().setAction( new AddAction(this) );
-		this.panel.getRemoveButton().setAction( new RemoveAction(this));
-		this.panel.getDisableButton().setAction( new DisableAction(this));
-		this.panel.getEnableButton().setAction( new EnableAction(this));
-		this.panel.getShowButton().setAction( new VisibleAction(this));
+		panel.getAddButton().setAction( new AddAction(this) );
+		panel.getRemoveButton().setAction( new RemoveAction(this));
+		panel.getDisableButton().setAction( new DisableAction(this));
+		panel.getEnableButton().setAction( new EnableAction(this));
+		panel.getShowButton().setAction( new VisibleAction(this));
 		
 		iterationController = new RetrieveAllIterationsController(this);
 		iterationController.retrieve();

@@ -46,7 +46,7 @@ public class RetrieveAllIterationsController {
 	}
 	
 	public void response(Iteration[] iterations){
-		this.controller.setIterations(iterations);
+		controller.setIterations(iterations);
 	}
 	
 }

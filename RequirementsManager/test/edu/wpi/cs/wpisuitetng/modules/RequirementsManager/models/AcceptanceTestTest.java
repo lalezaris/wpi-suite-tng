@@ -20,8 +20,14 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockNetwork;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
 
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.*;
@@ -37,10 +43,19 @@ import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.It
 public class AcceptanceTestTest {
 	
 	AcceptanceTest a;
+	AcceptanceTestsView av;
+	Requirement req;
+	RequirementView rv;
 	
 	@Before
 	public void setup(){
+		Network.initNetwork(new MockNetwork());
+		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+		
 		a = new AcceptanceTest("A Title", "bodybodybodybodybodybody");
+		req = new Requirement();
+		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
+		av = new AcceptanceTestsView(rv);
 	}
 	
 	@Test
@@ -48,5 +63,24 @@ public class AcceptanceTestTest {
 		assertEquals(a.getTitle(), "A Title");
 		assertEquals(a.getBody(), "bodybodybodybodybodybody");
 	}
+	
+	@Test
+	public void testChangeFields(){
+		a.setBody("New Body");
+		a.setStatus("Passed");
+		assertEquals("New Body", a.getBody());
+		assertEquals("Passed", a.getStatus());
+	}
+	
+	//TODO: figure out this test, and why the doClick isn't adding a test
+//	@Test
+//	public void testAddandEdit(){
+//		av.getTitleField().setText("Test1");
+//		av.getBodyField().setText("Test1 body");
+//		av.getAddButton().doClick();
+//		assertTrue(av.getList().size() > 0);
+//		assertEquals("Test1", av.getList().get(0).getTitle());
+//		assertEquals("Test1 body", av.getList().get(0).getBody());
+//	}
 
 }

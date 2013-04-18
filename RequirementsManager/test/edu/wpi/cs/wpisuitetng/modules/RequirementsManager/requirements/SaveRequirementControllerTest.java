@@ -32,23 +32,21 @@ public class SaveRequirementControllerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		/*Network.initNetwork(new MockNetwork());
+		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		Requirement tempReq = new Requirement();
 		view = new RequirementView(tempReq, RequirementPanel.Mode.CREATE, null);
-		controller = new SaveRequirementController(view);*/
+		controller = new SaveRequirementController(view);
 	}
 	
 	@Test
 	public void fixJenkins(){
 		assertEquals("Jenkins", "Jenkins");
 	}
-	
-//  TODO Wait for the tab completed
-//	@Test
-//	public void contructorSetsViewFieldCorrectly() {
-//		assertEquals(view, controller.getView());
-//
-//	}
+
+	@Test
+	public void constructorSetsViewFieldCorrectly() {
+		assertEquals(view, controller.getView());
+	}
 	
 }

@@ -510,6 +510,41 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		return result;
 	}
 	
+	/**
+	 * returns the Title text field
+	 */
+	public JTextField getTitleField(){
+		return txtTitle;
+	}
+	
+	/**
+	 * returns the Body text area
+	 */
+	public JTextArea getBodyField(){
+		return txtBody;
+	}
+	
+	/**
+	 * returns the Status combo box
+	 */
+	public JComboBox getStatusField(){
+		return cmbStatus;
+	}
+	
+	/**
+	 * returns the add button
+	 */
+	public JButton getAddButton(){
+		return addTest;
+	}
+	
+	/**
+	 * returns the edit button
+	 */
+	public JButton getEditButton(){
+		return editTest;
+	}
+	
 	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 		/**
 	 * If the title written is already in the list, disable the addTest button and enable the

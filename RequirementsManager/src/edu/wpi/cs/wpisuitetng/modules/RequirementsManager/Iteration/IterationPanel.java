@@ -12,10 +12,13 @@
  *  Arica Liu
  *  Lauren Kahn
  *  Chris Dunkers
+ *  Michael Perrone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -24,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -31,9 +35,20 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveRequirementController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RequirementTableSortAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -104,6 +119,11 @@ public class IterationPanel extends JPanel {
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
+	
+	
+	protected JTable table;
+	protected RequirementListPanel reqListPanel;
+	protected RequirementTableModel requirementTableModel;
 
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
@@ -121,7 +141,6 @@ public class IterationPanel extends JPanel {
 
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
-		this.setLayout(layout);
 
 		// Add all components to this panel
 		addComponents();
@@ -335,9 +354,34 @@ public class IterationPanel extends JPanel {
 		c.gridx = 0;
 		c.gridy = 2;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		this.add(panelOverall, c);
+		c.fill = GridBagConstraints.BOTH;
+		JPanel left = new JPanel();
+		left.add(panelOverall);
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setLeftComponent(left);
+		
+
+		JPanel right = new JPanel();
+		if(this.getParent().getMode() == Mode.EDIT){
+			right.setLayout(new BorderLayout());
+			reqListPanel = new RequirementListPanel(MainTabController.getController());
+			reqListPanel.hideButtons();
+
+			right.add(reqListPanel,BorderLayout.CENTER);
+			JPanel rightSub = new JPanel();
+			rightSub.setLayout(new FlowLayout());
+			rightSub.add(new JLabel("Requirements in this iteration:"),1.0);
+			right.add(rightSub,BorderLayout.NORTH);
+		}
+
+		splitPane.setRightComponent(right);
+
+		this.setLayout(new BorderLayout());
+		new AllRequirementController(this).retrieve();
+		this.add(splitPane,BorderLayout.CENTER);
 	}
 
+	
 	/**
 	 * Return the parent IterationView.
 	 * 
@@ -523,6 +567,25 @@ public class IterationPanel extends JPanel {
 	 */
 	public GridBagLayout getPanelLayout() {
 		return layout;
+	}
+
+	/**
+	 * 
+	 * Receives the requirements from the server and adds the correct ones to the requirement panel
+	 * 
+	 * @param reqs the requirements the server received
+	 */
+	public void receiveServerRequirements(Requirement[] reqs) {
+		Iteration i = getParent().getIterationModel().getUneditedModel();
+		ArrayList<Requirement> list = new ArrayList<Requirement>();
+		for(Requirement r:reqs){
+			if(r.getIterationId() == i.getId()){
+				list.add(r);
+			}
+		}
+		reqListPanel.addRequirements(list.toArray(new Requirement[]{}));
+		reqListPanel.repaint();
+		reqListPanel.revalidate();
 	}
 	
 }

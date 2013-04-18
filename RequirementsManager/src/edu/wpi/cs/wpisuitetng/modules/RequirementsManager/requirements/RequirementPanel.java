@@ -19,6 +19,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -108,7 +109,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected RequirementTabsView RTabsView;
 	protected JButton createChildRequirement;
 	protected JSplitPane splitPane;
-
+	protected JSplitPane splitPaneLeft;
+	
 	/** NotesView for updating notes **/
 	private NotesView notesView; //= new NotesView();
 
@@ -517,26 +519,26 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		 lblEstimateError.setForeground(Color.RED);
 		 panelThree.add(lblEstimateError, cThree);
 
-		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-
-		 layoutFour = new GridBagLayout();
-		 panelFour.setLayout(layoutFour);
-
-		 cFour.insets = new Insets(10,10,10,0);
+//		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
+//		 //Use a grid bag layout manager
+//
+//		 layoutFour = new GridBagLayout();
+//		 panelFour.setLayout(layoutFour);
+//
+//		 cFour.insets = new Insets(10,10,10,0);
 
 		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
 		 //Use a grid bag layout manager
 		 layoutButtons = new GridBagLayout();
 		 panelButtons.setLayout(layoutButtons);
 
-		 cButtons.insets = new Insets(10,10,10,10);
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 0;
-		 cButtons.gridy = 0;
-		 cButtons.gridwidth = 3;
-		 panelButtons.add(createChildRequirement, cButtons);
+//		 cButtons.insets = new Insets(10,10,10,10);
+//		 cButtons.weightx = 0.5;
+//		 cButtons.weighty = 0.5;
+//		 cButtons.gridx = 0;
+//		 cButtons.gridy = 0;
+//		 cButtons.gridwidth = 3;
+//		 panelButtons.add(createChildRequirement, cButtons);
 		 
 		 
 		 cButtons.weightx = 0.5;
@@ -598,44 +600,51 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		 cOverall.gridy = 2;
 		 cOverall.anchor = GridBagConstraints.LINE_START;
 		 panelOverall.add(panelThree, cOverall);
-
+		 
+		 cOverall.fill = GridBagConstraints.NONE;
 		 cOverall.weightx = 0.5;
 		 cOverall.weighty = 0.5;
 		 cOverall.gridx = 0;
 		 cOverall.gridy = 3;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelFour, cOverall);
+		 cOverall.gridwidth = 4;
+		 cOverall.anchor = GridBagConstraints.CENTER;
+		 panelOverall.add(createChildRequirement, cOverall);
+
+//		 cOverall.weightx = 0.5;
+//		 cOverall.weighty = 0.5;
+//		 cOverall.gridx = 0;
+//		 cOverall.gridy = 3;
+//		 cOverall.anchor = GridBagConstraints.LINE_START;
+//		 panelOverall.add(panelFour, cOverall);
 		 
 		 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 4;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelButtons, cOverall);
+//		 cOverall.weightx = 0.5;
+//		 cOverall.weighty = 0.5;
+//		 cOverall.gridx = 0;
+//		 cOverall.gridy = 4;
+//		 cOverall.anchor = GridBagConstraints.LINE_START;
+//		 panelOverall.add(panelButtons, cOverall);
 
 		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
 
-		 JPanel leftPanel = new JPanel();
-		 leftPanel.setLayout(new GridBagLayout());
-		 GridBagConstraints cPane = new GridBagConstraints();
+		 JPanel leftPaneltop = new JPanel();
+		 leftPaneltop.setLayout(new GridBagLayout());
+		 GridBagConstraints cPaneTop = new GridBagConstraints();
 
-		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
-		 cPane.weightx = 0.1;
-		 cPane.weighty = 0.1;
-		 cPane.gridx = 0;
-		 cPane.gridy = 0;
-		 leftPanel.add(panelOverall,cPane);
+		 cPaneTop.anchor = GridBagConstraints.FIRST_LINE_START;
+		 cPaneTop.weightx = 0.1;
+		 cPaneTop.weighty = 0.1;
+		 cPaneTop.gridx = 0;
+		 cPaneTop.gridy = 0;
+		 leftPaneltop.add(panelOverall,cPaneTop);
 		 
-		 JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
+		 JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
 		 JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		 splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
+		 splitPaneLeft.setEnabled(true);
 
-		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
-		 splitPane.setDividerLocation(0.5);
-		 splitPane.resetToPreferredSizes();
+		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, scrollPaneTabs);
 		 this.add(splitPane, BorderLayout.CENTER);
-
-
 		 
 //		 if (model.getChildRequirementIds().isEmpty()) {
 //			 setDeleteEnabled(false);
@@ -645,17 +654,17 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 	
 	public void setUpToolTips(){
-		this.txtTitle.setToolTipText("Required: A title less than 100 character.");
-		this.txtReleaseNumber.setToolTipText("The release number for this requirement.");
-		this.txtDescription.setToolTipText("Required: A description for this requirement.");
-		this.txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+		txtTitle.setToolTipText("Required: A title less than 100 character.");
+		txtReleaseNumber.setToolTipText("The release number for this requirement.");
+		txtDescription.setToolTipText("Required: A description for this requirement.");
+		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
 				"This field must be greater than 0 to assign to an iteration.");
-		this.txtActual.setToolTipText("The actual effort for this requirement.");
-		this.cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+		txtActual.setToolTipText("The actual effort for this requirement.");
+		cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
 				"This field cannot be filled in until a estimate is entered.");
-		this.cmbPriority.setToolTipText("The priority of this requirement.");
-		this.cmbStatus.setToolTipText("The Status of the requirement.");
-		this.cmbType.setToolTipText("Set the type of requirement this requirement is.");		
+		cmbPriority.setToolTipText("The priority of this requirement.");
+		cmbStatus.setToolTipText("The Status of the requirement.");
+		cmbType.setToolTipText("Set the type of requirement this requirement is.");		
 	}
 
 	
@@ -1270,8 +1279,19 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return lblActualError;
 	}
 
+	/**
+	 * @return the splitPane
+	 */
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
 
-
+	/**
+	 * @return the splitPaneLeft
+	 */
+	public JSplitPane getSplitPaneLeft() {
+		return splitPaneLeft;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations){

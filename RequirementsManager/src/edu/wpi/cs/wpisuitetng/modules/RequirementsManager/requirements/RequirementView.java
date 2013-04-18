@@ -29,7 +29,9 @@ import javax.swing.text.JTextComponent;
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
@@ -321,13 +323,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		reqModel.update(requirement, editMode);
 		
-
-		
-		mainPanel.getNotesView().setNotesList(this.getReqModel().getRequirement().getNotes());
 		mainPanel.getHv().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAv().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAv().setLists();
-		mainPanel.getAtv().setList(this.getReqModel().getRequirement().getAcceptanceTests());
+		
+		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
+		for(int i = 0; i < this.getReqModel().getRequirement().getAcceptanceTests().size(); i++){
+			acceptanceTestList.add(this.getReqModel().getRequirement().getAcceptanceTests().get(i));
+		}
+		mainPanel.getAtv().setList(acceptanceTestList);
 		
 		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		 if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {

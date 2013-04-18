@@ -12,33 +12,38 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
+import java.util.ArrayList;
+
 /**
- * The different types of comparison modes. 
+ * Insert Description Here
  *
- * @author Chris Hanna
+ * @author Chris
  *
- * @version Apr 14, 2013
+ * @version Apr 17, 2013
  *
  */
-public enum RuleComparisonMode {
-	EQUALS("EQUALS"),
-	GREATER("IS GREATER THAN"),
-	EQUALSGREATER("IS GREATER THAN OR EQUAL TO"),
-	LESS("IS LESS THAN"),
-	EQUALSLESS("IS LESS THAN OR EQUAL TO"),
-	NOTEQUALS("IS NOT EQUAL TO"),
-	CONTAINS("CONTAINS"),
-	ASSIGNEDTO("IS ASSIGNED TO"),
-	NOTASSIGNEDTO(" IS NOT ASSIGNED TO");
-	
-	private String name;
-	
-	private RuleComparisonMode(String name){
-		this.name = name;
+public class ListCompare<T> implements Comparable{
+
+	ArrayList<T> list;
+	/**
+	 * Enter Description here.
+	 * 
+	 */
+	public ListCompare(ArrayList<T> list) {
+		this.list = list;
+	}
+
+	public int size(){
+		return list.size();
 	}
 	
 	@Override
-	public String toString(){
-		return name;
+	public int compareTo(Object o) {
+		
+		if (list.contains(o))
+			return 0;
+		
+		return 1;
 	}
+
 }

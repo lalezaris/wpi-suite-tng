@@ -114,7 +114,7 @@ public class RequirementListPanel extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(filterController.getPanel(), c);
@@ -128,7 +128,7 @@ public class RequirementListPanel extends JPanel{
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 1;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(buttonPanel,c);
@@ -146,7 +146,7 @@ public class RequirementListPanel extends JPanel{
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = 0.5;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.gridwidth = 1;
 		panel.add(scrollPane, c);
 
@@ -248,6 +248,7 @@ public class RequirementListPanel extends JPanel{
 			//}
 		}
 		table.updateUI();
+		filterController.setFilteredInTable();
 	}
 	
 	public void filterRequirements(Requirement[] requirements){
@@ -330,5 +331,9 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public RequirementTableModel getModel() {
 		return model;
+	}
+
+	public FilterController getFilterController() {
+		return filterController;
 	}
 }

@@ -17,9 +17,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableA
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.EnableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.RemoveAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.VisibleAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllIterationsController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllUsersController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTargetException;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Insert Description Here
@@ -35,6 +39,8 @@ public class FilterController{
 	protected FilterPanel panel;
 	protected FilterModel model;
 	protected RequirementListPanel listPanel;
+	protected RetrieveAllIterationsController iterationController;
+	protected RetrieveAllUsersController userController;
 	/**
 	 * create a new controller. Set up the buttons of the panel
 	 * 
@@ -52,6 +58,13 @@ public class FilterController{
 		this.panel.getDisableButton().setAction( new DisableAction(this));
 		this.panel.getEnableButton().setAction( new EnableAction(this));
 		this.panel.getShowButton().setAction( new VisibleAction(this));
+		
+		iterationController = new RetrieveAllIterationsController(this);
+		iterationController.retrieve();
+		
+		userController = new RetrieveAllUsersController(this);
+		userController.retrieve();
+		
 	}
 
 	public FilterPanel getPanel() {
@@ -71,6 +84,26 @@ public class FilterController{
 		Requirement[] all = this.listPanel.getContent();
 		Requirement[] filtered = null;
 		
+		boolean sentIterationsRequest = false;
+		for (int i = 0 ; i < panel.getRules().size(); i ++){
+			if ( !sentIterationsRequest &&
+					((String)panel.getRules().get(i).getField().getSelectedItem()).equals("iteration")){
+				sentIterationsRequest = true;
+				iterationController.retrieve();
+				break;
+			}
+		}
+		
+		boolean sentUsersRequest = false;
+		for (int i = 0 ; i < panel.getRules().size(); i ++){
+			if ( !sentUsersRequest &&
+					((String)panel.getRules().get(i).getField().getSelectedItem()).equals("user")){
+				sentUsersRequest = true;
+				userController.retrieve();
+				break;
+			}
+		}
+		
 		getModel().setModelFromPanel(panel);
 		try {
 			filtered = getModel().getFilter().getFilteredObjects(all);
@@ -82,6 +115,16 @@ public class FilterController{
 		
 		
 		return filtered;
+	}
+	
+	public void setIterations(Iteration[] iterations){
+		this.model.setIterations(iterations);
+		this.panel.setIterations(iterations);
+	}
+	
+	public void setUsers(User[] users){
+		this.model.setUsers(users);
+		this.panel.setUsers(users);
 	}
 	
 	public RequirementListPanel getListPanel(){

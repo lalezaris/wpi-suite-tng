@@ -28,6 +28,7 @@ import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
@@ -45,7 +46,7 @@ public class AcceptanceTestsView extends JPanel{
 	
 	protected GridBagLayout layout;
 	
-	protected JTextField txtTitle;
+	protected JPlaceholderTextField txtTitle;
 	protected JTextArea txtBody;
 	//the status dropdown menu goes here
 	protected JButton addTest;
@@ -102,7 +103,7 @@ public class AcceptanceTestsView extends JPanel{
 		//TODO: Set borders
 
 		/* begin panel styling */
-		txtTitle = new JTextField(12);
+		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		JLabel lblTitle = new JLabel("Title: ", JLabel.TRAILING);
 		txtBody = new JTextArea(4, 40);
 		JLabel lblBody = new JLabel("Body: ", JLabel.TRAILING);
@@ -127,27 +128,31 @@ public class AcceptanceTestsView extends JPanel{
 		
 		//Add ALL the things with style!
 		//add the "Title: " label
+//		top.anchor = GridBagConstraints.LINE_START;
+//		top.weightx = 0.5;
+//		top.weighty = 0.5;
+//		top.gridx = 0;
+//		top.gridy = 0;
+//		Ptop.add(lblTitle, top);
+
+		//add the Title text field
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		top.weightx = 0.5;
 		top.weighty = 0.5;
 		top.gridx = 0;
 		top.gridy = 0;
-		Ptop.add(lblTitle, top);
-
-		//add the Title text field
-		top.anchor = GridBagConstraints.LINE_START;
-		top.weightx = 0.5;
-		top.weighty = 0.5;
-		top.gridx = 1;
-		top.gridy = 0;
+		top.gridwidth = 3;
 		Ptop.add(txtTitle, top);
 		
 		//add the "Status: " label
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		top.gridx = 0;
 		top.gridy = 1;
 		top.weightx = 0.5;
 		top.weighty = 0.5;
+		top.gridwidth = 1;
 		Ptop.add(lblStatus, top);
 		
 		//add the Status menu
@@ -161,8 +166,8 @@ public class AcceptanceTestsView extends JPanel{
 
 		//add the "Body: " label
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
-		bot.insets = new Insets(5,0,5,0);
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 0;
@@ -202,7 +207,7 @@ public class AcceptanceTestsView extends JPanel{
 		listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
 		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
 		bot.anchor = GridBagConstraints.LINE_START;
-//		bot.fill = GridBagConstraints.BOTH;
+		bot.fill = GridBagConstraints.BOTH;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 0;

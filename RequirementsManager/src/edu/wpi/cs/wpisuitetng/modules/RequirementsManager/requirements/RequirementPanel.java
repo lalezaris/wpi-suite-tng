@@ -53,7 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -66,7 +66,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Ned Shelton
  * @author Michael Perrone
  * @author Evan Polekoff
- * @author Chris Hanna <-refactored on april13.
+ * @author Chris Hanna (refactored on 04/13)
+ * 
  * @version Mar 17, 2013
  *
  */
@@ -101,11 +102,11 @@ public class RequirementPanel extends JPanel{
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
-	protected JButton saveRequirementBottom;
-	protected JButton cancelRequirementBottom;
-	protected JButton deleteRequirementBottom;
+	protected JButton saveRequirementButton;
+	protected JButton cancelRequirementButton;
+	protected JButton deleteRequirementButton;
 	protected RequirementTabsView RTabsView;
-	protected JButton createChildRequirement;
+	protected JButton createChildRequirementButton;
 	protected JSplitPane splitPane;
 	protected JSplitPane splitPaneLeft;
 	
@@ -113,17 +114,17 @@ public class RequirementPanel extends JPanel{
 	private NotesView notesView; //= new NotesView();
 
 	/** HistoryView for updating history **/
-	private HistoryView hv;
+	private HistoryView historyView;
 
 	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
-	private AcceptanceTestsView atv;
+	private AcceptanceTestsView acceptanceTestsView;
 
 	/** AssigneeView for updating assignees **/
-	//TODO finish implementing av
-	private AssigneeView av;
+	//TODO finish implementing assigneeView
+	private AssigneeView assigneeView;
 	
-	/** ChildrenView for viewing child requirements **/
-	private ChildrenView cv;
+	/** DependenciesView for viewing child requirements **/
+	private DependenciesView dependenciesView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -182,17 +183,17 @@ public class RequirementPanel extends JPanel{
 		this.notesView = new NotesView(parent);
 
 		//get the list of history from the given requirement
-		this.hv = new HistoryView(parent);
-//		hv = new HistoryView(model);
+		this.historyView = new HistoryView(parent);
+//		historyView = new HistoryView(model);
 		
 		//Instantiate the acceptance tests
-		this.atv = new AcceptanceTestsView(parent);
+		this.acceptanceTestsView = new AcceptanceTestsView(parent);
 
 		//get the list of history from the given requirement
-		this.av = new AssigneeView(parent);
+		this.assigneeView = new AssigneeView(parent);
 		
 		//get the list of children from the given requirement
-		this.cv = new ChildrenView(parent);
+		this.dependenciesView = new DependenciesView(parent);
 		
 		// Indicate that input is enabled
 		this.inputEnabled = true;
@@ -267,17 +268,16 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, hv, atv, av, cv);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView);
 
 		/**Save Button*/
-		saveRequirementBottom = new JButton("Save");
-		//saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
-		deleteRequirementBottom = new JButton("Delete");
-		//deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
-		cancelRequirementBottom = new JButton("Cancel");
-		//cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
+		saveRequirementButton = new JButton("Save");
+		/**Delete Button*/
+		deleteRequirementButton = new JButton("Delete");
+		/**Cancel Button*/
+		cancelRequirementButton = new JButton("Cancel");
 
-		createChildRequirement = new JButton("Add Child Requirement");
+		createChildRequirementButton = new JButton("Add Child Requirement");
 		
 		//make sit so that all combo boxes will have black text when disabled for easier readability
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
@@ -370,9 +370,9 @@ public class RequirementPanel extends JPanel{
 
 
 //		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
-//			 deleteRequirementBottom.setEnabled(false);
+//			 deleteRequirementButton.setEnabled(false);
 //		 else
-//			 deleteRequirementBottom.setEnabled(true);
+//			 deleteRequirementButton.setEnabled(true);
 		 
 		 cOne.gridx = 0;
 		 cOne.gridy = 2;
@@ -524,7 +524,7 @@ public class RequirementPanel extends JPanel{
 //		 cButtons.gridx = 0;
 //		 cButtons.gridy = 0;
 //		 cButtons.gridwidth = 3;
-//		 panelButtons.add(createChildRequirement, cButtons);
+//		 panelButtons.add(createChildRequirementButton, cButtons);
 		 
 		 
 		 cButtons.weightx = 0.5;
@@ -532,20 +532,20 @@ public class RequirementPanel extends JPanel{
 		 cButtons.gridx = 0;
 		 cButtons.gridy = 6;
 		 cButtons.gridwidth = 1;
-		 panelButtons.add(saveRequirementBottom, cButtons);
+		 panelButtons.add(saveRequirementButton, cButtons);
 
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 2;
 		 cButtons.gridy = 6;
-		 deleteRequirementBottom.setVisible(false);
-		 panelButtons.add(deleteRequirementBottom, cButtons);
+		 deleteRequirementButton.setVisible(false);
+		 panelButtons.add(deleteRequirementButton, cButtons);
 
 		 cButtons.weightx = 0.5;
 		 cButtons.weighty = 0.5;
 		 cButtons.gridx = 1;
 		 cButtons.gridy = 6;
-		 panelButtons.add(cancelRequirementBottom, cButtons);
+		 panelButtons.add(cancelRequirementButton, cButtons);
 
 		 //Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
 		 //Use a grid bag layout manager
@@ -594,7 +594,7 @@ public class RequirementPanel extends JPanel{
 		 cOverall.gridy = 3;
 		 cOverall.gridwidth = 4;
 		 cOverall.anchor = GridBagConstraints.CENTER;
-		 panelOverall.add(createChildRequirement, cOverall);
+		 panelOverall.add(createChildRequirementButton, cOverall);
 
 //		 cOverall.weightx = 0.5;
 //		 cOverall.weighty = 0.5;
@@ -661,7 +661,7 @@ public class RequirementPanel extends JPanel{
 	 * @param enabled a boolean indicating whether or not to Enabled
 	 */
 	public void setDeleteEnabled(boolean enabled) {
-		deleteRequirementBottom.setEnabled(enabled);
+		deleteRequirementButton.setEnabled(enabled);
 	}
 	
 	/**
@@ -801,10 +801,10 @@ public class RequirementPanel extends JPanel{
 		requirement.setCreationDate(parent.getReqModel().getRequirement().getCreationDate());
 
 		requirement.updateNotes(notesView.getNotesList());
-		requirement.updateHistory(hv.getHistoryList());
-		requirement.updateAcceptanceTests(atv.getList());
-		requirement.setAssignee(av.getAssignedUserAL());
-		requirement.setSubRequirements(cv.getChildrenRequirementsList());
+		requirement.updateHistory(historyView.getHistoryList());
+		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
+		requirement.setAssignee(assigneeView.getAssignedUserAL());
+		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 
@@ -1054,7 +1054,7 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			saveRequirementBottom.setEnabled(enabled);
+			saveRequirementButton.setEnabled(enabled);
 		}
 	}
 
@@ -1074,11 +1074,11 @@ public class RequirementPanel extends JPanel{
 	 * @return the AssigneeView
 	 */
 	public AssigneeView getAv() {
-		return av;
+		return assigneeView;
 	}
 	
-	public ChildrenView getCv(){
-		return cv;
+	public DependenciesView getCv(){
+		return dependenciesView;
 	}
 	
 	/**
@@ -1097,31 +1097,31 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * @return the saveRequirementBottom
+	 * @return the saveRequirementButton
 	 */
 	public JButton getSaveRequirementBottom() {
-		return saveRequirementBottom;
+		return saveRequirementButton;
 	}
 
 	/**
-	 * @return the cancelRequirementBottom
+	 * @return the cancelRequirementButton
 	 */
 	public JButton getCancelRequirementBottom() {
-		return cancelRequirementBottom;
+		return cancelRequirementButton;
 	}
 
 	/**
-	 * @return the deleteRequirementBottom
+	 * @return the deleteRequirementButton
 	 */
 	public JButton getDeleteRequirementBottom() {
-		return deleteRequirementBottom;
+		return deleteRequirementButton;
 	}
 
 	/**
-	 * @return the createChildRequirement
+	 * @return the createChildRequirementButton
 	 */
 	public JButton getCreateChildRequirement() {
-		return createChildRequirement;
+		return createChildRequirementButton;
 	}
 
 	
@@ -1225,24 +1225,24 @@ public class RequirementPanel extends JPanel{
 	
 
 	/**
-	 * @return the hv
+	 * @return the historyView
 	 */
 	public HistoryView getHv() {
-		return hv;
+		return historyView;
 	}
 	
 	/**
-	 * @return the atv
+	 * @return the acceptanceTestsView
 	 */
 	public AcceptanceTestsView getAtv() {
-		return atv;
+		return acceptanceTestsView;
 	}
 
 	/**
-	 * @param atv: the atv to set
+	 * @param acceptanceTestsView: the acceptanceTestsView to set
 	 */
 	public void setAtv(AcceptanceTestsView atv) {
-		this.atv = atv;
+		this.acceptanceTestsView = atv;
 	}
 
 	/**

@@ -400,7 +400,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 }
 		 switch (pLevel){
 		 case NONE:
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
 			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
@@ -411,7 +411,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			 break;
 		 case UPDATE: 
 			 
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),
+			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),
 					 mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(), mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
 			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),});
 			 mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
@@ -425,22 +425,19 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 
 		 if(this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				 pLevel != RMPermissionsLevel.NONE){
-			 mainPanel.enableStuff(new JComponent[]{mainPanel.getTxtActual(), mainPanel.getCancelRequirementBottom(), mainPanel.getSaveRequirementBottom()});
+			 mainPanel.enableFields(new JComponent[]{mainPanel.getTxtActual(), mainPanel.getCancelRequirementBottom(), mainPanel.getSaveRequirementBottom()});
 		 }
 		 
 		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 		 
 		 System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
 		 if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
-			 mainPanel.disableStuff(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
-		 }
-		 
-		 
+			 mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
+		 } 
 	}
-
 
 	/**
 	 * @return the mode
@@ -467,19 +464,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			knownIterations[i] = knownIts.get(i);
 		}
 		
-		
-		
 		mainPanel.setIterations(knownIterations);
-		
-		
 		
 		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
 		
-	
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
 		
-		//if the requirement is being created dont allow the user to create children
-		if(mode == RequirementPanel.Mode.CREATE){
+		//if either a parent or a child requirement is being created, do not allow the user to create (further) children
+		if(mode == RequirementPanel.Mode.CREATE || mode == RequirementPanel.Mode.CHILD){
 			mainPanel.getCreateChildRequirement().setEnabled(false);
 			mainPanel.getCreateChildRequirement().setVisible(false);
 		}

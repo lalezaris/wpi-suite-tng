@@ -686,7 +686,7 @@ public class RequirementPanel extends JPanel{
 	 *
 	 * @param components the components to be disabled
 	 */
-	protected void disableStuff(JComponent[] components){
+	protected void disableFields(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
 				com.setEnabled(false);
@@ -699,7 +699,7 @@ public class RequirementPanel extends JPanel{
 	 * 
 	 * @param components to be enabled
 	 */
-	protected void enableStuff(JComponent[] components){
+	protected void enableFields(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
 				com.setEnabled(true);

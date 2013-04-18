@@ -103,8 +103,6 @@ public class RequirementListPanel extends JPanel{
 		updateButton.setAction(new UpdateAllEstimateAction(updateController));	
 		deleteButton = new JButton("Delete");
 
-
-
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);	

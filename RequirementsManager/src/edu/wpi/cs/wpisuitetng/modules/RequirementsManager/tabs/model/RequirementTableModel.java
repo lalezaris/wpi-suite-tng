@@ -46,6 +46,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
+	protected boolean isChange = false;
 
 	private static final boolean DEBUG = false;
 
@@ -249,7 +250,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		Object[] element = data.get(row);
 		element[5] = value;
 		data.set(row, element);
-		fireTableCellUpdated(row, col);  
+		fireTableCellUpdated(row, col); 
+		isChange = true;
 
 		if (DEBUG) {
 			System.out.println("New value of data:");
@@ -297,6 +299,14 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
+	}
+	
+	public boolean getIsChange() {
+		return isChange;
+	}
+	
+	public void setIsChange(boolean value) {
+		isChange = value;
 	}
 
 	/** Sorts the table in ascending order bases on the column given. If it was already 

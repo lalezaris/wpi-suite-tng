@@ -1072,17 +1072,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return notesView;
 	}
 	
-
 	/**
 	 * Get the AssigneeView.
 	 * 
 	 * @return the AssigneeView
 	 */
-	public AssigneeView getAv() {
+	public AssigneeView getAssigneeView() {
 		return av;
 	}
 	
-	public ChildrenView getCv(){
+	public ChildrenView getChildrenView(){
 		return cv;
 	}
 	
@@ -1232,21 +1231,21 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * @return the hv
 	 */
-	public HistoryView getHv() {
+	public HistoryView getHistoryView() {
 		return hv;
 	}
 	
 	/**
 	 * @return the atv
 	 */
-	public AcceptanceTestsView getAtv() {
+	public AcceptanceTestsView getAcceptanceTestsView() {
 		return atv;
 	}
 
 	/**
 	 * @param atv: the atv to set
 	 */
-	public void setAtv(AcceptanceTestsView atv) {
+	public void setAcceptanceTestsView(AcceptanceTestsView atv) {
 		this.atv = atv;
 	}
 

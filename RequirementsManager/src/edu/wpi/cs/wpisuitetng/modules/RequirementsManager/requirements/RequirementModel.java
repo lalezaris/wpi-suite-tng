@@ -98,8 +98,8 @@ public class RequirementModel {
 		}
 		*/
 		panel.getNotesView().setNotesList(requirement.getNotes());
-		panel.getHv().setHistoryList(requirement.getHistory());
-		panel.getAv().setAssigneeList(requirement.getAssignee());
+		panel.getHistoryView().setHistoryList(requirement.getHistory());
+		panel.getAssigneeView().setAssigneeList(requirement.getAssignee());
 		
 		
 		panel.setUpPanel();
@@ -198,7 +198,7 @@ public class RequirementModel {
 			return true;
 		}
 		
-		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
+		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
 		
@@ -241,6 +241,7 @@ public class RequirementModel {
 		Requirement newR = view.getRequirementPanel().getEditedModel();
 		boolean flag = false; //gets set to true when something has changed; in order to iterate through everything
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		int acceptDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
@@ -335,8 +336,8 @@ public class RequirementModel {
 		
 		
 		//set Assigneeview to yellow
-		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
-			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
+			view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.YELLOW);
 			flag = true;
 		}
 		
@@ -345,8 +346,8 @@ public class RequirementModel {
 			flag = true;
 		}*/
 		else
-			if(this.view.getRequirementPanel().getAv().getBackgroundColor().equals(Color.YELLOW))
-				view.getRequirementPanel().getAv().setBackgroundColors(Color.WHITE);
+			if(this.view.getRequirementPanel().getAssigneeView().getBackgroundColor().equals(Color.YELLOW))
+				view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.WHITE);
 		/*
 		//TODO: come back to this
 		//compare sub-requirements 
@@ -370,6 +371,39 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().getNotesView().getSavedTextArea().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.WHITE);//change to white background in case of reset
+		
+		//AcceptanceTestFields
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtTitle().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.WHITE);
+			
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
+			
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("Blank") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getCmbStatus().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
+			
+		if(acceptDifference != 0) {
+			view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getListDisplay().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
 		
 		return flag;
 	}

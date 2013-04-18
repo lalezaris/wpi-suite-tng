@@ -126,8 +126,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
-		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
-		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
+		mainPanel.getAssigneeView().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAssigneeView()));
+		mainPanel.getAssigneeView().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAssigneeView()));
 		
 //		if(test == false){
 			//populate the Iterations combobox
@@ -326,10 +326,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		
 		mainPanel.getNotesView().setNotesList(this.getReqModel().getRequirement().getNotes());
-		mainPanel.getHv().setHistoryList(this.getReqModel().getRequirement().getHistory());
-		mainPanel.getAv().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
-		mainPanel.getAv().setLists();
-		mainPanel.getAtv().setList(this.getReqModel().getRequirement().getAcceptanceTests());
+		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
+		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
+		mainPanel.getAssigneeView().setLists();
+		mainPanel.getAcceptanceTestsView().setList(this.getReqModel().getRequirement().getAcceptanceTests());
 		
 		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		 if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {
@@ -400,7 +400,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 case NONE:
 			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
-					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
+					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove()});
 			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
 			 mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
@@ -410,7 +410,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		 case UPDATE: 
 			 
 			 mainPanel.disableStuff(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),
-					 mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(), mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
+					 mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(), mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove()});
 			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),});
 			 mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
 			 mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});

@@ -46,7 +46,7 @@ public class AddAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getPanel().addRule();
+		controller.getPanel().addRule();
 	}
 
 }

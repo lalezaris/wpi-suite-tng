@@ -29,10 +29,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class Filter{
 	
-	private ArrayList<Rule> rules;
+	private final ArrayList<Rule> rules;
 	
 	public Filter(){
-		this.rules = new ArrayList<Rule>();
+		rules = new ArrayList<Rule>();
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class Filter{
 	 * @param rule
 	 */
 	public void addRule(Rule rule){
-		this.rules.add(rule);
+		rules.add(rule);
 	}
 	
 	/**
@@ -50,11 +50,11 @@ public class Filter{
 	 * @return
 	 */
 	public ArrayList<Rule> getRules(){
-		return this.rules;
+		return rules;
 	}
 	
 	public void removeAllRules(){
-		this.rules.clear();
+		rules.clear();
 	}
 	
 	/**

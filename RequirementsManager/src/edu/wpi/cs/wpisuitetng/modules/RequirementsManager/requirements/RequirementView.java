@@ -11,7 +11,7 @@
  *  Chris Dunkers
  *  Joe Spicola
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
@@ -66,10 +66,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  */
 @SuppressWarnings({"serial", "unused"})
 public class RequirementView extends JPanel implements IToolbarGroupProvider {
-	
+
 	private RequirementModel reqModel;
 	protected RequirementPanel.Mode mode;
-	
+
 	private ToolbarGroupView buttonGroup;
 	private JButton saveButton;
 	private RequirementPanel mainPanel;
@@ -78,7 +78,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private Tab containingTab;
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
-//	private RequirementPanel reqPanel;
+	//	private RequirementPanel reqPanel;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
@@ -92,14 +92,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		boolean test = false;
 		containingTab = tab;
 		this.parentView = null;
-		
+
 		if(containingTab == null) {
 			containingTab = new DummyTab();
 			test = true;
 		}
-		
+
 		inputEnabled = true;
-		
+
 		containingTab.setIcon(new ImageIcon());
 		if(editMode == Mode.CREATE) {
 			containingTab.setTitle("Create Requirement"); //Math.random()
@@ -109,14 +109,14 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		} else {
 			setEditModeDescriptors(requirement);
 		}
-		
+
 		// If this is a new requirement, set the creator
 		if (editMode == Mode.CREATE || editMode == Mode.CHILD) {
 			requirement.setCreator(ConfigManager.getConfig().getUserName());
 		}
-		
+
 		mainPanel = new RequirementPanel(this,mode);
-		
+
 		//set create child button action
 		mainPanel.getCreateChildRequirement().setAction(new CreateChildRequirementAction(new CreateChildRequirementController(this)));
 		//set the cancel button action
@@ -125,40 +125,40 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getDeleteRequirementBottom().setAction(new DeleteRequirementAction(new DeleteRequirementController(this)));
 		//set the save button action
 		mainPanel.getSaveRequirementBottom().setAction(new SaveChangesAction(new SaveRequirementController(this)));
-		
-		
+
+
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
 		mainPanel.getAv().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAv()));
 		mainPanel.getAv().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAv()));
-		
-//		if(test == false){
-			//populate the Iterations combobox
-			RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-			iterationsController.retrieve();
-//		} else {// for testing purposes
-//			
-//			
-//			setIterationComboBox(iterations);
-//		}
-		
-		
+
+		//		if(test == false){
+		//populate the Iterations combobox
+		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
+		iterationsController.retrieve();
+		//		} else {// for testing purposes
+		//			
+		//			
+		//			setIterationComboBox(iterations);
+		//		}
+
+
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
-		public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
+			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
 				mainPanelScrollPane.repaint();
 			}
 		});
-		
+
 		//this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 	}
-	
-	
+
+
 	/**
 	 * Checks to make sure the title and description are filled in.
 	 *
@@ -167,18 +167,22 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public int checkRequiredFields(){
 		String tempTitle = mainPanel.getTxtTitle().getText().trim();
 		String tempDesc = mainPanel.getTxtDescription().getText().trim();
-		
-		
+
+
 		int estimate = 0, actual = 0;
-		try{ estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText()); }
+		try{
+			estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText());
+		}
 		catch (NumberFormatException e){
-			System.out.println("The estimate is too big to save. Error.");
+			System.out.println("The estimate is too big to save. Error!");
 			mainPanel.getLblEstimateError().setVisible(true);  
 			estimate = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
-		try{ actual = Integer.parseInt(mainPanel.getTxtActual().getText()); }
+		try{
+			actual = Integer.parseInt(mainPanel.getTxtActual().getText());
+		}
 		catch (NumberFormatException e){
-			System.out.println("The actual was just too dayum big!. Error");
+			System.out.println("The actual is too big to save. Error!");
 			mainPanel.getLblActualError().setVisible(true);
 			actual = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
@@ -188,8 +192,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			return 5;
 		else if (actual == -1)
 			return 6;
-		
-		
+
+
 		if((tempTitle.equals(null) || tempTitle.equals("")) && 
 				(tempDesc.equals(null) || tempDesc.equals(""))){
 			mainPanel.getLblTitleError().setVisible(true);
@@ -206,7 +210,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		} else 
 			return 0;
 	}
-	
+
 	/**
 	 * Constructor that allows user to send a parent view for reference.
 	 * 
@@ -219,7 +223,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		this(requirement, editMode, tab);
 		this.parentView = parentView;
 	}
-	
+
 	/**
 	 * Tooltip info for new child requirement.
 	 * 
@@ -239,7 +243,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementPanel getRequirementPanel() {
 		return mainPanel;
 	}
-	
+
 	/* 
 	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
 	 */
@@ -247,7 +251,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public ToolbarGroupView getGroup() {
 		return buttonGroup;
 	}
-	
+
 	/**
 	 * Set the tab title, tooltip, and group name according to this Requirement.
 	 * 
@@ -257,18 +261,18 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		containingTab.setTitle("#" + requirement.getId() + ": " + requirement.getTitle().substring(0, Math.min(10, requirement.getTitle().length())));
 		containingTab.setToolTipText("#" + requirement.getId() + ": " + requirement.getTitle());
 	}
-	
+
 	/**
 	 * Sets whether the input is enabled.
 	 * 
 	 * @param enabled A boolean indicating whether or not to be Enabled.
 	 */
 	public void setInputEnabled(boolean enabled) {
-	    inputEnabled = enabled;
-	
-	    mainPanel.setInputEnabled(enabled);
+		inputEnabled = enabled;
+
+		mainPanel.setInputEnabled(enabled);
 	}
-	
+
 	/**
 	 * Return containingTab.
 	 * 
@@ -277,7 +281,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public Tab getTab() {
 		return containingTab;
 	}
-	
+
 	/**
 	 * Revalidates and repaints the scroll pane containing the RequirementPanel.
 	 */
@@ -294,7 +298,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public void setParentView(RequirementView parentView) {
 		this.parentView = parentView;
 	}
-	
+
 	/**
 	 * Returns the parent's requirementview.
 	 * 
@@ -313,130 +317,130 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 	@SuppressWarnings("unchecked")
 	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
-		
+
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
 		mainPanel.getCmbStatus().removeAllItems();
 		for (int i = 0; i < requirementStatusValues.length; i++) {
 			requirementStatusValues[i] = RequirementStatusLists.getList(this.getReqModel().getRequirement())[i];
 			mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
 		}
-		
+
 		reqModel.update(requirement, editMode);
-		
+
 		mainPanel.getHv().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAv().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAv().setLists();
-		
+
 		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
 		for(int i = 0; i < this.getReqModel().getRequirement().getAcceptanceTests().size(); i++){
 			acceptanceTestList.add(this.getReqModel().getRequirement().getAcceptanceTests().get(i));
 		}
 		mainPanel.getAtv().setList(acceptanceTestList);
-		
-		 //Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
-		 if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {
-			 mainPanel.getCmbIteration().setEnabled(true);
-			 mainPanel.getCmbIteration().setBackground(Color.WHITE);
-		 }
-		 else
-			 mainPanel.getCmbIteration().setEnabled(false);
 
-		 //Default the save button depending on what is filled in (Title and Description).
-		 if(!this.getReqModel().getRequirement().getTitle().equals("") && 
-				 !this.getReqModel().getRequirement().getDescription().equals("") && 
-				 this.getReqModel().getRequirement().getTitle() != null && 
-				 this.getReqModel().getRequirement().getDescription() != null){
-			 mainPanel.getSaveRequirementBottom().setEnabled(true);
-		 }
-		 else{
-			 mainPanel.getSaveRequirementBottom().setEnabled(false);
-		 }
+		//Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
+		if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {
+			mainPanel.getCmbIteration().setEnabled(true);
+			mainPanel.getCmbIteration().setBackground(Color.WHITE);
+		}
+		else
+			mainPanel.getCmbIteration().setEnabled(false);
 
-		 //Move the requirement to the backlog if it is set to OPEN.
-		 if(this.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN){
-			 this.getReqModel().getRequirement().setIteration(Iteration.getBacklog());
-			 mainPanel.getCmbIteration().setEnabled(true);
-			 mainPanel.getCmbStatus().setEnabled(true);
-		 }
-		 
-		 
-		 //depending on the mode, disable certain components
-		 if (this.getMode() == Mode.CREATE || this.getMode() == Mode.CHILD) {
-			 mainPanel.getCmbStatus().setEnabled(false);
-			 mainPanel.getTxtActual().setEnabled(false);
-		 }
+		//Default the save button depending on what is filled in (Title and Description).
+		if(!this.getReqModel().getRequirement().getTitle().equals("") && 
+				!this.getReqModel().getRequirement().getDescription().equals("") && 
+				this.getReqModel().getRequirement().getTitle() != null && 
+				this.getReqModel().getRequirement().getDescription() != null){
+			mainPanel.getSaveRequirementBottom().setEnabled(true);
+		}
+		else{
+			mainPanel.getSaveRequirementBottom().setEnabled(false);
+		}
 
-		 if (this.getMode() == Mode.CHILD) {
-			 mainPanel.getCmbIteration().setEnabled(false);
-			 mainPanel.getTxtReleaseNumber().setEnabled(false);
-		 }
+		//Move the requirement to the backlog if it is set to OPEN.
+		if(this.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN){
+			this.getReqModel().getRequirement().setIteration(Iteration.getBacklog());
+			mainPanel.getCmbIteration().setEnabled(true);
+			mainPanel.getCmbStatus().setEnabled(true);
+		}
 
-		 if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
-			 mainPanel.getCmbStatus().setEnabled(false);
-			 mainPanel.getCmbIteration().setEnabled(false);
-			 mainPanel.getTxtReleaseNumber().setEnabled(false);
-			 mainPanel.getTxtActual().setEnabled(false);
 
-		 }
-		 
-		 // depending on the status and sub-requirements, disable certain components
+		//depending on the mode, disable certain components
+		if (this.getMode() == Mode.CREATE || this.getMode() == Mode.CHILD) {
+			mainPanel.getCmbStatus().setEnabled(false);
+			mainPanel.getTxtActual().setEnabled(false);
+		}
 
-		 if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
-				 || this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
-			 //TODO: uncomment the next line once busy waiting issue is fixed
-			 //|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
-			 mainPanel.getTxtEstimate().setEnabled(false);
-		 }
-		
+		if (this.getMode() == Mode.CHILD) {
+			mainPanel.getCmbIteration().setEnabled(false);
+			mainPanel.getTxtReleaseNumber().setEnabled(false);
+		}
+
+		if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
+			mainPanel.getCmbStatus().setEnabled(false);
+			mainPanel.getCmbIteration().setEnabled(false);
+			mainPanel.getTxtReleaseNumber().setEnabled(false);
+			mainPanel.getTxtActual().setEnabled(false);
+
+		}
+
+		// depending on the status and sub-requirements, disable certain components
+
+		if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
+				|| this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
+			//TODO: uncomment the next line once busy waiting issue is fixed
+			//|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
+			mainPanel.getTxtEstimate().setEnabled(false);
+		}
+
 		setUpPermissions(pLevel);
 		//mainPanel.setUpPanel();
 	}
-	
+
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
-		 if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
-				 pLevel == RMPermissionsLevel.UPDATE){
-			 pLevel = RMPermissionsLevel.NONE;
-		 }
-		 switch (pLevel){
-		 case NONE:
-			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
-					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
-					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
-			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
-					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
-			 mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
-					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
-			 mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons()});
-			 break;
-		 case UPDATE: 
-			 
-			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),
-					 mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(), mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
-			 mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),});
-			 mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
-			 mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
-			 break;		
-		 case ADMIN: break;
-		 }
-		 
-		 
-		 // loops through assignees in a requirement to enable actual estimate field
-		 
-		 if(this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
-				 pLevel != RMPermissionsLevel.NONE){
-			 mainPanel.enableFields(new JComponent[]{mainPanel.getTxtActual(), mainPanel.getCancelRequirementBottom(), mainPanel.getSaveRequirementBottom()});
-		 }
-		 
-		 if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
-			 mainPanel.disableFields(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
-					 mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
-					 mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
-		 
-		 System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
-		 if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
-			 mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
-		 } 
+		if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+				pLevel == RMPermissionsLevel.UPDATE){
+			pLevel = RMPermissionsLevel.NONE;
+		}
+		switch (pLevel){
+		case NONE:
+			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
+					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
+			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
+			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
+			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons()});
+			break;
+		case UPDATE: 
+
+			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),
+					mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(), mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAv().getBtnAdd(), mainPanel.getAv().getBtnRemove()});
+			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),});
+			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtCreator(),/*txtAssignee,*/mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
+			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
+			break;		
+		case ADMIN: break;
+		}
+
+
+		// loops through assignees in a requirement to enable actual estimate field
+
+		if(this.getReqModel().getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
+				pLevel != RMPermissionsLevel.NONE){
+			mainPanel.enableFields(new JComponent[]{mainPanel.getTxtActual(), mainPanel.getCancelRequirementBottom(), mainPanel.getSaveRequirementBottom()});
+		}
+
+		if (this.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)
+			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbType(), mainPanel.getCmbPriority(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
+					mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
+
+		System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
+		if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
+			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
+		} 
 	}
 
 	/**
@@ -445,7 +449,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementPanel.Mode getMode() {
 		return mode;
 	}
-	
+
 	public void setIterationComboBox(Iteration[] knownIterations){
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
 
@@ -456,35 +460,35 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 				knownIts.add(knownIterations[i]);
 			}
 		}
-		
+
 		knownIts.add(Iteration.getBacklog());
-		
+
 		knownIterations = new Iteration[knownIts.size()];
 		for (int i = 0; i < knownIterations.length; i++){
 			knownIterations[i] = knownIts.get(i);
 		}
-		
+
 		mainPanel.setIterations(knownIterations);
-		
+
 		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
-		
+
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
-		
+
 		//if either a parent or a child requirement is being created, do not allow the user to create (further) children
 		if(mode == RequirementPanel.Mode.CREATE || mode == RequirementPanel.Mode.CHILD){
 			mainPanel.getCreateChildRequirement().setEnabled(false);
 			mainPanel.getCreateChildRequirement().setVisible(false);
 		}
-		
+
 		//if the requirement is completed disable the child requirement 
 		if(getReqModel().getUneditedRequirement().getStatus().equals(RequirementStatus.COMPLETE)){
 			mainPanel.getCreateChildRequirement().setEnabled(false);				
 		}
-		
+
 		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
 		mainPanel.getSplitPane().setDividerLocation(0.35);
-		
+
 	}
-	
+
 
 }

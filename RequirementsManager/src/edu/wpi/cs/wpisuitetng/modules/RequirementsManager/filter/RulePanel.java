@@ -43,6 +43,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleComparisonMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleEditableType;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RulesCombinor;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * ITS A DESC. (ription). What is a ription? 
@@ -67,6 +69,10 @@ public class RulePanel extends JPanel{
 	private boolean test = true;
 	private boolean enabled = true;
 	private GridBagConstraints constraint;
+	
+	
+	private Iteration[] knownIterations;
+	private User[] knownUsers;
 	/**
 	 * create a blank panel for a rule.
 	 * 
@@ -119,11 +125,11 @@ public class RulePanel extends JPanel{
 	 */
 	protected void setRuleEnabled(boolean enabled){
 		this.enabled = enabled;
-		Color backColor = new Color(238, 255, 238);
+		Color backColor = new Color(208, 255, 208);
 		if (enabled){
 			
 		} else{
-			backColor = new Color(255, 238, 238);
+			backColor = new Color(255, 208, 208);
 		}
 		
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
@@ -235,7 +241,42 @@ public class RulePanel extends JPanel{
 			if (possibleValuesIndex == -1)
 				this.add(possibleValues, constraint);
 
-		} else if (editType == RuleEditableType.NUMBER){
+		}else if (editType == RuleEditableType.ITERATION){
+			possibleValues.removeAllItems();
+			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
+			Iteration[] all = knownIterations;//this.filterPanel.getView().getModel().getIterations();
+			
+			possibleValues.addItem(Iteration.getBacklog());
+			if (all!=null)
+				for (int i = 0 ; i < all.length ; i ++)
+					possibleValues.addItem(all[i]);
+			System.out.println("Updating Iteations");
+			
+			if (possibleValuesTextIndex!=-1)
+				this.remove(possibleValuesText);
+			if (possibleValuesIndex == -1)
+				this.add(possibleValues, constraint);
+		} else if (editType == RuleEditableType.USER){
+			possibleValues.removeAllItems();
+			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
+			User[] all = knownUsers;//this.filterPanel.getView().getModel().getIterations();
+			
+			//possibleValues.addItem(Iteration.getBacklog());
+			possibleValues.addItem("No One  ");
+			if (all!=null){
+				String[] allString = new String[all.length];
+				for (int i = 0 ; i < allString.length ; i ++)
+					allString[i] = all[i].getUsername();
+				for (int i = 0 ; i < all.length ; i ++)
+					possibleValues.addItem(allString[i]);
+			}
+			
+			if (possibleValuesTextIndex!=-1)
+				this.remove(possibleValuesText);
+			if (possibleValuesIndex == -1)
+				this.add(possibleValues, constraint);
+		}
+		else if (editType == RuleEditableType.NUMBER){
 			possibleValuesText.setText("0");
 			
 
@@ -268,7 +309,51 @@ public class RulePanel extends JPanel{
 		this.repaint();
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
-
+	
+	public void setUserValues(User[] users){
+		test = false;
+		if (editType == RuleEditableType.USER){
+			Object sel = possibleValues.getSelectedItem();
+			possibleValues.removeAllItems();
+			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
+			User[] all = users;
+			String[] allString = new String[all.length];
+			for (int i = 0 ; i < allString.length ; i ++)
+				allString[i] = all[i].getUsername();
+			possibleValues.addItem("No One  ");
+			for (int i = 0 ; i < all.length ; i ++)
+				possibleValues.addItem(allString[i]);
+			if (sel!=null)
+				possibleValues.setSelectedItem(sel);
+			
+			knownUsers = all;
+		}
+		test = true;
+	}
+	
+	public void setIterationValues(Iteration[] iterations){
+		test = false;
+		if (editType == RuleEditableType.ITERATION){
+			
+			Object sel = possibleValues.getSelectedItem();
+			possibleValues.removeAllItems();
+			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
+			Iteration[] all = iterations;
+			possibleValues.addItem(Iteration.getBacklog());
+			for (int i = 0 ; i < all.length ; i ++)
+				possibleValues.addItem(all[i]);
+			if (sel!=null)
+				possibleValues.setSelectedItem(sel);
+			System.out.println("Updating Iteations in function");
+			knownIterations = all;
+//			if (possibleValuesTextIndex!=-1)
+//				this.remove(possibleValuesText);
+//			if (possibleValuesIndex == -1)
+//				this.add(possibleValues, constraint);
+		}
+		test = true;
+	}
+	
 	/**
 	 * reset the listeners of the possible values text component
 	 * 
@@ -342,7 +427,18 @@ public class RulePanel extends JPanel{
 			RuleComparisonMode[] all = {
 					RuleComparisonMode.EQUALS};
 			output = all;
+		} else if (fieldType == RuleEditableType.ITERATION){
+			RuleComparisonMode[] all = {
+					RuleComparisonMode.EQUALS,
+					RuleComparisonMode.NOTEQUALS};
+			output = all;
+		}else if (fieldType == RuleEditableType.USER){
+			RuleComparisonMode[] all = {
+					RuleComparisonMode.ASSIGNEDTO,
+					RuleComparisonMode.NOTASSIGNEDTO};
+			output = all;
 		}
+		
 		this.editType = fieldType;
 
 
@@ -372,6 +468,24 @@ public class RulePanel extends JPanel{
 			r = new Rule((Enum)possibleValues.getSelectedItem(),
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());
+		} else if (editType == RuleEditableType.ITERATION){
+			r = new Rule(((Iteration)possibleValues.getSelectedItem()).getId(),
+					(RuleComparisonMode)compareMode.getSelectedItem(),
+					(String)field.getSelectedItem());
+		} else if (editType == RuleEditableType.USER){
+			
+			//uhm..... 
+			String userName = "";
+			if (possibleValues.getSelectedItem() instanceof User)
+				userName = ((User)possibleValues.getSelectedItem()).getUsername();
+			else userName = (String)possibleValues.getSelectedItem();
+			
+			if (userName.equals("No One  "))
+				userName = "";
+			
+			r = new Rule(userName,
+					(RuleComparisonMode)compareMode.getSelectedItem(),
+					(String)field.getSelectedItem());
 		}
 		else if (editType == RuleEditableType.NUMBER) {
 			int number = 0;
@@ -379,7 +493,7 @@ public class RulePanel extends JPanel{
 			try {
 				number = Integer.parseInt(possibleValuesText.getText());
 			} catch (NumberFormatException e){
-				System.out.println("Mess up in filtering Rule extract ln 331 ish");
+				
 				noErrors = false;
 			}
 			if (noErrors){
@@ -420,6 +534,14 @@ public class RulePanel extends JPanel{
 	 */
 	public boolean getIsEnabled() {
 		return enabled;
+	}
+
+	/**
+	 * Gets the field
+	 * @return the field
+	 */
+	public JComboBox<String> getField() {
+		return field;
 	}
 
 

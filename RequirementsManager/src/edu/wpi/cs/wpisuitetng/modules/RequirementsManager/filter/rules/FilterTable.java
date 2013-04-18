@@ -66,7 +66,9 @@ public class FilterTable{
 		"priority",
 		"actual",
 		"type",
-		"title"
+		"title",
+		"iteration",
+		"user"
 	};
 	/**
 	 * The order of this array MUST match the order of the reqTargetNames array
@@ -78,7 +80,9 @@ public class FilterTable{
 		RuleEditableType.ENUM,
 		RuleEditableType.NUMBER,
 		RuleEditableType.ENUM,
-		RuleEditableType.STRING
+		RuleEditableType.STRING,
+		RuleEditableType.ITERATION,
+		RuleEditableType.USER
 	};
 	
 	
@@ -136,6 +140,10 @@ public class FilterTable{
 				return req.getType();
 			else if (input.equals("title"))
 				return req.getTitle();
+			else if (input.equals("iteration"))
+				return req.getIterationId();
+			else if (input.equals("user"))
+				return new ListCompare<String>(req.getAssignee());
 			
 		}
 		

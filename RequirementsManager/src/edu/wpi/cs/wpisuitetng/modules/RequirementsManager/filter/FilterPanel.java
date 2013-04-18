@@ -28,6 +28,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 /**
  * Insert Description Here
  *
@@ -72,7 +75,7 @@ public class FilterPanel extends JPanel{
 		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-
+		mainPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		
 		ruleHolderPanel = new JPanel();
 		GridBagLayout pLayout = new GridBagLayout();
@@ -332,6 +335,18 @@ public class FilterPanel extends JPanel{
 			}
 	}
 	
+	public void setIterations(Iteration[] iterations){
+		for (int i = 0 ; i < rules.size(); i ++){
+			rules.get(i).setIterationValues(iterations);
+		}
+	}
+	
+	public void setUsers(User[] users){
+		for (int i = 0 ; i < rules.size(); i ++){
+			rules.get(i).setUserValues(users);
+		}
+	}
+	
 	/**
 	 * Gets the applyButton
 	 * @return the applyButton
@@ -388,6 +403,14 @@ public class FilterPanel extends JPanel{
 	 */
 	public ArrayList<RulePanel> getRules() {
 		return rules;
+	}
+
+	/**
+	 * Gets the view
+	 * @return the view
+	 */
+	public FilterController getView() {
+		return view;
 	}
 	
 	

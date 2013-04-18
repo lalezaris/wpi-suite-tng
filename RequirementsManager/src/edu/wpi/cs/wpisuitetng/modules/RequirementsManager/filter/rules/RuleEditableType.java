@@ -24,5 +24,5 @@ public enum RuleEditableType {
 	NUMBER,
 	ENUM,
 	STRING,
-	ALL
+	ALL, ITERATION, USER
 }

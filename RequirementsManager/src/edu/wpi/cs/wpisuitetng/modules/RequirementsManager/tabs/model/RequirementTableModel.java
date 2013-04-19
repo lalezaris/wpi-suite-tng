@@ -96,9 +96,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			if (i == 0) {
 				column.setPreferredWidth(30); //ID
 			} else if (i == 1) {
-				column.setPreferredWidth(100); //COLUMN
+				column.setPreferredWidth(100); //NAME
 			} else if (i == 2) {
-				column.setPreferredWidth(550); //COLUMN
+				column.setPreferredWidth(550); //DESCRIPTION
 			} else if (i == 3) {
 				column.setPreferredWidth(90); //STATUS
 			} else if (i == 4) {
@@ -220,7 +220,10 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (pLevel != RMPermissionsLevel.ADMIN) {
 			return false;
 		}
-		if (col > 5) {
+		if (col == 0){ //ID should not be editable
+			return false;
+		}
+		if (col > 5) { //Iteration, Assigned, and Parent should not be editable
 			return false;
 		}
 		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||

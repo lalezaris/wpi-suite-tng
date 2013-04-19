@@ -812,7 +812,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		} else {
 			int newValue = 0;
 			try{
-				newValue = Integer.parseInt(txtEstimate.getText().trim());
+				newValue = Integer.parseInt(intf.getText().trim());
 			}
 			catch (NumberFormatException e){
 				newValue = -1;
@@ -1330,9 +1330,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	}
 
-
-
-
 	/* (non-Javadoc)
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
 	 */
@@ -1341,9 +1338,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		this.getParent().getReqModel().updateBackgrounds();
 		
 	}
-
-
-
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)

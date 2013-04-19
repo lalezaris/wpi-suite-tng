@@ -60,7 +60,7 @@ public class FilterTable{
 	
 	
 	private static String[] reqTargetNames = {
-		"all",
+		" ",
 		"status", 
 		"estimate",
 		"priority",
@@ -101,7 +101,7 @@ public class FilterTable{
 	 */
 	public Enum[] getEnumFromString(String input){
 		input = input.toLowerCase();
-		if (input.equals("all")){
+		if (input.equals(" ")){
 			RuleEditableType[] all = {RuleEditableType.ALL};
 			return all;
 		}
@@ -126,7 +126,7 @@ public class FilterTable{
 		
 		if (parent instanceof Requirement){
 			Requirement req = (Requirement)parent;
-			if (input.equals("all"))
+			if (input.equals(" "))
 				return RuleEditableType.ALL;
 			else if (input.equals("status"))
 				return req.getStatus();

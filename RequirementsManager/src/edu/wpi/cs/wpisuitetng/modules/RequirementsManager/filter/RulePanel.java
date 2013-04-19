@@ -306,6 +306,16 @@ public class RulePanel extends JPanel{
 				this.remove(possibleValues);
 		}
 		
+		if (possibleValuesTextIndex != -1){
+			possibleValuesText.setVisible(true);
+			if (editType == RuleEditableType.ALL)
+				possibleValuesText.setVisible(false);
+		}
+		if (possibleValuesIndex != -1){
+			possibleValues.setVisible(true);
+			if (editType == RuleEditableType.ALL)
+				possibleValues.setVisible(false);
+		}
 		this.repaint();
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
@@ -378,12 +388,16 @@ public class RulePanel extends JPanel{
 	 */
 	private void updateCompareBox(){
 
-		
+		compareMode.setVisible(true);
 		compareMode.removeAllItems();
 		RuleComparisonMode[] modes = getValidComparisonModes();
 		for (int i = 0 ; i < modes.length; i++)
 			compareMode.addItem(modes[i]);
+
 		compareMode.setPreferredSize(new Dimension(300,(int)compareMode.getPreferredSize().getHeight()));
+		if (editType == RuleEditableType.ALL)
+			compareMode.setVisible(false);
+		
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
@@ -482,7 +496,9 @@ public class RulePanel extends JPanel{
 	 */
 	public Rule extractRule(){
 		Rule r = null;
-		if (editType == RuleEditableType.ENUM){
+		if (editType == RuleEditableType.ALL)
+			return null;
+		else if (editType == RuleEditableType.ENUM){
 			r = new Rule((Enum)possibleValues.getSelectedItem(),
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());

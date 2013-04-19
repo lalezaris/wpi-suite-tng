@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Insert Description Here
+ * Iterations Observer
  *
  * @author Chris
  *
@@ -32,8 +32,8 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 
 	RetrieveAllIterationsController controller;
 	/**
-	 * Enter Description here.
-	 * 
+	 * Create an observer to catch an iteration list
+	 * @param controller 
 	 */
 	public RetrieveAllIterationsObserver(RetrieveAllIterationsController controller) {
 		this.controller = controller;
@@ -51,12 +51,12 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 	}
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

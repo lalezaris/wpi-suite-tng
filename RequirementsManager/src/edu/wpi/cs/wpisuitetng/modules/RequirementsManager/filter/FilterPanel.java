@@ -12,9 +12,11 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
@@ -46,13 +49,14 @@ public class FilterPanel extends JPanel{
 	private final JScrollPane scrollPane;
 	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
 	private final ArrayList<RulePanel> rules;
-	private final JPanel ruleHolderPanel, mainPanel;
+	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
+	private final JLabel filterDesc;
 	/**
 	 * create a filter panel and add all the components
 	 * 
 	 */
-	public FilterPanel(FilterController view) {
+	public FilterPanel(final FilterController view) {
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		//this.setLayout(layout);
 		this.rules = new ArrayList<RulePanel>();
@@ -80,7 +84,7 @@ public class FilterPanel extends JPanel{
 		GridBagLayout pLayout = new GridBagLayout();
 		ruleHolderPanel.setLayout(pLayout);
 
-
+		filterDesc = new JLabel("No filters enabled");
 
 		JPanel buttonPanel = new JPanel();
 		GridBagLayout bLayout = new GridBagLayout();
@@ -125,6 +129,10 @@ public class FilterPanel extends JPanel{
 		c.gridheight =1;
 		buttonPanel.add(removeButton, c);
 		
+		
+		alwaysOnPanel = new JPanel();
+
+		
 		showButton = new JButton("Show Filter");
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
@@ -134,7 +142,10 @@ public class FilterPanel extends JPanel{
 		c.gridwidth = 1;
 		c.gridheight =1;
 		c.insets = new Insets(10, 10, 0, 0);
-		this.add(showButton, c);
+		this.add(alwaysOnPanel, c);
+		
+		alwaysOnPanel.add(showButton);
+		alwaysOnPanel.add(filterDesc);
 		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
@@ -152,7 +163,7 @@ public class FilterPanel extends JPanel{
 		
 		//TODO figure out how to correctly get the width of the window
 		System.out.println("WIDTH:" + this.getSize().getWidth());
-		ruleHolderPanel.setPreferredSize(new Dimension(900,150));
+		ruleHolderPanel.setPreferredSize(new Dimension(900,120));
 		
 		
 		scrollPane = new JScrollPane();
@@ -219,6 +230,8 @@ public class FilterPanel extends JPanel{
 						&& p.isShowing())
 				{
 					triggerTableUpdate();
+					//scrollPane.setPreferredSize(new Dimension((int)view.listPanel.getPreferredSize().getWidth(), 150));
+					//scrollPane.revalidate();
 				}
 
 			}
@@ -237,6 +250,7 @@ public class FilterPanel extends JPanel{
 		this.removeFields = remove;
 	}
 	
+	private JLabel dingus = new JLabel("DINGUS ALERT");
 	/**
 	 * Add a blank rule to the panel.
 	 * 
@@ -250,20 +264,36 @@ public class FilterPanel extends JPanel{
 		c.gridx = 0;
 		c.gridy = view.getModel().getFilter().getRules().size();
 		c.weightx = 1;
-		c.weighty = .5;
+		c.weighty = 0;
+//		if (rules.size() == 0)
+//			c.weighty = 1;
+//		
+		
+		//c.fill = GridBagConstraints.VERTICAL;
 
 		c.insets = new Insets(5, 5, 0, 0);
 		view.getModel().getFilter().addRule(rule.extractRule());
-		ruleHolderPanel.setPreferredSize(new Dimension(
-				(int)ruleHolderPanel.getMinimumSize().getWidth(),
-				(int) (view.getModel().getFilter().getRules().size() * rule.getMinimumSize().getHeight())));
 		ruleHolderPanel.add(rule,c);
+		
+		c.gridy += 1;
+		c.weighty = 1;
+		for (int i = 0 ; i < ruleHolderPanel.getComponents().length; i ++)
+			if (ruleHolderPanel.getComponent(i).equals(dingus))
+				ruleHolderPanel.remove(dingus);
+		ruleHolderPanel.add(dingus,c);
+		ruleHolderPanel.setPreferredSize(new Dimension(
+				(int) ruleHolderPanel.getMinimumSize().getWidth(),
+				(int) (view.getModel().getFilter().getRules().size() * rule.getMinimumSize().getHeight())));
+	
 		rules.add(rule);
 		rule.addListeners();
 		
-		scrollPane.revalidate();
-		scrollPane.repaint();
-
+			//ruleHolderPanel.revalidate();
+		
+//		scrollPane.revalidate();
+//		scrollPane.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 
 	/**
@@ -271,7 +301,26 @@ public class FilterPanel extends JPanel{
 	 * 
 	 */
 	protected void triggerTableUpdate(){
+		setFilterDescText();
 		this.view.setFilteredInTable();
+	}
+	
+	/**
+	 * update the label to tell the user how many filters are enabled
+	 * 
+	 */
+	private void setFilterDescText(){
+		int ruleCount = 0;
+		for (int r = 0 ; r < rules.size() ; r ++)
+			if (rules.get(r).getIsEnabled())
+				if (!((String)rules.get(r).getField().getSelectedItem()).equals(" "))
+					ruleCount++;
+		if (ruleCount == 0)
+			this.filterDesc.setText("No filters enabled");
+		else if (ruleCount == 1)
+			this.filterDesc.setText("1 filter enabled");
+		if (ruleCount >1)
+			this.filterDesc.setText(ruleCount + " filters enabled");
 	}
 
 	/**
@@ -279,6 +328,7 @@ public class FilterPanel extends JPanel{
 	 * 
 	 */
 	public void toggleVisibility(){
+		setFilterDescText();
 		if (mainPanel.isVisible()){
 			showButton.setText("Show Filters");
 			mainPanel.setVisible(false);
@@ -306,15 +356,28 @@ public class FilterPanel extends JPanel{
 			rules.remove(delete.get(i));
 		}
 		
+//		GridBagConstraints c = new GridBagConstraints();
+//		c.anchor = GridBagConstraints.FIRST_LINE_START; 
+//		c.gridx = 0;
+//		c.gridy = view.getModel().getFilter().getRules().size();
+//		c.weightx = 1;
+//		c.weighty = 0;
+//		c.insets = new Insets(5, 5, 0, 0);
+//		c.gridy += 10;
+//		c.weighty = 1;
+//		for (int i = 0 ; i < ruleHolderPanel.getComponents().length; i ++)
+//			if (ruleHolderPanel.getComponent(i).equals(dingus))
+//				ruleHolderPanel.remove(dingus);
+//		ruleHolderPanel.add(dingus,c);
 		
 		
-		scrollPane.revalidate();
-		scrollPane.repaint();
+//		scrollPane.revalidate();
+//		scrollPane.repaint();
 		this.view.getModel().setModelFromPanel(this);
 		ruleHolderPanel.setPreferredSize(new Dimension(
 				(int)ruleHolderPanel.getMinimumSize().getWidth(),
 				(int) (view.getModel().getFilter().getRules().size() * 40)));
-
+		setFilterDescText();
 		this.revalidate();
 		this.repaint();
 	}
@@ -329,6 +392,7 @@ public class FilterPanel extends JPanel{
 				rules.get(i).setRuleEnabled(true);
 				rules.get(i).getEnabledBox().setSelected(false);
 			}
+		setFilterDescText();
 	}
 	
 	
@@ -350,6 +414,7 @@ public class FilterPanel extends JPanel{
 				rules.get(i).setRuleEnabled(false);
 				rules.get(i).getEnabledBox().setSelected(false);
 			}
+		setFilterDescText();
 	}
 	
 	public void setIterations(Iteration[] iterations){

@@ -35,8 +35,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * Model for the Requirement Table.
  *
  * @author Chris Hanna
- * @modified by Tianyu Li on Apr 9
+ * @modified by Tianyu Li on April 9
  * @modified by Michael Perrone on April 16
+ * 
  * @version Apr 9th, 2013
  */
 @SuppressWarnings("serial")
@@ -45,6 +46,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
+	protected boolean isChange = false;
 
 	private static final boolean DEBUG = false;
 
@@ -89,17 +91,17 @@ public class RequirementTableModel extends AbstractTableModel {
 			TableColumn column = table.getColumnModel().getColumn(i);
 
 			if (i == 0) {
-				column.setPreferredWidth(30); // ID
+				column.setPreferredWidth(30); //ID
 			} else if (i == 1) {
-				column.setPreferredWidth(100); //NAME COLUMN
+				column.setPreferredWidth(100); //COLUMN
 			} else if (i == 2) {
-				column.setPreferredWidth(550); //DESC COLUMN
+				column.setPreferredWidth(550); //COLUMN
 			} else if (i == 3) {
-				column.setPreferredWidth(90); //DESC STATUS
+				column.setPreferredWidth(90); //STATUS
 			} else if (i == 4) {
-				column.setPreferredWidth(90); //DESC PRIORITY
+				column.setPreferredWidth(90); //PRIORITY
 			} else if (i == 5) {
-				column.setPreferredWidth(30); //DESC ESTIMATE
+				column.setPreferredWidth(30); //ESTIMATE
 			} else if (i == 6) {
 				column.setPreferredWidth(70); //ITERATION
 			} else if (i == 7) {
@@ -112,10 +114,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	/* Gets column name
-	 * @param col column to get the name of 
-	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-	 */
-	/* (non-Javadoc)
+	 * 
+	 * @param col column to get the name of
+	 * 
+	 * (non-Javadoc) 
 	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 	 */
 	public String getColumnName(int col) {
@@ -156,6 +158,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req Requirement to add a row to
 	 */
 	public void addRow(Requirement req){
+		String ass = req.getAssignee().toString();
+		ass = ass.substring(1,ass.length()-1);
 		Object[] r = {
 				req.getId() ,
 				req.getTitle() ,
@@ -164,20 +168,13 @@ public class RequirementTableModel extends AbstractTableModel {
 				req.getPriority(),
 				req.getEstimateEffort() ,
 				req.getIteration(),
-				req.getAssignee(),
-				req.getParentRequirementId() == -1 ? "None" : req.getParentRequirementId()};
+				ass,
+				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
+		};
 		addRow(r);
 		requirements.add(req);
 	}
 
-//	public void setVisibleRequirements(Requirement[] in){
-//		data.clear();
-//		requirements.clear();
-//		for (int i = 0 ; i < in.length; i ++)
-//			this.addRow(in[i]);
-//		super.get
-//	}
-	
 	/**
 	 * Removes row.
 	 * 
@@ -255,7 +252,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		Object[] element = data.get(row);
 		element[5] = value;
 		data.set(row, element);
-		fireTableCellUpdated(row, col);  
+		fireTableCellUpdated(row, col); 
+		isChange = true;
 
 		if (DEBUG) {
 			System.out.println("New value of data:");
@@ -304,6 +302,14 @@ public class RequirementTableModel extends AbstractTableModel {
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
+	
+	public boolean getIsChange() {
+		return isChange;
+	}
+	
+	public void setIsChange(boolean value) {
+		isChange = value;
+	}
 
 	/** Sorts the table in ascending order bases on the column given. If it was already 
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
@@ -323,7 +329,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		//false if it has something appended to it
 
 		Comparator<Object[]> comparator = new Comparator<Object[]>(){
-			
+
 			@Override
 			public int compare(Object[] a, Object[] b){
 				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);
@@ -337,22 +343,22 @@ public class RequirementTableModel extends AbstractTableModel {
 		for(int i=0; i<data.size(); i++){
 			dataArray[i] = data.get(i);
 		}
-		
+
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
-			if(dataArray[j][8].equals("None")){//pretty hacky to make sure it is sorted properly
+			if(dataArray[j][8].equals("")){//pretty hacky to make sure it is sorted properly
 				dataArray[j][8] = -1;
 			}
 		}
-		
+
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-		
+
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){//see before the sort for why this happens
-				dataArray[j][8] = "None";
+				dataArray[j][8] = "";
 			}
 		}
-		
+
 		//reset the headers
 		for(int i=0; i<cm.getColumnCount(); i++){
 			cm.getColumn(i).setHeaderValue(columnNames[i]);

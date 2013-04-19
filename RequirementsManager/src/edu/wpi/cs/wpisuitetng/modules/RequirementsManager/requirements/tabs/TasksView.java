@@ -14,6 +14,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -30,16 +32,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  */
 @SuppressWarnings("serial")
 public class TasksView extends JPanel{
+	
 	protected RequirementView parent;
+	
+	private ArrayList<Task> taskArray;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
-	
-	private JTextField txtName;
-	private JTextField txtDescription;
-	private JComboBox cmbUser;
-	private JTextField txtEstimate;
-	private JComboBox cmbStatus;
 
 	/**
 	 * Instantiates a new tasks view.
@@ -47,24 +46,15 @@ public class TasksView extends JPanel{
 	 * @param req the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
-		//Use a grid bag layout manager
-		layout = new GridBagLayout();
-		layout.columnWeights = new double[]{.2, .8};
-		this.setLayout(layout);
-		this.parent = parent;
-		// Add all components to this panel
-		addComponents();
+		//Set initial variables
+		taskArray = new ArrayList<Task>();
 	}
 	
-	protected void addComponents(){
-		//create a new constrain variable
-		GridBagConstraints c = new GridBagConstraints();
-		
-		
-	}
 
+	/**Setter
+	 * @param tasks Array to set to.
+	 */
 	public void setTaskArray(Task[] tasks) {
-		// TODO Auto-generated method stub
-		
+		taskArray = new ArrayList<Task>(Arrays.asList(tasks));
 	}
 }

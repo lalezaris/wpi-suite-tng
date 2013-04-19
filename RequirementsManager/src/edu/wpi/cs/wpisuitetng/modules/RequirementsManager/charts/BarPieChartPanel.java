@@ -27,8 +27,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.util.Rotation;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
 

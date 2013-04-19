@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -20,6 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 14, 2013
  *
  */
+@SuppressWarnings("rawtypes")
 public class Rule implements IFilterRule{
 
 	boolean isAnd = true, isEnabled = true;
@@ -47,6 +48,8 @@ public class Rule implements IFilterRule{
 					return true;
 				}
 			
+			System.out.println("parent = " + parent + ", rule = " + rule + ", target = " + target + ", source = " + source);
+			
 			if (compareMode == RuleComparisonMode.EQUALS)
 				return (target.compareTo(source) == 0);
 			else if (compareMode == RuleComparisonMode.EQUALSGREATER)
@@ -65,6 +68,23 @@ public class Rule implements IFilterRule{
 					String sTarget = (String)target;
 					String sSource = (String)source;
 					return (sSource.contains(sTarget));
+				}
+			} else if (compareMode == RuleComparisonMode.ASSIGNEDTO){
+				if (target instanceof String && source instanceof ListCompare){
+					if ( ((String)target).equals("")){
+						if ( ((ListCompare)source).size() == 0)
+							return true;
+					}			
+					return (source.compareTo(target)==0);
+				}
+			} else if (compareMode == RuleComparisonMode.NOTASSIGNEDTO){
+				if (target instanceof String && source instanceof ListCompare){
+					if ( ((String)target).equals("")){
+						if ( ((ListCompare)source).size() == 0)
+							return false;
+						
+					}	
+					return (source.compareTo(target)!=0);
 				}
 			}
 		}

@@ -12,37 +12,38 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
+import java.util.ArrayList;
+
 /**
- * 
+ * Insert Description Here
  *
- * @author Chris Hanna
+ * @author Chris
  *
- * @version Apr 14, 2013
+ * @version Apr 17, 2013
  *
  */
-public interface IFilterRule{
+public class ListCompare<T> implements Comparable{
 
-	
+	ArrayList<T> list;
 	/**
-	 * Call this function.
-	 * If the rule should be ANDed together with other rules, this returns true
-	 * If the rule should be ORed together with other rules, this returns false
+	 * Enter Description here.
 	 * 
-	 * @return
 	 */
-	boolean isAnd();
-	
-	void setIsAnd(boolean isAnd);
+	public ListCompare(ArrayList<T> list) {
+		this.list = list;
+	}
 
-	/**
-	 * Returns true if the parent meets the rule, or false otherwise
-	 * 
-	 * @param parent
-	 * @return
-	 * @throws RuleTargetException
-	 */
-	boolean apply(Object parent) throws RuleTargetException;
+	public int size(){
+		return list.size();
+	}
+	
+	@Override
+	public int compareTo(Object o) {
+		
+		if (list.contains(o))
+			return 0;
+		
+		return 1;
+	}
 
-	
-	
 }

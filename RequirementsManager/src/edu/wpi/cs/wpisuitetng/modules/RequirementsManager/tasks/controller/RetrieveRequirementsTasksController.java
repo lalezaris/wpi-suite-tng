@@ -59,4 +59,11 @@ public class RetrieveRequirementsTasksController {
 		view.setTaskArray(tasks);
 	}
 	
+	/**Print an error message.
+	 * @param message The error message.
+	 */
+	public void errorReceivingData(String message){
+		System.out.println(message);
+	}
+	
 }

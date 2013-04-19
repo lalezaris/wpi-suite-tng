@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * @version Apr 16, 2013
  *
  */
+@SuppressWarnings("unused")
 public class RequirementValidator {
 	
 	private Data data;

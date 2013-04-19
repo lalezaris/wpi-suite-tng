@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -24,5 +24,5 @@ public enum RuleEditableType {
 	NUMBER,
 	ENUM,
 	STRING,
-	ALL
+	ALL, ITERATION, USER
 }

@@ -8,13 +8,15 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleComparisonMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * The filter model
@@ -27,13 +29,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 public class FilterModel {
 
 	Filter filter;
-	
+	Iteration[] iterations;
+	User[] users;
 	/**
 	 * create a new model
 	 * 
 	 */
 	public FilterModel() {
 		filter = new Filter();
+		
+		iterations = new Iteration[0];
 		
 		Rule test = new Rule(RequirementStatus.COMPLETE, RuleComparisonMode.EQUALS, "status");
 		filter.addRule(test);
@@ -58,6 +63,39 @@ public class FilterModel {
 				this.filter.addRule(panel.getRules().get(i).extractRule());
 			}
 		
+	}
+
+	/**
+	 * Gets the iterations
+	 * @return the iterations
+	 */
+	public Iteration[] getIterations() {
+		return iterations;
+	}
+
+	/**
+	 * Sets the iterations
+	 * @param iterations: sets the iterations 
+	 */
+	public void setIterations(Iteration[] iterations) {
+		this.iterations = iterations;
+		
+	}
+
+	/**
+	 * Gets the users
+	 * @return the users
+	 */
+	public User[] getUsers() {
+		return users;
+	}
+
+	/**
+	 * Sets the users
+	 * @param users: sets the users 
+	 */
+	public void setUsers(User[] users) {
+		this.users = users;
 	}
 	
 }

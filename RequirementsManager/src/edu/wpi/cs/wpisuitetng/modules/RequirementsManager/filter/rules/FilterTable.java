@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -29,12 +29,20 @@ public class FilterTable{
 
 	private static FilterTable table;
 	
+	/**
+	 * Gets the single instance of FilterTable.
+	 *
+	 * @return single instance of FilterTable
+	 */
 	public static FilterTable getInstance(){
 		if (table == null)
 			table = new FilterTable();
 		return table;
 	}
 	
+	/**
+	 * Instantiates a new filter table.
+	 */
 	private FilterTable(){
 		
 	}
@@ -66,7 +74,9 @@ public class FilterTable{
 		"priority",
 		"actual",
 		"type",
-		"title"
+		"title",
+		"iteration",
+		"user"
 	};
 	/**
 	 * The order of this array MUST match the order of the reqTargetNames array
@@ -78,7 +88,9 @@ public class FilterTable{
 		RuleEditableType.ENUM,
 		RuleEditableType.NUMBER,
 		RuleEditableType.ENUM,
-		RuleEditableType.STRING
+		RuleEditableType.STRING,
+		RuleEditableType.ITERATION,
+		RuleEditableType.USER
 	};
 	
 	
@@ -136,6 +148,10 @@ public class FilterTable{
 				return req.getType();
 			else if (input.equals("title"))
 				return req.getTitle();
+			else if (input.equals("iteration"))
+				return req.getIterationId();
+			else if (input.equals("user"))
+				return new ListCompare<String>(req.getAssignee());
 			
 		}
 		

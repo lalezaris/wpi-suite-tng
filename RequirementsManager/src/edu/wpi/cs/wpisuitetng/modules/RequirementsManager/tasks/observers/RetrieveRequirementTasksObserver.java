@@ -51,7 +51,7 @@ public class RetrieveRequirementTasksObserver implements RequestObserver{
 		    	System.out.println("Iteration id:" + Tasks[i].getId());
 		    }
 		    // notify the controller
-		    r.receivedData(Tasks);
+		    r.received(Tasks);
 		}else {
 		    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}

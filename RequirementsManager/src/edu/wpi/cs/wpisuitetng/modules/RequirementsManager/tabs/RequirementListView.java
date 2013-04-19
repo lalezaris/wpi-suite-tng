@@ -70,12 +70,8 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		// Instantiate the main create requirement panel
 		this.setLayout(new BorderLayout());
 		
-
-		
 		mainPanelScrollPane = new JScrollPane(mainPanel);
-		
-		//mainPanelScrollPane.add(filterController.getPanel());
-		
+				
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
@@ -83,11 +79,7 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
 						mainPanelScrollPane.repaint();
 			}
-		}); 
-		
-		
-
-		
+		});
 		
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		refreshController.refreshData();

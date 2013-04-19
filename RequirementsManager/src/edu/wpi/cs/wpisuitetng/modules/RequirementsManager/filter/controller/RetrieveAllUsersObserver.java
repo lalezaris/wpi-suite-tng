@@ -8,13 +8,12 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Evan Polekoff
- **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
+ *  Chris Hanna
+**************************************************/
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -22,31 +21,24 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * An asynchronous update interface for receiving notifications
- * about User information as the User is constructed.
- * 
- * @author Evan Polekoff
+ * Insert Description Here
+ *
+ * @author Chris
+ *
+ * @version Apr 17, 2013
+ *
  */
-public class UserObserver implements RequestObserver{
-	
-	/** The view. */
-	BarPieChartView view;
-	
-	/**
-	 * This method is called when information about an User
-	 * which was previously requested using an asynchronous
-	 * interface becomes available.
-	 *
-	 * @param view the view
-	 */
-	public UserObserver(BarPieChartView view){
-		this.view = view;
+public class RetrieveAllUsersObserver implements RequestObserver{
 
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	RetrieveAllUsersController controller;
+	/**
+	 * Enter Description here.
+	 * 
 	 */
+	public RetrieveAllUsersObserver(RetrieveAllUsersController controller) {
+		this.controller = controller;
+	}
+
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
@@ -55,25 +47,20 @@ public class UserObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
 		//this.panel.setAllusers(users);
-		view.receiveServerUsers(users);
-		//CurrentUserPermissions.updateCurrentUserPermissions();
+		controller.response(users);
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-
+		
 	}
+
 }

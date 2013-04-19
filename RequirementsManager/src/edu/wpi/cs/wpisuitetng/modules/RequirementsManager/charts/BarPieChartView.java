@@ -56,7 +56,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Chris Hanna
  */
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"rawtypes", "serial"})
 public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 	private static BarPieChartView instance;

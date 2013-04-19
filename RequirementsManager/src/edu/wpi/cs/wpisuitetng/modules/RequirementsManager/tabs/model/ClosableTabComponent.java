@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 
 /**
  * This provides a tab component with a close button to the left of the title.
@@ -89,7 +90,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		String checkTitle = tabbedPane.getTitleAt(index);
 		Component component = tabbedPane.getComponentAt(index);
 		if(index > -1) {
-			if((checkTitle.equals("Requirement List")) || (checkTitle.equals("Bar Chart")) || (checkTitle.equals("Iteration List"))){
+			if((checkTitle.equals("Bar Chart")) || (checkTitle.equals("Iteration List"))){
 				tabbedPane.remove(index);
 			} else {				
 				if(component instanceof RequirementView){
@@ -124,6 +125,20 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 				} else if(component instanceof UserPermissionView){
 					UserPermissionPanel uPPanel = (UserPermissionPanel) ((UserPermissionView) component).getUserPermissionPanel();
 					if(uPPanel.isHasChanged()){
+						int buttons = JOptionPane.showConfirmDialog(
+								null,
+								"Are you sure you want to exit? Your changes will not be saved.",
+								"Warning",
+								JOptionPane.YES_NO_OPTION);
+						if (buttons == JOptionPane.YES_OPTION) {
+							tabbedPane.remove(index);
+						}
+					} else {
+						tabbedPane.remove(index);
+					}
+				} else if(component instanceof RequirementListPanel){
+					RequirementListPanel iPanel = ((RequirementListPanel) component); 
+					if(iPanel.getModel().getIsChange()){
 						int buttons = JOptionPane.showConfirmDialog(
 								null,
 								"Are you sure you want to exit? Your changes will not be saved.",

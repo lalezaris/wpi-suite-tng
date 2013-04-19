@@ -174,6 +174,7 @@ public class Refresher {
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TABLE){
 			
 			table.addRequirements(reqArray);
+			
 		}
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TREE)
 			tree.fillTree(reqArray);

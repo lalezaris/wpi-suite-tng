@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -27,7 +27,9 @@ public enum RuleComparisonMode {
 	LESS("IS LESS THAN"),
 	EQUALSLESS("IS LESS THAN OR EQUAL TO"),
 	NOTEQUALS("IS NOT EQUAL TO"),
-	CONTAINS("CONTAINS");
+	CONTAINS("CONTAINS"),
+	ASSIGNEDTO("IS ASSIGNED TO"),
+	NOTASSIGNEDTO(" IS NOT ASSIGNED TO");
 	
 	private String name;
 	

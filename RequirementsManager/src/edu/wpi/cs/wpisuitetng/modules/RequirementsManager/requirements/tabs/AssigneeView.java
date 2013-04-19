@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -78,7 +79,9 @@ public class AssigneeView extends JPanel{
 		System.out.println();
 
 		allUserList = new JList<String>(allUserLM);
+		allUserList.setFixedCellWidth(200);
 		assignedUserList = new JList<String>(assignedUserLM);
+		assignedUserList.setFixedCellWidth(200);
 
 		buttonPanel = new JPanel(){
 			@Override
@@ -115,7 +118,7 @@ public class AssigneeView extends JPanel{
 			}
 		};
 		leftPanel.setLayout(new BorderLayout());
-		JLabel leftLabel = new JLabel("Not Assigned");
+		JLabel leftLabel = new JLabel("Not Assigned:");
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		allUserList.setAlignmentX(CENTER_ALIGNMENT);
 		leftPanel.add(allUserList);
@@ -135,7 +138,7 @@ public class AssigneeView extends JPanel{
 			}
 		};
 		rightPanel.setLayout(new BorderLayout());
-		JLabel rightLabel = new JLabel("Assigned");
+		JLabel rightLabel = new JLabel("Assigned:");
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
 		rightPanel.add(assignedUserList, BorderLayout.CENTER);

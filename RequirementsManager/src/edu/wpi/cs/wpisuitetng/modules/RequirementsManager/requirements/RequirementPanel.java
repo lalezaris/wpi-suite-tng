@@ -52,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ChildrenView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -65,7 +65,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Ned Shelton
  * @author Michael Perrone
  * @author Evan Polekoff
- * @author Chris Hanna <-refactored on april13.
+ * @author Chris Hanna (refactored on 04/13)
+ * 
  * @version Mar 17, 2013
  *
  */
@@ -80,7 +81,7 @@ public class RequirementPanel extends JPanel{
 		EDIT, 
 		CHILD;
 	}
-	
+
 	/** The parent view **/
 	protected RequirementView parent;
 	protected RequirementPanel.Mode mode;
@@ -100,28 +101,38 @@ public class RequirementPanel extends JPanel{
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
 	protected JTextField txtCreator;
-	protected JButton saveRequirementBottom;
-	protected JButton cancelRequirementBottom;
-	protected JButton deleteRequirementBottom;
+	protected JButton saveRequirementButton;
+	protected JButton cancelRequirementButton;
+	protected JButton deleteRequirementButton;
 	protected RequirementTabsView RTabsView;
-	protected JButton createChildRequirement;
+	protected JButton createChildRequirementButton;
 	protected JSplitPane splitPane;
+	protected JSplitPane splitPaneLeft;
+	
+	private JLabel lblType;
+	private JLabel lblReleaseNumber;
+	private JLabel lblIteration;
+	private JLabel lblDescription;
+	private JLabel lblStatus;
+	private JLabel lblPriority;
+	private JLabel lblEstimate;
+	private JLabel lblActual;
 
 	/** NotesView for updating notes **/
 	private NotesView notesView; //= new NotesView();
 
 	/** HistoryView for updating history **/
-	private HistoryView hv;
+	private HistoryView historyView;
 
 	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
-	private AcceptanceTestsView atv;
+	private AcceptanceTestsView acceptanceTestsView;
 
 	/** AssigneeView for updating assignees **/
-	//TODO finish implementing av
-	private AssigneeView av;
-	
-	/** ChildrenView for viewing child requirements **/
-	private ChildrenView cv;
+	//TODO finish implementing assigneeView
+	private AssigneeView assigneeView;
+
+	/** DependenciesView for viewing child requirements **/
+	private DependenciesView dependenciesView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -162,7 +173,7 @@ public class RequirementPanel extends JPanel{
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-	
+
 	/**
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 *
@@ -171,7 +182,7 @@ public class RequirementPanel extends JPanel{
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
-		
+
 		this.parent = parent;
 
 		this.mode = mode;
@@ -180,18 +191,18 @@ public class RequirementPanel extends JPanel{
 		this.notesView = new NotesView(parent);
 
 		//get the list of history from the given requirement
-		this.hv = new HistoryView(parent);
-//		hv = new HistoryView(model);
-		
+		this.historyView = new HistoryView(parent);
+		//		historyView = new HistoryView(model);
+
 		//Instantiate the acceptance tests
-		this.atv = new AcceptanceTestsView(parent);
+		this.acceptanceTestsView = new AcceptanceTestsView(parent);
 
 		//get the list of history from the given requirement
-		this.av = new AssigneeView(parent);
-		
+		this.assigneeView = new AssigneeView(parent);
+
 		//get the list of children from the given requirement
-		this.cv = new ChildrenView(parent);
-		
+		this.dependenciesView = new DependenciesView(parent);
+
 		// Indicate that input is enabled
 		this.inputEnabled = true;
 
@@ -203,14 +214,14 @@ public class RequirementPanel extends JPanel{
 		addComponents();
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked" })
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints cOverall = new GridBagConstraints();
@@ -227,10 +238,10 @@ public class RequirementPanel extends JPanel{
 		panelFour = new JPanel();
 		panelButtons = new JPanel();
 		panelTabs = new JPanel();
-		
+
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtReleaseNumber = new JTextField(6);
-		
+
 		cmbIteration = new JComboBox();
 
 		txtDescription = new JTextArea(10,35);
@@ -243,40 +254,39 @@ public class RequirementPanel extends JPanel{
 			System.out.println("Status:" + requirementStatusValues[i]);
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
-		
+
 		System.out.println("Status selected:" + cmbStatus.getSelectedItem());
-		
-		
+
+
 		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
 		for (int i = 0; i < RequirementPriority.values().length; i++) {
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
-		
+
 		String[] requirementTypeValues = new String[RequirementType.values().length];
 		for (int i = 0; i < RequirementType.values().length; i++) {
 			requirementTypeValues[i] = RequirementType.values()[i].toString();
 		}
 		cmbType = new JComboBox(requirementTypeValues);
-		
+
 		txtEstimate = new IntegerField(4);
 		txtActual = new IntegerField(4);
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, hv, atv, av, cv);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView);
 
 		/**Save Button*/
-		saveRequirementBottom = new JButton("Save");
-		//saveRequirementBottom.setAction(new SaveChangesAction(new SaveRequirementController(this.getParent())));
-		deleteRequirementBottom = new JButton("Delete");
-		//deleteRequirementBottom.setAction(new DeleteRequirementAction(new DeleteRequirementController(this.getParent())));
-		cancelRequirementBottom = new JButton("Cancel");
-		//cancelRequirementBottom.setAction(new CancelRequirementAction(new CancelRequirementController(this.getParent())));
+		saveRequirementButton = new JButton("Save");
+		/**Delete Button*/
+		deleteRequirementButton = new JButton("Delete");
+		/**Cancel Button*/
+		cancelRequirementButton = new JButton("Cancel");
 
-		createChildRequirement = new JButton("Add Child Requirement");
-		
+		createChildRequirementButton = new JButton("Add Child Requirement");
+
 		//make sit so that all combo boxes will have black text when disabled for easier readability
 		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
 
@@ -292,22 +302,22 @@ public class RequirementPanel extends JPanel{
 
 		/**Status Listener*/
 		//cmbStatus.addActionListener(new StatusListener());
-		
+
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbPriority.getPreferredSize());
 
 		// Construct labels for the form fields
-		JLabel lblType = new JLabel("Type:", LABEL_ALIGNMENT);
-		JLabel lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
-		JLabel lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
-		JLabel lblDescription = new JLabel("Description: *", LABEL_ALIGNMENT);
-		JLabel lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
-		JLabel lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
-		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
-		JLabel lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
-		
+		lblType = new JLabel("Type:", LABEL_ALIGNMENT);
+		lblReleaseNumber = new JLabel("Release Number:", LABEL_ALIGNMENT);
+		lblIteration = new JLabel("Iteration:", LABEL_ALIGNMENT);
+		lblDescription = new JLabel("Description: *", LABEL_ALIGNMENT);
+		lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
+		lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
+		lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
+
 		setUpToolTips();
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
@@ -324,362 +334,377 @@ public class RequirementPanel extends JPanel{
 		cOne.gridwidth = 2;
 		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		panelOne.add(txtTitle, cOne);
-		
+
 		cOne.insets = new Insets(5,0,0,0);
 		cOne.gridx = 2;
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
-		 cOne.weighty = 0;
-		 cOne.gridwidth = 3;
-		 lblTitleError.setVisible(false);
-		 lblTitleError.setForeground(Color.RED);
-		 panelOne.add(lblTitleError, cOne);
-		 
-		 cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
-		 cOne.gridx = 0;
-		 cOne.gridy = 1;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(lblIteration, cOne);
+		cOne.weighty = 0;
+		cOne.gridwidth = 3;
+		lblTitleError.setVisible(false);
+		lblTitleError.setForeground(Color.RED);
+		panelOne.add(lblTitleError, cOne);
 
-		 cOne.gridx = 1;
-		 cOne.gridy = 1;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(cmbIteration, cOne);
+		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
+		cOne.gridx = 0;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(lblIteration, cOne);
 
-		 cOne.gridx = 2;
-		 cOne.gridy = 1;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(lblReleaseNumber, cOne);
+		cOne.gridx = 1;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(cmbIteration, cOne);
 
-		 cOne.gridx = 3;
-		 cOne.gridy = 1;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(txtReleaseNumber, cOne);
+		cOne.gridx = 2;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(lblReleaseNumber, cOne);
 
-		 
+		cOne.gridx = 3;
+		cOne.gridy = 1;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(txtReleaseNumber, cOne);
 
 
-//		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
-//			 deleteRequirementBottom.setEnabled(false);
-//		 else
-//			 deleteRequirementBottom.setEnabled(true);
-		 
-		 cOne.gridx = 0;
-		 cOne.gridy = 2;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 panelOne.add(lblType, cOne);
-		 
-		 cOne.gridx = 1;
-		 cOne.gridy = 2;
-		 cOne.weightx = 0.5;
-		 cOne.weighty = 0.5;
-		 cOne.gridwidth = 1;
-		 cmbType.setBackground(Color.WHITE);
-		 panelOne.add(cmbType, cOne);
-		 
-		 //Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-		 layoutTwo = new GridBagLayout();
-		 panelTwo.setLayout(layoutTwo);
-
-		 cTwo.insets = new Insets(10,10,5,0);
-		 cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		 cTwo.gridx = 0;
-		 cTwo.gridy = 0;
-		 cTwo.weightx = 0.5;
-		 cTwo.weighty = 0.5;
-		 panelTwo.add(lblDescription, cTwo);
-
-		 cTwo.insets = new Insets(10,10,5,0);
-		 cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
-		 cTwo.gridx = 1;
-		 cTwo.gridy = 0;
-		 cTwo.weightx = 0.5;
-		 cTwo.weighty = 0.5;
-		 lblDescriptionError.setVisible(false);
-		 lblDescriptionError.setForeground(Color.RED);
-		 panelTwo.add(lblDescriptionError, cTwo);
-
-		 JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
-		 cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
-		 cTwo.insets = new Insets(0,10,10,0);
-		 cTwo.gridx = 0;
-		 cTwo.gridy = 1;
-		 cTwo.weightx = 0.5;
-		 cTwo.weighty = 0.5;
-		 cTwo.gridwidth = 2;
-		 panelTwo.add(scrollPaneDescription, cTwo);
-
-		 //Panel Three - panel below panel one -------------------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-		 layoutThree = new GridBagLayout();
-		 panelThree.setLayout(layoutThree);
-
-		 cThree.insets = new Insets(10,10,10,0);
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 0;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblStatus, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 0;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 cmbStatus.setSelectedItem(requirementStatusValues[0]);
-		 panelThree.add(cmbStatus, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 2;
-		 cThree.gridy = 0;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblPriority, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 3;
-		 cThree.gridy = 0;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 cmbPriority.setSelectedItem(requirementPriorityValues[1]);
-		 cmbPriority.setBackground(Color.WHITE);
-		 panelThree.add(cmbPriority, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 1;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblEstimate, cThree);
-
-		 //cThree.fill = GridBagConstraints.HORIZONTAL;
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 1;
-		 cThree.gridy = 1;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(txtEstimate, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 2;
-		 cThree.gridy = 1;
-		 cThree.anchor = GridBagConstraints.LINE_START;
-		 panelThree.add(lblActual, cThree);
-
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 3;
-		 cThree.gridy = 1;
-		 panelThree.add(txtActual, cThree);
-		 
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 2;
-		 cThree.gridy = 2;
-		 cThree.gridwidth = 2;
-		 lblActualError.setVisible(false);
-		 lblActualError.setForeground(Color.RED);
-		 panelThree.add(lblActualError, cThree);
-		 
-		 cThree.weightx = 0.5;
-		 cThree.weighty = 0.5;
-		 cThree.gridx = 0;
-		 cThree.gridy = 2;
-		 cThree.gridwidth = 2;
-		 lblEstimateError.setVisible(false);
-		 lblEstimateError.setForeground(Color.RED);
-		 panelThree.add(lblEstimateError, cThree);
-
-		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-
-		 layoutFour = new GridBagLayout();
-		 panelFour.setLayout(layoutFour);
-
-		 cFour.insets = new Insets(10,10,10,0);
-
-		 //Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-		 layoutButtons = new GridBagLayout();
-		 panelButtons.setLayout(layoutButtons);
-
-		 cButtons.insets = new Insets(10,10,10,10);
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 0;
-		 cButtons.gridy = 0;
-		 cButtons.gridwidth = 3;
-		 panelButtons.add(createChildRequirement, cButtons);
-		 
-		 
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 0;
-		 cButtons.gridy = 6;
-		 cButtons.gridwidth = 1;
-		 panelButtons.add(saveRequirementBottom, cButtons);
-
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 2;
-		 cButtons.gridy = 6;
-		 deleteRequirementBottom.setVisible(false);
-		 panelButtons.add(deleteRequirementBottom, cButtons);
-
-		 cButtons.weightx = 0.5;
-		 cButtons.weighty = 0.5;
-		 cButtons.gridx = 1;
-		 cButtons.gridy = 6;
-		 panelButtons.add(cancelRequirementBottom, cButtons);
-
-		 //Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-		 layoutTabs = new GridBagLayout();
-		 panelTabs.setLayout(layoutTabs);
-
-		 cOverall.fill = GridBagConstraints.BOTH;
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 0;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelTabs.add(RTabsView, cOverall);
 
 
-		 //Panel Overall - panel holding all other panels --------------------------------------------------------------------------
-		 //Use a grid bag layout manager
-		 layoutOverall = new GridBagLayout();
-		 panelOverall.setLayout(layoutOverall);
-		 //Overall Panel
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 0;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelOne, cOverall);
+		//		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
+		//			 deleteRequirementButton.setEnabled(false);
+		//		 else
+		//			 deleteRequirementButton.setEnabled(true);
 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 1;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelTwo, cOverall);
+		cOne.gridx = 0;
+		cOne.gridy = 2;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		panelOne.add(lblType, cOne);
 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 2;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelThree, cOverall);
+		cOne.gridx = 1;
+		cOne.gridy = 2;
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridwidth = 1;
+		cmbType.setBackground(Color.WHITE);
+		panelOne.add(cmbType, cOne);
 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 3;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelFour, cOverall);
-		 
-		 
-		 cOverall.weightx = 0.5;
-		 cOverall.weighty = 0.5;
-		 cOverall.gridx = 0;
-		 cOverall.gridy = 4;
-		 cOverall.anchor = GridBagConstraints.LINE_START;
-		 panelOverall.add(panelButtons, cOverall);
+		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutTwo = new GridBagLayout();
+		panelTwo.setLayout(layoutTwo);
 
-		 // add to this Panel -----------------------------------------------------------------------------------------------------------------
+		cTwo.insets = new Insets(10,10,5,0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.gridx = 0;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		panelTwo.add(lblDescription, cTwo);
 
-		 JPanel leftPanel = new JPanel();
-		 leftPanel.setLayout(new GridBagLayout());
-		 GridBagConstraints cPane = new GridBagConstraints();
+		cTwo.insets = new Insets(10,10,5,0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.gridx = 1;
+		cTwo.gridy = 0;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		lblDescriptionError.setVisible(false);
+		lblDescriptionError.setForeground(Color.RED);
+		panelTwo.add(lblDescriptionError, cTwo);
 
-		 cPane.anchor = GridBagConstraints.FIRST_LINE_START;
-		 cPane.weightx = 0.1;
-		 cPane.weighty = 0.1;
-		 cPane.gridx = 0;
-		 cPane.gridy = 0;
-		 leftPanel.add(panelOverall,cPane);
-		 
-		 JScrollPane scrollPaneLeft = new JScrollPane(leftPanel);
-		 JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
+		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
+		cTwo.insets = new Insets(0,10,10,0);
+		cTwo.gridx = 0;
+		cTwo.gridy = 1;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 2;
+		panelTwo.add(scrollPaneDescription, cTwo);
 
-		 splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollPaneLeft, scrollPaneTabs);
-		 splitPane.setDividerLocation(0.5);
-		 splitPane.resetToPreferredSizes();
-		 this.add(splitPane, BorderLayout.CENTER);
+		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutThree = new GridBagLayout();
+		panelThree.setLayout(layoutThree);
+
+		cThree.insets = new Insets(10,10,10,0);
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblStatus, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		cmbStatus.setSelectedItem(requirementStatusValues[0]);
+		panelThree.add(cmbStatus, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblPriority, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 3;
+		cThree.gridy = 0;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		cmbPriority.setSelectedItem(requirementPriorityValues[1]);
+		cmbPriority.setBackground(Color.WHITE);
+		panelThree.add(cmbPriority, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 1;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblEstimate, cThree);
+
+		//cThree.fill = GridBagConstraints.HORIZONTAL;
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 1;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(txtEstimate, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 1;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblActual, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 3;
+		cThree.gridy = 1;
+		panelThree.add(txtActual, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 2;
+		cThree.gridy = 2;
+		cThree.gridwidth = 2;
+		lblActualError.setVisible(false);
+		lblActualError.setForeground(Color.RED);
+		panelThree.add(lblActualError, cThree);
+
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 2;
+		cThree.gridwidth = 2;
+		lblEstimateError.setVisible(false);
+		lblEstimateError.setForeground(Color.RED);
+		panelThree.add(lblEstimateError, cThree);
+
+		//		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
+		//		 //Use a grid bag layout manager
+		//
+		//		 layoutFour = new GridBagLayout();
+		//		 panelFour.setLayout(layoutFour);
+		//
+		//		 cFour.insets = new Insets(10,10,10,0);
+
+		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutButtons = new GridBagLayout();
+		panelButtons.setLayout(layoutButtons);
+
+		//		 cButtons.insets = new Insets(10,10,10,10);
+		//		 cButtons.weightx = 0.5;
+		//		 cButtons.weighty = 0.5;
+		//		 cButtons.gridx = 0;
+		//		 cButtons.gridy = 0;
+		//		 cButtons.gridwidth = 3;
+		//		 panelButtons.add(createChildRequirementButton, cButtons);
 
 
-		 
-//		 if (model.getChildRequirementIds().isEmpty()) {
-//			 setDeleteEnabled(false);
-//		 }
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 0;
+		cButtons.gridy = 6;
+		cButtons.gridwidth = 1;
+		panelButtons.add(saveRequirementButton, cButtons);
+
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 2;
+		cButtons.gridy = 6;
+		deleteRequirementButton.setVisible(false);
+		panelButtons.add(deleteRequirementButton, cButtons);
+
+		cButtons.weightx = 0.5;
+		cButtons.weighty = 0.5;
+		cButtons.gridx = 1;
+		cButtons.gridy = 6;
+		panelButtons.add(cancelRequirementButton, cButtons);
+
+		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutTabs = new GridBagLayout();
+		panelTabs.setLayout(layoutTabs);
+
+		cOverall.fill = GridBagConstraints.BOTH;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelTabs.add(RTabsView, cOverall);
+
+
+		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
+		//Use a grid bag layout manager
+		layoutOverall = new GridBagLayout();
+		panelOverall.setLayout(layoutOverall);
+		//Overall Panel
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelOverall.add(panelOne, cOverall);
+
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 1;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelOverall.add(panelTwo, cOverall);
+
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 2;
+		cOverall.anchor = GridBagConstraints.LINE_START;
+		panelOverall.add(panelThree, cOverall);
+
+		cOverall.fill = GridBagConstraints.NONE;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 3;
+		cOverall.gridwidth = 4;
+		cOverall.anchor = GridBagConstraints.CENTER;
+		panelOverall.add(createChildRequirementButton, cOverall);
+
+		//		 cOverall.weightx = 0.5;
+		//		 cOverall.weighty = 0.5;
+		//		 cOverall.gridx = 0;
+		//		 cOverall.gridy = 3;
+		//		 cOverall.anchor = GridBagConstraints.LINE_START;
+		//		 panelOverall.add(panelFour, cOverall);
+
+
+		//		 cOverall.weightx = 0.5;
+		//		 cOverall.weighty = 0.5;
+		//		 cOverall.gridx = 0;
+		//		 cOverall.gridy = 4;
+		//		 cOverall.anchor = GridBagConstraints.LINE_START;
+		//		 panelOverall.add(panelButtons, cOverall);
+
+		// add to this Panel -----------------------------------------------------------------------------------------------------------------
+
+		JPanel leftPaneltop = new JPanel();
+		leftPaneltop.setLayout(new GridBagLayout());
+		GridBagConstraints cPaneTop = new GridBagConstraints();
+
+		cPaneTop.anchor = GridBagConstraints.FIRST_LINE_START;
+		cPaneTop.weightx = 0.1;
+		cPaneTop.weighty = 0.1;
+		cPaneTop.gridx = 0;
+		cPaneTop.gridy = 0;
+		leftPaneltop.add(panelOverall,cPaneTop);
+
+		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
+		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
+		splitPaneLeft.setEnabled(true);
+
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, scrollPaneTabs);
+		this.add(splitPane, BorderLayout.CENTER);
+
+		//		 if (model.getChildRequirementIds().isEmpty()) {
+		//			 setDeleteEnabled(false);
+		//		 }
 
 
 	}
-	
+
 	public void setUpToolTips(){
-		this.txtTitle.setToolTipText("Required: A title less than 100 character.");
-		this.txtReleaseNumber.setToolTipText("The release number for this requirement.");
-		this.txtDescription.setToolTipText("Required: A description for this requirement.");
-		this.txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+		txtTitle.setToolTipText("Required: A title less than 100 characters.");
+		lblReleaseNumber.setToolTipText("The release number for this requirement.");
+		txtReleaseNumber.setToolTipText("The release number for this requirement.");
+		lblDescription.setToolTipText("Required: A description for this requirement.");
+		txtDescription.setToolTipText("Required: A description for this requirement.");
+		lblEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
 				"This field must be greater than 0 to assign to an iteration.");
-		this.txtActual.setToolTipText("The actual effort for this requirement.");
-		this.cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
+				"This field must be greater than 0 to assign to an iteration.");
+		lblActual.setToolTipText("The actual effort for this requirement.");
+		txtActual.setToolTipText("The actual effort for this requirement.");
+		lblIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
 				"This field cannot be filled in until a estimate is entered.");
-		this.cmbPriority.setToolTipText("The priority of this requirement.");
-		this.cmbStatus.setToolTipText("The Status of the requirement.");
-		this.cmbType.setToolTipText("Set the type of requirement this requirement is.");		
+		cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
+				"This field cannot be filled in until a estimate is entered.");
+		lblPriority.setToolTipText("The priority of this requirement.");
+		cmbPriority.setToolTipText("The priority of this requirement.");
+		lblStatus.setToolTipText("The status of the requirement.");
+		cmbStatus.setToolTipText("The status of the requirement.");
+		lblType.setToolTipText("Set the type of requirement this requirement is.");
+		cmbType.setToolTipText("Set the type of requirement this requirement is.");
 	}
 
-	
-	
 	/**
 	 * Sets the delete button enabled.
 	 *
 	 * @param enabled a boolean indicating whether or not to Enabled
 	 */
 	public void setDeleteEnabled(boolean enabled) {
-		deleteRequirementBottom.setEnabled(enabled);
+		deleteRequirementButton.setEnabled(enabled);
 	}
-	
+
 	/**
 	 * Disable stuff.
 	 *
 	 * @param components the components to be disabled
 	 */
-	protected void disableStuff(JComponent[] components){
+	protected void disableFields(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
 				com.setEnabled(false);
 		}
 	}
-	
+
 
 	/**
 	 * Enables components for editing purposes.
 	 * 
 	 * @param components to be enabled
 	 */
-	protected void enableStuff(JComponent[] components){
+	protected void enableFields(JComponent[] components){
 		for(JComponent com:components){
 			if (com!=null)
 				com.setEnabled(true);
 		}
 	}
-	
+
 	/**
 	 * Change background.
 	 *
@@ -691,7 +716,7 @@ public class RequirementPanel extends JPanel{
 				com.setBackground(this.getBackground());
 		}
 	}
-	
+
 	/**
 	 * Make text black.
 	 *
@@ -701,9 +726,9 @@ public class RequirementPanel extends JPanel{
 		for(JTextComponent com:components){
 			if (com!=null)
 				com.setDisabledTextColor(Color.BLACK);
-			}
+		}
 	}
-	
+
 	/**
 	 * Make stuff not visible.
 	 *
@@ -713,9 +738,9 @@ public class RequirementPanel extends JPanel{
 		for(JComponent com:components){
 			if (com!=null)
 				com.setVisible(false);
-			}
+		}
 	}
-	
+
 	/**
 	 * Returns the parent RequirementsView.
 	 * 
@@ -741,12 +766,12 @@ public class RequirementPanel extends JPanel{
 		txtEstimate.setEnabled(enabled);
 	}
 
-	
-//	public void setUpPanel(){
-//		setUpPanel(Mode.EDIT);
-//	}
+
+	//	public void setUpPanel(){
+	//		setUpPanel(Mode.EDIT);
+	//	}
 	public void setUpPanel(){
-		
+
 		//updateFields();
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -792,10 +817,10 @@ public class RequirementPanel extends JPanel{
 		requirement.setCreationDate(parent.getReqModel().getRequirement().getCreationDate());
 
 		requirement.updateNotes(notesView.getNotesList());
-		requirement.updateHistory(hv.getHistoryList());
-		requirement.updateAcceptanceTests(atv.getList());
-		requirement.setAssignee(av.getAssignedUserAL());
-		requirement.setSubRequirements(cv.getChildrenRequirementsList());
+		requirement.updateHistory(historyView.getHistoryList());
+		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
+		requirement.setAssignee(assigneeView.getAssignedUserAL());
+		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 
@@ -804,7 +829,7 @@ public class RequirementPanel extends JPanel{
 			requirement.getAssignee().add(txtAssignee.getText());
 			requirement.setAssignee(requirement.getAssignee());
 		}
-		*/
+		 */
 
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
@@ -825,16 +850,13 @@ public class RequirementPanel extends JPanel{
 
 
 
-	
+
 	/**
 	 * @return the panelButtons
 	 */
 	public JPanel getPanelButtons() {
 		return panelButtons;
 	}
-
-
-
 
 	//TODO: class exists in action package, refactor
 	/**
@@ -873,37 +895,37 @@ public class RequirementPanel extends JPanel{
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-//			if (model.getStatus() != RequirementStatus.DELETED){
-				//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
-				if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == Iteration.getBacklog()){
-					setTo = parent.getReqModel().getRequirement().getStatus();
-					enabled = false;
-					runThatForLoop = true;
-				}
-				//Change the status to In Progress automatically when the req is assigned to an iteration.
-				else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != Iteration.getBacklog()){
-					setTo = RequirementStatus.INPROGRESS;
-					enabled = false;
-					runThatForLoop = true;
-				}
-				//Change the status to Open automatically when the backlog is selected.
-				else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == Iteration.getBacklog()){
-					setTo = RequirementStatus.OPEN;
-					enabled = false;
-					runThatForLoop = true;
-				}
-				//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
-				else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != Iteration.getBacklog()){
-					setTo = RequirementStatus.INPROGRESS;
-					enabled = true;
-					runThatForLoop = true;
-				}
-//			} else
-//			{
-//				setTo = RequirementStatus.DELETED;
-//				enabled = true;
-//				runThatForLoop = true;
-//			}
+			//			if (model.getStatus() != RequirementStatus.DELETED){
+			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
+			if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == Iteration.getBacklog()){
+				setTo = parent.getReqModel().getRequirement().getStatus();
+				enabled = false;
+				runThatForLoop = true;
+			}
+			//Change the status to In Progress automatically when the req is assigned to an iteration.
+			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != Iteration.getBacklog()){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = false;
+				runThatForLoop = true;
+			}
+			//Change the status to Open automatically when the backlog is selected.
+			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == Iteration.getBacklog()){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+			}
+			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
+			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != Iteration.getBacklog()){
+				setTo = RequirementStatus.INPROGRESS;
+				enabled = true;
+				runThatForLoop = true;
+			}
+			//			} else
+			//			{
+			//				setTo = RequirementStatus.DELETED;
+			//				enabled = true;
+			//				runThatForLoop = true;
+			//			}
 
 			//Add statuses that are necessary to the dropdown list.
 			if(runThatForLoop){
@@ -953,13 +975,13 @@ public class RequirementPanel extends JPanel{
 		 * @param estimate the estimate
 		 */
 		public void actionPerformed(ActionEvent estimate) {}
-		
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
 		public void keyTyped(KeyEvent e) {}
-		
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
@@ -977,7 +999,7 @@ public class RequirementPanel extends JPanel{
 					enabled = false;
 				}
 				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-						enabled = true;
+					enabled = true;
 				}
 				else{
 					enabled = false;
@@ -1013,13 +1035,13 @@ public class RequirementPanel extends JPanel{
 		 * @param estimate the estimate
 		 */
 		public void actionPerformed(ActionEvent estimate) {}
-		
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
 		public void keyTyped(KeyEvent e) {}
-		
+
 		/* (non-Javadoc)
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
@@ -1045,7 +1067,7 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			saveRequirementBottom.setEnabled(enabled);
+			saveRequirementButton.setEnabled(enabled);
 		}
 	}
 
@@ -1057,7 +1079,7 @@ public class RequirementPanel extends JPanel{
 	public NotesView getNotesView() {
 		return notesView;
 	}
-	
+
 
 	/**
 	 * Get the AssigneeView.
@@ -1065,13 +1087,13 @@ public class RequirementPanel extends JPanel{
 	 * @return the AssigneeView
 	 */
 	public AssigneeView getAv() {
-		return av;
+		return assigneeView;
 	}
-	
-	public ChildrenView getCv(){
-		return cv;
+
+	public DependenciesView getCv(){
+		return dependenciesView;
 	}
-	
+
 	/**
 	 * Get all elements in the model.
 	 * 
@@ -1088,34 +1110,34 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * @return the saveRequirementBottom
+	 * @return the saveRequirementButton
 	 */
 	public JButton getSaveRequirementBottom() {
-		return saveRequirementBottom;
+		return saveRequirementButton;
 	}
 
 	/**
-	 * @return the cancelRequirementBottom
+	 * @return the cancelRequirementButton
 	 */
 	public JButton getCancelRequirementBottom() {
-		return cancelRequirementBottom;
+		return cancelRequirementButton;
 	}
 
 	/**
-	 * @return the deleteRequirementBottom
+	 * @return the deleteRequirementButton
 	 */
 	public JButton getDeleteRequirementBottom() {
-		return deleteRequirementBottom;
+		return deleteRequirementButton;
 	}
 
 	/**
-	 * @return the createChildRequirement
+	 * @return the createChildRequirementButton
 	 */
 	public JButton getCreateChildRequirement() {
-		return createChildRequirement;
+		return createChildRequirementButton;
 	}
 
-	
+
 	/**
 	 * @return the cmbIteration
 	 */
@@ -1213,27 +1235,27 @@ public class RequirementPanel extends JPanel{
 	public Iteration[] getKnownIterations() {
 		return knownIterations;
 	}
-	
+
 
 	/**
-	 * @return the hv
+	 * @return the historyView
 	 */
 	public HistoryView getHv() {
-		return hv;
-	}
-	
-	/**
-	 * @return the atv
-	 */
-	public AcceptanceTestsView getAtv() {
-		return atv;
+		return historyView;
 	}
 
 	/**
-	 * @param atv: the atv to set
+	 * @return the acceptanceTestsView
+	 */
+	public AcceptanceTestsView getAtv() {
+		return acceptanceTestsView;
+	}
+
+	/**
+	 * @param acceptanceTestsView: the acceptanceTestsView to set
 	 */
 	public void setAtv(AcceptanceTestsView atv) {
-		this.atv = atv;
+		this.acceptanceTestsView = atv;
 	}
 
 	/**
@@ -1242,7 +1264,7 @@ public class RequirementPanel extends JPanel{
 	public IntegerField getTxtActual() {
 		return txtActual;
 	}
-	
+
 	/**
 	 * @return the lblEstimateError
 	 */
@@ -1257,8 +1279,19 @@ public class RequirementPanel extends JPanel{
 		return lblActualError;
 	}
 
+	/**
+	 * @return the splitPane
+	 */
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
 
-
+	/**
+	 * @return the splitPaneLeft
+	 */
+	public JSplitPane getSplitPaneLeft() {
+		return splitPaneLeft;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations){
@@ -1266,6 +1299,6 @@ public class RequirementPanel extends JPanel{
 		this.cmbIteration.removeAllItems();
 		for (int i = 0 ; i < iterations.length; i ++)
 			this.cmbIteration.addItem(iterations[i]);
-		
+
 	}
 }

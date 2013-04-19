@@ -8,15 +8,13 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
@@ -27,14 +25,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
  * @version Apr 16, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AddAction extends AbstractAction {
 
 	FilterController controller;
 	
 	
 	/**
-	 * Make a new AddAction
-	 * 
+	 * Make a new AddAction.
+	 *
+	 * @param controller the controller
 	 */
 	public AddAction(FilterController controller) {
 		super("Add Filter");
@@ -46,7 +46,7 @@ public class AddAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getPanel().addRule();
+		controller.getPanel().addRule();
 	}
 
 }

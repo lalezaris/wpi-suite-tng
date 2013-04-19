@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
@@ -26,22 +26,28 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
  * @version Apr 16, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RemoveAction extends AbstractAction{
 
 	FilterController controller;
 	
 	/**
-	 * make a new remove action
-	 * 
+	 * make a new remove action.
+	 *
+	 * @param controller the controller
 	 */
 	public RemoveAction(FilterController controller) {
 		super("Remove Filter");
 		this.controller = controller;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getPanel().deleteSelected();
+		controller.getPanel().deleteSelected();
+		controller.setFilteredInTable();
 		
 	}
 

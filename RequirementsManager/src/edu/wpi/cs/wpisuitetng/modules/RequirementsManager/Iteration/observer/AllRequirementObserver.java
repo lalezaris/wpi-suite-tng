@@ -10,38 +10,39 @@
  * Contributors:
  *  Evan Polekoff
  **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import com.google.gson.GsonBuilder;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-/**
+
+ /**
  * An asynchronous update interface for receiving notifications
- * about User information as the User is constructed.
+ * about Requirement information as the Requirement is constructed.
  * 
  * @author Evan Polekoff
  */
-public class UserObserver implements RequestObserver{
-	
+public class AllRequirementObserver implements RequestObserver{
+
 	/** The view. */
-	BarPieChartView view;
+	IterationPanel panel;
 	
 	/**
-	 * This method is called when information about an User
+	 * This method is called when information about an Requirement
 	 * which was previously requested using an asynchronous
 	 * interface becomes available.
 	 *
 	 * @param view the view
 	 */
-	public UserObserver(BarPieChartView view){
-		this.view = view;
-
+	public AllRequirementObserver(IterationPanel panel){
+		this.panel = panel;
 	}
 	
 	/* (non-Javadoc)
@@ -53,10 +54,14 @@ public class UserObserver implements RequestObserver{
 		ResponseModel response = request.getResponse();
 		
 		GsonBuilder builder = new GsonBuilder();
-		User[] users = builder.create().fromJson(response.getBody(), User[].class);
+		Requirement[] reqs = builder.create().fromJson(response.getBody(), Requirement[].class);
+		for (int i = 0 ; i < reqs.length; i ++){
+			reqs[i].setIteration(Iteration.getIterationById(reqs[i].getIterationId()));
+		}
+		
 		//this.panel.setAllusers(users);
-		view.receiveServerUsers(users);
-		//CurrentUserPermissions.updateCurrentUserPermissions();
+		this.panel.receiveServerRequirements(reqs);
+		
 	}
 
 	/* (non-Javadoc)
@@ -65,7 +70,7 @@ public class UserObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/* (non-Javadoc)
@@ -74,6 +79,6 @@ public class UserObserver implements RequestObserver{
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-
+		
 	}
 }

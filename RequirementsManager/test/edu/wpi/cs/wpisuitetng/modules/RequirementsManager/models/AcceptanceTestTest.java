@@ -49,13 +49,20 @@ public class AcceptanceTestTest {
 	
 	@Before
 	public void setup(){
-		Network.initNetwork(new MockNetwork());
-		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+//		Network.initNetwork(new MockNetwork());
+//		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		
 		a = new AcceptanceTest("A Title", "bodybodybodybodybodybody");
 		req = new Requirement();
-		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
-		av = new AcceptanceTestsView(rv);
+//		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
+		av = new AcceptanceTestsView(null);
+		
+		//due to permission conflicts, the buttons must manually be enabled
+		av.getAddButton().setEnabled(true);
+		av.getEditButton().setEnabled(true);
+		av.getTitleField().setEnabled(true);
+		av.getBodyField().setEnabled(true);
+		av.getStatusField().setEnabled(true);
 	}
 	
 	@Test
@@ -72,15 +79,24 @@ public class AcceptanceTestTest {
 		assertEquals("Passed", a.getStatus());
 	}
 	
-	//TODO: figure out this test, and why the doClick isn't adding a test
-//	@Test
-//	public void testAddandEdit(){
-//		av.getTitleField().setText("Test1");
-//		av.getBodyField().setText("Test1 body");
-//		av.getAddButton().doClick();
-//		assertTrue(av.getList().size() > 0);
-//		assertEquals("Test1", av.getList().get(0).getTitle());
-//		assertEquals("Test1 body", av.getList().get(0).getBody());
-//	}
+	
+	@Test
+	public void testAddandEdit(){
+		av.getTitleField().setText("Test1");
+		av.getBodyField().setText("Test1 body");
+		av.getAddButton().doClick();
+		assertEquals(1, av.getListSize());
+		assertEquals("Test1", av.getList().get(0).getTitle());
+		assertEquals("Test1 body", av.getList().get(0).getBody());
+		assertEquals("", av.getTitleField().getText());
+		assertEquals("", av.getBodyField().getText());
+		av.getTitleField().setText("Test1");
+		av.getTitleField().getKeyListeners()[0].keyReleased(null);
+		assertEquals(true, av.getEditButton().isEnabled());
+		assertEquals(false, av.getAddButton().isEnabled());
+		av.getBodyField().setText("new text");
+		av.getEditButton().doClick();
+		assertEquals("new text", av.getList().get(0).getBody());
+	}
 
 }

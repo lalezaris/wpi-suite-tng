@@ -48,7 +48,6 @@ public class AcceptanceTestsView extends JPanel{
 	
 	protected JPlaceholderTextField txtTitle;
 	protected JTextArea txtBody;
-	//the status dropdown menu goes here
 	protected JButton addTest;
 	protected JButton editTest;
 	protected JComboBox cmbStatus;

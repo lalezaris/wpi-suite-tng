@@ -217,33 +217,33 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		Requirement temp = requirements.get(row);
+		String title = this.getColumnName(col);
 		
-		switch (col) {
-		case 0 :
+		if (title.equals("ID")) {
 			requirements.get(row).setId(Integer.parseInt((String)value));
-		case 1:	
-			requirements.get(row).setTitle((String)value);
-		case 2:
-			requirements.get(row).setDescription((String)value);
-		case 3:
-			requirements.get(row).setStatus(RequirementStatusConventer(value));
-		case 4:
-			requirements.get(row).setPriority(RequirementPriorityConverter(value));
-		case 5:
-			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
-		case 6:
-			requirements.get(row).setIteration((Iteration)value);
-		case 7:
-			requirements.get(row).setParentRequirementId(Integer.parseInt((String)value));
-		case 8:
-			requirements.get(row).setActualEffort(Integer.parseInt((String)value));
 		}
-		
-//		if () {
-//			requirements.set(row, temp);
-//			return;
-//		}
-		
+		if (title.equals("Name")) {
+			requirements.get(row).setTitle((String)value);
+		}
+		if (title.equals("Description")) {
+			requirements.get(row).setDescription((String)value);
+		}
+		if (title.equals("Status")) {
+			requirements.get(row).setStatus((RequirementStatus)value);
+		}
+		if (title.equals("Priority")) {
+			requirements.get(row).setPriority((RequirementPriority)value);
+		}
+		if (title.equals("Estimate")) {
+			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+		}
+//		case 6:
+//			requirements.get(row).setIteration((Iteration)value);
+//		case 7:
+//			requirements.get(row).setParentRequirementId(Integer.parseInt((String)value));
+//		case 8:
+//			requirements.get(row).setActualEffort(Integer.parseInt((String)value));
+//		}		
 
 		Object[] element = data.get(row);
 		element[col] = value;
@@ -271,42 +271,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			System.out.println();
 		}
 		System.out.println("--------------------------");
-	}
-
-	private RequirementStatus RequirementStatusConventer (Object input) {
-		String value = ((String) input).toUpperCase();
-		
-		switch (value) {
-		case "NEW":
-			return RequirementStatus.NEW;
-		case "OPEN":
-			return RequirementStatus.OPEN;
-		case "INPROGRESS":
-			return RequirementStatus.INPROGRESS;
-		case "COMPLETE":
-			return RequirementStatus.COMPLETE;
-		case "DELETED":
-			return RequirementStatus.DELETED;
-		}
-		
-		return null;
-	}
-	
-
-	private RequirementPriority RequirementPriorityConverter(Object input) {
-		String value = ((String) input).toUpperCase();
-		
-		switch (value) {
-		case "HIGH":
-			return RequirementPriority.HIGH;
-		case "MEDIUM":
-			return RequirementPriority.MEDIUM;
-		case "LOW":
-			return RequirementPriority.LOW;
-		case "	":
-			return RequirementPriority.BLANK;
-		}
-		return null;
 	}
 
 	/**

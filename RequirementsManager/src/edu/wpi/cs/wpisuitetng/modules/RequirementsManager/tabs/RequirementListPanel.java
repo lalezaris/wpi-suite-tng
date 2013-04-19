@@ -34,6 +34,7 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
@@ -158,6 +159,7 @@ public class RequirementListPanel extends JPanel{
 		});
 
 		setUpStatusColumn();
+		setUpPriorityColumn();
 	}
 
 	/**
@@ -230,6 +232,19 @@ public class RequirementListPanel extends JPanel{
 		comboBox.addItem(RequirementStatus.DELETED);
 		
 		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
+	}
+	
+	/**
+	 * Set the drop down menu to the priority
+	 */
+	private void setUpPriorityColumn() {
+		JComboBox<RequirementPriority> comboBox = new JComboBox<RequirementPriority>();
+		comboBox.addItem(RequirementPriority.HIGH);
+		comboBox.addItem(RequirementPriority.MEDIUM);
+		comboBox.addItem(RequirementPriority.LOW);
+		comboBox.addItem(RequirementPriority.BLANK);
+		
+		table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
 	}
 
 	/**

@@ -20,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
-import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * A RequestObserver for a Request to update a Iteration.
@@ -45,13 +44,12 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	/*
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// cast observable to a Request
 		Request request = (Request) iReq;
 
-		// get the response from the request
-		ResponseModel response = request.getResponse();
 		Refresher.getInstance().refreshIterationsFromServer(null);
 		always();
 	}

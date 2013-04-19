@@ -36,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @version Apr 4, 2013
  *
  */
+@SuppressWarnings({"rawtypes","serial"})
 public class UpdateAllPermissionsController extends AbstractAction {
 
 	protected UserPermissionPanel panel;
@@ -148,6 +149,7 @@ public class UpdateAllPermissionsController extends AbstractAction {
 	 * @param newElements a list of the elements to be put into the model
 	 * @return the model with the given elements
 	 */
+	@SuppressWarnings({ "unused", "unchecked" })
 	private DefaultListModel getNewModel(List<String> newElements){
 		DefaultListModel newModel = new DefaultListModel();
 		for(int i = 0; i < newElements.size(); i++){

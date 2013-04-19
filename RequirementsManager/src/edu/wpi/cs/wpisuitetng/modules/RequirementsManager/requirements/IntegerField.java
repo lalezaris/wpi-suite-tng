@@ -25,14 +25,13 @@ import javax.swing.text.PlainDocument;
  *
  * @version Mar 22, 2013
  */
+@SuppressWarnings("serial")
 public class IntegerField extends JTextField {
 
 	/**
 	 * Instantiates a new integer field.
 	 */
-	public IntegerField() {
-		super();
-	}
+	public IntegerField() {}
 
 	/**
 	 * Instantiates a new integer field.

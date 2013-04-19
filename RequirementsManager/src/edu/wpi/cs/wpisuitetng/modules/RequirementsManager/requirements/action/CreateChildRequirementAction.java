@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Mar 31, 2013
  *
  */
+@SuppressWarnings("serial")
 public class CreateChildRequirementAction extends AbstractAction{
 	
 	private final CreateChildRequirementController controller;

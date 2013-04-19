@@ -213,6 +213,7 @@ public class MainTabController {
 	 * 
 	 * @param requirement The requirement to display
 	 */
+	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
 		/*
 		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",

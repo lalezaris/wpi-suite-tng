@@ -56,7 +56,7 @@ public class IterationObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
 		//this.panel.setAllusers(users);
-		this.view.receiveServerIterations(iterations);
+		view.receiveServerIterations(iterations);
 	}
 
 	/* (non-Javadoc)

@@ -39,3 +39,4 @@ Janeway/janeway.conf
 /Core/WPISuite/WebContent/WEB-INF/lib/RequirementsManager.jar
 
 /RequirementsManager/outPerm.txt
+/RequirementsManager/test_PermissionsLog.txt

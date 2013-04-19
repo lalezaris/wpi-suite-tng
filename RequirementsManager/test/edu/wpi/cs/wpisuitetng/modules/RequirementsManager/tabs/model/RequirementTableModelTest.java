@@ -1,4 +1,17 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * 	Tianyu Li
+ *  Michael Perrone
+ *  Tushar Narayan
+**************************************************/package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
+ * Tests for the RequirementTableModel
  * 
  * @author Tianyu Li
  * @author Michael Perrone
@@ -73,13 +87,13 @@ public class RequirementTableModelTest {
 	public void dataCanBeinserted() {
 		assertEquals("Name", rtm1.getColumnName(1));
 		assertEquals(4, rtm1.getRowCount());
-		assertEquals(-1, rtm1.getValueAt(0, 0));
-		assertEquals(-1, rtm1.getRowID(0));
+		assertEquals(1, rtm1.getValueAt(0, 0));
+		assertEquals(1, rtm1.getRowID(0));
 		assertEquals(-1, rtm1.getValueAt(0, 5));
 		assertEquals("req2", rtm1.getValueAt(1, 1));
 		assertEquals("des3", rtm1.getValueAt(2, 2));
 		assertEquals(4, rtm1.getValueAt(3, 0));
-		assertEquals("null", rtm1.getValueAt(5, 0));
+		assertEquals(null, rtm1.getValueAt(5, 0));
 	}
 
 	@Test

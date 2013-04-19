@@ -49,7 +49,7 @@ public class RetrieveAllIterationsController {
     /**
      * Send a request for all of the Iterations
      */
-    public void refreshData() {	
+    public void refreshData() {
     	final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserver(this);
     	Request request;
     	request = Network.getInstance().makeRequest("iterationsmanager/iteration",  HttpMethod.GET);
@@ -63,7 +63,7 @@ public class RetrieveAllIterationsController {
      *
      * @param Iterations An array of Iterations returned by the server
      */
-    public void receivedData(Iteration[] Iterations) {	
+    public void receivedData(Iteration[] Iterations) {
     	if (Iterations.length > 0) {
     		// save the data
     		this.data = Iterations;

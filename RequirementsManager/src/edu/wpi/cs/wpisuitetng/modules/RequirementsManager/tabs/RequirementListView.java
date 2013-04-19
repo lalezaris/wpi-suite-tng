@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +25,8 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
@@ -35,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Apr 11, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"unused", "serial"})
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
 
 	private ToolbarGroupView buttonGroup;
@@ -65,7 +68,9 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 		
 		// Instantiate the main create requirement panel
 		this.setLayout(new BorderLayout());
+		
 		mainPanelScrollPane = new JScrollPane(mainPanel);
+				
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)

@@ -24,6 +24,7 @@ import javax.swing.JPanel;
  * @version Mar 17, 2013
  *
  */
+@SuppressWarnings("serial")
 public class DashboardTab extends JPanel{
 	/**
 	 * Class Constructor for Dashboard.

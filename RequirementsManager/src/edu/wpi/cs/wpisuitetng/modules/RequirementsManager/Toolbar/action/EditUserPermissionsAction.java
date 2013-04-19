@@ -29,6 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * @version Apr 1, 2013
  *
  */
+@SuppressWarnings("serial")
 public class EditUserPermissionsAction extends AbstractAction {
 
 	private final MainTabController controller;

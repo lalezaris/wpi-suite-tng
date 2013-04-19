@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPane
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 
 /**
- * Chart type listner for charts.
+ * Chart type listener for charts.
  * 
  * @author Evan Polekoff
  *

@@ -30,6 +30,7 @@ import javax.swing.AbstractAction;
  *
  */
 
+@SuppressWarnings("serial")
 public class OpenHelpAction extends AbstractAction {
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)

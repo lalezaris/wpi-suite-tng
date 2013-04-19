@@ -31,6 +31,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
@@ -55,7 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @modified by Tianyu Li on Apr 9
  * @version Mar 21, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
 
 	private JTextArea list;
@@ -63,7 +65,7 @@ public class RequirementListPanel extends JPanel{
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
 	private UpdateAllRequirementsController updateController;
-	private JPanel panel;
+	private JPanel panel, buttonPanel;
 	private GridBagLayout layout;
 	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
@@ -72,6 +74,11 @@ public class RequirementListPanel extends JPanel{
 	private JButton refreshButton, updateButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
+
+	private FilterController filterController;
+	/*TODO eventually, refactor this out into a model*/
+	private Requirement[] content, filteredContent;
+
 
 	/**
 	 * Instantiates a new requirement list panel.
@@ -83,7 +90,7 @@ public class RequirementListPanel extends JPanel{
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		model = new RequirementTableModel();		
+		model = new RequirementTableModel();
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
@@ -100,28 +107,44 @@ public class RequirementListPanel extends JPanel{
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);	
 
-		c.anchor = GridBagConstraints.LINE_START; 
+		filterController = new FilterController(this);
+		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.5;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panel.add(refreshButton, c);
+		panel.add(filterController.getPanel(), c);
+		panel.validate();
 
+		buttonPanel = new JPanel();
+		buttonPanel.add(refreshButton);
+		buttonPanel.add(updateButton);
+
+		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
 		c.gridy = 1;
-		c.weightx = 0.5;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		panel.add(buttonPanel,c);
+		//panel.add(refreshButton, c);
+
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 1;
 		c.weighty = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panel.add(updateButton, c);
+		//panel.add(updateButton, c);
 
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
-		c.gridy = 2;
+		c.gridy = 3;
 		c.weightx = 0.5;
-		c.weighty = 0;
+		c.weighty = 1;
 		c.gridwidth = 1;
 		panel.add(scrollPane, c);
 
@@ -137,10 +160,9 @@ public class RequirementListPanel extends JPanel{
 
 		this.add(mainPanelScrollPane);
 
-
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
-
+			
 			/* Shows changes to hierarchy
 			 * @param e HierarchyEvent to respond to
 			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
@@ -150,14 +172,10 @@ public class RequirementListPanel extends JPanel{
 				if ( (HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0
 						&& p.isShowing())
 				{
-
 					Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.TABLE);
 				}
-
 			}
-
 		});
-
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 	}
 
@@ -184,9 +202,18 @@ public class RequirementListPanel extends JPanel{
 	 */
 	private void addRequirement(Requirement req){
 		((RequirementTableModel)table.getModel()).addRow(req);
-
 	}
 
+	/**
+	 * 
+	 * Hides the refresh and the refresh, update, and delete buttons
+	 *
+	 */
+	public void hideButtons(){
+		refreshButton.setVisible(false);
+		deleteButton.setVisible(false);
+		updateButton.setVisible(false);
+	}
 
 	/**
 	 * Clears the list.
@@ -195,25 +222,36 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).clear();
 	}
 
-
 	/**
 	 * Adds requirements. (If they are not deleted)
 	 *
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
+		this.content = requirements;
 		clearList();	
 		((RequirementTableModel) table.getModel()).clearRequirements();
 		for (int i = requirements.length -1; i > -1; i --){
-			if (requirements[i].getStatus() != RequirementStatus.DELETED){
-				addRequirement(requirements[i]);
-			}
+			addRequirement(requirements[i]);
+		}
+		table.updateUI();
+		filterController.setFilteredInTable();
+	}
+
+	public void filterRequirements(Requirement[] requirements){
+		this.filteredContent = requirements;
+		clearList();
+		RequirementTableModel model = ((RequirementTableModel) table.getModel());
+		model.clearRequirements();
+		for (int i = 0 ; i < requirements.length; i++){
+			System.out.println(requirements[i]);
+			model.addRow(requirements[i]);
 		}
 		table.updateUI();
 	}
 
 	/**
-	 * Demand a refresh command. This may be depreciated... Please hold.
+	 * Demand a refresh command. TODO: This may be deprecated... Please hold.
 	 */
 	public void refreshList() {
 		retrieveController.refreshData();
@@ -246,6 +284,32 @@ public class RequirementListPanel extends JPanel{
 		return tabController;
 	}
 
+
+	/**
+	 * Gets the content
+	 * @return the content
+	 */
+	public Requirement[] getContent() {
+		return content;
+	}
+
+	/**
+	 * Gets the filteredContent
+	 * @return the filteredContent
+	 */
+	public Requirement[] getFilteredContent() {
+		return filteredContent;
+	}
+
+
+	/**
+	 * Gets the panel
+	 * @return the panel
+	 */
+	public JPanel getPanel() {
+		return panel;
+	}
+
 	/**
 	 * Gets the model.
 	 *
@@ -253,5 +317,9 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public RequirementTableModel getModel() {
 		return model;
+	}
+
+	public FilterController getFilterController() {
+		return filterController;
 	}
 }

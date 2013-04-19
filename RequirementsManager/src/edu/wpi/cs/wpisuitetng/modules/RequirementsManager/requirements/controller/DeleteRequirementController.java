@@ -66,12 +66,12 @@ public class DeleteRequirementController {
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(view.checkRequiredFields() == 0){
 			Requirement delRequirement = panel.getEditedModel();
-			delRequirement.setStatus(RequirementStatus.DELETED);
 			try {
 				issues = reqVal.validate(delRequirement, view.getMode());
 				if(issues.size() > 0){
 					printIssues(issues);
 				} else {
+					delRequirement.setStatus(RequirementStatus.DELETED);
 					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 					
 					System.out.println("Mode:" + panel.getEditMode());

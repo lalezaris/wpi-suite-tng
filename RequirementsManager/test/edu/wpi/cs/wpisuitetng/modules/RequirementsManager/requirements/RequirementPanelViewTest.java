@@ -15,10 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import org.junit.Before;
 import org.junit.Test;

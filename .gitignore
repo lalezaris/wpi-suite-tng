@@ -8,6 +8,7 @@ Servers\.settings
 javadoc
 test-results
 dist
+RequirementsManager/docs/*
 
 # Package Files #
 *.war

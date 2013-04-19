@@ -32,7 +32,7 @@ public class AllRequirementController {
 	/**
 	 * Construct a RequirementController.
 	 * 
-	 * @param view A BarChartView
+	 * @param view An IterationPanel
 	 */
 	public AllRequirementController(IterationPanel panel){
 		this.panel = panel;

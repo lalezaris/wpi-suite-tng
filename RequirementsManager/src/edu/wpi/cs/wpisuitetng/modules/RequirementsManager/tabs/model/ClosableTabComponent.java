@@ -29,7 +29,6 @@ import javax.swing.JTabbedPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;

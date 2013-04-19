@@ -12,27 +12,14 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
-import static org.junit.Assert.*;
-
-import java.util.HashSet;
-
-import javax.swing.JPanel;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.Session;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.AdminPermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.NonePermissionController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller.UpdatePermissionController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
-import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tests for the buttons on the user permission panel

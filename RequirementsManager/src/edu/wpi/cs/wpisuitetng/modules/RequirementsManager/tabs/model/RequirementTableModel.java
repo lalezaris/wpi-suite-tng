@@ -220,7 +220,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (pLevel != RMPermissionsLevel.ADMIN) {
 			return false;
 		}
-		if (col > 6) {
+		if (col > 5) {
 			return false;
 		}
 		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||

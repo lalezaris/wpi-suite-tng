@@ -52,6 +52,7 @@ public class AcceptanceTestsView extends JPanel{
 	protected JTextArea txtBody;
 	protected JButton addTest;
 	protected JButton editTest;
+	protected JButton cancelTest;
 	protected JComboBox cmbStatus;
 	protected RMPermissionsLevel pLevel;
 	
@@ -115,9 +116,8 @@ public class AcceptanceTestsView extends JPanel{
 			txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		} else
 			txtTitle = new JPlaceholderTextField("", 20);
-		JLabel lblTitle = new JLabel("Title: ", JLabel.TRAILING);
 		txtBody = new JTextArea(4, 40);
-		JLabel lblBody = new JLabel("Body: ", JLabel.TRAILING);
+		JLabel lblBody = new JLabel("Test Descriptions: ", JLabel.TRAILING);
 		
 		addTest = new JButton("Add Test");
 		addTest.addActionListener(new AddAcceptanceTestController(this));
@@ -125,11 +125,16 @@ public class AcceptanceTestsView extends JPanel{
 		editTest = new JButton("Edit Test");
 		editTest.addActionListener(new EditAcceptanceTestController(this));
 		
+		cancelTest = new JButton("Cancel");
+		//cancelTest.addActionListener(new CancelAcceptanceTestController(this));
+		
 		//initiate the combobox for status
-		final String[] atStatuses = {"Blank", "Passed", "Failed"};
+		final String[] atStatuses = {"", "Passed", "Failed"};
 		cmbStatus = new JComboBox(atStatuses);
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		JLabel lblStatus = new JLabel("Status: ", JLabel.TRAILING);
+		
+		JLabel lblTests = new JLabel("Existing Tests:", JLabel.TRAILING);
 		
 		//initiate the JList stuff
 		listModel = new DefaultListModel<AcceptanceTest>();
@@ -157,6 +162,7 @@ public class AcceptanceTestsView extends JPanel{
 		Ptop.add(txtTitle, top);
 		
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		top.weightx = 0.5;
 		top.weighty = 0.5;
 		top.gridx = 2;
@@ -178,6 +184,7 @@ public class AcceptanceTestsView extends JPanel{
 		
 		//add the Status menu
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		top.gridx = 1;
 		top.gridy = 1;
 		top.weightx = 0.5;
@@ -185,7 +192,7 @@ public class AcceptanceTestsView extends JPanel{
 		cmbStatus.setBackground(Color.WHITE);
 		Ptop.add(cmbStatus, top);		
 
-		//add the "Body: " label
+		//add the "Test Descriptions: " label
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
@@ -196,6 +203,7 @@ public class AcceptanceTestsView extends JPanel{
 		Pbot.add(lblBody, bot);
 		
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 1;
@@ -208,6 +216,7 @@ public class AcceptanceTestsView extends JPanel{
 		//add the Body text area
 		JScrollPane scrollPaneBody = new JScrollPane(txtBody);
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(0,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.BOTH;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
@@ -218,6 +227,7 @@ public class AcceptanceTestsView extends JPanel{
 		
 		//add the "Add Test" button
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
@@ -226,28 +236,54 @@ public class AcceptanceTestsView extends JPanel{
 		bot.gridwidth = 1;
 		Pbot.add(addTest, bot);
 		
-		//add the "Edit Test" button
+		//add the "Cancel" button
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 1;
 		bot.gridy = 2;
 		bot.gridwidth = 2;
-		Pbot.add(editTest, bot);
+		Pbot.add(cancelTest, bot);
 		
 		//Add the list of AcceptanceTests gui element
 		if(pLevel != RMPermissionsLevel.NONE){
 			listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
 		}
-		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
+		
+		//add the "Existing Tests: " label
 		bot.anchor = GridBagConstraints.LINE_START;
-		bot.fill = GridBagConstraints.BOTH;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.NONE;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 0;
 		bot.gridy = 3;
+		bot.gridwidth = 1;
+		Pbot.add(lblTests, bot);
+		
+		
+		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(0,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.BOTH;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 4;
 		bot.gridwidth = 4;
 		Pbot.add(scrollPaneList, bot);
+		
+		//add the "Edit Test" button
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.NONE;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 5;
+		bot.gridwidth = 2;
+		Pbot.add(editTest, bot);
 		
 		//compile all the panels into overall
 		overall.anchor = GridBagConstraints.LINE_START;

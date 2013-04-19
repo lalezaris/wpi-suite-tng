@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Hanna
  *  Tushar Narayan
+ *  Tianyu Li
  *  Michael Perrone
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
@@ -26,8 +27,10 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
@@ -213,19 +216,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		RMPermissionsLevel pLevel = CurrentUserPermissions
 				.getCurrentUserPermission();
-		if (pLevel == RMPermissionsLevel.ADMIN) {
-			if (col == 5) {
-				if (data.get(row)[3].equals(RequirementStatus.INPROGRESS)
-						|| data.get(row)[3].equals(RequirementStatus.COMPLETE)) {
-					JFrame debugger = new JFrame("Input value error");
-					JOptionPane.showMessageDialog(debugger, "Can not edit it since it is in progress or completed");
-					return false;
-				} else
-					return true;
-			} else
-				return false;
-		} else
-			return false;
+//		if () {
+//			return false;
+//		}
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -238,24 +232,38 @@ public class RequirementTableModel extends AbstractTableModel {
 					+ " (an instance of "
 					+ value.getClass() + ")");
 		}
-		JFrame debugger = new JFrame("Input value error");
-
-		try {
-			Integer.parseInt((String)value);
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
-			return;
-		}
-
-		if (Integer.parseInt((String)value) < 0) {
-			JOptionPane.showMessageDialog(debugger, "The value of estimate is not valid.");
-			return;
-		}
 		
-		requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+		Requirement temp = requirements.get(row);
+		String title = this.getColumnName(col);
+		
+		if (title.equals("ID")) {
+			requirements.get(row).setId(Integer.parseInt((String)value));
+		}
+		if (title.equals("Name")) {
+			requirements.get(row).setTitle((String)value);
+		}
+		if (title.equals("Description")) {
+			requirements.get(row).setDescription((String)value);
+		}
+		if (title.equals("Status")) {
+			requirements.get(row).setStatus((RequirementStatus)value);
+		}
+		if (title.equals("Priority")) {
+			requirements.get(row).setPriority((RequirementPriority)value);
+		}
+		if (title.equals("Estimate")) {
+			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
+		}
+//		case 6:
+//			requirements.get(row).setIteration((Iteration)value);
+//		case 7:
+//			requirements.get(row).setParentRequirementId(Integer.parseInt((String)value));
+//		case 8:
+//			requirements.get(row).setActualEffort(Integer.parseInt((String)value));
+//		}		
 
 		Object[] element = data.get(row);
-		element[5] = value;
+		element[col] = value;
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
 		isChange = true;
@@ -282,8 +290,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		System.out.println("--------------------------");
 	}
-
-		
 
 	/**
 	 * Clear requirements.

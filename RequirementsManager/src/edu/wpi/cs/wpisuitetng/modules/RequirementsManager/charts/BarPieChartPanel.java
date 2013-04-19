@@ -234,7 +234,7 @@ public class BarPieChartPanel extends JPanel {
 	 * @param enabled Whether or not the box is enabled.
 	 */
 	public void setSubDivideEnable(boolean enabled){
-		subDivideBox.setEnabled(enabled);
+		subDivideBox.setVisible(enabled);
 		if(!enabled)
 			subDivideBox.setSelectedIndex(0);
 	}

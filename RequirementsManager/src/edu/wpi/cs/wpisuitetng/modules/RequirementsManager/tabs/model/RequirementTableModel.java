@@ -216,9 +216,24 @@ public class RequirementTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		RMPermissionsLevel pLevel = CurrentUserPermissions
 				.getCurrentUserPermission();
-//		if () {
-//			return false;
-//		}
+		
+		if (pLevel != RMPermissionsLevel.ADMIN) {
+			return false;
+		}
+		if (col > 5) {
+			return false;
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
+				requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
+			if (col == 5) {
+				return false;
+			}
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.DELETED)) {
+			if (col != 3) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -235,6 +250,10 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
+		
+		if (!checkInput(value, temp, title)) {
+			return;
+		}
 		
 		if (title.equals("ID")) {
 			requirements.get(row).setId(Integer.parseInt((String)value));
@@ -272,6 +291,48 @@ public class RequirementTableModel extends AbstractTableModel {
 			System.out.println("New value of data:");
 			printDebugData();
 		}
+	}
+
+	/**
+	 * Method to check if the input value is legal
+	 * 
+	 * @param value the input value
+	 * @param req the edited requirement
+	 * @param title the edited part of requirement
+	 * @return true if the input is legal, false otherwise
+	 */
+	private boolean checkInput(Object value, Requirement req, String title) {
+		JFrame frame = new JFrame();
+		int IDNumber;
+		int estimate;
+		
+		if (title.equals("ID")) {
+			try {
+				IDNumber = Integer.parseInt((String)value);
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(frame, "The ID must be integer.");
+				return false;
+			}
+			if (IDNumber < 0) {
+				JOptionPane.showMessageDialog(frame, "The ID must be non-negative.");
+				return false;
+			}
+		}
+		
+		if (title.equals("Estimate")) {
+			try {
+				estimate = Integer.parseInt((String)value);
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(frame, "The estimate must be integer.");
+				return false;
+			}
+			if (estimate < 0) {
+				JOptionPane.showMessageDialog(frame, "The estimate must be non-negative.");
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	/**

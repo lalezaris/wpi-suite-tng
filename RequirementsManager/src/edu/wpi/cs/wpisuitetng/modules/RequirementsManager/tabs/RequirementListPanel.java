@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RefreshAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.RequirementTableSortAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllEstimateAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllRequirementsController;
@@ -103,7 +104,7 @@ public class RequirementListPanel extends JPanel{
 		refreshButton.setAction(new RefreshAction(retrieveController));	
 		updateButton = new JButton("Update");
 		updateController = new UpdateAllRequirementsController(this);
-		updateButton.setAction(new UpdateAllEstimateAction(updateController));	
+		updateButton.setAction(new UpdateAllRequirementAction(updateController));	
 		deleteButton = new JButton("Delete");
 
 		GridBagConstraints c = new GridBagConstraints();	

@@ -11,6 +11,7 @@
  *  Tyler Stone
  *  Arica Liu
  *  Tushar Narayan
+ *  Evan Polekoff
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
@@ -21,9 +22,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -42,7 +43,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * 
  * @author Tyler Stone 
  * @author Arica Liu
- * @edited Evan Polekoff
  *
  * @version Mar 17, 2013
  *
@@ -211,7 +211,6 @@ public class MainTabController {
 	/**
 	 * Adds a tab that shows the bar chart.
 	 * 
-	 * @param requirement The requirement to display
 	 */
 	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
@@ -377,7 +376,7 @@ public class MainTabController {
 	/**
 	 * Adds a tab that displays the given requirement.
 	 * 
-	 * @param requirement the requirement to display
+	 * @param iteration the iteration to display
 	 * @return The created Tab 
 	 */
 	public Tab addEditIterationTab(Iteration iteration) {

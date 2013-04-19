@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
@@ -26,17 +26,24 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
  * @version Apr 17, 2013
  *
  */
+@SuppressWarnings("serial")
 public class VisibleAction extends AbstractAction{
 
 	FilterController controller;
+	
 	/**
-	 * make a new visibility action
-	 * 
+	 * make a new visibility action.
+	 *
+	 * @param controller the controller
 	 */
 	public VisibleAction(FilterController controller) {
 		super("Show Filters");
 		this.controller = controller;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().toggleVisibility();

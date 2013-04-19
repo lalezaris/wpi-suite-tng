@@ -10,8 +10,10 @@
  * Contributors:
  *  Joe Spicola
  *  Tyler Stone
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -45,6 +47,7 @@ public class SaveRequirementController {
 
 	/** The view object containing the request fields */
 	protected RequirementView view;
+
 	protected RequirementValidator reqVal;
 	protected List<ValidationIssue> issues;
 
@@ -75,8 +78,27 @@ public class SaveRequirementController {
 				} else {
 					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 					panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
+					if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
+						if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
+							System.out.println("In save req controller parent part");
+							RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(getView());
+							
+							Requirement parent = view.getParentRequirement();
+							int estimateEffort = parent.getEstimateEffort() - view.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort();
+							parent.setEstimateEffort(estimateEffort);
+						
+							Request estimateRequest;
+							estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
+							String JsonRequest = parent.toJSON();
+							estimateRequest.setBody(JsonRequest);
+							System.out.println("Sending REQ to server:" +JsonRequest );
+							estimateRequest.addObserver(parentEstimateRequestObserver);
+							estimateRequest.send();
+						}
+					}
+					
 					System.out.println("Mode:" + panel.getEditMode());
-					String JsonRequest = req.toJSON();
+					String JsonRequest = panel.getEditedModel().toJSON();
 					request.setBody(JsonRequest);
 					System.out.println("Sending REQ to server:" +JsonRequest );
 					request.addObserver(requestObserver);
@@ -117,4 +139,5 @@ public class SaveRequirementController {
 	public RequirementView getView() {
 		return view;
 	}
+
 }

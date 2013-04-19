@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.IterationStore;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.TaskStore;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -80,6 +81,7 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementsmanagerrequirement", new RequirementStore(data));
 		map.put("iterationsmanageriteration", new IterationStore(data));
+		map.put("tasksmanagertask", new TaskStore(data));
 		map.put("requirementsmanagerpermissions", new PermissionsStore(data));
 		
 		//add just your module to this list

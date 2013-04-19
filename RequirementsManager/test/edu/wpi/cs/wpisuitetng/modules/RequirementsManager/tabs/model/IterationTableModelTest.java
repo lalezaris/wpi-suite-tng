@@ -15,7 +15,6 @@
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.CLOSED;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.NEW;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.OPEN;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

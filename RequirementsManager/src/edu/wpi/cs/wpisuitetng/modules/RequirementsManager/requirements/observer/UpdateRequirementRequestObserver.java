@@ -23,8 +23,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
+import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
@@ -75,6 +77,8 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
+						//Nothing needs to be done on update
+
 						Requirement unchangedModel = view.getReqModel().getUneditedRequirement();
 						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
 
@@ -83,16 +87,31 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						 * 
 						 * If so, update all children
 						 */
-						
 						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
+							System.out.println("Iteration was changed, edit subs now");
 							BatchRequirementEditController<Integer> batchController = 
 									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
 							//change all children
-							batchController.instantiateChange(changedModel.getChildRequirementIds());
+							batchController.instantiateChange(unchangedModel.getChildRequirementIds());
 						}
 						//						
 						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						//						view.setEditModeDescriptors(requirement);
+						if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
+							if(!changedModel.isTopLevelRequirement()&&view != null){
+								Requirement parent = view.getParentView().getReqModel().getRequirement();
+								int estimateEffort = parent.getEstimateEffort() - unchangedModel.getEstimateEffort() + changedModel.getEstimateEffort();
+								parent.setEstimateEffort(estimateEffort);
+								//now to save the parent to database
+								String JsonRequest = parent.toJSON();
+								final RequestObserver requestObserver = new UpdateRequirementRequestObserver(view);
+								Request request;
+								request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
+								request.setBody(JsonRequest);
+								request.addObserver(requestObserver);
+								request.send();
+							}
+						}
 					}
 				});
 			}

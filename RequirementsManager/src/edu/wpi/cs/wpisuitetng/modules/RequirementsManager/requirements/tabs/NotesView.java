@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Michael French
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -35,7 +36,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * Tab panel for adding and viewing notes.
  *
  * @author Joe Spicola
- * @edited Michael French
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
@@ -64,7 +64,7 @@ public class NotesView extends JPanel implements FocusListener {
 	/**
 	 * Instantiates a new notes view.
 	 *
-	 * @param req the requirement holding the notes
+	 * @param parent the requirement view holding the notes
 	 */
 	public NotesView(RequirementView parent) {
 		//Use a grid bag layout manager

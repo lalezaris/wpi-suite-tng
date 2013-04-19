@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Contoller to retrieve iterations.
+ * Controller to retrieve iterations.
  * 
  * @author Chris Hanna
  *

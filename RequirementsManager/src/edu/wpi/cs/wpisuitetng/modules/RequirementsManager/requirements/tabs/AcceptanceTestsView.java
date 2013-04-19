@@ -31,10 +31,12 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveEvent;
 
 
 // TODO: Auto-generated Javadoc
@@ -51,9 +53,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	
 	protected JPlaceholderTextField txtTitle;
 	protected JTextArea txtBody;
-	//the status dropdown menu goes here
 	protected JButton addTest;
 	protected JButton editTest;
+	protected JButton cancelTest;
 	protected JComboBox cmbStatus;
 	protected RMPermissionsLevel pLevel;
 	
@@ -121,12 +123,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 			txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		} else
 			txtTitle = new JPlaceholderTextField("", 20);
-		txtTitle.addFocusListener(this);
-		
-		JLabel lblTitle = new JLabel("Title: ", JLabel.TRAILING);
+
 		txtBody = new JTextArea(4, 40);
-		txtBody.addFocusListener(this);
-		JLabel lblBody = new JLabel("Body: ", JLabel.TRAILING);
+		JLabel lblBody = new JLabel("Test Descriptions: ", JLabel.TRAILING);
 		
 		addTest = new JButton("Add Test");
 		addTest.addActionListener(new AddAcceptanceTestController(this));
@@ -134,12 +133,17 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		editTest = new JButton("Edit Test");
 		editTest.addActionListener(new EditAcceptanceTestController(this));
 		
+		cancelTest = new JButton("Cancel");
+		//cancelTest.addActionListener(new CancelAcceptanceTestController(this));
+		
 		//initiate the combobox for status
-		final String[] atStatuses = {"Blank", "Passed", "Failed"};
+		final String[] atStatuses = {"", "Passed", "Failed"};
 		cmbStatus = new JComboBox(atStatuses);
 		cmbStatus.addFocusListener(this);
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		JLabel lblStatus = new JLabel("Status: ", JLabel.TRAILING);
+		
+		JLabel lblTests = new JLabel("Existing Tests:", JLabel.TRAILING);
 		
 		//initiate the JList stuff
 		listModel = new DefaultListModel<AcceptanceTest>();
@@ -167,6 +171,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		Ptop.add(txtTitle, top);
 		
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		top.weightx = 0.5;
 		top.weighty = 0.5;
 		top.gridx = 2;
@@ -188,6 +193,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		
 		//add the Status menu
 		top.anchor = GridBagConstraints.LINE_START;
+		top.insets = new Insets(10,10,5,0); //top,left,bottom,right
 		top.gridx = 1;
 		top.gridy = 1;
 		top.weightx = 0.5;
@@ -195,7 +201,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		cmbStatus.setBackground(Color.WHITE);
 		Ptop.add(cmbStatus, top);		
 
-		//add the "Body: " label
+		//add the "Test Descriptions: " label
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
@@ -206,6 +212,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		Pbot.add(lblBody, bot);
 		
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 1;
@@ -218,6 +225,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		//add the Body text area
 		JScrollPane scrollPaneBody = new JScrollPane(txtBody);
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(0,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.BOTH;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
@@ -228,6 +236,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		
 		//add the "Add Test" button
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
@@ -236,28 +245,54 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		bot.gridwidth = 1;
 		Pbot.add(addTest, bot);
 		
-		//add the "Edit Test" button
+		//add the "Cancel" button
 		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 1;
 		bot.gridy = 2;
 		bot.gridwidth = 2;
-		Pbot.add(editTest, bot);
+		Pbot.add(cancelTest, bot);
 		
 		//Add the list of AcceptanceTests gui element
 		if(pLevel != RMPermissionsLevel.NONE){
 			listDisplay.setCellRenderer(new HistoryViewCellRenderer(350));
 		}
-		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
+		
+		//add the "Existing Tests: " label
 		bot.anchor = GridBagConstraints.LINE_START;
-		bot.fill = GridBagConstraints.BOTH;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.NONE;
 		bot.weightx = 0.5;
 		bot.weighty = 0.5;
 		bot.gridx = 0;
 		bot.gridy = 3;
+		bot.gridwidth = 1;
+		Pbot.add(lblTests, bot);
+		
+		
+		JScrollPane scrollPaneList = new JScrollPane(listDisplay);
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(0,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.BOTH;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 4;
 		bot.gridwidth = 4;
 		Pbot.add(scrollPaneList, bot);
+		
+		//add the "Edit Test" button
+		bot.anchor = GridBagConstraints.LINE_START;
+		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		bot.fill = GridBagConstraints.NONE;
+		bot.weightx = 0.5;
+		bot.weighty = 0.5;
+		bot.gridx = 0;
+		bot.gridy = 5;
+		bot.gridwidth = 2;
+		Pbot.add(editTest, bot);
 		
 		//compile all the panels into overall
 		overall.anchor = GridBagConstraints.LINE_START;
@@ -290,26 +325,27 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		 */
 		MouseListener mouseListener = new MouseAdapter() {
 		     public void mouseClicked(MouseEvent e) {
-		    	 int index = listDisplay.locationToIndex(e.getPoint());
-	             System.out.println("clicked on Item " + index);
-	             txtTitle.setText(list.get(index).getTitle());
-	             txtBody.setText(list.get(index).getBody());
-	             if (hasTitle(txtTitle.getText())){
-					addTest.setEnabled(false);
-					editTest.setEnabled(true);
-				}else{
-					addTest.setEnabled(true);
-					editTest.setEnabled(false);
-				}
+		    	 if(list.size() > 0){
+		    		 int index = listDisplay.locationToIndex(e.getPoint());
+		    		 System.out.println("clicked on Item " + index);
+		    		 txtTitle.setText(list.get(index).getTitle());
+		    		 txtBody.setText(list.get(index).getBody());
+		    		 if (hasTitle(txtTitle.getText())){
+		    			 addTest.setEnabled(false);
+		    			 editTest.setEnabled(true);
+		    		 }else{
+		    			 addTest.setEnabled(true);
+		    			 editTest.setEnabled(false);
+		    		 }
 	             
-	             if (list.get(index).getStatus().compareTo("Passed") == 0){
-		             	cmbStatus.setSelectedItem(atStatuses[1]);
-		         }else
-	             if (list.get(index).getStatus().compareTo("Failed") == 0){
-		             	cmbStatus.setSelectedItem(atStatuses[2]);
-		         }else{
-			            cmbStatus.setSelectedItem(atStatuses[0]);
-		         }
+		    		 if (list.get(index).getStatus().compareTo("Passed") == 0){
+		    			 cmbStatus.setSelectedItem(atStatuses[1]);
+		    		 }else if (list.get(index).getStatus().compareTo("Failed") == 0){
+		    				cmbStatus.setSelectedItem(atStatuses[2]);
+		    		 }else{
+		    				cmbStatus.setSelectedItem(atStatuses[0]);
+		    		 }
+		    	 }
 		     }
 		 };
 		 
@@ -536,7 +572,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Sets the list.
 	 *
 	 * @param list the new list
 	 */

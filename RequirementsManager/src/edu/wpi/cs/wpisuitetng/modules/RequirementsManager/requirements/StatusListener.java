@@ -31,8 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * component's <code>addStatusListener<code> method. When
  * the status event occurs, that object's appropriate
  * method is invoked.
- *
- * @see StatusEvent
+ * 
  * @author Evan Polekoff
  * @author Ned Shelton
  */
@@ -50,9 +49,10 @@ public class StatusListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent status) {
 		JComboBox cb = (JComboBox)status.getSource();
-		System.out.println(cb.getSelectedItem());
 
-		changeIteration(cb);
+		if (cb.getSelectedItem() != null) {
+			changeIteration(cb);
+		}
 	}
 	
 	/**

@@ -39,7 +39,7 @@ public class RequirementController {
 	}
 	
 	/**
-	 * Send a request to retrieve requirements.
+	 * Sends a request to retrieve requirements.
 	 */
 	public void retrieve(){
 		Request request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.GET);

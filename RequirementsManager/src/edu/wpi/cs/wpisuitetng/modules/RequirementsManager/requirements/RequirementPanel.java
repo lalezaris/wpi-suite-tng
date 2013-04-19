@@ -648,11 +648,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		leftPaneltop.add(panelOverall,cPaneTop);
 
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
-		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+//		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
 		splitPaneLeft.setEnabled(true);
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, scrollPaneTabs);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, panelTabs);
 		this.add(splitPane, BorderLayout.CENTER);
 
 		//		 if (model.getChildRequirementIds().isEmpty()) {

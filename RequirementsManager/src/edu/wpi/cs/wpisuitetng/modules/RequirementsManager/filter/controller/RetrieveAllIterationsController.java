@@ -8,11 +8,10 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.observers.IterationObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -30,21 +29,31 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveAllIterationsController {
 
 	private FilterController controller;
+	
 	/**
-	 * Enter Description here.
-	 * 
+	 * Constructor for a RetrieveAllIterationsController
+	 *
+	 * @param controller the controller
 	 */
 	public RetrieveAllIterationsController(FilterController controller) {
 		this.controller = controller;
 		
 	}
 
+	/**
+	 * Retrieves all iterations from the database
+	 */
 	public void retrieve(){
 		Request request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(new RetrieveAllIterationsObserver(this));
 		request.send();
 	}
 	
+	/**
+	 * Gets the response from the controller and sets the iterations.
+	 *
+	 * @param iterations the iterations to retrieve
+	 */
 	public void response(Iteration[] iterations){
 		controller.setIterations(iterations);
 	}

@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -20,6 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 14, 2013
  *
  */
+@SuppressWarnings("rawtypes")
 public class Rule implements IFilterRule{
 
 	boolean isAnd = true, isEnabled = true;

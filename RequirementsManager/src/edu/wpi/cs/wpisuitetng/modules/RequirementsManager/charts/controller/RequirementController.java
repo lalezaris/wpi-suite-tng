@@ -31,7 +31,7 @@ public class RequirementController {
 	/**
 	 * Construct a RequirementController.
 	 * 
-	 * @param view A BarChartView
+	 * @param view
 	 */
 	public RequirementController(BarPieChartView view){
 		this.view = view;

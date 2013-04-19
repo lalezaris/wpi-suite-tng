@@ -16,6 +16,7 @@
  *  Michael French
  *  Evan Polekoff
  *  Ned Shelton
+ *  Michael French
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -37,7 +38,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * 
  * @author Tushar Narayan
  * 
- * @edited Michael French
  * @version Mar 23, 2013
  *
  */
@@ -167,7 +167,7 @@ public class Requirement extends AbstractModel{
 	 *
 	 * replaces the current acceptance test list with the given one
 	 * 
-	 * @param arraylist of acceptance tests
+	 * @param a the array list of acceptance tests
 	 */
 	public void updateAcceptanceTests(ArrayList<AcceptanceTest> a){
 		this.acceptanceTests = a;

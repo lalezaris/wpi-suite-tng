@@ -44,7 +44,7 @@ public class HistoryView extends JPanel {
 	/**
 	 * HistoryView Constructor.
 	 * 
-	 * @param req Requirement to view the history of 
+	 * @param parent Requirement view to view the history 
 	 */
 	public HistoryView(RequirementView parent) {
 		super(new BorderLayout());

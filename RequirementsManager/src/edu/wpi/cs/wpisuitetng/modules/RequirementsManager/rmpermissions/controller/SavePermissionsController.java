@@ -34,7 +34,7 @@ public class SavePermissionsController {
 	
 	/**
 	 * Construct a new handler for the given view
-	 * @param view the view containing the request fields
+	 * @param panel the user permissions panel for the save permissions controller
 	 */
 	public SavePermissionsController(UserPermissionPanel panel) {
 		this.panel = panel;

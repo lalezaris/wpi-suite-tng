@@ -18,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * the status event occurs, that object's appropriate
  * method is invoked.
  *
- * @see StatusEvent
  */
 public class StatusListener implements ActionListener{
 	

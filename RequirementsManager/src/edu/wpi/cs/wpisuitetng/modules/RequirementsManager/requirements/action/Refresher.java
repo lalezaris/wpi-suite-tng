@@ -88,7 +88,6 @@ public class Refresher {
 	 * @param observer the observer
 	 * @param path the path
 	 * @param id the id
-	 * @return the objects
 	 */
 	public void getObjects(RequestObserver observer, String path, String id){
 		Request request;

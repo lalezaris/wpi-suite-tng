@@ -158,7 +158,6 @@ public class RequirementPanel extends JPanel{
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 *
 	 * @param parent The parent of the requirement
-	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
@@ -818,7 +817,6 @@ public class RequirementPanel extends JPanel{
 	 * the iteration event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see IterationEvent
 	 */
 	public class IterationListener implements ActionListener {
 		/* (non-Javadoc)
@@ -914,7 +912,6 @@ public class RequirementPanel extends JPanel{
 	 * the estimate event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see EstimateEvent
 	 */
 	public class EstimateListener implements KeyListener {
 
@@ -973,7 +970,6 @@ public class RequirementPanel extends JPanel{
 	 * the save event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see SaveEvent
 	 */
 	public class SaveListener implements KeyListener {
 
@@ -1195,7 +1191,7 @@ public class RequirementPanel extends JPanel{
 	}
 
 	/**
-	 * @param atv: the atv to set
+	 * @param atv the atv to set
 	 */
 	public void setAtv(AcceptanceTestsView atv) {
 		this.atv = atv;

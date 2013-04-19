@@ -36,7 +36,7 @@ public class UserPermission extends AbstractModel {
 	/**
 	 * Constructor to input username and permissions
 	 * 
-	 * @param userName username to set the permissions to
+	 * @param username username to set the permissions to
 	 * @param permissions the permissions to set for the username
 	 */
 	public UserPermission(String username, RMPermissionsLevel permissions) {
@@ -78,7 +78,7 @@ public class UserPermission extends AbstractModel {
 	/**
 	 * Sets permissions
 	 * 
-	 * @param permissions: the permissions to set
+	 * @param permissions the permissions to set
 	 */
 	public void setPermissions(RMPermissionsLevel permissions) {
 		this.permissions = permissions;

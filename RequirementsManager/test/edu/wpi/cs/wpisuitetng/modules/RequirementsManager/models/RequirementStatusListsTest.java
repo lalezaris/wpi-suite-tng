@@ -42,7 +42,7 @@ public class RequirementStatusListsTest {
 	}
 
 	/**
-	 * Test method for {@link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus)}.
+	 * Test method for {link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus)}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test

@@ -10,6 +10,8 @@
  * Contributors:
  * Arica Liu
  * Tushar Narayan
+ * Michael Perrone
+ * Michael French
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
@@ -33,7 +35,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * @author Arica Liu
  * @author Tushar Narayan
  * @author Michael Perrone
- * @edited Michael French
  * 
  */
 public class Iteration extends AbstractModel implements Comparable<Iteration> {
@@ -70,8 +71,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	/**
 	 * Get the backlog for the given project.
 	 *
-	 * @return the backlog
-	 * @returns The backlog for the given project
+	 * @return The backlog for the given project
 	 */
 	public static Iteration getBacklog(){
 		if (backlog == null){

@@ -25,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * The Class to hold a HistoricalChange object.
  * 
- * @Author: Michael French
+ * @author: Michael French
  * 
  * @version Mar 31, 2013
  */

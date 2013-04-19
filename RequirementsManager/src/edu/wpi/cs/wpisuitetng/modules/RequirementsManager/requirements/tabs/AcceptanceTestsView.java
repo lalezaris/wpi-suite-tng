@@ -391,7 +391,7 @@ public class AcceptanceTestsView extends JPanel{
 	}
 
 	/**
-	 * @param list: the list to set
+	 * @param list the list to set
 	 */
 	public void setList(ArrayList<AcceptanceTest> list) {
 		this.list = list;

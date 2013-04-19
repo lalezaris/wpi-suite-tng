@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
@@ -59,6 +60,11 @@ public class TasksView extends JPanel{
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
 		
+		
+	}
+
+	public void setTaskArray(Task[] tasks) {
+		// TODO Auto-generated method stub
 		
 	}
 }

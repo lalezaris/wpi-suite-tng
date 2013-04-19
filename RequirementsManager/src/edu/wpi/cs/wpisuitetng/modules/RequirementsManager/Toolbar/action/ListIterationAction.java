@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Hanna
  *  Lauren Kahn
+ *  Tushar Narayan
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -26,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 
 /**
  * The action that the "List Iterations" button is registered to. 
+ * This switches the current tab to the list of all iterations tab
  * 
  * @author Chris Hanna
  */
@@ -37,7 +39,7 @@ public class ListIterationAction extends AbstractAction {
 	/**
 	 * Constructor for ListIterationAction
 	 * 
-	 * @param n The button name
+	 * @param controller
 	 */
 	public ListIterationAction(MainTabController controller){
 		super("List Iterations");

@@ -1,15 +1,30 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Chris Hanna
+ **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+
+import java.util.ArrayList;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 
 /**
- * @author Chris Hanna
+ * The Class RequirementModel is the model that holds requirements and their views.
  *
+ * @author Chris Hanna
  */
 public class RequirementModel {
 
@@ -84,9 +99,13 @@ public class RequirementModel {
 			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
 		*/
-		panel.getNotesView().setNotesList(requirement.getNotes());
-		panel.getHv().setHistoryList(requirement.getHistory());
-		panel.getAv().setAssigneeList(requirement.getAssignee());
+		ArrayList<Note> notesList = new ArrayList<Note>();
+		for(int i = 0; i < requirement.getNotes().size(); i++){
+			notesList.add(requirement.getNotes().get(i));
+		}
+		panel.getNotesView().setNotesList(notesList);
+//		panel.getHv().setHistoryList(requirement.getHistory());
+//		panel.getAv().setAssigneeList(requirement.getAssignee());
 		
 		
 		panel.setUpPanel();
@@ -185,6 +204,10 @@ public class RequirementModel {
 			return true;
 		}
 		
+		if (oldR.getNotes().size() != newR.getNotes().size()){//if old and new are not the same
+			return true;
+		}
+		
 		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
@@ -210,6 +233,27 @@ public class RequirementModel {
 		if (notesDifference != 0){//if old and new are not the same
 			return true;
 		}
+		
+		if(!this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals(null)){
+			System.out.println("Title IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+		if(!this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+			System.out.println("Body IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+//		if(this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") || this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+//			System.out.println("Body IN ACCEPTANCE TEST");
+//			return true;
+//		}
+		
+		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAtv().getList().size()){
+			System.out.println("Added IN ACCEPTANCE TEST");
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -226,5 +270,4 @@ public class RequirementModel {
 		return uneditedRequirement;
 	}
 
-	
 }

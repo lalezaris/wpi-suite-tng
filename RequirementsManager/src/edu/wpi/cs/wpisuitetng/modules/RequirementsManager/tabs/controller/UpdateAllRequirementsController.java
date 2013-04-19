@@ -57,6 +57,7 @@ public class UpdateAllRequirementsController {
 		}
 		((RequirementTableModel) panel.getTable().getModel()).clear();
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
+		this.panel.getModel().setIsChange(false);
 	}
 	
 	/**
@@ -73,5 +74,6 @@ public class UpdateAllRequirementsController {
 		request.setBody(JsonRequest);
 		request.addObserver(new UpdateRequirementObserver(this));
 		request.send();
+		this.panel.getModel().setIsChange(false);
 	}
 }

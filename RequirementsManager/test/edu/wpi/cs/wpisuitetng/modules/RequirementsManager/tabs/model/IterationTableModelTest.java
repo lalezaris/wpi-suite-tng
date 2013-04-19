@@ -1,4 +1,16 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * 	Lauren Kahn
+ *  Michael Perrone
+**************************************************/package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.CLOSED;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.NEW;
@@ -7,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.table.DefaultTableColumnModel;
@@ -22,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Iteration
 /**
  * 
  * @author Lauren Kahn
- * @authoer Michael Perrone
+ * @author Michael Perrone
  *
  */
 
@@ -81,12 +94,13 @@ public class IterationTableModelTest {
 
 	@Test
 	public void dataCanBeinserted() {
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		assertEquals("ID", it1.getColumnName(0));
 		assertEquals(2, it1.getRowCount());
-		assertEquals(0, it1.getValueAt(0, 0));
-		assertEquals(0, it1.getRowID(0));
+		assertEquals(1, it1.getValueAt(0, 0));
+		assertEquals(1, it1.getRowID(0));
 		assertEquals("2", it1.getValueAt(1, 1));
-		assertEquals(startDate2, it1.getValueAt(1, 2));
+		assertEquals(sdf.format(startDate2), it1.getValueAt(1, 2));
 		assertEquals("null", it1.getValueAt(5, 0));
 	}
 	

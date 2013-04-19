@@ -1,5 +1,3 @@
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
-
 /**************************************************
  * This file was developed for CS3733: Software Engineering
  * The course was taken at Worcester Polytechnic Institute.
@@ -10,9 +8,11 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
+ * 	Mike French
  *  Michael Perrone
  *  Tushar Narayan
 **************************************************/
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,6 +22,12 @@ import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+
+/**
+ * Test the Notes View
+ * 
+ * @author Mike French
+ */
 
 public class NoteTest {
 

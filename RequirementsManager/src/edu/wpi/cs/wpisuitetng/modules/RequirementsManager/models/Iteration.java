@@ -53,8 +53,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param startDate The start date of the iteration
 	 * @param endDate The end date of the iteration
 	 */
-	public Iteration(String iterationNumber, Date startDate, Date endDate) {
-		super();
+	public Iteration(String iterationNumber, Date startDate, Date endDate){
 		this.iterationName = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -263,7 +262,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	@Override
 	public String toString() {
-		if (this.iterationName == Iteration.getBacklog().iterationName)
+		if (this.iterationName.equals(Iteration.getBacklog().iterationName))
 			return this.getIterationName();
 		else
 			return "Iteration " + this.getIterationName();
@@ -305,6 +304,10 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @return True if the Iterations are equal, false else
 	 */
 	public boolean equals(Iteration i){
+		if(this.startDate == null)
+			return false;
+		if(i.startDate == null)
+			return false;
 		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
 				&& this.iterationName.equals(i.iterationName) && this.status == i.status;
 	}
@@ -350,17 +353,6 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		if(o.startDate == null)
 			return -1;
 		return (this.startDate.compareTo(o.startDate));
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object other){
-		if(other instanceof Iteration && this.id == ((Iteration)other).id){
-			return true;
-		}
-		return false;
 	}
 	
 	/**

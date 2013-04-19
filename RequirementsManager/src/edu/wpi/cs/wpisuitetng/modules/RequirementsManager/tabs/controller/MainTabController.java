@@ -212,6 +212,7 @@ public class MainTabController {
 	 * Adds a tab that shows the bar chart.
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
 		/*
 		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",

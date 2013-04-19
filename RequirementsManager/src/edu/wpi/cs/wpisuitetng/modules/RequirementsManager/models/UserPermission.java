@@ -40,7 +40,6 @@ public class UserPermission extends AbstractModel {
 	 * @param permissions the permissions to set for the username
 	 */
 	public UserPermission(String username, RMPermissionsLevel permissions) {
-		super();
 		this.username = username;
 		this.permissions = permissions;
 		this.id = -1;
@@ -51,7 +50,6 @@ public class UserPermission extends AbstractModel {
 	 * 
 	 */
 	public UserPermission() {
-		super();
 		this.username = "";
 		this.permissions = RMPermissionsLevel.NONE;
 		this.id = -1;

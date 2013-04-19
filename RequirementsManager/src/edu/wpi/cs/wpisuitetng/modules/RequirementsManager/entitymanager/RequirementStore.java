@@ -164,8 +164,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 		
-		Date originalLastModified = serverReq.getLastModifiedDate();
-		
 		if(serverReq.getIteration()==null)System.out.print("++++++ null serverReq iteration\n");
 		if(req.getIteration()==null)System.out.print("===== null req.iteration req\n");
 		

@@ -40,7 +40,7 @@ public class IterationModel {
 		this.uneditedModel = iteration;
 		this.iterationView = iterationView;
 		this.gotIteration = false;
-		this.gotAllIterations = false;		
+		this.gotAllIterations = false;
 	}
 	
 	/**

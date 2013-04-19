@@ -30,10 +30,18 @@ public class IterationTableSortAction extends MouseAdapter {
 
 	private IterationTableSortController itsController;
 	
+	/**
+	 * Instantiates a new iteration table sort action.
+	 *
+	 * @param itsController the iteration table sort controller
+	 */
 	public IterationTableSortAction(IterationTableSortController itsController){
 		this.itsController = itsController;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
 		((IterationTableSortController) itsController).sortTable(e.getPoint());

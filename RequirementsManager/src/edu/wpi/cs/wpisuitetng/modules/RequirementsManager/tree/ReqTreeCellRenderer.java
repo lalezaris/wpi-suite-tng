@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  * 
  * @author Chris Hanna
  */
+@SuppressWarnings("serial")
 public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 	private ImageIcon no_priority_icon;
 	private ImageIcon low_priority_icon;
@@ -109,7 +110,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
 
-			if (iter.getName() == "Backlog") {
+			if (iter.getName().equals("Backlog")) {
 				setIcon(default_folder);
 			} else {
 				Date now = new Date();

@@ -23,7 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class to hold a HistoricalChange object.
+ * The Class to hold a HistoricalChange object for recording the history of a requirement. 
+ * Contains the date, object id, user, change id.
  * 
  * @author: Michael French
  * 
@@ -124,7 +125,7 @@ public class HistoricalChange extends AbstractModel{
 				
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n -TO- \n\"" + newR.getDescription() + ".\"</p>";
+			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n to \n\"" + newR.getDescription() + ".\"</p>";
 		}
 		
 		//compare Statuses
@@ -157,12 +158,12 @@ public class HistoricalChange extends AbstractModel{
 		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
 			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
-				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " removed</p>";					
-			}
+				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " removed</p>";
+				}
 		}
 		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
 			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
-				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";					
+				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";
 			}
 		}
 	

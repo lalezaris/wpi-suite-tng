@@ -51,7 +51,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Apr 8, 2013
  *
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class IterationListPanel extends JPanel {
 	private JTextArea list;
 	private JTable table;

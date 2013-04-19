@@ -30,13 +30,12 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * Current User Permissions
+ * Current User Permissions.
  *
  * @author Chirs Hanna
- *
  * @version Apr 5, 2013
- *
  */
 public class CurrentUserPermissions implements RequestObserver{
 	
@@ -47,6 +46,11 @@ public class CurrentUserPermissions implements RequestObserver{
 	private static UserPermission user;
 	private static CurrentUserPermissions instance;
 	
+	/**
+	 * Gets the single instance of CurrentUserPermissions.
+	 *
+	 * @return single instance of CurrentUserPermissions
+	 */
 	protected static CurrentUserPermissions getInstance(){
 		if (instance == null){
 			instance = new CurrentUserPermissions();
@@ -55,8 +59,7 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 	
 	/**
-	 * Default constructor
-	 * 
+	 * Default constructor.
 	 */
 	private CurrentUserPermissions(){}
 	
@@ -71,6 +74,11 @@ public class CurrentUserPermissions implements RequestObserver{
 		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
 	}
 	
+	/**
+	 * Update current user permissions.
+	 *
+	 * @param r the r
+	 */
 	public static void updateCurrentUserPermissions(IOnPermissionUpdate r){
 		reset();
 		Refresher.getInstance().getObjects(getInstance(), "requirementsmanager/permissions", "");
@@ -79,8 +87,7 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 	
 	/**
-	 * Resets current user permissions
-	 * 
+	 * Resets current user permissions.
 	 */
 	private static void reset(){
 		coreUser = null;
@@ -88,10 +95,12 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 	
 	/**
-	 * Set the coreUser than will be considered the current user. 
+	 * Set the coreUser than will be considered the current user.
 	 * It is recommended that this only be called internally. If you would like to be a jerk,
 	 * and mess up the project, then this would be the function to call
-	 * @param coreUser
+	 *
+	 * @param currentUser the current user
+	 * @param allUsers the all users
 	 */
 	protected static void setUsers(User currentUser, User[] allUsers){
 		CurrentUserPermissions.coreUser = currentUser;
@@ -102,8 +111,8 @@ public class CurrentUserPermissions implements RequestObserver{
 	
 	
 	/**
-	 * Gets current user permissions
-	 * 
+	 * Gets current user permissions.
+	 *
 	 * @return The current user's RM permission level
 	 */
 	public static RMPermissionsLevel getCurrentUserPermission(){
@@ -146,6 +155,12 @@ public class CurrentUserPermissions implements RequestObserver{
 		}
 	}
 	
+	/**
+	 * Value of.
+	 *
+	 * @param level the level
+	 * @return the int
+	 */
 	private static int valueOf(RMPermissionsLevel level){
 		if (level == RMPermissionsLevel.ADMIN)
 			return 3;
@@ -156,6 +171,9 @@ public class CurrentUserPermissions implements RequestObserver{
 		else return 0;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
@@ -173,6 +191,9 @@ public class CurrentUserPermissions implements RequestObserver{
 		
 	}
 
+	/**
+	 * Do when recieved all data.
+	 */
 	private static void doWhenRecievedAllData(){
 		if (gotPermissions && coreUser !=null){
 				
@@ -204,6 +225,10 @@ public class CurrentUserPermissions implements RequestObserver{
 		}
 	}
 	
+	/**
+	 * Prints the details.
+	 */
+	@SuppressWarnings("unused")
 	private static void printDetails(){
 		if (gotPermissions && coreUser != null){
 			
@@ -232,22 +257,38 @@ public class CurrentUserPermissions implements RequestObserver{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Failed to retrieve current user permissions");
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Failed to retrieve current user permissions2");
 		
 	}
 	
+	/**
+	 * Gets the project users.
+	 *
+	 * @return the project users
+	 */
 	public static User[] getProjectUsers(){
 		return allCoreUsers;
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @return the user
+	 */
 	public static UserPermission getUser(){
 		return user;
 	}

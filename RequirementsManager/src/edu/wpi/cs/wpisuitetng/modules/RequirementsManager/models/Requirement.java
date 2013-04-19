@@ -41,7 +41,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * @version Mar 23, 2013
  *
  */
+
 public class Requirement extends AbstractModel{
+	
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
@@ -118,13 +120,6 @@ public class Requirement extends AbstractModel{
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 	}
-	
-	/*
-	 * Constructs a new requirement including list of children ids
-	public Requirement(int id, String title, String description, User creator, ArrayList<Note> notes, ArrayList<Integer> childIDs) {
-		this(id, title, description, creator, notes);
-		this.childIDs = childIDs;
-	}*/
 
 	/**
 	 * Basic constructor with default arguments.
@@ -712,10 +707,11 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * Sets subrequirements.
-	 *
-	 * @param newList new list to set subrequirement to
+	 * Sets sub-requirements.
+	 * 
+	 * @param newList the new list to set list of sub-requirements to
 	 */
+	@SuppressWarnings("unchecked")
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childIDs = (ArrayList<Integer>) newList.clone();
 	}

@@ -19,23 +19,32 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * Observer for update permissions
+ * Observer for update permissions.
  *
  * @author Chris Hanna
- *
  * @version Apr 5, 2013
- *
  */
 public class UpdatePermissionObserver implements RequestObserver{
 
 	UserPermissionPanel panel;
 	
+	/**
+	 * This method is called when information about an UpdatePermission
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param panel the panel
+	 */
 	public UpdatePermissionObserver(UserPermissionPanel panel){
 		this.panel = panel;
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 
@@ -57,6 +66,9 @@ public class UpdatePermissionObserver implements RequestObserver{
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Per response error");
@@ -66,6 +78,9 @@ public class UpdatePermissionObserver implements RequestObserver{
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Per response fail");

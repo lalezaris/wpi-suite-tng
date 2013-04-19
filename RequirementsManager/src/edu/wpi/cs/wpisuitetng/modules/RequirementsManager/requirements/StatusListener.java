@@ -1,3 +1,17 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Evan Polekoff
+ * Ned Shelton
+ * chrisfresher hanmiester
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.event.ActionEvent;
@@ -17,7 +31,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * component's <code>addStatusListener<code> method. When
  * the status event occurs, that object's appropriate
  * method is invoked.
- *
+ * 
+ * @author Evan Polekoff
+ * @author Ned Shelton
  */
 public class StatusListener implements ActionListener{
 	
@@ -29,6 +45,7 @@ public class StatusListener implements ActionListener{
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent status) {
 		JComboBox cb = (JComboBox)status.getSource();
@@ -42,6 +59,7 @@ public class StatusListener implements ActionListener{
 	 *
 	 * @param cb the JComboBox which contains all the iterations.
 	 */
+	@SuppressWarnings("rawtypes")
 	public void changeIteration(JComboBox cb){
 
 		

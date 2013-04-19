@@ -439,7 +439,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(), 
 					mainPanel.getDeleteRequirementBottom(), mainPanel.getCreateChildRequirement()});
 
-		System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
 		if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
 		} 

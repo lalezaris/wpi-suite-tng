@@ -53,9 +53,6 @@ public class ListIterationAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Iteration[] i = new Iteration[0];
 		i = Refresher.getInstance().getInstantIterations(); 
-		if ((CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)) || 
-				(CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.UPDATE))){
-			controller.addListIterationTab(); //null, IterationPanel.Mode.CREATE
-		}
+		controller.addListIterationTab(); //null, IterationPanel.Mode.CREATE
 	}
 }

@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Hanna
  *  Lauren Kahn
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  */
 @SuppressWarnings("serial")
 public class ListIterationAction extends AbstractAction {
-	
+
 	private final MainTabController controller;
 
 	/**
@@ -44,7 +44,7 @@ public class ListIterationAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -53,7 +53,8 @@ public class ListIterationAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Iteration[] i = new Iteration[0];
 		i = Refresher.getInstance().getInstantIterations(); 
-		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
+		if ((CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)) || 
+				(CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.UPDATE))){
 			controller.addListIterationTab(); //null, IterationPanel.Mode.CREATE
 		}
 	}

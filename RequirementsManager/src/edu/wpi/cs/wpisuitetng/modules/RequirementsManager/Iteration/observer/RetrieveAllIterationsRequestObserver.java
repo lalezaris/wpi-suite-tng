@@ -9,6 +9,7 @@
  *
  * Contributors:
  * Sam Abradi
+ * Evan Polekoff
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
@@ -24,8 +25,9 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * that it was instantiated with.
  *
  * @author Sam Abradi
+ * @author Evan Polekoff
  *
- * @version Mar 21, 2013
+ * @version Apr 18, 2013
  *
  */
 public class RetrieveAllIterationsRequestObserver implements RequestObserver{
@@ -42,23 +44,22 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
      */
     @Override
 	public void responseSuccess(IRequest iReq) {
-	// cast observable to request
-	Request request = (Request) iReq;
-	
-	// get the response from the request
-	ResponseModel response = request.getResponse();
-	if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
-	    // parse the response
-	    Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
-	    for(int i = 0; i < Iterations.length; i++){
-	    	System.out.println("Iteration id:" + Iterations[i].getId());
-	    }
-	    // notify the controller
-	    r.receivedData(Iterations);
-	}
-	else {
-	    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
-	}
+    	// cast observable to request
+		Request request = (Request) iReq;
+		
+		// get the response from the request
+		ResponseModel response = request.getResponse();
+		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
+		    // parse the response
+		    Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
+		    for(int i = 0; i < Iterations.length; i++){
+		    	System.out.println("Iteration id:" + Iterations[i].getId());
+		    }
+		    // notify the controller
+		    r.receivedData(Iterations);
+		}else {
+		    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+		}
     }
     
     /** 

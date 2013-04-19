@@ -57,6 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Assi
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 /**
  * Panel to display and edit the basic fields for a requirement.
@@ -129,7 +130,9 @@ public class RequirementPanel extends JPanel{
 	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
 	private AcceptanceTestsView acceptanceTestsView;
 
-	/** AssigneeView for updating assignees **/
+	/** TasksView for updating tasks **/
+	private TasksView tasksView;
+	
 	//TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
@@ -199,10 +202,13 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of history from the given requirement
 		this.assigneeView = new AssigneeView(parent);
-
-		//get the list of children from the given requirement
+		
+		//get the list of tasks from the given requirement
+		this.tasksView = new TasksView(parent);
+		
+		//get the list of dependencies from the given requirement
 		this.dependenciesView = new DependenciesView(parent);
-
+		
 		// Indicate that input is enabled
 		this.inputEnabled = true;
 
@@ -276,7 +282,7 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView);
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -1088,6 +1094,15 @@ public class RequirementPanel extends JPanel{
 
 	public DependenciesView getCv(){
 		return dependenciesView;
+	}
+	
+	/**
+	 * Get the TasksView.
+	 * 
+	 * @return the TasksView
+	 */
+	public TasksView getTasksView() {
+		return tasksView;
 	}
 
 	/**

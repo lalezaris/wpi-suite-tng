@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="Author" content="Sam Abradi, Tushar Narayan">
+<title>WPI Suite RM Requirements Viewer</title>
+
+<script type="text/javascript">
+		var GlobalRequirement = '';
+		function getRequirements() {
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					var response = xml.responseText;
+					//document.getElementById("requirementspan").innerHTML = response;
+					var requirement = JSON.parse(response);
+					GlobalRequirement = requirement[0];
+					document.getElementById("requirement_id").innerHTML = requirement[0].id;
+					document.getElementById("editable_title").value = requirement[0].title;
+					document.getElementById("requirement_type").innerHTML = requirement[0].type;
+					document.getElementById("requirement_releaseNumber").value = (requirement[0].releaseNumber == '')? 'No release currently assigned.' : requirement[0].releaseNumber;
+					document.getElementById("editable_description").value = requirement[0].description;
+					document.getElementById("requirement_status").innerHTML = requirement[0].status;
+					document.getElementById("requirement_priority").innerHTML = requirement[0].priority;
+					document.getElementById("requirement_estimate").innerHTML = requirement[0].estimateEffort;
+					document.getElementById("requirement_actualEffort").innerHTML = requirement[0].actualEffort;
+					document.getElementById("requirement_creationDate").innerHTML = requirement[0].creationDate;
+					document.getElementById("requirement_lastModifiedDate").innerHTML = requirement[0].lastModifiedDate;					
+					document.getElementById("requirement_iteration").innerHTML = (requirement[0].iterationId == 0)? 'Backlog': 'Iteration ' + requirement[0].iterationId;
+					document.getElementById("requirement_parent").innerHTML = (requirement[0].parentRequirementId == -1)? 'None': 'Requirement ' + requirement[0].parentRequirementId;
+					document.getElementById("requirement_creator").innerHTML = requirement[0].creatorUsername;
+					document.getElementById("requirement_project").innerHTML = requirement[0].project.name;
+					document.getElementById("requirement_assigned").innerHTML = (requirement[0].assignee == '')? 'None assigned yet.' : requirement[0].assignee;
+
+					if(requirement[0].childIDs.length == 0) document.getElementById("requirement_children").innerHTML = 'None';
+					else{
+						document.getElementById("requirement_children").innerHTML = '<ul>';
+						for(var i = 0; i < requirement[0].childIDs.length; i++){
+							var tmp = 'Requirement ' + requirement[0].childIDs[i];
+							document.getElementById("requirement_children").innerHTML += '<li>' + tmp + '</li>'; 
+						}
+						document.getElementById("requirement_children").innerHTML += '<ul>';
+					}
+					
+					if(requirement[0].notes.length == 0) document.getElementById("requirement_notes").innerHTML = 'None';
+					else{
+						document.getElementById("requirement_notes").innerHTML = '<ul>';
+						for(var i = 0; i < requirement[0].notes.length; i++){
+							var tmp = 'On ' + requirement[0].notes[i].creationDate + ' by user ' + requirement[0].notes[i].creator + ': <ul type="none"><li>' + requirement[0].notes[i].body +'</li></ul>';
+							tmp = tmp.replace('<p>',': ');
+							tmp = tmp.replace('</p>',' ');
+							document.getElementById("requirement_notes").innerHTML += '<li>' + tmp + '</li>'; 
+						}
+						document.getElementById("requirement_notes").innerHTML += '<ul>';
+					}
+					
+					document.getElementById("requirement_history").innerHTML = '<ul>';
+					for(var i = 0; i < requirement[0].history.length; i++){
+						var tmp = 'On ' + requirement[0].history[i].date + ' by user ' + requirement[0].history[i].user.username + ': <ul type="none"><li>' + requirement[0].history[i].change +'</li></ul>';
+						tmp = tmp.replace('<p>','');
+						tmp = tmp.replace('</p>','');
+						document.getElementById("requirement_history").innerHTML += '<li>' + tmp + '</li>'; 
+					}
+					document.getElementById("requirement_history").innerHTML += '</ul>';
+					}
+			};
+			var urlStr = document.URL;
+			var spot = urlStr.search("#");
+			spot = spot + 1;
+			var idNum = urlStr.substring(spot, urlStr.length);
+			xml.open('GET', 'API/requirementsmanager/requirement/' + idNum, false);//test/requirementsmanager/requirement
+			xml.send();
+		}
+		function save(){
+			//editable_title
+			GlobalRequirement.title =  document.getElementById("editable_title").value;
+			GlobalRequirement.description =  document.getElementById("editable_description").value;//requirement_releaseNumber
+			GlobalRequirement.releaseNumber =  document.getElementById("requirement_releaseNumber").value
+			jsonRequiremen = JSON.stringify(GlobalRequirement);
+			var xml = new XMLHttpRequest();
+			xml.onreadystatechange = function() {
+				if (xml.readyState == 4)//wait until response is available
+				{
+					document.getElementById("saved_message").innerHTML = 'Saved';
+				}
+			}
+			var urlStr = document.URL;
+			var spot = urlStr.search("#");
+			spot = spot + 1;
+			var idNum = urlStr.substring(spot, urlStr.length);
+			xml.open('POST', 'API/requirementsmanager/requirement/' + GlobalRequirement.id, false);//test/requirementsmanager/requirement
+			xml.send(jsonRequiremen);//saved_message
+			
+			
+		}
+	</script>
+</head>
+<body onload="getRequirements()">
+	<h1>WPI Suite RM Requirements Viewer</h1>
+	<h2>Requirement Details:</h2>
+	<p>ID: <span id="requirement_id"></span></p>
+	<p>Title: <input type="text" id="editable_title"></input></p>
+	<p>Type: <span id="requirement_type"></span></p>
+	<p>Release Number: <input type="text" id="requirement_releaseNumber"></input></p>
+	<p>Description: <textarea rows="4" cols="50" id="editable_description"></textarea></p> 
+	<p>Status: <span id="requirement_status"></span></p>
+	<p>Priority: <span id="requirement_priority"></span></p>
+	<p>Estimate: <span id="requirement_estimate"></span></p>
+	<p>Actual Effort: <span id="requirement_actualEffort"></span></p>
+	<p>Creation Date: <span id="requirement_creationDate"></span></p>
+	<p>Last Modified Date: <span id="requirement_lastModifiedDate"></span></p>
+	<p>Iteration: <span id="requirement_iteration"></span></p>
+	<p>Parent: <span id="requirement_parent"></span></p>
+	<p>Creator: <span id="requirement_creator"></span></p>
+	<p>Project: <span id="requirement_project"></span></p>
+	<p><u>Assigned to: </u><br /><span id="requirement_assigned"></span></p>
+	<p><u>Child Requirements: </u><br /><span id="requirement_children"></span></p>
+	<p><u>Notes: </u><br /><span id="requirement_notes"></span></p>
+	<p><u>History: </u><br /><span id="requirement_history"></span></p>
+	
+	
+	<input type="button" value="Save" onclick="save()"><span id="saved_message"></span>
+</body>
+</html>

@@ -158,6 +158,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req Requirement to add a row to
 	 */
 	public void addRow(Requirement req){
+		String ass = req.getAssignee().toString();
+		ass = ass.substring(1,ass.length()-1);
 		Object[] r = {
 				req.getId() ,
 				req.getTitle() ,
@@ -166,8 +168,8 @@ public class RequirementTableModel extends AbstractTableModel {
 				req.getPriority(),
 				req.getEstimateEffort() ,
 				req.getIteration(),
-				req.getAssignee(),
-				req.getParentRequirementId() == -1 ? "None" : req.getParentRequirementId()
+				ass,
+				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
 		};
 		addRow(r);
 		requirements.add(req);
@@ -342,7 +344,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
-			if(dataArray[j][8].equals("None")){//pretty hacky to make sure it is sorted properly
+			if(dataArray[j][8].equals("")){//pretty hacky to make sure it is sorted properly
 				dataArray[j][8] = -1;
 			}
 		}
@@ -352,7 +354,7 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){//see before the sort for why this happens
-				dataArray[j][8] = "None";
+				dataArray[j][8] = "";
 			}
 		}
 

@@ -278,26 +278,27 @@ public class AcceptanceTestsView extends JPanel{
 		 */
 		MouseListener mouseListener = new MouseAdapter() {
 		     public void mouseClicked(MouseEvent e) {
-		    	 int index = listDisplay.locationToIndex(e.getPoint());
-	             System.out.println("clicked on Item " + index);
-	             txtTitle.setText(list.get(index).getTitle());
-	             txtBody.setText(list.get(index).getBody());
-	             if (hasTitle(txtTitle.getText())){
-					addTest.setEnabled(false);
-					editTest.setEnabled(true);
-				}else{
-					addTest.setEnabled(true);
-					editTest.setEnabled(false);
-				}
+		    	 if(list.size() > 0){
+		    		 int index = listDisplay.locationToIndex(e.getPoint());
+		    		 System.out.println("clicked on Item " + index);
+		    		 txtTitle.setText(list.get(index).getTitle());
+		    		 txtBody.setText(list.get(index).getBody());
+		    		 if (hasTitle(txtTitle.getText())){
+		    			 addTest.setEnabled(false);
+		    			 editTest.setEnabled(true);
+		    		 }else{
+		    			 addTest.setEnabled(true);
+		    			 editTest.setEnabled(false);
+		    		 }
 	             
-	             if (list.get(index).getStatus().compareTo("Passed") == 0){
-		             	cmbStatus.setSelectedItem(atStatuses[1]);
-		         }else
-	             if (list.get(index).getStatus().compareTo("Failed") == 0){
-		             	cmbStatus.setSelectedItem(atStatuses[2]);
-		         }else{
-			            cmbStatus.setSelectedItem(atStatuses[0]);
-		         }
+		    		 if (list.get(index).getStatus().compareTo("Passed") == 0){
+		    			 cmbStatus.setSelectedItem(atStatuses[1]);
+		    		 }else if (list.get(index).getStatus().compareTo("Failed") == 0){
+		    				cmbStatus.setSelectedItem(atStatuses[2]);
+		    		 }else{
+		    				cmbStatus.setSelectedItem(atStatuses[0]);
+		    		 }
+		    	 }
 		     }
 		 };
 		 

@@ -66,6 +66,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	
 	private RequirementModel reqModel;
 	private Requirement parentRequirement;
+	Iteration[] availableIterations;
 	protected RequirementPanel.Mode mode;
 	
 	private ToolbarGroupView buttonGroup;
@@ -441,7 +442,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return mode;
 	}
 	
-	public void setIterationComboBox(Iteration[] knownIterations){
+	public void setIterationComboBox(){
+		Iteration[] knownIterations = availableIterations;
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
 		
 		for (int i = 0; i < knownIterations.length ;i++){
@@ -493,6 +495,20 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 */
 	public Requirement getParentRequirement() {
 		return parentRequirement;
+	}
+	
+	/**
+	 * @param availableIterations the iterations available to set the requirement to
+	 */
+	public void setAvailableIterations(Iteration[] availableIterations) {
+		this.availableIterations = availableIterations;
+	}
+	
+	/**
+	 * @return the available iterations to set the requirement to
+	 */
+	public Iteration[] getAvailableIterations() {
+		return availableIterations;
 	}
 	
 

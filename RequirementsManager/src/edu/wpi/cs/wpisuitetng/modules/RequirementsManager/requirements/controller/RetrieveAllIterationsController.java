@@ -31,6 +31,7 @@ public class RetrieveAllIterationsController {
 	}
 	
 	public void received(Iteration[] iterations){
-		view.setIterationComboBox(iterations);
+		view.setAvailableIterations(iterations);
+		view.setIterationComboBox();
 	}
 }

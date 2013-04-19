@@ -12,12 +12,15 @@
  *  Arica Liu
  *  Tushar Narayan
  *  Evan Polekoff
+ *  Chris Hanna
+ *  Lauren Kahn
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
@@ -50,6 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class MainTabController {
 
 	MainTabView view;
+	HashMap<Integer, RequirementView> reqViewHashMap;
 
 	private static MainTabController staticView;
 
@@ -59,6 +63,7 @@ public class MainTabController {
 	 * @param view Create a controller that controls this MainTabView
 	 */
 	public MainTabController(MainTabView view) {
+		this.reqViewHashMap = new HashMap<Integer, RequirementView>();
 		this.view = view;
 		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
@@ -131,6 +136,10 @@ public class MainTabController {
 		else{
 			Tab tab = addTab();
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
+			if(reqViewHashMap.containsKey(requirementId)){
+				reqViewHashMap.remove(requirementId);
+			}
+			reqViewHashMap.put(requirementId, Rview);
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			view.setSelectedIndex(Rview.getTab().getThisIndex());
@@ -195,8 +204,15 @@ public class MainTabController {
 	 * @param requirement the requirement to display
 	 * @return The created Tab 
 	 */
-	public Tab addEditRequirementTab(Requirement requirement) {
+	public Tab addEditRequirementTab(final Requirement requirement) {
+		if(requirement.getParentRequirementId() != -1 && reqViewHashMap.containsKey(requirement.getParentRequirementId())){
+			Tab newTab = addRequirementTab(requirement, Mode.EDIT);
+			((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
+			return newTab;
+		}
+		else{
 		return addRequirementTab(requirement, Mode.EDIT);
+		}
 	}
 
 	/**

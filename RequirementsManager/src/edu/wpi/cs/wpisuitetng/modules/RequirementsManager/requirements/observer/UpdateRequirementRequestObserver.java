@@ -97,7 +97,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						//						
 						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						//						view.setEditModeDescriptors(requirement);
-						if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
+						/**if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
 							if(!changedModel.isTopLevelRequirement()&&view != null){
 								Requirement parent = view.getParentView().getReqModel().getRequirement();
 								int estimateEffort = parent.getEstimateEffort() - unchangedModel.getEstimateEffort() + changedModel.getEstimateEffort();
@@ -111,7 +111,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 								request.addObserver(requestObserver);
 								request.send();
 							}
-						}
+						}*/
 					}
 				});
 			}

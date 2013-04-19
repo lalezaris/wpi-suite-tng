@@ -14,6 +14,8 @@
  *  Ned Shelton
  *  Sam Lalezari
  *  Tushar Narayan
+ *  Chris Hanna
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -1173,6 +1175,12 @@ public class RequirementPanel extends JPanel{
 	public IntegerField getTxtEstimate() {
 		return txtEstimate;
 	}
+	
+	public void setTxtEstimate(int estimateEffort) {
+		System.out.println("changing estimate. " + estimateEffort);
+		this.txtEstimate.setText(estimateEffort+"");
+		
+	}
 
 	/**
 	 * @return the txtModifiedDate
@@ -1180,6 +1188,7 @@ public class RequirementPanel extends JPanel{
 	public JLabel getTxtModifiedDate() {
 		return txtModifiedDate;
 	}
+	
 
 	/**
 	 * @return the lblTitleError

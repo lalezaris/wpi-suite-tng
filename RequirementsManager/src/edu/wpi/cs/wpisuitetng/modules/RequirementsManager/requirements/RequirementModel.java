@@ -9,6 +9,7 @@
  *
  * Contributors:
  * Chris Hanna
+ * Lauren Kahn
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
@@ -32,6 +33,7 @@ public class RequirementModel {
 	private Requirement requirement;
 	private Requirement uneditedRequirement;
 	private RequirementView view;
+	protected boolean dirtyEstimate;
 	
 	public RequirementModel(Requirement requirement, RequirementView view){
 		this.requirement = requirement;
@@ -46,6 +48,7 @@ public class RequirementModel {
 	 */
 	protected void setUpPanel(Mode editMode){
 		RequirementPanel panel = view.getRequirementPanel();
+		dirtyEstimate = false;
 		
 		if(!(requirement.getTitle().equals(null) || 
 				requirement.getTitle().equals("")))
@@ -192,7 +195,7 @@ public class RequirementModel {
 		}
 		
 		//compare estimate efforts
-		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort() && dirtyEstimate == false){//if old and new are not the same
 			return true;
 		}
 		
@@ -274,6 +277,24 @@ public class RequirementModel {
 
 	public void setRequirement(Requirement req) {
 		this.requirement = req;
+	}
+	
+	/**
+	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate
+	 * 
+	 * @param estimateEffort
+	 */
+	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
+		this.uneditedRequirement.setEstimateEffort(estimateEffort);
+	}
+
+
+	/**
+	 * Enter description here.
+	 * 
+	 */
+	public void setEstimateDirty() {
+		dirtyEstimate = true;
 	}
 
 }

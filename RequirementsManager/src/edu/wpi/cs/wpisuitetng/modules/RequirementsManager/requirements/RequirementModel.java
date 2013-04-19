@@ -270,4 +270,9 @@ public class RequirementModel {
 		return uneditedRequirement;
 	}
 
+
+	public void setRequirement(Requirement req) {
+		this.requirement = req;
+	}
+
 }

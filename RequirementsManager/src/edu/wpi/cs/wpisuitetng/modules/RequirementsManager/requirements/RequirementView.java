@@ -373,7 +373,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		if (this.getMode() == Mode.CHILD) {
-			mainPanel.getCmbIteration().setEnabled(false);
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
 

@@ -60,7 +60,7 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Instantiates a new assignee view.
 	 *
-	 * @param req the requirement
+	 * @param parent the requirement view for the assignee view
 	 */
 	public AssigneeView(RequirementView parent){
 		FlowLayout flowLayout = new FlowLayout();
@@ -217,7 +217,7 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Sets the array list of all users not assigned to the requirement.
 	 * 
-	 * @param all users who are not assigned to the requirement
+	 * @param users all users who are not assigned to the requirement
 	 */
 	public void setAllUserList(ArrayList<String> users){
 		this.allUserAL = users;
@@ -284,7 +284,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * @param isButtonPressed: the isButtonPressed to set
+	 * @param isButtonPressed the isButtonPressed to set
 	 */
 	public void setButtonPressed(boolean isButtonPressed) {
 		this.isButtonPressed = isButtonPressed;

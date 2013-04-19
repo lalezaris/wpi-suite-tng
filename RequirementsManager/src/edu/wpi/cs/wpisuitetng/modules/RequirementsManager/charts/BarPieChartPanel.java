@@ -32,14 +32,13 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
 
 /**
- * The Class BarChartPanel.
+ * The panel for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
  */
 @SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
-
 	/* the parent view*/
 	protected BarPieChartView view;
 

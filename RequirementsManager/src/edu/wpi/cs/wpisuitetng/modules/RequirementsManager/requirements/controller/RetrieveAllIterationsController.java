@@ -45,7 +45,7 @@ public class RetrieveAllIterationsController {
 	public void retrieve(){
 		final RequestObserver requestObserver = new RetrieveAllIterationsObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}
@@ -56,6 +56,7 @@ public class RetrieveAllIterationsController {
 	 * @param iterations the iterations to added to the combo box.
 	 */
 	public void received(Iteration[] iterations){
-		view.setIterationComboBox(iterations);
+		view.setAvailableIterations(iterations);
+		view.setIterationComboBox();
 	}
 }

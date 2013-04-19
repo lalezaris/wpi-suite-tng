@@ -14,11 +14,15 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.*;
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType.*;
-
-import static org.junit.Assert.*;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.HIGH;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.LOW;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority.MEDIUM;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.COMPLETE;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.DELETED;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.INPROGRESS;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.NEW;
+import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus.OPEN;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +33,6 @@ import org.junit.Test;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tester class for Requirement.java

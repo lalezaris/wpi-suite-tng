@@ -12,7 +12,7 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class RequirementStatusListsTest {
 	}
 
 	/**
-	 * Test method for {@link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus)}.
+	 * Test method for {link edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists#getList(edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus)}.
 	 */
 	@SuppressWarnings("deprecation")
 	@Test

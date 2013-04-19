@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
@@ -44,7 +43,7 @@ public class HistoryView extends JPanel {
 	/**
 	 * HistoryView Constructor.
 	 * 
-	 * @param req Requirement to view the history of 
+	 * @param parent Requirement view to view the history 
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HistoryView(RequirementView parent) {

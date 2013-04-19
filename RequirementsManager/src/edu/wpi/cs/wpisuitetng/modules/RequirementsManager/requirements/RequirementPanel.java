@@ -146,8 +146,7 @@ public class RequirementPanel extends JPanel{
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
 
-	/* origin/team1-theHistoryLogBackEnd
-	 */	/** The other panels */
+	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -178,7 +177,6 @@ public class RequirementPanel extends JPanel{
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 *
 	 * @param parent The parent of the requirement
-	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
@@ -868,7 +866,6 @@ public class RequirementPanel extends JPanel{
 	 * the iteration event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see IterationEvent
 	 */
 	public class IterationListener implements ActionListener {
 		/* (non-Javadoc)
@@ -937,19 +934,19 @@ public class RequirementPanel extends JPanel{
 						System.out.println("Found Index!");
 					}
 				}
+				
 				if(!listHasStatus){
 					cmbStatus.addItem(setTo.toString());
 					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
-					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
 				}
 			}
 			runThatForLoop = false;
 
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN && parent.getMode() != Mode.CHILD){
-				cmbStatus.setEnabled(enabled);
+			if (pLevel == RMPermissionsLevel.ADMIN){
 				cmbStatus.setBackground(Color.WHITE);
+				cmbStatus.setEnabled(enabled);
 			}
 		}
 
@@ -965,7 +962,6 @@ public class RequirementPanel extends JPanel{
 	 * the estimate event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see EstimateEvent
 	 */
 	public class EstimateListener implements KeyListener {
 
@@ -1008,10 +1004,9 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			if(parent.getMode() != Mode.CHILD){
-				cmbIteration.setEnabled(enabled);
-				cmbIteration.setBackground(Color.WHITE);
-			}
+			
+			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
 		}
 	}
 
@@ -1025,7 +1020,6 @@ public class RequirementPanel extends JPanel{
 	 * the save event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see SaveEvent
 	 */
 	public class SaveListener implements KeyListener {
 

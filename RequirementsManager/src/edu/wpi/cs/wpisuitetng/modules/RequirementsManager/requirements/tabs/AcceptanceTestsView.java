@@ -29,10 +29,12 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.SaveEvent;
 
 
 // TODO: Auto-generated Javadoc
@@ -525,7 +527,6 @@ public class AcceptanceTestsView extends JPanel{
 	}
 
 	/**
-	 * Sets the list.
 	 *
 	 * @param list the new list
 	 */

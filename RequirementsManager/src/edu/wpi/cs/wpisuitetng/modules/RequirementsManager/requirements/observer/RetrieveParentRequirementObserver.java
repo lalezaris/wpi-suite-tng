@@ -8,49 +8,40 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
- **************************************************/
+ *  Tyler
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
-import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
-import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * A RequestObserver for a Request to update a Requirement.
+ * Observer for retrieving a parent requirement from the server
  *
- * @author Tyler Stone
+ * @author Tyler
  *
- * @version Mar 20, 2013
+ * @version Apr 16, 2013
  *
  */
-/**
- * A RequestObserver for a Request to update a Requirement.
- */
-public class UpdateRequirementRequestObserver implements RequestObserver {
-
+public class RetrieveParentRequirementObserver implements RequestObserver {
 	private final RequirementView view;
 
 	/**
-	 * Constructs a new UpdateRequirementRequestObserver.
+	 * Constructs a new RetrieveParentRequirementObserver.
 	 *
 	 * @param view The RequirementView that will be affected by any updates.
 	 */
-	public UpdateRequirementRequestObserver(RequirementView view) {
+	public RetrieveParentRequirementObserver(RequirementView view) {
 		this.view = view;
 	}
 
@@ -59,7 +50,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		BarPieChartView.update();
+		BarChartView.update();
 		// cast observable to a Request
 		Request request = (Request) iReq;
 
@@ -69,49 +60,16 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		// print the body
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Requirement from the body
-			final Requirement requirement = Requirement.fromJSON(response.getBody());
+			final Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
 
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
 			// make sure the Requirement isn't null
-			if (requirement != null) {
+			if (requirements[0] != null) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						//Nothing needs to be done on update
-
-						Requirement unchangedModel = view.getReqModel().getUneditedRequirement();
-						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
-
-						/* Great! the requirement was updated! 
-						 * Now we check if the iterationID was changed.
-						 * 
-						 * If so, update all children
-						 */
-						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
-							System.out.println("Iteration was changed, edit subs now");
-							BatchRequirementEditController<Integer> batchController = 
-									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
-							//change all children
-							batchController.instantiateChange(unchangedModel.getChildRequirementIds());
-						}
-						//						
-						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						//						view.setEditModeDescriptors(requirement);
-						if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
-							if(!changedModel.isTopLevelRequirement()&&view != null){
-								Requirement parent = view.getParentView().getReqModel().getRequirement();
-								int estimateEffort = parent.getEstimateEffort() - unchangedModel.getEstimateEffort() + changedModel.getEstimateEffort();
-								parent.setEstimateEffort(estimateEffort);
-								//now to save the parent to database
-								String JsonRequest = parent.toJSON();
-								final RequestObserver requestObserver = new UpdateRequirementRequestObserver(view);
-								Request request;
-								request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
-								request.setBody(JsonRequest);
-								request.addObserver(requestObserver);
-								request.send();
-							}
-						}
+						view.setParentRequirement(requirements[0]);
+						view.setIterationComboBox();
 					}
 				});
 			}

@@ -45,7 +45,6 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	private JButton refreshButton, updateButton;
 	private RequirementListPanel mainPanel;
 	private RetrieveAllRequirementsController refreshController;
-	private BatchRequirementEditController<Integer> updateController;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;

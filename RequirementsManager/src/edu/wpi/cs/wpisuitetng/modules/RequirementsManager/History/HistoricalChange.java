@@ -160,12 +160,13 @@ public class HistoricalChange extends AbstractModel{
 		//compare sub-requirements, add comments to the history log
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
 			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
-				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " added</p>";//changed this to "added" from removed, see the loop below
+				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " removed</p>";
 				}
 		}
 		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
 			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
-				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " removed</p>";//changed this to "removed" from added -Ned, unable to test this case though
+				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";
+
 			}
 		}
 	

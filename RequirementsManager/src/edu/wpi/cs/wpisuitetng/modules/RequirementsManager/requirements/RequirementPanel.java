@@ -807,7 +807,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		if(intf.getText().equals(null) || intf.getText().equals("")){
 			return -1;
 		} else {
-			return Integer.parseInt(intf.getText());
+			int newValue = 0;
+			try{
+				newValue = Integer.parseInt(txtEstimate.getText().trim());
+			}
+			catch (NumberFormatException e){
+				newValue = -1;
+			}
+			return newValue;
 		}		
 	}
 

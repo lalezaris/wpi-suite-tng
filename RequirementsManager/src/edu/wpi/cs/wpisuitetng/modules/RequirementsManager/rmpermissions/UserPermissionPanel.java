@@ -173,7 +173,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblNoneUsers, cPanel);
 		
 		JScrollPane noneScrollPane = new JScrollPane(lstNoneUsers);
-		noneScrollPane.setPreferredSize(new Dimension(300,600));
+		noneScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
 		cPanel.gridy = 2;
@@ -193,7 +193,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblUpdateUsers, cPanel);
 
 		JScrollPane updateScrollPane = new JScrollPane(lstUpdateUsers);
-		updateScrollPane.setPreferredSize(new Dimension(300,600));
+		updateScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 1;
 		cPanel.gridy = 2;
@@ -213,7 +213,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblAdminUsers, cPanel);
 
 		JScrollPane adminScrollPane = new JScrollPane(lstAdminUsers);
-		adminScrollPane.setPreferredSize(new Dimension(300,600));
+		adminScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 2;
 		cPanel.gridy = 2;

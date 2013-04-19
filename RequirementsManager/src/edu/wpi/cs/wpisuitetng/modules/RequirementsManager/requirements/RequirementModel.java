@@ -13,6 +13,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+import java.util.ArrayList;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -97,9 +100,13 @@ public class RequirementModel {
 			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
 		*/
-		panel.getNotesView().setNotesList(requirement.getNotes());
-		panel.getHistoryView().setHistoryList(requirement.getHistory());
-		panel.getAssigneeView().setAssigneeList(requirement.getAssignee());
+		ArrayList<Note> notesList = new ArrayList<Note>();
+		for(int i = 0; i < requirement.getNotes().size(); i++){
+			notesList.add(requirement.getNotes().get(i));
+		}
+		panel.getNotesView().setNotesList(notesList);
+//		panel.getHistoryView().setHistoryList(requirement.getHistory());
+//		panel.getAssigneeView().setAssigneeList(requirement.getAssignee());
 		
 		
 		panel.setUpPanel();
@@ -198,6 +205,10 @@ public class RequirementModel {
 			return true;
 		}
 		
+		if (oldR.getNotes().size() != newR.getNotes().size()){//if old and new are not the same
+			return true;
+		}
+		
 		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
@@ -224,8 +235,25 @@ public class RequirementModel {
 			return true;
 		}
 		
-		//check to see if there is unsaved notes
-		//TODO: implement
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
+			System.out.println("Title IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
+			System.out.println("Body IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+//		if(this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") || this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
+//			System.out.println("Body IN ACCEPTANCE TEST");
+//			return true;
+//		}
+		
+		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
+			System.out.println("Added IN ACCEPTANCE TEST");
+			return true;
+		}
 		
 		return false;
 	}
@@ -421,5 +449,4 @@ public class RequirementModel {
 		return uneditedRequirement;
 	}
 
-	
 }

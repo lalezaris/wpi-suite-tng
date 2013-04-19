@@ -28,6 +28,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 /**
  * Insert Description Here
  *
@@ -40,11 +43,11 @@ public class FilterPanel extends JPanel{
 
 	protected FilterController view;
 	
-	private JScrollPane scrollPane;
-	private JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
-	private ArrayList<RulePanel> rules;
-	private JPanel ruleHolderPanel, mainPanel;
-	
+	private final JScrollPane scrollPane;
+	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
+	private final ArrayList<RulePanel> rules;
+	private final JPanel ruleHolderPanel, mainPanel;
+	private String[] removeFields;
 	/**
 	 * create a filter panel and add all the components
 	 * 
@@ -71,7 +74,7 @@ public class FilterPanel extends JPanel{
 		
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-
+		mainPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		
 		ruleHolderPanel = new JPanel();
 		GridBagLayout pLayout = new GridBagLayout();
@@ -149,7 +152,7 @@ public class FilterPanel extends JPanel{
 		
 		//TODO figure out how to correctly get the width of the window
 		System.out.println("WIDTH:" + this.getSize().getWidth());
-		ruleHolderPanel.setPreferredSize(new Dimension(1000,150));
+		ruleHolderPanel.setPreferredSize(new Dimension(900,150));
 		
 		
 		scrollPane = new JScrollPane();
@@ -224,6 +227,16 @@ public class FilterPanel extends JPanel{
 		
 	}
 
+	public void setWidth(int width){
+		//mainPanel.setPreferredSize(new Dimension(width, 150));
+		//ruleHolderPanel.setPreferredSize(new Dimension(width, (int)ruleHolderPanel.getPreferredSize().getHeight()));
+		scrollPane.setPreferredSize(new Dimension(width+40, 150));
+	}
+	
+	public void removeFields(String[] remove){
+		this.removeFields = remove;
+	}
+	
 	/**
 	 * Add a blank rule to the panel.
 	 * 
@@ -320,6 +333,14 @@ public class FilterPanel extends JPanel{
 	
 	
 	/**
+	 * Gets the removeFields
+	 * @return the removeFields
+	 */
+	public String[] getRemoveFields() {
+		return removeFields;
+	}
+
+	/**
 	 * Of all the rule panels in the filter panel, disable the ones that are selected
 	 * 
 	 */
@@ -329,6 +350,18 @@ public class FilterPanel extends JPanel{
 				rules.get(i).setRuleEnabled(false);
 				rules.get(i).getEnabledBox().setSelected(false);
 			}
+	}
+	
+	public void setIterations(Iteration[] iterations){
+		for (int i = 0 ; i < rules.size(); i ++){
+			rules.get(i).setIterationValues(iterations);
+		}
+	}
+	
+	public void setUsers(User[] users){
+		for (int i = 0 ; i < rules.size(); i ++){
+			rules.get(i).setUserValues(users);
+		}
 	}
 	
 	/**
@@ -387,6 +420,14 @@ public class FilterPanel extends JPanel{
 	 */
 	public ArrayList<RulePanel> getRules() {
 		return rules;
+	}
+
+	/**
+	 * Gets the view
+	 * @return the view
+	 */
+	public FilterController getView() {
+		return view;
 	}
 	
 	

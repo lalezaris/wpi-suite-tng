@@ -41,7 +41,8 @@ public class RemoveAction extends AbstractAction{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.getPanel().deleteSelected();
+		controller.getPanel().deleteSelected();
+		controller.setFilteredInTable();
 		
 	}
 

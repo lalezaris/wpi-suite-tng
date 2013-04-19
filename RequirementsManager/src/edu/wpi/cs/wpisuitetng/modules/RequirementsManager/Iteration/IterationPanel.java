@@ -366,7 +366,9 @@ public class IterationPanel extends JPanel {
 			right.setLayout(new BorderLayout());
 			reqListPanel = new RequirementListPanel(MainTabController.getController());
 			reqListPanel.hideButtons();
-
+			reqListPanel.getFilterController().getPanel().setWidth(500);
+			String[] removeFields = {"iteration"};
+			reqListPanel.getFilterController().getPanel().removeFields(removeFields);
 			right.add(reqListPanel,BorderLayout.CENTER);
 			JPanel rightSub = new JPanel();
 			rightSub.setLayout(new FlowLayout());

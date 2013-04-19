@@ -83,19 +83,12 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 * @param reqs A list of requirements
 	 */
 	public void fillTree(Requirement[] reqs) {
-		//		if (reqs == null){
-		//			if (requirements == null)
-		//				requirements = new Requirement[0];
-		//		}
 		if (reqs == null){
 			if (requirements == null)
 				requirements = new Requirement[0];
-		} else {requirements = reqs;}
-
-
-		//{
-		//if (reqs != null) {
-		//requirements = reqs;
+		} else {
+			requirements = reqs;
+		}
 
 		count = 0;
 		id = 0;

@@ -210,16 +210,6 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).addRow(req);
 	}
 
-	/**
-	 * 
-	 * Hides the refresh and the refresh, update, and delete buttons
-	 *
-	 */
-	public void hideButtons(){
-		refreshButton.setVisible(false);
-		deleteButton.setVisible(false);
-		updateButton.setVisible(false);
-	}
 
 	/**
 	 * Clears the list.

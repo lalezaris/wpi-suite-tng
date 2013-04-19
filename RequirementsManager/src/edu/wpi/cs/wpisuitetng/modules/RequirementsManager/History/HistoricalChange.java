@@ -27,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Contains the date, object id, user, change id.
  * 
  * @Author: Michael French
+ * @Author: Evan Polekoff
+ * @Author: Sam Abradi
  * 
  * @version Mar 31, 2013
  */

@@ -30,7 +30,7 @@ public class UserController {
 	/**
 	 * Construct a UserController.
 	 * 
-	 * @param view A BarChartView
+	 * @param view
 	 */
 	public UserController(BarPieChartView view){
 		this.view = view;

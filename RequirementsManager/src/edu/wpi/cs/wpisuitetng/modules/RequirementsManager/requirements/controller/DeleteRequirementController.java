@@ -73,8 +73,8 @@ public class DeleteRequirementController {
 				if(issues.size() > 0){
 					printIssues(issues);
 				} else {
-					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
-					
+//					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
+//					panel.getAtv().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 					System.out.println("Mode:" + panel.getEditMode());
 					String JsonRequest = delRequirement.toJSON();
 					request.setBody(JsonRequest);

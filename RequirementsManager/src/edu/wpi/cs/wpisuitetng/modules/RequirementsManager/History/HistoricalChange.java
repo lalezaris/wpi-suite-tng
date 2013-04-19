@@ -184,7 +184,7 @@ public class HistoricalChange extends AbstractModel{
 			else
 				change += " notes added.</p>";
 		}
-		
+		 
 		//compare Acceptance Test list size
 		if (acceptanceTestDifference != 0){//if old and new are not the same
 			change += "<p> "+ acceptanceTestDifference+ " Acceptance Tests added.</p>";

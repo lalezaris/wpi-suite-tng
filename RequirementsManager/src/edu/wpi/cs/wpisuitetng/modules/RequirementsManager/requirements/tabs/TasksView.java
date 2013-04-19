@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.SaveT
 /**
  * Tab panel for viewing and working with tasks.
  *
- * @author Evan Polekof
+ * @author Evan Polekoff
  * @version Apr 18, 2013
  */
 @SuppressWarnings("serial")

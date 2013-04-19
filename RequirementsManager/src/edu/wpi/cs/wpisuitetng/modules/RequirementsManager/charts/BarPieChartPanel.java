@@ -39,9 +39,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieR
 @SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
 
-	/* the parent view*/
-	protected BarPieChartView view;
-
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
@@ -94,7 +91,6 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chart the chart
 	 */
 	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
-		this.view = view;
 		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);
 
@@ -107,8 +103,6 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
-		//Make a toolbar.
-		toolbar = new DefaultToolbarView();
 		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);

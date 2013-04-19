@@ -12,15 +12,20 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
@@ -28,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * Tab panel for viewing and working with tasks.
  *
  * @author Evan Polekof
- * @version Apr 17, 2013
+ * @version Apr 18, 2013
  */
 @SuppressWarnings("serial")
 public class TasksView extends JPanel{
@@ -36,6 +41,8 @@ public class TasksView extends JPanel{
 	protected RequirementView parent;
 	
 	private ArrayList<Task> taskArray;
+	private JList<Task> list;
+	private DefaultListModel<Task> listModel;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -46,8 +53,20 @@ public class TasksView extends JPanel{
 	 * @param req the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
+		super(new BorderLayout());
+		
 		//Set initial variables
 		taskArray = new ArrayList<Task>();
+		
+		//Get the ScrollPane going.
+		listModel = new DefaultListModel<Task>();
+		list = new JList(listModel);
+		list.setLayoutOrientation(JList.VERTICAL);
+
+		//list.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane listScrollPane = new JScrollPane(list);
+
+		add(listScrollPane, BorderLayout.CENTER);
 	}
 	
 

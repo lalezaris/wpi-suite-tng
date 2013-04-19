@@ -445,6 +445,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		System.out.println("HELLO!!!! " + this.getReqModel().getRequirement().getChildRequirementIds().toString());
 		if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
+			mainPanel.getDeleteRequirementBottom().setToolTipText("Cannot delete this requirement as it has children.");
 		} 
 	}
 

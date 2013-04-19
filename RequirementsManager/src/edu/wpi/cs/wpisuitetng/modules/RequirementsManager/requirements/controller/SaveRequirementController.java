@@ -74,7 +74,6 @@ public class SaveRequirementController {
 
 		if(view.checkRequiredFields() == 0){
 
-			System.out.println("SAY HELLO TO TUSHAR!!!!");
 			Requirement req = panel.getEditedModel();
 			//try {
 			try {
@@ -83,11 +82,9 @@ public class SaveRequirementController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("We validated game of Thrones");
 			if(issues.size() > 0){
 				printIssues(issues);
 			} else {
-				System.out.println("This is yet another here. I would very much love to sail me sunfish. ARRRR YO HO");
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 
 				panel.getAtv().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed

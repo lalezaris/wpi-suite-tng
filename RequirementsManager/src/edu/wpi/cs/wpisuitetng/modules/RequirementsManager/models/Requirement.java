@@ -664,7 +664,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toString() {
-		return this.getTitle();// + "tesst";
+		return this.getTitle();
 	}
 
 	/* (non-Javadoc)

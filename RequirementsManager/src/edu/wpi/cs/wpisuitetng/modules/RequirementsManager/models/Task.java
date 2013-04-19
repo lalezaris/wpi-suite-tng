@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatu
  * Model for Tasks
  * @author Evan Polekoff
  * @author Sam Abradi
- * @author Ned Shelton
  *
  * @version April 18, 2013
  *

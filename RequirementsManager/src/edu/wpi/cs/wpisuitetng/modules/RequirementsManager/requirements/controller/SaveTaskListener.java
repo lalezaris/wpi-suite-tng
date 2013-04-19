@@ -10,7 +10,7 @@
  * Contributors:
  * Evan Polekoff
  */
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +25,6 @@ public class SaveTaskListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 }

@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
@@ -17,23 +17,16 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.ItemSelectable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -54,6 +47,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version Apr 14, 2013
  *
  */
+@SuppressWarnings({"rawtypes", "serial"})
 public class RulePanel extends JPanel{
 
 

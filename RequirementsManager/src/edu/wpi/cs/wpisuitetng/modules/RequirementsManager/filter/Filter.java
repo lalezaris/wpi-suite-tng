@@ -8,13 +8,12 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import java.util.ArrayList;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.IFilterRule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTargetException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;

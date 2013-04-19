@@ -170,7 +170,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
-		mainPanel.getSpinButton().addActionListener(new SpinListener(this));
+		mainPanel.getSpinCheckbox().addActionListener(new SpinListener(this));
 		chartBox = mainPanel.getChartBox();
 		characteristicBox = mainPanel.getCharacteristicBox();
 		subDivideBox = mainPanel.getSubDivideBox();

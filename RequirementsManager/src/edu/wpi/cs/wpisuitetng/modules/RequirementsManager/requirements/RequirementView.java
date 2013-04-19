@@ -97,6 +97,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		boolean test = false;
 		containingTab = tab;
 		this.parentView = null;
+		this.availableIterations = new Iteration[1];
+		availableIterations[0] = Iteration.getBacklog();
 
 		if(containingTab == null) {
 			containingTab = new DummyTab();

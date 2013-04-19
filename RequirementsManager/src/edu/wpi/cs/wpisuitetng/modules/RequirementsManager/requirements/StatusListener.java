@@ -50,7 +50,7 @@ public class StatusListener implements ActionListener{
 	public void actionPerformed(ActionEvent status) {
 		JComboBox cb = (JComboBox)status.getSource();
 
-		if (cb != null) {
+		if (cb.getSelectedItem() != null) {
 			changeIteration(cb);
 		}
 	}

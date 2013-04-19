@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.util.ArrayList;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
@@ -70,7 +71,7 @@ public class RequirementModel {
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
 			
-			if (requirement.getIteration().toString().equals(panel.getKnownIterations()[i].toString()) ){
+			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
 				panel.getCmbIteration().setSelectedIndex(i);
 
 			}

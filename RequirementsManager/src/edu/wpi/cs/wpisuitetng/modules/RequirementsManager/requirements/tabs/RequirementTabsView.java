@@ -37,7 +37,7 @@ public class RequirementTabsView extends JTabbedPane {
 	 * @param hv the HistoryView
 	 * @param av the AssigneeView
 	 */
-	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, DependenciesView dv) {
+	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, DependenciesView dv, TasksView tv) {
 		//TODO get history objects from database
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
@@ -47,5 +47,6 @@ public class RequirementTabsView extends JTabbedPane {
 		addTab("Assigned To", new ImageIcon(), av, "Add and modify assignees");
 		addTab("Acceptance Tests", new ImageIcon(), atv, "Add and modify acceptance tests");
 		addTab("Dependencies", new ImageIcon(), dv, "View upstream and downstream dependencies");
+		addTab("Tasks", new ImageIcon(), tv, "Edit and view tasks");
 	}
 }

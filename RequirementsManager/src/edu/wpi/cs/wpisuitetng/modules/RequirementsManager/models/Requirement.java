@@ -63,6 +63,7 @@ public class Requirement extends AbstractModel{
 	private ArrayList<Integer> childIDs;
 	private ArrayList<HistoricalChange> history;
 	private ArrayList<AcceptanceTest> acceptanceTests;
+	private ArrayList<Task> tasks;
 	
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -78,6 +79,7 @@ public class Requirement extends AbstractModel{
 		this.notes = new ArrayList<Note>();
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
+		this.tasks = new ArrayList<Task>();
 	}
 	
 	/**
@@ -98,6 +100,7 @@ public class Requirement extends AbstractModel{
 		this.notes = new ArrayList<Note>();
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
+		this.tasks = new ArrayList<Task>();
 	}
 	
 	/**
@@ -119,6 +122,7 @@ public class Requirement extends AbstractModel{
 		this.notes = notes;
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
+		this.tasks = new ArrayList<Task>();
 	}
 
 	/**
@@ -146,6 +150,7 @@ public class Requirement extends AbstractModel{
 		this.childIDs = new ArrayList<Integer>();
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
+		this.tasks = new ArrayList<Task>();
 	}
 	
 	/**
@@ -173,6 +178,33 @@ public class Requirement extends AbstractModel{
 	 */
 	public ArrayList<AcceptanceTest> getAcceptanceTests(){
 		return this.acceptanceTests;
+	}
+	
+	/**
+	 * Add an existing Task to this Requirement.
+	 *
+	 * @param a the Task
+	 */
+	public void addTask(Task t){
+		tasks.add(t);
+	}
+	
+	/**
+	 * Gets the Tasks.
+	 *
+	 * replaces the current Task list with the given one
+	 * 
+	 * @param a the array list of Tasks
+	 */
+	public void updateTasks(ArrayList<Task> t){
+		this.tasks = t;
+	}
+	
+	/**
+	 * @return the list of Tasks in this requirement
+	 */
+	public ArrayList<Task> getTasks(){
+		return this.tasks;
 	}
 	
 	/**

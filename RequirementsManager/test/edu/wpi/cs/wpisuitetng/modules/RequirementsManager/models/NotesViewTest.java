@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,8 +49,9 @@ public class NotesViewTest {
 		req1.addNote(new Note("n2", "creator2"));
 		req1.addNote(new Note("n3", "creator3"));
 		
-		RequirementView rv = new RequirementView(req1, RequirementPanel.Mode.EDIT, null);
-		nv = new NotesView(rv);
+//		RequirementView rv = new RequirementView(req1, RequirementPanel.Mode.EDIT, null);
+		ArrayList<Note> notes = new ArrayList<Note>();
+		nv = new NotesView(notes);
 		nv.setNotesList(req1.getNotes());
 		nv.getSaveButton().addActionListener(new AddNoteController(nv));
 	}

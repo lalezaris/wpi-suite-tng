@@ -87,13 +87,13 @@ public class UserPermissionPanel extends JPanel{
 		/*initialize all of the components to be displayed*/
 		noneUsersList = new DefaultListModel();
 		lstNoneUsers = new JList(noneUsersList);
-		lstNoneUsers.setFixedCellWidth(250);
+		lstNoneUsers.setFixedCellWidth(150);
 		updateUsersList = new DefaultListModel();
 		lstUpdateUsers = new JList(updateUsersList);
-		lstUpdateUsers.setFixedCellWidth(250);
+		lstUpdateUsers.setFixedCellWidth(150);
 		adminUsersList = new DefaultListModel();
 		lstAdminUsers = new JList(adminUsersList);
-		lstAdminUsers.setFixedCellWidth(250);
+		lstAdminUsers.setFixedCellWidth(150);
 		
 
 		/*initialize all of the buttons to be displayed*/

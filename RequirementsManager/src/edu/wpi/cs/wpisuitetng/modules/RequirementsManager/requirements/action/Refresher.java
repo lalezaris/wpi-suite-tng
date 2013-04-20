@@ -60,8 +60,6 @@ public class Refresher {
 	private RetrieveAllIterationsController iterationController;
 	
 	private Iteration[] lastKnownIterations;
-	private boolean iterationsSet;
-	
 	/**
 	 * Instantiates a new refresher.
 	 *
@@ -75,7 +73,6 @@ public class Refresher {
 		this.tree = tree;
 		this.table = table;
 		this.iterationTable = iterationTable;
-		this.iterationsSet = false;
 		CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 	
@@ -88,7 +85,6 @@ public class Refresher {
 	 * @param observer the observer
 	 * @param path the path
 	 * @param id the id
-	 * @return the objects
 	 */
 	public void getObjects(RequestObserver observer, String path, String id){
 		Request request;
@@ -105,7 +101,6 @@ public class Refresher {
 	 */
 	public User[] getUsers(RequestObserver observer){
 		System.out.println("GETTING USERS");
-		User[] all = null;
 		lastKnownUsers = null;
 		RetrieveRequirementControllerTree<User> c = new RetrieveRequirementControllerTree<User>(
 				observer, "core/user/", new IRetrieveRequirementController<User>(){
@@ -178,6 +173,7 @@ public class Refresher {
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TABLE){
 			
 			table.addRequirements(reqArray);
+			
 		}
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TREE)
 			tree.fillTree(reqArray);
@@ -192,7 +188,6 @@ public class Refresher {
 	public void refreshIterations(Iteration[] iterations, IterationView view) {
 		setLastKnownIterations(iterations);
 		iterationTable.addIterations(iterations);
-		this.iterationsSet = true;
 		tree.refreshTree();
 	}
 

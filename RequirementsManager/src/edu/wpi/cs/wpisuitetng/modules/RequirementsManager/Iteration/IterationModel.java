@@ -40,7 +40,7 @@ public class IterationModel {
 		this.uneditedModel = iteration;
 		this.iterationView = iterationView;
 		this.gotIteration = false;
-		this.gotAllIterations = false;		
+		this.gotAllIterations = false;
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class IterationModel {
 	}
 
 	/**
-	 * @param gotIteration: the gotIteration to set
+	 * @param gotIteration the gotIteration to set
 	 */
 	public void setGotIteration(boolean gotIteration) {
 		this.gotIteration = gotIteration;
@@ -176,7 +176,7 @@ public class IterationModel {
 	}
 
 	/**
-	 * @param gotAllIterations: the gotAllIterations to set
+	 * @param gotAllIterations the gotAllIterations to set
 	 */
 	public void setGotAllIterations(boolean gotAllIterations) {
 		this.gotAllIterations = gotAllIterations;

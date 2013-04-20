@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Mar 27, 2013
  *
  */
+@SuppressWarnings("serial")
 public class DeleteRequirementAction extends AbstractAction {
 
 	private final DeleteRequirementController controller;

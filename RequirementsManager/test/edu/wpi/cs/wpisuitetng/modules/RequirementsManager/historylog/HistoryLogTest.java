@@ -1,19 +1,35 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Mike French
+ *  Evan Polekoff
+ *  Sam Abradi
+ *  Tushar Narayan
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.historylog;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -111,7 +127,7 @@ public class HistoryLogTest {
 		 * Change Title, Description, Asignee
 		 */
 		aChange2.updateChangeFromDiff(req1, req2, manager);
-		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n -TO- \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
+		assertEquals(aChange2.getChange(), "<p> Title changed from title1 to title2.</p><p> Description changed from:\n\"a desc\"\n to \n\"not a desc.\"</p><p> Assignee changed from [bill] to [joe].</p>");
 	
 		/*
 		 * Change EVERYTHING
@@ -177,7 +193,7 @@ public class HistoryLogTest {
 		req2.addNote(new Note("TwilightIsBestPony", "Twilight"));
 		
 		changeEverything.updateChangeFromDiff(req1, req2, manager);
-		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Type changed from EPIC to USER STORY.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n -TO- \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
+		assertEquals("<p> Title changed from Title1 to Title2.</p><p> Release Number changed from 105 to 104.</p><p> Type changed from EPIC to USER STORY.</p><p> Iteration changed from ID: 105 to 104.</p><p> Description changed from:\n\"TwilightSparklIsBestPony\"\n to \n\"DerpyIsBestPony.\"</p><p> Status changed from INPROGRESS to COMPLETE.</p><p> Priority changed from HIGH to LOW.</p><p> Estimate changed from 105 to 104.</p><p> Actual Effort changed from 105 to 104.</p><p> Assignee changed from [bill] to [joe].</p><p> -1 notes added.</p>",
 						changeEverything.getChange());
 	}
 	

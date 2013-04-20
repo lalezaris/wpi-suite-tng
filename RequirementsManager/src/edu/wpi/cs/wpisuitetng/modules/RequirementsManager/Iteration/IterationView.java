@@ -30,7 +30,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action.SaveC
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.CancelIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
@@ -44,6 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @version Mar 24, 2013
  *
  */
+@SuppressWarnings("serial")
 public class IterationView extends JPanel {
 	private static Iteration[] allIterations;
 	public static void setAllIterations(Iteration[] allIterations){
@@ -56,7 +56,6 @@ public class IterationView extends JPanel {
 	private IterationPanel mainPanel;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-	private boolean inputEnabled;
 	protected IterationModel iterationModel;
 	IterationPanel.Mode mode;
 
@@ -71,13 +70,11 @@ public class IterationView extends JPanel {
 		this.mode = edit;
 		iterationModel = new IterationModel(iteration, this); // have to get the iteration we want, or create a new iteration if in the Create Mode
 
-		inputEnabled = true;
-
 		containingTab = tab;
 		
 		if(containingTab == null) {
 			containingTab = new DummyTab();
-		}		
+		}
 		containingTab.setIcon(new ImageIcon());
 		if (mode == Mode.CREATE) {
 			containingTab.setTitle("Create Iteration");
@@ -219,7 +216,6 @@ public class IterationView extends JPanel {
 	 * @param enabled A boolean value indicating whether the input needs to be enabled or not
 	 */
 	public void setInputEnabled(boolean enabled) {
-		inputEnabled = enabled;
 		mainPanel.setInputEnabled(enabled);
 	}
 

@@ -15,10 +15,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.control
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.UpdatePermissionObserver;
-
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
-
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
@@ -36,7 +34,7 @@ public class SavePermissionsController {
 	
 	/**
 	 * Construct a new handler for the given view
-	 * @param view the view containing the request fields
+	 * @param panel the user permissions panel for the save permissions controller
 	 */
 	public SavePermissionsController(UserPermissionPanel panel) {
 		this.panel = panel;

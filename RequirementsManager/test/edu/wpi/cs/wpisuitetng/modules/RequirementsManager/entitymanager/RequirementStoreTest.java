@@ -15,29 +15,24 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.Session;
-import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
-import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.database.Data;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * @author Chris Dunkers

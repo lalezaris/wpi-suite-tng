@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  */
 public class ComboUpdateListener implements ItemListener {
 	protected final RequirementPanel panel;
+	@SuppressWarnings("rawtypes")
 	protected final JComboBox component;
 	protected final Border defaultBorder;
 	
@@ -54,6 +55,7 @@ public class ComboUpdateListener implements ItemListener {
 	 * 						"get". For instance: for the method "getStatus", the name of the 
 	 * 						JComboBox must be "Status".
 	 */
+	@SuppressWarnings("rawtypes")
 	public ComboUpdateListener(RequirementPanel panel, JComboBox component) {
 		this.panel = panel;
 		this.component = component;

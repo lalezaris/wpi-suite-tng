@@ -1,25 +1,39 @@
-/**
- * 
- */
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Chris Hanna
+ * Lauren Kahn
+ **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
+
 
 import java.util.ArrayList;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 
 /**
- * @author Chris Hanna
+ * The Class RequirementModel is the model that holds requirements and their views.
  *
+ * @author Chris Hanna
  */
 public class RequirementModel {
 
 	private Requirement requirement;
-	private final Requirement uneditedRequirement;
+	private Requirement uneditedRequirement;
 	private RequirementView view;
+	protected boolean dirtyEstimate;
 	
 	public RequirementModel(Requirement requirement, RequirementView view){
 		this.requirement = requirement;
@@ -34,6 +48,7 @@ public class RequirementModel {
 	 */
 	protected void setUpPanel(Mode editMode){
 		RequirementPanel panel = view.getRequirementPanel();
+		dirtyEstimate = false;
 		
 		if(!(requirement.getTitle().equals(null) || 
 				requirement.getTitle().equals("")))
@@ -59,7 +74,7 @@ public class RequirementModel {
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
 			
-			if (requirement.getIteration().toString().equals(panel.getKnownIterations()[i].toString()) ){
+			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
 				panel.getCmbIteration().setSelectedIndex(i);
 
 			}
@@ -88,9 +103,13 @@ public class RequirementModel {
 			//requirement.setAssignee(new User("", txtAssignee.getText(), "", -1));
 		}
 		*/
-		panel.getNotesView().setNotesList(requirement.getNotes());
-		panel.getHv().setHistoryList(requirement.getHistory());
-		panel.getAv().setAssigneeList(requirement.getAssignee());
+		ArrayList<Note> notesList = new ArrayList<Note>();
+		for(int i = 0; i < requirement.getNotes().size(); i++){
+			notesList.add(requirement.getNotes().get(i));
+		}
+		panel.getNotesView().setNotesList(notesList);
+//		panel.getHv().setHistoryList(requirement.getHistory());
+//		panel.getAv().setAssigneeList(requirement.getAssignee());
 		
 		
 		panel.setUpPanel();
@@ -176,7 +195,7 @@ public class RequirementModel {
 		}
 		
 		//compare estimate efforts
-		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort() && dirtyEstimate == false){//if old and new are not the same
 			return true;
 		}
 		
@@ -186,6 +205,10 @@ public class RequirementModel {
 		}
 		
 		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+			return true;
+		}
+		
+		if (oldR.getNotes().size() != newR.getNotes().size()){//if old and new are not the same
 			return true;
 		}
 		
@@ -214,6 +237,27 @@ public class RequirementModel {
 		if (notesDifference != 0){//if old and new are not the same
 			return true;
 		}
+		
+		if(!this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals(null)){
+			System.out.println("Title IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+		if(!this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+			System.out.println("Body IN ACCEPTANCE TEST");
+			return true;
+		}
+		
+//		if(this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") || this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+//			System.out.println("Body IN ACCEPTANCE TEST");
+//			return true;
+//		}
+		
+		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAtv().getList().size()){
+			System.out.println("Added IN ACCEPTANCE TEST");
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -230,5 +274,27 @@ public class RequirementModel {
 		return uneditedRequirement;
 	}
 
+
+	public void setRequirement(Requirement req) {
+		this.requirement = req;
+	}
 	
+	/**
+	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate
+	 * 
+	 * @param estimateEffort
+	 */
+	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
+		this.uneditedRequirement.setEstimateEffort(estimateEffort);
+	}
+
+
+	/**
+	 * Enter description here.
+	 * 
+	 */
+	public void setEstimateDirty() {
+		dirtyEstimate = true;
+	}
+
 }

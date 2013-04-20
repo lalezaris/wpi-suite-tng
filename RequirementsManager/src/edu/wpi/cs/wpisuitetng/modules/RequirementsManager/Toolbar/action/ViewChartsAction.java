@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action to edit user permissions
+ * Action to view charts.
  * 
  * @author Ned Shelton
  * @author Evan Polekoff
@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  *
  */
 
+@SuppressWarnings("serial")
 public class ViewChartsAction extends AbstractAction {
 	private final MainTabController controller;
 	

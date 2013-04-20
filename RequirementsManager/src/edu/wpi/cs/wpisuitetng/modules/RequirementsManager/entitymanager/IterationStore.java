@@ -46,7 +46,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 */
 	public IterationStore(Data data){
 	    db = data;
-	    this.updateMapper = new ModelMapper(); 
+	    updateMapper = new ModelMapper(); 
 	}
 	
 	/**

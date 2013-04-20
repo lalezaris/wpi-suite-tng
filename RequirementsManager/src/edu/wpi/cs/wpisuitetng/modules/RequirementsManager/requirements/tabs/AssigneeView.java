@@ -16,15 +16,12 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,10 +29,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RemoveAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -66,9 +60,8 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Instantiates a new assignee view.
 	 *
-	 * @param req the requirement
+	 * @param parent the requirement view for the assignee view
 	 */
-	@SuppressWarnings("serial")
 	public AssigneeView(RequirementView parent){
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setAlignOnBaseline(true);
@@ -77,34 +70,18 @@ public class AssigneeView extends JPanel{
 
 		allUserAL = new ArrayList<String>();
 
-		//assignedUserAL = parent.getReqModel().getRequirement().getAssignee();
-
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
-
+		
 		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
-//		System.out.println();
-//		System.out.println("assignedUserLM: " + assignedUserAL);
-//		System.out.println(">> FILLING projectUsers ArrayList <<");
-//		if(projectUsers != null){
-//			for(int i=0;i<projectUsers.length;i++){
-//				System.out.println("USER: " + projectUsers[i].getUsername());
-//				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
-//					System.out.println("     added to allUserAL");
-//					allUserAL.add(projectUsers[i].getUsername());
-//				}
-//			}
-//		}
-//		for(int i=0;i<allUserAL.size();i++){
-//			allUserLM.addElement(allUserAL.get(i));
-//		}
 		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
 		System.out.println();
 
 		allUserList = new JList<String>(allUserLM);
+		allUserList.setFixedCellWidth(200);
 		assignedUserList = new JList<String>(assignedUserLM);
-
+		assignedUserList.setFixedCellWidth(200);
 
 		buttonPanel = new JPanel(){
 			@Override
@@ -120,10 +97,8 @@ public class AssigneeView extends JPanel{
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 
 		btnAdd = new JButton("ADD");
-		//btnAdd.addActionListener(new AddAssigneeController(this));
 
 		btnRemove = new JButton("REMOVE");
-		//btnRemove.addActionListener(new RemoveAssigneeController(this));
 
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
@@ -143,7 +118,7 @@ public class AssigneeView extends JPanel{
 			}
 		};
 		leftPanel.setLayout(new BorderLayout());
-		JLabel leftLabel = new JLabel("Not Assigned");
+		JLabel leftLabel = new JLabel("Not Assigned:");
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		allUserList.setAlignmentX(CENTER_ALIGNMENT);
 		leftPanel.add(allUserList);
@@ -163,7 +138,7 @@ public class AssigneeView extends JPanel{
 			}
 		};
 		rightPanel.setLayout(new BorderLayout());
-		JLabel rightLabel = new JLabel("Assigned");
+		JLabel rightLabel = new JLabel("Assigned:");
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
 		rightPanel.add(assignedUserList, BorderLayout.CENTER);
@@ -221,17 +196,15 @@ public class AssigneeView extends JPanel{
 		}
 	}
 	
+	/**
+	 * Sets the lists.
+	 */
 	public void setLists(){
 		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
-//		System.out.println();
-//		System.out.println("assignedUserLM: " + assignedUserAL);
-//		System.out.println(">> FILLING projectUsers ArrayList <<");
 		if(projectUsers != null){
 			for(int i=0;i<projectUsers.length;i++){
-//				System.out.println("USER: " + projectUsers[i].getUsername());
 				if(!assignedUserAL.contains(projectUsers[i].getUsername())){
-//					System.out.println("     added to allUserAL");
 					allUserAL.add(projectUsers[i].getUsername());
 				}
 			}
@@ -244,7 +217,7 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Sets the array list of all users not assigned to the requirement.
 	 * 
-	 * @param all users who are not assigned to the requirement
+	 * @param users all users who are not assigned to the requirement
 	 */
 	public void setAllUserList(ArrayList<String> users){
 		this.allUserAL = users;
@@ -311,7 +284,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * @param isButtonPressed: the isButtonPressed to set
+	 * @param isButtonPressed the isButtonPressed to set
 	 */
 	public void setButtonPressed(boolean isButtonPressed) {
 		this.isButtonPressed = isButtonPressed;

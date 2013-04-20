@@ -43,10 +43,8 @@ public class Note {
 	 * Create a Note with the given properties. Other properties are the same as
 	 * the default constructor.
 	 * 
-	 * @param user
-	 *            The User who created the Note
-	 * @param body
-	 *            The message body of the Note
+	 * @param creator the creator of the Note
+	 * @param body the message body of the Note
 	 */
 	public Note(String body, String creator) {
 		this.body = body;
@@ -66,7 +64,7 @@ public class Note {
 	/**
 	 * Set the body.
 	 * 
-	 * @param The body
+	 * @param body the body of the Note
 	 *
 	 */
 	public void setBody(String body) {

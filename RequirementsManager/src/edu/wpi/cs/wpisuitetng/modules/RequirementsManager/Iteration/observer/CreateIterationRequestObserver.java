@@ -23,7 +23,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -116,7 +115,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				view.setInputEnabled(true);				
+				view.setInputEnabled(true);	
 			}
 		});
 	}

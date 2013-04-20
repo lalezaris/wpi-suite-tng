@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -27,26 +28,23 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.util.Rotation;
-
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
 
 /**
- * The Class BarChartPanel.
+ * The panel for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
  */
+@SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
-
-	/* the parent view*/
-	protected BarPieChartView view;
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
 	
-	/** The bar graph. */
-	JFreeChart barGraph;
+	/** The chart. */
+	private JFreeChart displayedChart;
 	
 	/** The chart box. */
 	private JComboBox chartBox;
@@ -74,7 +72,10 @@ public class BarPieChartPanel extends JPanel {
 	}
 	SubDivision[] subDivisionArray = {SubDivision.None, SubDivision.Priority, SubDivision.Type};
 
-
+	/** The Spin Checkbox */
+	JCheckBox spinCheckbox;
+	PieRotator rotator;
+	
 	/** The button panel. */
 	JPanel boxPanel = new JPanel();
 
@@ -91,7 +92,6 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chart the chart
 	 */
 	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
-		this.view = view;
 		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);
 
@@ -102,14 +102,14 @@ public class BarPieChartPanel extends JPanel {
 	 * Put the buttons and stuff on the view.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void addComponents(){
-		//Make a toolbar.
-		toolbar = new DefaultToolbarView();
 		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
 		characteristicBox = new JComboBox(characteristicArray);
 		subDivideBox = new JComboBox(subDivisionArray);
+		spinCheckbox = new JCheckBox("Spin");//The button to spin the pie chart.
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -155,6 +155,16 @@ public class BarPieChartPanel extends JPanel {
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		boxPanel.add(subDivideBox, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 6;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(spinCheckbox, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -166,7 +176,7 @@ public class BarPieChartPanel extends JPanel {
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(barGraph, TypeOfChart.Bar);
+		setChart(displayedChart, TypeOfChart.Bar, false);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -175,9 +185,10 @@ public class BarPieChartPanel extends JPanel {
 	/**Set the bar graph to be what you pass in.
 	 * @param newChart The chart you are overwriting with.
 	 */
-	public void setChart(JFreeChart newChart, TypeOfChart chartType){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin){
 		overallPanel.remove(graphPanel);
-
+		displayedChart = newChart;
+		
 		graphPanel = new ChartPanel(newChart);
 		GridBagConstraints cGraph = new GridBagConstraints();
 
@@ -186,10 +197,19 @@ public class BarPieChartPanel extends JPanel {
 
 		//Set Chart Properties
 		if(newChart != null){
-			newChart.setBackgroundPaint(Color.getHSBColor(174, 240, 211));
+			newChart.setBackgroundPaint(Color.white);
 			if(chartType == TypeOfChart.Bar){
 				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
 		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+			}
+			//Pie
+			else{
+				PiePlot3D plot = (PiePlot3D) newChart.getPlot();
+				plot.setStartAngle(0);
+		        plot.setForegroundAlpha(1);
+				rotator = new PieRotator(plot);
+				if(pieSpin)
+					rotator.start();
 			}
 		}
 		
@@ -214,7 +234,16 @@ public class BarPieChartPanel extends JPanel {
 	 * @param enabled Whether or not the box is enabled.
 	 */
 	public void setSubDivideEnable(boolean enabled){
-		subDivideBox.setEnabled(enabled);
+		subDivideBox.setVisible(enabled);
+		if(!enabled)
+			subDivideBox.setSelectedIndex(0);
+	}
+	
+	/**Determine whether or not you can see the button.
+	 * @param enabled Whether or not it is visible
+	 */
+	public void setSpinVisible(boolean enabled){
+		spinCheckbox.setVisible(enabled);
 	}
 	
 	//Combo Box Getters
@@ -240,4 +269,26 @@ public class BarPieChartPanel extends JPanel {
 		return subDivideBox;
 	}
 
+	/**
+	 * @return the displayedChart
+	 */
+	public JFreeChart getDisplayedChart() {
+		return displayedChart;
+	}
+	
+	/**
+	 * @return the spinButton
+	 */
+	public JCheckBox getSpinCheckbox() {
+		return spinCheckbox;
+	}
+
+	/**
+	 * @return the rotator
+	 */
+	public PieRotator getRotator() {
+		return rotator;
+	}
+	
+	
 }

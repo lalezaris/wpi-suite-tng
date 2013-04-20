@@ -40,7 +40,7 @@ public class RetrieveAllRequirementsController {
 	/**
 	 * Constructs a new RetrieveAllRequirementsController.
 	 * 
-	 * @param view the search Requirements view
+	 * @param refreshMode the refresher mode for the RetrieveAllRequirementsController
 	 */
 	public RetrieveAllRequirementsController(RefresherMode refreshMode) {
 		this.refreshMode = refreshMode;
@@ -52,7 +52,7 @@ public class RetrieveAllRequirementsController {
 	public void refreshData() {		
 		final RequestObserver requestObserver = new RetrieveAllRequirementsRequestObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", /*is this ok? ->*/ HttpMethod.GET);
+		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}

@@ -16,7 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
@@ -49,10 +49,10 @@ public class CreateChildRequirementController{
 	 * Serve up the child requirement.
 	 */
 	public void viewChild() {
-		childRequirement.setIterationId(view.getReqModel().getRequirement().getIterationId());
+		childRequirement.setIterationId(Iteration.getBacklog().getId());
 		childRequirement.setReleaseNumber(view.getReqModel().getRequirement().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
-		childRequirement.setStatus(view.getReqModel().getRequirement().getStatus());
+		childRequirement.setStatus(RequirementStatus.NEW);
 		childRequirement.setParentRequirementId(view.getReqModel().getRequirement().getId());
 		showRequirement(childRequirement);
 	} 

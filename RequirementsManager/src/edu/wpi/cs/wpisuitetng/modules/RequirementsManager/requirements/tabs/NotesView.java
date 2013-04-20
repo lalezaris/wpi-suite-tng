@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Michael French
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -27,17 +28,15 @@ import javax.swing.JTextArea;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
 
 /**
  * Tab panel for adding and viewing notes.
  *
  * @author Joe Spicola
- * @edited Michael French
  * @version Mar 27, 2013
  */
+@SuppressWarnings("serial")
 public class NotesView extends JPanel {
 
 	/** The layout manager for this panel */
@@ -63,7 +62,7 @@ public class NotesView extends JPanel {
 	/**
 	 * Instantiates a new notes view.
 	 *
-	 * @param req the requirement holding the notes
+	 * @param parent the requirement view holding the notes
 	 */
 	public NotesView(RequirementView parent) {
 		//Use a grid bag layout manager
@@ -84,6 +83,7 @@ public class NotesView extends JPanel {
 	 */
 	public NotesView(ArrayList<Note> notes){
 		this.notes = notes;
+		addComponents();
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class NotesView extends JPanel {
 
 	/**
 	 * Takes the given string and converts it to a Note,
-	 * setting it's creator as the current user.
+	 * setting it's creator to the current user.
 	 *
 	 * @param s the string
 	 * @return note the new note object converted from the string
@@ -270,5 +270,14 @@ public class NotesView extends JPanel {
 	 */
 	public JTextArea getTextArea(){
 		return this.txtNotes;
+	}
+	
+	/**
+	 * gets the text area for displaying the saved notes
+	 * 
+	 * @return returns the text area for displaying the saved notes
+	 */
+	public JTextArea getSavedTextArea(){
+		return txtNotesSaved;
 	}
 }

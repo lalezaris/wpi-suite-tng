@@ -12,7 +12,7 @@
  *  Tianyu Li
  *  Mike Perrone
  *  Chris Hanna
- *  
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -32,28 +32,27 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * @version Mar 21, 2013
  *
  */
+@SuppressWarnings("serial")
 public class ListAction extends AbstractAction {
-	private final MainTabController controller;
 	
+	private final MainTabController controller;
+
+	/**
+	 * Constructor for ListAction
+	 * 
+	 * @param controller
+	 */
+	public ListAction(MainTabController controller) {
+		super("List Requirements");
+		this.controller = controller;
+		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
+	}	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.addListRequirementTab();
-	}
-
-	/**
-	 * Default constructor.
-	 * 
-	 * @param controller
-	 */
-	public ListAction(MainTabController controller) {
-		super("List Requirements");
-		
-		System.out.println("Entered ListAction");
-		this.controller = controller;
-		
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 }

@@ -19,9 +19,10 @@ import javax.swing.JComboBox;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.characteristic;
 
 /**
+ * Sub division listener for charts.
+ * 
  * @author Evan Polekoff
  *
  */
@@ -29,10 +30,19 @@ public class SubDivisionListener implements ActionListener{
 	
 	protected BarPieChartView view;
 	
+	/**
+	 * Instantiates a new sub division listener.
+	 *
+	 * @param view the view
+	 */
 	public SubDivisionListener(BarPieChartView view){
 		this.view = view;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();

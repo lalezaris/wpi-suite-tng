@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Joe Spicola
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
@@ -27,13 +27,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Assi
  *
  */
 public class AddAssigneeController implements ActionListener {
-	
+
 	private AssigneeView view;
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
 	private ArrayList<String> selectedUsers;
 	private int[] selectedUsersIndex; //index of where the users are in the list
-	
+
 	/**
 	 * Construct an AddAssigneeController.
 	 *
@@ -49,29 +49,27 @@ public class AddAssigneeController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		this.allUserAL = view.getAllUserAL();
 		System.out.println(allUserAL);
 		this.assignedUserAL = view.getAssignedUserAL();
 		this.selectedUsers = new ArrayList<String> (view.getAllUserList().getSelectedValuesList());
 		this.selectedUsersIndex = view.getAllUserList().getSelectedIndices();
-		
-		/*
-		 * Iterates through loop backward, in order to remove elements from allusers without messing
-		 * up the earlier indexes.
-		 */
-		for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
-			assignedUserAL.add(selectedUsers.get(i));//append selected user to assigned
-			
+		if(this.selectedUsers.size() != 0){
+			/*
+			 * Iterates through loop backward, in order to remove elements from allusers without messing
+			 * up the earlier indexes.
+			 */
+			for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
+				assignedUserAL.add(selectedUsers.get(i));//append selected user to assigned	
+			}
+			//add array list to the list models
+			//view.setUserList(allUserAL);
+			System.out.println("Add worked");
+			view.setAssigneeList(assignedUserAL);
+			view.updateNotAssigned();
+			view.setButtonPressed(true);
 		}
-		
-		//add array list to the list models
-		//view.setUserList(allUserAL);
-		System.out.println("Add worked");
-		view.setAssigneeList(assignedUserAL);
-		view.updateNotAssigned();
-		view.setButtonPressed(true);
-		
 	}
 
 }

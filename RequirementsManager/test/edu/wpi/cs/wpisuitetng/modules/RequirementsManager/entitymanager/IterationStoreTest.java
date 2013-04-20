@@ -15,26 +15,24 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import edu.wpi.cs.wpisuitetng.Session;
-import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
-import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
-import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.database.Data;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * @author Michael Perrone
@@ -95,20 +93,6 @@ public class IterationStoreTest {
 		manager.makeEntity(defaultSession, i6.toJSON());
 		manager.makeEntity(defaultSession, i7.toJSON());
 		manager.makeEntity(defaultSession, i8.toJSON());
-		/*
-		User admin = new User("admin", "admin", "password", 5);
-		admin.setRole(Role.ADMIN);
-		testProject = new Project("test", "1");
-		ssid = "local";
-		adminSession = new Session(admin, testProject, ssid);
-		
-		db = new MockData(new HashSet<Object>());
-		//db.save(existingDefect, testProject);
-		//db.save(existingUser);
-		//db.save(otherDefect, otherProject);
-		db.save(admin);
-		reqStore = new IterationStore(db);
-		*/
 	}
 	
 	@Test

@@ -8,68 +8,70 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler Stone
+ *  Chris Hanna
 **************************************************/
-package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
+package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import com.google.gson.GsonBuilder;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Update requirement associated with a batch update.
- * Puts the requirement back into the database.
+ * Insert Description Here
  *
- * @author Tyler Stone
+ * @author Chris
  *
- * @version Apr 4, 2013
+ * @version Apr 17, 2013
  *
  */
-public class BatchUpdateRequirementRequestObserver implements RequestObserver {
+public class RetrieveAllIterationsObserver implements RequestObserver{
+
+	RetrieveAllIterationsController controller;
 	
 	/**
-	 * This method is called when information about an BatchUpdateRequirementRequest
-	 * which was previously requested using an asynchronous
-	 * interface becomes available.
+	 * Constructor for a RetrieveAllIterationsObserver.
+	 *
+	 * @param controller the controller
 	 */
-	public BatchUpdateRequirementRequestObserver() { }
+	public RetrieveAllIterationsObserver(RetrieveAllIterationsController controller) {
+		this.controller = controller;
+	}
 	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// cast observable to a Request
 		Request request = (Request) iReq;
-
-		// get the response from the request
 		ResponseModel response = request.getResponse();
-
-		if (response.getStatusCode() == 200) {
-			// parse the Requirement from the body
-			final Requirement requirement = Requirement.fromJSON(response.getBody());
-
-			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
-		}
+		
+		GsonBuilder builder = new GsonBuilder();
+		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
+		//this.panel.setAllusers(users);
+		controller.response(iterations);
+		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		System.out.println("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.out.println("Unable to complete request: " + exception.getMessage());
+		// TODO Auto-generated method stub
+		
 	}
+
 }

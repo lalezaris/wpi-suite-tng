@@ -19,8 +19,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
@@ -31,10 +33,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
 import org.gpl.JSplitButton.JSplitButton;
+import org.gpl.JSplitButton.action.SplitButtonActionListener;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
@@ -82,13 +86,16 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JSplitButton createSplit;
 	private JSplitButton listSplit;
 	
-	private JMenu createMenu;
-	private JMenu listMenu;
+	private JPopupMenu createMenu;
+	private JPopupMenu listMenu;
 	
 	private JMenuItem createReq;
 	private JMenuItem createIter;
 	private JMenuItem listReq;
 	private JMenuItem listIter;
+
+	@SuppressWarnings("unused")
+	private String userName;
 
 	private ToolbarGroupView toolbarGroupIteration;
 	private ToolbarGroupView toolbarGroupRequirement;
@@ -103,7 +110,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 	 */
 	public ToolbarPanel(MainTabController tabController) {	
 		// Construct the content panel
-		JPanel iterationContent = new JPanel();
+		JPanel manageContent = new JPanel();
 		JPanel requirementContent = new JPanel();
 		JPanel userPermissionContent = new JPanel();
 		JPanel viewUserPermissionPanel = new JPanel();
@@ -115,9 +122,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		SpringLayout viewUserPermissionLayout = new SpringLayout();
 		SpringLayout chartLayout = new SpringLayout();
 
-		iterationContent.setLayout(iterationLayout);
-		iterationContent.setOpaque(false);
-		iterationContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		manageContent.setLayout(iterationLayout);
+		manageContent.setOpaque(false);
+		manageContent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 
 		requirementContent.setLayout(requirementLayout);
 		requirementContent.setOpaque(false);
@@ -171,43 +178,53 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 		//Create split button
 		createSplit = new JSplitButton("Create");
-		
+		createSplit.setPreferredSize(new Dimension(createSplit.getPreferredSize().width + 20,createSplit.getPreferredSize().height));
+		listSplit = new JSplitButton("List");
+		listSplit.setPreferredSize(createSplit.getPreferredSize());
+				
 		//Construct Bar Chart Buttons
 		viewChart = new JButton("Chart");
 		viewChart.setAction(new ViewChartsAction(tabController));
 		
-		createMenuBar = new JMenuBar();
-		createMenuBar.setBackground(newIteration.getBackground());
-		listMenuBar = new JMenuBar();
-		listMenuBar.setBackground(newIteration.getBackground());
+//		createMenuBar = new JMenuBar();
+//		createMenuBar.setToolTipText("Create a requirement or a iterations");
+//		listMenuBar = new JMenuBar();
+//		listMenuBar.setToolTipText("List a requirement or a iterations");
+//		listMenuBar.setPreferredSize(createMenuBar.getPreferredSize());
 		
 		//construct create menu
-		createMenu = new JMenu("Create");
+		createMenu = new JPopupMenu("Create");
 		createMenu.getAccessibleContext().setAccessibleDescription(
 		        "Create a requirement or a iterations");
 		
 		//construct list menu
-		listMenu = new JMenu("List");
+		listMenu = new JPopupMenu("List");
 		listMenu.getAccessibleContext().setAccessibleDescription(
 				"List the requirements or iterations");
-		listMenu.setPreferredSize(createMenu.getPreferredSize());
+//		listMenu.setPreferredSize(createMenu.getPreferredSize());
 		
 		//add menu items
 		createReq = new JMenuItem("Create Requirement");
+		createReq.setAction(new NewRequirementAction(tabController));
 		createMenu.add(createReq);
 		
 		createIter = new JMenuItem("Create Iteration");
+		createIter.setAction(new NewIterationAction(tabController));
 		createMenu.add(createIter);
 		
 		listReq = new JMenuItem("List Requirements");
+		listReq.setAction(new ListAction(tabController));
 		listMenu.add(listReq);
 		
 		listIter = new JMenuItem("List Iterations");
+		listIter.setAction(new ListIterationAction(tabController));
 		listMenu.add(listIter);
 		
 		
-		createMenuBar.add(createMenu);
-		listMenuBar.add(listMenu);
+//		createMenuBar.add(createMenu);
+//		listMenuBar.add(listMenu);
+		createSplit.setPopupMenu(createMenu);
+		listSplit.setPopupMenu(listMenu);
 
 		// Configure the layout of the buttons on the content panel
 		//iterationLayout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, iterationContent);
@@ -216,8 +233,11 @@ public class ToolbarPanel extends DefaultToolbarView {
 		//iterationLayout.putConstraint(SpringLayout.NORTH, listIteration, 10, SpringLayout.SOUTH, newIteration);
 		//iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.WEST, iterationContent);
 		
-		iterationLayout.putConstraint(SpringLayout.NORTH, createSplit, 5, SpringLayout.NORTH, iterationContent);
-		iterationLayout.putConstraint(SpringLayout.WEST, createSplit, 10, SpringLayout.WEST, iterationContent);
+		iterationLayout.putConstraint(SpringLayout.NORTH, createSplit, 5, SpringLayout.NORTH, manageContent);
+		iterationLayout.putConstraint(SpringLayout.WEST, createSplit, 10, SpringLayout.WEST, manageContent);
+		
+		iterationLayout.putConstraint(SpringLayout.NORTH, listSplit, 10, SpringLayout.SOUTH, createSplit);
+		iterationLayout.putConstraint(SpringLayout.WEST, listSplit, 10, SpringLayout.WEST, manageContent);
 		
 		//iterationLayout.putConstraint(SpringLayout.NORTH, listMenuBar, 10, SpringLayout.SOUTH, createMenuBar);
 		//iterationLayout.putConstraint(SpringLayout.WEST, listMenuBar, 10, SpringLayout.WEST, iterationContent);
@@ -248,7 +268,8 @@ public class ToolbarPanel extends DefaultToolbarView {
 		//iterationContent.add(listIteration);
 		//iterationContent.add(createMenuBar);
 		//iterationContent.add(listMenuBar);
-		iterationContent.add(createSplit);
+		manageContent.add(createSplit);
+		manageContent.add(listSplit);
 		
 		
 		// Add buttons to the content panel
@@ -267,7 +288,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 
 		// Construct a new toolbar group to be added to the end of the toolbar
-		toolbarGroupIteration = new ToolbarGroupView("Manage", iterationContent);
+		toolbarGroupIteration = new ToolbarGroupView("Manage", manageContent);
 		toolbarGroupIteration.setVisible(false);
 		
 		toolbarGroupRequirement = new ToolbarGroupView("Requirement", requirementContent);
@@ -283,7 +304,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 
 		// Calculate the width of the toolbar
 		Double iterationGroupHeight = 0.0;
-		for (Component b : iterationContent.getComponents()){
+		for (Component b : manageContent.getComponents()){
 			iterationGroupHeight += b.getPreferredSize().getHeight();
 		}
 

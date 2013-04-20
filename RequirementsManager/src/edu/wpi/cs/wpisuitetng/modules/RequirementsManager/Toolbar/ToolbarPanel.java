@@ -80,9 +80,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 	private JButton viewChart;
 	//private String userName;
 	
-	private JMenuBar createMenuBar;
-	private JMenuBar listMenuBar;
-
 	private JSplitButton createSplit;
 	private JSplitButton listSplit;
 	
@@ -186,12 +183,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewChart = new JButton("Chart");
 		viewChart.setAction(new ViewChartsAction(tabController));
 		
-//		createMenuBar = new JMenuBar();
-//		createMenuBar.setToolTipText("Create a requirement or a iterations");
-//		listMenuBar = new JMenuBar();
-//		listMenuBar.setToolTipText("List a requirement or a iterations");
-//		listMenuBar.setPreferredSize(createMenuBar.getPreferredSize());
-		
 		//construct create menu
 		createMenu = new JPopupMenu("Create");
 		createMenu.getAccessibleContext().setAccessibleDescription(
@@ -201,7 +192,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listMenu = new JPopupMenu("List");
 		listMenu.getAccessibleContext().setAccessibleDescription(
 				"List the requirements or iterations");
-//		listMenu.setPreferredSize(createMenu.getPreferredSize());
 		
 		//add menu items
 		createReq = new JMenuItem("Create Requirement");
@@ -221,17 +211,10 @@ public class ToolbarPanel extends DefaultToolbarView {
 		listMenu.add(listIter);
 		
 		
-//		createMenuBar.add(createMenu);
-//		listMenuBar.add(listMenu);
 		createSplit.setPopupMenu(createMenu);
 		listSplit.setPopupMenu(listMenu);
 
 		// Configure the layout of the buttons on the content panel
-		//iterationLayout.putConstraint(SpringLayout.NORTH, newIteration, 5, SpringLayout.NORTH, iterationContent);
-		//iterationLayout.putConstraint(SpringLayout.WEST, newIteration, 10, SpringLayout.WEST, iterationContent);
-		
-		//iterationLayout.putConstraint(SpringLayout.NORTH, listIteration, 10, SpringLayout.SOUTH, newIteration);
-		//iterationLayout.putConstraint(SpringLayout.WEST, listIteration, 10, SpringLayout.WEST, iterationContent);
 		
 		iterationLayout.putConstraint(SpringLayout.NORTH, createSplit, 5, SpringLayout.NORTH, manageContent);
 		iterationLayout.putConstraint(SpringLayout.WEST, createSplit, 10, SpringLayout.WEST, manageContent);
@@ -264,10 +247,6 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewUserPermissionLayout.putConstraint(SpringLayout.WEST, viewUserPermission, 10, SpringLayout.WEST, viewUserPermissionPanel);
 
 		// Add buttons to the content panel
-		//iterationContent.add(newIteration);
-		//iterationContent.add(listIteration);
-		//iterationContent.add(createMenuBar);
-		//iterationContent.add(listMenuBar);
 		manageContent.add(createSplit);
 		manageContent.add(listSplit);
 		

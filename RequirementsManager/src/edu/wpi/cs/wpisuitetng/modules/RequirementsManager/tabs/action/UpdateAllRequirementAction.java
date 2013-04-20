@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.Update
  * 
  */
 @SuppressWarnings("serial")
-public class UpdateAllEstimateAction extends AbstractAction {
+public class UpdateAllRequirementAction extends AbstractAction {
 
 	private final UpdateAllRequirementsController controller;
 	private final RetrieveAllRequirementsController refreshController;
@@ -42,11 +42,11 @@ public class UpdateAllEstimateAction extends AbstractAction {
 	 * @param controller
 	 *            When the action is performed, controller.save will be called
 	 */
-	public UpdateAllEstimateAction(UpdateAllRequirementsController controller) {
+	public UpdateAllRequirementAction(UpdateAllRequirementsController controller) {
 		super("Update");
 		this.controller = controller;
 		refreshController = new RetrieveAllRequirementsController(
-				RefresherMode.TABLE);
+				RefresherMode.ALL);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
 

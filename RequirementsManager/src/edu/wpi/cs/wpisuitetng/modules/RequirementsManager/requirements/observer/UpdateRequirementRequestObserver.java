@@ -21,8 +21,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
+//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -89,15 +89,15 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						 */
 						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
 							System.out.println("Iteration was changed, edit subs now");
-							BatchRequirementEditController<Integer> batchController = 
-									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
+							//BatchRequirementEditController<Integer> batchController = 
+							//		new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
 							//change all children
-							batchController.instantiateChange(unchangedModel.getChildRequirementIds());
+							//batchController.instantiateChange(unchangedModel.getChildRequirementIds());
 						}
 						//						
 						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
 						//						view.setEditModeDescriptors(requirement);
-						if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
+						/**if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
 							if(!changedModel.isTopLevelRequirement()&&view != null){
 								Requirement parent = view.getParentView().getReqModel().getRequirement();
 								int estimateEffort = parent.getEstimateEffort() - unchangedModel.getEstimateEffort() + changedModel.getEstimateEffort();
@@ -111,7 +111,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 								request.addObserver(requestObserver);
 								request.send();
 							}
-						}
+						}*/
 					}
 				});
 			}

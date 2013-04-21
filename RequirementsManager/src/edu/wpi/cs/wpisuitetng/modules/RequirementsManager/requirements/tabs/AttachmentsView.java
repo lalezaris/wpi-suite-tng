@@ -12,6 +12,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.io.File;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -34,6 +35,7 @@ public class AttachmentsView extends RequirementTab{
 
 	private RequirementView parent;
 	private JButton addFileButton, uploadFileButton;
+	private File[] files;
 
 	/**
 	 * Instantiates a new attachments view.
@@ -97,6 +99,12 @@ public class AttachmentsView extends RequirementTab{
 	public void setAttachmentsList(List<Object> l) {
 		// TODO actually save the attachments list
 		// TODO change 'Object' to 'Attachment'
+	}
+
+
+
+	public void setFiles(File[] selectedFiles) {
+		files = selectedFiles;
 	}
 		
 

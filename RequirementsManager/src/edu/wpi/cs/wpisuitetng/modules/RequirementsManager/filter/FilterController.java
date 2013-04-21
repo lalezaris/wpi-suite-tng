@@ -67,12 +67,10 @@ public class FilterController{
 		
 		userController = new RetrieveAllUsersController(this);
 		
-		//sendServerRequests();
-	}
 
-	public void sendServerRequests(){
 		iterationController.retrieve();
 		userController.retrieve();
+		
 	}
 	
 	public FilterPanel getPanel() {

@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIte
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListSplitListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.OpenHelpAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ViewChartsAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -185,7 +186,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		viewStats.setAction(new ViewChartsAction(tabController));
 		btnHelp = new JButton("Help");
 		btnHelp.setPreferredSize(viewStats.getPreferredSize());
-//		btnHelp.setAction();
+		btnHelp.setAction(new OpenHelpAction());
 		
 		//construct create menu
 		createMenu = new JPopupMenu("Create");

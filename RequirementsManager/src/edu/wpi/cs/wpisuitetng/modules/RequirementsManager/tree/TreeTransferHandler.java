@@ -240,6 +240,14 @@ class TreeTransferHandler extends TransferHandler {
 			DefaultMutableTreeNode aNode =  
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
 			if (aNode.getUserObject() instanceof Requirement) {
+				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
+				if ((((Requirement)aNode.getUserObject()).getIterationId() == 0)
+						&& (((Requirement)aNode.getUserObject()).getEstimateEffort() == 0)){
+					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
+							+ aNode.getUserObject().toString() 
+							+ " to an Iteration");
+					return false;
+				}
 				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
 					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
 						return false;

@@ -877,6 +877,11 @@ public class RequirementPanel extends JPanel{
 				enabled = true;
 				runThatForLoop = true;
 			}
+			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == Iteration.getBacklog()){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
+				runThatForLoop = true;
+			}
 			//			} else
 			//			{
 			//				setTo = RequirementStatus.DELETED;

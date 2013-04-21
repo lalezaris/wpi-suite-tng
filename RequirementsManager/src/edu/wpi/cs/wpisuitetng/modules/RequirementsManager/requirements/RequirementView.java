@@ -377,12 +377,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
 
-		if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
-			mainPanel.getCmbStatus().setEnabled(false);
-			mainPanel.getCmbIteration().setEnabled(false);
+		if(this.getMode() == Mode.EDIT && !(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
+			System.out.println("HEY");
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
-			mainPanel.getTxtActual().setEnabled(false);
-
+		}
+		
+		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			mainPanel.getTxtEstimate().setEnabled(false);
 		}
 
 		// depending on the status and sub-requirements, disable certain components

@@ -465,16 +465,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 				}
 			} else {
 				System.out.println("No parent...");
-				//if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog()){
-					//knownIts.add(knownIterations[i]);
-				if (knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
 					knownIts.add(knownIterations[i]);
 				}
 			}
 		}
 
-		knownIts.add(Iteration.getBacklog());
-
+		if (!(knownIts.contains(Iteration.getBacklog()))) {
+			knownIts.add(Iteration.getBacklog());
+		}
+			
 		knownIterations = new Iteration[knownIts.size()];
 		for (int i = 0; i < knownIterations.length; i++){
 			knownIterations[i] = knownIts.get(i);

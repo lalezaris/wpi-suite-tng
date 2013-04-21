@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -73,11 +74,6 @@ public class AssigneeView extends JPanel{
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
 		
-		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
-
-		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
-		System.out.println();
-
 		allUserList = new JList<String>(allUserLM);
 		allUserList.setFixedCellWidth(200);
 		assignedUserList = new JList<String>(assignedUserLM);
@@ -114,15 +110,25 @@ public class AssigneeView extends JPanel{
 
 			@Override
 			public int getBaseline(int width, int height) {
-				return 0;
+				return height/2 - buttonPanel.getHeight()/2;
 			}
 		};
+		
+		
+		JScrollPane rightScrollPane = new JScrollPane();
+		JScrollPane leftScrollPane = new JScrollPane();
+		
 		leftPanel.setLayout(new BorderLayout());
 		JLabel leftLabel = new JLabel("Not Assigned:");
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		allUserList.setAlignmentX(CENTER_ALIGNMENT);
-		leftPanel.add(allUserList);
-		this.add(leftPanel, BorderLayout.CENTER);
+		allUserList.setPreferredSize(new Dimension(200,300));
+		
+//		leftScrollPane.setPreferredSize(new Dimension(200,300));
+//		leftScrollPane.add(allUserList);
+
+		leftPanel.add(allUserList, BorderLayout.CENTER);
+		this.add(leftPanel);
 
 		this.add(buttonPanel);
 
@@ -134,13 +140,18 @@ public class AssigneeView extends JPanel{
 
 			@Override
 			public int getBaseline(int width, int height) {
-				return 0;
+				return height/2 - buttonPanel.getHeight()/2;
 			}
 		};
 		rightPanel.setLayout(new BorderLayout());
 		JLabel rightLabel = new JLabel("Assigned:");
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
+		assignedUserList.setPreferredSize(new Dimension(200,300));
+		
+//		rightScrollPane.add(assignedUserList);
+//		rightScrollPane.setPreferredSize(new Dimension(200,300));
+		
 		rightPanel.add(assignedUserList, BorderLayout.CENTER);
 		leftPanel.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -186,7 +197,6 @@ public class AssigneeView extends JPanel{
 	 * @param all the new all users list
 	 */
 	public void setAllList(ArrayList<String> all) {
-		// TODO Auto-generated method stub
 		this.allUserAL = all;
 		Collections.sort(allUserAL);
 

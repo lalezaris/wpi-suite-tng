@@ -488,7 +488,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
-		mainPanel.getSplitPane().setDividerLocation(0.35);
+//		mainPanel.getSplitPane().setDividerLocation(0.5);
+		mainPanel.getSplitPane().setDividerLocation(mainPanel.getTxtDescription().getWidth()+50);
 
 	}
 

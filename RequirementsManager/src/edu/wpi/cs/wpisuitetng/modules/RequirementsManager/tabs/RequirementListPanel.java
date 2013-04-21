@@ -27,6 +27,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -81,6 +82,7 @@ public class RequirementListPanel extends JPanel{
 	private FilterController filterController;
 	/*TODO eventually, refactor this out into a model*/
 	private Requirement[] content, filteredContent;
+	private JLabel updateLabel;
 
 
 	/**
@@ -93,7 +95,7 @@ public class RequirementListPanel extends JPanel{
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		model = new RequirementTableModel();
+		model = new RequirementTableModel(this);
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
@@ -105,6 +107,7 @@ public class RequirementListPanel extends JPanel{
 		updateController = new UpdateAllRequirementsController(this);
 		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
+		updateLabel = new JLabel();
 
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
@@ -125,6 +128,7 @@ public class RequirementListPanel extends JPanel{
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(updateButton);
+		buttonPanel.add(updateLabel);
 
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.NONE;
@@ -283,6 +287,20 @@ public class RequirementListPanel extends JPanel{
 		comboBox.addItem(RequirementPriority.BLANK);
 		
 		table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
+	}
+	
+	/**
+	 * If the requirements have been updated, show message to user.
+	 */
+	public void showUpdateSuccessfully() {
+		updateLabel.setText("Update Succesffully");
+	}
+	
+	/**
+	 * Hide the message of update successfully.
+	 */
+	public void hideUpdateSuccessfully() {
+		updateLabel.setText(null);
 	}
 
 	/**

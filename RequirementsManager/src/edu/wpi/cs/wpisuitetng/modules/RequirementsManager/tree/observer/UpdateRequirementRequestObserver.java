@@ -19,8 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -78,21 +76,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						/* 
-						 * Update all children
-						 */
-
-						if (changedField == 0) {
-							BatchRequirementEditController<Integer> batchController = 
-									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, getRequirement().getIterationId());
-							//change all children
-							batchController.instantiateChange(getRequirement().getChildRequirementIds());
-						} else if (changedField == 1) {
-							//							BatchRequirementEditController<Integer> batchController2 = 
-							//									new BatchRequirementEditController<Integer>(ChangeField.PARENTID, getRequirement().getParentRequirementId());
-							//							//change all children
-							//							batchController2.instantiateChange(getRequirement().getChildRequirementIds());
-						}
+						//Nothing to do on update
 					}
 				});
 			}

@@ -210,7 +210,7 @@ public class RequirementValidatorTest {
 		} catch (Exception e){
 			System.out.println(e);
 		}
-		assertEquals(1,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
+		assertEquals(2, issues.size()); //should be 2 as estimate cannot be 0 & status should be in progress when assigned to a iteration
 	}
 	
 	@Test
@@ -245,14 +245,14 @@ public class RequirementValidatorTest {
 		req.setDescription("This is the Description"); //set a valid description
 		req.setIterationId(1); //set a valid iteration
 		req.setStatus(RequirementStatus.OPEN); //set a invalid status for the set iteration
-		req.setEstimateEffort(1); //set a invalid estimate
+		req.setEstimateEffort(1); //set a valid estimate
 		
 		try {
 		issues = reqVal.validate(req, RequirementPanel.Mode.EDIT);
 		} catch (Exception e){
 			System.out.println(e);
 		}
-		assertEquals(0,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
+		assertEquals(1,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
 	}
 	
 	

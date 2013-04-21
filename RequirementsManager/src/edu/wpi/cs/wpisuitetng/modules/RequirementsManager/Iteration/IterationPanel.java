@@ -597,6 +597,6 @@ public class IterationPanel extends JPanel {
 	}
 	
 	public void sendFilterServerRequest(){
-		reqListPanel.getFilterController().sendServerRequests();
+		//reqListPanel.getFilterController().sendServerRequests();
 	}
 }

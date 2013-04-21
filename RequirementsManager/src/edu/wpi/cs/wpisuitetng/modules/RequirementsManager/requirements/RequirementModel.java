@@ -75,10 +75,8 @@ public class RequirementModel {
 		}
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
-			
-			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
+			if (requirement.getIterationId() == (((Iteration) panel.getCmbIteration().getItemAt(i)).getId()) ){
 				panel.getCmbIteration().setSelectedIndex(i);
-
 			}
 		}
 
@@ -428,7 +426,7 @@ public class RequirementModel {
 			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
 			
-		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("Blank") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
 			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
 			flag = true;
 		}

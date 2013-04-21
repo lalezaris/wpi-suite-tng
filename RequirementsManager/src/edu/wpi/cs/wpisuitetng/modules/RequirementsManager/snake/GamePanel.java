@@ -22,8 +22,9 @@ public class GamePanel extends JPanel{
 	Controller controller;
 	Snake snake;
 	
-	JLabel score;
-	
+	JPanel scorePanel;
+	JLabel score, scoreBody;
+	JLabel highScore, highScoreBody;
 
 	
 	public GamePanel() {
@@ -45,14 +46,40 @@ public class GamePanel extends JPanel{
 		c.weightx = .5;
 		this.add(playPanel,c);
 		
+		scorePanel = new JPanel();
+		scorePanel.setLayout(new GridBagLayout());
+		scorePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		score = new JLabel("Score");
-		Font scoreFont = new Font("Serif", Font.PLAIN, 25);
-		score.setFont(scoreFont);
+		Font titleFont = new Font("Serif", Font.PLAIN, 15);
+		Font bodyFont = new Font("Serif", Font.PLAIN, 25);
+		score = new JLabel("SCORE:");
+		score.setFont(titleFont);
 		c.weighty = 1;
 		c.gridy = 1;
-		this.add(score, c);
+		c.gridx = 0;
+		scorePanel.add(score, c);
 		
+		highScore = new JLabel("HIGHSCORE:");
+		highScore.setFont(titleFont);
+		c.gridy = 1;
+		c.gridx = 1;
+		scorePanel.add(highScore, c);
+		
+		scoreBody = new JLabel("filler");
+		scoreBody.setFont(bodyFont);
+		c.gridy = 2;
+		c.gridx = 0;
+		scorePanel.add(scoreBody,c);
+		
+		highScoreBody = new JLabel("Unknown");
+		highScoreBody.setFont(bodyFont);
+		c.gridx = 1;
+		scorePanel.add(highScoreBody,c);
+		
+		c.gridy = 1;
+		c.gridx = 0;
+		scorePanel.setPreferredSize(new Dimension(480, (int)scorePanel.getPreferredSize().getHeight()));
+		this.add(scorePanel,c);
 		
 		snake = new Snake(new Spot(5,5));
 		

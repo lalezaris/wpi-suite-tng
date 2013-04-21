@@ -24,7 +24,7 @@ public class SnakePanel extends JPanel{
 	Color snakeColor, foodColor, wallColor;
 	
 	JPanel messagePanel;
-	JLabel gameOver, resetText;
+	JLabel gameOver, resetText, helpText;
 	
 	public SnakePanel() {
 		spots = new ArrayList<Spot>();
@@ -38,12 +38,16 @@ public class SnakePanel extends JPanel{
 		gameOver = new JLabel("GAME OVER");
 		gameOver.setFont(new Font("serif", Font.PLAIN, 50));
 		resetText = new JLabel("press space to reset");
+		helpText = new JLabel("use arrow keys to turn");
 		resetText.setFont(new Font("serif", Font.PLAIN, 20));
+		helpText.setFont(new Font("serif", Font.PLAIN, 20));
 		setGameOver(false);
 		messagePanel.add(gameOver);
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridy = 1;
 		messagePanel.add(resetText,c);
+		c.gridy = 2;
+		messagePanel.add(helpText,c);
 		
 		this.add(messagePanel);
 	}

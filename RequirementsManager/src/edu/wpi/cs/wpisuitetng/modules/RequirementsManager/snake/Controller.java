@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
+
 public class Controller {
 
 	private int xMax = 0, yMax = 0;
@@ -46,13 +48,21 @@ public class Controller {
 		
 		spawnFood(null);
 		
+		updateHighScore(0,"Unknown");
+		
 		
 	}
 
+	private void updateHighScore(int score, String name){
+		SnakeScoreController sc = new SnakeScoreController(this);
+		SnakeModel m = new SnakeModel(score,name);
+		sc.getHighScore(m);
+	}
+	
 	public void reset(){
 		panel.setGameOver(false);
 		score = 0;
-		game.score.setText("SCORE:" + score);
+		game.scoreBody.setText(""+score);
 		gameRunning = true;
 		snake.reset(new Spot(5,5));
 		panel.setSnakeColor(new Color(100,200,150));
@@ -72,7 +82,7 @@ public class Controller {
 	
 	public void eatFood(Food eat){
 		score += eat.score;
-		game.score.setText("SCORE:" + score);
+		game.scoreBody.setText(""+score);
 		spawnFood(eat);
 	}
 	
@@ -173,6 +183,8 @@ public class Controller {
 	 * @param gameRunning the gameRunning to set
 	 */
 	public void setGameRunning(boolean gameRunning) {
+		if (!gameRunning)
+			updateHighScore(score, ConfigManager.getConfig().getUserName());
 		this.gameRunning = gameRunning;
 		this.panel.setGameOver(!gameRunning);
 	}
@@ -190,5 +202,7 @@ public class Controller {
 	public int getYMax() {
 		return yMax;
 	}
+
+	
 	
 }

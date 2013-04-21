@@ -16,6 +16,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -97,6 +98,7 @@ public class RequirementListPanel extends JPanel{
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel(this);
 		table = new JTable(model);
+		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
 		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
@@ -372,5 +374,10 @@ public class RequirementListPanel extends JPanel{
 	public void setUpFilter() {
 		filterController.sendServerRequests();
 		
+	}
+	
+	public void setBackgroundRowColumn(int row, int col){
+//		table.getT(row, col).setBackground(Color.YELLOW);
+//		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
 	}
 }

@@ -14,6 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -51,6 +53,7 @@ public class UpdateAllRequirementsController {
 	 */
 	public UpdateAllRequirementsController(RequirementListPanel panel){
 		this.panel = panel;
+		issues = new ArrayList<ValidationIssue>();
 	}
 	
 	/**
@@ -65,17 +68,18 @@ public class UpdateAllRequirementsController {
 			} catch (NullPointerException e) {
 				System.out.println("The " + (i + 1) + "th requirement is legal");
 			}
-			if(issues != null){
+			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}
 			
-			if (table.getRequirements().get(i) != null) {
+			if (table.getRequirements().get(i) != null && issues.size() == 0) {
 				saveRequirement(table.getRequirements().get(i));
 			}
 		}
 		((RequirementTableModel) panel.getTable().getModel()).clear();
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
+		this.panel.getTable().setBackground(Color.WHITE);		
 	}
 	
 	/**

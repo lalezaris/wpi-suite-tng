@@ -401,6 +401,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
+
 		if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				pLevel == RMPermissionsLevel.UPDATE){
 			pLevel = RMPermissionsLevel.NONE;
@@ -442,6 +443,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
+			mainPanel.getDeleteRequirementBottom().setToolTipText("Cannot delete this requirement as it has children.");
 		} 
 	}
 

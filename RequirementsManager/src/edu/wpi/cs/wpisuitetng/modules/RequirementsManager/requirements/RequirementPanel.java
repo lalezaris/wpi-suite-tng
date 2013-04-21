@@ -26,6 +26,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  *
  */
 @SuppressWarnings({"serial","rawtypes"})
-public class RequirementPanel extends JPanel{
+public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * The Enum Mode.
@@ -246,11 +248,17 @@ public class RequirementPanel extends JPanel{
 		panelTabs = new JPanel();
 
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
+		txtTitle.addFocusListener(this);
+		
 		txtReleaseNumber = new JTextField(6);
-
+		txtReleaseNumber.addFocusListener(this);
+		
 		cmbIteration = new JComboBox();
+		cmbIteration.addFocusListener(this);
 
 		txtDescription = new JTextArea(10,35);
+		txtDescription.addFocusListener(this);
+		
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 
@@ -260,6 +268,7 @@ public class RequirementPanel extends JPanel{
 			System.out.println("Status:" + requirementStatusValues[i]);
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
+		cmbStatus.addFocusListener(this);
 
 		System.out.println("Status selected:" + cmbStatus.getSelectedItem());
 
@@ -269,6 +278,7 @@ public class RequirementPanel extends JPanel{
 			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
+		cmbPriority.addFocusListener(this);
 
 		String[] requirementTypeValues = new String[RequirementType.values().length];
 		for (int i = 0; i < RequirementType.values().length; i++) {
@@ -277,7 +287,11 @@ public class RequirementPanel extends JPanel{
 		cmbType = new JComboBox(requirementTypeValues);
 
 		txtEstimate = new IntegerField(4);
+		txtEstimate.addFocusListener(this);
+		
 		txtActual = new IntegerField(4);
+		txtActual.addFocusListener(this);
+		
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
@@ -598,11 +612,11 @@ public class RequirementPanel extends JPanel{
 		leftPaneltop.add(panelOverall,cPaneTop);
 
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
-		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+//		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
 		splitPaneLeft.setEnabled(true);
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, scrollPaneTabs);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, panelTabs);
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 
@@ -750,7 +764,14 @@ public class RequirementPanel extends JPanel{
 		if(intf.getText().equals(null) || intf.getText().equals("")){
 			return -1;
 		} else {
-			return Integer.parseInt(intf.getText());
+			int newValue = 0;
+			try{
+				newValue = Integer.parseInt(intf.getText().trim());
+			}
+			catch (NumberFormatException e){
+				newValue = -1;
+			}
+			return newValue;
 		}		
 	}
 
@@ -793,7 +814,7 @@ public class RequirementPanel extends JPanel{
 			requirement.setCreator(txtCreator.getText());
 		}
 
-		System.out.println(requirement.toJSON());
+		//System.out.println(requirement.toJSON());
 		return requirement;
 	}
 
@@ -1038,8 +1059,6 @@ public class RequirementPanel extends JPanel{
 	public NotesView getNotesView() {
 		return notesView;
 	}
-
-
 	/**
 	 * Get the AssigneeView.
 	 * 
@@ -1275,5 +1294,23 @@ public class RequirementPanel extends JPanel{
 		for (int i = 0 ; i < iterations.length; i ++)
 			this.cmbIteration.addItem(iterations[i]);
 
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.getParent().getReqModel().updateBackgrounds();
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.getParent().getReqModel().updateBackgrounds();
+		
 	}
 }

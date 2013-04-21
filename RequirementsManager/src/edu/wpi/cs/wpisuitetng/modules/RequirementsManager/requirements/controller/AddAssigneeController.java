@@ -70,6 +70,17 @@ public class AddAssigneeController implements ActionListener {
 			view.updateNotAssigned();
 			view.setButtonPressed(true);
 		}
+//<<<<<<< HEAD
+//		
+//		//add array list to the list models
+//		//view.setUserList(allUserAL);
+//		System.out.println("Add worked");
+//		view.setAssigneeList(assignedUserAL);
+//		view.updateNotAssigned();
+//		view.setButtonPressed(true);
+//		view.refreshAllBackgrounds();
+//		
+//=======
 	}
 
 }

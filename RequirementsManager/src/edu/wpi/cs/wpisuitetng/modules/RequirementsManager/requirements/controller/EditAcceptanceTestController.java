@@ -50,6 +50,7 @@ public class EditAcceptanceTestController implements ActionListener{
 			view.updateList();
 			view.clearTitleTxt();
 			view.clearBodyTxt();
+			view.refreshBackgrounds();
 		}		
 	}
 }

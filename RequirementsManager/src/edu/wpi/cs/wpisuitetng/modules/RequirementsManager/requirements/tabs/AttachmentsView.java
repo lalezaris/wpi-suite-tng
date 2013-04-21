@@ -7,27 +7,43 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html 
  *
- * Contributors:
- *  Chris Dunkers
-**************************************************/
+ * @author "Michael Perrone"
+ **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+
 /**
- * The JPanel for all requirement attachments.
- * TODO: implementation
+ * The Class to hold AssigneeView.
  *
- * @author Chris Dunkers
+ * @author Michael Perrone
  *
- * @version Mar 25, 2013
+ * @version Apr 21, 2013
  *
  */
 @SuppressWarnings("serial")
-public class AttachmentsView extends JPanel {
-	public AttachmentsView() {
-		JLabel attachmentsLabel = new JLabel("Attachments");
-		this.add(attachmentsLabel);
+public class AttachmentsView extends JPanel{
+
+
+	private RequirementView parent;
+	private JButton addFileButton;
+
+	/**
+	 * Instantiates a new attachments view.
+	 *
+	 * @param parent the requirement view for the assignee view
+	 */
+	public AttachmentsView(RequirementView parent){
+		this.parent = parent;
+		
+		addFileButton = new JButton("Add File");
+		
+		this.add(addFileButton);
 	}
+		
+
 }

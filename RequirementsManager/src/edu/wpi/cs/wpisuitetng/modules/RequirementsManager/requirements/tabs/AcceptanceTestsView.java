@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Michael Frenched
  */
 @SuppressWarnings({"rawtypes", "serial"})
-public class AcceptanceTestsView extends JPanel{
+public class AcceptanceTestsView extends RequirementTab{
 	
 	protected GridBagLayout layout;
 	
@@ -676,6 +676,24 @@ public class AcceptanceTestsView extends JPanel{
 		 */
 		public JList<AcceptanceTest> getListDisplay() {
 			return listDisplay;
+		}
+
+
+		@Override
+		public String getTabTitle() {
+			return "Acceptance Tests";
+		}
+
+
+		@Override
+		public ImageIcon getImageIcon() {
+			return new ImageIcon();
+		}
+
+
+		@Override
+		public String getTooltipText() {
+			return "Add and modify acceptance tests";
 		}
 		
 }

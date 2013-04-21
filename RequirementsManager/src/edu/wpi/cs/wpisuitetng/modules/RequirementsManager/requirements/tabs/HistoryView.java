@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings({ "serial", "unused" })
-public class HistoryView extends JPanel {	
+public class HistoryView extends RequirementTab {	
 	private JList<HistoricalChange> list;
 	private DefaultListModel<HistoricalChange> listModel;
 
@@ -47,7 +48,7 @@ public class HistoryView extends JPanel {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HistoryView(RequirementView parent) {
-		super(new BorderLayout());
+		setLayout(new BorderLayout());
 
 		listModel = new DefaultListModel<HistoricalChange>();
 
@@ -107,5 +108,20 @@ public class HistoryView extends JPanel {
 	 */
 	public ArrayList<HistoricalChange> getHistoryList() {
 		return this.historyAL;
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "History";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "View history of changes";
 	}
 }

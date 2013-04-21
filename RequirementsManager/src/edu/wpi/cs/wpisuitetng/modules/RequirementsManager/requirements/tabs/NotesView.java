@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends JPanel {
+public class NotesView extends RequirementTab {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -279,5 +280,20 @@ public class NotesView extends JPanel {
 	 */
 	public JTextArea getSavedTextArea(){
 		return txtNotesSaved;
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Notes";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify notes";
 	}
 }

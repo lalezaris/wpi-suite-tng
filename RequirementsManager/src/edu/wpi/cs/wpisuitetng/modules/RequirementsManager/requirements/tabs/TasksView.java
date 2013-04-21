@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -40,7 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.SaveT
  * @version Apr 18, 2013
  */
 @SuppressWarnings("serial")
-public class TasksView extends JPanel{
+public class TasksView extends RequirementTab{
 	
 	protected RequirementView parent;
 	
@@ -60,7 +61,7 @@ public class TasksView extends JPanel{
 	 * @param req the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
-		super(new BorderLayout());
+		setLayout(new BorderLayout());
 		
 		//Make the Controller to load all of the tasks.
 		loadAllController = new RetrieveRequirementsTasksController(this);
@@ -146,5 +147,20 @@ public class TasksView extends JPanel{
 	public void setTaskArray(Task[] tasks) {
 		taskArray = new ArrayList<Task>(Arrays.asList(tasks));
 		setTasksList(taskArray);
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Tasks";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Edit and view tasks";
 	}
 }

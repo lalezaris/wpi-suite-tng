@@ -18,6 +18,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings("serial")
-public class DependenciesView extends JPanel{
+public class DependenciesView extends RequirementTab{
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -177,6 +178,21 @@ public class DependenciesView extends JPanel{
 		else
 			list += "No downstream dependencies (children requirements).\n\n";
 		return list;
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Dependencies";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "View upstream and downstream dependencies";
 	}
 
 }

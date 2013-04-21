@@ -182,8 +182,6 @@ public class FilterPanel extends JPanel{
 		ruleHolderPanel.setVisible(true);
 		ruleHolderPanel.validate();
 		
-		//TODO figure out how to correctly get the width of the window
-		System.out.println("WIDTH:" + this.getSize().getWidth());
 		ruleHolderPanel.setPreferredSize(new Dimension((int)ruleHolderPanel.getPreferredSize().getWidth(),120));
 		
 		
@@ -259,6 +257,8 @@ public class FilterPanel extends JPanel{
 
 		});
 		
+		
+		System.out.println("end of filter panel");
 	}
 
 	public void setWidth(int width){
@@ -340,7 +340,7 @@ public class FilterPanel extends JPanel{
 	 * update the table with the rules
 	 * 
 	 */
-	protected void triggerTableUpdate(){
+	public void triggerTableUpdate(){
 		setFilterDescText();
 		view.setFilteredInTable();
 	}

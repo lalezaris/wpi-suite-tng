@@ -365,7 +365,6 @@ public class IterationPanel extends JPanel {
 		if(this.getParent().getMode() == Mode.EDIT){
 			right.setLayout(new BorderLayout());
 			reqListPanel = new RequirementListPanel(MainTabController.getController());
-			reqListPanel.getFilterController().getPanel().setWidth(500);
 			String[] removeFields = {"iteration"};
 			reqListPanel.getFilterController().getPanel().removeFields(removeFields);
 			right.add(reqListPanel,BorderLayout.CENTER);
@@ -589,4 +588,7 @@ public class IterationPanel extends JPanel {
 		reqListPanel.revalidate();
 	}
 	
+	public void sendFilterServerRequest(){
+		reqListPanel.getFilterController().sendServerRequests();
+	}
 }

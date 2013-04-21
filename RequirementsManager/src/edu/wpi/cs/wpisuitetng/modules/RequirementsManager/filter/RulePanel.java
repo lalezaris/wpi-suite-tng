@@ -253,7 +253,7 @@ public class RulePanel extends JPanel{
 	 * Change the values component so that it reflects correctly what the user can filter
 	 * 
 	 */
-	private void updatePossibleValues(){
+	public void updatePossibleValues(){
 
 		int possibleValuesIndex = -1, possibleValuesTextIndex = -1;
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
@@ -421,7 +421,7 @@ public class RulePanel extends JPanel{
 	 * Change the values of the comparison mode box so that is reflects correctly how the user can compare things
 	 * 
 	 */
-	private void updateCompareBox(){
+	public void updateCompareBox(){
 
 		compareMode.setVisible(true);
 		compareMode.removeAllItems();
@@ -441,7 +441,7 @@ public class RulePanel extends JPanel{
 	 * 
 	 * @return
 	 */
-	private RuleComparisonMode[] getValidComparisonModes(){
+	public RuleComparisonMode[] getValidComparisonModes(){
 		RuleComparisonMode[] output = null;
 
 		String fieldName = (String)field.getItemAt(field.getSelectedIndex());
@@ -611,6 +611,30 @@ public class RulePanel extends JPanel{
 	 */
 	public JComboBox<String> getField() {
 		return field;
+	}
+
+	/**
+	 * Gets the compareMode
+	 * @return the compareMode
+	 */
+	public JComboBox<RuleComparisonMode> getCompareMode() {
+		return compareMode;
+	}
+
+	/**
+	 * Gets the possibleValues
+	 * @return the possibleValues
+	 */
+	public JComboBox getPossibleValues() {
+		return possibleValues;
+	}
+
+	/**
+	 * Gets the possibleValuesText
+	 * @return the possibleValuesText
+	 */
+	public JTextField getPossibleValuesText() {
+		return possibleValuesText;
 	}
 
 

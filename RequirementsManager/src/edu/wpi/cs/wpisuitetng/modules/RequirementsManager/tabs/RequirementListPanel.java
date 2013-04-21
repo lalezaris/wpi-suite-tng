@@ -370,7 +370,7 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	public void setUpFilter() {
-		filterController.sendServerRequests();
+	//	filterController.sendServerRequests();
 		
 	}
 }

@@ -111,18 +111,20 @@ public class RequirementListPanel extends JPanel{
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 0.5;
+		c.weightx = 0;
 		c.weighty = 1;
 		c.gridwidth = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(filterController.getPanel(), c);
-		panel.validate();
+		//panel.validate();
 
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(updateButton);
 
 		c.anchor = GridBagConstraints.LINE_START; 
+		c.fill = GridBagConstraints.NONE;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 1;

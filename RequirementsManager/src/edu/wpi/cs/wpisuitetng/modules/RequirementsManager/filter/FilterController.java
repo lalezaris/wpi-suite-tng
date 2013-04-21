@@ -63,13 +63,18 @@ public class FilterController{
 		
 		
 		iterationController = new RetrieveAllIterationsController(this);
-		iterationController.retrieve();
+		
 		
 		userController = new RetrieveAllUsersController(this);
-		userController.retrieve();
 		
+		//sendServerRequests();
 	}
 
+	public void sendServerRequests(){
+		iterationController.retrieve();
+		userController.retrieve();
+	}
+	
 	public FilterPanel getPanel() {
 		return panel;
 	}

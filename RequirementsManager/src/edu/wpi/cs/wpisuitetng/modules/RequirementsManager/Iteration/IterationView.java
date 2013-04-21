@@ -86,6 +86,8 @@ public class IterationView extends JPanel {
 		// Instantiate the main create iteration panel
 		mainPanel = new IterationPanel(this/*, mode*/);
 		
+		mainPanel.sendFilterServerRequest();
+		
 		mainPanel.getBtnSaveIteration().setAction(new SaveChangesAction(new SaveIterationController(this)));
 		mainPanel.getBtnCancelIteration().setAction(new CancelIterationAction(new CancelIterationController(this)));
 		

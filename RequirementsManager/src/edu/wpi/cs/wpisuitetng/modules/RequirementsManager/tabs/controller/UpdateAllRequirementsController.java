@@ -113,4 +113,8 @@ public class UpdateAllRequirementsController {
 				title + message.toString(), 
 				"Error", JOptionPane.ERROR_MESSAGE);
 	}
+
+	public RequirementListPanel getPanel() {
+		return panel;
+	}
 }

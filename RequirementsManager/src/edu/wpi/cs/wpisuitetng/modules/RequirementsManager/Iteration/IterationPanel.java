@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
@@ -77,7 +78,7 @@ public class IterationPanel extends JPanel {
 	protected IterationView parent;
 
 	/** Form elements */
-	protected JTextField txtIterationName;
+	protected JPlaceholderTextField txtIterationName;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
 	protected JLabel txtEndDate;
@@ -158,7 +159,7 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationName = new JTextField("", 20);
+		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
@@ -356,7 +357,14 @@ public class IterationPanel extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel left = new JPanel();
-		left.add(panelOverall);
+		left.setLayout(new GridBagLayout());
+		GridBagConstraints cLeft = new GridBagConstraints();
+		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
+		cLeft.gridx = 0;
+		cLeft.gridy = 0;
+		cLeft.weightx = 0.1;
+		cLeft.weighty = 0.1;
+		left.add(panelOverall,cLeft);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(left);
 		
@@ -375,7 +383,7 @@ public class IterationPanel extends JPanel {
 		}
 
 		splitPane.setRightComponent(right);
-
+		
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
 		this.add(splitPane,BorderLayout.CENTER);

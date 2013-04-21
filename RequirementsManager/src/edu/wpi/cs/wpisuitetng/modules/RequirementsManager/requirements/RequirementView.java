@@ -484,6 +484,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
 
+		mainPanel.getCmbIteration().setSelectedItem(Iteration.getIterationById(reqModel.getRequirement().getIterationId()));
+		
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
 
 		//if either a parent or a child requirement is being created, do not allow the user to create (further) children

@@ -75,10 +75,8 @@ public class RequirementModel {
 		}
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
-			
-			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
+			if (requirement.getIterationId() == (((Iteration) panel.getCmbIteration().getItemAt(i)).getId()) ){
 				panel.getCmbIteration().setSelectedIndex(i);
-
 			}
 		}
 

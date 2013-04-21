@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AttachmentController;
+
 /**
  * Save the attachments
  *
@@ -26,11 +28,15 @@ import javax.swing.AbstractAction;
  */
 public class AttachmentUploadAction extends AbstractAction{
 
-	
+	AttachmentController controller;
+	public AttachmentUploadAction(AttachmentController controller, String name){
+		super(name);
+		this.controller = controller;
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		this.controller.uploadClicked();
 		
 	}
 

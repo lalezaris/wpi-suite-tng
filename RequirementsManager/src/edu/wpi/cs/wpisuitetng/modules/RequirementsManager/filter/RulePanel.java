@@ -93,28 +93,28 @@ public class RulePanel extends JPanel{
 		constraint = new GridBagConstraints();
 
 		possibleValuesText.setPreferredSize(new Dimension(100, 100));
-		
+
 		possibleValuesText.validate();
-		
+
 		this.validate();
-		
+
 		DefaultListCellRenderer comboBoxRenderer = new DefaultListCellRenderer(){
 			/**
 			 * @see javax.swing.JComponent#paint(java.awt.Graphics)
 			 */
 			@Override
-	        public void paint(Graphics g) {
+			public void paint(Graphics g) {
 				setForeground(Color.BLACK);
-	            super.paint(g);
-	        }
+				super.paint(g);
+			}
 		};
-		
+
 		field.setRenderer(comboBoxRenderer);
 		compareMode.setRenderer(comboBoxRenderer);
 		possibleValues.setRenderer(comboBoxRenderer);
-		
-		
-		
+
+
+
 		constraint.anchor = GridBagConstraints.FIRST_LINE_START;
 		constraint.weightx = 0;
 
@@ -329,7 +329,7 @@ public class RulePanel extends JPanel{
 			if (possibleValuesIndex != -1)
 				this.remove(possibleValues);
 		}
-		
+
 		if (possibleValuesTextIndex != -1){
 			possibleValuesText.setVisible(true);
 			if (editType == RuleEditableType.ALL)
@@ -409,7 +409,7 @@ public class RulePanel extends JPanel{
 	 * Change the values of the comparison mode box so that is reflects correctly how the user can compare things
 	 * 
 	 */
-	private void updateCompareBox(){
+	public void updateCompareBox(){
 
 		compareMode.setVisible(true);
 		compareMode.removeAllItems();
@@ -420,7 +420,7 @@ public class RulePanel extends JPanel{
 		compareMode.setPreferredSize(new Dimension(300,(int)compareMode.getPreferredSize().getHeight()));
 		if (editType == RuleEditableType.ALL)
 			compareMode.setVisible(false);
-		
+
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
@@ -429,7 +429,7 @@ public class RulePanel extends JPanel{
 	 * 
 	 * @return the rule comparison mode
 	 */
-	private RuleComparisonMode[] getValidComparisonModes(){
+	public RuleComparisonMode[] getValidComparisonModes(){
 		RuleComparisonMode[] output = null;
 
 		String fieldName = (String)field.getItemAt(field.getSelectedIndex());
@@ -489,7 +489,7 @@ public class RulePanel extends JPanel{
 	private String[] getPossibleFields(){
 
 		String[] removeFields = null;
-		
+
 		if (filterPanel != null)
 			removeFields = filterPanel.getRemoveFields();
 
@@ -598,4 +598,27 @@ public class RulePanel extends JPanel{
 		return field;
 	}
 
+	/**
+	 * Gets the compareMode
+	 * @return the compareMode
+	 */
+	public JComboBox<RuleComparisonMode> getCompareMode() {
+		return compareMode;
+	}
+
+	/**
+	 * Gets the possibleValues
+	 * @return the possibleValues
+	 */
+	public JComboBox getPossibleValues() {
+		return possibleValues;
+	}
+
+	/**
+	 * Gets the possibleValuesText
+	 * @return the possibleValuesText
+	 */
+	public JTextField getPossibleValuesText() {
+		return possibleValuesText;
+	}
 }

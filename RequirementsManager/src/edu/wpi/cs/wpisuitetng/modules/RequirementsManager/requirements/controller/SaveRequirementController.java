@@ -77,7 +77,6 @@ public class SaveRequirementController {
 				printIssues(issues);
 			} else {
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
-
 				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
 					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
@@ -90,6 +89,8 @@ public class SaveRequirementController {
 
 							view.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
 							view.getParentView().getReqModel().setEstimateDirty();
+							view.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
+
 						}
 						Request estimateRequest;
 						estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);

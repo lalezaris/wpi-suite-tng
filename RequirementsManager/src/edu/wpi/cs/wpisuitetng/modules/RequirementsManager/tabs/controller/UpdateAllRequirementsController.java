@@ -60,8 +60,12 @@ public class UpdateAllRequirementsController {
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
 
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
-			issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
-			if(issues.size() > 0){
+			try {
+				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
+			} catch (NullPointerException e) {
+				System.out.println("The " + (i + 1) + "th requirement is legal");
+			}
+			if(issues != null){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}
 
@@ -107,5 +111,9 @@ public class UpdateAllRequirementsController {
 		JOptionPane.showMessageDialog(null, 
 				title + message.toString(), 
 				"Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public RequirementListPanel getPanel() {
+		return panel;
 	}
 }

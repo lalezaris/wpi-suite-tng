@@ -62,18 +62,13 @@ public class FilterController{
 		panel.getSnakeButton().setAction( new SnakeAction());
 
 		iterationController = new RetrieveAllIterationsController(this);
-		iterationController.retrieve();
-
 		userController = new RetrieveAllUsersController(this);
-		userController.retrieve();
-
 	}
 
-	/**
-	 * Gets the panel
-	 * 
-	 * @return the filter panel
-	 */
+	public void sendServerRequests(){
+		iterationController.retrieve();
+		userController.retrieve();
+	}
 	public FilterPanel getPanel() {
 		return panel;
 	}
@@ -92,7 +87,7 @@ public class FilterController{
 	 * @return The filtered the requirements
 	 */
 	public Requirement[] setFilteredInTable(){
-		
+
 		Requirement[] all = listPanel.getContent();
 		Requirement[] filtered = null;
 

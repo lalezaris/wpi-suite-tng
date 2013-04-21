@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Michael French
+ *  Joe Spicola
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -17,6 +18,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -40,8 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Michael French
  */
 @SuppressWarnings({"rawtypes", "serial"})
-public class AcceptanceTestsView extends JPanel{
-
+public class AcceptanceTestsView extends JPanel implements FocusListener {
 	protected GridBagLayout layout;
 
 	protected JPlaceholderTextField txtTitle;
@@ -58,6 +60,8 @@ public class AcceptanceTestsView extends JPanel{
 
 	protected JList<AcceptanceTest> listDisplay;
 	protected DefaultListModel<AcceptanceTest> listModel;
+	
+	protected RequirementView parent;
 
 	//the arraylist that actually holds the Tests
 	ArrayList<AcceptanceTest> list;
@@ -68,13 +72,15 @@ public class AcceptanceTestsView extends JPanel{
 	 * @param rView the parent requirement view 
 	 */
 	@SuppressWarnings("unchecked")
-	public AcceptanceTestsView(RequirementView rView){
+	public AcceptanceTestsView(RequirementView parent){
 		list = new ArrayList();
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
+		
+		this.parent = parent;
 
 		// Add all components to this panel
 		addComponents();
@@ -111,6 +117,7 @@ public class AcceptanceTestsView extends JPanel{
 			txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		} else
 			txtTitle = new JPlaceholderTextField("", 20);
+
 		txtBody = new JTextArea(4, 40);
 		JLabel lblBody = new JLabel("Test Descriptions: ", JLabel.TRAILING);
 
@@ -126,6 +133,7 @@ public class AcceptanceTestsView extends JPanel{
 		//initiate the combobox for status
 		final String[] atStatuses = {"", "Passed", "Failed"};
 		cmbStatus = new JComboBox(atStatuses);
+		cmbStatus.addFocusListener(this);
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
 		JLabel lblStatus = new JLabel("Status: ", JLabel.TRAILING);
 
@@ -613,49 +621,131 @@ public class AcceptanceTestsView extends JPanel{
 	 *
 	 * @see ButtonsEvent
 	 */
-	public class ButtonsListener implements KeyListener {
+		public class ButtonsListener implements KeyListener {
 
-		/**
-		 * Action performed.
-		 *
-		 * @param estimate the estimate
-		 */
-		public void actionPerformed(ActionEvent estimate) {}
+			/**
+			 * Action performed.
+			 *
+			 * @param estimate the estimate
+			 */
+			public void actionPerformed(ActionEvent estimate) {}
+			
+			/**
+			 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyTyped(KeyEvent e) {}
+			
+			/**
+			 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyPressed(KeyEvent e) {}
 
-		/**
-		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
-		 */
-		@Override
-		public void keyTyped(KeyEvent e) {}
-
-		/**
-		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-		 */
-		@Override
-		public void keyPressed(KeyEvent e) {}
-
-		/**
-		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
-		 */
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if (hasTitle(txtTitle.getText())){
-				addTest.setEnabled(false);
-				editTest.setEnabled(true);
-			}else{
-				addTest.setEnabled(true);
-				editTest.setEnabled(false);
+			/**
+			 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+			 */
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (hasTitle(txtTitle.getText())){
+					addTest.setEnabled(false);
+					editTest.setEnabled(true);
+				}else{
+					addTest.setEnabled(true);
+					editTest.setEnabled(false);
+				}
 			}
 		}
-	}
+		
+		/**
+		 * @return the txtTitle
+		 */
+		public JTextField getTxtTitle() {
+			return txtTitle;
+		}
 
-	/**
-	 * Gets list display
-	 * 
-	 * @return the listDisplay
-	 */
-	public JList<AcceptanceTest> getListDisplay() {
-		return listDisplay;
-	}
 
+		/**
+		 * @return the txtBody
+		 */
+		public JTextArea getTxtBody() {
+			return txtBody;
+		}
+
+
+		/**
+		 * @return the cmbStatus
+		 */
+		public JComboBox getCmbStatus() {
+			return cmbStatus;
+		}
+
+
+		/**
+		 * Gets list display
+		 * 
+		 * @return list of acceptance tests
+		 */
+		public JList<AcceptanceTest> getListDisplay(){
+			return listDisplay;
+		}
+		
+		/**
+		 * Sets list display background color
+		 * 
+		 * @param c the color
+		 */
+		public void setListDisplayBackground(Color c) {
+			listDisplay.setBackground(c);
+		}
+		
+		/**
+		 * Sets text title background color
+		 * 
+		 * @param c the color
+		 */
+		public void setTxtTitleBackground(Color c) {
+			txtTitle.setBackground(c);
+		}
+		
+		/**
+		 * Sets text body background color
+		 * 
+		 * @param c the color
+		 */
+		public void setTxtBodyBackground(Color c) {
+			txtBody.setBackground(c);
+		}
+		
+		/**
+		 * Sets cmb status background color
+		 * 
+		 * @param c the color
+		 */
+		public void setCmbStatusBackground(Color c) {
+			cmbStatus.setBackground(c);
+		}
+ 
+		/**
+		 * Refreshes the background
+		 */
+		public void refreshBackgrounds() {
+			this.parent.getReqModel().updateBackgrounds();
+		}
+		/**
+		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+		 */
+		@Override
+		public void focusGained(FocusEvent e) {
+			this.refreshBackgrounds();
+		}
+
+
+		/**
+		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+		 */
+		@Override
+		public void focusLost(FocusEvent e) {
+			this.refreshBackgrounds();
+		}
 }

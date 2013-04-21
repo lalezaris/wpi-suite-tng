@@ -144,7 +144,7 @@ public class HistoricalChange extends AbstractModel{
 
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n to \n\"" + newR.getDescription() + ".\"</p>";
+			change +="<p> "+ "Description changed from: \"" + oldR.getDescription() + "\" to \"" + newR.getDescription() + ".\"</p>";
 		}
 
 		//compare Statuses

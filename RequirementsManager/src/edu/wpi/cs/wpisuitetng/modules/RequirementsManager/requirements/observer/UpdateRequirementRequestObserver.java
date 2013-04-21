@@ -74,39 +74,6 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 					@Override
 					public void run() {
 						//Nothing needs to be done on update
-
-						Requirement unchangedModel = view.getReqModel().getUneditedRequirement();
-						Requirement changedModel = ((RequirementPanel) view.getRequirementPanel()).getEditedModel();
-
-						/* Great! the requirement was updated! 
-						 * Now we check if the iterationID was changed.
-						 * 
-						 * If so, update all children
-						 */
-						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
-							//BatchRequirementEditController<Integer> batchController = 
-							//		new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
-							//change all children
-							//batchController.instantiateChange(unchangedModel.getChildRequirementIds());
-						}
-						//						
-						//						((RequirementPanel) view.getRequirementPanel()).updateModel(requirement);
-						//						view.setEditModeDescriptors(requirement);
-						/**if(unchangedModel.getEstimateEffort() != changedModel.getEstimateEffort()){
-							if(!changedModel.isTopLevelRequirement()&&view != null){
-								Requirement parent = view.getParentView().getReqModel().getRequirement();
-								int estimateEffort = parent.getEstimateEffort() - unchangedModel.getEstimateEffort() + changedModel.getEstimateEffort();
-								parent.setEstimateEffort(estimateEffort);
-								//now to save the parent to database
-								String JsonRequest = parent.toJSON();
-								final RequestObserver requestObserver = new UpdateRequirementRequestObserver(view);
-								Request request;
-								request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
-								request.setBody(JsonRequest);
-								request.addObserver(requestObserver);
-								request.send();
-							}
-						}*/
 					}
 				});
 			}

@@ -66,7 +66,7 @@ public class StatusListener implements ActionListener{
 
 		if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId() ){
 			parent.getRequirementPanel().getCmbIteration().setSelectedIndex(parent.getRequirementPanel().getCmbIteration().getItemCount()-1);
-			parent.getRequirementPanel().getCmbIteration().setEnabled(false);
+			//parent.getRequirementPanel().getCmbIteration().setEnabled(false);
 		} else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.DELETED)  && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId()){ 
 			for (int i = 0; i < parent.getRequirementPanel().getCmbIteration().getItemCount(); i++) {
 				if (parent.getReqModel().getRequirement().getIteration().toString().equals(parent.getRequirementPanel().getKnownIterations()[i].toString()) ){

@@ -84,14 +84,13 @@ public class UserPermissionPanel extends JPanel{
 		/*initialize all of the components to be displayed*/
 		noneUsersList = new DefaultListModel();
 		lstNoneUsers = new JList(noneUsersList);
-		lstNoneUsers.setFixedCellWidth(250);
+		lstNoneUsers.setFixedCellWidth(150);
 		updateUsersList = new DefaultListModel();
 		lstUpdateUsers = new JList(updateUsersList);
-		lstUpdateUsers.setFixedCellWidth(250);
+		lstUpdateUsers.setFixedCellWidth(150);
 		adminUsersList = new DefaultListModel();
 		lstAdminUsers = new JList(adminUsersList);
-		lstAdminUsers.setFixedCellWidth(250);
-
+		lstAdminUsers.setFixedCellWidth(150);
 
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton("Move to None");
@@ -165,7 +164,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblNoneUsers, cPanel);
 
 		JScrollPane noneScrollPane = new JScrollPane(lstNoneUsers);
-		noneScrollPane.setPreferredSize(new Dimension(300,600));
+		noneScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
 		cPanel.gridy = 2;
@@ -185,7 +184,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblUpdateUsers, cPanel);
 
 		JScrollPane updateScrollPane = new JScrollPane(lstUpdateUsers);
-		updateScrollPane.setPreferredSize(new Dimension(300,600));
+		updateScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 1;
 		cPanel.gridy = 2;
@@ -205,7 +204,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblAdminUsers, cPanel);
 
 		JScrollPane adminScrollPane = new JScrollPane(lstAdminUsers);
-		adminScrollPane.setPreferredSize(new Dimension(300,600));
+		adminScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 2;
 		cPanel.gridy = 2;

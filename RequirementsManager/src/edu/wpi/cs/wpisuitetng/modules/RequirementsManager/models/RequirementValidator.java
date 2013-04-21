@@ -79,12 +79,15 @@ public class RequirementValidator {
 				if(requirement.getEstimateEffort() == 0){
 					issues.add(new ValidationIssue("Cannot be 0 while assigned to a iteration", "Estimate"));
 				}
-				if(requirement.getStatus().equals(RequirementStatus.NEW) && requirement.getStatus().equals(RequirementStatus.OPEN)){
+				if(requirement.getStatus().equals(RequirementStatus.NEW) || requirement.getStatus().equals(RequirementStatus.OPEN)){
 					issues.add(new ValidationIssue("Cannot be NEW or OPEN when assigned to a iteration", "Status"));
 				}
 			}
 		}
-
+		
+		if(requirement.getEstimateEffort() < 0){
+			issues.add(new ValidationIssue("Invalid estimate", "Estimate"));
+		}
 		return issues;
 	}
 

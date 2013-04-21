@@ -32,6 +32,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
 
 /**
  * Model for the Requirement Table.
@@ -43,10 +45,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 @SuppressWarnings("serial")
 
 public class RequirementTableModel extends AbstractTableModel {
-	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
+	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent ID"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
 	protected boolean isChange = false;
+	protected RequirementListPanel panel;
 
 	private static final boolean DEBUG = false;
 
@@ -57,7 +60,9 @@ public class RequirementTableModel extends AbstractTableModel {
 	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
-
+	public RequirementTableModel(RequirementListPanel panel) {
+		this.panel = panel;
+	}
 	/**
 	 * Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
@@ -249,8 +254,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (!checkInput(value, temp, title)) {
 			return;
 		}
-
-		if (title.equals("ID")) {
+		
+		if (title.equals("Parent ID")) {
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
@@ -274,6 +279,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
 		isChange = true;
+		panel.hideUpdateSuccessfully();
 
 		if (DEBUG) {
 			printDebugData();
@@ -292,8 +298,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		JFrame frame = new JFrame();
 		int IDNumber;
 		int estimate;
-
-		if (title.equals("ID")) {
+		
+		if (title.equals("Parent ID")) {
 			try {
 				IDNumber = Integer.parseInt((String)value);
 			} catch (NumberFormatException e) {

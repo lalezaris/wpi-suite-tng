@@ -26,6 +26,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,6 +76,7 @@ public class RequirementListPanel extends JPanel{
 	private FilterController filterController;
 	/*TODO eventually, refactor this out into a model*/
 	private Requirement[] content, filteredContent;
+	private JLabel updateLabel;
 
 
 	/**
@@ -87,22 +89,23 @@ public class RequirementListPanel extends JPanel{
 		this.tabController = tabController;
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
-		model = new RequirementTableModel();
+		model = new RequirementTableModel(this);
 		table = new JTable(model);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
 		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(retrieveController));	
+		refreshButton.setAction(new RefreshAction(retrieveController));
 		updateButton = new JButton("Update");
 		updateController = new UpdateAllRequirementsController(this);
-		updateButton.setAction(new UpdateAllRequirementAction(updateController));	
+		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
+		updateLabel = new JLabel();
 
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
-		panel.setLayout(layout);	
+		panel.setLayout(layout);
 
 		filterController = new FilterController(this);
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -119,6 +122,7 @@ public class RequirementListPanel extends JPanel{
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(updateButton);
+		buttonPanel.add(updateLabel);
 
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.NONE;
@@ -176,6 +180,9 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
+		
+		System.out.println("GOT TO END OF REQLISTPANEL");
+		
 		setUpStatusColumn();
 		setUpPriorityColumn();
 	}
@@ -273,6 +280,20 @@ public class RequirementListPanel extends JPanel{
 
 		table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
 	}
+	
+	/**
+	 * If the requirements have been updated, show message to user.
+	 */
+	public void showUpdateSuccessfully() {
+		updateLabel.setText("Update Succesffully");
+	}
+	
+	/**
+	 * Hide the message of update successfully.
+	 */
+	public void hideUpdateSuccessfully() {
+		updateLabel.setText(null);
+	}
 
 	/**
 	 * Gets table.
@@ -343,5 +364,10 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public FilterController getFilterController() {
 		return filterController;
+	}
+
+	public void setUpFilter() {
+		filterController.sendServerRequests();
+		
 	}
 }

@@ -87,6 +87,10 @@ public class RequirementValidator {
 			}
 		}
 		
+		if(requirement.getEstimateEffort() < 0){
+			issues.add(new ValidationIssue("Invalid estimate", "Estimate"));
+		}
+		
 		return issues;
 	}
 	

@@ -7,7 +7,9 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Chris Hanna Tyler Stone
+ * Contributors: 
+ * Chris Hanna 
+ * Tyler Stone
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
@@ -70,11 +72,8 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent
+	/** 
+	 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent
 	 * (javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int,
 	 * boolean)
 	 */
@@ -134,6 +133,13 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 		return comp;
 	}
 
+	/**
+	 * Gets image resource
+	 * 
+	 * @param jarFile the jarfile for the image
+	 * @param name the name of the image
+	 * @return the image resource
+	 */
 	private byte[] getImageResource(JarFile jarFile, String name) {
 		InputStream inStream = null;
 		byte[] retVal = null;
@@ -149,7 +155,6 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 				try {
 					inStream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.S
 @SuppressWarnings("serial")
 public class SaveChangesAction extends AbstractAction {
 	private final SaveIterationController controller;
-	
+
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
@@ -42,7 +42,7 @@ public class SaveChangesAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-	
+
 	/**
 	 * Call the controller to save the action.
 	 * 

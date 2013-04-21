@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
-**************************************************/
+ *  Tyler Stone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 import javax.swing.JOptionPane;
@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * Observer for retrieving a parent requirement from the server
  *
- * @author Tyler
+ * @author Tyler Stone
  *
  * @version Apr 16, 2013
  *
@@ -45,7 +45,7 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -66,6 +66,9 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 			// make sure the Requirement isn't null
 			if (requirements[0] != null) {
 				SwingUtilities.invokeLater(new Runnable() {
+					/**
+					 * @see java.lang.Runnable#run()
+					 */
 					@Override
 					public void run() {
 						view.setParentRequirement(requirements[0]);
@@ -87,7 +90,7 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -98,7 +101,7 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -113,6 +116,9 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 	 */
 	private void always() {
 		SwingUtilities.invokeLater(new Runnable() {
+			/**
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				view.setInputEnabled(true);

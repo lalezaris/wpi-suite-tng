@@ -31,56 +31,55 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  *
  */
 public class RetrieveAllIterationsRequestObserver implements RequestObserver{
-    RetrieveAllIterationsController r;
-    public RetrieveAllIterationsRequestObserver(RetrieveAllIterationsController r){
-	this.r = r;
-    }
-    
-    /**
-     * Respond to retrieving all iterations.
-     * 
-     * @param iReq The IRequest to respond to
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
-    @Override
+	RetrieveAllIterationsController r;
+	public RetrieveAllIterationsRequestObserver(RetrieveAllIterationsController r){
+		this.r = r;
+	}
+
+	/**
+	 * Respond to retrieving all iterations.
+	 * 
+	 * @param iReq The IRequest to respond to
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	@Override
 	public void responseSuccess(IRequest iReq) {
-    	// cast observable to request
+		// cast observable to request
 		Request request = (Request) iReq;
-		
+
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
-		    // parse the response
-		    Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
-		    for(int i = 0; i < Iterations.length; i++){
-		    	System.out.println("Iteration id:" + Iterations[i].getId());
-		    }
-		    // notify the controller
-		    r.receivedData(Iterations);
+			// parse the response
+			Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
+			for(int i = 0; i < Iterations.length; i++){
+			}
+			// notify the controller
+			r.receivedData(Iterations);
 		}else {
-		    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}
-    }
-    
-    /** 
-     * Response with an error if there is a problem retrieving all iterations.
-     * 
-     * @param iReq the IRequest to respond to
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-     */
-    @Override
+	}
+
+	/** 
+	 * Response with an error if there is a problem retrieving all iterations.
+	 * 
+	 * @param iReq the IRequest to respond to
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	@Override
 	public void responseError(IRequest iReq) {
-	System.out.print("Response Error");
-    }
-    
-    /**
-     * Required by the RequestObserver but currently does not do anything at this time.
-     * 
-     * @param iReq The IRequest to respond to
-     * @parm exception The Exception that is causing the failure
-     * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-     */
-    @Override
+		System.out.print("Response Error");
+	}
+
+	/**
+	 * Required by the RequestObserver but currently does not do anything at this time.
+	 * 
+	 * @param iReq The IRequest to respond to
+	 * @parm exception The Exception that is causing the failure
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
+	@Override
 	public void fail(IRequest iReq, Exception exception) {
-    }
+	}
 }

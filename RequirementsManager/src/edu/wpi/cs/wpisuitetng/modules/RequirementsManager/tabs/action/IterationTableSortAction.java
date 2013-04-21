@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  "Michael Perrone"
-**************************************************/
+ *  Michael Perrone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 
 
@@ -19,9 +19,9 @@ import java.awt.event.MouseEvent;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.IterationTableSortController;
 
 /**
- * Insert Description Here
+ * Action to sort the iteration table
  *
- * @author "Michael Perrone"
+ * @author Michael Perrone
  *
  * @version Apr 16, 2013
  *
@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.Iterat
 public class IterationTableSortAction extends MouseAdapter {
 
 	private IterationTableSortController itsController;
-	
+
 	/**
 	 * Instantiates a new iteration table sort action.
 	 *
@@ -39,7 +39,7 @@ public class IterationTableSortAction extends MouseAdapter {
 		this.itsController = itsController;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override

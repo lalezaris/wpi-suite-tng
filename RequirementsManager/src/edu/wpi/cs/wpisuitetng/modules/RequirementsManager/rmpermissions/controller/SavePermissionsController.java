@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chirs Hanna
-**************************************************/
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
@@ -31,7 +31,7 @@ public class SavePermissionsController {
 	/** The view object containing the request fields */
 
 	private UserPermissionPanel panel;
-	
+
 	/**
 	 * Construct a new handler for the given view
 	 * @param panel the user permissions panel for the save permissions controller
@@ -48,17 +48,15 @@ public class SavePermissionsController {
 	 */
 	public void save(UserPermission permission, PermissionSaveMode mode) {
 		Request request;
-		
+
 		if (mode == PermissionSaveMode.NEW)
 			request = Network.getInstance().makeRequest("requirementsmanager/permissions", HttpMethod.PUT);
 		else request = Network.getInstance().makeRequest("requirementsmanager/permissions", HttpMethod.POST);
-			String JsonRequest = permission.toJSON();
-			request.setBody(JsonRequest);
-			
-			
-			request.addObserver(new UpdatePermissionObserver(panel));
-			request.send();
-			//close tab
-		
+		String JsonRequest = permission.toJSON();
+		request.setBody(JsonRequest);
+
+
+		request.addObserver(new UpdatePermissionObserver(panel));
+		request.send();		
 	} 
 }

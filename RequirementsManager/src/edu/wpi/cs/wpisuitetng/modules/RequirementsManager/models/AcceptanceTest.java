@@ -9,7 +9,7 @@
  *
  * Contributors:
  * Michael French
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -29,7 +29,7 @@ public class AcceptanceTest extends AbstractModel{
 	private String title;
 	private String body;
 	private String status;
-	
+
 	/**
 	 * Instantiates a new acceptance test.
 	 *
@@ -41,7 +41,7 @@ public class AcceptanceTest extends AbstractModel{
 		this.body = body;
 		this.status = "Blank";
 	}
-	
+
 	/**
 	 * Instantiates a new acceptance test.
 	 */
@@ -50,7 +50,7 @@ public class AcceptanceTest extends AbstractModel{
 		this.body = "";
 		this.status = "Blank";
 	}
-	
+
 	/**
 	 * Gets the title.
 	 *
@@ -59,7 +59,7 @@ public class AcceptanceTest extends AbstractModel{
 	public String getTitle(){
 		return this.title;
 	}
-	
+
 	/**
 	 * Sets the title.
 	 *
@@ -68,7 +68,7 @@ public class AcceptanceTest extends AbstractModel{
 	public void setTitle(String t){
 		this.title = t;
 	}
-	
+
 	/**
 	 * Gets the body.
 	 *
@@ -77,7 +77,7 @@ public class AcceptanceTest extends AbstractModel{
 	public String getBody(){
 		return  this.body;
 	}
-	
+
 	/**
 	 * Sets the body.
 	 *
@@ -86,7 +86,7 @@ public class AcceptanceTest extends AbstractModel{
 	public void setBody(String b){
 		this.body = b;
 	}
-	
+
 	/**
 	 * Gets the status.
 	 *
@@ -97,11 +97,10 @@ public class AcceptanceTest extends AbstractModel{
 			return this.status;
 		}else{
 			this.status = "Blank";
-			System.out.println("Status was invalid, Corrected to \"Blank\"" );
 			return this.status;
 		}
 	}
-	
+
 	/**
 	 * Sets the status.
 	 *
@@ -110,32 +109,24 @@ public class AcceptanceTest extends AbstractModel{
 	public void setStatus(String s){
 		if (s.compareTo("Blank") == 0 || s.compareTo("Passed") == 0 || s.compareTo("Failed") == 0){
 			this.status = s;
-		}else{
-			System.out.println("Invalid Status: " + s);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
+	public void save() {		
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	public void delete() {		
 	}
 
-	
-	//NOTE: toJSON and fromJSON are copy-pasta'd from Requirement
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
@@ -147,7 +138,7 @@ public class AcceptanceTest extends AbstractModel{
 
 		return json;
 	}
-	
+
 	/**
 	 * Convert a json String into an AcceptanceTest.
 	 *
@@ -159,25 +150,24 @@ public class AcceptanceTest extends AbstractModel{
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, AcceptanceTest.class);
 	}
-	
+
 	/**
 	 * Add dependencies necessary for Gson to interact with this class.
 	 *
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	public String toString(){
 		if (this.status.compareTo("Blank") == 0){
 			return " >" + this.getTitle();

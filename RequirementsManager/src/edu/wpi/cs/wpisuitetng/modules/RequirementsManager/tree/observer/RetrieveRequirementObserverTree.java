@@ -32,7 +32,8 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 	public RetrieveRequirementObserverTree(RetrieveRequirementControllerTree<T> controller){
 		this.controller = controller;
 	}
-	/** Response to a request 
+	/** 
+	 * Response to a request 
 	 * @param iReq IRequest to respond to 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -51,9 +52,7 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 		}
 
 		// parse the defect received from the core
-		//Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
 		String body = response.getBody();
-		//if (requirements.length > 0 && requirements[0] != null) {
 		if ( body != null) {
 			controller.recieveData(body);
 		}
@@ -62,7 +61,8 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 		}
 	}
 
-	/** Responds to an error
+	/** 
+	 * Responds to an error
 	 * @param iReq IRequest to respond with an error to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -71,7 +71,8 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 		controller.errorRetrievingRequirement("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
-	/** Responds to a failure
+	/** 
+	 * Responds to a failure
 	 * @param iReq IRequest to respond to a failure
 	 * @param exception exception causing the failure
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)

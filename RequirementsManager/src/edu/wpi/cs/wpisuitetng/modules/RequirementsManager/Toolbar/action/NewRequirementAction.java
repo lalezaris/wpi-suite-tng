@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
- * @author Arica liu
+ * @author Arica Liu
  * 
  * @version March 18, 2013
  */
@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class NewRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
-	
+
 	/**
 	 * Create a NewRequirementAction.
 	 * 
@@ -45,8 +45,8 @@ public class NewRequirementAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
-	
-	/* 
+
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

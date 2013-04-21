@@ -157,10 +157,11 @@ public class TreeView extends JPanel {
 							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
 								private boolean isRequirement = true;
 
+								/**
+								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#runWhenRecieved(java.lang.String)
+								 */
 								@Override
 								public void runWhenRecieved(String s){
-									//public void runWhenRecieved(Requirement r) {
-
 									Requirement r = Requirement.fromJSONArray(s)[0];
 									if (this.isRequirement) {
 										r.setIteration(Iteration
@@ -171,6 +172,9 @@ public class TreeView extends JPanel {
 									}
 								}
 
+								/**
+								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#getID()
+								 */
 								@Override
 								public String getID() {
 									TreePath path = tree.getSelectionPath();
@@ -202,16 +206,14 @@ public class TreeView extends JPanel {
 							null,"iterationsmanager/iteration/", new IRetrieveRequirementController<Iteration>() {
 								private boolean isIteration = true;
 
-								/* (non-Javadoc)
+								/**
 								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#runWhenRecieved(java.lang.String)
 								 */
 								@Override
 								public void runWhenRecieved(String s){
-									//public void runWhenRecieved(Requirement r) {
 
 									Iteration iteration = Iteration.fromJSONArray(s)[0];
 									if (this.isIteration) {
-										//					r.setId(Iteration.getIterationById(r.getId()));
 										MainTabController.getController().addEditIterationTab(iteration);
 									}
 								}
@@ -240,7 +242,7 @@ public class TreeView extends JPanel {
 		tree.addMouseListener(requirementml);
 		tree.addMouseListener(iterationml);
 	}
-	
+
 	/**
 	 * Gets the single instance of Refresher.
 	 *

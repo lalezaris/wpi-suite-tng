@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
@@ -27,9 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  *
  */
 public class ChartTypeListener implements ActionListener{
-	
+
 	protected BarPieChartView view;
-	
+
 	/**
 	 * Instantiates a new chart type listener.
 	 *
@@ -46,14 +46,12 @@ public class ChartTypeListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();
-		
+
 		if(cb.getSelectedItem() == TypeOfChart.Bar){
-			System.out.println("Selected Bar Chart.");
 			view.setChartType(TypeOfChart.Bar);
 			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == TypeOfChart.Pie){
-			System.out.println("Selected Pie Chart.");
 			view.setChartType(TypeOfChart.Pie);
 			view.repaintChart();
 		}

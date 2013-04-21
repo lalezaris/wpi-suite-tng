@@ -115,8 +115,8 @@ public class IterationPanel extends JPanel {
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-	
-	
+
+
 	protected JTable table;
 	protected RequirementListPanel reqListPanel;
 	protected RequirementTableModel requirementTableModel;
@@ -124,12 +124,10 @@ public class IterationPanel extends JPanel {
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
 	 *
-	 * @param parent The parent of the iteration
 	 * @param parent the iteration view for the iteration panel
 	 */
-	public IterationPanel(IterationView parent /*, Mode mode*/) {
+	public IterationPanel(IterationView parent) {
 		this.parent = parent;
-//		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -280,6 +278,9 @@ public class IterationPanel extends JPanel {
 
 		selectEndDate.addActionListener(new ActionListener()
 		{
+			/**
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			public void actionPerformed(ActionEvent ae)
 			{
 				DatePicker dp = new DatePicker(f);
@@ -354,7 +355,7 @@ public class IterationPanel extends JPanel {
 		left.add(panelOverall);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(left);
-		
+
 
 		JPanel right = new JPanel();
 		if(this.getParent().getMode() == Mode.EDIT){
@@ -377,7 +378,7 @@ public class IterationPanel extends JPanel {
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 
-	
+
 	/**
 	 * Return the parent IterationView.
 	 * 
@@ -406,7 +407,7 @@ public class IterationPanel extends JPanel {
 	public Mode getEditMode() {
 		return editMode;
 	}
-	
+
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.
@@ -475,6 +476,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the save iteration button
+	 * 
 	 * @return the btnSaveIteration
 	 */
 	public JButton getBtnSaveIteration() {
@@ -482,6 +485,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the cancel iteration button
+	 * 
 	 * @return the btnCancelIteration
 	 */
 	public JButton getBtnCancelIteration() {
@@ -489,6 +494,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text iteration name
+	 * 
 	 * @return the txtIterationName
 	 */
 	public JTextField getTxtIterationName() {
@@ -496,6 +503,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text start date
+	 * 
 	 * @return the txtStartDate
 	 */
 	public JLabel getTxtStartDate() {
@@ -503,6 +512,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text end date
+	 * 
 	 * @return the txtEndDate
 	 */
 	public JLabel getTxtEndDate() {
@@ -510,6 +521,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the iteration name error
+	 * 
 	 * @return the lblIterationNameError
 	 */
 	public JLabel getLblIterationNameError() {
@@ -517,6 +530,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the start date error
+	 * 
 	 * @return the lblStartDateError
 	 */
 	public JLabel getLblStartDateError() {
@@ -524,6 +539,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the end date error
+	 * 
 	 * @return the lblEndDateError
 	 */
 	public JLabel getLblEndDateError() {
@@ -531,6 +548,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the date error
+	 * 
 	 * @return the lblDateError
 	 */
 	public JLabel getLblDateError() {
@@ -538,6 +557,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the iteration name exists error
+	 * 
 	 * @return the lblIterationNameExistsError
 	 */
 	public JLabel getLblIterationNameExistsError() {
@@ -545,6 +566,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the date overlap error
+	 * 
 	 * @return the lblDateOverlapError
 	 */
 	public JLabel getLblDateOverlapError() {
@@ -552,6 +575,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Sets the edit mode
+	 * 
 	 * @param editMode the editMode to set
 	 */
 	public void setEditMode(Mode editMode) {
@@ -559,6 +584,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the panel layout
+	 * 
 	 * @return the layout
 	 */
 	public GridBagLayout getPanelLayout() {
@@ -566,7 +593,6 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Receives the requirements from the server and adds the correct ones to the requirement panel
 	 * 
 	 * @param reqs the requirements the server received
@@ -583,5 +609,5 @@ public class IterationPanel extends JPanel {
 		reqListPanel.repaint();
 		reqListPanel.revalidate();
 	}
-	
+
 }

@@ -13,7 +13,7 @@
  *  Joe Spicola
  *  Tyler Stone
  *  Arica Liu
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager;
 
 import java.util.ArrayList;
@@ -44,39 +44,38 @@ public class RequirementsManager implements IJanewayModule {
 	private List<JanewayTabModel> tabs;
 	public final MainTabController tabController;
 	public ToolbarPanel toolbarPanel;
-	
+
 	/**
 	 * Constructor for RequirementsManager.
 	 * 
 	 */
-	@SuppressWarnings("unused")
+	//@SuppressWarnings("unused")
 	public RequirementsManager() {
 		tabs = new ArrayList<JanewayTabModel>();
-		
+
 		MainTabView mainTabView = new MainTabView();
 		tabController = new MainTabController(mainTabView);
-		TreeView treeView = new TreeView();
-		
+		new TreeView();
+
 		mainTabView.createTableModel(tabController);
 		mainTabView.createIterationTableModel(tabController);
-		System.out.println("TableModel = " + (mainTabView.getTableModel()!=null));
-		
+
 		//new main panel
 		MainView mainView = new MainView(mainTabView);
-		
+
 		mainView.makeRefresher();
-		
+
 		//new toolbar panel
 		toolbarPanel = new ToolbarPanel(tabController);
-		ToolbarController toolbarController = new ToolbarController(toolbarPanel, tabController);
-	
+		new ToolbarController(toolbarPanel, tabController);
+
 		//create a tab model that contains toolbar and content panel
 		JanewayTabModel tab1 = new JanewayTabModel(getName(), new ImageIcon(), toolbarPanel, mainView);
-		
+
 		//add to the list of tabs
 		tabs.add(tab1);
 	}
-	
+
 	/** 
 	 * Returns the name of RequirementsManager.
 	 * 

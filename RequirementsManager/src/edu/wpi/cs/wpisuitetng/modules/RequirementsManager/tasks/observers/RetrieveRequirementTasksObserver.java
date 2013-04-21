@@ -32,29 +32,29 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveRequirementTasksObserver implements RequestObserver{
 	RetrieveRequirementsTasksController r;
-	
-    public RetrieveRequirementTasksObserver(RetrieveRequirementsTasksController r){
-    	this.r = r;
-    }
+
+	public RetrieveRequirementTasksObserver(RetrieveRequirementsTasksController r){
+		this.r = r;
+	}
 	@Override
 	public void responseSuccess(IRequest iReq) {
-    	// cast observable to request
+		// cast observable to request
 		Request request = (Request) iReq;
-		
+
 		// get the response from the request
 		ResponseModel response = request.getResponse();
 		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
-		    // parse the response
-		    Task[] Tasks = Task.fromJSONArray(response.getBody());
-		    for(int i = 0; i < Tasks.length; i++){
-		    	System.out.println("Iteration id:" + Tasks[i].getId());
-		    }
-		    // notify the controller
-		    r.received(Tasks);
+			// parse the response
+			Task[] Tasks = Task.fromJSONArray(response.getBody());
+			for(int i = 0; i < Tasks.length; i++){
+				System.out.println("Iteration id:" + Tasks[i].getId());
+			}
+			// notify the controller
+			r.received(Tasks);
 		}else {
-		    r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+			r.errorReceivingData("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 		}
-		
+
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class RetrieveRequirementTasksObserver implements RequestObserver{
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("hello good sir, I think there may be a failure with the response for your request to get tasks");
-		
+
 	}
 
 }

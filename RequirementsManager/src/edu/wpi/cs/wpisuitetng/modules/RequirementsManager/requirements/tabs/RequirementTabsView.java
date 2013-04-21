@@ -11,7 +11,7 @@
  *  Chris Dunkers
  *  Joe Spicola
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import javax.swing.BorderFactory;

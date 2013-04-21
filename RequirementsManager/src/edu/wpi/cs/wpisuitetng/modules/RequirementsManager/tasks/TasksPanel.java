@@ -29,11 +29,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatu
  *
  * @author Evan Polekoff
  */
+@SuppressWarnings("serial")
 public class TasksPanel extends JPanel{
-	
+
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
-	
+
 	//Stuff for entering fields.
 	private JTextField txtName;
 	private JTextField txtDescription;
@@ -42,20 +43,20 @@ public class TasksPanel extends JPanel{
 	private JComboBox<TaskStatus> cmbStatus;
 	TaskStatus[] taskStatusArray = {TaskStatus.BLANK, TaskStatus.INPROGRESS, TaskStatus.OPEN, TaskStatus.CLOSED, TaskStatus.ACCEPTED};
 	private JButton saveButton;
-	
+
 	//Panel for entry fields.
 	JPanel fieldPanel = new JPanel();
 
 	//Overall Panel
 	JPanel overallPanel = new JPanel();
-	
+
 	public TasksPanel(){
-		
+
 		addComponents();
 	}
-	
+
 	private void addComponents(){
-		
+
 		//Make fields
 		txtName = new JTextField("Name");
 		txtDescription = new JTextField("Description");
@@ -63,11 +64,11 @@ public class TasksPanel extends JPanel{
 		txtEffort = new JTextField("Effort");
 		cmbStatus = new JComboBox<TaskStatus>(taskStatusArray);
 		saveButton = new JButton("Save");
-		
+
 		//Gridbag stuff
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
-		
+
 		layout = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 
@@ -77,7 +78,7 @@ public class TasksPanel extends JPanel{
 
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
-		
+
 		//Place all of the fields!!!
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
@@ -88,7 +89,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtName, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -98,7 +99,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtDescription, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -108,7 +109,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtAssignee, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -118,7 +119,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtEffort, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -128,7 +129,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(cmbStatus, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -138,7 +139,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(saveButton, cFields);
-		
+
 		//Wrap them all in one overall panel.
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
@@ -148,14 +149,16 @@ public class TasksPanel extends JPanel{
 		cOverall.gridwidth = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(fieldPanel, cOverall);
- 
+
 		add(overallPanel,BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
 
-	/**The getter.
-	 * @return the button
+	/**
+	 * Gets the save button
+	 * 
+	 * @return the save button
 	 */
 	public JButton getSaveButton() {
 		return saveButton;

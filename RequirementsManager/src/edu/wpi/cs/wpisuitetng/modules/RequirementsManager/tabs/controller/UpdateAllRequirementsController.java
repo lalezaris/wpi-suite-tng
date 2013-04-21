@@ -43,7 +43,7 @@ public class UpdateAllRequirementsController {
 	protected RequirementListPanel panel;
 	protected RequirementValidator reqVal;
 	protected List<ValidationIssue> issues;
-	
+
 	/**
 	 * Instantiates a new update all requirements controller.
 	 *
@@ -52,19 +52,19 @@ public class UpdateAllRequirementsController {
 	public UpdateAllRequirementsController(RequirementListPanel panel){
 		this.panel = panel;
 	}
-	
+
 	/**
 	 * Update everything.
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
-		
+
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
 			issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
 			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}
-			
+
 			if (table.getRequirements().get(i) != null) {
 				saveRequirement(table.getRequirements().get(i));
 			}
@@ -73,14 +73,13 @@ public class UpdateAllRequirementsController {
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
 	}
-	
+
 	/**
 	 * Save requirement.
 	 *
 	 * @param r the requirement
 	 */
 	private void saveRequirement(Requirement r){
-		System.out.println(r.getId());
 		Request request = Network.getInstance().makeRequest(
 				"requirementsmanager/requirement/"
 						+ r.getId(), HttpMethod.POST);
@@ -90,7 +89,7 @@ public class UpdateAllRequirementsController {
 		request.send();
 		this.panel.getModel().setIsChange(false);
 	}
-	
+
 	/**
 	 * A function to printout all of the issues in a pop up message
 	 * 

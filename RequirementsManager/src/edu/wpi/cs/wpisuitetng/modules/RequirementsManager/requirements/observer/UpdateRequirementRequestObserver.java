@@ -84,7 +84,6 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 						 * If so, update all children
 						 */
 						if (unchangedModel.getIterationId() != changedModel.getIterationId()) {
-							System.out.println("Iteration was changed, edit subs now");
 							//BatchRequirementEditController<Integer> batchController = 
 							//		new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, changedModel.getIterationId());
 							//change all children
@@ -125,7 +124,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -136,7 +135,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -151,6 +150,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	 */
 	private void always() {
 		SwingUtilities.invokeLater(new Runnable() {
+			/**
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				view.setInputEnabled(true);

@@ -33,7 +33,8 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 		this.r = r;
 	}
 
-	/** Respond to the request
+	/** 
+	 * Respond to the request
 	 * @param iReq Request to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -44,7 +45,6 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
-		System.out.println("GOT RESPONSE");
 		if ((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)) {
 			// parse the response
 			Iteration[] Iterations = Iteration.fromJSONArray(response.getBody());
@@ -57,7 +57,8 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 		}
 	}
 
-	/** Responds when there is an error
+	/** 
+	 * Responds when there is an error
 	 * @param iReq IRequest that has an error to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -67,7 +68,8 @@ public class RetrieveAllIterationsRequestObserverTree implements RequestObserver
 
 	}
 
-	/** Responds where there is a failure
+	/** 
+	 * Responds where there is a failure
 	 * @param iReq IRequest to respond to the failure
 	 * @param exception exception causing the failure
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)

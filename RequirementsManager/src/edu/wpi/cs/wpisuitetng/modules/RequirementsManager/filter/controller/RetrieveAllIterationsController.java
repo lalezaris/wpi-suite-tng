@@ -9,10 +9,11 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.observer.RetrieveAllIterationsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -30,7 +31,6 @@ public class RetrieveAllIterationsController {
 
 	private FilterController controller;
 
-
 	/**
 	 * create a controller that requests a list of iterations
 	 * 
@@ -38,7 +38,7 @@ public class RetrieveAllIterationsController {
 	 */
 	public RetrieveAllIterationsController(FilterController controller) {
 		this.controller = controller;
-		
+
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class RetrieveAllIterationsController {
 		request.addObserver(new RetrieveAllIterationsObserver(this));
 		request.send();
 	}
-	
+
 	/**
 
 	 * Gets the response from the controller and sets the iterations.
@@ -61,5 +61,5 @@ public class RetrieveAllIterationsController {
 	public void response(Iteration[] iterations){
 		controller.setIterations(iterations);
 	}
-	
+
 }

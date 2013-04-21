@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class Refresher {
 	private static Refresher instance;
-	
+
 	/**
 	 * Gets the single instance of Refresher.
 	 *
@@ -50,15 +50,15 @@ public class Refresher {
 	public static Refresher getInstance(){
 		return instance;
 	}
-	
+
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
 	private IterationListPanel iterationTable;
 
-	
+
 	private RetrieveAllRequirementsController reqController;
 	private RetrieveAllIterationsController iterationController;
-	
+
 	private Iteration[] lastKnownIterations;
 	/**
 	 * Instantiates a new refresher.
@@ -75,10 +75,10 @@ public class Refresher {
 		this.iterationTable = iterationTable;
 		CurrentUserPermissions.updateCurrentUserPermissions();
 	}
-	
-	
+
+
 	private User[] lastKnownUsers = null;
-	
+
 	/**
 	 * Gets the objects.
 	 *
@@ -100,7 +100,6 @@ public class Refresher {
 	 * @return the users
 	 */
 	public User[] getUsers(RequestObserver observer){
-		System.out.println("GETTING USERS");
 		lastKnownUsers = null;
 		RetrieveRequirementControllerTree<User> c = new RetrieveRequirementControllerTree<User>(
 				observer, "core/user/", new IRetrieveRequirementController<User>(){
@@ -116,13 +115,13 @@ public class Refresher {
 					public String getID() {
 						return ""; //an ID of NOTHING will ask the controller for ALL of the objects
 					}
-					
+
 				});
 		c.retrieve();
 		return lastKnownUsers;
 	}
-	
-	
+
+
 	/**
 	 * Refresh all requirements depending on the given.
 	 *
@@ -133,7 +132,7 @@ public class Refresher {
 		this.reqController = new RetrieveAllRequirementsController(mode);
 		this.reqController.refreshData();
 	}
-	
+
 	/**
 	 * Refresh all iterations depending on the given.
 	 *
@@ -144,7 +143,7 @@ public class Refresher {
 		this.iterationController = new RetrieveAllIterationsController(view);
 		this.iterationController.refreshData();
 	}
-	
+
 	/**
 	 * Gets an array of all iterations.
 	 * 
@@ -153,7 +152,6 @@ public class Refresher {
 	public Iteration[] getInstantIterations() 
 	{
 		if (this.lastKnownIterations == null){
-			System.out.println("Server failed to retrieve iterations in time");
 			Iteration[] failedResponse = new Iteration[1];
 			failedResponse[0] = Iteration.getBacklog();
 			return failedResponse;
@@ -161,7 +159,7 @@ public class Refresher {
 		else
 			return this.lastKnownIterations;
 	}
-	
+
 	/**
 	 * Refresh requirements depending on the given mode.
 	 *
@@ -171,9 +169,9 @@ public class Refresher {
 	public void refreshRequirements(Requirement[] reqArray, RefresherMode mode)
 	{
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TABLE){
-			
+
 			table.addRequirements(reqArray);
-			
+
 		}
 		if (mode == RefresherMode.ALL || mode == RefresherMode.TREE)
 			tree.fillTree(reqArray);

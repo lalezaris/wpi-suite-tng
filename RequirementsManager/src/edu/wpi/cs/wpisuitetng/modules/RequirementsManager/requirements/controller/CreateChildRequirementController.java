@@ -11,7 +11,7 @@
  * Lauren Kahn
  * Tushar Narayan
  * Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -33,7 +33,7 @@ public class CreateChildRequirementController{
 
 	private Requirement childRequirement;
 	private RequirementView view;
-	
+
 	/**
 	 * Instantiates a CreateChildRequirementController.
 	 *
@@ -56,7 +56,7 @@ public class CreateChildRequirementController{
 		childRequirement.setParentRequirementId(view.getReqModel().getRequirement().getId());
 		showRequirement(childRequirement);
 	} 
-	
+
 	/**
 	 * Show requirement.
 	 *

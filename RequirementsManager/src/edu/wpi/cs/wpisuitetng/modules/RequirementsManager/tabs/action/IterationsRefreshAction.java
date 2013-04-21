@@ -12,8 +12,7 @@
  *  Mike Perrone
  *  Chris Hanna
  *  Lauren Kahn
- *  
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 
 import java.awt.event.ActionEvent;
@@ -36,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.R
 public class IterationsRefreshAction extends AbstractAction {
 
 	private final RetrieveAllIterationsController controller;
-	
+
 	/**
 	 * Instantiates a new iterations refresh action.
 	 *
@@ -47,8 +46,8 @@ public class IterationsRefreshAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-	
-	/* Action performed by controller to refresh data
+
+	/** Action performed by controller to refresh data
 	 * @param e ActionEvent to perform refresh of data
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */

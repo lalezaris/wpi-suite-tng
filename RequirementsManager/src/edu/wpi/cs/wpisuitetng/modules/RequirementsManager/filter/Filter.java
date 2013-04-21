@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTarge
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 /**
- * The basic filter class that may be applied to different objects 'n things.
+ * The basic filter class that may be applied to different objects and things.
  *
  * @author Chris Hanna
  *
@@ -30,37 +30,45 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 public class Filter{
 	
 	private final List<Rule> rules;
-	
+
+	/**
+	 * Constructor for filter
+	 * 
+	 */
 	public Filter(){
 		rules = new ArrayList<Rule>();
 	}
-	
+
 	/**
 	 * Add a filter rule
 	 * 
-	 * @param rule
+	 * @param rule the rule to add
 	 */
 	public void addRule(Rule rule){
 		rules.add(rule);
 	}
-	
+
 	/**
 	 * Return all the rules
 	 * 
-	 * @return
+	 * @return the array list of rules
 	 */
 	public List<Rule> getRules(){
 		return rules;
 	}
-	
+
+	/**
+	 * Removes all rules
+	 * 
+	 */
 	public void removeAllRules(){
 		rules.clear();
 	}
-	
+
 	/**
-	 * filter a list of objects based on the filters within this Filter
+	 * Filter a list of objects based on the filters within this Filter
 	 * 
-	 * @param in
+	 * @param in the requirements to filter
 	 * @return the objects that passed all the tests
 	 * @throws RuleTargetException 
 	 */
@@ -68,7 +76,7 @@ public class Filter{
 		List<Requirement> out = new ArrayList<Requirement>();
 		if (in!=null){
 			for (int i = 0 ; i < in.length ; i ++){
-				
+
 				boolean alreadyTakenCareOf = false;
 				int filterPassCount = 0;
 				for (int r = 0 ; r < rules.size();r++){
@@ -77,7 +85,6 @@ public class Filter{
 						if (rules.get(r).isAnd()){
 							//AN AND FAILED. NO MATTER WHAT, DO NOT ADD OUT
 							alreadyTakenCareOf = true;
-							System.out.println("AND complete" + r);
 							break;
 						}
 					} else{
@@ -85,7 +92,6 @@ public class Filter{
 						if (!rules.get(r).isAnd()){
 							//AN OR PASSED. NO MATTER WHAT, ADD TO OUT
 							alreadyTakenCareOf = true;
-							System.out.println("OR complete" + r);
 							out.add(in[i]);
 							break;
 						}
@@ -96,7 +102,7 @@ public class Filter{
 						out.add(in[i]);
 					}
 				}
-				
+
 			}
 		}
 		Requirement[] outArray = new Requirement[out.size()];
@@ -104,5 +110,5 @@ public class Filter{
 			outArray[i] = out.get(i);
 		return outArray;
 	}
-	
+
 }

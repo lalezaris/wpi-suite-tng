@@ -31,7 +31,7 @@ public class RequirementObserver implements RequestObserver{
 
 	/** The view. */
 	BarPieChartView view;
-	
+
 	/**
 	 * This method is called when information about an Requirement
 	 * which was previously requested using an asynchronous
@@ -42,7 +42,7 @@ public class RequirementObserver implements RequestObserver{
 	public RequirementObserver(BarPieChartView view){
 		this.view = view;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -50,29 +50,24 @@ public class RequirementObserver implements RequestObserver{
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		Requirement[] reqs = builder.create().fromJson(response.getBody(), Requirement[].class);
-		//this.panel.setAllusers(users);
 		view.receiveServerRequirements(reqs);
-		
+
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
-		
+	public void responseError(IRequest iReq) {		
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
-	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
-		
+	public void fail(IRequest iReq, Exception exception) {		
 	}
 }

@@ -33,7 +33,7 @@ public class IterationObserver implements RequestObserver{
 
 	/** The view. */
 	BarPieChartView view;
-	
+
 	/**
 	 * This method is called when information about an Iteration
 	 * which was previously requested using an asynchronous
@@ -44,7 +44,7 @@ public class IterationObserver implements RequestObserver{
 	public IterationObserver(BarPieChartView view){
 		this.view = view;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -52,10 +52,9 @@ public class IterationObserver implements RequestObserver{
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
-		//this.panel.setAllusers(users);
 		view.receiveServerIterations(iterations);
 	}
 
@@ -64,16 +63,12 @@ public class IterationObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
-		System.out.println("EEEEEEEEEERRRRRRRRRRRROOOOOOOOOOOORRRRRRRRRRR!");
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
-	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
-		
+	public void fail(IRequest iReq, Exception exception) {		
 	}
 }

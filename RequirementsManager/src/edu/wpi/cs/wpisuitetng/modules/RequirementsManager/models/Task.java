@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatu
  *
  */
 public class Task extends AbstractModel{
-	
+
 	int id;
 	String name;
 	String description;
@@ -38,7 +38,7 @@ public class Task extends AbstractModel{
 	int effort;
 	TaskStatus status;
 	int requirementID;
-	
+
 	//make a dummy task for db4o
 	public Task(){}
 	public Task(String name, String description, String assigneeName, int effort, int requirementID){
@@ -49,20 +49,25 @@ public class Task extends AbstractModel{
 		this.requirementID = requirementID;
 		this.status = TaskStatus.BLANK;
 	}
-	
-	
+
+
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-		
+	public void save() {		
 	}
 
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-		
+	public void delete() {		
 	}
 
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		String json;
@@ -71,9 +76,11 @@ public class Task extends AbstractModel{
 		return json;
 	}
 
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -91,10 +98,20 @@ public class Task extends AbstractModel{
 	}	
 
 
+	/**
+	 * Sets the id
+	 * 
+	 * @param i the id
+	 */
 	public void setId(int i) {
 		this.id = i;
-		
+
 	}
+	/**
+	 * Gets the id
+	 * 
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
@@ -105,6 +122,12 @@ public class Task extends AbstractModel{
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
 	}
+	/**
+	 * Returns tasks from json array
+	 * 
+	 * @param json the json to get the task array from
+	 * @return the task array
+	 */
 	public static Task[] fromJSONArray(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);

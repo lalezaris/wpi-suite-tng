@@ -28,10 +28,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @author Evan Polekoff
  */
 public class UserObserver implements RequestObserver{
-	
+
 	/** The view. */
 	BarPieChartView view;
-	
+
 	/**
 	 * This method is called when information about an User
 	 * which was previously requested using an asynchronous
@@ -43,7 +43,7 @@ public class UserObserver implements RequestObserver{
 		this.view = view;
 
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -51,12 +51,10 @@ public class UserObserver implements RequestObserver{
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		//this.panel.setAllusers(users);
 		view.receiveServerUsers(users);
-		//CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +62,6 @@ public class UserObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -73,7 +69,5 @@ public class UserObserver implements RequestObserver{
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
-
 	}
 }

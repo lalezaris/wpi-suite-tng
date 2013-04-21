@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  "Michael Perrone"
-**************************************************/
+ *  Michael Perrone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action;
 
 
@@ -18,17 +18,16 @@ import java.awt.event.MouseEvent;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
 
-// TODO: Auto-generated Javadoc
 /**
- * Insert Description Here.
+ * Action to sort requirements table
  *
- * @author "Michael Perrone"
+ * @author Michael Perrone
  * @version Apr 14, 2013
  */
 public class RequirementTableSortAction extends MouseAdapter {
 
 	private RequirementTableSortController rtsController;
-	
+
 	/**
 	 * Instantiates a new requirement table sort action.
 	 *
@@ -38,7 +37,7 @@ public class RequirementTableSortAction extends MouseAdapter {
 		this.rtsController = rtsController;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override

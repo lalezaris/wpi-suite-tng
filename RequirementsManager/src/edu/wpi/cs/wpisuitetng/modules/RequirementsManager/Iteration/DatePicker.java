@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 /**
  * Used in IterationPanel as a date selector component.
  * 
- * @author tnarayan
+ * @author Tushar Narayan
  *
  * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */
@@ -40,7 +40,7 @@ public class DatePicker {
 	String day = "";
 	JDialog d;
 	JButton[] button = new JButton[49];
-	
+
 	/**
 	 * Construct a new DatePicker object
 	 * 

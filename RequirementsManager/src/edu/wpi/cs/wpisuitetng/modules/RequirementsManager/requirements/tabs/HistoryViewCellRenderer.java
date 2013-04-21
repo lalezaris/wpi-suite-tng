@@ -11,7 +11,7 @@
  *  Sam Lalezari
  *  
  *  Code Used From: http://stackoverflow.com/questions/8197167/word-wrap-in-jlist-items
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Component;
@@ -33,18 +33,18 @@ public class HistoryViewCellRenderer extends DefaultListCellRenderer {
 	public static final String HTML_2 = "px'>";
 	public static final String HTML_3 = "</html>";
 	private int width;	
-	
+
 	/**
 	 * Constructor for HistoryViewCellRenderer.
 	 * 
 	 * @param w the width
 	 */
 	public HistoryViewCellRenderer(int w){
-		
+
 		this.width = w;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
 	 */
 	@Override

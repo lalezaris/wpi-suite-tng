@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
 /**
  * Controller for the iteration action.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Mar 27, 2013
  *

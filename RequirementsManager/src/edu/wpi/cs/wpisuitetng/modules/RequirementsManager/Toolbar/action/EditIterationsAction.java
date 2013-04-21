@@ -44,7 +44,7 @@ public class EditIterationsAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
 
-	/* 
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {

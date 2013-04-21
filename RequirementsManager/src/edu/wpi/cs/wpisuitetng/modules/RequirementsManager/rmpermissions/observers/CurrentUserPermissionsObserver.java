@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import java.util.ArrayList;
@@ -36,15 +36,15 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 	private ArrayList<User> projectUsers;
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		
+
 		projectUsers = new ArrayList<User>();
-		
+
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		
+
 		//Figure out which coreUser's name matches the known current user's name.
 		User user = null;
 		for (int i = 0 ; i < users.length ; i ++){
@@ -66,19 +66,19 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 			projUserArray[i] = projectUsers.get(i);
 		//TODO FIX ABOVE CODE - GETPROJECT RETURNS NULL
 		CurrentUserPermissions.setUsers(user, users);
-		
+
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Failed to retrieve current user permissions3");
-		
+
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Failed to retrieve current user permissions4");
-		
+
 	}
 
 }

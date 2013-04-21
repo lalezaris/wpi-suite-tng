@@ -10,7 +10,7 @@
  * Contributors:
  *  Lauren Kahn
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 import java.awt.event.ActionEvent;
 
@@ -28,9 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  */
 @SuppressWarnings("serial")
 public class CreateChildRequirementAction extends AbstractAction{
-	
+
 	private final CreateChildRequirementController controller;
-	
+
 	/**
 	 * Default constructor for CreateChildRequirementController.
 	 * 
@@ -40,7 +40,7 @@ public class CreateChildRequirementAction extends AbstractAction{
 		super("Create a child Requirement");
 		this.controller = controller;
 	}
-	
+
 	/**
 	 * Action performed.
 	 *

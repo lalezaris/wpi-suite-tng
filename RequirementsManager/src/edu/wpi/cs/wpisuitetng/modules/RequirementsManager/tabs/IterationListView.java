@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * @author Lauren Kahn
  * @version Apr 8, 2013
  */
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings({"serial"})
 public class IterationListView extends JPanel implements IToolbarGroupProvider {
 	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton;
@@ -39,8 +39,6 @@ public class IterationListView extends JPanel implements IToolbarGroupProvider {
 	private RetrieveAllIterationsController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-	private boolean inputEnabled;
-
 	/**
 	 * Instantiates a new iteration list view.
 	 *
@@ -48,8 +46,6 @@ public class IterationListView extends JPanel implements IToolbarGroupProvider {
 	 */
 	public IterationListView(Tab tab){
 		containingTab = tab;
-
-		inputEnabled = true;
 
 		// Instantiate the button panel
 		buttonGroup = new ToolbarGroupView("Iterations List");
@@ -78,7 +74,7 @@ public class IterationListView extends JPanel implements IToolbarGroupProvider {
 		buttonGroup.setPreferredWidth(150);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
 	 */
 	@Override

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
@@ -60,14 +60,14 @@ public class TextUpdateListener implements KeyListener {
 		this.defaultBorder = component.getBorder();
 	}
 
-	/* 
+	/** 
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 	}
 
-	/* 
+	/** 
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
 	@Override
@@ -75,12 +75,11 @@ public class TextUpdateListener implements KeyListener {
 		checkIfUpdated();
 	}
 
-	/*
+	/**
 	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 	 */
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -90,14 +89,14 @@ public class TextUpdateListener implements KeyListener {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
 
 		// TODO: Need getModel() method in RequirementPanel
-		
+
 		// Get the base String to compare to the text of the JTextComponent
 		try {
 			// Get the field from the Requirement model that corresponds with the name of component.
 			// For instance, if the component's name is "Title" Requirement#getTitle will be called.
 			Object field = panel.getParent().getReqModel().getRequirement().getClass().getDeclaredMethod(
 					"get" + component.getName()).invoke(panel.getParent().getReqModel().getRequirement());
-			
+
 			// If field is null, set base to an empty String.
 			if (field == null) {
 				base = "";

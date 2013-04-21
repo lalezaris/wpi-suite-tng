@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
@@ -37,7 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class ToolbarController extends DefaultToolbarController implements ChangeListener {
 
 	private ToolbarGroupView relevantTabGroup;
-	
+
 	/**
 	 * Control the given DefaultToolbarView based on the state of the tabs in tabController.
 	 * @param toolbarView The toolbar to add/remove groups from
@@ -62,8 +62,8 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 			setRelevant(relevantTabGroup, true);
 		}
 	}
-	
-	/* 
+
+	/** 
 	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
 	 */
 	@Override
@@ -75,7 +75,6 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 			if(selectedComponent instanceof IToolbarGroupProvider) {
 				IToolbarGroupProvider provider = (IToolbarGroupProvider) selectedComponent;
 				setRelevantTabGroup(provider.getGroup());
-				//relevantTabGroup.repaint(); //does nothing to fix the save changes not showing up 
 			} else {
 				setRelevantTabGroup(null);
 			}

@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version April 2nd, 2013
  *
  */
-@SuppressWarnings({ "serial", "unused" })
+@SuppressWarnings({ "serial" })
 public class HistoryView extends JPanel {	
 	private JList<HistoricalChange> list;
 	private DefaultListModel<HistoricalChange> listModel;
@@ -85,10 +85,10 @@ public class HistoryView extends JPanel {
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
-		
+
 		if (list!=null)
-		this.remove(list);
-		
+			this.remove(list);
+
 		//Create the list and put it in a scroll pane.
 		list = new JList<HistoricalChange>(listModel);
 		list.setLayoutOrientation(JList.VERTICAL);
@@ -98,8 +98,8 @@ public class HistoryView extends JPanel {
 
 		add(listScrollPane, BorderLayout.CENTER);
 	}
-	
-	
+
+
 	/**
 	 * Gets history list.
 	 * 

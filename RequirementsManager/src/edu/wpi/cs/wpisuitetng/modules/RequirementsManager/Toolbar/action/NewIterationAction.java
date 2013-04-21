@@ -10,7 +10,7 @@
  * Contributors:
  *  Arica Liu
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class NewIterationAction extends AbstractAction {
 
 	private final MainTabController controller;
-	
+
 	/**
 	 * Create a NewIterationAction.
 	 * 
@@ -46,14 +46,14 @@ public class NewIterationAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
-	
-	/* 
+
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
-			controller.addNewIterationTab(); //null, IterationPanel.Mode.CREATE
+			controller.addNewIterationTab();
 		}
 	}
 }

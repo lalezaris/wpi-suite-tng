@@ -10,7 +10,7 @@
  * Contributors:
  *	Ned Shelton
  *  Mike Perrone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**

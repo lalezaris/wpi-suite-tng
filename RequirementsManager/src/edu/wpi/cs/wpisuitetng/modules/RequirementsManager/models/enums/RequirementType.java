@@ -8,14 +8,14 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
  * Enum for Requirement types.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  * @version Apr 6, 2013
  */
 public enum RequirementType {
@@ -25,9 +25,9 @@ public enum RequirementType {
 	USERSTORY("USER STORY"),
 	NONFUNCTIONAL("NON FUNCTIONAL"),
 	SCENARIO("SCENARIO");   // requires attention at some point in the iteration
-	
+
 	private String name;
-	
+
 	/**
 	 * Instantiates a new requirement type.
 	 *
@@ -36,7 +36,7 @@ public enum RequirementType {
 	RequirementType(String name){
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -45,15 +45,15 @@ public enum RequirementType {
 	public String getName(){
 		return name;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Enum#toString()
 	 */
 	@Override
 	public String toString(){
 		return name;
 	}
-	
+
 	/**
 	 * Get value from a string.
 	 *

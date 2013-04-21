@@ -9,41 +9,52 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Insert Description Here
+ * Compares objects for filters
  *
  * @author Chris Hanna
  *
  * @version Apr 17, 2013
  *
  */
+@SuppressWarnings("rawtypes")
 public class ListCompare<T> implements Comparable{
 
 	List<T> list;
 	/**
-	 * Enter Description here.
+	 * Constructor for ListCompare
+	 * 
+	 * @param the list to compare
 	 * 
 	 */
 	public ListCompare(List<T> list) {
 		this.list = list;
 	}
 
+	/**
+	 * Size of the list
+	 * 
+	 * @return the size of the list
+	 */
 	public int size(){
 		return list.size();
 	}
-	
+
+	/**
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
 	@Override
 	public int compareTo(Object o) {
-		
+
 		if (list.contains(o))
 			return 0;
-		
+
 		return 1;
 	}
 

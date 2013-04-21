@@ -10,7 +10,7 @@
  * Contributors:
  *  Evan Polekoff
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 
@@ -24,20 +24,20 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
  * @version Mar 27, 2013
  */
 public class RequirementStatusLists{
-	
+
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
 	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
 	static String[] OpenList = {"OPEN"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
-	
+
 	/**
 	 * Instantiates a new requirement status lists.
 	 */
 	RequirementStatusLists(){
-		
+
 	}
-	
+
 	/**
 	 * Gets the list of a requirement status.
 	 *
@@ -64,6 +64,6 @@ public class RequirementStatusLists{
 			return new String[]{};//Return an empty string array so you don't have the option to choose anything.
 		}
 	}
-	
+
 }
 

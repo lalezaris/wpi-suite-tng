@@ -10,7 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
@@ -25,9 +25,9 @@ public enum RequirementPriority{
 	HIGH("HIGH"),       // requires immediate attention
 	MEDIUM("MEDIUM"), // requires attention shortly
 	LOW("LOW");   // requires attention at some point in the iteration
-	
+
 	private String name;
-	
+
 	/**
 	 * Instantiates a new requirement priority.
 	 *
@@ -36,7 +36,7 @@ public enum RequirementPriority{
 	RequirementPriority(String name){
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -45,16 +45,16 @@ public enum RequirementPriority{
 	public String getName(){
 		return name;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Enum#toString()
 	 */
 	@Override
 	public String toString(){
 		return name;
 	}
-	
-	
+
+
 	/**
 	 * Get value from a string.
 	 *

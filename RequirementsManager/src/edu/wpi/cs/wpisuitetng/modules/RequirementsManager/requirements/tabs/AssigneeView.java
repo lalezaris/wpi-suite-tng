@@ -53,7 +53,6 @@ public class AssigneeView extends JPanel{
 	private JButton btnRemove;
 	private JPanel buttonPanel;
 
-
 	private boolean isButtonPressed; 
 
 	/**
@@ -71,11 +70,8 @@ public class AssigneeView extends JPanel{
 
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
-		
-		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
-		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
-		System.out.println();
+		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
 
 		allUserList = new JList<String>(allUserLM);
 		allUserList.setFixedCellWidth(200);
@@ -83,11 +79,17 @@ public class AssigneeView extends JPanel{
 		assignedUserList.setFixedCellWidth(200);
 
 		buttonPanel = new JPanel(){
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
 				return 0;
@@ -106,11 +108,17 @@ public class AssigneeView extends JPanel{
 		assignedUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		JPanel leftPanel = new JPanel()	{
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
 				return 0;
@@ -126,11 +134,17 @@ public class AssigneeView extends JPanel{
 		this.add(buttonPanel);
 
 		JPanel rightPanel = new JPanel(){	
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
 				return 0;
@@ -147,7 +161,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Returns button object that adds users from a requirement.
+	 * Gets button object that adds users from a requirement.
 	 * 
 	 * @return The button that adds users from a requirement
 	 */
@@ -156,7 +170,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Returns button object that removes users from a requirement.
+	 * Gets button object that removes users from a requirement.
 	 * 
 	 * @return button that removes users from a requirement
 	 */
@@ -167,7 +181,7 @@ public class AssigneeView extends JPanel{
 	/**
 	 * Set the Assignee list.
 	 * 
-	 * @param assignee
+	 * @param assignee the assignee to add to the list
 	 */
 	public void setAssigneeList(ArrayList<String> assignee) {
 		this.assignedUserAL = assignee;
@@ -185,7 +199,6 @@ public class AssigneeView extends JPanel{
 	 * @param all the new all users list
 	 */
 	public void setAllList(ArrayList<String> all) {
-		// TODO Auto-generated method stub
 		this.allUserAL = all;
 		Collections.sort(allUserAL);
 
@@ -194,7 +207,7 @@ public class AssigneeView extends JPanel{
 			allUserLM.addElement(s);
 		}
 	}
-	
+
 	/**
 	 * Sets the lists.
 	 */
@@ -224,7 +237,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Returns the array list containing all users.
+	 * Gets the array list containing all users.
 	 * 
 	 * @return the array list containing all users
 	 */
@@ -233,7 +246,7 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
-	 * Returns the array list containing users assigned to this requirement.
+	 * Gets the array list containing users assigned to this requirement.
 	 * 
 	 * @return the array list containing users assigned to this requirement
 	 */
@@ -269,6 +282,8 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
+	 * Gets assigned user list
+	 * 
 	 * @return the allUserList
 	 */
 	public JList<String> getAssignedUserList() {
@@ -276,6 +291,8 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
+	 * Returns if button is pressed
+	 * 
 	 * @return the isButtonPressed
 	 */
 	public boolean isButtonPressed() {
@@ -283,6 +300,8 @@ public class AssigneeView extends JPanel{
 	}
 
 	/**
+	 * Sets if button is pressed
+	 * 
 	 * @param isButtonPressed the isButtonPressed to set
 	 */
 	public void setButtonPressed(boolean isButtonPressed) {
@@ -302,7 +321,7 @@ public class AssigneeView extends JPanel{
 				allUserAL.add(projectUsers[i].getUsername());
 			}
 		}
-		
+
 		allUserLM.clear();
 
 		for(int i=0;i<allUserAL.size();i++){

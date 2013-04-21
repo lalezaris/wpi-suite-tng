@@ -13,9 +13,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAllIterationsObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.observers.RetrieveRequirementTasksObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -35,35 +33,36 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class RetrieveRequirementsTasksController {
 	TasksView view;
-	
+
 	public RetrieveRequirementsTasksController(TasksView view){
 		this.view = view;
 	}
 	/**
-	 * Retrieve iterations from <code>view</code>
+	 * Retrieve iterations from view
 	 */
 	public void retrieve(int requirementID){
 		final RequestObserver requestObserver = new RetrieveRequirementTasksObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("tasksmanager/task/" + requirementID, /*is this ok? ->*/ HttpMethod.GET);
+		request = Network.getInstance().makeRequest("tasksmanager/task/" + requirementID, HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}
-	
+
 	/**
-	 * Changes iteration combo box for <code>view</code>.
+	 * Changes iteration combo box for view.
 	 *
 	 * @param iterations the iterations to added to the combo box.
 	 */
 	public void received(Task[] tasks){
 		view.setTaskArray(tasks);
 	}
-	
-	/**Print an error message.
+
+	/**
+	 * Print an error message.
 	 * @param message The error message.
 	 */
 	public void errorReceivingData(String message){
 		System.out.println(message);
 	}
-	
+
 }

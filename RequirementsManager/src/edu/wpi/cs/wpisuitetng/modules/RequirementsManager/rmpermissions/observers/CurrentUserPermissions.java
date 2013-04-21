@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * Current User Permissions.
  *
@@ -38,14 +37,14 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * @version Apr 5, 2013
  */
 public class CurrentUserPermissions implements RequestObserver{
-	
+
 	private static ArrayList<IOnPermissionUpdate> roList = new ArrayList<IOnPermissionUpdate>();
 	private static boolean gotPermissions = false;
 	private static User coreUser;
 	private static User[] allCoreUsers;
 	private static UserPermission user;
 	private static CurrentUserPermissions instance;
-	
+
 	/**
 	 * Gets the single instance of CurrentUserPermissions.
 	 *
@@ -57,12 +56,12 @@ public class CurrentUserPermissions implements RequestObserver{
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Default constructor.
 	 */
 	private CurrentUserPermissions(){}
-	
+
 	/**
 	 * Call this method to send out requests to get the most recent User Permissions Level.
 	 * Because this is sending requests, you cannot rely on User Permissions being accurate after
@@ -73,7 +72,7 @@ public class CurrentUserPermissions implements RequestObserver{
 		Refresher.getInstance().getObjects(getInstance(), "requirementsmanager/permissions", "");
 		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
 	}
-	
+
 	/**
 	 * Update current user permissions.
 	 *
@@ -85,7 +84,7 @@ public class CurrentUserPermissions implements RequestObserver{
 		Refresher.getInstance().getObjects(new CurrentUserPermissionsObserver(),"core/user", "");
 		roList.add(r);
 	}
-	
+
 	/**
 	 * Resets current user permissions.
 	 */
@@ -93,7 +92,7 @@ public class CurrentUserPermissions implements RequestObserver{
 		coreUser = null;
 		gotPermissions = false;
 	}
-	
+
 	/**
 	 * Set the coreUser than will be considered the current user.
 	 * It is recommended that this only be called internally. If you would like to be a jerk,
@@ -106,10 +105,10 @@ public class CurrentUserPermissions implements RequestObserver{
 		CurrentUserPermissions.coreUser = currentUser;
 		CurrentUserPermissions.allCoreUsers = allUsers;
 		doWhenRecievedAllData();
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Gets current user permissions.
 	 *
@@ -123,7 +122,7 @@ public class CurrentUserPermissions implements RequestObserver{
 			return user.getPermissions();
 		}
 	}
-	
+
 	/**
 	 * Decide if the current user has a certain permission level. This will only take into account
 	 * the local RM permission level.
@@ -137,10 +136,10 @@ public class CurrentUserPermissions implements RequestObserver{
 			return valueOf(user.getPermissions()) >= valueOf(level);
 		}
 	}
-	
+
 	/**
 	 * Decide if the current user has a certain permission level. This will take into account the
-	 * user's WPI-TNG-SUITE Role aswell as the local RM permission level.
+	 * user's WPI-TNG-SUITE Role as well as the local RM permission level.
 	 * @param level The Level you want to check
 	 * @return True if the current user has the input level or greater
 	 */
@@ -154,7 +153,7 @@ public class CurrentUserPermissions implements RequestObserver{
 			return (valueOf(user.getPermissions()) >= valueOf(level) || coreUser.getRole() == Role.ADMIN);
 		}
 	}
-	
+
 	/**
 	 * Value of.
 	 *
@@ -170,39 +169,39 @@ public class CurrentUserPermissions implements RequestObserver{
 			return 1;
 		else return 0;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
 		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);
-		
+
 		for (int i = 0 ; i < all.length ; i ++){
 			if (all[i].getUsername().equals(ConfigManager.getConfig().getUserName()))
 				user = all[i];
 		}
 		gotPermissions = true;
 		doWhenRecievedAllData();
-		
+
 	}
 
 	/**
-	 * Do when recieved all data.
+	 * Do when received all data.
 	 */
 	private static void doWhenRecievedAllData(){
 		if (gotPermissions && coreUser !=null){
-				
+
 			//The signed in user does not have a user permission associated with them yet.
 			if (user == null){
 				SavePermissionsController controller = new SavePermissionsController(null);
-				
+
 				UserPermission perm = new UserPermission(ConfigManager.getConfig().getUserName(),RMPermissionsLevel.NONE);
-				
+
 				for (int i = 0 ; i < allCoreUsers.length; i ++){
 					if (perm.getUsername().equals(allCoreUsers[i].getUsername())){
 						User u = allCoreUsers[i];
@@ -211,70 +210,37 @@ public class CurrentUserPermissions implements RequestObserver{
 						}
 					}
 				}
-				
-				
+
+
 				controller.save(perm, PermissionSaveMode.NEW);
-				
-				
+
+
 			}
-			
+
 			for (int i = 0; i < roList.size(); i++){
 				roList.get(i).onUpdate();
 			}
-			//roList.clear();
 		}
 	}
-	
+
 	/**
-	 * Prints the details.
-	 */
-	@SuppressWarnings("unused")
-	private static void printDetails(){
-		if (gotPermissions && coreUser != null){
-			
-			String rightsTo = "", noRightsTo = "";
-			if (doesUserHavePermissionLocal(RMPermissionsLevel.NONE))
-				rightsTo += "  NONE\n";
-			else noRightsTo += "  NONE\n";
-			if (doesUserHavePermissionLocal(RMPermissionsLevel.UPDATE))
-				rightsTo += "  UPDATE\n";
-			else noRightsTo += "  UPDATE\n";
-			if (doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN))
-				rightsTo += "  ADMIN\n";
-			else noRightsTo += "  ADMIN\n";
-			
-			rightsTo = "";
-			noRightsTo = "";
-			if (doesUserHavePermissionMaster(RMPermissionsLevel.NONE))
-				rightsTo += "  NONE\n";
-			else noRightsTo += "  NONE\n";
-			if (doesUserHavePermissionMaster(RMPermissionsLevel.UPDATE))
-				rightsTo += "  UPDATE\n";
-			else noRightsTo += "  UPDATE\n";
-			if (doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN))
-				rightsTo += "  ADMIN\n";
-			else noRightsTo += "  ADMIN\n";
-		}
-	}
-	
-	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Failed to retrieve current user permissions");
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Failed to retrieve current user permissions2");
-		
+
 	}
-	
+
 	/**
 	 * Gets the project users.
 	 *

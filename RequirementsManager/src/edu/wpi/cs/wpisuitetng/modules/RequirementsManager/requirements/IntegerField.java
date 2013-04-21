@@ -21,7 +21,7 @@ import javax.swing.text.PlainDocument;
 /**
  * A JTextField that accepts only integers.
  * 
- * @author Tyler Stone, aquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
+ * @author Tyler Stone, acquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  *
  * @version Mar 22, 2013
  */
@@ -42,7 +42,7 @@ public class IntegerField extends JTextField {
 		super( cols );
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.JTextField#createDefaultModel()
 	 */
 	@Override
@@ -54,7 +54,7 @@ public class IntegerField extends JTextField {
 	 * The Class UpperCaseDocument.
 	 */
 	static class UpperCaseDocument extends PlainDocument {
-		/* (non-Javadoc)
+		/**
 		 * @see javax.swing.text.PlainDocument#insertString(int, java.lang.String, javax.swing.text.AttributeSet)
 		 */
 		@Override

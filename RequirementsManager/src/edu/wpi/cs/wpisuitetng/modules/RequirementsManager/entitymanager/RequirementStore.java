@@ -12,7 +12,7 @@
  *  Sam Abradi
  *  Evan Polekoff
  *  Tianyu Li
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.util.Date;
@@ -44,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class RequirementStore implements EntityManager<Requirement>{
 	Data db;
 	ModelMapper updateMapper;
-	
+
 	/**
 	 * Class constructor to store requirement data.
 	 * 
@@ -54,7 +54,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		db = data;
 		updateMapper = new ModelMapper();
 	}
-	
+
 	/**
 	 * Takes a string that is the JSON-ified representation of Requirement, and a session (project);
 	 * return the requirement in object form;
@@ -63,6 +63,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @param s A session (project)
 	 * @param content The JSON-ified representation of Requirement
 	 * @return The requirement in object form
+	 * @throws BadRequestException
+	 * @throws ConflictException
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -70,20 +73,18 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throws WPISuiteException {
 		int parent;
 		final Requirement newRequirement = Requirement.fromJSON(content);	//still need to get fromJSON working, then this will work
-		
+
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
-		
+
 		HistoricalChange HChange = new HistoricalChange(new Date(), newRequirement.getId(), newRequirement.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 		HChange.updateOnCreate(newRequirement);
 		newRequirement.addHistoricalChange(HChange);
-		
-		//		newRequirement.setIteration(Iteration.getBacklog());
-		System.out.println("THIS IS THEREQUIREMENT" + newRequirement.toJSON());
+
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
 		}
-		
+
 		parent = newRequirement.getParentRequirementId();
 		if(parent!=-1){
 			List<Model> parentRequirements = db.retrieve(Requirement.class, "id", parent, s.getProject());
@@ -92,12 +93,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 			}
 			Requirement parentReq = (Requirement) parentRequirements.get(0);
 			parentReq.getChildRequirementIds().add(newRequirement.getId());
-			
+
 			if(!db.save(parentReq, s.getProject())) {
 				throw new WPISuiteException();
 			}
 		}
-		
+
 		return newRequirement;
 	}
 
@@ -108,6 +109,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @param s A session (project)
 	 * @param id The ID of the Requirement(s)
 	 * @return An array of all Requirement(s) with the given username
+	 * @throws NotFoundException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -133,6 +135,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * 
 	 * @param s A session (project)
 	 * @return An array of all requirements stored in the DB
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -146,55 +149,53 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @param s A session (project)
 	 * @param content The content to be passed in
 	 * @return The updated Requirement
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
 	public Requirement update(Session s, String content)
 			throws WPISuiteException {
-		
+
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
-		
+
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
 			throw new WPISuiteException("ID not found");
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
-		
+
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
-		
-		if(serverReq.getIteration()==null)System.out.print("++++++ null serverReq iteration\n");
-		if(req.getIteration()==null)System.out.print("===== null req.iteration req\n");
-		
+
 		HChange.updateChangeFromDiff(serverReq,req, this);
-		
+
 		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 
 		serverReq.setIterationId(req.getIterationId());
-		
+
 		if (!HChange.getChange().equals("")){
 			serverReq.addHistoricalChange(HChange);
 		}
-		
+
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
-		
+
 		//update Acceptance Tests List
 		serverReq.updateAcceptanceTests(req.getAcceptanceTests());
 
 		//update child requirements
 		serverReq.setSubRequirements(req.getChildRequirementIds());
-	
+
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
 			throw new WPISuiteException();
 		}
-		
+
 		//TODO modify this function to use validators and make sure not to update if no 
 		//changes have been made.
-		
+
 		return serverReq;
 	}
 
@@ -203,6 +204,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 *
 	 * @param s A session (project)
 	 * @param model The Requirement to be saved
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
@@ -223,12 +225,13 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new UnauthorizedException();
 		}
 	}
-	
+
 	/**
 	 * Removes a requirement from the DB based on ID.
 	 * 
 	 * @param s A session (project)
 	 * @param id The id of the Requirement to be removed
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -237,7 +240,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return (db.delete(getEntity(s, id)[0]) != null) ? true : false;
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
@@ -249,13 +253,14 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * Deletes everything in DB.
 	 * 
 	 * @param s A session (project)
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new Requirement("",""), s.getProject());
-		
+
 	}
 
 	/** 
@@ -271,7 +276,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return db.retrieveAll(new Requirement("foo", "foo")).size();
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
@@ -279,7 +285,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		return null;
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override

@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  mwfrench
-**************************************************/
+ *  Michael French
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
@@ -24,33 +24,30 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Acce
  * @author Michael French
  */
 public class AddAcceptanceTestController implements ActionListener {
-	
+
 	private final AcceptanceTestsView view;
 
 	/**
 	 * Default constructor
 	 * 
-	 * @param view
+	 * @param view the view for acceptance tests
 	 */
 	public AddAcceptanceTestController(AcceptanceTestsView view) {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(view.notReady()){
-			//do nothing no text has been entered
-		} else {
+		if(!view.notReady()){
 			AcceptanceTest a = new AcceptanceTest(view.getTitleTxt(), view.getBodyTxt());
 			view.addTestToList(a);
-			System.out.println("Tests in List: " + view.getListSize());
 			view.updateList();
 			view.clearTitleTxt();
 			view.clearBodyTxt();
 		}		
 	}
-	
+
 }

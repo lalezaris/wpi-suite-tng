@@ -66,12 +66,12 @@ public class IterationView extends JPanel {
 	 * @param tab		The Tab holding this IterationView (can be null)
 	 */
 	public IterationView(Iteration iteration, Mode edit, Tab tab) {
-		
+
 		this.mode = edit;
 		iterationModel = new IterationModel(iteration, this); // have to get the iteration we want, or create a new iteration if in the Create Mode
 
 		containingTab = tab;
-		
+
 		if(containingTab == null) {
 			containingTab = new DummyTab();
 		}
@@ -85,10 +85,10 @@ public class IterationView extends JPanel {
 
 		// Instantiate the main create iteration panel
 		mainPanel = new IterationPanel(this/*, mode*/);
-		
+
 		mainPanel.getBtnSaveIteration().setAction(new SaveChangesAction(new SaveIterationController(this)));
 		mainPanel.getBtnCancelIteration().setAction(new CancelIterationAction(new CancelIterationController(this)));
-		
+
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -103,7 +103,7 @@ public class IterationView extends JPanel {
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
 	}
-	
+
 	/**
 	 * Set the tab title, tooltip, and group name according to this Iteration.
 	 * 
@@ -113,7 +113,7 @@ public class IterationView extends JPanel {
 		containingTab.setTitle("Iteration #" + iterationModel.getUneditedModel().getId() + " - " + iterationModel.getUneditedModel().getIterationName());
 		containingTab.setToolTipText("View iteration #" + iterationModel.getUneditedModel().getId() + " - " + iterationModel.getUneditedModel().getIterationName());
 	}
-	
+
 	/**
 	 * Check to make sure that all the fields are correctly filled in. If multiple errors are present, it returns
 	 * the error that is lowest. So if startDate is after endDate and the iteration name is missing, this will
@@ -149,7 +149,7 @@ public class IterationView extends JPanel {
 			mainPanel.getLblDateError().setVisible(true);
 			return 2;
 		}
-		
+
 		Iteration[] array = iterations;
 		String idName = mainPanel.getTxtIterationName().getText();
 		for (int i = 0; i < array.length; i++) {
@@ -169,14 +169,16 @@ public class IterationView extends JPanel {
 		//no errors
 		return  0;
 	}
-	
-	/*
-	 * @param string
+
+	/**
+	 * Shows message dialog if there is an error retrieving iterations
+	 * 
+	 * @param string the error
 	 */
 	public void errorReceivingIterations(String string) {
 		JOptionPane.showMessageDialog(this,string);
 	}
-	
+
 	/**
 	 * Revalidates and repaints the scroll pane containing the DefectPanel
 	 */
@@ -185,7 +187,7 @@ public class IterationView extends JPanel {
 		mainPanelScrollPane.repaint();
 	}
 
-	/*
+	/**
 	 * This function will be used in future iterations.
 	 * 
 	 * @param iterations Iterations to be added.
@@ -193,7 +195,7 @@ public class IterationView extends JPanel {
 	public void addIterations(Iteration[] iterations){
 		//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
 	}
-	
+
 	/**
 	 * @return the iterationModel
 	 */
@@ -227,7 +229,12 @@ public class IterationView extends JPanel {
 	public Tab getTab() {
 		return containingTab;
 	}
-	
+
+	/**
+	 * Gets the mode
+	 * 
+	 * @return the mode of the iteration panel
+	 */
 	public IterationPanel.Mode getMode(){
 		return this.mode;
 	}

@@ -45,7 +45,7 @@ public class ComboUpdateListener implements ItemListener {
 	@SuppressWarnings("rawtypes")
 	protected final JComboBox component;
 	protected final Border defaultBorder;
-	
+
 	/**
 	 * Constructs a ComboUpdateListener.
 	 * 
@@ -61,8 +61,8 @@ public class ComboUpdateListener implements ItemListener {
 		this.component = component;
 		this.defaultBorder = component.getBorder();
 	}
-	
-	/* 
+
+	/** 
 	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 	 */
 	@Override
@@ -76,7 +76,7 @@ public class ComboUpdateListener implements ItemListener {
 	 */
 	public void checkIfUpdated() {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
-		
+
 		// Compare base to the component's text to determine whether or not to highlight the field.
 		if (base.equals((String) component.getSelectedItem())) {
 			component.setBackground(Color.WHITE);

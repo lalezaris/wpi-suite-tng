@@ -13,8 +13,8 @@
  *  Tushar Narayan
  *  Evan Polekoff
  *  Ned Shelton
- *  Chirs Hanna
-**************************************************/
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
@@ -33,5 +33,5 @@ public enum RequirementStatus {
 	COMPLETE,   // a finished requirement but not tested
 	DELETED		// requirement has been deleted from the list.
 
-	
+
 }

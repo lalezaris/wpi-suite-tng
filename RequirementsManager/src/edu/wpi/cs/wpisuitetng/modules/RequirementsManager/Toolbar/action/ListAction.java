@@ -13,7 +13,7 @@
  *  Mike Perrone
  *  Chris Hanna
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  */
 @SuppressWarnings("serial")
 public class ListAction extends AbstractAction {
-	
+
 	private final MainTabController controller;
 
 	/**
@@ -48,7 +48,7 @@ public class ListAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}	
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

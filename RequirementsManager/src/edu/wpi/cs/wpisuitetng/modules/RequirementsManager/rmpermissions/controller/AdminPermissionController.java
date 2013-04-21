@@ -41,7 +41,6 @@ public class AdminPermissionController extends AbstractAction {
 	 * @param panel the UserPermissionPanel
 	 */
 	public AdminPermissionController(UserPermissionPanel panel){
-		//		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
@@ -51,15 +50,14 @@ public class AdminPermissionController extends AbstractAction {
 		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
 	} 
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
 		//gets the selected items from the none and admin lists
-		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
 		List<String> selectedUpdateUsers = updateUsers.getSelectedValuesList();
 

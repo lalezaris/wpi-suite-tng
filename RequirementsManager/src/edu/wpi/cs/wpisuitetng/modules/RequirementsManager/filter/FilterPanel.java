@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import java.awt.Dimension;
@@ -35,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * Panel for filters
  *
  * @author Chris Hanna
  *
@@ -46,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class FilterPanel extends JPanel{
 
 	protected FilterController view;
-	
+
 	private final JScrollPane scrollPane;
 
 	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton, snakeButton;
@@ -58,19 +58,18 @@ public class FilterPanel extends JPanel{
 	private int ruleCount = 0, ruleInc = 0;
 	private JLabel dingus = new JLabel(" ");
 	/**
-	 * create a filter panel and add all the components
+	 * Create a filter panel and add all the components
 	 * 
 	 */
 
 	@SuppressWarnings("unused")
 	public FilterPanel(final FilterController view) {
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-		//this.setLayout(layout);
 		rules = new ArrayList<RulePanel>();
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 		this.view = view;
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
@@ -78,15 +77,15 @@ public class FilterPanel extends JPanel{
 		c.weightx = 0.5;
 		c.weighty = 0;
 		c.gridwidth = 1;
-		
+
 		applyButton = new JButton("Apply");
 		applyButton.setPreferredSize(new Dimension(60,35));
 		applyButton.setText("Apply");
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 		mainPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		
+
 		ruleHolderPanel = new JPanel();
 		GridBagLayout pLayout = new GridBagLayout();
 		ruleHolderPanel.setLayout(pLayout);
@@ -152,8 +151,6 @@ public class FilterPanel extends JPanel{
 		
 		
 		alwaysOnPanel = new JPanel();
-		
-		
 		showButton = new JButton("Show Filter");
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
@@ -167,7 +164,7 @@ public class FilterPanel extends JPanel{
 		
 		alwaysOnPanel.add(showButton);
 		alwaysOnPanel.add(filterDesc);
-		
+
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -177,16 +174,15 @@ public class FilterPanel extends JPanel{
 		c.gridheight =1;
 		c.insets = new Insets(10,10,0,0);
 		mainPanel.add(buttonPanel,c);
-	
-		
+
+
 		ruleHolderPanel.setVisible(true);
 		ruleHolderPanel.validate();
-		
+
 		//TODO figure out how to correctly get the width of the window
-		System.out.println("WIDTH:" + this.getSize().getWidth());
+
 		ruleHolderPanel.setPreferredSize(new Dimension((int)ruleHolderPanel.getPreferredSize().getWidth(),120));
-		
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setViewportView(ruleHolderPanel);
 		scrollPane.getVerticalScrollBar().setVisible(true);
@@ -194,19 +190,19 @@ public class FilterPanel extends JPanel{
 		scrollPane.setPreferredSize(new Dimension(
 				(int)scrollPane.getPreferredSize().getWidth(), 
 				(int)scrollPane.getPreferredSize().getHeight()));
-		
-		
+
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		scrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
 				scrollPane.repaint();
 			}
 		}); 
-		
+
 
 		Border b = BorderFactory.createBevelBorder(BevelBorder.RAISED);
 		scrollPane.setViewportBorder(b);
-		
+
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = 1;
@@ -217,8 +213,8 @@ public class FilterPanel extends JPanel{
 		c.insets = new Insets(10, 10, 0, 0);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		mainPanel.add(scrollPane,c);
-		
-		
+
+
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
 		c.gridx = 0;
 		c.gridy = 1;
@@ -230,14 +226,15 @@ public class FilterPanel extends JPanel{
 		this.add(mainPanel,c);
 		
 		mainPanel.setVisible(false);
-		
+
 		ruleHolderPanel.validate();
 		ruleHolderPanel.repaint();
-		
+
 		scrollPane.validate();
 		scrollPane.repaint();
 
 		this.setAlignmentX(0);
+
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
@@ -258,19 +255,16 @@ public class FilterPanel extends JPanel{
 			}
 
 		});
-		
+
 	}
 
 	public void setWidth(int width){
-		//mainPanel.setPreferredSize(new Dimension(width, 150));
-		//ruleHolderPanel.setPreferredSize(new Dimension(width, (int)ruleHolderPanel.getPreferredSize().getHeight()));
-		//scrollPane.setPreferredSize(new Dimension(width+40, 150));
+		scrollPane.setPreferredSize(new Dimension(width+40, 150));
 	}
-	
+
 	public void removeFields(String[] remove){
 		removeFields = remove;
 	}
-	
 	
 	/**
 	 * Add a blank rule to the panel.
@@ -279,12 +273,10 @@ public class FilterPanel extends JPanel{
 	public void addRule(){
 		GridBagConstraints c = new GridBagConstraints();
 		RulePanel rule = new RulePanel(this);
-		//rule.setMinimumSize(new Dimension(600,40));
 
 
 		ruleHolderPanel.revalidate();
 		c.anchor = GridBagConstraints.LINE_START; 
-		//c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		ruleCount++;
 		c.gridy = ruleInc;
@@ -292,11 +284,6 @@ public class FilterPanel extends JPanel{
 		ruleHolderPanel.revalidate();
 		c.weightx = 1;
 		c.weighty = 0;
-//		if (rules.size() == 0)
-//			c.weighty = 1;
-//		
-		
-		//c.fill = GridBagConstraints.VERTICAL;
 
 		c.insets = new Insets(5, 5, 0, 0);
 		view.getModel().getFilter().addRule(rule.extractRule());
@@ -321,10 +308,6 @@ public class FilterPanel extends JPanel{
 		rules.add(rule);
 		rule.addListeners();
 		ruleHolderPanel.revalidate();
-			//ruleHolderPanel.revalidate();
-		
-//		scrollPane.revalidate();
-//		scrollPane.repaint();
 		this.revalidate();
 		this.repaint();
 		ruleHolderPanel.revalidate();
@@ -337,7 +320,7 @@ public class FilterPanel extends JPanel{
 	}
 	
 	/**
-	 * update the table with the rules
+	 * Update the table with the rules
 	 * 
 	 */
 	protected void triggerTableUpdate(){
@@ -364,7 +347,7 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * change the visibility of the filterpanel. The "Show Filters" button will remain, regardless
+	 * Change the visibility of the filterpanel. The "Show Filters" button will remain, regardless
 	 * 
 	 */
 	public void toggleVisibility(){
@@ -377,7 +360,7 @@ public class FilterPanel extends JPanel{
 			mainPanel.setVisible(true);
 		}
 	}
-	
+
 	/**
 	 * Of all the rule panels in the filter panel, delete the ones that are selected
 	 * 
@@ -386,33 +369,19 @@ public class FilterPanel extends JPanel{
 		
 		List<RulePanel> delete = new ArrayList<RulePanel>();
 		int ySize = 40;
+
 		for (int i = 0 ; i < rules.size(); i ++)
 			if (rules.get(i).getEnabledBox().isSelected()){
 				ySize = (int)rules.get(i).getPreferredSize().getHeight();
 				delete.add(rules.get(i));
 			}
-		
+
 		for (int i = 0 ; i < delete.size(); i ++){
 			ruleCount--;
 			ruleHolderPanel.remove(delete.get(i));
 			rules.remove(delete.get(i));
 		}
-		
-//		GridBagConstraints c = new GridBagConstraints();
-//		c.anchor = GridBagConstraints.FIRST_LINE_START; 
-//		c.gridx = 0;
-//		c.gridy = ruleCount+1;
-//		c.weightx = 1;
-//		c.weighty = 1;
-//		c.insets = new Insets(5, 5, 0, 0);
-//		for (int i = 0 ; i < ruleHolderPanel.getComponents().length; i ++)
-//			if (ruleHolderPanel.getComponent(i).equals(dingus))
-//				ruleHolderPanel.remove(dingus);
-//		ruleHolderPanel.add(dingus,c);
-		
-		
-//		scrollPane.revalidate();
-//		scrollPane.repaint();
+
 		ruleHolderPanel.revalidate();
 		view.getModel().setModelFromPanel(this);
 		ruleHolderPanel.setPreferredSize(new Dimension(
@@ -424,7 +393,7 @@ public class FilterPanel extends JPanel{
 		this.repaint();
 		showSnakeHuh();
 	}
-	
+
 	/**
 	 * Of all the rule panels in the filter panel, enable the ones that are selected
 	 * 
@@ -437,8 +406,8 @@ public class FilterPanel extends JPanel{
 			}
 		setFilterDescText();
 	}
-	
-	
+
+
 	/**
 	 * Gets the removeFields
 	 * @return the removeFields
@@ -459,19 +428,29 @@ public class FilterPanel extends JPanel{
 			}
 		setFilterDescText();
 	}
-	
+
+	/**
+	 * Sets iterations to filter
+	 * 
+	 * @param iterations the users to filter
+	 */
 	public void setIterations(Iteration[] iterations){
 		for (int i = 0 ; i < rules.size(); i ++){
 			rules.get(i).setIterationValues(iterations);
 		}
 	}
-	
+
+	/**
+	 * Sets users to filter
+	 * 
+	 * @param users the users to filter
+	 */
 	public void setUsers(User[] users){
 		for (int i = 0 ; i < rules.size(); i ++){
 			rules.get(i).setUserValues(users);
 		}
 	}
-	
+
 	/**
 	 * Gets the applyButton
 	 * @return the applyButton
@@ -480,7 +459,7 @@ public class FilterPanel extends JPanel{
 		return applyButton;
 	}
 
-	
+
 
 	/**
 	 * Gets the removeButton
@@ -541,6 +520,4 @@ public class FilterPanel extends JPanel{
 	public AbstractButton getSnakeButton() {
 		return snakeButton;
 	}
-	
-	
 }

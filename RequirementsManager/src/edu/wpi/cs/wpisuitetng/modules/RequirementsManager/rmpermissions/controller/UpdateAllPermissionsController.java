@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 /**
  * Action to update all permissions.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Apr 4, 2013
  *
@@ -55,10 +55,9 @@ public class UpdateAllPermissionsController extends AbstractAction {
 		this.updateUsers = panel.getUpdateUsers();
 		this.adminUsers = panel.getAdminUsers();
 		this.permModel = permModel;
-		//		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
@@ -80,9 +79,6 @@ public class UpdateAllPermissionsController extends AbstractAction {
 			List<String> allAdminUsers = this.getAllElementsInModel(adminListModel);
 
 			//updates the new 
-			//panel.getView().setUpPanel(allAdminUsers, RMPermissionsLevel.ADMIN);
-			//panel.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
-			//panel.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
 			this.updatePermissions(allAdminUsers, RMPermissionsLevel.ADMIN);
 			this.updatePermissions(allUpdateUsers, RMPermissionsLevel.UPDATE);
 			this.updatePermissions(allNoneUsers, RMPermissionsLevel.NONE);
@@ -102,16 +98,11 @@ public class UpdateAllPermissionsController extends AbstractAction {
 
 		SavePermissionsController controller = new SavePermissionsController(panel);
 
-		System.out.println("calling update");
-		for (int i = 0 ; i < selected.size() ; i ++)
-			System.out.println("SEL:" + ((String)selected.get(i)));
-
 		//This loop goes through the selected names, and all the permissions
 		//and if there is a match, it updates that permission to LEVEL (an input to this function)
 		//and saves the permission
 		for (int i = 0 ; i < this.permModel.getPermissions().length ; i ++){
 			for (int j = 0 ; j < selected.size() ; j ++){
-				System.out.println("IS " + this.permModel.getPermissions()[i].getUsername() + " = TO " + (String)selected.get(j));
 				if ( ((String)selected.get(j)).equals(this.permModel.getPermissions()[i].getUsername()) && this.permModel.getPermissions()[i].getPermissions() != level){
 
 					String me = ConfigManager.getConfig().getUserName();

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
 import java.awt.event.MouseAdapter;
@@ -34,11 +34,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class RetrieveIterationController extends MouseAdapter {
-	
+
 	/** The iteration list panel. */
 	IterationListPanel iterationListPanel;
 	private int selectedIteration;
-	
+
 	/**
 	 * Instantiates a new retrieve iteration controller.
 	 *
@@ -47,26 +47,26 @@ public class RetrieveIterationController extends MouseAdapter {
 	public RetrieveIterationController(IterationListPanel iterationListPanel) { 
 		this.iterationListPanel = iterationListPanel;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int row = iterationListPanel.getTable().rowAtPoint(evt.getPoint());
-   
-        if (row >= 0) {
-        	selectedIteration = ((IterationTableModel)iterationListPanel.getTable().getModel()).getRowID(row);
-            
-            if (evt.getClickCount() == 2) {
+	public void mouseClicked(java.awt.event.MouseEvent evt) {
+		int row = iterationListPanel.getTable().rowAtPoint(evt.getPoint());
+
+		if (row >= 0) {
+			selectedIteration = ((IterationTableModel)iterationListPanel.getTable().getModel()).getRowID(row);
+
+			if (evt.getClickCount() == 2) {
 				Request request;
 				request = Network.getInstance().makeRequest("iterationsmanager/iteration/" + selectedIteration, HttpMethod.GET);
 				request.addObserver(new RetrieveIterationRequestObserver(this));
 				request.send();
-            }
-        }
-    }
-	
+			}
+		}
+	}
+
 	/**
 	 * Gets selected iteration.
 	 *
@@ -75,7 +75,7 @@ public class RetrieveIterationController extends MouseAdapter {
 	public int getSelectedIteration() {
 		return selectedIteration;
 	}
-	
+
 	/**
 	 * Called by {@link RetrieveIterationRequestObserver} when the response
 	 * is received from the server.
@@ -83,10 +83,9 @@ public class RetrieveIterationController extends MouseAdapter {
 	 */
 	public void showIteration(Iteration iteration) {
 		// Make a new iteration view to display the iteration that was received
-		//iteration.setIteration(Iteration.getIterationById(iteration.getId()));
 		iterationListPanel.getTabController().addEditIterationTab(iteration);
 	}
-	
+
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.

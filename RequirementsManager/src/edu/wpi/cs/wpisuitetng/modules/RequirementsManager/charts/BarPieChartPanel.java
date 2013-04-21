@@ -41,10 +41,10 @@ public class BarPieChartPanel extends JPanel {
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
-	
+
 	/** The chart. */
 	private JFreeChart displayedChart;
-	
+
 	/** The chart box. */
 	private JComboBox chartBox;
 	public enum TypeOfChart{
@@ -52,7 +52,7 @@ public class BarPieChartPanel extends JPanel {
 		Pie
 	}
 	TypeOfChart[] chartTypeArray = {TypeOfChart.Bar, TypeOfChart.Pie };
-	
+
 	/** The characteristic box. */
 	private JComboBox characteristicBox;
 	public enum characteristic{
@@ -74,7 +74,7 @@ public class BarPieChartPanel extends JPanel {
 	/** The Spin Checkbox */
 	JCheckBox spinCheckbox;
 	PieRotator rotator;
-	
+
 	/** The button panel. */
 	JPanel boxPanel = new JPanel();
 
@@ -97,12 +97,12 @@ public class BarPieChartPanel extends JPanel {
 	}
 
 	/**
-	 * Put the buttons and stuff on the view.
+	 * Put the buttons and other components in the view.
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
-		
+
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
 		characteristicBox = new JComboBox(characteristicArray);
@@ -153,7 +153,7 @@ public class BarPieChartPanel extends JPanel {
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		boxPanel.add(subDivideBox, cBox);
-		
+
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 6;
@@ -180,13 +180,17 @@ public class BarPieChartPanel extends JPanel {
 		this.validate();
 	}
 
-	/**Set the bar graph to be what you pass in.
+	/**
+	 * Set the chart to be what you pass in.
+	 * 
 	 * @param newChart The chart you are overwriting with.
+	 * @param chartType type of chart to pass in
+	 * @param pieSpin boolean for if the pie chart should spin
 	 */
 	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin){
 		overallPanel.remove(graphPanel);
 		displayedChart = newChart;
-		
+
 		graphPanel = new ChartPanel(newChart);
 		GridBagConstraints cGraph = new GridBagConstraints();
 
@@ -198,20 +202,20 @@ public class BarPieChartPanel extends JPanel {
 			newChart.setBackgroundPaint(Color.white);
 			if(chartType == TypeOfChart.Bar){
 				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
-		        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+				rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 			}
 			//Pie
 			else{
 				PiePlot3D plot = (PiePlot3D) newChart.getPlot();
 				plot.setStartAngle(0);
-		        plot.setForegroundAlpha(1);
+				plot.setForegroundAlpha(1);
 				rotator = new PieRotator(plot);
 				if(pieSpin){
 					rotator.start();
 				}
 			}
 		}
-		
+
 		//Add the Graph to the panel
 		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
 		cGraph.fill = GridBagConstraints.HORIZONTAL;
@@ -229,7 +233,9 @@ public class BarPieChartPanel extends JPanel {
 		this.validate();
 	}
 
-	/**Gray out or un-gray out the combo box.
+	/**
+	 * Gray out or un-gray out the combo box.
+	 * 
 	 * @param enabled Whether or not the box is enabled.
 	 */
 	public void setSubDivideEnable(boolean enabled){
@@ -238,16 +244,20 @@ public class BarPieChartPanel extends JPanel {
 			subDivideBox.setSelectedIndex(0);
 		}
 	}
-	
-	/**Determine whether or not you can see the button.
+
+	/**
+	 * Determine whether or not you can see the button.
+	 * 
 	 * @param enabled Whether or not it is visible
 	 */
 	public void setSpinVisible(boolean enabled){
 		spinCheckbox.setVisible(enabled);
 	}
-	
+
 	//Combo Box Getters
 	/**
+	 * Gets the chart box
+	 * 
 	 * @return the chartBox
 	 */
 	public JComboBox getChartBox() {
@@ -255,6 +265,8 @@ public class BarPieChartPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the characteristic box
+	 * 
 	 * @return the characteristicBox
 	 */
 	public JComboBox getCharacteristicBox() {
@@ -263,6 +275,8 @@ public class BarPieChartPanel extends JPanel {
 
 
 	/**
+	 * Gets the sub divide box
+	 * 
 	 * @return the subDivideBox
 	 */
 	public JComboBox getSubDivideBox() {
@@ -270,13 +284,17 @@ public class BarPieChartPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the displayed chart
+	 * 
 	 * @return the displayedChart
 	 */
 	public JFreeChart getDisplayedChart() {
 		return displayedChart;
 	}
-	
+
 	/**
+	 * Gets the spin checkbox
+	 * 
 	 * @return the spinButton
 	 */
 	public JCheckBox getSpinCheckbox() {
@@ -284,11 +302,13 @@ public class BarPieChartPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the rotator
+	 * 
 	 * @return the rotator
 	 */
 	public PieRotator getRotator() {
 		return rotator;
 	}
-	
-	
+
+
 }

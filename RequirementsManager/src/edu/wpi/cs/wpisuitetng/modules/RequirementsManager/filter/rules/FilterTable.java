@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 public class FilterTable{
 
 	private static FilterTable table;
-	
+
 	/**
 	 * Gets the single instance of FilterTable.
 	 *
@@ -39,34 +39,34 @@ public class FilterTable{
 			table = new FilterTable();
 		return table;
 	}
-	
+
 	/**
 	 * Instantiates a new filter table.
 	 */
 	private FilterTable(){
-		
+
 	}
-	
+
 	/**
 	 * Get the object you are looking to compare to. The input tells what field to pull from the parent
 	 * 
-	 * @param input
-	 * @param parent
-	 * @return
+	 * @param input the input to compare
+	 * @param parent pulls the field for the input
+	 * @return the source requirement
 	 * @throws RuleTargetException
 	 */
+	@SuppressWarnings("rawtypes")
 	public Comparable getSource(String input, Object parent) throws RuleTargetException{
-		
+
 		input = input.toLowerCase();
 
 		if (parent instanceof Requirement)
 			return getSourceRequirement(input, parent);
-		
-		
+
+
 		return null;
 	}
-	
-	
+
 	private static String[] reqTargetNames = {
 		" ",
 		"status", 
@@ -92,21 +92,22 @@ public class FilterTable{
 		RuleEditableType.ITERATION,
 		RuleEditableType.USER
 	};
-	
-	
+
+
 	public static String[] getRequirementTargets(){
 		return reqTargetNames;
 	}
 	public static RuleEditableType[] getRequirementTargetTypes(){
 		return reqTargetTypes;
 	}
-	
+
 	/**
-	 * parse a string to an array of enum values. 
+	 * Parses a string to an array of enum values. 
 	 * 
-	 * @param input
-	 * @return
+	 * @param input the string to get the enum from
+	 * @return the enum from the string
 	 */
+	@SuppressWarnings("rawtypes")
 	public Enum[] getEnumFromString(String input){
 		input = input.toLowerCase();
 		if (input.equals(" ")){
@@ -121,17 +122,18 @@ public class FilterTable{
 			return RequirementType.values();
 		return null;
 	}
-	
+
 	/**
 	 * Get the field of a requirement you are looking to compare to. The input tells what field to pull from the parent Requirement
 	 * 
-	 * @param input
-	 * @param parent
-	 * @return
+	 * @param input the input to compare
+	 * @param parent pulls the field that the input tells it to
+	 * @return the source requirement
 	 * @throws RuleTargetException
 	 */
+	@SuppressWarnings("rawtypes")
 	public Comparable getSourceRequirement(String input, Object parent) throws RuleTargetException{
-		
+
 		if (parent instanceof Requirement){
 			Requirement req = (Requirement)parent;
 			if (input.equals(" "))
@@ -152,11 +154,11 @@ public class FilterTable{
 				return req.getIterationId();
 			else if (input.equals("user"))
 				return new ListCompare<String>(req.getAssignee());
-			
+
 		}
-		
+
 		throw new RuleTargetException(input);
 	}
-	
-	
+
+
 }

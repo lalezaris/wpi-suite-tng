@@ -23,9 +23,7 @@ import java.awt.event.ActionListener;
 public class SaveTaskListener implements ActionListener{
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent e) {		
 	}
-	
+
 }

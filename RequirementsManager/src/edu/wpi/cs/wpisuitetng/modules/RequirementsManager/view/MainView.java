@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
  */
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
-	
+
 	TreeView treeView;
 	Refresher refresher;
 	MainTabView view;
@@ -52,32 +52,30 @@ public class MainView extends JPanel {
 		JSplitPane splitPane;
 		this.view = mainTabView;
 		this.setLayout(new BorderLayout());
-		
+
 		// Set up the split panels
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
 		leftPanel.setPreferredSize(new Dimension(200, this.getSize().height));
-		
+
 		// Add requirements tree to the left panel
 
 		treeView = new TreeView();
 		leftPanel.add(treeView);
-		
+
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new BorderLayout());
 		rightPanel.add(mainTabView);		
-		
+
 		//new split pane to adjust size
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-				//add split pane to main view
+		//add split pane to main view
 		this.add(splitPane, BorderLayout.CENTER);
-	}
-	
+	}	
 	/**
 	 * Make refresher.
 	 */
 	public void makeRefresher(){
-		System.out.println("MainView make refresher");
 		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel(), view.getIterationTableModel());
 		refresher.refreshIterationsFromServer(null);
 	}

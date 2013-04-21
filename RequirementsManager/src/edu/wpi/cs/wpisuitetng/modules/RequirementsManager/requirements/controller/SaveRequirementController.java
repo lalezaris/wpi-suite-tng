@@ -97,6 +97,7 @@ public class SaveRequirementController {
 
 							view.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
 							view.getParentView().getReqModel().setEstimateDirty();
+							view.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
 							//view.getParentView().getReqModel().setTxtEstimateOfUneditedRequirement(estimateEffort);
 						}
 						Request estimateRequest;

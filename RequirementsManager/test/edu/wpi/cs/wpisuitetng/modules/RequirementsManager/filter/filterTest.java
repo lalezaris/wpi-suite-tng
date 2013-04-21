@@ -139,8 +139,7 @@ public class filterTest {
 		r2 = p.extractRule();
 		//listPanel.getFilterController().getPanel().triggerTableUpdate();
 		
-		//TODO write real test, this is currently for coverage testing.
-		assertEquals(true, true);
+		assertEquals(listPanel.getFilterController().getModel().getFilter().getRules().size(), 1);
 		
 	}
 }

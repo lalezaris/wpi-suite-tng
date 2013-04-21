@@ -120,19 +120,18 @@ public class AssigneeView extends JPanel {
 		};
 		
 		
-		JScrollPane rightScrollPane = new JScrollPane();
-		JScrollPane leftScrollPane = new JScrollPane();
-		
+
 		leftPanel.setLayout(new BorderLayout());
 		JLabel leftLabel = new JLabel("Not Assigned:");
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		allUserList.setAlignmentX(CENTER_ALIGNMENT);
-		allUserList.setPreferredSize(new Dimension(200,300));
+		allUserList.setFixedCellWidth(180);
 		
-//		leftScrollPane.setPreferredSize(new Dimension(200,300));
-//		leftScrollPane.add(allUserList);
 
-		leftPanel.add(allUserList, BorderLayout.CENTER);
+		JScrollPane leftScrollPane = new JScrollPane(allUserList);
+		leftScrollPane.setPreferredSize(new Dimension(200,300));
+		
+		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 		this.add(leftPanel);
 
 		this.add(buttonPanel);
@@ -152,12 +151,12 @@ public class AssigneeView extends JPanel {
 		JLabel rightLabel = new JLabel("Assigned:");
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
-		assignedUserList.setPreferredSize(new Dimension(200,300));
+		assignedUserList.setFixedCellWidth(180);
 		
-//		rightScrollPane.add(assignedUserList);
-//		rightScrollPane.setPreferredSize(new Dimension(200,300));
+		JScrollPane rightScrollPane = new JScrollPane(assignedUserList);
+		rightScrollPane.setPreferredSize(new Dimension(200,300));
 		
-		rightPanel.add(assignedUserList, BorderLayout.CENTER);
+		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 		leftPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		this.add(rightPanel);

@@ -30,11 +30,7 @@ public class SnakeScoreController {
 		if (models!=null){
 			controller.game.highScoreBody.setText(models.getName() + ": " +models.getScore());
 		}
-//		if (models.length != 1){
-//			System.out.println("Something fishy happened");
-//		} else{
-//			System.out.println(models[0].getName());
-//		}
+
 		
 	}
 	

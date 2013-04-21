@@ -8,8 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Sam Abradi
- *  Arica Liu
+ * snake men of old.
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
@@ -30,10 +29,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Stores the iteration in the database.
+ * Stores the snake highscore in the database.
  * Adapted from defect tracker.
  * 
- * @author Sam Abradi
+ * @author SNAKE MAN!!!
  *
  */
 public class SnakeStore implements EntityManager<SnakeModel> {

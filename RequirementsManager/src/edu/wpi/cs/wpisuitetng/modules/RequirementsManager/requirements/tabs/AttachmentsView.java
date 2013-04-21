@@ -12,6 +12,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.io.File;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -72,6 +73,13 @@ public class AttachmentsView extends RequirementTab{
 	public void setAttachmentsList(List<Object> l) {
 		// TODO actually save the attachments list
 		// TODO change 'Object' to 'Attachment'
+	}
+	
+	//returns the current file to upload
+	//the "current" file should be set whenever the upload action is taken
+	public File getFile(){
+		return null;// TODO everything
+		
 	}
 		
 

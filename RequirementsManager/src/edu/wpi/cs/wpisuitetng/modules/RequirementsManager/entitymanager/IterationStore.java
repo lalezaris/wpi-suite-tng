@@ -63,7 +63,6 @@ public class IterationStore implements EntityManager<Iteration> {
 	public Iteration makeEntity(Session s, String content)
 			throws WPISuiteException {
 		final Iteration newIteration = Iteration.fromJSON(content);	//still need to get fromJSON working, then this will work
-		System.out.println("In the Entity Manager");
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newIteration.setId(Count() + 1);
 		if(!db.save(newIteration, s.getProject())) {

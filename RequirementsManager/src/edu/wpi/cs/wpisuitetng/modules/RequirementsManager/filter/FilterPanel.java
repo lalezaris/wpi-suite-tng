@@ -21,6 +21,7 @@ import java.awt.event.HierarchyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -47,8 +48,10 @@ public class FilterPanel extends JPanel{
 	protected FilterController view;
 	
 	private final JScrollPane scrollPane;
-	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
-	private final List<RulePanel> rules;
+
+	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton, snakeButton;
+	private final ArrayList<RulePanel> rules;
+
 	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
 	private final JLabel filterDesc;
@@ -134,8 +137,18 @@ public class FilterPanel extends JPanel{
 		c.weighty = 0.5;
 		c.gridwidth = 1;
 		c.gridheight =1;
-		
 		buttonPanel.add(removeButton, c);
+		
+		snakeButton = new JButton("Munch");
+		c.anchor = GridBagConstraints.FIRST_LINE_END; 
+		c.gridx = 6;
+		c.gridy = 0;
+		c.weightx = 0;
+		c.weighty = 0.5;
+		c.gridwidth = 1;
+		c.gridheight =1;
+		snakeButton.setVisible(false);
+		buttonPanel.add(snakeButton, c);
 		
 		
 		alwaysOnPanel = new JPanel();
@@ -315,8 +328,14 @@ public class FilterPanel extends JPanel{
 		this.revalidate();
 		this.repaint();
 		ruleHolderPanel.revalidate();
+		
+		showSnakeHuh();
 	}
 
+	private void showSnakeHuh(){
+		snakeButton.setVisible( (ruleCount == 3));
+	}
+	
 	/**
 	 * update the table with the rules
 	 * 
@@ -403,6 +422,7 @@ public class FilterPanel extends JPanel{
 		ruleHolderPanel.revalidate();
 		this.revalidate();
 		this.repaint();
+		showSnakeHuh();
 	}
 	
 	/**
@@ -516,6 +536,10 @@ public class FilterPanel extends JPanel{
 	 */
 	public FilterController getView() {
 		return view;
+	}
+
+	public AbstractButton getSnakeButton() {
+		return snakeButton;
 	}
 	
 	

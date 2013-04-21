@@ -51,8 +51,10 @@ public class AcceptanceTestTest {
 		
 		a = new AcceptanceTest("A Title", "bodybodybodybodybodybody");
 		req = new Requirement();
-//		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
-		av = new AcceptanceTestsView(null);
+		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
+		Iteration[] iterations = {Iteration.getBacklog()};
+		rv.getRequirementPanel().setIterations(iterations);
+		av = new AcceptanceTestsView(rv);
 		
 		//due to permission conflicts, the buttons must manually be enabled
 		av.getAddButton().setEnabled(true);

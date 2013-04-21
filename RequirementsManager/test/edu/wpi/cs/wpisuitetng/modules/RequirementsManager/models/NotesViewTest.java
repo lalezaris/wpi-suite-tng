@@ -49,9 +49,10 @@ public class NotesViewTest {
 		req1.addNote(new Note("n2", "creator2"));
 		req1.addNote(new Note("n3", "creator3"));
 		
-//		RequirementView rv = new RequirementView(req1, RequirementPanel.Mode.EDIT, null);
-		ArrayList<Note> notes = new ArrayList<Note>();
-		nv = new NotesView(notes);
+		RequirementView rv = new RequirementView(req1, RequirementPanel.Mode.EDIT, null);
+		Iteration[] iterations = {Iteration.getBacklog()};
+		rv.getRequirementPanel().setIterations(iterations);
+		nv = new NotesView(rv);
 		nv.setNotesList(req1.getNotes());
 		nv.getSaveButton().addActionListener(new AddNoteController(nv));
 	}

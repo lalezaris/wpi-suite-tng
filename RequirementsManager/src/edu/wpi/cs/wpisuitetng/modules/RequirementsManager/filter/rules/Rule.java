@@ -115,6 +115,7 @@ public class Rule implements IFilterRule{
 	 */
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+		//random
 	}
 
 	@Override

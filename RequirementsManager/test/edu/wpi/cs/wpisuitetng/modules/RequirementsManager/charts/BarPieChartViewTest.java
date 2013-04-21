@@ -14,9 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import static org.junit.Assert.assertEquals;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;

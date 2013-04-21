@@ -93,12 +93,12 @@ public class Rule implements IFilterRule{
 	
 	@Override
 	public boolean isAnd(){
-		return this.isAnd;
+		return isAnd;
 	}
 	
 	@Override
 	public void setIsAnd(boolean and){
-		this.isAnd = and;
+		isAnd = and;
 	}
 	
 	/**

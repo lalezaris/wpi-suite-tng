@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;

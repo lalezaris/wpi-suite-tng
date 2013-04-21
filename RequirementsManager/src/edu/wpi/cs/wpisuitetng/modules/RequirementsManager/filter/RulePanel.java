@@ -24,18 +24,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.JTextComponent;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.FilterTable;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
@@ -78,7 +77,7 @@ public class RulePanel extends JPanel{
 	 * 
 	 */
 	public RulePanel(FilterPanel parent) {
-		this.filterPanel = parent;
+		filterPanel = parent;
 		enabledBox = new JCheckBox();
 		title = new JLabel("SELECTED:   ");
 		field = new JComboBox<String>();
@@ -489,7 +488,7 @@ public class RulePanel extends JPanel{
 			output = all;
 		}
 		
-		this.editType = fieldType;
+		editType = fieldType;
 
 
 		return output;
@@ -504,11 +503,11 @@ public class RulePanel extends JPanel{
 
 		String[] removeFields = null;
 		
-		if (this.filterPanel != null)
-			removeFields = this.filterPanel.getRemoveFields();
+		if (filterPanel != null)
+			removeFields = filterPanel.getRemoveFields();
 		
 		String[] allFields = FilterTable.getRequirementTargets();
-		ArrayList<String> validFields = new ArrayList<String>();
+		List<String> validFields = new ArrayList<String>();
 		for (int i = 0 ; i < allFields.length; i ++)
 			validFields.add(allFields[i]);
 		if (removeFields!=null)

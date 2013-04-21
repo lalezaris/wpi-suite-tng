@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -76,21 +75,14 @@ public class SaveRequirementController {
 
 			System.out.println("SAY HELLO TO TUSHAR!!!!");
 			Requirement req = panel.getEditedModel();
-			//try {
-			try {
-				issues = reqVal.validate(req, view.getMode());
-			} catch (WPISuiteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("We validated game of Thrones");
+			issues = reqVal.validate(req, view.getMode());
 			if(issues.size() > 0){
 				printIssues(issues);
 			} else {
 				System.out.println("This is yet another here. I would very much love to sail me sunfish. ARRRR YO HO");
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 
-				panel.getAtv().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
+				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
 					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
 						System.out.println("In save req controller parent part");

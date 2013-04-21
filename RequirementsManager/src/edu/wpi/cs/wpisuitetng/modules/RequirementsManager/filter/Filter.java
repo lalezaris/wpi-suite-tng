@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTargetException;
@@ -28,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
  */
 public class Filter{
 	
-	private final ArrayList<Rule> rules;
+	private final List<Rule> rules;
 	
 	public Filter(){
 		rules = new ArrayList<Rule>();
@@ -48,7 +49,7 @@ public class Filter{
 	 * 
 	 * @return
 	 */
-	public ArrayList<Rule> getRules(){
+	public List<Rule> getRules(){
 		return rules;
 	}
 	
@@ -64,7 +65,7 @@ public class Filter{
 	 * @throws RuleTargetException 
 	 */
 	public Requirement[] getFilteredObjects(Requirement[] in) throws RuleTargetException{
-		ArrayList<Requirement> out = new ArrayList<Requirement>();
+		List<Requirement> out = new ArrayList<Requirement>();
 		if (in!=null){
 			for (int i = 0 ; i < in.length ; i ++){
 				

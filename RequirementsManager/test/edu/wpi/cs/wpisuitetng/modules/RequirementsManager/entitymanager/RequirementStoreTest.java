@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
@@ -228,7 +227,7 @@ public class RequirementStoreTest {
 	
 	
 	@Test
-	public void update() throws Exception{
+	public void update() throws WPISuiteException{
 		Requirement here = new Requirement();
 		Note n = new Note();
 		n.setBody("ONE");

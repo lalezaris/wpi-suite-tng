@@ -39,6 +39,6 @@ public class CancelIterationController {
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void cancel() {
-		this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+		view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
 	} 
 }

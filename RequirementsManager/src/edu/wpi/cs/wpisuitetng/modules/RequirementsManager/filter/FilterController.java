@@ -68,10 +68,10 @@ public class FilterController{
 	}
 
 	public FilterPanel getPanel() {
-		return this.panel;
+		return panel;
 	}
 	public FilterModel getModel(){
-		return this.model;
+		return model;
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class FilterController{
 	 */
 	public Requirement[] setFilteredInTable(){
 		
-		Requirement[] all = this.listPanel.getContent();
+		Requirement[] all = listPanel.getContent();
 		Requirement[] filtered = null;
 		
 		boolean sentIterationsRequest = false;
@@ -111,23 +111,23 @@ public class FilterController{
 			System.out.println("har har har, you have enraged the filter God!!!");
 			e.printStackTrace();
 		}
-		this.listPanel.filterRequirements(filtered);
+		listPanel.filterRequirements(filtered);
 		
 		
 		return filtered;
 	}
 	
 	public void setIterations(Iteration[] iterations){
-		this.model.setIterations(iterations);
-		this.panel.setIterations(iterations);
+		model.setIterations(iterations);
+		panel.setIterations(iterations);
 	}
 	
 	public void setUsers(User[] users){
-		this.model.setUsers(users);
-		this.panel.setUsers(users);
+		model.setUsers(users);
+		panel.setUsers(users);
 	}
 	
 	public RequirementListPanel getListPanel(){
-		return this.listPanel;
+		return listPanel;
 	}
 }

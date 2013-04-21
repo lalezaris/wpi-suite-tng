@@ -12,15 +12,14 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -49,7 +48,7 @@ public class FilterPanel extends JPanel{
 	
 	private final JScrollPane scrollPane;
 	private final JButton applyButton, addButton,enableButton, disableButton, removeButton,showButton;
-	private final ArrayList<RulePanel> rules;
+	private final List<RulePanel> rules;
 	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
 	private final JLabel filterDesc;
@@ -64,7 +63,7 @@ public class FilterPanel extends JPanel{
 	public FilterPanel(final FilterController view) {
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		//this.setLayout(layout);
-		this.rules = new ArrayList<RulePanel>();
+		rules = new ArrayList<RulePanel>();
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 		this.view = view;
@@ -217,7 +216,7 @@ public class FilterPanel extends JPanel{
 		c.insets = new Insets(10, 10, 0, 0);
 		this.add(mainPanel,c);
 		
-		this.mainPanel.setVisible(false);
+		mainPanel.setVisible(false);
 		
 		ruleHolderPanel.validate();
 		ruleHolderPanel.repaint();
@@ -256,7 +255,7 @@ public class FilterPanel extends JPanel{
 	}
 	
 	public void removeFields(String[] remove){
-		this.removeFields = remove;
+		removeFields = remove;
 	}
 	
 	
@@ -324,7 +323,7 @@ public class FilterPanel extends JPanel{
 	 */
 	protected void triggerTableUpdate(){
 		setFilterDescText();
-		this.view.setFilteredInTable();
+		view.setFilteredInTable();
 	}
 	
 	/**
@@ -338,11 +337,11 @@ public class FilterPanel extends JPanel{
 				if (!((String)rules.get(r).getField().getSelectedItem()).equals(" "))
 					ruleCount++;
 		if (ruleCount == 0)
-			this.filterDesc.setText("No filters enabled");
+			filterDesc.setText("No filters enabled");
 		else if (ruleCount == 1)
-			this.filterDesc.setText("1 filter enabled");
+			filterDesc.setText("1 filter enabled");
 		if (ruleCount >1)
-			this.filterDesc.setText(ruleCount + " filters enabled");
+			filterDesc.setText(ruleCount + " filters enabled");
 	}
 
 	/**
@@ -366,7 +365,7 @@ public class FilterPanel extends JPanel{
 	 */
 	public void deleteSelected(){
 		
-		ArrayList<RulePanel> delete = new ArrayList<RulePanel>();
+		List<RulePanel> delete = new ArrayList<RulePanel>();
 		int ySize = 40;
 		for (int i = 0 ; i < rules.size(); i ++)
 			if (rules.get(i).getEnabledBox().isSelected()){
@@ -396,7 +395,7 @@ public class FilterPanel extends JPanel{
 //		scrollPane.revalidate();
 //		scrollPane.repaint();
 		ruleHolderPanel.revalidate();
-		this.view.getModel().setModelFromPanel(this);
+		view.getModel().setModelFromPanel(this);
 		ruleHolderPanel.setPreferredSize(new Dimension(
 				(int) ruleHolderPanel.getPreferredSize().getWidth(),
 				(int) (ruleHolderPanel.getComponentCount()  * ySize)));
@@ -507,7 +506,7 @@ public class FilterPanel extends JPanel{
 	 * Gets the rule
 	 * @return the rule
 	 */
-	public ArrayList<RulePanel> getRules() {
+	public List<RulePanel> getRules() {
 		return rules;
 	}
 

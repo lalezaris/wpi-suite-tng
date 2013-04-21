@@ -212,7 +212,7 @@ public class RequirementModel {
 			return true;
 		}
 		
-		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
+		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
 		
@@ -238,12 +238,12 @@ public class RequirementModel {
 			return true;
 		}
 		
-		if(!this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals(null)){
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
 			System.out.println("Title IN ACCEPTANCE TEST");
 			return true;
 		}
 		
-		if(!this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
 			System.out.println("Body IN ACCEPTANCE TEST");
 			return true;
 		}
@@ -253,7 +253,7 @@ public class RequirementModel {
 //			return true;
 //		}
 		
-		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAtv().getList().size()){
+		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			System.out.println("Added IN ACCEPTANCE TEST");
 			return true;
 		}

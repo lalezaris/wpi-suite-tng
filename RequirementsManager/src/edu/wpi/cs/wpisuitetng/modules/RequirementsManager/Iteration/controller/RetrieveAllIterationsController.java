@@ -66,7 +66,7 @@ public class RetrieveAllIterationsController {
     public void receivedData(Iteration[] Iterations) {
     	if (Iterations.length > 0) {
     		// save the data
-    		this.data = Iterations;
+    		data = Iterations;
 
     		Refresher.getInstance().refreshIterations(Iterations, view);
     	}

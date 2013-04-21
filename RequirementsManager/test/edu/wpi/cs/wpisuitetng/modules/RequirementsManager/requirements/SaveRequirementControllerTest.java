@@ -32,7 +32,7 @@ public class SaveRequirementControllerTest {
 	RequirementView view;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		Requirement tempReq = new Requirement();

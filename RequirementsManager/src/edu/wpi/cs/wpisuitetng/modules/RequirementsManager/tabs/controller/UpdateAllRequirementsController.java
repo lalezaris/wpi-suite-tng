@@ -60,11 +60,7 @@ public class UpdateAllRequirementsController {
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
 		
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
-			try {
-				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
-			} catch (WPISuiteException e) {
-				e.printStackTrace();
-			}
+			issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
 			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}

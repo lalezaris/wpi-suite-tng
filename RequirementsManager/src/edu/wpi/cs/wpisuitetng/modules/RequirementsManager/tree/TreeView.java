@@ -107,7 +107,7 @@ public class TreeView extends JPanel {
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
 							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
-								boolean isRequirement = true;
+								private boolean isRequirement = true;
 
 								@Override
 								public void runWhenRecieved(String s){
@@ -152,7 +152,7 @@ public class TreeView extends JPanel {
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Iteration> controller = new RetrieveRequirementControllerTree<Iteration>(
 							null,"iterationsmanager/iteration/", new IRetrieveRequirementController<Iteration>() {
-								boolean isIteration = true;
+								private boolean isIteration = true;
 
 								/* (non-Javadoc)
 								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#runWhenRecieved(java.lang.String)

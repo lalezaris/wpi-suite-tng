@@ -19,7 +19,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -92,7 +91,6 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chart the chart
 	 */
 	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
-		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);
 
 		addComponents();
@@ -133,7 +131,7 @@ public class BarPieChartPanel extends JPanel {
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
 		boxPanel.add(chartBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -208,8 +206,9 @@ public class BarPieChartPanel extends JPanel {
 				plot.setStartAngle(0);
 		        plot.setForegroundAlpha(1);
 				rotator = new PieRotator(plot);
-				if(pieSpin)
+				if(pieSpin){
 					rotator.start();
+				}
 			}
 		}
 		
@@ -235,8 +234,9 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setVisible(enabled);
-		if(!enabled)
+		if(!enabled){
 			subDivideBox.setSelectedIndex(0);
+		}
 	}
 	
 	/**Determine whether or not you can see the button.

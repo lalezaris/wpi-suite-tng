@@ -12,6 +12,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -26,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings("serial")
-public class AttachmentsView extends JPanel{
+public class AttachmentsView extends RequirementTab{
 
 
 	private RequirementView parent;
@@ -43,6 +46,32 @@ public class AttachmentsView extends JPanel{
 		addFileButton = new JButton("Add File");
 		
 		this.add(addFileButton);
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Attachments";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add files to this requirement";
+	}
+
+	public List<Object> getAttachmentsList() {
+		// TODO actually return the attachments list
+		// TODO change 'Object' to 'Attachment'
+		return null;
+	}
+	
+	public void setAttachmentsList(List<Object> l) {
+		// TODO actually save the attachments list
+		// TODO change 'Object' to 'Attachment'
 	}
 		
 

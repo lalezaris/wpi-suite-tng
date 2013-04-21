@@ -22,6 +22,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -714,5 +715,10 @@ public class Requirement extends AbstractModel{
 	@SuppressWarnings("unchecked")
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childIDs = (ArrayList<Integer>) newList.clone();
+	}
+
+	public void updateAttachments(List<Object> attachmentsList) {
+		// TODO change 'Obeject' to 'Attachment'
+		// TODO actually update the attachments.....
 	}
 }

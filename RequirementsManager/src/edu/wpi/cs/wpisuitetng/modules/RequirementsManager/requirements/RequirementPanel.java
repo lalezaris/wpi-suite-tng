@@ -51,6 +51,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AttachmentsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
@@ -137,12 +138,16 @@ public class RequirementPanel extends JPanel{
 	//TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
+	/** Attachments view for adding files to a requirement*/
+	private AttachmentsView attachmentsView;
+
 	/** DependenciesView for viewing child requirements **/
 	private DependenciesView dependenciesView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
-
+	
+	
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
@@ -197,7 +202,9 @@ public class RequirementPanel extends JPanel{
 		//get the list of history from the given requirement
 		this.historyView = new HistoryView(parent);
 		//		historyView = new HistoryView(model);
-
+		
+		this.attachmentsView = new AttachmentsView(parent);
+		
 		//Instantiate the acceptance tests
 		this.acceptanceTestsView = new AcceptanceTestsView(parent);
 
@@ -283,7 +290,7 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView});
+		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView, attachmentsView});
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -777,6 +784,7 @@ public class RequirementPanel extends JPanel{
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(historyView.getHistoryList());
+		requirement.updateAttachments(attachmentsView.getAttachmentsList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
 		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
@@ -1271,5 +1279,12 @@ public class RequirementPanel extends JPanel{
 		for (int i = 0 ; i < iterations.length; i ++)
 			this.cmbIteration.addItem(iterations[i]);
 
+	}
+
+
+
+
+	public AttachmentsView getAttachmentsView() {
+		return attachmentsView;
 	}
 }

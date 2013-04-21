@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -333,6 +334,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAssigneeView().setLists();
+		mainPanel.getAttachmentsView().setAttachmentsList(new ArrayList<Object>());
+		//TODO change the 'Object' to 'Attachment'
 
 		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
 		for(int i = 0; i < this.getReqModel().getRequirement().getAcceptanceTests().size(); i++){

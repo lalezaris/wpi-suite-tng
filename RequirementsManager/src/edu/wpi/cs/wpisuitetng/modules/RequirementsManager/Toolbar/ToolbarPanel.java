@@ -420,4 +420,41 @@ public class ToolbarPanel extends DefaultToolbarView {
 			toolbarGroupUserPermission.setVisible(true);
 		}
 	}
+
+	
+	/**
+	 * returns if the display is that of a NONE user
+	 * 
+	 */
+	public boolean checkDisplayNone(){
+		return(createSplit.isVisible()== false &&
+				editUserPermissions.isVisible() == false &&
+				toolbarGroupManage.isVisible() == true &&
+				toolbarGroupResources.isVisible() == true &&
+				toolbarGroupUserPermission.isVisible() == true);
+	}
+	/**
+	 * returns if the display is that of an UPDATE user
+	 * 
+	 */
+	public boolean checkDisplayUpdate(){
+		return(createSplit.isVisible()== false &&
+				editUserPermissions.isVisible() == false &&
+				toolbarGroupManage.isVisible() == true &&
+				toolbarGroupResources.isVisible() == true &&
+				toolbarGroupUserPermission.isVisible() == true);
+		
+	}
+	/**
+	 * returns if the display is that of an ADMIN user
+	 * 
+	 */
+	public boolean checkDisplayAdmin(){
+		return(createSplit.isVisible()== true &&
+				editUserPermissions.isVisible() == true &&
+				toolbarGroupManage.isVisible() == true &&
+				toolbarGroupResources.isVisible() == true &&
+				toolbarGroupUserPermission.isVisible() == true);
+	}
+	
 }

@@ -53,11 +53,7 @@ public class RequirementStatusLists{
 		case OPEN:
 			return OpenList;
 		case COMPLETE:
-			if (req.getParentRequirementId() == -1) {
-				return CompleteList;
-			} else {
-				return InProgressList;
-			}
+			return CompleteList;
 		case DELETED:
 			return DeletedList;
 		default:

@@ -41,14 +41,13 @@ public class CreateChildRequirementController{
 	 */
 	public CreateChildRequirementController(RequirementView view) {
 		this.view = view;
-
-		this.childRequirement = new Requirement();
 	}
 
 	/**
 	 * Serve up the child requirement.
 	 */
 	public void viewChild() {
+		this.childRequirement = new Requirement();
 		childRequirement.setIterationId(Iteration.getBacklog().getId());
 		childRequirement.setReleaseNumber(view.getReqModel().getRequirement().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.

@@ -62,10 +62,10 @@ public class UpdateAllRequirementsController {
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
 			try {
 				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
-			} catch (WPISuiteException e) {
-				e.printStackTrace();
+			} catch (NullPointerException e) {
+				System.out.println("The " + (i + 1) + "th requirement is legal");
 			}
-			if(issues.size() > 0){
+			if(issues != null){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}
 			

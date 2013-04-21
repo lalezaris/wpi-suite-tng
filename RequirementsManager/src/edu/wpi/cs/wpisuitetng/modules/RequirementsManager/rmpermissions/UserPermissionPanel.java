@@ -260,21 +260,6 @@ public class UserPermissionPanel extends JPanel{
 		c.gridwidth = 1;
 //		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
-	}	
-
-	/**
-	 * The function takes a DefaultListModel and converts it to a list of string.
-	 *
-	 * @param model the model to be converted
-	 * @return a list of the items in the model
-	 */
-	@SuppressWarnings("unused")
-	private List<String> getAllElementsInModel(DefaultListModel model){
-		List<String> modelElements = new ArrayList<String>();
-		for(int i = 0; i < model.getSize(); i++){
-			modelElements.add((String)model.getElementAt(i));
-		}
-		return modelElements;
 	}
 
 	/**

@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvide
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
@@ -331,7 +330,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		reqModel.update(requirement, editMode);
 
-
 		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAssigneeView().setLists();
@@ -379,12 +377,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
 
-		if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
-			mainPanel.getCmbStatus().setEnabled(false);
-			mainPanel.getCmbIteration().setEnabled(false);
+		if(this.getMode() == Mode.EDIT && !(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
+			System.out.println("HEY");
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
-			mainPanel.getTxtActual().setEnabled(false);
-
+		}
+		
+		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			mainPanel.getTxtEstimate().setEnabled(false);
 		}
 
 		// depending on the status and sub-requirements, disable certain components

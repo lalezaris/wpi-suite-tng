@@ -40,8 +40,8 @@ public class NewRequirementAction extends AbstractAction {
 	 * 
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
 	 */
-	public NewRequirementAction(MainTabController controller) {
-		super("Create Requirement");
+	public NewRequirementAction(MainTabController controller,String componentName) {
+		super(componentName);
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}

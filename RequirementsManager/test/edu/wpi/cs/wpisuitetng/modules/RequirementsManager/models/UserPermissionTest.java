@@ -32,7 +32,7 @@ public class UserPermissionTest {
 	UserPermission uPerm1, uPerm2, uPerm3;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		uPerm1 = new UserPermission("username1", RMPermissionsLevel.NONE);
 		uPerm2 = new UserPermission("username2", RMPermissionsLevel.UPDATE);
 		uPerm3 = new UserPermission("username3", RMPermissionsLevel.ADMIN);

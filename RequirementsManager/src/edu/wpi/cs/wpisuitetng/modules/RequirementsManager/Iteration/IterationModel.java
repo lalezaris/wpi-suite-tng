@@ -36,11 +36,11 @@ public class IterationModel {
 	IterationView iterationView;
 	
 	public IterationModel(Iteration iteration, IterationView iterationView){
-		this.editedModel = iteration;
-		this.uneditedModel = iteration;
+		editedModel = iteration;
+		uneditedModel = iteration;
 		this.iterationView = iterationView;
-		this.gotIteration = false;
-		this.gotAllIterations = false;
+		gotIteration = false;
+		gotAllIterations = false;
 	}
 	
 	/**
@@ -70,11 +70,11 @@ public class IterationModel {
 		editedModel.setStatus(iteration.getStatus());
 
 		updateFields();
-		((IterationPanel) this.iterationView.getIterationPanel()).revalidate();
-		((IterationPanel) this.iterationView.getIterationPanel()).getPanelLayout().invalidateLayout(((IterationPanel) this.iterationView.getIterationPanel()));
-		((IterationPanel) this.iterationView.getIterationPanel()).getPanelLayout().layoutContainer(((IterationPanel) this.iterationView.getIterationPanel()));
-		((IterationPanel) this.iterationView.getIterationPanel()).repaint();
-		this.iterationView.refreshScrollPane();
+		((IterationPanel) iterationView.getIterationPanel()).revalidate();
+		((IterationPanel) iterationView.getIterationPanel()).getPanelLayout().invalidateLayout(((IterationPanel) iterationView.getIterationPanel()));
+		((IterationPanel) iterationView.getIterationPanel()).getPanelLayout().layoutContainer(((IterationPanel) iterationView.getIterationPanel()));
+		((IterationPanel) iterationView.getIterationPanel()).repaint();
+		iterationView.refreshScrollPane();
 	}
 
 	/**
@@ -87,10 +87,10 @@ public class IterationModel {
 //		((IterationPanel) this.iterationView.getIterationPanel()).getTxtStartDate().setText(uneditedModel.getStartDate().toString());
 //		((IterationPanel) this.iterationView.getIterationPanel()).getTxtEndDate().setText(uneditedModel.getEndDate().toString());
 		
-		if (((IterationPanel) this.iterationView.getIterationPanel()).getEditMode() == Mode.EDIT) {
-			((IterationPanel) this.iterationView.getIterationPanel()).getTxtIterationName().setText(editedModel.getIterationName().toString());
-			((IterationPanel) this.iterationView.getIterationPanel()).getTxtStartDate().setText(DateToString(editedModel.getStartDate()));
-			((IterationPanel) this.iterationView.getIterationPanel()).getTxtEndDate().setText(DateToString(editedModel.getEndDate()));
+		if (((IterationPanel) iterationView.getIterationPanel()).getEditMode() == Mode.EDIT) {
+			((IterationPanel) iterationView.getIterationPanel()).getTxtIterationName().setText(editedModel.getIterationName().toString());
+			((IterationPanel) iterationView.getIterationPanel()).getTxtStartDate().setText(DateToString(editedModel.getStartDate()));
+			((IterationPanel) iterationView.getIterationPanel()).getTxtEndDate().setText(DateToString(editedModel.getEndDate()));
 		}
 	}
 	
@@ -101,15 +101,15 @@ public class IterationModel {
 	 */
 	public Iteration getEditedModel() {
 		Iteration iteration;
-		if(Mode.EDIT == ((IterationPanel) this.iterationView.getIterationPanel()).getEditMode()){
+		if(Mode.EDIT == ((IterationPanel) iterationView.getIterationPanel()).getEditMode()){
 			iteration = editedModel;
 		}
 		else{
 			iteration = new Iteration("", null, null);
 		}
-		iteration.setIterationName(((IterationPanel) this.iterationView.getIterationPanel()).getTxtIterationName().getText()); 
-		iteration.setStartDate(StringToDate(((IterationPanel) this.iterationView.getIterationPanel()).getTxtStartDate().getText()));
-		iteration.setEndDate(StringToDate(((IterationPanel) this.iterationView.getIterationPanel()).getTxtEndDate().getText()));
+		iteration.setIterationName(((IterationPanel) iterationView.getIterationPanel()).getTxtIterationName().getText()); 
+		iteration.setStartDate(StringToDate(((IterationPanel) iterationView.getIterationPanel()).getTxtStartDate().getText()));
+		iteration.setEndDate(StringToDate(((IterationPanel) iterationView.getIterationPanel()).getTxtEndDate().getText()));
 
 		return iteration;
 	}

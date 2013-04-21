@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
@@ -23,6 +24,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListCellRenderer;
+
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -72,9 +77,9 @@ public class RulePanel extends JPanel{
 	 * 
 	 */
 	public RulePanel(FilterPanel parent) {
-		this.filterPanel = parent;
+		filterPanel = parent;
 		enabledBox = new JCheckBox();
-		title = new JLabel("Rule: ");
+		title = new JLabel("SELECTED:   ");
 		field = new JComboBox<String>();
 		compareMode = new JComboBox<RuleComparisonMode>();
 		possibleValues = new JComboBox();
@@ -89,15 +94,35 @@ public class RulePanel extends JPanel{
 
 		
 
-		compareMode.setMaximumSize(new Dimension(100, field.getSize().height));
+		//compareMode.setMaximumSize(new Dimension(100, field.getSize().height));
 
-		field.setMaximumSize(new Dimension(100, field.getSize().height));
+		//field.setMaximumSize(new Dimension(100, field.getSize().height));
 
-		possibleValues.setMaximumSize(new Dimension(100, field.getSize().height));
+		//possibleValues.setMaximumSize(new Dimension(100, field.getSize().height));
 
-		possibleValuesText.setSize(200, possibleValues.getHeight());
-		possibleValuesText.setMinimumSize(new Dimension((int)possibleValuesText.getPreferredSize().getWidth(), possibleValues.getHeight()));
+		//possibleValuesText.setSize(200, possibleValues.getHeight());
+		//possibleValuesText.setMinimumSize(new Dimension((int)possibleValuesText.getPreferredSize().getWidth(), possibleValues.getHeight()));
 
+		possibleValuesText.setPreferredSize(new Dimension(100, 100));
+		
+		possibleValuesText.validate();
+		
+		this.validate();
+		
+		DefaultListCellRenderer comboBoxRenderer = new DefaultListCellRenderer(){
+			@Override
+	        public void paint(Graphics g) {
+				setForeground(Color.BLACK);
+	            super.paint(g);
+	        }
+		};
+		
+		field.setRenderer(comboBoxRenderer);
+		compareMode.setRenderer(comboBoxRenderer);
+		possibleValues.setRenderer(comboBoxRenderer);
+		
+		
+		
 		constraint.anchor = GridBagConstraints.FIRST_LINE_START;
 		constraint.weightx = 0;
 		
@@ -121,9 +146,25 @@ public class RulePanel extends JPanel{
 		this.enabled = enabled;
 		Color backColor = new Color(208, 255, 208);
 		if (enabled){
-			
+			field.setEnabled(true);
+			compareMode.setEnabled(true);
+			possibleValues.setEnabled(true);
+			possibleValuesText.setEnabled(true);
 		} else{
-			backColor = new Color(255, 208, 208);
+			backColor = new Color(228, 208, 208);
+			field.setEnabled(false);
+			compareMode.setEnabled(false);
+			possibleValues.setEnabled(false);
+			possibleValuesText.setEnabled(false);
+			possibleValuesText.setDisabledTextColor(Color.BLACK);
+//			field.setEditable(false);
+//			compareMode.setEditable(false);
+//			possibleValues.setEditable(false);
+//			possibleValuesText.setEditable(false);
+//			field.setForeground(Color.black);
+//			compareMode.setForeground(Color.black);
+//			possibleValues.setForeground(Color.black);
+//			possibleValuesText.setForeground(Color.black);
 		}
 		
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
@@ -300,6 +341,16 @@ public class RulePanel extends JPanel{
 				this.remove(possibleValues);
 		}
 		
+		if (possibleValuesTextIndex != -1){
+			possibleValuesText.setVisible(true);
+			if (editType == RuleEditableType.ALL)
+				possibleValuesText.setVisible(false);
+		}
+		if (possibleValuesIndex != -1){
+			possibleValues.setVisible(true);
+			if (editType == RuleEditableType.ALL)
+				possibleValues.setVisible(false);
+		}
 		this.repaint();
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
@@ -372,12 +423,16 @@ public class RulePanel extends JPanel{
 	 */
 	private void updateCompareBox(){
 
-		
+		compareMode.setVisible(true);
 		compareMode.removeAllItems();
 		RuleComparisonMode[] modes = getValidComparisonModes();
 		for (int i = 0 ; i < modes.length; i++)
 			compareMode.addItem(modes[i]);
+
 		compareMode.setPreferredSize(new Dimension(300,(int)compareMode.getPreferredSize().getHeight()));
+		if (editType == RuleEditableType.ALL)
+			compareMode.setVisible(false);
+		
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
@@ -433,7 +488,7 @@ public class RulePanel extends JPanel{
 			output = all;
 		}
 		
-		this.editType = fieldType;
+		editType = fieldType;
 
 
 		return output;
@@ -448,11 +503,11 @@ public class RulePanel extends JPanel{
 
 		String[] removeFields = null;
 		
-		if (this.filterPanel != null)
-			removeFields = this.filterPanel.getRemoveFields();
+		if (filterPanel != null)
+			removeFields = filterPanel.getRemoveFields();
 		
 		String[] allFields = FilterTable.getRequirementTargets();
-		ArrayList<String> validFields = new ArrayList<String>();
+		List<String> validFields = new ArrayList<String>();
 		for (int i = 0 ; i < allFields.length; i ++)
 			validFields.add(allFields[i]);
 		if (removeFields!=null)
@@ -476,7 +531,9 @@ public class RulePanel extends JPanel{
 	 */
 	public Rule extractRule(){
 		Rule r = null;
-		if (editType == RuleEditableType.ENUM){
+		if (editType == RuleEditableType.ALL)
+			return null;
+		else if (editType == RuleEditableType.ENUM){
 			r = new Rule((Enum)possibleValues.getSelectedItem(),
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());

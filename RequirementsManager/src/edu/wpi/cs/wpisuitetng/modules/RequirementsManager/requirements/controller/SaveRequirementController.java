@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -76,37 +75,9 @@ public class SaveRequirementController {
 
 			System.out.println("SAY HELLO TO TUSHAR!!!!");
 			Requirement req = panel.getEditedModel();
-			//try {
-			try {
-				issues = reqVal.validate(req, view.getMode());
-//<<<<<<< HEAD
-//				if(issues.size() > 0){
-//					printIssues(issues);
-//				} else {
-//					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
-//					panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
-//					if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
-//						if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
-//							System.out.println("In save req controller parent part");
-//							RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(getView());
-//							
-//							Requirement parent = view.getParentRequirement();
-//							int estimateEffort = parent.getEstimateEffort() - view.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort();
-//							parent.setEstimateEffort(estimateEffort);
-//						
-//							Request estimateRequest;
-//							estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
-//							String JsonRequest = parent.toJSON();
-//							estimateRequest.setBody(JsonRequest);
-//							System.out.println("Sending REQ to server:" +JsonRequest );
-//							estimateRequest.addObserver(parentEstimateRequestObserver);
-//							estimateRequest.send();
-//=======
-			} catch (WPISuiteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			issues = reqVal.validate(req, view.getMode());
 			System.out.println("We validated game of Thrones");
+			issues = reqVal.validate(req, view.getMode());
 			if(issues.size() > 0){
 				printIssues(issues);
 			} else {
@@ -127,7 +98,6 @@ public class SaveRequirementController {
 							view.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
 							view.getParentView().getReqModel().setEstimateDirty();
 							//view.getParentView().getReqModel().setTxtEstimateOfUneditedRequirement(estimateEffort);
-//>>>>>>> origin/team1-dev
 						}
 						Request estimateRequest;
 						estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);

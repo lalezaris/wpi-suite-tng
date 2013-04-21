@@ -17,14 +17,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 
 /**

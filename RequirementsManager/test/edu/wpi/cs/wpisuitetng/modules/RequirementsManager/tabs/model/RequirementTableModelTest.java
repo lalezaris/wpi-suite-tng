@@ -39,7 +39,7 @@ public class RequirementTableModelTest {
 	DefaultTableColumnModel dtcm;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		rtm1 = new RequirementTableModel();
 		Requirement req1 = new Requirement(1,"req1","des1",null);
 		req1.setEstimateEffort(-1);

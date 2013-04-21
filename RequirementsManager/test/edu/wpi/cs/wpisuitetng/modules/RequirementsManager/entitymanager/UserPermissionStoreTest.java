@@ -190,7 +190,7 @@ public class UserPermissionStoreTest {
 	
 	
 	@Test
-	public void update() throws Exception{
+	public void update() throws WPISuiteException{
 		UserPermission here = new UserPermission();
 		System.out.println("test:" + here.toJSON());
 		

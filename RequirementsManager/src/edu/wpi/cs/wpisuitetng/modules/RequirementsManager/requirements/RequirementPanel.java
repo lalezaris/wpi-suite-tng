@@ -394,14 +394,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cOne.gridwidth = 1;
 		panelOne.add(txtReleaseNumber, cOne);
 
-
-
-
-		//		 else if(model.getStatus() == RequirementStatus.INPROGRESS)
-		//			 deleteRequirementButton.setEnabled(false);
-		//		 else
-		//			 deleteRequirementButton.setEnabled(true);
-
 		cOne.gridx = 0;
 		cOne.gridy = 2;
 		cOne.weightx = 0.5;
@@ -532,28 +524,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblEstimateError.setVisible(false);
 		lblEstimateError.setForeground(Color.RED);
 		panelThree.add(lblEstimateError, cThree);
-
-		//		 //Panel Four - panel below panel three -------------------------------------------------------------------------------------
-		//		 //Use a grid bag layout manager
-		//
-		//		 layoutFour = new GridBagLayout();
-		//		 panelFour.setLayout(layoutFour);
-		//
-		//		 cFour.insets = new Insets(10,10,10,0);
-
+		
 		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
 		layoutButtons = new GridBagLayout();
 		panelButtons.setLayout(layoutButtons);
-
-		//		 cButtons.insets = new Insets(10,10,10,10);
-		//		 cButtons.weightx = 0.5;
-		//		 cButtons.weighty = 0.5;
-		//		 cButtons.gridx = 0;
-		//		 cButtons.gridy = 0;
-		//		 cButtons.gridwidth = 3;
-		//		 panelButtons.add(createChildRequirementButton, cButtons);
-
 
 		cButtons.weightx = 0.5;
 		cButtons.weighty = 0.5;
@@ -624,23 +599,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cOverall.anchor = GridBagConstraints.CENTER;
 		panelOverall.add(createChildRequirementButton, cOverall);
 
-		//		 cOverall.weightx = 0.5;
-		//		 cOverall.weighty = 0.5;
-		//		 cOverall.gridx = 0;
-		//		 cOverall.gridy = 3;
-		//		 cOverall.anchor = GridBagConstraints.LINE_START;
-		//		 panelOverall.add(panelFour, cOverall);
-
-
-		//		 cOverall.weightx = 0.5;
-		//		 cOverall.weighty = 0.5;
-		//		 cOverall.gridx = 0;
-		//		 cOverall.gridy = 4;
-		//		 cOverall.anchor = GridBagConstraints.LINE_START;
-		//		 panelOverall.add(panelButtons, cOverall);
-
 		// add to this Panel -----------------------------------------------------------------------------------------------------------------
-
 		JPanel leftPaneltop = new JPanel();
 		leftPaneltop.setLayout(new GridBagLayout());
 		GridBagConstraints cPaneTop = new GridBagConstraints();
@@ -659,12 +618,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, panelTabs);
 		this.add(splitPane, BorderLayout.CENTER);
-
-		//		 if (model.getChildRequirementIds().isEmpty()) {
-		//			 setDeleteEnabled(false);
-		//		 }
-
-
 	}
 
 	public void setUpToolTips(){
@@ -711,7 +664,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				com.setEnabled(false);
 		}
 	}
-
 
 	/**
 	 * Enables components for editing purposes.
@@ -944,6 +896,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != Iteration.getBacklog()){
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;
+				runThatForLoop = true;
+			}
+			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == Iteration.getBacklog()){
+				setTo = RequirementStatus.OPEN;
+				enabled = false;
 				runThatForLoop = true;
 			}
 			//			} else
@@ -1291,8 +1248,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * @param acceptanceTestsView: the acceptanceTestsView to set
 	 */
-	public void setAcceptanceTestsView(AcceptanceTestsView atv) {
-		this.acceptanceTestsView = atv;
+	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
+		this.acceptanceTestsView = acceptanceTestsView;
 	}
 
 	/**

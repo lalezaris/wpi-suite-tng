@@ -1,21 +1,27 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Sam Abradi
+ *  Evan Polekoff
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
-import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
-import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class TaskStore implements EntityManager<Task> {
 	Data db;
@@ -28,7 +34,7 @@ public class TaskStore implements EntityManager<Task> {
 
 	@Override
 	public Task makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws WPISuiteException {
 		final Task newTask = Task.fromJSON(content);	//still need to get fromJSON working, then this will work
 		
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
@@ -46,8 +52,7 @@ public class TaskStore implements EntityManager<Task> {
 	}
 
 	@Override
-	public Task[] getEntity(Session s, String id) throws NotFoundException,
-			WPISuiteException {
+	public Task[] getEntity(Session s, String id) throws NotFoundException{
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
 			throw new NotFoundException();
@@ -66,7 +71,7 @@ public class TaskStore implements EntityManager<Task> {
 	}
 
 	@Override
-	public Task[] getAll(Session s) throws WPISuiteException {
+	public Task[] getAll(Session s){
 		return db.retrieveAll(new Task(), s.getProject()).toArray(new Task[0]);
 	}
 
@@ -97,45 +102,42 @@ public class TaskStore implements EntityManager<Task> {
 	}
 
 	@Override
-	public void save(Session s, Task model) throws WPISuiteException {
+	public void save(Session s, Task model){
 		db.save(model, s.getProject());
 		
 	}
 
 	@Override
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+	public boolean deleteEntity(Session s, String id){
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+	public String advancedGet(Session s, String[] args){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteAll(Session s) throws WPISuiteException {
+	public void deleteAll(Session s){
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public int Count() throws WPISuiteException {
+	public int Count(){
 		return db.retrieveAll(new Task()).size();
 	}
 
 	@Override
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+	public String advancedPut(Session s, String[] args, String content){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	public String advancedPost(Session s, String string, String content){
 		// TODO Auto-generated method stub
 		return null;
 	}

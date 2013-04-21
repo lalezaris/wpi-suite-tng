@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
@@ -42,6 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @version Apr 14, 2013
  *
  */
+@SuppressWarnings("serial")
 public class FilterPanel extends JPanel{
 
 	protected FilterController view;
@@ -52,10 +53,14 @@ public class FilterPanel extends JPanel{
 	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
 	private final JLabel filterDesc;
+	private int ruleCount = 0, ruleInc = 0;
+	private JLabel dingus = new JLabel(" ");
 	/**
 	 * create a filter panel and add all the components
 	 * 
 	 */
+
+	@SuppressWarnings("unused")
 	public FilterPanel(final FilterController view) {
 		BoxLayout layoutBox = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		//this.setLayout(layout);
@@ -254,8 +259,7 @@ public class FilterPanel extends JPanel{
 		this.removeFields = remove;
 	}
 	
-	private int ruleCount = 0, ruleInc = 0;
-	private JLabel dingus = new JLabel(" ");
+	
 	/**
 	 * Add a blank rule to the panel.
 	 * 

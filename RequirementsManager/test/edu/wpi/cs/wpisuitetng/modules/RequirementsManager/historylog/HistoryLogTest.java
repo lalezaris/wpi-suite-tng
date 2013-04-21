@@ -15,20 +15,21 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.historylog;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 

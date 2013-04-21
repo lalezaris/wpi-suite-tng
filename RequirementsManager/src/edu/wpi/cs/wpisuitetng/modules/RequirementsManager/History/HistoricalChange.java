@@ -27,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Contains the date, object id, user, change id.
  * 
  * @Author: Michael French
+ * @Author: Evan Polekoff
+ * @Author: Sam Abradi
  * 
  * @version Mar 31, 2013
  */
@@ -155,7 +157,7 @@ public class HistoricalChange extends AbstractModel{
 		}
 		
 		//TODO: come back to this
-		//compare sub-requirements 
+		//compare sub-requirements, add comments to the history log
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
 			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
 				change +="<p> "+"Sub Requirement " + oldR.getChildRequirementIds().get(i) + " removed</p>";
@@ -164,6 +166,7 @@ public class HistoricalChange extends AbstractModel{
 		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
 			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
 				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";
+
 			}
 		}
 	
@@ -181,7 +184,7 @@ public class HistoricalChange extends AbstractModel{
 			else
 				change += " notes added.</p>";
 		}
-		
+		 
 		//compare Acceptance Test list size
 		if (acceptanceTestDifference != 0){//if old and new are not the same
 			change += "<p> "+ acceptanceTestDifference+ " Acceptance Tests added.</p>";

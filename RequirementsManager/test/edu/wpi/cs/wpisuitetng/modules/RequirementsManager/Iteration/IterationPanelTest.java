@@ -12,11 +12,10 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;

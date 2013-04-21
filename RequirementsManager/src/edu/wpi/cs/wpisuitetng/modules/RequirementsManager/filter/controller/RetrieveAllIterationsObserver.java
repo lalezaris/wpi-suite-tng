@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
@@ -31,13 +31,21 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class RetrieveAllIterationsObserver implements RequestObserver{
 
 	RetrieveAllIterationsController controller;
+	
 	/**
-	 * Create an observer to catch an iteration list
-	 * @param controller 
+
+	 * Constructor for a RetrieveAllIterationsObserver.
+	 *
+	 * @param controller the controller
+
 	 */
 	public RetrieveAllIterationsObserver(RetrieveAllIterationsController controller) {
 		this.controller = controller;
 	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
@@ -49,11 +57,19 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 		controller.response(iterations);
 		
 	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		
 		
 	}
+	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		

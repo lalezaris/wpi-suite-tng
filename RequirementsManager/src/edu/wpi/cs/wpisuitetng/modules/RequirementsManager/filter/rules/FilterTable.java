@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
@@ -29,12 +29,20 @@ public class FilterTable{
 
 	private static FilterTable table;
 	
+	/**
+	 * Gets the single instance of FilterTable.
+	 *
+	 * @return single instance of FilterTable
+	 */
 	public static FilterTable getInstance(){
 		if (table == null)
 			table = new FilterTable();
 		return table;
 	}
 	
+	/**
+	 * Instantiates a new filter table.
+	 */
 	private FilterTable(){
 		
 	}

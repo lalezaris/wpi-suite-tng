@@ -14,12 +14,13 @@
  *  Ned Shelton
  *  Sam Lalezari
  *  Tushar Narayan
+ *  Chris Hanna
+ *  Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,6 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Assi
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 /**
  * Panel to display and edit the basic fields for a requirement.
@@ -128,7 +130,9 @@ public class RequirementPanel extends JPanel{
 	/** AcceptanceTestsView for viewing and updating Acceptance Tests **/
 	private AcceptanceTestsView acceptanceTestsView;
 
-	/** AssigneeView for updating assignees **/
+	/** TasksView for updating tasks **/
+	private TasksView tasksView;
+	
 	//TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
@@ -147,8 +151,7 @@ public class RequirementPanel extends JPanel{
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
 
-	/* origin/team1-theHistoryLogBackEnd
-	 */	/** The other panels */
+	/** The other panels */
 	protected JPanel panelOverall;
 	protected JPanel panelOne;
 	protected JPanel panelTwo;
@@ -179,7 +182,6 @@ public class RequirementPanel extends JPanel{
 	 * Constructs a RequirementPanel for creating or editing a given Requirement.
 	 *
 	 * @param parent The parent of the requirement
-	 * @param requirement The Requirement to edit
 	 * @param mode the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
@@ -200,10 +202,13 @@ public class RequirementPanel extends JPanel{
 
 		//get the list of history from the given requirement
 		this.assigneeView = new AssigneeView(parent);
-
-		//get the list of children from the given requirement
+		
+		//get the list of tasks from the given requirement
+		this.tasksView = new TasksView(parent);
+		
+		//get the list of dependencies from the given requirement
 		this.dependenciesView = new DependenciesView(parent);
-
+		
 		// Indicate that input is enabled
 		this.inputEnabled = true;
 
@@ -222,7 +227,7 @@ public class RequirementPanel extends JPanel{
 	 * Adds the components to the panel and places constraints on them
 	 * for the GridBagLayout manager.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked" })
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints cOverall = new GridBagConstraints();
@@ -277,7 +282,7 @@ public class RequirementPanel extends JPanel{
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView);
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -869,7 +874,6 @@ public class RequirementPanel extends JPanel{
 	 * the iteration event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see IterationEvent
 	 */
 	public class IterationListener implements ActionListener {
 		/* (non-Javadoc)
@@ -938,19 +942,19 @@ public class RequirementPanel extends JPanel{
 						System.out.println("Found Index!");
 					}
 				}
+				
 				if(!listHasStatus){
 					cmbStatus.addItem(setTo.toString());
 					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
-					System.out.println("Did not find index. Added " + setTo + " to the end, at spot " + i);
 				}
 			}
 			runThatForLoop = false;
 
 			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN && parent.getMode() != Mode.CHILD){
-				cmbStatus.setEnabled(enabled);
+			if (pLevel == RMPermissionsLevel.ADMIN){
 				cmbStatus.setBackground(Color.WHITE);
+				cmbStatus.setEnabled(enabled);
 			}
 		}
 
@@ -966,7 +970,6 @@ public class RequirementPanel extends JPanel{
 	 * the estimate event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see EstimateEvent
 	 */
 	public class EstimateListener implements KeyListener {
 
@@ -1009,10 +1012,9 @@ public class RequirementPanel extends JPanel{
 			catch(NumberFormatException exception){
 				enabled = false;
 			}
-			if(parent.getMode() != Mode.CHILD){
-				cmbIteration.setEnabled(enabled);
-				cmbIteration.setBackground(Color.WHITE);
-			}
+			
+			cmbIteration.setEnabled(enabled);
+			cmbIteration.setBackground(Color.WHITE);
 		}
 	}
 
@@ -1026,7 +1028,6 @@ public class RequirementPanel extends JPanel{
 	 * the save event occurs, that object's appropriate
 	 * method is invoked.
 	 *
-	 * @see SaveEvent
 	 */
 	public class SaveListener implements KeyListener {
 
@@ -1093,6 +1094,15 @@ public class RequirementPanel extends JPanel{
 
 	public DependenciesView getCv(){
 		return dependenciesView;
+	}
+	
+	/**
+	 * Get the TasksView.
+	 * 
+	 * @return the TasksView
+	 */
+	public TasksView getTasksView() {
+		return tasksView;
 	}
 
 	/**
@@ -1180,6 +1190,12 @@ public class RequirementPanel extends JPanel{
 	public IntegerField getTxtEstimate() {
 		return txtEstimate;
 	}
+	
+	public void setTxtEstimate(int estimateEffort) {
+		System.out.println("changing estimate. " + estimateEffort);
+		this.txtEstimate.setText(estimateEffort+"");
+		
+	}
 
 	/**
 	 * @return the txtModifiedDate
@@ -1187,6 +1203,7 @@ public class RequirementPanel extends JPanel{
 	public JLabel getTxtModifiedDate() {
 		return txtModifiedDate;
 	}
+	
 
 	/**
 	 * @return the lblTitleError

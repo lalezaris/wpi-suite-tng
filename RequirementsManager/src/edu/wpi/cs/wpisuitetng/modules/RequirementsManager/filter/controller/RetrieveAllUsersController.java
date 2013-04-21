@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
@@ -38,8 +38,10 @@ public class RetrieveAllUsersController {
 	}
 	
 	/**
+
 	 * send a request for the list of users
 	 * 
+
 	 */
 	public void retrieve(){
 		Request request = Network.getInstance().makeRequest("core/user", HttpMethod.GET);
@@ -48,9 +50,11 @@ public class RetrieveAllUsersController {
 	}
 	
 	/**
+
 	 * run when the observer gets the list of users
 	 * 
 	 * @param users
+
 	 */
 	public void response(User[] users){
 		controller.setUsers(users);

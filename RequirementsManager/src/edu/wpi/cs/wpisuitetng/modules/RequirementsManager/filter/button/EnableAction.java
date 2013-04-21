@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chris
+ *  Chris Hanna
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
@@ -19,25 +19,29 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
 
 /**
- * The action that happens when you enable rules
+ * The action that happens when you enable rules.
  *
  * @author Chris Hanna
- *
  * @version Apr 16, 2013
- *
  */
+@SuppressWarnings("serial")
 public class EnableAction extends AbstractAction{
 
 	FilterController controller;
+	
 	/**
-	 * make a new enable action
-	 * 
+	 * make a new enable action.
+	 *
+	 * @param controller the controller
 	 */
 	public EnableAction(FilterController controller) {
 		super("Enable Filters");
 		this.controller = controller;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().enableSelected();

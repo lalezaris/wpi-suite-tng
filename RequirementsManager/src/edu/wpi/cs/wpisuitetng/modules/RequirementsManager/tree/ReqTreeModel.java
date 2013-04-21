@@ -168,4 +168,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 		this.iterations = iterations;
 		this.fillTree(null);
 	}
+	
+	/**
+	 * @return the requirements
+	 */
+	public Requirement[] getRequirements() {
+		return requirements;
+	}
 }

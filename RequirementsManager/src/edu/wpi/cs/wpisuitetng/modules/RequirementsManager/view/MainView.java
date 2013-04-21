@@ -10,6 +10,7 @@
  * Contributors:
  * 	Tyler Stone
  *  Sam Lalezari
+ *  Arica Liu
 **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view;
@@ -17,6 +18,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
@@ -29,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
  * 
  * @author Tyler Stone
  * @author Sam Lalezari
+ * @editor Arica Liu
  *
  */
 @SuppressWarnings("serial")
@@ -37,12 +40,15 @@ public class MainView extends JPanel {
 	TreeView treeView;
 	Refresher refresher;
 	MainTabView view;
+	private static MainView instance;
+
 	/**
 	 * Constructs the Main View Panel.
-	 * 
-	 * @param mainTabView
+	 *
+	 * @param mainTabView the main tab view
 	 */
 	public MainView(MainTabView mainTabView) {
+		instance = this;
 		JSplitPane splitPane;
 		this.view = mainTabView;
 		this.setLayout(new BorderLayout());
@@ -67,9 +73,30 @@ public class MainView extends JPanel {
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Make refresher.
+	 */
 	public void makeRefresher(){
 		System.out.println("MainView make refresher");
 		refresher = new Refresher(treeView.getTreeModel(), view.getTableModel(), view.getIterationTableModel());
 		refresher.refreshIterationsFromServer(null);
+	}
+	
+	/**
+	 * Show a customized error message in a dialog.
+	 *
+	 * @param msg the msg
+	 */
+	public void showErrorMessage(String msg) {
+		JOptionPane.showMessageDialog(this, msg);
+	}
+	
+	/**
+	 * Gets the single instance of MainView.
+	 *
+	 * @return the instance
+	 */
+	public static MainView getInstance() {
+		return instance;
 	}
 }

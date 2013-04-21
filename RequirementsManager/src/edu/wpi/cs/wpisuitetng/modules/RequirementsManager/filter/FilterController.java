@@ -16,6 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddActio
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.EnableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.RemoveAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.SnakeAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.VisibleAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllUsersController;
@@ -58,6 +59,8 @@ public class FilterController{
 		panel.getDisableButton().setAction( new DisableAction(this));
 		panel.getEnableButton().setAction( new EnableAction(this));
 		panel.getShowButton().setAction( new VisibleAction(this));
+		panel.getSnakeButton().setAction( new SnakeAction());
+		
 		
 		iterationController = new RetrieveAllIterationsController(this);
 		iterationController.retrieve();

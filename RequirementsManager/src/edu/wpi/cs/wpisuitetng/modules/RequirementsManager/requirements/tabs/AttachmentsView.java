@@ -104,7 +104,7 @@ public class AttachmentsView extends RequirementTab{
 	//returns the current file to upload
 	//the "current" file should be set whenever the upload action is taken
 	public File getFile(){
-		return files[files.length];// TODO everything
+		return files[files.length-1];// TODO everything
 		
 	}
 

@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
+import java.io.File;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -89,7 +90,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 */
 	@Override
 	public Attachment[] getAll(Session s){
-		return db.retrieveAll(new Attachment(null), s.getProject()).toArray(new Attachment[0]);
+		return db.retrieveAll(new Attachment(), s.getProject()).toArray(new Attachment[0]);
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	@Override
 	public int Count() throws WPISuiteException {
 		// so this might run into huge issues with large files, if it does, we need to change the way everything does indexing into the DB, which will be /fun/
-		return db.retrieveAll(new Attachment(null)).size();
+		return db.retrieveAll(new Attachment()).size();
 	}
 
 	@Override

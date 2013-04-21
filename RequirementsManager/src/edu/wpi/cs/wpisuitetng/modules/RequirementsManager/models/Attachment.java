@@ -12,6 +12,9 @@ public class Attachment extends AbstractModel{
 	String fileName;
 	int id;
 	
+	public Attachment(){
+		id = -1;
+	}
 	public Attachment(File file){
 		this.fileName = file.getName();
 		id = -1;

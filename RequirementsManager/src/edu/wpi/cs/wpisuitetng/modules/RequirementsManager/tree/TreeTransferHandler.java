@@ -17,6 +17,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -28,6 +29,7 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
@@ -215,7 +217,7 @@ class TreeTransferHandler extends TransferHandler {
 	/* (non-Javadoc)
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
-	public boolean canImport(TransferHandler.TransferSupport support) {  
+	public boolean canImport(TransferHandler.TransferSupport support) { 
 		if(!support.isDrop()) {  
 			return false;  
 		}  
@@ -233,8 +235,22 @@ class TreeTransferHandler extends TransferHandler {
 			if(selRows[i] == dropRow) {  
 				return false;  
 			}
-		}  
-		// Do not allow a drag for just children
+		} 
+		// Do not allow a drop on a past Iteration
+		TreePath ddest = dl.getPath();  
+		DefaultMutableTreeNode ttarget =  
+				(DefaultMutableTreeNode)ddest.getLastPathComponent();
+		if (ttarget.getUserObject().toString().contains("Iteration")) {
+			Calendar cEnd = Calendar.getInstance();
+			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
+			cEnd.add(Calendar.DATE, 1);
+			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
+				System.out.println(ttarget.getUserObject().toString() 
+						+ " is closed!");
+				return false;
+			}
+		}
+		
 		for(int i = 0; i < selRows.length; i++) {  
 			TreePath path2 = tree.getPathForRow(selRows[i]);  
 			DefaultMutableTreeNode aNode =  
@@ -248,6 +264,11 @@ class TreeTransferHandler extends TransferHandler {
 							+ " to an Iteration");
 					return false;
 				}
+				// Do not allow a drop on the same parent
+				if (aNode.getParent().equals(ttarget)) {
+					return false;
+				}
+				// Do not allow a drag for just children
 				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
 					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
 						return false;
@@ -272,7 +293,7 @@ class TreeTransferHandler extends TransferHandler {
 		if(firstNode.getChildCount() > 0 &&  
 				target.getLevel() < firstNode.getLevel()) {  
 			return false;  
-		}  
+		}
 		return true;  
 	}  
 

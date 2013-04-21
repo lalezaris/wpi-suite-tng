@@ -31,24 +31,20 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class SaveRequirementController {
 	protected Requirement requirement;
-	// An indicator for changed field;
-	// 0 for Iteration, 1 for ParentRequirementID.
-	protected int changedField;
 
 	/**
 	 * Construct a new handler for the given view
 	 * @param view the view containing the request fields
 	 */
-	public SaveRequirementController(Requirement r, int c) {
+	public SaveRequirementController(Requirement r) {
 		requirement = r;
-		changedField = c;
 	}
 
 	/**
 	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequestObserver requestObserver = new UpdateRequirementRequestObserver(getRequirement(), getChangedField());
+		final RequestObserver requestObserver = new UpdateRequirementRequestObserver(getRequirement());
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
 
@@ -66,12 +62,5 @@ public class SaveRequirementController {
 	 */
 	public Requirement getRequirement() {
 		return requirement;
-	}
-
-	/**
-	 * @return the changedField
-	 */
-	public int getChangedField() {
-		return changedField;
 	}
 }

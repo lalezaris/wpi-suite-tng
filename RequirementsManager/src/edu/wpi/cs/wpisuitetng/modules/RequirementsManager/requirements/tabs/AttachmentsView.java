@@ -33,7 +33,7 @@ public class AttachmentsView extends RequirementTab{
 
 
 	private RequirementView parent;
-	private JButton addFileButton;
+	private JButton addFileButton, uploadFileButton;
 
 	/**
 	 * Instantiates a new attachments view.
@@ -44,9 +44,34 @@ public class AttachmentsView extends RequirementTab{
 		this.parent = parent;
 		
 		addFileButton = new JButton("Add File");
+		uploadFileButton = new JButton("Upload File");
+		
 		
 		this.add(addFileButton);
+		this.add(uploadFileButton);
 	}
+
+	
+	
+	/**
+	 * Gets the addFileButton
+	 * @return the addFileButton
+	 */
+	public JButton getAddFileButton() {
+		return addFileButton;
+	}
+
+
+
+	/**
+	 * Gets the uploadFileButton
+	 * @return the uploadFileButton
+	 */
+	public JButton getUploadFileButton() {
+		return uploadFileButton;
+	}
+
+
 
 	@Override
 	public String getTabTitle() {

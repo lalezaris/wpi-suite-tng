@@ -43,6 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.De
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AttachmentController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
@@ -137,6 +138,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
 		mainPanel.getAssigneeView().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAssigneeView()));
 		mainPanel.getAssigneeView().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAssigneeView()));
+		
+		AttachmentController attachmentController = new AttachmentController( mainPanel.getAttachmentsView());
+	
 		
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);

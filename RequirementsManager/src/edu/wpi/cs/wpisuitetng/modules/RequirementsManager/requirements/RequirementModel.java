@@ -426,7 +426,7 @@ public class RequirementModel {
 			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
 			
-		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("Blank") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
 			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
 			flag = true;
 		}

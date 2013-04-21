@@ -53,7 +53,7 @@ public class AcceptanceTestTest {
 		
 		//due to permission conflicts, the buttons must manually be enabled
 		av.getAddButton().setEnabled(true);
-		av.getEditButton().setEnabled(true);
+		//av.getEditButton().setEnabled(true);
 		av.getTitleField().setEnabled(true);
 		av.getBodyField().setEnabled(true);
 		av.getStatusField().setEnabled(true);
@@ -86,10 +86,10 @@ public class AcceptanceTestTest {
 		assertEquals("", av.getBodyField().getText());
 		av.getTitleField().setText("Test1");
 		av.getTitleField().getKeyListeners()[0].keyReleased(null);
-		assertEquals(true, av.getEditButton().isEnabled());
+		//assertEquals(true, av.getEditButton().isEnabled());
 		assertEquals(false, av.getAddButton().isEnabled());
 		av.getBodyField().setText("new text");
-		av.getEditButton().doClick();
+		//av.getEditButton().doClick();
 		assertEquals("new text", av.getList().get(0).getBody());
 	}
 

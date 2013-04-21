@@ -42,8 +42,8 @@ public class ListAction extends AbstractAction {
 	 * 
 	 * @param controller
 	 */
-	public ListAction(MainTabController controller) {
-		super("List Requirements");
+	public ListAction(MainTabController controller,String componentName) {
+		super(componentName);
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}	

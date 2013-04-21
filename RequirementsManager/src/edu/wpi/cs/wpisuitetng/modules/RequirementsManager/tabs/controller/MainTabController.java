@@ -238,7 +238,7 @@ public class MainTabController {
 		 * Switch focus to that tab, or go ahead and create a new one.
 		 */
 		String tabTitle = "Bar Chart";
-		int checkTabIndex = view.indexOfTab("Bar Chart");
+		int checkTabIndex = view.indexOfTab("Statistics");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
 

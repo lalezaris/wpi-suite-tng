@@ -13,48 +13,45 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
+import org.gpl.JSplitButton.action.SplitButtonActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action to edit user permissions.
- * 
+ * Insert Description Here
+ *
  * @author CDUNKERS
  *
- * @version Apr 1, 2013
+ * @version Apr 20, 2013
  *
  */
-@SuppressWarnings("serial")
-public class EditUserPermissionsAction extends AbstractAction {
+public class ListSplitListener implements SplitButtonActionListener {
 
 	private final MainTabController controller;
 	
+	public ListSplitListener(MainTabController controller){
+		this.controller = controller;
+	}
+	
 	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * @see org.gpl.JSplitButton.action.SplitButtonActionListener#buttonClicked(java.awt.event.ActionEvent)
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(CurrentUserPermissions.doesUserHavePermissionMaster(RMPermissionsLevel.ADMIN)){
-			controller.addEditUserPermissionsTab();
-			CurrentUserPermissions.updateCurrentUserPermissions();
-		}
+	public void buttonClicked(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		controller.addListRequirementTab();
 	}
 
-	/**
-	 * Default constructor.
-	 * 
-	 * @param controller The MainTabController
+	/* (non-Javadoc)
+	 * @see org.gpl.JSplitButton.action.SplitButtonActionListener#splitButtonClicked(java.awt.event.ActionEvent)
 	 */
-	public EditUserPermissionsAction(MainTabController controller) {
-		super("Edit");
-		
-		this.controller = controller;
-		
-		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
+	@Override
+	public void splitButtonClicked(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
+	
 }

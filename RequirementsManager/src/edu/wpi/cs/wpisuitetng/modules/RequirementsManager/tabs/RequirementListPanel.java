@@ -102,16 +102,16 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).setColumnWidths(table);		
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
-		refreshButton.setAction(new RefreshAction(retrieveController));	
+		refreshButton.setAction(new RefreshAction(retrieveController));
 		updateButton = new JButton("Update");
 		updateController = new UpdateAllRequirementsController(this);
-		updateButton.setAction(new UpdateAllRequirementAction(updateController));	
+		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
 		updateLabel = new JLabel();
 
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
-		panel.setLayout(layout);	
+		panel.setLayout(layout);
 
 		filterController = new FilterController(this);
 		c.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -187,6 +187,9 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
+		
+		System.out.println("GOT TO END OF REQLISTPANEL");
+		
 		setUpStatusColumn();
 		setUpPriorityColumn();
 	}
@@ -364,5 +367,10 @@ public class RequirementListPanel extends JPanel{
 
 	public FilterController getFilterController() {
 		return filterController;
+	}
+
+	public void setUpFilter() {
+		filterController.sendServerRequests();
+		
 	}
 }

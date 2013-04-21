@@ -76,12 +76,13 @@ public class SaveRequirementController {
 			System.out.println("SAY HELLO TO TUSHAR!!!!");
 			Requirement req = panel.getEditedModel();
 			issues = reqVal.validate(req, view.getMode());
+			System.out.println("We validated game of Thrones");
+			issues = reqVal.validate(req, view.getMode());
 			if(issues.size() > 0){
 				printIssues(issues);
 			} else {
 				System.out.println("This is yet another here. I would very much love to sail me sunfish. ARRRR YO HO");
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
-
 				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
 					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
@@ -96,6 +97,7 @@ public class SaveRequirementController {
 
 							view.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
 							view.getParentView().getReqModel().setEstimateDirty();
+							view.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
 							//view.getParentView().getReqModel().setTxtEstimateOfUneditedRequirement(estimateEffort);
 						}
 						Request estimateRequest;

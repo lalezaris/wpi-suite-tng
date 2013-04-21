@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
@@ -77,7 +78,7 @@ public class IterationPanel extends JPanel {
 	protected IterationView parent;
 
 	/** Form elements */
-	protected JTextField txtIterationName;
+	protected JPlaceholderTextField txtIterationName;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
 	protected JLabel txtEndDate;
@@ -96,7 +97,7 @@ public class IterationPanel extends JPanel {
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
 	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
-	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
+	JLabel lblDateOverlapError = new JLabel("<html>ERROR: The iteration is overlapping with <p>already existing Iteration(s)</p></html>", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -158,7 +159,7 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationName = new JTextField("", 20);
+		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
 		txtStartDate = new JLabel("");
 		txtEndDate = new JLabel("");
 
@@ -192,18 +193,6 @@ public class IterationPanel extends JPanel {
 		cOne.gridwidth = 1;
 		panelOne.add(txtIterationName, cOne);
 
-		cOne.gridx = 4;
-		cOne.gridy = 0;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		lblIterationNameError.setForeground(Color.RED);
-		lblIterationNameError.setVisible(false);
-		panelOne.add(lblIterationNameError, cOne);
-
-		lblIterationNameExistsError.setForeground(Color.RED);
-		lblIterationNameExistsError.setVisible(false);
-		panelOne.add(lblIterationNameExistsError, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -247,11 +236,11 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 0;
+		cTwo.gridx = 0;
+		cTwo.gridy = 5;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblStartDateError.setVisible(false);
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
@@ -261,6 +250,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(lblEndDate, cTwo);
 
 		cTwo.anchor = GridBagConstraints.LINE_START;
@@ -268,6 +258,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		txtEndDate.setEnabled(true);
 		panelTwo.add(txtEndDate, cTwo);
 
@@ -290,29 +281,31 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 1;
+		cTwo.gridx = 0;
+		cTwo.gridy = 6;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblEndDateError.setForeground(Color.RED);
 		lblEndDateError.setVisible(false);
 		panelTwo.add(lblEndDateError, cTwo);
 
 		cTwo.gridx = 0;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnSaveIteration, cTwo);
 
 		cTwo.gridx = 2;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnCancelIteration, cTwo);
 
-		cTwo.gridx = 3;
-		cTwo.gridy = 2;
+		cTwo.gridx = 0;
+		cTwo.gridy = 7;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 7;
@@ -323,6 +316,19 @@ public class IterationPanel extends JPanel {
 		lblDateOverlapError.setVisible(false);
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
+		
+		cTwo.gridx = 0;
+		cTwo.gridy = 4;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 7;
+		lblIterationNameError.setForeground(Color.RED);
+		lblIterationNameError.setVisible(false);
+		panelTwo.add(lblIterationNameError, cTwo);
+		
+		lblIterationNameExistsError.setForeground(Color.RED);
+		lblIterationNameExistsError.setVisible(false);
+		panelTwo.add(lblIterationNameExistsError, cTwo);
 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -351,7 +357,14 @@ public class IterationPanel extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel left = new JPanel();
-		left.add(panelOverall);
+		left.setLayout(new GridBagLayout());
+		GridBagConstraints cLeft = new GridBagConstraints();
+		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
+		cLeft.gridx = 0;
+		cLeft.gridy = 0;
+		cLeft.weightx = 0.1;
+		cLeft.weighty = 0.1;
+		left.add(panelOverall,cLeft);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(left);
 		
@@ -360,7 +373,6 @@ public class IterationPanel extends JPanel {
 		if(this.getParent().getMode() == Mode.EDIT){
 			right.setLayout(new BorderLayout());
 			reqListPanel = new RequirementListPanel(MainTabController.getController());
-			reqListPanel.getFilterController().getPanel().setWidth(500);
 			String[] removeFields = {"iteration"};
 			reqListPanel.getFilterController().getPanel().removeFields(removeFields);
 			right.add(reqListPanel,BorderLayout.CENTER);
@@ -371,7 +383,7 @@ public class IterationPanel extends JPanel {
 		}
 
 		splitPane.setRightComponent(right);
-
+		
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
 		this.add(splitPane,BorderLayout.CENTER);
@@ -584,4 +596,7 @@ public class IterationPanel extends JPanel {
 		reqListPanel.revalidate();
 	}
 	
+	public void sendFilterServerRequest(){
+		reqListPanel.getFilterController().sendServerRequests();
+	}
 }

@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 @SuppressWarnings("serial")
 
 public class RequirementTableModel extends AbstractTableModel {
-	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
+	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent ID"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
 	protected boolean isChange = false;
@@ -257,7 +257,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			return;
 		}
 		
-		if (title.equals("ID")) {
+		if (title.equals("Parent ID")) {
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
@@ -308,7 +308,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		int IDNumber;
 		int estimate;
 		
-		if (title.equals("ID")) {
+		if (title.equals("Parent ID")) {
 			try {
 				IDNumber = Integer.parseInt((String)value);
 			} catch (NumberFormatException e) {

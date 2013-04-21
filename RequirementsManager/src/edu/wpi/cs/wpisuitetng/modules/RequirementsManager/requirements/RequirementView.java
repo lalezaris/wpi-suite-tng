@@ -377,12 +377,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
 
-		if(this.getMode() == Mode.EDIT && !this.getReqModel().getRequirement().isTopLevelRequirement()){
-			mainPanel.getCmbStatus().setEnabled(false);
-			mainPanel.getCmbIteration().setEnabled(false);
+		if(this.getMode() == Mode.EDIT && !(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
+			System.out.println("HEY");
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
-			mainPanel.getTxtActual().setEnabled(false);
-
+		}
+		
+		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			mainPanel.getTxtEstimate().setEnabled(false);
 		}
 
 		// depending on the status and sub-requirements, disable certain components
@@ -400,6 +401,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 	private void setUpPermissions(RMPermissionsLevel pLevel){
 		//depending on the user's permission, disable certain components
+
 		if(!this.reqModel.getRequirement().getAssignee().contains(ConfigManager.getConfig().getUserName()) && 
 				pLevel == RMPermissionsLevel.UPDATE){
 			pLevel = RMPermissionsLevel.NONE;
@@ -441,6 +443,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		if (!reqModel.getUneditedRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
+			mainPanel.getDeleteRequirementBottom().setToolTipText("Cannot delete this requirement as it has children.");
 		} 
 	}
 
@@ -496,7 +499,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
-		mainPanel.getSplitPane().setDividerLocation(0.35);
+//		mainPanel.getSplitPane().setDividerLocation(0.5);
+		mainPanel.getSplitPane().setDividerLocation(mainPanel.getTxtDescription().getWidth()+50);
 
 	}
 

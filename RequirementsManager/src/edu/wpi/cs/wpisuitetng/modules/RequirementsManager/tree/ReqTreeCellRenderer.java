@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.jar.JarFile;
 
@@ -109,16 +110,22 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 			}
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();
-
+			Calendar cStart = Calendar.getInstance();
+			cStart.setTime(iter.getStartDate());
+//			cStart.add(Calendar.DATE, 1);
+			Calendar cEnd = Calendar.getInstance();
+			cEnd.setTime(iter.getEndDate());
+			cEnd.add(Calendar.DATE, 1);
+			
 			if (iter.getName().equals("Backlog")) {
 				setIcon(default_folder);
 			} else {
 				Date now = new Date();
-				if (iter.getStartDate().compareTo(now) > 0) {
+				if (cStart.compareTo(Calendar.getInstance()) > 0) {
 					setIcon(iteration_future);
-				} else if (iter.getEndDate().compareTo(now) == 0) {
+				} else if (cEnd.compareTo(Calendar.getInstance()) == 0) {
 					setIcon(iteration_current);
-				} else if (iter.getEndDate().compareTo(now) < 0) {
+				} else if (cEnd.compareTo(Calendar.getInstance()) < 0) {
 					setIcon(iteration_past);
 				} else {
 					setIcon(iteration_current);

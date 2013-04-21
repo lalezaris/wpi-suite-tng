@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListIte
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ListSplitListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewIterationAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.NewRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.OpenHelpAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.ViewChartsAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -183,9 +184,9 @@ public class ToolbarPanel extends DefaultToolbarView {
 		//Construct Bar Chart Buttons
 		viewStats = new JButton("Statistics");
 		viewStats.setAction(new ViewChartsAction(tabController));
-		btnHelp = new JButton("Help");
-		btnHelp.setPreferredSize(viewStats.getPreferredSize());
-//		btnHelp.setAction();
+		btnHelp = new JButton("User Guide");
+		viewStats.setPreferredSize(btnHelp.getPreferredSize());
+		btnHelp.setAction(new OpenHelpAction());
 		
 		//construct create menu
 		createMenu = new JPopupMenu("Create");
@@ -320,7 +321,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		toolbarGroupManage.setPreferredSize(new Dimension(30 + ((int)(createSplit.getPreferredSize().getWidth())), iterationGroupHeight.intValue()));
 //		toolbarGroupRequirement.setPreferredSize(new Dimension(30 + ((int)(newRequirement.getPreferredSize().getWidth())), requirementGroupHeight.intValue()));
 		toolbarGroupUserPermission.setPreferredSize(new Dimension(45 + ((int)(viewUserPermission.getPreferredSize().getWidth())), userPermissionGroupHeight.intValue()));
-		toolbarGroupResources.setPreferredSize(new Dimension(30 + ((int)(viewStats.getPreferredSize().getWidth())), barChartGroupHeight.intValue()));
+		toolbarGroupResources.setPreferredSize(new Dimension(30 + ((int)(btnHelp.getPreferredSize().getWidth())), barChartGroupHeight.intValue()));
 //		toolbarGroupViewUserPermission.setPreferredSize(new Dimension(30 + ((int)(viewUserPermission.getPreferredSize().getWidth())), viewUserPermissionGroupHeight.intValue()));
 
 		

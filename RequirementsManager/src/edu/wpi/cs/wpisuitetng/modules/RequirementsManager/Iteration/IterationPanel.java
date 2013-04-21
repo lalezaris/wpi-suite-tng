@@ -96,7 +96,7 @@ public class IterationPanel extends JPanel {
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
 	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
 	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
-	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
+	JLabel lblDateOverlapError = new JLabel("<html>ERROR: The iteration is overlapping with <p>already existing Iteration(s)</p></html>", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -192,18 +192,6 @@ public class IterationPanel extends JPanel {
 		cOne.gridwidth = 1;
 		panelOne.add(txtIterationName, cOne);
 
-		cOne.gridx = 4;
-		cOne.gridy = 0;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		lblIterationNameError.setForeground(Color.RED);
-		lblIterationNameError.setVisible(false);
-		panelOne.add(lblIterationNameError, cOne);
-
-		lblIterationNameExistsError.setForeground(Color.RED);
-		lblIterationNameExistsError.setVisible(false);
-		panelOne.add(lblIterationNameExistsError, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -247,11 +235,11 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 0;
+		cTwo.gridx = 0;
+		cTwo.gridy = 5;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblStartDateError.setVisible(false);
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
@@ -261,6 +249,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(lblEndDate, cTwo);
 
 		cTwo.anchor = GridBagConstraints.LINE_START;
@@ -268,6 +257,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		txtEndDate.setEnabled(true);
 		panelTwo.add(txtEndDate, cTwo);
 
@@ -290,29 +280,31 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 1;
+		cTwo.gridx = 0;
+		cTwo.gridy = 6;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblEndDateError.setForeground(Color.RED);
 		lblEndDateError.setVisible(false);
 		panelTwo.add(lblEndDateError, cTwo);
 
 		cTwo.gridx = 0;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnSaveIteration, cTwo);
 
 		cTwo.gridx = 2;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnCancelIteration, cTwo);
 
-		cTwo.gridx = 3;
-		cTwo.gridy = 2;
+		cTwo.gridx = 0;
+		cTwo.gridy = 7;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 7;
@@ -323,6 +315,19 @@ public class IterationPanel extends JPanel {
 		lblDateOverlapError.setVisible(false);
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
+		
+		cTwo.gridx = 0;
+		cTwo.gridy = 4;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 7;
+		lblIterationNameError.setForeground(Color.RED);
+		lblIterationNameError.setVisible(false);
+		panelTwo.add(lblIterationNameError, cTwo);
+		
+		lblIterationNameExistsError.setForeground(Color.RED);
+		lblIterationNameExistsError.setVisible(false);
+		panelTwo.add(lblIterationNameExistsError, cTwo);
 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager

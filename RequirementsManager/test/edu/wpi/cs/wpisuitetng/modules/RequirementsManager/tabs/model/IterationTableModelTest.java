@@ -15,7 +15,6 @@
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.CLOSED;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.NEW;
 import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.OPEN;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -53,7 +52,7 @@ public class IterationTableModelTest {
 	Requirement r1, r2, r2copy, r3, r4;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		it1 = new IterationTableModel();
 		startDate = new Date(2013, 3, 25, 3, 30, 20);
 		endDate = new Date(2013, 3, 30, 5, 10, 10);

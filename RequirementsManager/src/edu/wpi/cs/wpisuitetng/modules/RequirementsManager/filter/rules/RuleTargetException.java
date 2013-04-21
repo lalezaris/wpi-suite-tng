@@ -24,7 +24,7 @@ public class RuleTargetException extends Exception {
 	
 	String msg;
 	public RuleTargetException(String attempt){		
-		this.msg = "Tried to make a rule with target: "+ attempt +", but it did not exist. Typo?";
+		msg = "Tried to make a rule with target: "+ attempt +", but it did not exist. Typo?";
 	}
 	
 	@Override

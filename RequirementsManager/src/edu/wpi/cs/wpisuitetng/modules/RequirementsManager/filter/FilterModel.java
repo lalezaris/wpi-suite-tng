@@ -45,7 +45,7 @@ public class FilterModel {
 	}
 
 	public Filter getFilter(){
-		return this.filter;
+		return filter;
 	}
 	
 	/**
@@ -54,14 +54,16 @@ public class FilterModel {
 	 * @param panel
 	 */
 	public void setModelFromPanel(FilterPanel panel){
-		this.filter.removeAllRules();
+		filter.removeAllRules();
 		System.out.println("Finding Filters");
 		for (int i = 0 ; i < panel.getRules().size(); i ++){
 			System.out.println(i + " Found Filter");
-			if (panel.getRules().get(i).getIsEnabled())
-				
-				this.filter.addRule(panel.getRules().get(i).extractRule());
+			if (panel.getRules().get(i).getIsEnabled()){
+				Rule rule = panel.getRules().get(i).extractRule();
+				if (rule!=null)
+					filter.addRule(rule);
 			}
+		}
 		
 	}
 

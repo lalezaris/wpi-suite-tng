@@ -12,25 +12,14 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Date;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockNetwork;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
-import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-import edu.wpi.cs.wpisuitetng.network.Network;
-import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
-
-
-import static edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus.*;
 
 /**
  * Tests for the AcceptanceTest class
@@ -49,13 +38,22 @@ public class AcceptanceTestTest {
 	
 	@Before
 	public void setup(){
-		Network.initNetwork(new MockNetwork());
-		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+//		Network.initNetwork(new MockNetwork());
+//		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		
 		a = new AcceptanceTest("A Title", "bodybodybodybodybodybody");
 		req = new Requirement();
 		rv = new RequirementView(req, RequirementPanel.Mode.CREATE, null);
+		Iteration[] iterations = {Iteration.getBacklog()};
+		rv.getRequirementPanel().setIterations(iterations);
 		av = new AcceptanceTestsView(rv);
+		
+		//due to permission conflicts, the buttons must manually be enabled
+		av.getAddButton().setEnabled(true);
+		av.getEditButton().setEnabled(true);
+		av.getTitleField().setEnabled(true);
+		av.getBodyField().setEnabled(true);
+		av.getStatusField().setEnabled(true);
 	}
 	
 	@Test
@@ -72,15 +70,24 @@ public class AcceptanceTestTest {
 		assertEquals("Passed", a.getStatus());
 	}
 	
-	//TODO: figure out this test, and why the doClick isn't adding a test
-//	@Test
-//	public void testAddandEdit(){
-//		av.getTitleField().setText("Test1");
-//		av.getBodyField().setText("Test1 body");
-//		av.getAddButton().doClick();
-//		assertTrue(av.getList().size() > 0);
-//		assertEquals("Test1", av.getList().get(0).getTitle());
-//		assertEquals("Test1 body", av.getList().get(0).getBody());
-//	}
+	
+	@Test
+	public void testAddandEdit(){
+		av.getTitleField().setText("Test1");
+		av.getBodyField().setText("Test1 body");
+		av.getAddButton().doClick();
+		assertEquals(1, av.getListSize());
+		assertEquals("Test1", av.getList().get(0).getTitle());
+		assertEquals("Test1 body", av.getList().get(0).getBody());
+		assertEquals("", av.getTitleField().getText());
+		assertEquals("", av.getBodyField().getText());
+		av.getTitleField().setText("Test1");
+		av.getTitleField().getKeyListeners()[0].keyReleased(null);
+		assertEquals(true, av.getEditButton().isEnabled());
+		assertEquals(false, av.getAddButton().isEnabled());
+		av.getBodyField().setText("new text");
+		av.getEditButton().doClick();
+		assertEquals("new text", av.getList().get(0).getBody());
+	}
 
 }

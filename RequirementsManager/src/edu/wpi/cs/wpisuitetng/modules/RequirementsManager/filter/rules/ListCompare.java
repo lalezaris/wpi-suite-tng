@@ -13,23 +13,24 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Insert Description Here
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 17, 2013
  *
  */
 public class ListCompare<T> implements Comparable{
 
-	ArrayList<T> list;
+	List<T> list;
 	/**
 	 * Enter Description here.
 	 * 
 	 */
-	public ListCompare(ArrayList<T> list) {
+	public ListCompare(List<T> list) {
 		this.list = list;
 	}
 

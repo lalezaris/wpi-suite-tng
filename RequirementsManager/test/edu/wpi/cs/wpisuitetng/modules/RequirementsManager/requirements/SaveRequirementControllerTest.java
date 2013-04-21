@@ -12,6 +12,7 @@
 **************************************************/package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ public class SaveRequirementControllerTest {
 	RequirementView view;
 	
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 		Requirement tempReq = new Requirement();

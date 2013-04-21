@@ -11,24 +11,29 @@
  *  Tyler Stone
  *  Arica Liu
  *  Tushar Narayan
+ *  Evan Polekoff
+ *  Chris Hanna
+ *  Lauren Kahn
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.event.ChangeListener;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake.GamePanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.IterationListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
@@ -42,7 +47,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * 
  * @author Tyler Stone 
  * @author Arica Liu
- * @edited Evan Polekoff
  *
  * @version Mar 17, 2013
  *
@@ -50,6 +54,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class MainTabController {
 
 	MainTabView view;
+	HashMap<Integer, RequirementView> reqViewHashMap;
 
 	private static MainTabController staticView;
 
@@ -59,6 +64,7 @@ public class MainTabController {
 	 * @param view Create a controller that controls this MainTabView
 	 */
 	public MainTabController(MainTabView view) {
+		this.reqViewHashMap = new HashMap<Integer, RequirementView>();
 		this.view = view;
 		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
@@ -131,6 +137,10 @@ public class MainTabController {
 		else{
 			Tab tab = addTab();
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
+			if(reqViewHashMap.containsKey(requirementId)){
+				reqViewHashMap.remove(requirementId);
+			}
+			reqViewHashMap.put(requirementId, Rview);
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			view.setSelectedIndex(Rview.getTab().getThisIndex());
@@ -151,6 +161,32 @@ public class MainTabController {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 
+	
+	/**
+	 * Make the Snake Tab!!!
+	 * 
+	 * @return
+	 */
+	public Tab addSnakeTab(){
+		int checkTabIndex = view.indexOfTab("Snake");
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			System.out.println("found tab already");
+			return null;
+		}
+		else{
+			//already brings focus to list tab if it was opened previously
+
+			Tab tab = addTab();
+			GamePanel panel = new GamePanel();
+			panel.setTab(tab);
+			tab.setComponent(panel);
+			panel.requestFocus();
+			return tab;
+		}
+	}
+	
+	
 	/**
 	 * Adds a tab that displays the list of all requirements.
 	 * 
@@ -195,8 +231,15 @@ public class MainTabController {
 	 * @param requirement the requirement to display
 	 * @return The created Tab 
 	 */
-	public Tab addEditRequirementTab(Requirement requirement) {
+	public Tab addEditRequirementTab(final Requirement requirement) {
+		if(requirement.getParentRequirementId() != -1 && reqViewHashMap.containsKey(requirement.getParentRequirementId())){
+			Tab newTab = addRequirementTab(requirement, Mode.EDIT);
+			((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
+			return newTab;
+		}
+		else{
 		return addRequirementTab(requirement, Mode.EDIT);
+		}
 	}
 
 	/**
@@ -211,7 +254,6 @@ public class MainTabController {
 	/**
 	 * Adds a tab that shows the bar chart.
 	 * 
-	 * @param requirement The requirement to display
 	 */
 	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
@@ -223,7 +265,7 @@ public class MainTabController {
 		 * Switch focus to that tab, or go ahead and create a new one.
 		 */
 		String tabTitle = "Bar Chart";
-		int checkTabIndex = view.indexOfTab("Bar Chart");
+		int checkTabIndex = view.indexOfTab("Statistics");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
 
@@ -377,7 +419,7 @@ public class MainTabController {
 	/**
 	 * Adds a tab that displays the given requirement.
 	 * 
-	 * @param requirement the requirement to display
+	 * @param iteration the iteration to display
 	 * @return The created Tab 
 	 */
 	public Tab addEditIterationTab(Iteration iteration) {

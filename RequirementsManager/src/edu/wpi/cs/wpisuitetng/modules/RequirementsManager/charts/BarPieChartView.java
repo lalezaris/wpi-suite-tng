@@ -31,8 +31,7 @@ import org.jfree.data.general.PieDataset;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.SubDivision;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.TypeOfChart;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartPanel.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.CharacteristicListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.ChartTypeListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.IterationController;
@@ -49,7 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * The Class to hold BarChartView. 
+ * The view for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
@@ -58,7 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 @SuppressWarnings({"rawtypes", "serial"})
 public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
-
+	
 	private static BarPieChartView instance;
 	
 	/**
@@ -170,7 +169,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getChartBox().addActionListener(new ChartTypeListener(this));
 		mainPanel.getCharacteristicBox().addActionListener(new CharacteristicListener(this));
 		mainPanel.getSubDivideBox().addActionListener(new SubDivisionListener(this));
-		mainPanel.getSpinButton().addActionListener(new SpinListener(this));
+		mainPanel.getSpinCheckbox().addActionListener(new SpinListener(this));
 		chartBox = mainPanel.getChartBox();
 		characteristicBox = mainPanel.getCharacteristicBox();
 		subDivideBox = mainPanel.getSubDivideBox();

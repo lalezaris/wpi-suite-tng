@@ -19,7 +19,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
@@ -31,16 +31,13 @@ import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.DefaultToolbarView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieRotator;
 
 /**
- * The Class BarChartPanel.
+ * The panel for bar charts.
  *
  * @author Evan Polekoff
  * @author Ned Shelton
  */
 @SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {
-
-	/* the parent view*/
-	protected BarPieChartView view;
 
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
@@ -74,8 +71,8 @@ public class BarPieChartPanel extends JPanel {
 	}
 	SubDivision[] subDivisionArray = {SubDivision.None, SubDivision.Priority, SubDivision.Type};
 
-	/** The Spin Button */
-	JButton spinButton;
+	/** The Spin Checkbox */
+	JCheckBox spinCheckbox;
 	PieRotator rotator;
 	
 	/** The button panel. */
@@ -94,8 +91,6 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chart the chart
 	 */
 	public BarPieChartPanel(BarPieChartView view, JFreeChart chart){
-		this.view = view;
-		//this.barGraph = chart;
 		graphPanel = new ChartPanel(chart);
 
 		addComponents();
@@ -107,14 +102,12 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
-		//Make a toolbar.
-		toolbar = new DefaultToolbarView();
 		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
 		characteristicBox = new JComboBox(characteristicArray);
 		subDivideBox = new JComboBox(subDivisionArray);
-		spinButton = new JButton("Spin");//The button to spin the pie chart.
+		spinCheckbox = new JCheckBox("Spin");//The button to spin the pie chart.
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -138,7 +131,7 @@ public class BarPieChartPanel extends JPanel {
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
 		boxPanel.add(chartBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -169,7 +162,7 @@ public class BarPieChartPanel extends JPanel {
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		boxPanel.add(spinButton, cBox);
+		boxPanel.add(spinCheckbox, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -213,8 +206,9 @@ public class BarPieChartPanel extends JPanel {
 				plot.setStartAngle(0);
 		        plot.setForegroundAlpha(1);
 				rotator = new PieRotator(plot);
-				if(pieSpin)
+				if(pieSpin){
 					rotator.start();
+				}
 			}
 		}
 		
@@ -239,16 +233,17 @@ public class BarPieChartPanel extends JPanel {
 	 * @param enabled Whether or not the box is enabled.
 	 */
 	public void setSubDivideEnable(boolean enabled){
-		subDivideBox.setEnabled(enabled);
-		if(!enabled)
+		subDivideBox.setVisible(enabled);
+		if(!enabled){
 			subDivideBox.setSelectedIndex(0);
+		}
 	}
 	
 	/**Determine whether or not you can see the button.
 	 * @param enabled Whether or not it is visible
 	 */
 	public void setSpinVisible(boolean enabled){
-		spinButton.setVisible(enabled);
+		spinCheckbox.setVisible(enabled);
 	}
 	
 	//Combo Box Getters
@@ -284,8 +279,8 @@ public class BarPieChartPanel extends JPanel {
 	/**
 	 * @return the spinButton
 	 */
-	public JButton getSpinButton() {
-		return spinButton;
+	public JCheckBox getSpinCheckbox() {
+		return spinCheckbox;
 	}
 
 	/**

@@ -141,20 +141,4 @@ public class UpdateAllPermissionsController extends AbstractAction {
 		}
 		return modelElements;
 	}
-
-	/**
-	 * The function takes in a List and takes all of the elements
-	 * from the list and adds them to the default list model.
-	 *
-	 * @param newElements a list of the elements to be put into the model
-	 * @return the model with the given elements
-	 */
-	@SuppressWarnings({ "unused", "unchecked" })
-	private DefaultListModel getNewModel(List<String> newElements){
-		DefaultListModel newModel = new DefaultListModel();
-		for(int i = 0; i < newElements.size(); i++){
-			newModel.addElement((Object)newElements.get(i));
-		}
-		return newModel;
-	}
 }

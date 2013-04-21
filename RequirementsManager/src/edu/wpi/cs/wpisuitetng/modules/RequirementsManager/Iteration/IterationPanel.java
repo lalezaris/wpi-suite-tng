@@ -125,8 +125,7 @@ public class IterationPanel extends JPanel {
 	 * Construct a IterationPanel for creating or editing a given Iteration.
 	 *
 	 * @param parent The parent of the iteration
-	 * @param iteration The Iteration to edit
-	 * @param mode the mode
+	 * @param parent the iteration view for the iteration panel
 	 */
 	public IterationPanel(IterationView parent /*, Mode mode*/) {
 		this.parent = parent;
@@ -366,7 +365,6 @@ public class IterationPanel extends JPanel {
 		if(this.getParent().getMode() == Mode.EDIT){
 			right.setLayout(new BorderLayout());
 			reqListPanel = new RequirementListPanel(MainTabController.getController());
-			reqListPanel.hideButtons();
 			reqListPanel.getFilterController().getPanel().setWidth(500);
 			String[] removeFields = {"iteration"};
 			reqListPanel.getFilterController().getPanel().removeFields(removeFields);
@@ -559,7 +557,7 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * @param editMode: the editMode to set
+	 * @param editMode the editMode to set
 	 */
 	public void setEditMode(Mode editMode) {
 		this.editMode = editMode;

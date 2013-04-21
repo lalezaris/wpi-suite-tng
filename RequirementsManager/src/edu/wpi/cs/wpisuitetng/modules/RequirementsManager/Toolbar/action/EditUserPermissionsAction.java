@@ -51,7 +51,7 @@ public class EditUserPermissionsAction extends AbstractAction {
 	 * @param controller The MainTabController
 	 */
 	public EditUserPermissionsAction(MainTabController controller) {
-		super("Edit User Permissions");
+		super("Edit");
 		
 		this.controller = controller;
 		

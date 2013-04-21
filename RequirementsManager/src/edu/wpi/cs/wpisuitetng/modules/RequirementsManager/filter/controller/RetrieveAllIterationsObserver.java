@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Insert Description Here
+ * Iterations Observer
  *
  * @author Chris
  *
@@ -33,9 +33,11 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 	RetrieveAllIterationsController controller;
 	
 	/**
+
 	 * Constructor for a RetrieveAllIterationsObserver.
 	 *
 	 * @param controller the controller
+
 	 */
 	public RetrieveAllIterationsObserver(RetrieveAllIterationsController controller) {
 		this.controller = controller;
@@ -61,7 +63,7 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
@@ -70,7 +72,7 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

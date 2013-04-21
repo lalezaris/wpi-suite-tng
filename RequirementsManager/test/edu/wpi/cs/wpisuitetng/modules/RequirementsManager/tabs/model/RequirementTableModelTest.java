@@ -13,14 +13,12 @@
  *  Tushar Narayan
 **************************************************/package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +39,7 @@ public class RequirementTableModelTest {
 	DefaultTableColumnModel dtcm;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		rtm1 = new RequirementTableModel();
 		Requirement req1 = new Requirement(1,"req1","des1",null);
 		req1.setEstimateEffort(-1);

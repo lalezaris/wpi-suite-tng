@@ -23,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
@@ -37,7 +39,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveRequirementControllerTree;
-//import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.RetrieveIterationControllerTree;
 
 /**
  * TreeView class shows requirements with parents and children in a tree.
@@ -45,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.Retrie
  * @author Sam Lalezari
  * @author Arica Liu
  * 
- * @version April 10th, 2013
+ * @version April 21th, 2013
  * 
  */
 @SuppressWarnings("serial")
@@ -55,12 +56,15 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
+	
+	private static TreeView instance;
 
 	/**
-	 * Creates the tree view of the requirements.
+	 * Creates the tree view.
 	 * 
 	 */
 	public TreeView() {
+		instance = this;
 		this.setLayout(new BorderLayout());
 
 		JLabel titleLabel = new JLabel(
@@ -72,7 +76,7 @@ public class TreeView extends JPanel {
 		refreshButton = new JButton("Refresh Tree");
 		refreshButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				treeModel.refreshTree();
+				refreshTree();
 			}
 		});
 
@@ -83,15 +87,20 @@ public class TreeView extends JPanel {
 		treeModel = new ReqTreeModel(root);
 
 		tree = new JTree(treeModel);
-
 		
+		// Enable drag and drop.
+		tree.setDragEnabled(true);
+		tree.setDropMode(DropMode.ON);
+		tree.setTransferHandler(new TreeTransferHandler()); 
+		tree.getSelectionModel().setSelectionMode(  
+				TreeSelectionModel.CONTIGUOUS_TREE_SELECTION); 
+
 		ReqTreeCellRenderer renderer = new ReqTreeCellRenderer();
 		tree.setCellRenderer(renderer);
-		
+
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
-
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
 				if (HierarchyEvent.SHOWING_CHANGED != 0 && tv.isShowing()) {
@@ -100,26 +109,65 @@ public class TreeView extends JPanel {
 			}
 		});
 
+		addMouseListeners();
+
+		JScrollPane scrollPane = new JScrollPane(tree);
+		this.add(scrollPane, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Expand the entire tree.
+	 */
+	public static void expandAll() {
+		int row = 0;
+		while (row < tree.getRowCount()) {
+			tree.expandRow(row);
+			row++;
+		}
+	}
+
+	/**
+	 * Gets tree model.
+	 * 
+	 * @return the tree model
+	 */
+	public ReqTreeModel getTreeModel() {
+		return treeModel;
+	}
+
+	/**
+	 * Gets tree
+	 * 
+	 * @return the JTree
+	 */
+	public JTree getTree() {
+		return tree;
+	}
+
+	/**
+	 * Add the mouse listeners to the tree.
+	 */
+	private void addMouseListeners() {
 		MouseListener requirementml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-				
+
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Requirement> controller = new RetrieveRequirementControllerTree<Requirement>(
 							null,"requirementsmanager/requirement/", new IRetrieveRequirementController<Requirement>() {
-								boolean isRequirement = true;
+								private boolean isRequirement = true;
 
 								@Override
 								public void runWhenRecieved(String s){
-								//public void runWhenRecieved(Requirement r) {
-									
+									//public void runWhenRecieved(Requirement r) {
+
 									Requirement r = Requirement.fromJSONArray(s)[0];
 									if (this.isRequirement) {
 										r.setIteration(Iteration
 												.getIterationById(r
 														.getIterationId()));
 										MainTabController.getController()
-												.addEditRequirementTab(r);
+										.addEditRequirementTab(r);
 									}
 								}
 
@@ -144,26 +192,26 @@ public class TreeView extends JPanel {
 				}
 			}
 		};
-		
+
 		MouseListener iterationml = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-				
+
 				if (selRow != -1 && e.getClickCount() == 2) {
 					RetrieveRequirementControllerTree<Iteration> controller = new RetrieveRequirementControllerTree<Iteration>(
 							null,"iterationsmanager/iteration/", new IRetrieveRequirementController<Iteration>() {
-								boolean isIteration = true;
+								private boolean isIteration = true;
 
 								/* (non-Javadoc)
 								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#runWhenRecieved(java.lang.String)
 								 */
 								@Override
 								public void runWhenRecieved(String s){
-								//public void runWhenRecieved(Requirement r) {
-									
+									//public void runWhenRecieved(Requirement r) {
+
 									Iteration iteration = Iteration.fromJSONArray(s)[0];
 									if (this.isIteration) {
-					//					r.setId(Iteration.getIterationById(r.getId()));
+										//					r.setId(Iteration.getIterationById(r.getId()));
 										MainTabController.getController().addEditIterationTab(iteration);
 									}
 								}
@@ -188,40 +236,24 @@ public class TreeView extends JPanel {
 				}
 			}
 		};
-		
+
 		tree.addMouseListener(requirementml);
 		tree.addMouseListener(iterationml);
-
-		JScrollPane scrollPane = new JScrollPane(tree);
-		this.add(scrollPane, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Expand the entire tree.
-	 */
-	public static void expandAll() {
-		int row = 0;
-		while (row < tree.getRowCount()) {
-			tree.expandRow(row);
-			row++;
-		}
 	}
 	
 	/**
-	 * Gets tree model.
-	 * 
-	 * @return the tree model
+	 * Gets the single instance of Refresher.
+	 *
+	 * @return single instance of Refresher
 	 */
-	public ReqTreeModel getTreeModel() {
-		return treeModel;
+	public static TreeView getInstance(){
+		return instance;
 	}
-
+	
 	/**
-	 * Gets tree
-	 * 
-	 * @return the JTree
+	 * Refresh the tree.
 	 */
-	public JTree getTree() {
-		return tree;
+	public void refreshTree() {
+		treeModel.refreshTree();
 	}
 }

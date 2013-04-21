@@ -40,7 +40,7 @@ public class RetrieveAllRequirementsController {
 	/**
 	 * Constructs a new RetrieveAllRequirementsController.
 	 * 
-	 * @param view the search Requirements view
+	 * @param refreshMode the refresher mode for the RetrieveAllRequirementsController
 	 */
 	public RetrieveAllRequirementsController(RefresherMode refreshMode) {
 		this.refreshMode = refreshMode;

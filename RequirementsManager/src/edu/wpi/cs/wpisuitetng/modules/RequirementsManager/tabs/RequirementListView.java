@@ -16,7 +16,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,8 +24,6 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
@@ -45,7 +42,6 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	private JButton refreshButton, updateButton;
 	private RequirementListPanel mainPanel;
 	private RetrieveAllRequirementsController refreshController;
-	private BatchRequirementEditController<Integer> updateController;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
 	private boolean inputEnabled;

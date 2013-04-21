@@ -12,7 +12,8 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.HashSet;
 
@@ -23,8 +24,6 @@ import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.MockData;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
@@ -191,7 +190,7 @@ public class UserPermissionStoreTest {
 	
 	
 	@Test
-	public void update() throws Exception{
+	public void update() throws WPISuiteException{
 		UserPermission here = new UserPermission();
 		System.out.println("test:" + here.toJSON());
 		

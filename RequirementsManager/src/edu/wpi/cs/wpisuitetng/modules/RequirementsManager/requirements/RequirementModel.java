@@ -9,16 +9,21 @@
  *
  * Contributors:
  * Chris Hanna
+ * Lauren Kahn
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
+
 import java.util.ArrayList;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Note;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * The Class RequirementModel is the model that holds requirements and their views.
@@ -28,8 +33,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 public class RequirementModel {
 
 	private Requirement requirement;
-	private final Requirement uneditedRequirement;
+	private Requirement uneditedRequirement;
 	private RequirementView view;
+	protected boolean dirtyEstimate;
 	
 	public RequirementModel(Requirement requirement, RequirementView view){
 		this.requirement = requirement;
@@ -44,6 +50,7 @@ public class RequirementModel {
 	 */
 	protected void setUpPanel(Mode editMode){
 		RequirementPanel panel = view.getRequirementPanel();
+		dirtyEstimate = false;
 		
 		if(!(requirement.getTitle().equals(null) || 
 				requirement.getTitle().equals("")))
@@ -69,7 +76,7 @@ public class RequirementModel {
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
 			
-			if (requirement.getIteration().toString().equals(panel.getKnownIterations()[i].toString()) ){
+			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
 				panel.getCmbIteration().setSelectedIndex(i);
 
 			}
@@ -103,8 +110,8 @@ public class RequirementModel {
 			notesList.add(requirement.getNotes().get(i));
 		}
 		panel.getNotesView().setNotesList(notesList);
-//		panel.getHv().setHistoryList(requirement.getHistory());
-//		panel.getAv().setAssigneeList(requirement.getAssignee());
+//		panel.getHistoryView().setHistoryList(requirement.getHistory());
+//		panel.getAssigneeView().setAssigneeList(requirement.getAssignee());
 		
 		
 		panel.setUpPanel();
@@ -190,7 +197,7 @@ public class RequirementModel {
 		}
 		
 		//compare estimate efforts
-		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort() && dirtyEstimate == false){//if old and new are not the same
 			return true;
 		}
 		
@@ -207,7 +214,7 @@ public class RequirementModel {
 			return true;
 		}
 		
-		if (this.view.getRequirementPanel().getAv().isButtonPressed()){//if old and new are not the same
+		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
 		
@@ -233,27 +240,211 @@ public class RequirementModel {
 			return true;
 		}
 		
-		if(!this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAtv().getBodyField().getText().trim().equals(null)){
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
 			System.out.println("Title IN ACCEPTANCE TEST");
 			return true;
 		}
 		
-		if(!this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
 			System.out.println("Body IN ACCEPTANCE TEST");
 			return true;
 		}
 		
-//		if(this.view.getRequirementPanel().getAtv().getTitleField().getText().equals("") || this.view.getRequirementPanel().getAtv().getTitleField().getText().equals(null)){
+//		if(this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") || this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
 //			System.out.println("Body IN ACCEPTANCE TEST");
 //			return true;
 //		}
 		
-		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAtv().getList().size()){
+		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			System.out.println("Added IN ACCEPTANCE TEST");
 			return true;
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Checks to see if any changes have been made to fields.
+	 * Set background that are changed
+	 * TODO: make individual flags for each, to be able to reset when field goes white again
+	 * @return true if changes has been made otherwise false
+	 */
+	public boolean updateBackgrounds(){
+		Requirement oldR = this.uneditedRequirement;
+		System.out.println(view.getRequirementPanel().getTxtEstimate().getText());
+		System.out.println(view.getRequirementPanel().getTxtActual().getText());
+		Requirement newR = view.getRequirementPanel().getEditedModel();
+		boolean flag = false; //gets set to true when something has changed; in order to iterate through everything
+		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
+		int acceptDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
+		
+		//compare titles
+		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
+			//change to yellow background
+			view.getRequirementPanel().txtTitle.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().txtTitle.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().txtTitle.setBackground(Color.WHITE);//change to white background in case of reset
+		
+		//compare Release Numbers
+		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
+			view.getRequirementPanel().txtReleaseNumber.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().txtReleaseNumber.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().txtReleaseNumber.setBackground(Color.WHITE);//change to white background in case of reset
+		
+		//compare type
+		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
+			view.getRequirementPanel().cmbType.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().cmbType.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().cmbType.setBackground(Color.WHITE);//change to white background in case of reset
+		
+		//compare Iterations
+		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
+			view.getRequirementPanel().cmbIteration.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().cmbIteration.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().cmbIteration.setBackground(Color.WHITE);//change to white background in case of reset
+				
+		//compare Descriptions
+		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
+			view.getRequirementPanel().txtDescription.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().txtDescription.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().txtDescription.setBackground(Color.WHITE);//change to white background in case of reset
+		
+		//compare Statuses
+		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
+			view.getRequirementPanel().cmbStatus.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().cmbStatus.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().cmbStatus.setBackground(Color.WHITE);//change to white background in case of reset
+
+		//compare Priorities
+		if (oldR.getPriority() != newR.getPriority()){//if old and new are not the same
+			view.getRequirementPanel().cmbPriority.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().cmbPriority.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().cmbPriority.setBackground(Color.WHITE);//change to white background in case of reset
+
+		//compare estimate efforts
+		System.out.println("OE: " + oldR.getEstimateEffort());
+		System.out.println("NE: " + newR.getEstimateEffort());
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+			view.getRequirementPanel().txtEstimate.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().txtEstimate.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().txtEstimate.setBackground(Color.WHITE);//change to white background in case of reset
+
+		//compare actual efforts
+		System.out.println("OA: " + oldR.getActualEffort());
+		System.out.println("NA: " + newR.getActualEffort());
+		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
+			view.getRequirementPanel().txtActual.setBackground(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().txtActual.getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().txtActual.setBackground(Color.WHITE);//change to white background in case of reset
+		
+		//set notes field to yellow
+		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+			view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(this.view.getRequirementPanel().getNotesView().getTextArea().getBackground().equals(Color.YELLOW))
+					view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.WHITE);
+		
+		
+		//set Assigneeview to yellow
+		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
+			view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.YELLOW);
+			flag = true;
+		}
+		
+		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
+			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+			flag = true;
+		}*/
+		else
+			if(this.view.getRequirementPanel().getAssigneeView().getBackgroundColor().equals(Color.YELLOW))
+				view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.WHITE);
+		/*
+		//TODO: come back to this
+		//compare sub-requirements 
+		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
+			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
+				return true;
+			}
+		}
+		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
+			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
+				return true;
+			}
+		}
+		*/
+		
+		//compare notes lists
+		if (notesDifference != 0){//if old and new are not the same
+			view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.YELLOW);
+			flag = true;
+		}
+		else //no change
+			if(view.getRequirementPanel().getNotesView().getSavedTextArea().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.WHITE);//change to white background in case of reset
+		
+		//AcceptanceTestFields
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtTitle().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.WHITE);
+			
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
+			
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("Blank") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
+			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getCmbStatus().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
+			
+		if(acceptDifference != 0) {
+			view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getAcceptanceTestsView().getListDisplay().getBackground().equals(Color.YELLOW))
+				view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
+		
+		return flag;
 	}
 	
 	/**
@@ -267,6 +458,29 @@ public class RequirementModel {
 	 */
 	public Requirement getUneditedRequirement() {
 		return uneditedRequirement;
+	}
+
+
+	public void setRequirement(Requirement req) {
+		this.requirement = req;
+	}
+	
+	/**
+	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate
+	 * 
+	 * @param estimateEffort
+	 */
+	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
+		this.uneditedRequirement.setEstimateEffort(estimateEffort);
+	}
+
+
+	/**
+	 * Enter description here.
+	 * 
+	 */
+	public void setEstimateDirty() {
+		dirtyEstimate = true;
 	}
 
 }

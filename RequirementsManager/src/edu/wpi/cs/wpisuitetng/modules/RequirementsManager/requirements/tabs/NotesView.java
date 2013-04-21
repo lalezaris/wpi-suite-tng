@@ -10,6 +10,7 @@
  * Contributors:
  *  Chris Dunkers
  *  Joe Spicola
+ *  Michael French
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -17,6 +18,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -33,11 +36,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * Tab panel for adding and viewing notes.
  *
  * @author Joe Spicola
- * @edited Michael French
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends JPanel {
+public class NotesView extends JPanel implements FocusListener {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -62,7 +64,7 @@ public class NotesView extends JPanel {
 	/**
 	 * Instantiates a new notes view.
 	 *
-	 * @param req the requirement holding the notes
+	 * @param parent the requirement view holding the notes
 	 */
 	public NotesView(RequirementView parent) {
 		//Use a grid bag layout manager
@@ -99,6 +101,7 @@ public class NotesView extends JPanel {
 
 		/* begin panel styling */
 		txtNotes = new JTextArea(4, 40);
+		txtNotes.addFocusListener(this);
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
@@ -222,11 +225,11 @@ public class NotesView extends JPanel {
 		String list = "";
 		for (int i = notes.size() - 1; i >= 0; i--){
 			if (i > 0){
-				list = list + ">[" + notes.get(i).getCreationDate().toString() + "] " + 
+				list += ">[" + notes.get(i).getCreationDate().toString() + "] " + 
 						notes.get(i).getCreator() + 
 						": " + notes.get(i).getBody() + "\n \n";
 			}else{
-				list = list + ">[" + notes.get(i).getCreationDate().toString() + "] "
+				list += ">[" + notes.get(i).getCreationDate().toString() + "] "
 						+ notes.get(i).getCreator() + 
 						": " + notes.get(i).getBody();
 			}
@@ -278,6 +281,33 @@ public class NotesView extends JPanel {
 	 * @return returns the text area for displaying the saved notes
 	 */
 	public JTextArea getSavedTextArea(){
-		return txtNotesSaved;
+		return this.txtNotesSaved;
+	}
+	
+	public void setTxtNotesBackgroundColor(Color c) {
+		this.txtNotes.setBackground(c);
+	}
+	
+	public void setTxtNotesSavedBackgroundColor(Color c) {
+		this.txtNotesSaved.setBackground(c);
+	}
+
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();		
 	}
 }

@@ -731,7 +731,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		inputEnabled = enabled;
 
 		txtTitle.setEnabled(enabled);
-		txtReleaseNumber.setEnabled(enabled);
+		
+		if (this.parent.getReqModel().getRequirement().getParentRequirementId() == -1) {
+			txtReleaseNumber.setEnabled(enabled);
+		}
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
@@ -928,7 +931,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 			}
 			runThatForLoop = false;
 
-			//child status should not be editable on creation
 			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
 			if (pLevel == RMPermissionsLevel.ADMIN){
 				cmbStatus.setBackground(Color.WHITE);

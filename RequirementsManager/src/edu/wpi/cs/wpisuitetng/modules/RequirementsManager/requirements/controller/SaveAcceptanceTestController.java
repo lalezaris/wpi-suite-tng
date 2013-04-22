@@ -56,6 +56,7 @@ public class SaveAcceptanceTestController implements ActionListener {
 			view.toggleTitleEnabled(true);
 			view.clearBodyTxt();
 			view.clearStatusCmb();
+			view.refreshBackgrounds();
 		}		
 	}
 	

@@ -126,17 +126,21 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		} else
 			txtTitle = new JPlaceholderTextField("", 20);
 
+		txtTitle.addFocusListener(this);
 		txtBody = new JTextArea(4, 40);
+		txtBody.addFocusListener(this);
 		JLabel lblBody = new JLabel("Test Descriptions: ", JLabel.TRAILING);
 		
 		saveTest = new JButton("Save");
 		saveTest.addActionListener(new SaveAcceptanceTestController(this));
+		saveTest.addFocusListener(this);
 		
 		//editTest = new JButton("Edit Test");
 		//editTest.addActionListener(new EditAcceptanceTestController(this));
 		
 		cancelTest = new JButton("Cancel");
 		cancelTest.addActionListener(new CancelAcceptanceTestController(this));
+		cancelTest.addFocusListener(this);
 		
 		//initiate the combobox for status
 		final String[] atStatuses = {"", "Passed", "Failed"};

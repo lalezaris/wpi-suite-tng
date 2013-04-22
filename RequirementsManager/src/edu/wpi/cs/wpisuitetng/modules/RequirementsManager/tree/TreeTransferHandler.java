@@ -244,12 +244,9 @@ class TreeTransferHandler extends TransferHandler {
 			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
 			cEnd.add(Calendar.DATE, 1);
 			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
-				System.out.println(ttarget.getUserObject().toString() 
-						+ " is closed!");
 				return false;
 			}
 		}
-
 		for(int i = 0; i < selRows.length; i++) {  
 			TreePath path2 = tree.getPathForRow(selRows[i]);  
 			DefaultMutableTreeNode aNode =  
@@ -273,6 +270,10 @@ class TreeTransferHandler extends TransferHandler {
 						return false;
 					}
 				}
+			}
+			// Do not allow a drag for an Iteration
+			else if (aNode.getUserObject() instanceof Iteration) {
+				return false;
 			}
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  

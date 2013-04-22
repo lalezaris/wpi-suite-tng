@@ -36,16 +36,14 @@ public class Task extends AbstractModel{
 	String assigneeName;
 	int effort;
 	TaskStatus status;
-	int requirementID;
 	
 	//make a dummy task for db4o
 	public Task(){}
-	public Task(String name, String description, String assigneeName, int effort, int requirementID){
+	public Task(String name, String description, String assigneeName, int effort){
 		this.name = name;
 		this.description = description;
 		this.assigneeName = assigneeName;
 		this.effort = effort;
-		this.requirementID = requirementID;
 		this.status = TaskStatus.BLANK;
 	}
 	
@@ -90,12 +88,80 @@ public class Task extends AbstractModel{
 	}	
 
 
+	/**setter for id
+	 * @param i The ID
+	 */
 	public void setId(int i) {
 		this.id = i;
 		
 	}
+	/**Gett for id
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
+	}
+	
+	/**Getter for the name.
+	 * @return the name
+	 */
+	public String getName(){
+		return name;
+	}
+	
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	/**
+	 * @return the assigneeName
+	 */
+	public String getAssigneeName() {
+		return assigneeName;
+	}
+	/**
+	 * @param assigneeName the assigneeName to set
+	 */
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
+	}
+	/**
+	 * @return the effort
+	 */
+	public int getEffort() {
+		return effort;
+	}
+	/**
+	 * @param effort the effort to set
+	 */
+	public void setEffort(int effort) {
+		this.effort = effort;
+	}
+	/**
+	 * @return the status
+	 */
+	public TaskStatus getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(TaskStatus status) {
+		this.status = status;
+	}
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	/**
 	 * Add dependencies necessary for Gson to interact with this class.

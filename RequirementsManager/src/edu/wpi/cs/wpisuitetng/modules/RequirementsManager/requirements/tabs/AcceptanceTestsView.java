@@ -43,7 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 /**
  * The Class AcceptanceTestsView creates a panel for viewing acceptance tests.
  * 
- * @author Michael Frenched
+ * @author Michael French
  * @edited Joe Spicola
  */
 @SuppressWarnings({"rawtypes", "serial"})
@@ -54,7 +54,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	protected JPlaceholderTextField txtTitle;
 	protected JTextArea txtBody;
 	protected JButton saveTest;
-	//protected JButton editTest;
 	protected JButton cancelTest;
 	protected JComboBox cmbStatus;
 	protected RMPermissionsLevel pLevel;
@@ -81,7 +80,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	@SuppressWarnings("unchecked")
 	public AcceptanceTestsView(RequirementView parent){
 		list = new ArrayList();
-//		list = req.getAcceptanceTests();
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();

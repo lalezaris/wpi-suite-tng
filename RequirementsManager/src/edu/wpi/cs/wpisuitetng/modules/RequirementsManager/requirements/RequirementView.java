@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
@@ -334,11 +335,19 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAssigneeView().setLists();
 
+		//Set the list of acceptance tests in the views.
 		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
 		for(int i = 0; i < this.getReqModel().getRequirement().getAcceptanceTests().size(); i++){
 			acceptanceTestList.add(this.getReqModel().getRequirement().getAcceptanceTests().get(i));
 		}
 		mainPanel.getAcceptanceTestsView().setList(acceptanceTestList);
+		
+		//Set the lists of tasks in the views
+		ArrayList<Task> taskList = new ArrayList<Task>();
+		for(int i = 0; i < this.getReqModel().getRequirement().getTasks().size(); i++){
+			taskList.add(this.getReqModel().getRequirement().getTasks().get(i));//Cycle through the existing ones and copy them here.
+		}
+		mainPanel.getTasksView().setList(taskList);
 
 		//Default the Iteration Box based on the values of the estimate (Don't let you choose it if the estimate is blank).
 		if(this.getReqModel().getRequirement().getEstimateEffort() > 0) {

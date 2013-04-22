@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
@@ -44,15 +45,13 @@ public class TasksView extends JPanel{
 	
 	protected RequirementView parent;
 	
-	private ArrayList<Task> taskArray;
+	private ArrayList<Task> list;
 	private ArrayList<TasksPanel> taskPanelArray;
-	private JList<Task> list;
 	private DefaultListModel<Task> listModel;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
 	
-	private RetrieveRequirementsTasksController loadAllController;
 
 	/**
 	 * Instantiates a new tasks view.
@@ -62,20 +61,18 @@ public class TasksView extends JPanel{
 	public TasksView(RequirementView parent) {
 		super(new BorderLayout());
 		
-		//Make the Controller to load all of the tasks.
-		loadAllController = new RetrieveRequirementsTasksController(this);
-		
 		//Set initial variables
-		taskArray = new ArrayList<Task>();
+		list = new ArrayList<Task>();
 		taskPanelArray = new ArrayList<TasksPanel>();
+		
 		
 		//Get the ScrollPane going.
 		listModel = new DefaultListModel<Task>();
-		list = new JList(listModel);
-		list.setLayoutOrientation(JList.VERTICAL);
+		//list = new JList(listModel);
+		//list.setLayoutOrientation(JList.VERTICAL);
 
-		list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane(list);
+		//list.setCellRenderer(new HistoryViewCellRenderer(350));
+		JScrollPane listScrollPane = new JScrollPane();
 		
 		createTasksPanels();
 		displayTasks(listScrollPane);
@@ -96,55 +93,76 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	private void displayTasks(JScrollPane listScrollPane){
+		this.add(taskPanelArray.get(0));
 		listScrollPane.add(taskPanelArray.get(0));
 	}
 	
+	/**Add a task from the View.
+	 * @param t The task to add
+	 */
+	public void addTask(Task t){
+		boolean hasTask = false;
+		int testLocation = doesTaskExist(t.getId());
+		if(testLocation != -1)
+			hasTask = true;
+		if (!hasTask){
+			list.add(t);
+		}else{
+			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists");
+		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+	}
+	
+	/**Used to update a given Task
+	 * @param a
+	 */
+	public void replaceTask(Task t){
+		boolean hasTask = false;
+		int taskLocation = doesTaskExist(t.getId());
+		if(taskLocation != -1)
+			hasTask = true;
+		//Update all of the fields.
+		if (hasTask){
+			list.get(taskLocation).setAssigneeName(t.getAssigneeName());
+			list.get(taskLocation).setStatus(t.getStatus());
+			list.get(taskLocation).setDescription(t.getDescription());
+			list.get(taskLocation).setEffort(t.getEffort());
+			list.get(taskLocation).setName(t.getName());
+		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+	}
+	
+	/**Look for the given task in the list.
+	 * @param id The task to look for.
+	 * @return The spot in the list that this task belongs to, if it does.
+	 */
+	private int doesTaskExist(int id) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == id){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	/**
 	 * Changes the history array list to the given array list.
 	 * 
 	 * @param history
 	 */
-	public void setTasksList(ArrayList<Task> task) {
-		this.taskArray = task;
-		for(int i = 0; i <taskArray.size(); i++){
-			if(!listModel.contains(taskArray.get(i))){
-				listModel.add(0, taskArray.get(i));}
+	public void setList(ArrayList<Task> task) {
+		this.list = task;
+		for(int i = 0; i <list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(0, list.get(i));}
 		}
-		redisplay();
 		repaint();
 		revalidate();
-		redisplay();
-	}
-
-	protected void redisplay(){
-
-		listModel = new DefaultListModel<Task>();
-
-		for(int i = 0; i <this.taskArray.size(); i++){
-			if(!listModel.contains(taskArray.get(i))){
-				listModel.add(0, taskArray.get(i));}
-		}
-		
-		if (list!=null)
-		this.remove(list);
-		
-		//Create the list and put it in a scroll pane.
-		list = new JList<Task>(listModel);
-		list.setLayoutOrientation(JList.VERTICAL);
-
-		list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane(list);
-		displayTasks(listScrollPane);
-		
-		add(listScrollPane, BorderLayout.CENTER);
-	}
-	
-	
-	/**Set the array and repaint everything.
-	 * @param tasks Array to set to.
-	 */
-	public void setTaskArray(Task[] tasks) {
-		taskArray = new ArrayList<Task>(Arrays.asList(tasks));
-		setTasksList(taskArray);
 	}
 }

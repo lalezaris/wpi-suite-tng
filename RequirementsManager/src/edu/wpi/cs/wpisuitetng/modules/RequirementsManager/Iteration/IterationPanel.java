@@ -322,7 +322,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		lblDateOverlapError.setVisible(false);
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
-		
+
 		cTwo.gridx = 0;
 		cTwo.gridy = 4;
 		cTwo.weightx = 0.5;
@@ -331,7 +331,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		lblIterationNameError.setForeground(Color.RED);
 		lblIterationNameError.setVisible(false);
 		panelTwo.add(lblIterationNameError, cTwo);
-		
+
 		lblIterationNameExistsError.setForeground(Color.RED);
 		lblIterationNameExistsError.setVisible(false);
 		panelTwo.add(lblIterationNameExistsError, cTwo);
@@ -389,7 +389,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		}
 
 		splitPane.setRightComponent(right);
-		
+
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
 		this.add(splitPane,BorderLayout.CENTER);
@@ -488,7 +488,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
-			
+
 			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
 				return true;
 			}
@@ -630,15 +630,15 @@ public class IterationPanel extends JPanel implements FocusListener {
 		reqListPanel.repaint();
 		reqListPanel.revalidate();
 	}
-	
+
 	/**
 	 * Sends filter server request
 	 */
 	public void sendFilterServerRequest(){
 		//reqListPanel.getFilterController().sendServerRequests();
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
 	 */
 	@Override
@@ -646,14 +646,19 @@ public class IterationPanel extends JPanel implements FocusListener {
 		updateBackgrounds();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 	 */
 	@Override
 	public void focusLost(FocusEvent e) {
 		updateBackgrounds();
 	}
-	
+
+	/**
+	 * Updates the backgrounds to yellow or white depending on if there have been changes
+	 * 
+	 * @return boolean for if backgrounds have been updated
+	 */
 	public boolean updateBackgrounds(){
 
 		if(this.getParent().getMode() == Mode.CREATE){	
@@ -688,7 +693,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 				txtEndDate.setBackground(Color.YELLOW);
 			} else 
 				txtEndDate.setBackground(Color.WHITE);
-			
+
 			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
 				return true;
 			}

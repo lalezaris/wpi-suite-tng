@@ -56,7 +56,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
-	
+
 	private static TreeView instance;
 
 	/**
@@ -87,7 +87,7 @@ public class TreeView extends JPanel {
 		treeModel = new ReqTreeModel(root);
 
 		tree = new JTree(treeModel);
-		
+
 		// Enable drag and drop.
 		tree.setDragEnabled(true);
 		tree.setDropMode(DropMode.ON);
@@ -101,6 +101,9 @@ public class TreeView extends JPanel {
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
+			/**
+			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
+			 */
 			@Override
 			public void hierarchyChanged(HierarchyEvent e) {
 				if (HierarchyEvent.SHOWING_CHANGED != 0 && tv.isShowing()) {
@@ -218,6 +221,9 @@ public class TreeView extends JPanel {
 									}
 								}
 
+								/**
+								 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController#getID()
+								 */
 								@Override
 								public String getID() {
 									TreePath path = tree.getSelectionPath();
@@ -251,7 +257,7 @@ public class TreeView extends JPanel {
 	public static TreeView getInstance(){
 		return instance;
 	}
-	
+
 	/**
 	 * Refresh the tree.
 	 */

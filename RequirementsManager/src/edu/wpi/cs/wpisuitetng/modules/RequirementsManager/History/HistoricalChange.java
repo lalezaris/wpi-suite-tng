@@ -26,9 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class to hold a HistoricalChange object for recording the history of a requirement. 
  * Contains the date, object id, user, change id.
  * 
- * @author: Michael French
- * @author: Evan Polekoff
- * @author: Sam Abradi
+ * @author Michael French
+ * @author Evan Polekoff
+ * @author Sam Abradi
  * 
  * @version Mar 31, 2013
  */

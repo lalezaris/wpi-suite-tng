@@ -31,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
  * 
  * @author Tyler Stone
  * @author Sam Lalezari
- * @editor Arica Liu
  *
  */
 @SuppressWarnings("serial")

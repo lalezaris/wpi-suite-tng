@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 public class SnakeModel extends AbstractModel{
 
@@ -36,7 +34,7 @@ public class SnakeModel extends AbstractModel{
 
 	/**
 	 * Sets the score
-	 * @param score: sets the score 
+	 * @param score sets the score 
 	 */
 	public void setScore(int score) {
 		this.score = score;
@@ -56,7 +54,7 @@ public class SnakeModel extends AbstractModel{
 
 	/**
 	 * Sets the name
-	 * @param name: sets the name 
+	 * @param name sets the name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -66,13 +64,11 @@ public class SnakeModel extends AbstractModel{
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 

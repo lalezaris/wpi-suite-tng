@@ -159,8 +159,6 @@ public class MainTabController {
 	
 	/**
 	 * Make the Snake Tab!!!
-	 * 
-	 * @return
 	 */
 	public Tab addSnakeTab(){
 		int checkTabIndex = view.indexOfTab("Snake");

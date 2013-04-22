@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.RetrieveIterationController;
@@ -39,7 +39,7 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -59,7 +59,6 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		// parse the iteration received from the core
 		Iteration[] iterations = Iteration.fromJSONArray(response.getBody());
 		if (iterations.length > 0 && iterations[0] != null) {
-			System.out.println("Iteration indexed by 0:"+ iterations[0]);
 			controller.showIteration(iterations[0]);
 		}
 		else {
@@ -67,7 +66,7 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -75,7 +74,7 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 		controller.errorRetrievingIteration("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

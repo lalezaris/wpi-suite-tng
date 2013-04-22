@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.event.ActionEvent;
@@ -25,7 +25,7 @@ import javax.swing.JComboBox;
  */
 public class IterationListener implements ActionListener {
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -33,6 +33,6 @@ public class IterationListener implements ActionListener {
 	public void actionPerformed(ActionEvent iterations) {
 		JComboBox cb = (JComboBox)iterations.getSource();
 		System.out.println(cb.getSelectedItem());
-		
+
 	}
 }

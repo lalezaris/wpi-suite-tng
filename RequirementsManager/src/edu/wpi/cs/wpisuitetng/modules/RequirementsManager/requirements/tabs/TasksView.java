@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,6 +27,7 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -46,10 +45,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.Retri
  */
 @SuppressWarnings("serial")
 public class TasksView extends JPanel{
-	
+
 	protected RequirementView parent;
 	
 	private ArrayList<Task> list;
+
 	private ArrayList<TasksPanel> taskPanelArray;
 	private JPanel overallPanel;//One panel to hold them all.
 	private JPanel scrollingPanel;
@@ -64,13 +64,14 @@ public class TasksView extends JPanel{
 
 	//Permissions level
 	protected RMPermissionsLevel pLevel;
-	
+
 
 	/**
 	 * Instantiates a new tasks view.
 	 *
 	 * @param req the requirement holding the tasks
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TasksView(RequirementView parent) {
 		super(new BorderLayout());
 		
@@ -101,7 +102,7 @@ public class TasksView extends JPanel{
 		//listDisplay = new JList(listModel);
 		//listDisplay.setLayoutOrientation(JList.VERTICAL);
 	}
-	
+
 	/**Create the task panels to display.
 	 * 
 	 */
@@ -253,6 +254,7 @@ public class TasksView extends JPanel{
 		repaint();
 		revalidate();
 	}
+
 	
 	/**Redisplay everything. Call after updating tasks.
 	 * 

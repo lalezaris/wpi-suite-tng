@@ -31,11 +31,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerFi
  *
  * @author Evan Polekoff
  */
+@SuppressWarnings("serial")
 public class TasksPanel extends JPanel{
-	
+
 	/*layout manager for this panel*/
 	protected GridBagLayout layout;
-	
+
 	//Stuff for entering fields.
 	private JTextField txtName;
 	private JTextField txtDescription;
@@ -58,14 +59,14 @@ public class TasksPanel extends JPanel{
 
 	//Overall Panel
 	JPanel overallPanel = new JPanel();
-	
+
 	public TasksPanel(){
-		
+
 		addComponents();
 	}
-	
+
 	private void addComponents(){
-		
+
 		//Make fields
 		txtName = new JTextField();
 		txtDescription = new JTextField();
@@ -85,7 +86,7 @@ public class TasksPanel extends JPanel{
 		//Gridbag stuff
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
-		
+
 		layout = new GridBagLayout();
 		this.setLayout(new BorderLayout());
 
@@ -95,7 +96,7 @@ public class TasksPanel extends JPanel{
 
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
-		
+
 		//Place all of the fields!!!
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
@@ -116,7 +117,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtName, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -136,7 +137,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtDescription, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -156,7 +157,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtAssignee, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -176,7 +177,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtEffort, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -196,7 +197,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(cmbStatus, cFields);
-		
+
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
@@ -206,7 +207,7 @@ public class TasksPanel extends JPanel{
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(saveButton, cFields);
-		
+
 		//Wrap them all in one overall panel.
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
@@ -216,14 +217,16 @@ public class TasksPanel extends JPanel{
 		cOverall.gridwidth = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(fieldPanel, cOverall);
- 
+
 		add(overallPanel,BorderLayout.CENTER);
 		validate();
 		repaint();
 	}
 
-	/**The getter.
-	 * @return the button
+	/**
+	 * Gets the save button
+	 * 
+	 * @return the save button
 	 */
 	public JButton getSaveButton() {
 		return saveButton;

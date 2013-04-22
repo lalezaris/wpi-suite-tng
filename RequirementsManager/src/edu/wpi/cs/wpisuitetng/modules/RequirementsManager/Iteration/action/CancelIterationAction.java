@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.action;
 
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.C
 /**
  * Cancel an iteration action.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Mar 27, 2013
  *
@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.C
 @SuppressWarnings("serial")
 public class CancelIterationAction extends AbstractAction {
 	private final CancelIterationController controller;
-	
+
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
@@ -40,7 +40,7 @@ public class CancelIterationAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
 	}
-	
+
 	/**
 	 * Perform the action.
 	 * 

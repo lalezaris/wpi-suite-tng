@@ -71,7 +71,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 
 		if (response.getStatusCode() == 201) {
 			BarPieChartView.update();
-			
+
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
@@ -82,7 +82,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 					public void run() {
 						view.setUp(requirement, Mode.EDIT, CurrentUserPermissions.getCurrentUserPermission());
 
-						
+
 						view.setEditModeDescriptors(requirement);
 
 						//to deal with child Requirements
@@ -101,9 +101,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							Requirement uneditedParentWithChild = uneditedParent;
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
 							uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
-							
+
 							parentView.getReqModel().setRequirement(uneditedParentWithChild);
-							
+
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);
@@ -130,7 +130,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -141,7 +141,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -156,6 +156,9 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 	 */
 	private void always() {
 		SwingUtilities.invokeLater(new Runnable() {
+			/**
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				view.setInputEnabled(true);				

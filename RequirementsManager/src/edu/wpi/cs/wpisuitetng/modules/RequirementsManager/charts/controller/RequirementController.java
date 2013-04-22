@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
@@ -35,9 +35,9 @@ public class RequirementController {
 	 */
 	public RequirementController(BarPieChartView view){
 		this.view = view;
-		
+
 	}
-	
+
 	/**
 	 * Sends a request to retrieve requirements.
 	 */

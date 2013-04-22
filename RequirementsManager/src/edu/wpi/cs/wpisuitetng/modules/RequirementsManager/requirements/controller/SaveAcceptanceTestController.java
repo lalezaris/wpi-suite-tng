@@ -8,8 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  mwfrench
-**************************************************/
+ *  Michael French
+ **************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
@@ -24,19 +25,19 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Acce
  * @author Michael French
  */
 public class SaveAcceptanceTestController implements ActionListener {
-	
+
 	private final AcceptanceTestsView view;
 
 	/**
 	 * Default constructor
 	 * 
-	 * @param view
+	 * @param view the acceptance tests view
 	 */
 	public SaveAcceptanceTestController(AcceptanceTestsView view) {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
@@ -50,7 +51,6 @@ public class SaveAcceptanceTestController implements ActionListener {
 			else
 				view.addTestToList(a);
 
-			System.out.println("Tests in List: " + view.getListSize());
 			view.updateList();
 			view.clearTitleTxt();
 			view.toggleTitleEnabled(true);
@@ -59,5 +59,5 @@ public class SaveAcceptanceTestController implements ActionListener {
 			view.refreshBackgrounds();
 		}		
 	}
-	
+
 }

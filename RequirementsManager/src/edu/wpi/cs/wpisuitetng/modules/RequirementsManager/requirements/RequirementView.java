@@ -82,7 +82,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
 	private RMPermissionsLevel pLevel;
-	//	private RequirementPanel reqPanel;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
@@ -137,15 +136,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
 		mainPanel.getAssigneeView().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAssigneeView()));
 		mainPanel.getAssigneeView().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAssigneeView()));
-		
+
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);
 			recieveParentController.retrieveParent();
 		}
-		
+
 		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
 		iterationsController.retrieve();
-		
+
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -157,7 +156,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			}
 		});
 
-		//this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
 	}
@@ -178,7 +176,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText());
 		}
 		catch (NumberFormatException e){
-			System.out.println("The estimate is too big to save. Error!");
 			mainPanel.getLblEstimateError().setVisible(true);  
 			estimate = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
@@ -186,7 +183,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			actual = Integer.parseInt(mainPanel.getTxtActual().getText());
 		}
 		catch (NumberFormatException e){
-			System.out.println("The actual is too big to save. Error!");
 			mainPanel.getLblActualError().setVisible(true);
 			actual = -1; //TODO add JLabel in RequirementPanel to warn user of this error
 		}
@@ -248,7 +244,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		return mainPanel;
 	}
 
-	/* 
+	/** 
 	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
 	 */
 	@Override
@@ -278,7 +274,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
-	 * Return containingTab.
+	 * Gets the containingTab.
 	 * 
 	 * @return the containing tab
 	 */
@@ -313,12 +309,21 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the requirement model
+	 * 
 	 * @return the reqModel
 	 */
 	public RequirementModel getReqModel() {
 		return reqModel;
 	}
 
+	/**
+	 * Sets up the requirement view
+	 * 
+	 * @param requirement the requirement to view
+	 * @param editMode the editmode
+	 * @param pLevel the permission level
+	 */
 	@SuppressWarnings("unchecked")
 	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
 
@@ -389,7 +394,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if(!(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
-		
+
 		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.getTxtEstimate().setEnabled(false);
 		}
@@ -404,7 +409,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		setUpPermissions(pLevel);
-		//mainPanel.setUpPanel();
 	}
 
 	private void setUpPermissions(RMPermissionsLevel pLevel){
@@ -461,14 +465,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RequirementPanel.Mode getMode() {
 		return mode;
 	}
-	
+
 	public void setIterationComboBox(){
 		Iteration[] knownIterations = availableIterations;
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
-		
+
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
-				System.out.println("Parent: " + parentRequirement.getTitle());
 				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
 					knownIts.add(knownIterations[i]);
 				}
@@ -483,7 +486,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if (!(knownIts.contains(Iteration.getBacklog()))) {
 			knownIts.add(Iteration.getBacklog());
 		}
-			
 		knownIterations = new Iteration[knownIts.size()];
 		for (int i = 0; i < knownIterations.length; i++){
 			knownIterations[i] = knownIts.get(i);
@@ -509,33 +511,41 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
-//		mainPanel.getSplitPane().setDividerLocation(0.5);
+		//		mainPanel.getSplitPane().setDividerLocation(0.5);
 		mainPanel.getSplitPane().setDividerLocation(mainPanel.getTxtDescription().getWidth()+50);
 
 	}
 
 	/**
+	 * Sets the parent requirement
+	 * 
 	 * @param parent the parent requirement to add
 	 */
 	public void setParentRequirement(Requirement parent) {
 		parentRequirement = parent;
 	}
-	
+
 	/**
+	 * Gets the parent requirement
+	 * 
 	 * @return the parent requirement
 	 */
 	public Requirement getParentRequirement() {
 		return parentRequirement;
 	}
-	
+
 	/**
+	 * Sets the available iterations
+	 * 
 	 * @param availableIterations the iterations available to set the requirement to
 	 */
 	public void setAvailableIterations(Iteration[] availableIterations) {
 		this.availableIterations = availableIterations;
 	}
-	
+
 	/**
+	 * Gets the available iterations
+	 * 
 	 * @return the available iterations to set the requirement to
 	 */
 	public Iteration[] getAvailableIterations() {
@@ -543,10 +553,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the permissions level
+	 * 
 	 * @return the pLevel
 	 */
 	public RMPermissionsLevel getpLevel() {
 		return pLevel;
 	}
-	
+
 }

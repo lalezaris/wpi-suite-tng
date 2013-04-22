@@ -9,7 +9,7 @@
  *
  * Contributors:
 	Tyler Stone
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 public class SaveChangesAction extends AbstractAction {
 
 	private final SaveRequirementController controller;
-	
+
 	/**
 	 * Construct a SaveChangesAction.
 	 * 
@@ -44,7 +44,7 @@ public class SaveChangesAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-	
+
 	/**
 	 * Calls the controller to save the action.
 	 * 
@@ -53,6 +53,6 @@ public class SaveChangesAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-			controller.save();
+		controller.save();
 	}
 }

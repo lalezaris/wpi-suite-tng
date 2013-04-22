@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.MouseAdapter;
@@ -36,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveRequirementController extends MouseAdapter {
 	RequirementListPanel requirementListPanel;
 	private int selectedRequirement;
-	
+
 	/**
 	 * Instantiates a new retrieve requirement controller.
 	 *
@@ -45,25 +45,25 @@ public class RetrieveRequirementController extends MouseAdapter {
 	public RetrieveRequirementController(RequirementListPanel requirementListPanel) { 
 		this.requirementListPanel = requirementListPanel;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
-    public void mouseClicked(java.awt.event.MouseEvent evt) {
-        int row = requirementListPanel.getTable().rowAtPoint(evt.getPoint());
-        if (row >= 0) {
-        	selectedRequirement = ((RequirementTableModel)requirementListPanel.getTable().getModel()).getRowID(row);
-            
-            if (evt.getClickCount() == 2) {
+	public void mouseClicked(java.awt.event.MouseEvent evt) {
+		int row = requirementListPanel.getTable().rowAtPoint(evt.getPoint());
+		if (row >= 0) {
+			selectedRequirement = ((RequirementTableModel)requirementListPanel.getTable().getModel()).getRowID(row);
+
+			if (evt.getClickCount() == 2) {
 				Request request;
 				request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + selectedRequirement, HttpMethod.GET);
 				request.addObserver(new RetrieveRequirementRequestObserver(this));
 				request.send();
-            }
-        }
-    }
-	
+			}
+		}
+	}
+
 	/**
 	 * Gets the selected requirement.
 	 *
@@ -72,7 +72,7 @@ public class RetrieveRequirementController extends MouseAdapter {
 	public int getSelectedRequirement() {
 		return selectedRequirement;
 	}
-	
+
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when the response
 	 * is received from the server.
@@ -84,7 +84,7 @@ public class RetrieveRequirementController extends MouseAdapter {
 		requirement.setIteration(Iteration.getIterationById(requirement.getIterationId()));
 		requirementListPanel.getTabController().addEditRequirementTab(requirement);
 	}
-	
+
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.

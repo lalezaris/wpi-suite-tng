@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Dunkers
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import javax.swing.JLabel;

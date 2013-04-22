@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
+ *  Chris Dunkers
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions;
 
@@ -30,17 +30,15 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 /**
  * View for user permissions.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  * @version Apr 1, 2013
  */
 @SuppressWarnings("serial")
 public class UserPermissionView extends JPanel {
 
 	private UserPermissionPanel mainPanel;
-//	private RetrieveAllRequirementsController controller;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-//	private boolean inputEnabled;
 
 	private PermissionModel permModel;
 
@@ -53,8 +51,6 @@ public class UserPermissionView extends JPanel {
 		containingTab = tab;
 		containingTab.setTitle("Edit User Permissions");
 
-//		inputEnabled = true;
-
 		//make the model
 		permModel = new PermissionModel();
 
@@ -64,10 +60,8 @@ public class UserPermissionView extends JPanel {
 		mainPanel.getBtnAdmin().addActionListener(new AdminPermissionController(mainPanel));
 		mainPanel.getBtnNone().addActionListener(new NonePermissionController(mainPanel));
 		mainPanel.getBtnUpdate().addActionListener(new UpdatePermissionController(mainPanel));
-		mainPanel.getBtnUpdateAll().addActionListener(new UpdateAllPermissionsController(mainPanel, permModel));
+		mainPanel.getBtnUpdateAll().addActionListener(new UpdateAllPermissionsController(mainPanel, permModel));	
 
-		
-		
 		SetUpPermissionsPanelController setUp = new SetUpPermissionsPanelController(mainPanel, permModel);
 		setUp.setUp();
 

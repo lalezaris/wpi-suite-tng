@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * Observer for update permissions.
  *
@@ -29,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class UpdatePermissionObserver implements RequestObserver{
 
 	UserPermissionPanel panel;
-	
+
 	/**
 	 * This method is called when information about an UpdatePermission
 	 * which was previously requested using an asynchronous
@@ -40,9 +39,9 @@ public class UpdatePermissionObserver implements RequestObserver{
 	public UpdatePermissionObserver(UserPermissionPanel panel){
 		this.panel = panel;
 	}
-	
-	
-	/* (non-Javadoc)
+
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -56,17 +55,15 @@ public class UpdatePermissionObserver implements RequestObserver{
 		// parse the Requirement from the body
 		final UserPermission per = UserPermission.fromJSON(response.getBody());
 
-		//if (controller!=null)
-		//	controller.addPermission(per);
 		if (panel !=null)
 			panel.getView().getPermModel().addPermission(per);
-		
-		
+
+
 		CurrentUserPermissions.updateCurrentUserPermissions();
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -74,17 +71,17 @@ public class UpdatePermissionObserver implements RequestObserver{
 		System.out.println("Per response error");
 		System.out.println(
 				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage()); 
-				
-		
+
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Per response fail");
-		
+
 	}
 
 }

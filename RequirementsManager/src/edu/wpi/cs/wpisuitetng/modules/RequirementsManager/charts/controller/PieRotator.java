@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
@@ -28,30 +28,30 @@ import org.jfree.chart.plot.PiePlot3D;
 @SuppressWarnings("serial")
 public class PieRotator extends Timer implements ActionListener{
 	/** The plot. */
-    private PiePlot3D plot;
+	private PiePlot3D plot;
 
-    /** The angle. */
-    private int angle = 0;
+	/** The angle. */
+	private int angle = 0;
 
-    /**
-     * Constructor.
-     *
-     * @param plot  the plot to rotate.
-     */
-    public PieRotator(PiePlot3D plot) {
-        super(100, null);
-        this.plot = plot;
-        addActionListener(this);//Attach a timer listener to run continuously.
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param plot  the plot to rotate.
+	 */
+	public PieRotator(PiePlot3D plot) {
+		super(100, null);
+		this.plot = plot;
+		addActionListener(this);//Attach a timer listener to run continuously.
+	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		plot.setStartAngle(angle);
-        angle += 2;
-        //Don't increase to infinity.
-        if (angle >= 360) {
-            angle -= 360;
-        }
+		angle += 2;
+		//Don't increase to infinity.
+		if (angle >= 360) {
+			angle -= 360;
+		}
 	}
 }

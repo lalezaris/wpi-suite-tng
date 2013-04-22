@@ -93,7 +93,6 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 				tabbedPane.remove(index);
 			} else {				
 				if(component instanceof RequirementView){
-					//RequirementPanel rPanel = (RequirementPanel) ((RequirementView) component).getRequirementPanel();
 					RequirementView rView = ((RequirementView) component);
 					if(rView.getReqModel().isThereChanges()){
 						int buttons = JOptionPane.showConfirmDialog(

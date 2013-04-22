@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
@@ -27,9 +27,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  *
  */
 public class SubDivisionListener implements ActionListener{
-	
+
 	protected BarPieChartView view;
-	
+
 	/**
 	 * Instantiates a new sub division listener.
 	 *
@@ -38,7 +38,7 @@ public class SubDivisionListener implements ActionListener{
 	public SubDivisionListener(BarPieChartView view){
 		this.view = view;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -46,7 +46,7 @@ public class SubDivisionListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();
-		
+
 		if(cb.getSelectedItem() == SubDivision.None){
 			view.setCurrentSubDivision(SubDivision.None);
 			view.repaintChart();

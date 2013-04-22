@@ -39,8 +39,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListVi
  * Model for the Requirement Table.
  *
  * @author Chris Hanna
- * @modified by Tianyu Li on April 9
- * @modified by Michael Perrone on April 16
  * 
  * @version Apr 9th, 2013
  */
@@ -66,10 +64,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.panel = panel;
 		this.isChange = false;
 	}
-	/* Gets column count
-	 * @see javax.swing.table.TableModel#getColumnCount()
-	 */
-	/* (non-Javadoc)
+	/**
+	 * Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
 	@Override
@@ -77,10 +73,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		return columnNames.length;
 	}
 
-	/* Gets row count
-	 * @see javax.swing.table.TableModel#getRowCount()
-	 */
-	/* (non-Javadoc)
+	/**
+	 * Gets row count
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
 	@Override
@@ -121,11 +115,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 	}
 
-	/* Gets column name
+	/**
+	 * Gets column name
 	 * 
 	 * @param col column to get the name of
 	 * 
-	 * (non-Javadoc) 
+	 * 
 	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 	 */
 	public String getColumnName(int col) {
@@ -141,13 +136,11 @@ public class RequirementTableModel extends AbstractTableModel {
 		data.add(rowContent);
 	}
 
-	/* Gets the value at a row and column
+	/**
+	 * Gets the value at a row and column
 	 * @param row row to get value at
 	 * @param col column to get value at
 	 * @return Object value of the object that the method is getting
-	 * @see javax.swing.table.TableModel#getValueAt(int, int)
-	 */
-	/* (non-Javadoc)
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	@Override
@@ -221,7 +214,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		RMPermissionsLevel pLevel = CurrentUserPermissions
 				.getCurrentUserPermission();
-		
+
 		if (pLevel != RMPermissionsLevel.ADMIN) {
 			return false;
 		}
@@ -245,7 +238,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object value, int row, int col) {
@@ -255,10 +248,10 @@ public class RequirementTableModel extends AbstractTableModel {
 					+ " (an instance of "
 					+ value.getClass() + ")");
 		}
-		
+
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
-		
+
 		if (!checkInput(value, temp, title)) {
 			return;
 		}
@@ -298,14 +291,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				panel.setBackgroundRowColumn(row, col);
 			}
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
-		}
-//		case 6:
-//			requirements.get(row).setIteration((Iteration)value);
-//		case 7:
-//			requirements.get(row).setParentRequirementId(Integer.parseInt((String)value));
-//		case 8:
-//			requirements.get(row).setActualEffort(Integer.parseInt((String)value));
-//		}		
+		}		
 
 		Object[] element = data.get(row);
 		element[col] = value;
@@ -315,7 +301,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		panel.hideUpdateSuccessfully();
 
 		if (DEBUG) {
-			System.out.println("New value of data:");
 			printDebugData();
 		}
 	}
@@ -345,7 +330,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				return false;
 			}
 		}
-		
+
 		if (title.equals("Estimate")) {
 			try {
 				estimate = Integer.parseInt((String)value);
@@ -358,7 +343,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -384,7 +369,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clearRequirements() {
 		requirements.clear();
-		//allRequirements.clear();
 	}
 
 	/**
@@ -395,11 +379,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
-	
+
 	public boolean getIsChange() {
 		return isChange;
 	}
-	
+
 	public void setIsChange(boolean value) {
 		isChange = value;
 	}
@@ -438,7 +422,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
-			if(dataArray[j][8].equals("")){//pretty hacky to make sure it is sorted properly
+			if(dataArray[j][8].equals("")){
 				dataArray[j][8] = -1;
 			}
 		}
@@ -447,7 +431,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
 
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
-			if(dataArray[j][8].equals(-1)){//see before the sort for why this happens
+			if(dataArray[j][8].equals(-1)){
 				dataArray[j][8] = "";
 			}
 		}

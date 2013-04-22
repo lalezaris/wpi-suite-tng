@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * ITS A DESC. (ription). What is a ription? 
+ * Panel for rules
  *
  * @author Chris Hanna
  *
@@ -68,14 +68,15 @@ public class RulePanel extends JPanel{
 	private boolean test = true;
 	private boolean enabled = true;
 	private GridBagConstraints constraint;
-	
-	
+
+
 	private Iteration[] knownIterations;
 	private User[] knownUsers;
 	/**
-	 * create a blank panel for a rule.
+	 * Create a blank panel for a rule.
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public RulePanel(FilterPanel parent) {
 		filterPanel = parent;
 		enabledBox = new JCheckBox();
@@ -87,58 +88,49 @@ public class RulePanel extends JPanel{
 		andOrBox = new JComboBox<RulesCombinor>();
 		andOrBox.addItem(RulesCombinor.MUST);
 		andOrBox.addItem(RulesCombinor.ANY);
-		
+
 		this.setLayout(new GridBagLayout());
 		constraint = new GridBagConstraints();
 
-
-		
-
-		//compareMode.setMaximumSize(new Dimension(100, field.getSize().height));
-
-		//field.setMaximumSize(new Dimension(100, field.getSize().height));
-
-		//possibleValues.setMaximumSize(new Dimension(100, field.getSize().height));
-
-		//possibleValuesText.setSize(200, possibleValues.getHeight());
-		//possibleValuesText.setMinimumSize(new Dimension((int)possibleValuesText.getPreferredSize().getWidth(), possibleValues.getHeight()));
-
 		possibleValuesText.setPreferredSize(new Dimension(100, 100));
-		
+
 		possibleValuesText.validate();
-		
+
 		this.validate();
-		
+
 		DefaultListCellRenderer comboBoxRenderer = new DefaultListCellRenderer(){
+			/**
+			 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+			 */
 			@Override
-	        public void paint(Graphics g) {
+			public void paint(Graphics g) {
 				setForeground(Color.BLACK);
-	            super.paint(g);
-	        }
+				super.paint(g);
+			}
 		};
-		
+
 		field.setRenderer(comboBoxRenderer);
 		compareMode.setRenderer(comboBoxRenderer);
 		possibleValues.setRenderer(comboBoxRenderer);
-		
-		
-		
+
+
+
 		constraint.anchor = GridBagConstraints.FIRST_LINE_START;
 		constraint.weightx = 0;
-		
+
 		this.add(enabledBox, constraint);
 		//this.add(andOrBox); //TODO Maybe add this back in if we can get everything else working
 		this.add(title, constraint);
 		this.add(field, constraint);
 		this.add(compareMode, constraint);
 		this.add(possibleValues, constraint);
-		
+
 		setUp();
 		setRuleEnabled(true);
 	}
 
 	/**
-	 * enable or disable the rule. The color of the components will change to let the user know
+	 * Enable or disable the rule. The color of the components will change to let the user know
 	 * 
 	 * @param enabled
 	 */
@@ -157,31 +149,25 @@ public class RulePanel extends JPanel{
 			possibleValues.setEnabled(false);
 			possibleValuesText.setEnabled(false);
 			possibleValuesText.setDisabledTextColor(Color.BLACK);
-//			field.setEditable(false);
-//			compareMode.setEditable(false);
-//			possibleValues.setEditable(false);
-//			possibleValuesText.setEditable(false);
-//			field.setForeground(Color.black);
-//			compareMode.setForeground(Color.black);
-//			possibleValues.setForeground(Color.black);
-//			possibleValuesText.setForeground(Color.black);
 		}
-		
+
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
 			this.getComponent(i).setBackground(backColor);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Assigns the listeners to different components to make sure that auto-refresh is working
 	 * 
 	 */
 	protected void addListeners(){
-		
-		final RulePanel rp = this;
+
 		ItemListener l1 = new ItemListener(){
 
+			/**
+			 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+			 */
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 
@@ -190,23 +176,29 @@ public class RulePanel extends JPanel{
 				updatePossibleValues();
 				test = true;
 				filterPanel.triggerTableUpdate();
-				
+
 			}	
 		};
-		
+
 		ItemListener l2 = new ItemListener(){
 
+			/**
+			 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+			 */
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (test){
 					filterPanel.triggerTableUpdate();
 				}
 			}
-			
+
 		};
-		
+
 		KeyListener k = new KeyAdapter(){
 
+			/**
+			 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
+			 */
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (test){
@@ -214,19 +206,22 @@ public class RulePanel extends JPanel{
 				}
 			}
 
-			
+
 		};
 		ChangeListener c = new ChangeListener(){
 
+			/**
+			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
+			 */
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if (test){
 					filterPanel.triggerTableUpdate();
 				}
 			}
-			
+
 		};
-		
+
 
 		andOrBox.addItemListener(l2);
 		field.addItemListener(l1);
@@ -235,9 +230,9 @@ public class RulePanel extends JPanel{
 		possibleValuesText.addKeyListener(k);
 		enabledBox.addChangeListener(c);
 	}
-	
+
 	/**
-	 * set up the rule panel
+	 * Set up the rule panel
 	 * 
 	 */
 	public void setUp(){
@@ -253,7 +248,8 @@ public class RulePanel extends JPanel{
 	 * Change the values component so that it reflects correctly what the user can filter
 	 * 
 	 */
-	public void updatePossibleValues(){
+	@SuppressWarnings("unchecked")
+	private void updatePossibleValues(){
 
 		int possibleValuesIndex = -1, possibleValuesTextIndex = -1;
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
@@ -278,25 +274,21 @@ public class RulePanel extends JPanel{
 
 		}else if (editType == RuleEditableType.ITERATION){
 			possibleValues.removeAllItems();
-			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
-			Iteration[] all = knownIterations;//this.filterPanel.getView().getModel().getIterations();
-			
+			Iteration[] all = knownIterations;
+
 			possibleValues.addItem(Iteration.getBacklog());
 			if (all!=null)
 				for (int i = 0 ; i < all.length ; i ++)
 					possibleValues.addItem(all[i]);
-			System.out.println("Updating Iteations");
-			
+
 			if (possibleValuesTextIndex!=-1)
 				this.remove(possibleValuesText);
 			if (possibleValuesIndex == -1)
 				this.add(possibleValues, constraint);
 		} else if (editType == RuleEditableType.USER){
 			possibleValues.removeAllItems();
-			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
-			User[] all = knownUsers;//this.filterPanel.getView().getModel().getIterations();
-			
-			//possibleValues.addItem(Iteration.getBacklog());
+			User[] all = knownUsers;
+
 			possibleValues.addItem("No One  ");
 			if (all!=null){
 				String[] allString = new String[all.length];
@@ -305,7 +297,7 @@ public class RulePanel extends JPanel{
 				for (int i = 0 ; i < all.length ; i ++)
 					possibleValues.addItem(allString[i]);
 			}
-			
+
 			if (possibleValuesTextIndex!=-1)
 				this.remove(possibleValuesText);
 			if (possibleValuesIndex == -1)
@@ -313,19 +305,16 @@ public class RulePanel extends JPanel{
 		}
 		else if (editType == RuleEditableType.NUMBER){
 			possibleValuesText.setText("0");
-			
 
-				System.out.println("Adding numEnforcer!");
-				
-				removeAllListeners();
-				possibleValuesText.addKeyListener(new KeyAdapter(){
-					   public void keyTyped(KeyEvent e) {
-						      char c = e.getKeyChar();
-						      if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-						         e.consume();  // ignore event
-						      }
-						   }
-				});
+			removeAllListeners();
+			possibleValuesText.addKeyListener(new KeyAdapter(){
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+						e.consume();  // ignore event
+					}
+				}
+			});
 			//}
 			if (possibleValuesTextIndex ==-1)
 				this.add(possibleValuesText, constraint);
@@ -340,7 +329,7 @@ public class RulePanel extends JPanel{
 			if (possibleValuesIndex != -1)
 				this.remove(possibleValues);
 		}
-		
+
 		if (possibleValuesTextIndex != -1){
 			possibleValuesText.setVisible(true);
 			if (editType == RuleEditableType.ALL)
@@ -351,16 +340,17 @@ public class RulePanel extends JPanel{
 			if (editType == RuleEditableType.ALL)
 				possibleValues.setVisible(false);
 		}
+
 		this.repaint();
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void setUserValues(User[] users){
 		test = false;
 		if (editType == RuleEditableType.USER){
 			Object sel = possibleValues.getSelectedItem();
 			possibleValues.removeAllItems();
-			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
 			User[] all = users;
 			String[] allString = new String[all.length];
 			for (int i = 0 ; i < allString.length ; i ++)
@@ -370,37 +360,32 @@ public class RulePanel extends JPanel{
 				possibleValues.addItem(allString[i]);
 			if (sel!=null)
 				possibleValues.setSelectedItem(sel);
-			
+
 			knownUsers = all;
 		}
 		test = true;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void setIterationValues(Iteration[] iterations){
 		test = false;
 		if (editType == RuleEditableType.ITERATION){
-			
+
 			Object sel = possibleValues.getSelectedItem();
 			possibleValues.removeAllItems();
-			//Enum[] all = FilterTable.getInstance().getEnumFromString((String)field.getSelectedItem());
 			Iteration[] all = iterations;
 			possibleValues.addItem(Iteration.getBacklog());
 			for (int i = 0 ; i < all.length ; i ++)
 				possibleValues.addItem(all[i]);
 			if (sel!=null)
 				possibleValues.setSelectedItem(sel);
-			System.out.println("Updating Iteations in function");
 			knownIterations = all;
-//			if (possibleValuesTextIndex!=-1)
-//				this.remove(possibleValuesText);
-//			if (possibleValuesIndex == -1)
-//				this.add(possibleValues, constraint);
 		}
 		test = true;
 	}
-	
+
 	/**
-	 * reset the listeners of the possible values text component
+	 * Reset the listeners of the possible values text component
 	 * 
 	 */
 	private void removeAllListeners(){
@@ -408,6 +393,9 @@ public class RulePanel extends JPanel{
 		possibleValuesText = new JTextField(12);
 		this.add(possibleValuesText, constraint);
 		possibleValuesText.addKeyListener(new KeyAdapter(){
+			/**
+			 * @see java.awt.event.KeyAdapter#keyTyped(java.awt.event.KeyEvent)
+			 */
 			@Override
 			public void keyTyped(KeyEvent e) {
 				if (test){
@@ -416,7 +404,7 @@ public class RulePanel extends JPanel{
 			}
 		});
 	}
-	
+
 	/**
 	 * Change the values of the comparison mode box so that is reflects correctly how the user can compare things
 	 * 
@@ -432,14 +420,14 @@ public class RulePanel extends JPanel{
 		compareMode.setPreferredSize(new Dimension(300,(int)compareMode.getPreferredSize().getHeight()));
 		if (editType == RuleEditableType.ALL)
 			compareMode.setVisible(false);
-		
+
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
 	/**
 	 * Get the valid comparison modes depending on what field is being filtered
 	 * 
-	 * @return
+	 * @return the rule comparison mode
 	 */
 	public RuleComparisonMode[] getValidComparisonModes(){
 		RuleComparisonMode[] output = null;
@@ -486,8 +474,7 @@ public class RulePanel extends JPanel{
 					RuleComparisonMode.ASSIGNEDTO,
 					RuleComparisonMode.NOTASSIGNEDTO};
 			output = all;
-		}
-		
+		}		
 		editType = fieldType;
 
 
@@ -497,15 +484,15 @@ public class RulePanel extends JPanel{
 	/**
 	 * Get the valid fields to filter by
 	 * 
-	 * @return
+	 * @return the field array to filter
 	 */
 	private String[] getPossibleFields(){
 
 		String[] removeFields = null;
-		
+
 		if (filterPanel != null)
 			removeFields = filterPanel.getRemoveFields();
-		
+
 		String[] allFields = FilterTable.getRequirementTargets();
 		List<String> validFields = new ArrayList<String>();
 		for (int i = 0 ; i < allFields.length; i ++)
@@ -514,18 +501,18 @@ public class RulePanel extends JPanel{
 			for (int i = 0 ; i < removeFields.length; i ++)
 				if (validFields.contains(removeFields[i]))
 					validFields.remove(removeFields[i]);
-		
+
 		String[] validFieldArray = new String[validFields.size()];
 		for (int i = 0 ; i < validFields.size(); i ++)
 			validFieldArray[i] = validFields.get(i);
-		
+
 		return validFieldArray;
 	}
 
-	
-	
+
+
 	/**
-	 * create a new rule depending on what is shown in the panel
+	 * Create a new rule depending on what is shown in the panel
 	 * 
 	 * @return
 	 */
@@ -542,16 +529,15 @@ public class RulePanel extends JPanel{
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());
 		} else if (editType == RuleEditableType.USER){
-			
-			//uhm..... 
+
 			String userName = "";
 			if (possibleValues.getSelectedItem() instanceof User)
 				userName = ((User)possibleValues.getSelectedItem()).getUsername();
 			else userName = (String)possibleValues.getSelectedItem();
-			
+
 			if (userName.equals("No One  "))
 				userName = "";
-			
+
 			r = new Rule(userName,
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());
@@ -562,7 +548,7 @@ public class RulePanel extends JPanel{
 			try {
 				number = Integer.parseInt(possibleValuesText.getText());
 			} catch (NumberFormatException e){
-				
+
 				noErrors = false;
 			}
 			if (noErrors){
@@ -580,11 +566,10 @@ public class RulePanel extends JPanel{
 					(String)field.getSelectedItem());
 		}
 		boolean isAnd = ((RulesCombinor)andOrBox.getSelectedItem()) == RulesCombinor.MUST;
-		System.out.println("isAnd = " + isAnd);
 		r.setIsAnd( isAnd);
-		
+
 		r.setEnabled(enabled);
-		
+
 		return r;
 	}
 
@@ -636,9 +621,4 @@ public class RulePanel extends JPanel{
 	public JTextField getPossibleValuesText() {
 		return possibleValuesText;
 	}
-
-
-
-
-
 }

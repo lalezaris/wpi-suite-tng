@@ -84,7 +84,7 @@ public class MainTabView extends JTabbedPane {
 		return this.iterationtable;
 	}
 
-	/* 
+	/** 
 	 * Inserts tab
 	 * @param title title of tab
 	 * @param icon icon for tab
@@ -103,7 +103,7 @@ public class MainTabView extends JTabbedPane {
 		}
 	}
 
-	/* 
+	/** 
 	 * Removes tab at index
 	 * @param index index of tab to remove
 	 * @see javax.swing.JTabbedPane#removeTabAt(int)
@@ -116,7 +116,7 @@ public class MainTabView extends JTabbedPane {
 		}
 	}
 
-	/* 
+	/** 
 	 * Sets component  to an index
 	 * @param index index of component
 	 * @param component component to set

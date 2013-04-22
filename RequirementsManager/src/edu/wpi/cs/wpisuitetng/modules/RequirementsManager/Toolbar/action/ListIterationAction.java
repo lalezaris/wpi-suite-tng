@@ -45,7 +45,7 @@ public class ListIterationAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@SuppressWarnings("unused")
@@ -53,6 +53,6 @@ public class ListIterationAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		Iteration[] i = new Iteration[0];
 		i = Refresher.getInstance().getInstantIterations(); 
-		controller.addListIterationTab(); //null, IterationPanel.Mode.CREATE
+		controller.addListIterationTab(); 
 	}
 }

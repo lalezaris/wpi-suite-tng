@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Dunkers
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
@@ -31,12 +31,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * @version Apr 16, 2013
  *
  */
-@SuppressWarnings("unused")
 public class RequirementValidator {
-	
+
 	private Data data;
-	private Requirement requirement;
-	
+
 	public RequirementValidator(Data data){
 		this.data = data;
 	}
@@ -47,7 +45,7 @@ public class RequirementValidator {
 			issues.add(new ValidationIssue("Cannot be null", "Requirement"));
 			return issues;
 		}
-		
+
 		if(mode == Mode.CREATE){
 			if(requirement.getIterationId() == Iteration.getBacklog().getId()){
 				if(!requirement.getStatus().equals(RequirementStatus.NEW)){
@@ -61,17 +59,17 @@ public class RequirementValidator {
 				}
 			}
 		} else if(requirement.getStatus() == null){
-				issues.add(new ValidationIssue("Cannot be null", "Status"));
+			issues.add(new ValidationIssue("Cannot be null", "Status"));
 		}
-		
+
 		if(requirement.getTitle() == null || requirement.getTitle().equals("") || requirement.getTitle().length() > 100) {
 			issues.add(new ValidationIssue("Required, must be 5-100 characters", "Title"));
 		}
-		
+
 		if(requirement.getDescription() == null || requirement.getDescription().equals("")) {
 			issues.add(new ValidationIssue("Required, must not be empty", "Description"));
 		}
-		
+
 		if(mode == Mode.EDIT){
 			if(requirement.getIterationId() == Iteration.getBacklog().getId()){
 				if(!requirement.getStatus().equals(RequirementStatus.NEW) && !requirement.getStatus().equals(RequirementStatus.OPEN)){
@@ -90,9 +88,8 @@ public class RequirementValidator {
 		if(requirement.getEstimateEffort() < 0){
 			issues.add(new ValidationIssue("Invalid estimate", "Estimate"));
 		}
-		
 		return issues;
 	}
-	
-	
+
+
 }

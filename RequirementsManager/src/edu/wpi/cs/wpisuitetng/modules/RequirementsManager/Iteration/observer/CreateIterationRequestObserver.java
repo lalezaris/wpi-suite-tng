@@ -48,7 +48,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -66,6 +66,9 @@ public class CreateIterationRequestObserver implements RequestObserver {
 			// make sure the Iteration isn't null
 			if (iteration != null) {
 				SwingUtilities.invokeLater(new Runnable() {
+					/**
+					 * @see java.lang.Runnable#run()
+					 */
 					@Override
 					public void run() {
 						view.getIterationModel().updateModel(iteration);
@@ -87,7 +90,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -98,7 +101,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -113,6 +116,9 @@ public class CreateIterationRequestObserver implements RequestObserver {
 	 */
 	private void always() {
 		SwingUtilities.invokeLater(new Runnable() {
+			/**
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				view.setInputEnabled(true);	

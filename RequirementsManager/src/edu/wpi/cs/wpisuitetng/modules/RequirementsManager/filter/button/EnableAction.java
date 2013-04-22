@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
 import java.awt.event.ActionEvent;
@@ -28,9 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
 public class EnableAction extends AbstractAction{
 
 	FilterController controller;
-	
+
 	/**
-	 * make a new enable action.
+	 * Make a new enable action.
 	 *
 	 * @param controller the controller
 	 */
@@ -39,13 +39,13 @@ public class EnableAction extends AbstractAction{
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().enableSelected();
-		
+
 	}
 
 }

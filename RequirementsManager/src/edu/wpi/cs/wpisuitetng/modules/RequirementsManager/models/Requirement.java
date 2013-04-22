@@ -17,7 +17,7 @@
  *  Evan Polekoff
  *  Ned Shelton
  *  Michael French
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  */
 
 public class Requirement extends AbstractModel{
-	
+
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
@@ -64,7 +64,7 @@ public class Requirement extends AbstractModel{
 	private ArrayList<HistoricalChange> history;
 	private ArrayList<AcceptanceTest> acceptanceTests;
 	private ArrayList<Task> tasks;
-	
+
 	/**
 	 * Constructs a new Requirement with title and description.
 	 *
@@ -73,7 +73,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(String title, String description){
 		this();
-		this.iteration = Iteration.getBacklog(); //should be backlog arrg blarg
+		this.iteration = Iteration.getBacklog(); 
 		this.title = title;
 		this.description = description;
 		this.notes = new ArrayList<Note>();
@@ -81,13 +81,13 @@ public class Requirement extends AbstractModel{
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
 	}
-	
+
 	/**
 	 * Constructs a new Requirement with id, title, description and creatorUsername.
 	 *
 	 * @param id The id of the Requirement
 	 * @param title the title
-	 * @param description The descriptipn of the Requirement
+	 * @param description The description of the Requirement
 	 * @param creatorUsername The username of the creator for the Requirement
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername){
@@ -102,13 +102,13 @@ public class Requirement extends AbstractModel{
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
 	}
-	
+
 	/**
 	 * Constructs a new Requirement with id, title, description and creatorUsername, and ArrayList of notes.
 	 *
 	 * @param id The id of the Requirement
 	 * @param title the title
-	 * @param description The descriptipn of the Requirement
+	 * @param description The description of the Requirement
 	 * @param creatorUsername The username of the creator for the Requirement
 	 * @param notes The notes attached with the requirements
 	 */
@@ -152,7 +152,7 @@ public class Requirement extends AbstractModel{
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
 	}
-	
+
 	/**
 	 * Add an existing AcceptanceTest to this Requirement.
 	 *
@@ -161,7 +161,7 @@ public class Requirement extends AbstractModel{
 	public void addAcceptanceTest(AcceptanceTest a){
 		acceptanceTests.add(a);
 	}
-	
+
 	/**
 	 * Gets the acceptance tests.
 	 *
@@ -172,14 +172,16 @@ public class Requirement extends AbstractModel{
 	public void updateAcceptanceTests(ArrayList<AcceptanceTest> a){
 		this.acceptanceTests = a;
 	}
-	
+
 	/**
+	 * Gets acceptance tests
+	 * 
 	 * @return the list of acceptance tests in this requirement
 	 */
 	public ArrayList<AcceptanceTest> getAcceptanceTests(){
 		return this.acceptanceTests;
 	}
-	
+
 	/**
 	 * Add an existing Task to this Requirement.
 	 *
@@ -215,7 +217,7 @@ public class Requirement extends AbstractModel{
 	public void addChildRequirement(int childID) {
 		childIDs.add(childID);
 	}
-	
+
 	/**
 	 * Gets the child requirement ids.
 	 *
@@ -224,16 +226,16 @@ public class Requirement extends AbstractModel{
 	public ArrayList<Integer> getChildRequirementIds() {
 		return childIDs;
 	}
-	
+
 	/**
-	 * Gets the num children.
+	 * Gets the number of children.
 	 *
 	 * @return the number of children that the requirement has
 	 */
 	public int getNumChildren() {
 		return childIDs.size();
 	}
-	
+
 	/**
 	 * Adds a note to the requirement.
 	 * 
@@ -244,7 +246,7 @@ public class Requirement extends AbstractModel{
 		notes.add(n);
 		return n;
 	}
-	
+
 	/**
 	 * Retrieves the arraylist of notes.
 	 * 
@@ -253,7 +255,7 @@ public class Requirement extends AbstractModel{
 	public ArrayList<Note> getNotes(){
 		return notes;
 	}
-	
+
 	/**
 	 * Counts how many notes are attached to the requirement.
 	 * 
@@ -262,7 +264,7 @@ public class Requirement extends AbstractModel{
 	public int countNotes(){
 		return notes.size();
 	}
-	
+
 	/**
 	 * Replaces the ArrayList in this requirement with the given list.
 	 * ONLY TO BE USED TO UPDATE THE NOTES LIST, NOT REPLACE IT.
@@ -282,7 +284,7 @@ public class Requirement extends AbstractModel{
 	public void updateHistory(ArrayList<HistoricalChange> h){
 		this.history = h;
 	}
-	
+
 	/**
 	 * Gets the releaseNumber.
 	 *
@@ -408,7 +410,7 @@ public class Requirement extends AbstractModel{
 	public void setActualEffort(int actualEffort) {
 		this.actualEffort = actualEffort;
 	}
-	
+
 	/**
 	 * Gets the creatorUsername.
 	 * 
@@ -426,7 +428,7 @@ public class Requirement extends AbstractModel{
 	public void setCreator(String creatorUsername) {
 		this.creatorUsername = creatorUsername;
 	}
-	
+
 	/**
 	 * Gets assignee.
 	 *
@@ -444,14 +446,7 @@ public class Requirement extends AbstractModel{
 	public void setAssignee(ArrayList<String> assignee) {
 		this.assignee = assignee;
 	}
-	
-	/**
-	 * returns the array list of users not assigned to this requirement.
-	 *
-	 * @param assignedTo the assigned to
-	 * @return users not assigned to this requirement
-	 */
-	
+
 	/**
 	 * Adds note to assignee
 	 * 
@@ -473,7 +468,7 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * sets the creation date.
+	 * Sets the creation date.
 	 *
 	 * @param creationDate the Date this Requirement was created on
 	 */
@@ -482,7 +477,7 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * gets the modified date.
+	 * Gets the last modified date.
 	 *
 	 * @return the Date this Requirement was last modified on
 	 */
@@ -491,14 +486,14 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * sets the modified list.
+	 * Sets the modified list.
 	 *
 	 * @param lastModifiedDate the Date this Requirement was last modified on
 	 */
 	public void setLastModifiedDate(Date lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
-	
+
 	/**
 	 * Gets the parent requirement id.
 	 *
@@ -525,18 +520,18 @@ public class Requirement extends AbstractModel{
 	public void setId(int id){
 		this.id = id;
 	}
-	
+
 	/**
-	 * gets the id.
+	 * Gets the id.
 	 *
 	 * @return id number
 	 */
 	public int getId(){
 		return id;
 	}
-	
+
 	/**
-	 * gets the type of requirement.
+	 * Gets the type of requirement.
 	 *
 	 * @return the type
 	 */
@@ -545,7 +540,7 @@ public class Requirement extends AbstractModel{
 	}
 
 	/**
-	 * sets the type of requirement.
+	 * Sets the type of requirement.
 	 *
 	 * @param type the new type
 	 */
@@ -560,7 +555,7 @@ public class Requirement extends AbstractModel{
 	public ArrayList<HistoricalChange> getHistory() {
 		return history;
 	}
-	
+
 	/**
 	 * Adds a change to the history.
 	 * @param change the change being added to the history.
@@ -568,7 +563,7 @@ public class Requirement extends AbstractModel{
 	public void addHistoricalChange(HistoricalChange change){
 		history.add(change);
 	}
-	
+
 	/**
 	 * Sets the iteration.
 	 *
@@ -580,11 +575,11 @@ public class Requirement extends AbstractModel{
 		}
 		this.iteration = iteration;
 		this.iterationId = this.iteration.getId();
-			
+
 		this.iteration.addRequirement(this.getId());
-			
+
 	}
-	
+
 	/**
 	 * Gets the iteration.
 	 *
@@ -611,23 +606,22 @@ public class Requirement extends AbstractModel{
 	public void setIterationId(int id){
 		this.iterationId = id;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
 	public void save() {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
 	public void delete() {
-		
+
 	}
-	
 	/**
 	 * Converts this Requirement to a JSON string.
 	 *
@@ -635,7 +629,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@Override
 	public String toJSON() {
-		
+
 		this.iteration = null; //TODO: less hacking
 
 		String json;
@@ -644,7 +638,7 @@ public class Requirement extends AbstractModel{
 
 		return json;
 	}	
-	
+
 	/**
 	 * Converts the given list of Requirements to a JSON string.
 	 *
@@ -657,8 +651,8 @@ public class Requirement extends AbstractModel{
 		json = gson.toJson(dlist, Requirement.class);
 		return json;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -666,7 +660,7 @@ public class Requirement extends AbstractModel{
 		return this.getTitle();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -685,7 +679,7 @@ public class Requirement extends AbstractModel{
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, Requirement.class);
 	}
-	
+
 	/**
 	 * Convert a json string to an array of requirements.
 	 *
@@ -697,18 +691,18 @@ public class Requirement extends AbstractModel{
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, Requirement[].class);
 	}
-	
-	
+
+
 	/**
 	 * Add dependencies necessary for Gson to interact with this class.
 	 *
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

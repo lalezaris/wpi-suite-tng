@@ -44,14 +44,13 @@ public class AddAssigneeController implements ActionListener {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		this.allUserAL = view.getAllUserAL();
-		System.out.println(allUserAL);
 		this.assignedUserAL = view.getAssignedUserAL();
 		this.selectedUsers = new ArrayList<String> (view.getAllUserList().getSelectedValuesList());
 		this.selectedUsersIndex = view.getAllUserList().getSelectedIndices();
@@ -64,8 +63,6 @@ public class AddAssigneeController implements ActionListener {
 				assignedUserAL.add(selectedUsers.get(i));//append selected user to assigned	
 			}
 			//add array list to the list models
-			//view.setUserList(allUserAL);
-			System.out.println("Add worked");
 			view.setAssigneeList(assignedUserAL);
 			view.updateNotAssigned();
 			view.setButtonPressed(true);

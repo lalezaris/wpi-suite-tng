@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
@@ -41,7 +41,7 @@ public class RetrieveRequirementRequestObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class RetrieveRequirementRequestObserver implements RequestObserver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -76,12 +76,11 @@ public class RetrieveRequirementRequestObserver implements RequestObserver {
 		controller.errorRetrievingRequirement("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO deal with exception
 		controller.errorRetrievingRequirement("Unable to complete request: " + exception.getMessage());
 	}
 }

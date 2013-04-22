@@ -113,7 +113,7 @@ public class filterTest {
 		p.getCompareMode().setSelectedIndex(1);
 		p.getPossibleValues().setSelectedIndex(1);
 		p.updateCompareBox();
-		p.updatePossibleValues();
+		//p.updatePossibleValues();
 		
 		p.getField().setSelectedItem("iteration");
 		
@@ -128,13 +128,13 @@ public class filterTest {
 		
 		p.getField().setSelectedItem("estimate");
 		p.updateCompareBox();
-		p.updatePossibleValues();
+		//p.updatePossibleValues();
 		p.getValidComparisonModes();
 		r2 = p.extractRule();
 
 		p.getField().setSelectedItem("name");
 		p.updateCompareBox();
-		p.updatePossibleValues();
+		//p.updatePossibleValues();
 		
 		r2 = p.extractRule();
 		//listPanel.getFilterController().getPanel().triggerTableUpdate();

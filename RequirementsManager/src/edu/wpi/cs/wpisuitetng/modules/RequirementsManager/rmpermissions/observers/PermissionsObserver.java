@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers;
 
 import com.google.gson.GsonBuilder;
@@ -21,7 +21,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * Observer for Permissions.
  *
@@ -31,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class PermissionsObserver implements RequestObserver{
 
 	private SetUpPermissionsPanelController controller;
-	
+
 	/**
 	 * This method is called when information about an Permissions
 	 * which was previously requested using an asynchronous
@@ -42,40 +41,36 @@ public class PermissionsObserver implements RequestObserver{
 	public PermissionsObserver(SetUpPermissionsPanelController controller){
 		this.controller = controller;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
 		ResponseModel response = request.getResponse();
-		
+
 		GsonBuilder builder = new GsonBuilder();
-		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);
-		
-		//CurrentUserPermissions.updateCurrentUserPermissions();
-		
-		
-		//this.panel.setAllPermissions(all);
+		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);		
+
 		this.controller.receiveServerPermissions(all);
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		
+
 	}
 
 }

@@ -12,7 +12,6 @@
  *  Mike Perrone
  *  Chris Hanna
  *  Tyler Stone
- *  
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
@@ -58,14 +57,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  * The innermost JPanel for the list of all requirements tab, which displays the requirement's information.
  *
  * @author Tianyu Li
- * @modified by Chris H on Mar 24
- * @modified by Tianyu Li on Apr 9
  * @version Apr 14, 2013
  */
 @SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
-
-	private JTextArea list;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
@@ -75,7 +70,6 @@ public class RequirementListPanel extends JPanel{
 	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
 
-	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, updateButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
@@ -141,14 +135,12 @@ public class RequirementListPanel extends JPanel{
 		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(buttonPanel,c);
-		//panel.add(refreshButton, c);
 
 		c.gridx = 1;
 		c.gridy = 1;
 		c.weightx = 1;
 		c.weighty = 1;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		//panel.add(updateButton, c);
 
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -173,8 +165,9 @@ public class RequirementListPanel extends JPanel{
 
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
-			
-			/* Shows changes to hierarchy
+
+			/**
+			 * Shows changes to hierarchy
 			 * @param e HierarchyEvent to respond to
 			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
 			 */
@@ -251,7 +244,6 @@ public class RequirementListPanel extends JPanel{
 		RequirementTableModel model = ((RequirementTableModel) table.getModel());
 		model.clearRequirements();
 		for (int i = 0 ; i < requirements.length; i++){
-			System.out.println(requirements[i]);
 			model.addRow(requirements[i]);
 		}
 		table.updateUI();
@@ -263,7 +255,7 @@ public class RequirementListPanel extends JPanel{
 	public void refreshList() {
 		retrieveController.refreshData();
 	}
-	
+
 	/**
 	 * Set the drop down menu to the status
 	 */
@@ -274,10 +266,10 @@ public class RequirementListPanel extends JPanel{
 		comboBox.addItem(RequirementStatus.INPROGRESS);
 		comboBox.addItem(RequirementStatus.COMPLETE);
 		comboBox.addItem(RequirementStatus.DELETED);
-		
+
 		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
 	}
-	
+
 	/**
 	 * Set the drop down menu to the priority
 	 */
@@ -287,7 +279,7 @@ public class RequirementListPanel extends JPanel{
 		comboBox.addItem(RequirementPriority.MEDIUM);
 		comboBox.addItem(RequirementPriority.LOW);
 		comboBox.addItem(RequirementPriority.BLANK);
-		
+
 		table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
 	}
 	
@@ -367,6 +359,11 @@ public class RequirementListPanel extends JPanel{
 		return model;
 	}
 
+	/**
+	 * Gets filter controller
+	 * 
+	 * @return the filter controller
+	 */
 	public FilterController getFilterController() {
 		return filterController;
 	}

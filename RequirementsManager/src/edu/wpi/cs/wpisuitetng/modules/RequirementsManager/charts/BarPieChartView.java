@@ -10,7 +10,7 @@
  * Contributors:
  *  Evan Polekoff
  *  Ned Shelton
- *  Chris Hannah
+ *  Chris Hanna
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
@@ -57,9 +57,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 @SuppressWarnings({"rawtypes", "serial"})
 public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
-	
+
 	private static BarPieChartView instance;
-	
+
 	/**
 	 * Update instance from server.
 	 */
@@ -67,7 +67,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		if (instance!=null)
 			instance.updateFromServer();
 	}
-	
+
 	/**
 	 * Update from server.
 	 */
@@ -82,7 +82,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		requirementController.retrieve();
 		iterationController.retreive();
 	}
-	
+
 	private BarPieChartPanel mainPanel;
 	private JComboBox chartBox;
 	private JComboBox characteristicBox;
@@ -107,20 +107,20 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	private RequirementStatus[] allStatuses = {RequirementStatus.NEW, RequirementStatus.INPROGRESS, RequirementStatus.OPEN, RequirementStatus.DELETED, RequirementStatus.COMPLETE};
 	private RequirementPriority[] allPriorities = {RequirementPriority.HIGH, RequirementPriority.MEDIUM, RequirementPriority.LOW, RequirementPriority.BLANK};
 	private RequirementType[] allTypes = {RequirementType.BLANK, RequirementType.EPIC, RequirementType.THEME, RequirementType.USERSTORY, RequirementType.NONFUNCTIONAL, RequirementType.SCENARIO};
-	
+
 	//Data to pass to the different controllers
 	private DefaultCategoryDataset iterationNoneBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset statusNoneBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset assigneeNoneBarDataset = new DefaultCategoryDataset();
-	
+
 	private DefaultCategoryDataset iterationPrioBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset statusPrioBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset assigneePrioBarDataset = new DefaultCategoryDataset();
-	
+
 	private DefaultCategoryDataset iterationTypeBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset statusTypeBarDataset = new DefaultCategoryDataset();
 	private DefaultCategoryDataset assigneeTypeBarDataset = new DefaultCategoryDataset();
-	
+
 	private DefaultPieDataset iterationPieDataset = new DefaultPieDataset();
 	private DefaultPieDataset statusPieDataset = new DefaultPieDataset();
 	private DefaultPieDataset assigneePieDataset = new DefaultPieDataset();
@@ -135,13 +135,13 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 		containingTab = tab;
 		containingTab.setTitle("Bar Chart");
-		
-		
+
+
 	}
 	public BarPieChartView(){
 
 		instance = this;
-		
+
 		//make controllers and send requests
 		gotUsers = false;
 		gotIterations = false;
@@ -184,7 +184,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 				mainPanelScrollPane.repaint();
 			}
 		});
-		
+
 		// Updates the tree view when it is first focused
 		final BarPieChartView bv = this;
 		bv.addHierarchyListener(new HierarchyListener() {
@@ -202,7 +202,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 				}
 			}
 		});
-		
+
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 	}
 
@@ -216,7 +216,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	private JFreeChart makeBarChart(DefaultCategoryDataset dataset, String xAxis){
 		return ChartFactory.createStackedBarChart3D("Number of Requirements for Each " + xAxis, xAxis, "Requirements", dataset, orientation, legend, tooltips, urls);
 	}
-	
+
 	/**
 	 * Makes the chart from the fields in this class.
 	 *
@@ -266,7 +266,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.setSubDivideEnable(false);
 			mainPanel.setSpinVisible(true);
 		}
-			
+
 	}
 
 	/* (non-Javadoc)
@@ -322,7 +322,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					iterationTypeBarDataset.setValue(typeCount[i][j], allTypes[j], "Iteration: " + iterationName);
 				}
 			}
-			
+
 			//==========
 			//Status
 			//==========
@@ -360,7 +360,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					statusTypeBarDataset.setValue(typeCount[i][j], allTypes[j], allStatuses[i].toString());
 				}
 			}
-			
+
 			//==========
 			//Assignee
 			//==========
@@ -370,7 +370,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allUsers.length; i++){
 					for(int j = 0; j < allRequirements[r].getAssignee().size(); j ++){
-						System.out.println("Assignee: " + allRequirements[r].getAssignee().get(j));
 						if(allRequirements[r].getAssignee().get(j).equals(allUsers[i].getUsername())&&
 								allRequirements[r].getStatus() != RequirementStatus.DELETED){
 							//Set the priority
@@ -403,7 +402,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 				}
 			}
 		}
-		
+
 	}
 
 	/**
@@ -412,7 +411,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param users the users
 	 */
 	public void receiveServerUsers(User[] users) {
-		System.out.println("recieveUsers.");
 		gotUsers = true;
 		allUsers = users;
 		doWhenReceivedAll();
@@ -424,7 +422,6 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param iterations the iterations
 	 */
 	public void receiveServerIterations(Iteration[] iterations) {
-		System.out.println("recieveIterations.");
 		gotIterations = true;
 		allIterations = iterations;
 		doWhenReceivedAll();
@@ -437,29 +434,34 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	 * @param reqs the reqs
 	 */
 	public void receiveServerRequirements(Requirement[] reqs) {
-		System.out.println("recieveRequirements.");
 		gotRequirements = true;
 		allRequirements = reqs;
 		doWhenReceivedAll();
 
 	}
-	
 
-	/**Set the type of graph to display.
+
+	/**
+	 * Set the type of graph to display.
+	 * 
 	 * @param newType The new type of graph to display.
 	 */
 	public void setChartType(TypeOfChart newType){
 		chartType = newType;
 	}
-	
-	/**Set the type of characteristic to display.
-	 * @param newChar The characteristc to set it to.
+
+	/**
+	 * Set the type of characteristic to display.
+	 * 
+	 * @param newChar The characteristic to set it to.
 	 */
 	public void setCurrentCharacteristic(String newChar){
 		currentCharacteristic = newChar;
 	}
-	
-	/**Set the sub division to display.
+
+	/**
+	 * Set the sub division to display.
+	 * 
 	 * @param newSub The sub division to set it to.
 	 */
 	public void setCurrentSubDivision(SubDivision newSub){
@@ -467,6 +469,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the iteration none bar dataset
+	 * 
 	 * @return the iterationNoneBarDataset
 	 */
 	public DefaultCategoryDataset getIterationNoneBarDataset() {
@@ -474,6 +478,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the status none bar dataset
+	 * 
 	 * @return the statusNoneBarDataset
 	 */
 	public DefaultCategoryDataset getStatusNoneBarDataset() {
@@ -481,6 +487,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the assignee none bar dataset
+	 * 
 	 * @return the assigneeNoneBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneeNoneBarDataset() {
@@ -489,6 +497,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
+	 * Gets the iteration prior bar dataset
+	 * 
 	 * @return the iterationPrioBarDataset
 	 */
 	public DefaultCategoryDataset getIterationPrioBarDataset() {
@@ -497,6 +507,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
+	 * Gets the status prior bar dataset
+	 * 
 	 * @return the statusPrioBarDataset
 	 */
 	public DefaultCategoryDataset getStatusPrioBarDataset() {
@@ -504,6 +516,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets assignee prior bar dataset
+	 * 
 	 * @return the assigneePrioBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneePrioBarDataset() {
@@ -512,6 +526,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
+	 * Gets the iteration type bar dataset
+	 * 
 	 * @return the iterationTypeBarDataset
 	 */
 	public DefaultCategoryDataset getIterationTypeBarDataset() {
@@ -519,6 +535,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets status type bar dataset
+	 * 
 	 * @return the statusTypeBarDataset
 	 */
 	public DefaultCategoryDataset getStatusTypeBarDataset() {
@@ -526,6 +544,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets assignee type bar dataset
+	 * 
 	 * @return the assigneeTypeBarDataset
 	 */
 	public DefaultCategoryDataset getAssigneeTypeBarDataset() {
@@ -534,6 +554,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
+	 * Gets the iteration pie dataset
+	 * 
 	 * @return the iterationPieDataset
 	 */
 	public DefaultPieDataset getIterationPieDataset() {
@@ -541,6 +563,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the status pie dataset
+	 * 
 	 * @return the statusPieDataset
 	 */
 	public DefaultPieDataset getStatusPieDataset() {
@@ -548,6 +572,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets assignee pie dataset
+	 * 
 	 * @return the assigneePieDataset
 	 */
 	public DefaultPieDataset getAssigneePieDataset() {
@@ -555,6 +581,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets chart type
+	 * 
 	 * @return the chartType
 	 */
 	public TypeOfChart getChartType() {
@@ -562,6 +590,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the current characteristic
+	 * 
 	 * @return the currentCharacteristic
 	 */
 	public String getCurrentCharacteristic() {
@@ -569,6 +599,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets current sub division
+	 * 
 	 * @return the currentSubDivision
 	 */
 	public SubDivision getCurrentSubDivision() {
@@ -576,6 +608,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets chart box
+	 * 
 	 * @return the chartBox
 	 */
 	public JComboBox getChartBox() {
@@ -583,6 +617,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets characteristic box
+	 * 
 	 * @return the characteristicBox
 	 */
 	public JComboBox getCharacteristicBox() {
@@ -590,6 +626,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets sub divide box
+	 * 
 	 * @return the subDivideBox
 	 */
 	public JComboBox getSubDivideBox() {
@@ -598,6 +636,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 
 
 	/**
+	 * Gets main panel
+	 * 
 	 * @return the mainPanel
 	 */
 	public BarPieChartPanel getMainPanel() {
@@ -605,6 +645,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Returns whether or not the pie is spinning
+	 * 
 	 * @return the pieSpin
 	 */
 	public boolean isPieSpin() {
@@ -612,10 +654,12 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Sets the pie to spin or not spin
+	 * 
 	 * @param pieSpin the pieSpin to set
 	 */
 	public void setPieSpin(boolean pieSpin) {
 		this.pieSpin = pieSpin;
 	}
-	
+
 }

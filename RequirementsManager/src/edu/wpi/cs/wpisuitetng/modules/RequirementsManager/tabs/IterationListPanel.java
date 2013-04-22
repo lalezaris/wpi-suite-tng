@@ -53,7 +53,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  */
 @SuppressWarnings({"serial", "unused"})
 public class IterationListPanel extends JPanel {
-	private JTextArea list;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllIterationsController retrieveController;
@@ -61,8 +60,6 @@ public class IterationListPanel extends JPanel {
 	private GridBagLayout layout;
 	final JScrollPane mainPanelScrollPane;
 	private IterationView iterationview;
-
-	private ToolbarGroupView buttonGroup;
 	private JButton refreshButton, deleteButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
@@ -125,7 +122,8 @@ public class IterationListPanel extends JPanel {
 		final JPanel p = this;
 		p.addHierarchyListener(new HierarchyListener() {
 
-			/* Shows changes to hierarchy
+			/**
+			 * Shows changes to hierarchy
 			 * @param e HierarchyEvent to respond to
 			 * @see java.awt.event.HierarchyListener#hierarchyChanged(java.awt.event.HierarchyEvent)
 			 */

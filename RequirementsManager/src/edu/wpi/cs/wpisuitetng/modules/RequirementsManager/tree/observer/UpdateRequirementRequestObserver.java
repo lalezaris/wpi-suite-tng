@@ -40,13 +40,13 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	/**
 	 * Constructs a new UpdateRequirementRequestObserver.
 	 *
-	 * @param view The TreeView that will be affected by any updates.
+	 * @param r the requirement to update
 	 */
 	public UpdateRequirementRequestObserver(Requirement r) {
 		this.requirement = r;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -87,7 +87,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -97,7 +97,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -106,6 +106,11 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Gets the requirement
+	 * 
+	 * @return the requirement
+	 */
 	public Requirement getRequirement() {
 		return requirement;
 	}

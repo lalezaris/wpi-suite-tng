@@ -36,7 +36,7 @@ public class RetrieveAllRequirementsController {
 	protected Requirement[] data = null;
 
 	protected RefresherMode refreshMode;
-	
+
 	/**
 	 * Constructs a new RetrieveAllRequirementsController.
 	 * 
@@ -67,15 +67,13 @@ public class RetrieveAllRequirementsController {
 		if (Requirements.length > 0) {
 			// save the data
 			this.data = Requirements;
-			
-			//TODO: improve implementation
 			for (int i = 0 ; i < Requirements.length; i ++){
 				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
 			}
-			
+
 			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
-		
+
 	}
 
 	/**

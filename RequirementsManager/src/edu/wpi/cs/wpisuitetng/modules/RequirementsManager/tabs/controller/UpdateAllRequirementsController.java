@@ -45,7 +45,7 @@ public class UpdateAllRequirementsController {
 	protected RequirementListPanel panel;
 	protected RequirementValidator reqVal;
 	protected List<ValidationIssue> issues;
-	
+
 	/**
 	 * Instantiates a new update all requirements controller.
 	 *
@@ -55,13 +55,13 @@ public class UpdateAllRequirementsController {
 		this.panel = panel;
 		issues = new ArrayList<ValidationIssue>();
 	}
-	
+
 	/**
 	 * Update everything.
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
-		
+
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
 			try {
 				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
@@ -81,14 +81,13 @@ public class UpdateAllRequirementsController {
 		this.panel.getModel().setIsChange(false);
 		this.panel.getTable().setBackground(Color.WHITE);		
 	}
-	
+
 	/**
 	 * Save requirement.
 	 *
 	 * @param r the requirement
 	 */
 	private void saveRequirement(Requirement r){
-		System.out.println(r.getId());
 		Request request = Network.getInstance().makeRequest(
 				"requirementsmanager/requirement/"
 						+ r.getId(), HttpMethod.POST);
@@ -98,7 +97,7 @@ public class UpdateAllRequirementsController {
 		request.send();
 		this.panel.getModel().setIsChange(false);
 	}
-	
+
 	/**
 	 * A function to printout all of the issues in a pop up message
 	 * 

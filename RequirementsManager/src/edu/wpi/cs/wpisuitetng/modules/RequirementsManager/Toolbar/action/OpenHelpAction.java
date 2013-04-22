@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -32,16 +32,16 @@ import javax.swing.AbstractAction;
 
 @SuppressWarnings("serial")
 public class OpenHelpAction extends AbstractAction {
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-	        openWebpage(new URI("https://github.com/cmdunkers/wpi-suite-tng/wiki/User-Guide-to-Requirements-Manager"));
-	    } catch (URISyntaxException e1) {
-	        e1.printStackTrace();
-	    }
+			openWebpage(new URI("https://github.com/cmdunkers/wpi-suite-tng/wiki/User-Guide-to-Requirements-Manager"));
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	/**
@@ -53,20 +53,20 @@ public class OpenHelpAction extends AbstractAction {
 		super("User Guide");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_H);
 	}
-	
+
 	/**
 	 * Open a webpage.
 	 *
 	 * @param uri the uri
 	 */
 	public static void openWebpage(URI uri) {
-	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-	    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-	        try {
-	            desktop.browse(uri);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+		if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+			try {
+				desktop.browse(uri);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

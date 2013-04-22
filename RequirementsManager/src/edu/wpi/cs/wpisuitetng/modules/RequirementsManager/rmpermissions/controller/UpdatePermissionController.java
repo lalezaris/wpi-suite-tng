@@ -45,18 +45,16 @@ public class UpdatePermissionController extends AbstractAction {
 		this.originalNoneListModel = (DefaultListModel) noneUsers.getModel();
 		this.originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
 		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
-		//		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}  
 
-	/* 
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
 		//gets the selected items from the none and admin lists
-		List<String> allSelectedUsers = new ArrayList<String>();
 		List<String> selectedNoneUsers = noneUsers.getSelectedValuesList();
 		List<String> selectedAdminUsers = adminUsers.getSelectedValuesList();
 

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
@@ -20,13 +20,14 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 14, 2013
  *
  */
+@SuppressWarnings("serial")
 public class RuleTargetException extends Exception {
-	
+
 	String msg;
 	public RuleTargetException(String attempt){		
 		msg = "Tried to make a rule with target: "+ attempt +", but it did not exist. Typo?";
 	}
-	
+
 	@Override
 	public String getMessage(){
 		return msg;

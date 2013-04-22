@@ -29,7 +29,6 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
@@ -64,7 +63,7 @@ class TreeTransferHandler extends TransferHandler {
 		}  
 	}  
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
 	 */
 	protected Transferable createTransferable(JComponent c) {   
@@ -115,7 +114,7 @@ class TreeTransferHandler extends TransferHandler {
 		return new DefaultMutableTreeNode(node);  
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
 	 */
 	protected void exportDone(JComponent source, Transferable data, int action) {  
@@ -129,14 +128,14 @@ class TreeTransferHandler extends TransferHandler {
 		}  
 	}  
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
 	 */
 	public int getSourceActions(JComponent c) {  
 		return COPY_OR_MOVE;  
 	}  
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.TransferHandler#importData(javax.swing.TransferHandler.TransferSupport)
 	 */
 	public boolean importData(TransferHandler.TransferSupport support) {  
@@ -214,7 +213,7 @@ class TreeTransferHandler extends TransferHandler {
 		return true;  
 	}  
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
 	public boolean canImport(TransferHandler.TransferSupport support) { 
@@ -245,12 +244,9 @@ class TreeTransferHandler extends TransferHandler {
 			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
 			cEnd.add(Calendar.DATE, 1);
 			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
-				System.out.println(ttarget.getUserObject().toString() 
-						+ " is closed!");
 				return false;
 			}
 		}
-		
 		for(int i = 0; i < selRows.length; i++) {  
 			TreePath path2 = tree.getPathForRow(selRows[i]);  
 			DefaultMutableTreeNode aNode =  
@@ -274,6 +270,10 @@ class TreeTransferHandler extends TransferHandler {
 						return false;
 					}
 				}
+			}
+			// Do not allow a drag for an Iteration
+			else if (aNode.getUserObject() instanceof Iteration) {
+				return false;
 			}
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  
@@ -350,7 +350,7 @@ class TreeTransferHandler extends TransferHandler {
 		return true;  
 	} 
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {  
@@ -373,7 +373,7 @@ class TreeTransferHandler extends TransferHandler {
 			this.nodes = nodes;  
 		}  
 
-		/* (non-Javadoc)
+		/**
 		 * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
 		 */
 		public Object getTransferData(DataFlavor flavor)  
@@ -383,14 +383,14 @@ class TreeTransferHandler extends TransferHandler {
 			return nodes;  
 		}  
 
-		/* (non-Javadoc)
+		/**
 		 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
 		 */
 		public DataFlavor[] getTransferDataFlavors() {  
 			return flavors;  
 		}  
 
-		/* (non-Javadoc)
+		/**
 		 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
 		 */
 		public boolean isDataFlavorSupported(DataFlavor flavor) {  

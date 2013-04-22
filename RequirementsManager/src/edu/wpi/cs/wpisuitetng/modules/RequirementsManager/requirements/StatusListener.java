@@ -10,8 +10,8 @@
  * Contributors:
  * Evan Polekoff
  * Ned Shelton
- * chrisfresher hanmiester
-**************************************************/
+ * Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.event.ActionEvent;
@@ -36,13 +36,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  * @author Ned Shelton
  */
 public class StatusListener implements ActionListener{
-	
+
 	RequirementView parent;
 	public StatusListener(RequirementView parent){
 		this.parent = parent;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -54,7 +54,7 @@ public class StatusListener implements ActionListener{
 			changeIteration(cb);
 		}
 	}
-	
+
 	/**
 	 * Change the iteration to which a requirement belongs.
 	 *
@@ -63,7 +63,7 @@ public class StatusListener implements ActionListener{
 	@SuppressWarnings("rawtypes")
 	public void changeIteration(JComboBox cb){
 
-		
+
 		if(RequirementStatus.valueOf((String) cb.getSelectedItem()) == RequirementStatus.OPEN && parent.getReqModel().getRequirement().getIterationId() != Iteration.getBacklog().getId() ){
 			parent.getRequirementPanel().getCmbIteration().setSelectedIndex(parent.getRequirementPanel().getCmbIteration().getItemCount()-1);
 			//parent.getRequirementPanel().getCmbIteration().setEnabled(false);

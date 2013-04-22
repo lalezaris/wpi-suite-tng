@@ -9,12 +9,12 @@
  *
  * Contributors:
  * Chris Hanna
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
- * This interface will be implemented in future iterations to create controllers.
+ * Interface for retrieve requirement controllers
  * 
  * @author Chris Hanna
  *
@@ -26,7 +26,7 @@ public interface IRetrieveRequirementController<T> {
 	 * @param content The recieved requirement.
 	 */
 	void runWhenRecieved(String content);
-	
+
 	/**
 	 * Return the ID of the requirement.
 	 * 

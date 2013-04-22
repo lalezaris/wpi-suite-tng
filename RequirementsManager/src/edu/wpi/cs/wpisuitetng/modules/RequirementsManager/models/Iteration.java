@@ -12,7 +12,7 @@
  * Tushar Narayan
  * Michael Perrone
  * Michael French
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -38,14 +38,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  * 
  */
 public class Iteration extends AbstractModel implements Comparable<Iteration> {
-	
+
 	private static Iteration backlog;
 	private String iterationName;
 	private Date startDate, endDate;
 	private List<Integer> requirements;
 	private IterationStatus status;
 	private int id;
-	
+
 	/**
 	 * Constructor for Iteration.
 	 * 
@@ -60,13 +60,13 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		this.requirements = new ArrayList<Integer>();
 		this.status = NEW;
 	}
-	
+
 	/**
 	 * Default constructor for iteration.
 	 */
 	public Iteration(){}
-	
-	
+
+
 	/**
 	 * Get the backlog for the given project.
 	 *
@@ -82,7 +82,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		}
 		return backlog;
 	}
-	
+
 	/**
 	 * Get an iteration by the designated ID number.
 	 *
@@ -99,7 +99,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		}
 		return getBacklog();
 	}
-	
+
 	/**
 	 * Get the iterationNumber.
 	 * 
@@ -108,7 +108,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public String getIterationName() {
 		return this.iterationName;
 	}
-	
+
 	/**
 	 * Set the iterationNumber.
 	 * 
@@ -117,7 +117,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public void setIterationName(String iterationNumber) {
 		this.iterationName = iterationNumber;
 	}
-	
+
 	/**
 	 * Get the start date.
 	 * 
@@ -175,7 +175,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public void setRequirements(List<Integer> requirements) {
 		this.requirements = requirements;
 	}
-	
+
 	/**
 	 * Assign a requirement to this iteration.
 	 * 
@@ -186,7 +186,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			this.requirements.add(requirement);
 		}
 	}
-	
+
 	/**
 	 * Unassigns a requirement from this iteration.
 	 * 
@@ -214,22 +214,22 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		this.status = status;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
 	public void save() {
-		
+
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
 	public void delete() {
-		
+
 	}
-	
+
 	/**
 	 * Convert this iteration into a JSON string.
 	 *
@@ -243,7 +243,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		json = gson.toJson(this, Iteration.class);
 		return json;
 	}
-	
+
 	/**
 	 * Convert the given list of Iterations to a JSON string.
 	 * 
@@ -256,8 +256,8 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		json = gson.toJson(dlist, Iteration.class);
 		return json;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -268,15 +268,15 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return "Iteration " + this.getIterationName();
 	}
 
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
 	}
-	
+
 	/**
 	 * Set the id.
 	 * 
@@ -284,7 +284,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	public void setId(int id){
 		this.id = id;
-	
+
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public int getId(){
 		return this.id;
 	}
-	
+
 	/**
 	 * Check if the given iteration equals this iteration.
 	 * Two Iterations are equal if all of their fields () are equal.
@@ -311,7 +311,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
 				&& this.iterationName.equals(i.iterationName) && this.status == i.status;
 	}
-	
+
 	/** Convert a Json string to an Iteration.
 	 * 
 	 * @param json Json string to be parsed
@@ -322,7 +322,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, Iteration.class);
 	}
-	
+
 	/**
 	 * Convert a Json string to a list of Iteration(s).
 	 * 
@@ -334,7 +334,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, Iteration[].class);
 	}
-	
+
 	/**
 	 * Add dependencies necessary for Gson to interact with this class.
 	 * 
@@ -343,7 +343,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public static void addGsonDependencies(GsonBuilder builder) {
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -354,7 +354,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return -1;
 		return (this.startDate.compareTo(o.startDate));
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *

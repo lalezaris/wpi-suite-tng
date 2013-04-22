@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.IOnPermissionUpdate;
@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 public class ToolbarDisplayUpdater implements IOnPermissionUpdate{
 
 	ToolbarPanel TBpanel;
-	
+
 	/**
 	 * Construct ToolbarDisplayUpdater.
 	 * 
@@ -35,8 +35,8 @@ public class ToolbarDisplayUpdater implements IOnPermissionUpdate{
 	public ToolbarDisplayUpdater(ToolbarPanel t){
 		this.TBpanel = t;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.IOnPermissionUpdate#onUpdate()
 	 */
 	@Override

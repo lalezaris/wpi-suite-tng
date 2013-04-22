@@ -91,7 +91,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -102,7 +102,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -117,6 +117,9 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	 */
 	private void always() {
 		SwingUtilities.invokeLater(new Runnable() {
+			/**
+			 * @see java.lang.Runnable#run()
+			 */
 			@Override
 			public void run() {
 				view.setInputEnabled(true);

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import javax.swing.JOptionPane;
@@ -41,15 +41,11 @@ public class SaveIterationRequestObserver implements RequestObserver {
 		this.view = view;
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
-	@SuppressWarnings("unused")
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		// cast observable to a Request
-		Request request = (Request) iReq;
-
 		Refresher.getInstance().refreshIterationsFromServer(null);
 		always();
 	}

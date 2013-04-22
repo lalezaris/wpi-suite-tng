@@ -26,9 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class to hold a HistoricalChange object for recording the history of a requirement. 
  * Contains the date, object id, user, change id.
  * 
- * @Author: Michael French
- * @Author: Evan Polekoff
- * @Author: Sam Abradi
+ * @author Michael French
+ * @author Evan Polekoff
+ * @author Sam Abradi
  * 
  * @version Mar 31, 2013
  */
@@ -123,8 +123,6 @@ public class HistoricalChange extends AbstractModel{
 		//compare Release Numbers
 		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
 			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
-			System.out.println("Checked Release Numbers.");
-			System.out.println("Change So Far: " + change);
 		}
 
 		//compare type
@@ -218,7 +216,7 @@ public class HistoricalChange extends AbstractModel{
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
@@ -226,7 +224,7 @@ public class HistoricalChange extends AbstractModel{
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
@@ -234,7 +232,7 @@ public class HistoricalChange extends AbstractModel{
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
@@ -288,7 +286,7 @@ public class HistoricalChange extends AbstractModel{
 		return change;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -296,7 +294,7 @@ public class HistoricalChange extends AbstractModel{
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

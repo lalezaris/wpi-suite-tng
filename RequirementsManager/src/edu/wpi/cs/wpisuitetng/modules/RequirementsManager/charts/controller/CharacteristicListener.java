@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  */
 public class CharacteristicListener implements ActionListener{
 	protected BarPieChartView view;
-	
+
 	/**
 	 * Instantiates a new characteristic listener.
 	 *
@@ -47,19 +47,16 @@ public class CharacteristicListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JComboBox cb = (JComboBox)e.getSource();
-		
+
 		if(cb.getSelectedItem() == characteristic.Status){
-			System.out.println("Selected Status.");
 			view.setCurrentCharacteristic("Status");
 			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == characteristic.Iteration){
-			System.out.println("Selected Iteration.");
 			view.setCurrentCharacteristic("Iteration");
 			view.repaintChart();
 		}
 		else if(cb.getSelectedItem() == characteristic.Assignee){
-			System.out.println("Selected Assignee.");
 			view.setCurrentCharacteristic("Assignee");
 			view.repaintChart();
 		}

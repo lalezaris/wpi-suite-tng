@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddAction;
@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPa
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Insert Description Here
+ * Controller for filters
  *
  * @author Chris Hanna
  *
@@ -36,21 +36,21 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class FilterController{
 
-	
+
 	protected FilterPanel panel;
 	protected FilterModel model;
 	protected RequirementListPanel listPanel;
 	protected RetrieveAllIterationsController iterationController;
 	protected RetrieveAllUsersController userController;
 	/**
-	 * create a new controller. Set up the buttons of the panel
+	 * Create a new controller. Set up the buttons of the panel
 	 * 
 	 */
 	public FilterController(RequirementListPanel listPanel) {
-		
-		
+
+
 		this.listPanel = listPanel;
-		
+
 		panel = new FilterPanel(this);
 		model = new FilterModel();
 
@@ -60,36 +60,36 @@ public class FilterController{
 		panel.getEnableButton().setAction( new EnableAction(this));
 		panel.getShowButton().setAction( new VisibleAction(this));
 		panel.getSnakeButton().setAction( new SnakeAction());
-		
-		
+
 		iterationController = new RetrieveAllIterationsController(this);
-		
-		
 		userController = new RetrieveAllUsersController(this);
-		
 
 		iterationController.retrieve();
 		userController.retrieve();
 		
 	}
-	
 	public FilterPanel getPanel() {
 		return panel;
 	}
+	/**
+	 * Gets the model
+	 * 
+	 * @return the filter model
+	 */
 	public FilterModel getModel(){
 		return model;
 	}
-	
+
 	/**
-	 * filter the requirements table. 
+	 * Filter the requirements table. 
 	 * 
 	 * @return The filtered the requirements
 	 */
 	public Requirement[] setFilteredInTable(){
-		
+
 		Requirement[] all = listPanel.getContent();
 		Requirement[] filtered = null;
-		
+
 		boolean sentIterationsRequest = false;
 		for (int i = 0 ; i < panel.getRules().size(); i ++){
 			if ( !sentIterationsRequest &&
@@ -99,7 +99,7 @@ public class FilterController{
 				break;
 			}
 		}
-		
+
 		boolean sentUsersRequest = false;
 		for (int i = 0 ; i < panel.getRules().size(); i ++){
 			if ( !sentUsersRequest &&
@@ -109,30 +109,42 @@ public class FilterController{
 				break;
 			}
 		}
-		
+
 		getModel().setModelFromPanel(panel);
 		try {
 			filtered = getModel().getFilter().getFilteredObjects(all);
 		} catch (RuleTargetException e) {
-			System.out.println("har har har, you have enraged the filter God!!!");
 			e.printStackTrace();
 		}
 		listPanel.filterRequirements(filtered);
-		
-		
 		return filtered;
 	}
-	
+
+	/**
+	 * Sets the iterations to filter
+	 * 
+	 * @param iterations the iterations to filter
+	 */
 	public void setIterations(Iteration[] iterations){
 		model.setIterations(iterations);
 		panel.setIterations(iterations);
 	}
-	
+
+	/**
+	 * Sets the users to filter
+	 * 
+	 * @param users the users to filter
+	 */
 	public void setUsers(User[] users){
 		model.setUsers(users);
 		panel.setUsers(users);
 	}
-	
+
+	/**
+	 * Gets the list panel
+	 * 
+	 * @return the requirement list panel
+	 */
 	public RequirementListPanel getListPanel(){
 		return listPanel;
 	}

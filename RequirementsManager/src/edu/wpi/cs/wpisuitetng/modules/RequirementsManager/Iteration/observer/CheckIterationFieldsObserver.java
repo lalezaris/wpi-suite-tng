@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.SaveIterationController;
@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * The observer which will save a iteration if all of the fields are correct and response a sucess
+ * The observer which will save a iteration if all of the fields are correct and response a success
  *
  * @author Chris Dunkers
  *
@@ -41,7 +41,7 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -61,10 +61,10 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 		// parse the iteration received from the core
 		Iteration[] iterations = Iteration.fromJSONArray(response.getBody());
 		controller.checkIterationField(iterations); //not the check can have the most recent list of iterations
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -72,7 +72,7 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 		controller.getView().errorReceivingIterations("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -80,6 +80,6 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 		// TODO deal with exception
 		controller.getView().errorReceivingIterations("Unable to complete request: " + exception.getMessage());
 	}
-	
-	
+
+
 }

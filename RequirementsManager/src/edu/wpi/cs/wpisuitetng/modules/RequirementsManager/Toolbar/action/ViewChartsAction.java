@@ -10,7 +10,7 @@
  * Contributors:
  *  Ned Shelton
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
@@ -34,8 +34,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 @SuppressWarnings("serial")
 public class ViewChartsAction extends AbstractAction {
 	private final MainTabController controller;
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Evan Polekoff
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 
 import java.awt.event.ActionEvent;
@@ -24,9 +24,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  * 
  */
 public class SpinListener implements ActionListener{
-	
+
 	protected BarPieChartView view;
-	
+
 	public SpinListener(BarPieChartView view){
 		this.view = view;
 	}
@@ -39,6 +39,6 @@ public class SpinListener implements ActionListener{
 		else
 			view.getMainPanel().getRotator().stop();
 	}
-	
-	
+
+
 }

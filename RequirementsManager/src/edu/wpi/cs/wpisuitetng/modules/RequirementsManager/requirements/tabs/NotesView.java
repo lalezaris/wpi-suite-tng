@@ -58,9 +58,9 @@ public class NotesView extends JPanel implements FocusListener {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
-	
+
 	protected RequirementView parent;
-	
+
 	/**
 	 * Instantiates a new notes view.
 	 *
@@ -73,9 +73,7 @@ public class NotesView extends JPanel implements FocusListener {
 		this.setLayout(layout);
 		this.parent = parent;
 		// Add all components to this panel
-		addComponents();
-
-		
+		addComponents();		
 	}
 
 	/**
@@ -168,7 +166,7 @@ public class NotesView extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Initialize the notes textarea.
+	 * Initialize the notes text area.
 	 */
 	public void setTxtNotes(){
 		txtNotes.setText("");
@@ -207,7 +205,7 @@ public class NotesView extends JPanel implements FocusListener {
 	 * Adds a Note to the ArrayList of notes.
 	 *
 	 * @param n the note
-	 * @return n the note
+	 * @return the note
 	 */
 	public Note addNoteToList(Note n){
 		notes.add(n);
@@ -274,9 +272,9 @@ public class NotesView extends JPanel implements FocusListener {
 	public JTextArea getTextArea(){
 		return this.txtNotes;
 	}
-	
+
 	/**
-	 * gets the text area for displaying the saved notes
+	 * Gets the text area for displaying the saved notes
 	 * 
 	 * @return returns the text area for displaying the saved notes
 	 */

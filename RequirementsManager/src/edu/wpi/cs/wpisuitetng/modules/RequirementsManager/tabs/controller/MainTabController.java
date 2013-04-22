@@ -181,6 +181,7 @@ public class MainTabController {
 			GamePanel panel = new GamePanel();
 			panel.setTab(tab);
 			tab.setComponent(panel);
+			view.setSelectedIndex(panel.getTab().getThisIndex());
 			panel.requestFocus();
 			return tab;
 		}

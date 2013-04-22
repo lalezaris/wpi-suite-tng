@@ -28,7 +28,7 @@ public class AttachmentController {
             //didn't pick anything.
         	return;
         }
-        view.setFiles(j.getSelectedFiles());
+        view.addSelectedFiles(j.getSelectedFiles());
 	}
 	
 	public void uploadClicked(){

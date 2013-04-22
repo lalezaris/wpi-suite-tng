@@ -17,7 +17,7 @@ public class Controller {
 	GamePanel game;
 	int score = 0;
 	boolean gameRunning = true;
-	
+	Timer moveTimer;
 	
 	public Controller(SnakePanel panel, Snake snake, GamePanel game) {
 		this.panel = panel;
@@ -43,7 +43,7 @@ public class Controller {
 		reset();
 		
 		
-		Timer moveTimer = new Timer();
+		moveTimer = new Timer();
 		moveTimer.schedule(new MoveTask(snake, panel), 1000,100);
 		
 		spawnFood(null);
@@ -201,6 +201,11 @@ public class Controller {
 	 */
 	public int getYMax() {
 		return yMax;
+	}
+
+	public void end() {
+		
+		moveTimer.cancel();
 	}
 
 	

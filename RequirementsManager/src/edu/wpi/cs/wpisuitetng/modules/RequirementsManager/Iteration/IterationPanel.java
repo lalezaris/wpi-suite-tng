@@ -25,6 +25,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Requirement
  *
  */
 @SuppressWarnings("serial")
-public class IterationPanel extends JPanel {
+public class IterationPanel extends JPanel implements FocusListener {
 
 	/**
 	 * The Enum Mode.
@@ -158,8 +160,11 @@ public class IterationPanel extends JPanel {
 		panelTwo = new JPanel();
 
 		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
+		txtIterationName.addFocusListener(this);
 		txtStartDate = new JLabel("");
+		txtStartDate.addFocusListener(this);
 		txtEndDate = new JLabel("");
+		txtEndDate.addFocusListener(this);
 
 		// Buttons for "Save" and "Cancel"
 		btnSaveIteration = new JButton("Save");
@@ -483,6 +488,10 @@ public class IterationPanel extends JPanel {
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
+			
+			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -627,5 +636,63 @@ public class IterationPanel extends JPanel {
 	 */
 	public void sendFilterServerRequest(){
 		//reqListPanel.getFilterController().sendServerRequests();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		updateBackgrounds();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		updateBackgrounds();
+	}
+	
+	public boolean updateBackgrounds(){
+
+		if(this.getParent().getMode() == Mode.CREATE){	
+			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+				txtIterationName.setBackground(Color.YELLOW);
+			} else 
+				txtIterationName.setBackground(Color.WHITE);
+
+			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
+				txtStartDate.setBackground(Color.YELLOW);
+			} else 
+				txtStartDate.setBackground(Color.WHITE);
+
+			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
+				txtEndDate.setBackground(Color.YELLOW);
+			} else 
+				txtEndDate.setBackground(Color.WHITE); 
+		} else {
+			Iteration oldI = getParent().getIterationModel().getUneditedModel();
+
+			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+				txtIterationName.setBackground(Color.YELLOW);
+			} else 
+				txtIterationName.setBackground(Color.WHITE);
+
+			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+				txtStartDate.setBackground(Color.YELLOW);
+			} else 
+				txtStartDate.setBackground(Color.WHITE);
+
+			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+				txtEndDate.setBackground(Color.YELLOW);
+			} else 
+				txtEndDate.setBackground(Color.WHITE);
+			
+			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
+				return true;
+			}
+		}
+		return false;
 	}
 }

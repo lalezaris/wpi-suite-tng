@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Insert Description Here
+ * Controller to retrieve a list of iterations
  *
  * @author Chris Hanna
  *
@@ -29,11 +29,12 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveAllIterationsController {
 
 	private FilterController controller;
-	
+
+
 	/**
-	 * Constructor for a RetrieveAllIterationsController
-	 *
-	 * @param controller the controller
+	 * create a controller that requests a list of iterations
+	 * 
+	 * @param controller THIS IS DUMB.
 	 */
 	public RetrieveAllIterationsController(FilterController controller) {
 		this.controller = controller;
@@ -41,7 +42,9 @@ public class RetrieveAllIterationsController {
 	}
 
 	/**
-	 * Retrieves all iterations from the database
+
+	 * send out a request for all the iterations
+	 * 
 	 */
 	public void retrieve(){
 		Request request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
@@ -50,6 +53,7 @@ public class RetrieveAllIterationsController {
 	}
 	
 	/**
+
 	 * Gets the response from the controller and sets the iterations.
 	 *
 	 * @param iterations the iterations to retrieve

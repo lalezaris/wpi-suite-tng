@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/WPISuite-Interfaces"/>
 	<classpathentry kind="lib" path="/RequirementsManager/jars/jcommon-1.0.18.jar"/>
 	<classpathentry kind="lib" path="/RequirementsManager/jars/jfreechart-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/RequirementsManager/jars/JSplitButton_1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

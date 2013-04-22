@@ -37,7 +37,7 @@ public class RequirementStatusListsTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp(){
 		reqList = new RequirementStatusLists();
 	}
 

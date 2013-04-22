@@ -8,22 +8,23 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  em dubs french
+ *  mwfrench
+ *  Joe Spicola
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 
 /**
- * The Class EditAcceptanceTestController.
+ * The Class AddAcceptanceTestController.
  * 
- * @author Michael Frencheesy
+ * @author Joe Spicola
  */
-public class EditAcceptanceTestController implements ActionListener{
+public class CancelAcceptanceTestController implements ActionListener {
+	
 	private final AcceptanceTestsView view;
 
 	/**
@@ -31,7 +32,7 @@ public class EditAcceptanceTestController implements ActionListener{
 	 * 
 	 * @param view
 	 */
-	public EditAcceptanceTestController(AcceptanceTestsView view) {
+	public CancelAcceptanceTestController(AcceptanceTestsView view) {
 		this.view = view;
 	}
 
@@ -40,16 +41,13 @@ public class EditAcceptanceTestController implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		AcceptanceTest a = new AcceptanceTest(view.getTitleTxt(), view.getBodyTxt());
-		a.setStatus(view.getStatusTxt());
-		if(view.notReady()){
-			//do nothing no text has been entered
-		} else {
-			view.replaceTest(a);
-			System.out.println("Tests in List: " + view.getListSize());
-			view.updateList();
-			view.clearTitleTxt();
-			view.clearBodyTxt();
-		}		
+		System.out.println("Clearing fields");
+		System.out.println("Tests in List: " + view.getListSize());
+		view.clearTitleTxt();
+		view.toggleTitleEnabled(true);
+		view.clearBodyTxt();
+		view.clearStatusCmb();
+		view.refreshBackgrounds();
 	}
+	
 }

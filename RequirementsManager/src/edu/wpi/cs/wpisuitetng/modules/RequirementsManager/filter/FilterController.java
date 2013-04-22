@@ -16,6 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddActio
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.EnableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.RemoveAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.SnakeAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.VisibleAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllIterationsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller.RetrieveAllUsersController;
@@ -58,20 +59,25 @@ public class FilterController{
 		panel.getDisableButton().setAction( new DisableAction(this));
 		panel.getEnableButton().setAction( new EnableAction(this));
 		panel.getShowButton().setAction( new VisibleAction(this));
+		panel.getSnakeButton().setAction( new SnakeAction());
+		
 		
 		iterationController = new RetrieveAllIterationsController(this);
-		iterationController.retrieve();
+		
 		
 		userController = new RetrieveAllUsersController(this);
+		
+
+		iterationController.retrieve();
 		userController.retrieve();
 		
 	}
-
+	
 	public FilterPanel getPanel() {
-		return this.panel;
+		return panel;
 	}
 	public FilterModel getModel(){
-		return this.model;
+		return model;
 	}
 	
 	/**
@@ -81,7 +87,7 @@ public class FilterController{
 	 */
 	public Requirement[] setFilteredInTable(){
 		
-		Requirement[] all = this.listPanel.getContent();
+		Requirement[] all = listPanel.getContent();
 		Requirement[] filtered = null;
 		
 		boolean sentIterationsRequest = false;
@@ -111,23 +117,23 @@ public class FilterController{
 			System.out.println("har har har, you have enraged the filter God!!!");
 			e.printStackTrace();
 		}
-		this.listPanel.filterRequirements(filtered);
+		listPanel.filterRequirements(filtered);
 		
 		
 		return filtered;
 	}
 	
 	public void setIterations(Iteration[] iterations){
-		this.model.setIterations(iterations);
-		this.panel.setIterations(iterations);
+		model.setIterations(iterations);
+		panel.setIterations(iterations);
 	}
 	
 	public void setUsers(User[] users){
-		this.model.setUsers(users);
-		this.panel.setUsers(users);
+		model.setUsers(users);
+		panel.setUsers(users);
 	}
 	
 	public RequirementListPanel getListPanel(){
-		return this.listPanel;
+		return listPanel;
 	}
 }

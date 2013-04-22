@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
- * Insert Description Here
+ * an observer to catch a list of users
  *
  * @author Chris
  *
@@ -32,8 +32,8 @@ public class RetrieveAllUsersObserver implements RequestObserver{
 
 	RetrieveAllUsersController controller;
 	/**
-	 * Enter Description here.
-	 * 
+	 * create an observer to catch a list of users
+	 * @param controller
 	 */
 	public RetrieveAllUsersObserver(RetrieveAllUsersController controller) {
 		this.controller = controller;
@@ -53,13 +53,13 @@ public class RetrieveAllUsersObserver implements RequestObserver{
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

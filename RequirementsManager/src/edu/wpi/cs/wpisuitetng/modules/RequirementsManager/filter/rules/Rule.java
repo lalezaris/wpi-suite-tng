@@ -93,12 +93,12 @@ public class Rule implements IFilterRule{
 	
 	@Override
 	public boolean isAnd(){
-		return this.isAnd;
+		return isAnd;
 	}
 	
 	@Override
 	public void setIsAnd(boolean and){
-		this.isAnd = and;
+		isAnd = and;
 	}
 	
 	/**
@@ -115,6 +115,7 @@ public class Rule implements IFilterRule{
 	 */
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+		//random
 	}
 
 	@Override

@@ -27,12 +27,13 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
 
 /**
  * Model for the Requirement Table.
@@ -46,10 +47,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 @SuppressWarnings("serial")
 
 public class RequirementTableModel extends AbstractTableModel {
-	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent"};
+	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent ID"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
-	protected boolean isChange = false;
+	protected boolean isChange; 
+	protected RequirementListPanel panel;
 
 	private static final boolean DEBUG = false;
 
@@ -60,7 +62,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
-
+	public RequirementTableModel(RequirementListPanel panel) {
+		this.panel = panel;
+		this.isChange = false;
+	}
 	/* Gets column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
@@ -96,9 +101,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			if (i == 0) {
 				column.setPreferredWidth(30); //ID
 			} else if (i == 1) {
-				column.setPreferredWidth(100); //COLUMN
+				column.setPreferredWidth(100); //NAME
 			} else if (i == 2) {
-				column.setPreferredWidth(550); //COLUMN
+				column.setPreferredWidth(550); //DESCRIPTION
 			} else if (i == 3) {
 				column.setPreferredWidth(90); //STATUS
 			} else if (i == 4) {
@@ -216,9 +221,27 @@ public class RequirementTableModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		RMPermissionsLevel pLevel = CurrentUserPermissions
 				.getCurrentUserPermission();
-//		if () {
-//			return false;
-//		}
+		
+		if (pLevel != RMPermissionsLevel.ADMIN) {
+			return false;
+		}
+		if (col == 0){ //ID should not be editable
+			return false;
+		}
+		if (col > 5) { //Iteration, Assigned, and Parent should not be editable
+			return false;
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
+				requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
+			if (col == 5) {
+				return false;
+			}
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.DELETED)) {
+			if (col != 3) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -236,22 +259,44 @@ public class RequirementTableModel extends AbstractTableModel {
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
 		
-		if (title.equals("ID")) {
+		if (!checkInput(value, temp, title)) {
+			return;
+		}
+		
+		if (title.equals("Parent ID")) {
+			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
+				panel.setBackgroundRowColumn(row,col);
+			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
+			if(((String)value).equals(requirements.get(row).getTitle())){
+				panel.setBackgroundRowColumn(row,col);
+			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
+			if(((String)value).equals(requirements.get(row).getDescription())){
+				panel.setBackgroundRowColumn(row,col);
+			}
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
+			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
+				panel.setBackgroundRowColumn(row,col);
+			}
 			requirements.get(row).setStatus((RequirementStatus)value);
 		}
 		if (title.equals("Priority")) {
+			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
+				panel.setBackgroundRowColumn(row,col);
+			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
+			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
+				panel.setBackgroundRowColumn(row, col);
+			}
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}
 //		case 6:
@@ -267,11 +312,54 @@ public class RequirementTableModel extends AbstractTableModel {
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
 		isChange = true;
+		panel.hideUpdateSuccessfully();
 
 		if (DEBUG) {
 			System.out.println("New value of data:");
 			printDebugData();
 		}
+	}
+
+	/**
+	 * Method to check if the input value is legal
+	 * 
+	 * @param value the input value
+	 * @param req the edited requirement
+	 * @param title the edited part of requirement
+	 * @return true if the input is legal, false otherwise
+	 */
+	private boolean checkInput(Object value, Requirement req, String title) {
+		JFrame frame = new JFrame();
+		int IDNumber;
+		int estimate;
+		
+		if (title.equals("Parent ID")) {
+			try {
+				IDNumber = Integer.parseInt((String)value);
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(frame, "The ID must be integer.");
+				return false;
+			}
+			if (IDNumber < 0) {
+				JOptionPane.showMessageDialog(frame, "The ID must be non-negative.");
+				return false;
+			}
+		}
+		
+		if (title.equals("Estimate")) {
+			try {
+				estimate = Integer.parseInt((String)value);
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(frame, "The estimate must be integer.");
+				return false;
+			}
+			if (estimate < 0) {
+				JOptionPane.showMessageDialog(frame, "The estimate must be non-negative.");
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	/**

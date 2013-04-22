@@ -627,7 +627,6 @@ public class Requirement extends AbstractModel{
 	public void delete() {
 		
 	}
-
 	
 	/**
 	 * Converts this Requirement to a JSON string.

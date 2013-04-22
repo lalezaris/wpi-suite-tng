@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake.GamePanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.IterationListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
@@ -160,6 +161,32 @@ public class MainTabController {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 
+	
+	/**
+	 * Make the Snake Tab!!!
+	 * 
+	 * @return
+	 */
+	public Tab addSnakeTab(){
+		int checkTabIndex = view.indexOfTab("Snake");
+		if(checkTabIndex != -1){
+			view.setSelectedIndex(checkTabIndex);
+			System.out.println("found tab already");
+			return null;
+		}
+		else{
+			//already brings focus to list tab if it was opened previously
+
+			Tab tab = addTab();
+			GamePanel panel = new GamePanel();
+			panel.setTab(tab);
+			tab.setComponent(panel);
+			panel.requestFocus();
+			return tab;
+		}
+	}
+	
+	
 	/**
 	 * Adds a tab that displays the list of all requirements.
 	 * 
@@ -177,6 +204,7 @@ public class MainTabController {
 
 			Tab tab = addTab();
 			RequirementListPanel panel = view.getTableModel();
+			panel.setUpFilter();
 			panel.setTab(tab);
 			tab.setComponent(panel);
 			panel.requestFocus();
@@ -238,7 +266,7 @@ public class MainTabController {
 		 * Switch focus to that tab, or go ahead and create a new one.
 		 */
 		String tabTitle = "Bar Chart";
-		int checkTabIndex = view.indexOfTab("Bar Chart");
+		int checkTabIndex = view.indexOfTab("Statistics");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
 

@@ -67,7 +67,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 */
 	@Override
 	public Requirement makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws WPISuiteException {
 		int parent;
 		final Requirement newRequirement = Requirement.fromJSON(content);	//still need to get fromJSON working, then this will work
 		
@@ -136,7 +136,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public Requirement[] getAll(Session s) throws WPISuiteException {
+	public Requirement[] getAll(Session s){
 		return db.retrieveAll(new Requirement("FU","UU"), s.getProject()).toArray(new Requirement[0]);
 	}
 
@@ -206,7 +206,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
-	public void save(Session s, Requirement model) throws WPISuiteException {
+	public void save(Session s, Requirement model){
 		db.save(model, s.getProject());
 	}
 
@@ -241,8 +241,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+	public String advancedGet(Session s, String[] args){
 		return null;
 	}
 
@@ -276,8 +275,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+	public String advancedPut(Session s, String[] args, String content){
 		return null;
 	}
 
@@ -285,8 +283,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	public String advancedPost(Session s, String string, String content){
 		return null;
 	}
 }

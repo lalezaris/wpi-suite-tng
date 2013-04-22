@@ -19,11 +19,11 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 
 /**
  * Panel for each individual Task
@@ -44,6 +44,14 @@ public class TasksPanel extends JPanel{
 	TaskStatus[] taskStatusArray = {TaskStatus.BLANK, TaskStatus.INPROGRESS, TaskStatus.OPEN, TaskStatus.CLOSED, TaskStatus.ACCEPTED};
 	private JButton saveButton;
 	
+	//Labels
+	private JLabel lblName;
+	private JLabel lblDescription;
+	private JLabel lblAssignee;
+	private JLabel lblEffort;
+	private JLabel lblStatus;
+	
+	
 	//Panel for entry fields.
 	JPanel fieldPanel = new JPanel();
 
@@ -58,12 +66,19 @@ public class TasksPanel extends JPanel{
 	private void addComponents(){
 		
 		//Make fields
-		txtName = new JPlaceholderTextField("Enter Name Here", 20);
-		txtDescription = new JPlaceholderTextField("Enter Description Here", 20);
-		txtAssignee = new JPlaceholderTextField("Enter Assignee Here", 20);
-		txtEffort = new JPlaceholderTextField("Enter Effort Here", 20);
+		txtName = new JTextField("Name");
+		txtDescription = new JTextField("Description");
+		txtAssignee = new JTextField("Assignee");
+		txtEffort = new JTextField("Effort");
 		cmbStatus = new JComboBox<TaskStatus>(taskStatusArray);
 		saveButton = new JButton("Save");
+		
+		lblName = new JLabel("Name: *", JLabel.TRAILING);
+		lblDescription = new JLabel("Description: *", JLabel.TRAILING);
+		lblAssignee = new JLabel("Assignee: ", JLabel.TRAILING);
+		lblEffort = new JLabel("Effort: ", JLabel.TRAILING);
+		lblStatus = new JLabel("Status: ", JLabel.TRAILING);
+		
 		
 		//Gridbag stuff
 		GridBagLayout layoutOverall = new GridBagLayout();
@@ -88,11 +103,31 @@ public class TasksPanel extends JPanel{
 		cFields.weighty = 0.5;
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		fieldPanel.add(lblName, cFields);
+		
+		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.gridx = 1;
+		cFields.gridy = 0;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.gridheight = 1;
+		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtName, cFields);
 		
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
+		cFields.gridy = 2;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.gridheight = 1;
+		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		fieldPanel.add(lblDescription, cFields);
+		
+		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.gridx = 1;
 		cFields.gridy = 2;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
@@ -108,6 +143,16 @@ public class TasksPanel extends JPanel{
 		cFields.weighty = 0.5;
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		fieldPanel.add(lblAssignee, cFields);
+		
+		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.gridx = 1;
+		cFields.gridy = 4;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.gridheight = 1;
+		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtAssignee, cFields);
 		
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -118,11 +163,31 @@ public class TasksPanel extends JPanel{
 		cFields.weighty = 0.5;
 		cFields.gridheight = 1;
 		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		fieldPanel.add(lblEffort, cFields);
+		
+		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.gridx = 1;
+		cFields.gridy = 6;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.gridheight = 1;
+		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		fieldPanel.add(txtEffort, cFields);
 		
 		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFields.fill = GridBagConstraints.HORIZONTAL;
 		cFields.gridx = 0;
+		cFields.gridy = 8;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.gridheight = 1;
+		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		fieldPanel.add(lblStatus, cFields);
+		
+		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.gridx = 1;
 		cFields.gridy = 8;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
@@ -161,4 +226,40 @@ public class TasksPanel extends JPanel{
 	public JButton getSaveButton() {
 		return saveButton;
 	}
+
+	/**
+	 * @return the txtName
+	 */
+	public JTextField getTxtName() {
+		return txtName;
+	}
+
+	/**
+	 * @return the txtDescription
+	 */
+	public JTextField getTxtDescription() {
+		return txtDescription;
+	}
+
+	/**
+	 * @return the txtAssignee
+	 */
+	public JTextField getTxtAssignee() {
+		return txtAssignee;
+	}
+
+	/**
+	 * @return the txtEffort
+	 */
+	public JTextField getTxtEffort() {
+		return txtEffort;
+	}
+
+	/**
+	 * @return the cmbStatus
+	 */
+	public JComboBox<TaskStatus> getCmbStatus() {
+		return cmbStatus;
+	}
+	
 }

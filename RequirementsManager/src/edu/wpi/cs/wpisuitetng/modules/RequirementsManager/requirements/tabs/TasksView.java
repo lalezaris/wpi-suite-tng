@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -67,6 +68,7 @@ public class TasksView extends JPanel{
 	 * @param req the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
+		super(new BorderLayout());
 		
 		//Set initial variables
 		list = new ArrayList<Task>();
@@ -84,18 +86,15 @@ public class TasksView extends JPanel{
 		this.parent = parent;
 		
 		//Create all of the panels(one per task) and put them in the array.
-		overallPanel = new JPanel();
-		overallPanel.setLayout(new GridBagLayout());
+		//TODO For testing purposes, making two dummy tasks
+		Task temp = new Task();
+		Task temp2 = new Task();
+		temp.setId(0);
+		addTask(temp);
+		temp2.setId(1);
+		addTask(temp2);
 		createTasksPanels();
-		
-		//Put the panels (overallPanel) into a scrollpane
-		JScrollPane listScrollPane = new JScrollPane(overallPanel);
-		scrollingPanel = new JPanel();
-		scrollingPanel.setLayout(new GridBagLayout());
-		scrollingPanel.add(listScrollPane);
-		
-		this.add(scrollingPanel);
-		
+
 		//JList
 		//listDisplay = new JList(listModel);
 		//listDisplay.setLayoutOrientation(JList.VERTICAL);
@@ -105,11 +104,56 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	private void createTasksPanels(){
-		//TODO Make this a for loop for the length of the taskArray and add one for each. I am just doing 1 for testing.
-		taskPanelArray.add(new TasksPanel());
-		taskPanelArray.get(0).setLayout(new GridBagLayout());
-		taskPanelArray.get(0).getSaveButton().addActionListener(new SaveTaskListener());
-		overallPanel.add(taskPanelArray.get(0));//Put each one in the overallPanel to display them all at once.
+		
+		overallPanel = new JPanel();
+		overallPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints cTask = new GridBagConstraints();
+		GridBagConstraints cScrolling = new GridBagConstraints();
+		
+		//TODO This for loop should go for all tasks in the array (list). This is just testing now.
+		for(int i = 0; i < 2; i ++){
+			//Constraints
+			cTask.anchor = GridBagConstraints.FIRST_LINE_START; 
+			cTask.fill = GridBagConstraints.HORIZONTAL;
+			cTask.gridx = 0;
+			cTask.gridy = i*100;
+			cTask.weightx = 0.5;
+			cTask.weighty = 0.5;
+			cTask.gridheight = 1;
+			cTask.insets = new Insets(10,10,10,0); //top,left,bottom,right
+			
+			//Make the panel
+			TasksPanel tempPanel = new TasksPanel();
+			tempPanel.setLayout(new GridBagLayout());
+			
+			//Fill its boxes
+			tempPanel.getTxtName().setText(list.get(i).getName());
+			tempPanel.getTxtDescription().setText(list.get(i).getDescription());
+			tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
+			tempPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
+			tempPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
+			tempPanel.getSaveButton().addActionListener(new SaveTaskListener(i, this));//TODO list.get(i).getId();
+			//Put it in the array and panel.
+			taskPanelArray.add(tempPanel);
+			overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+		}
+		
+		//Put the panels (overallPanel) into a scrollpane
+		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cScrolling.fill = GridBagConstraints.HORIZONTAL;
+		cScrolling.gridx = 0;
+		cScrolling.gridy = 0;
+		cScrolling.weightx = 0.5;
+		cScrolling.weighty = 0.5;
+		cScrolling.gridheight = 1;
+		cScrolling.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		JScrollPane listScrollPane = new JScrollPane(overallPanel);
+		scrollingPanel = new JPanel();
+		scrollingPanel.setLayout(new GridBagLayout());
+		scrollingPanel.add(listScrollPane);
+		
+		this.add(scrollingPanel, cScrolling);
 	}
 	
 	/**Add a task from the View.
@@ -123,7 +167,7 @@ public class TasksView extends JPanel{
 		if (!hasTask){
 			list.add(t);
 		}else{
-			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists");
+			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists! (ID: " + t.getId() + ")");
 		}
 		for(int i = 0; i < list.size(); i++){
 			if(!listModel.contains(list.get(i))){
@@ -132,15 +176,18 @@ public class TasksView extends JPanel{
 	}
 	
 	/**Used to update a given Task
-	 * @param a
+	 * @param t A task with the same ID as the ne you want to replace but with new fields.
 	 */
 	public void replaceTask(Task t){
+		System.out.println("Searching for "+ t.getId() + " with name /'" + t.getName() + "/'");
+		System.out.println("List size: "+ list.size());
 		boolean hasTask = false;
 		int taskLocation = doesTaskExist(t.getId());
 		if(taskLocation != -1)
 			hasTask = true;
 		//Update all of the fields.
 		if (hasTask){
+			System.out.println("Found "+ t.getId() + " with name /'" + t.getName() + "/'");
 			list.get(taskLocation).setAssigneeName(t.getAssigneeName());
 			list.get(taskLocation).setStatus(t.getStatus());
 			list.get(taskLocation).setDescription(t.getDescription());
@@ -153,11 +200,23 @@ public class TasksView extends JPanel{
 		}
 	}
 	
+	/**Find a task based on the id you give it.
+	 * @param id The id of the task you want to find.
+	 */
+	public Task retrieveTask(int id){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == id){
+				return list.get(i);
+			}
+		}
+		return new Task();
+	}
+	
 	/**Look for the given task in the list.
 	 * @param id The task to look for.
 	 * @return The spot in the list that this task belongs to, if it does.
 	 */
-	private int doesTaskExist(int id) {
+	public int doesTaskExist(int id) {
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId() == id){
 				return i;
@@ -180,4 +239,21 @@ public class TasksView extends JPanel{
 		repaint();
 		revalidate();
 	}
+	
+	/**Redisplay everything. Call after updating tasks.
+	 * 
+	 */
+	public void redisplay(){
+		createTasksPanels();
+		repaint();
+		revalidate();
+	}
+
+	/**
+	 * @return the taskPanelArray
+	 */
+	public ArrayList<TasksPanel> getTaskPanelArray() {
+		return taskPanelArray;
+	}
+	
 }

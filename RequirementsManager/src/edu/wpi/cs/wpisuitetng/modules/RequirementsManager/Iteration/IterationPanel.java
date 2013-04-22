@@ -482,6 +482,10 @@ public class IterationPanel extends JPanel {
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
+			
+			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
+				return true;
+			}
 		}
 		return false;
 	}

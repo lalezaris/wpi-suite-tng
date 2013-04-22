@@ -46,7 +46,8 @@ public class CancelAcceptanceTestController implements ActionListener {
 		view.clearTitleTxt();
 		view.toggleTitleEnabled(true);
 		view.clearBodyTxt();
-		view.clearStatusCmb();	
+		view.clearStatusCmb();
+		view.refreshBackgrounds();
 	}
 	
 }

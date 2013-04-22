@@ -411,29 +411,50 @@ public class RequirementModel {
 		
 		//AcceptanceTestFields
 		if(!view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals(null)) {
-			view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.YELLOW);
-			flag = true;
+			int k = view.getRequirementPanel().getAcceptanceTestsView().doesTestExist(view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt());
+			if(k != -1) {
+				if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(view.getRequirementPanel().getAcceptanceTestsView().getList().get(k).getBody())) {
+					view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
+					flag = true;
+				}
+				else
+					view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
+				if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(view.getRequirementPanel().getAcceptanceTestsView().getList().get(k).getStatus())) {
+					view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
+					flag = true;
+				}
+				else
+					view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
+			}
+			else {//title does not exist yet
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.YELLOW);
+				flag = true;
+				if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null))
+					view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
+				if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null))
+					view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);	
+			}
 		}
-		else
+		else {//title is blank
 			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtTitle().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.WHITE);
 			
-		if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null)) {
-			view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
-			flag = true;
-		}
-		else
-			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
-				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
+			if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null)) {
+				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
+				flag = true;
+			}
+			else
+				if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
+					view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
 			
-		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
-			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
-			flag = true;
+			if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
+				view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
+				flag = true;
+			}
+			else
+				if(view.getRequirementPanel().getAcceptanceTestsView().getCmbStatus().getBackground().equals(Color.YELLOW))
+					view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
 		}
-		else
-			if(view.getRequirementPanel().getAcceptanceTestsView().getCmbStatus().getBackground().equals(Color.YELLOW))
-				view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
-			
 		if(acceptDifference != 0) {
 			view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
 			flag = true;

@@ -29,8 +29,10 @@ import javax.swing.JTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.RetrieveRequirementsTasksController;
 
@@ -47,10 +49,16 @@ public class TasksView extends JPanel{
 	
 	private ArrayList<Task> list;
 	private ArrayList<TasksPanel> taskPanelArray;
+	private JPanel overallPanel;//One panel to hold them all.
+	private JPanel scrollingPanel;
 	private DefaultListModel<Task> listModel;
+	private JList listDisplay;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
+
+	//Permissions level
+	protected RMPermissionsLevel pLevel;
 	
 
 	/**
@@ -59,25 +67,38 @@ public class TasksView extends JPanel{
 	 * @param req the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
-		super(new BorderLayout());
 		
 		//Set initial variables
 		list = new ArrayList<Task>();
 		taskPanelArray = new ArrayList<TasksPanel>();
 		
-		
 		//Get the ScrollPane going.
 		listModel = new DefaultListModel<Task>();
-		//list = new JList(listModel);
-		//list.setLayoutOrientation(JList.VERTICAL);
-
-		//list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane();
 		
+		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		
+		//Use a grid bag layout manager
+		layout = new GridBagLayout();
+		this.setLayout(layout);
+		
+		this.parent = parent;
+		
+		//Create all of the panels(one per task) and put them in the array.
+		overallPanel = new JPanel();
+		overallPanel.setLayout(new GridBagLayout());
 		createTasksPanels();
-		displayTasks(listScrollPane);
 		
-		add(listScrollPane, BorderLayout.CENTER);
+		//Put the panels (overallPanel) into a scrollpane
+		JScrollPane listScrollPane = new JScrollPane(overallPanel);
+		scrollingPanel = new JPanel();
+		scrollingPanel.setLayout(new GridBagLayout());
+		scrollingPanel.add(listScrollPane);
+		
+		this.add(scrollingPanel);
+		
+		//JList
+		//listDisplay = new JList(listModel);
+		//listDisplay.setLayoutOrientation(JList.VERTICAL);
 	}
 	
 	/**Create the task panels to display.
@@ -86,15 +107,9 @@ public class TasksView extends JPanel{
 	private void createTasksPanels(){
 		//TODO Make this a for loop for the length of the taskArray and add one for each. I am just doing 1 for testing.
 		taskPanelArray.add(new TasksPanel());
+		taskPanelArray.get(0).setLayout(new GridBagLayout());
 		taskPanelArray.get(0).getSaveButton().addActionListener(new SaveTaskListener());
-	}
-	
-	/**Go through the list and display them all.
-	 * 
-	 */
-	private void displayTasks(JScrollPane listScrollPane){
-		this.add(taskPanelArray.get(0));
-		listScrollPane.add(taskPanelArray.get(0));
+		overallPanel.add(taskPanelArray.get(0));//Put each one in the overallPanel to display them all at once.
 	}
 	
 	/**Add a task from the View.

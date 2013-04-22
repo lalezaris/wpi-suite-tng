@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 
 /**
  * Panel for each individual Task
@@ -57,10 +58,10 @@ public class TasksPanel extends JPanel{
 	private void addComponents(){
 		
 		//Make fields
-		txtName = new JTextField("Name");
-		txtDescription = new JTextField("Description");
-		txtAssignee = new JTextField("Assignee");
-		txtEffort = new JTextField("Effort");
+		txtName = new JPlaceholderTextField("Enter Name Here", 20);
+		txtDescription = new JPlaceholderTextField("Enter Description Here", 20);
+		txtAssignee = new JPlaceholderTextField("Enter Assignee Here", 20);
+		txtEffort = new JPlaceholderTextField("Enter Effort Here", 20);
 		cmbStatus = new JComboBox<TaskStatus>(taskStatusArray);
 		saveButton = new JButton("Save");
 		

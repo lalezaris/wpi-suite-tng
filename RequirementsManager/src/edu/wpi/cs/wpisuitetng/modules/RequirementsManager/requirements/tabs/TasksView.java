@@ -16,17 +16,13 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
@@ -35,7 +31,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.RetrieveRequirementsTasksController;
 
 /**
  * Tab panel for viewing and working with tasks.

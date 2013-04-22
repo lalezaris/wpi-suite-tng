@@ -129,9 +129,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		saveTest.addActionListener(new SaveAcceptanceTestController(this));
 		saveTest.addFocusListener(this);
 
-		//editTest = new JButton("Edit Test");
-		//editTest.addActionListener(new EditAcceptanceTestController(this));
-
 		cancelTest = new JButton("Cancel");
 		cancelTest.addActionListener(new CancelAcceptanceTestController(this));
 		cancelTest.addFocusListener(this);
@@ -353,7 +350,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 */
 	public void disableAll(){
 		saveTest.setEnabled(false);
-		//editTest.setEnabled(false);
 		txtTitle.setEnabled(false);
 		txtTitleFlag = false;
 		txtTitle.setDisabledTextColor(Color.BLACK);

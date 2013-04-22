@@ -39,7 +39,19 @@ public class AcceptanceTest extends AbstractModel{
 	public AcceptanceTest(String title, String body){
 		this.title = title;
 		this.body = body;
-		this.status = "Blank";
+		this.status = "";
+	}
+	
+	/**
+	 * Instantiates a new acceptance test.
+	 *
+	 * @param title the title
+	 * @param body the body
+	 */
+	public AcceptanceTest(String title, String status, String body){
+		this.title = title;
+		this.body = body;
+		this.status = status;
 	}
 
 	/**
@@ -48,7 +60,7 @@ public class AcceptanceTest extends AbstractModel{
 	public AcceptanceTest(){
 		this.title = "";
 		this.body = "";
-		this.status = "Blank";
+		this.status = "";
 	}
 
 	/**
@@ -93,13 +105,27 @@ public class AcceptanceTest extends AbstractModel{
 	 * @return the status
 	 */
 	public String getStatus(){
-		if (this.status.compareTo("Blank") == 0 || this.status.compareTo("Passed") == 0 || this.status.compareTo("Failed") == 0){
-			return this.status;
-		}else{
-			this.status = "Blank";
-			return this.status;
-		}
+		if ((this.status.compareTo("") == 0) || (this.status.compareTo("Blank") == 0))
+			return "";
+		if(this.status.compareTo("Passed") == 0)
+			return "Passed";
+		if(this.status.compareTo("Failed") == 0)
+			return "Failed";
+		//otherwise
+		this.status = "";
+		return this.status;
+		
 	}
+	
+	/**
+	 * get index of status
+	 */
+	public int getStatusIndex(){
+		if (this.status.compareTo("Passed") == 0)
+			return 1;
+		if (this.status.compareTo("Failed") == 0)
+			return 2;
+		return 0;	}
 
 	/**
 	 * Sets the status.
@@ -107,7 +133,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * @param s the new status
 	 */
 	public void setStatus(String s){
-		if (s.compareTo("Blank") == 0 || s.compareTo("Passed") == 0 || s.compareTo("Failed") == 0){
+		if (s.compareTo("") == 0 || s.compareTo("Passed") == 0 || s.compareTo("Failed") == 0){
 			this.status = s;
 		}
 	}
@@ -169,7 +195,7 @@ public class AcceptanceTest extends AbstractModel{
 	}
 
 	public String toString(){
-		if (this.status.compareTo("Blank") == 0){
+		if (this.status.compareTo("") == 0 || this.status.compareTo("Blank") == 0){
 			return " >" + this.getTitle();
 		}else{
 			return " >" + this.getTitle() + " (" + this.status + ")";

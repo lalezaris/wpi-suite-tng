@@ -34,8 +34,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAcceptanceTestController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.EditAcceptanceTestController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelAcceptanceTestController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveAcceptanceTestController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 /**
  * The Class AcceptanceTestsView creates a panel for viewing acceptance tests.
@@ -48,19 +48,21 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 
 	protected JPlaceholderTextField txtTitle;
 	protected JTextArea txtBody;
-	protected JButton addTest;
-	protected JButton editTest;
+	protected JButton saveTest;
+	//protected JButton editTest;
 	protected JButton cancelTest;
 	protected JComboBox cmbStatus;
 	protected RMPermissionsLevel pLevel;
 
+	//flag to see if title is enabled or not
+	protected boolean txtTitleFlag;
 	//the error labels
 	protected JLabel lblTitleError;
 	protected JLabel lblBodyError;
 
 	protected JList<AcceptanceTest> listDisplay;
 	protected DefaultListModel<AcceptanceTest> listModel;
-	
+
 	protected RequirementView parent;
 
 	//the arraylist that actually holds the Tests
@@ -79,7 +81,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
-		
+
 		this.parent = parent;
 
 		// Add all components to this panel
@@ -118,17 +120,21 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		} else
 			txtTitle = new JPlaceholderTextField("", 20);
 
+		txtTitle.addFocusListener(this);
 		txtBody = new JTextArea(4, 40);
+		txtBody.addFocusListener(this);
 		JLabel lblBody = new JLabel("Test Descriptions: ", JLabel.TRAILING);
 
-		addTest = new JButton("Add Test");
-		addTest.addActionListener(new AddAcceptanceTestController(this));
+		saveTest = new JButton("Save");
+		saveTest.addActionListener(new SaveAcceptanceTestController(this));
+		saveTest.addFocusListener(this);
 
-		editTest = new JButton("Edit Test");
-		editTest.addActionListener(new EditAcceptanceTestController(this));
+		//editTest = new JButton("Edit Test");
+		//editTest.addActionListener(new EditAcceptanceTestController(this));
 
 		cancelTest = new JButton("Cancel");
-		//cancelTest.addActionListener(new CancelAcceptanceTestController(this));
+		cancelTest.addActionListener(new CancelAcceptanceTestController(this));
+		cancelTest.addFocusListener(this);
 
 		//initiate the combobox for status
 		final String[] atStatuses = {"", "Passed", "Failed"};
@@ -219,7 +225,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		bot.gridwidth = 4;
 		Pbot.add(scrollPaneBody, bot);
 
-		//add the "Add Test" button
+		//add the "Save Test" button
 		bot.anchor = GridBagConstraints.LINE_START;
 		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		bot.fill = GridBagConstraints.NONE;
@@ -228,7 +234,8 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		bot.gridx = 0;
 		bot.gridy = 2;
 		bot.gridwidth = 1;
-		Pbot.add(addTest, bot);
+
+		Pbot.add(saveTest, bot);
 
 		//add the "Cancel" button
 		bot.anchor = GridBagConstraints.LINE_START;
@@ -268,17 +275,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		bot.gridwidth = 4;
 		Pbot.add(scrollPaneList, bot);
 
-		//add the "Edit Test" button
-		bot.anchor = GridBagConstraints.LINE_START;
-		bot.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		bot.fill = GridBagConstraints.NONE;
-		bot.weightx = 0.5;
-		bot.weighty = 0.5;
-		bot.gridx = 0;
-		bot.gridy = 5;
-		bot.gridwidth = 2;
-		Pbot.add(editTest, bot);
-
 		//compile all the panels into overall
 		overall.anchor = GridBagConstraints.LINE_START;
 		overall.weightx = 0.5;
@@ -309,25 +305,22 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		 * status fields are populated with that item's characteristics
 		 */
 		MouseListener mouseListener = new MouseAdapter() {
+
 			public void mouseClicked(MouseEvent e) {
 				if(list.size() > 0){
 					int index = listDisplay.locationToIndex(e.getPoint());
 					txtTitle.setText(list.get(index).getTitle());
+					txtTitle.setEnabled(false);
+					txtTitleFlag = false;
 					txtBody.setText(list.get(index).getBody());
-					if (hasTitle(txtTitle.getText())){
-						addTest.setEnabled(false);
-						editTest.setEnabled(true);
-					}else{
-						addTest.setEnabled(true);
-						editTest.setEnabled(false);
-					}
+					saveTest.setEnabled(true);
 
 					if (list.get(index).getStatus().compareTo("Passed") == 0){
-						cmbStatus.setSelectedItem(atStatuses[1]);
+						cmbStatus.setSelectedIndex(1);
 					}else if (list.get(index).getStatus().compareTo("Failed") == 0){
-						cmbStatus.setSelectedItem(atStatuses[2]);
+						cmbStatus.setSelectedIndex(2);
 					}else{
-						cmbStatus.setSelectedItem(atStatuses[0]);
+						cmbStatus.setSelectedIndex(0);
 					}
 				}
 			}
@@ -359,9 +352,10 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 * Disables the components of the AcceptanceTest view.
 	 */
 	public void disableAll(){
-		addTest.setEnabled(false);
-		editTest.setEnabled(false);
+		saveTest.setEnabled(false);
+		//editTest.setEnabled(false);
 		txtTitle.setEnabled(false);
+		txtTitleFlag = false;
 		txtTitle.setDisabledTextColor(Color.BLACK);
 		txtTitle.setBackground(this.getBackground());
 		txtBody.setEnabled(false);
@@ -414,10 +408,30 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 			public void mouseClicked(MouseEvent e) {
 				int index = listDisplay.locationToIndex(e.getPoint());
 				txtTitle.setText(list.get(index).getTitle());
+				txtTitle.setEnabled(false);
+				txtTitleFlag = false;
 				txtBody.setText(list.get(index).getBody());
+				cmbStatus.setSelectedIndex(list.get(index).getStatusIndex());
 			}
 		};
 		listDisplay.addMouseListener(mouseListener);
+	}
+
+	/**
+	 * check to see if test exists with same name.
+	 * return -1 if it does not exist
+	 * else return index
+	 * 
+	 * @param testName
+	 * @return i
+	 */
+	public int doesTestExist(String testName) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getTitle().compareTo(testName) == 0){
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -427,12 +441,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 */
 	public void addTestToList(AcceptanceTest a){
 		boolean hasTest = false;
-		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).getTitle().compareTo(a.getTitle()) == 0){
-				hasTest = true;
-				i = list.size() + 1;
-			}
-		}
+		int testLocation = doesTestExist(a.getTitle());
+		if(testLocation != -1)
+			hasTest = true;
 		if (!hasTest){
 			list.add(a);
 		}
@@ -441,7 +452,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 				listModel.add(i, list.get(i));}
 		}
 	}
-
 	/**
 	 * Replace test.
 	 *
@@ -449,14 +459,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 */
 	public void replaceTest(AcceptanceTest a){
 		boolean hasTest = false;
-		int testLocation = 0;
-		for (int i = 0; i < list.size(); i++){
-			if (list.get(i).getTitle().compareTo(a.getTitle()) == 0){
-				hasTest = true;
-				testLocation = i;
-				i = list.size() + 1;
-			}
-		}
+		int testLocation = doesTestExist(a.getTitle());
+		if(testLocation != -1)
+			hasTest = true;
 		if (hasTest){
 			list.get(testLocation).setBody(a.getBody());
 			list.get(testLocation).setStatus(a.getStatus());
@@ -481,6 +486,10 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	public void clearTitleTxt(){
 		txtTitle.setText(null);
 		lblTitleError.setVisible(false);
+	}
+
+	public void clearStatusCmb(){
+		cmbStatus.setSelectedIndex(0);
 	}
 
 	/**
@@ -602,18 +611,8 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 * @return the add button
 	 */
 	public JButton getAddButton(){
-		return addTest;
+		return saveTest;
 	}
-
-	/**
-	 * Gets the edit button
-	 * 
-	 * @return the edit button
-	 */
-	public JButton getEditButton(){
-		return editTest;
-	}
-
 	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 	/**
 	 * If the title written is already in the list, disable the addTest button and enable the
@@ -621,131 +620,146 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 *
 	 * @see ButtonsEvent
 	 */
-		public class ButtonsListener implements KeyListener {
+	public class ButtonsListener implements KeyListener {
 
-			/**
-			 * Action performed.
-			 *
-			 * @param estimate the estimate
-			 */
-			public void actionPerformed(ActionEvent estimate) {}
-			
-			/**
-			 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
-			 */
-			@Override
-			public void keyTyped(KeyEvent e) {}
-			
-			/**
-			 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-			 */
-			@Override
-			public void keyPressed(KeyEvent e) {}
+		/**
+		 * Action performed.
+		 *
+		 * @param estimate the estimate
+		 */
+		public void actionPerformed(ActionEvent estimate) {}
 
-			/**
-			 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
-			 */
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (hasTitle(txtTitle.getText())){
-					addTest.setEnabled(false);
-					editTest.setEnabled(true);
-				}else{
-					addTest.setEnabled(true);
-					editTest.setEnabled(false);
-				}
+		/**
+		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyTyped(KeyEvent e) {}
+
+		/**
+		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyPressed(KeyEvent e) {}
+
+		/**
+		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyReleased(KeyEvent e) {
+			if (hasTitle(txtTitle.getText())){
+				saveTest.setEnabled(true);
+				//editTest.setEnabled(true);
+			}else{
+				saveTest.setEnabled(true);
+				//editTest.setEnabled(false);
 			}
 		}
-		
-		/**
-		 * @return the txtTitle
-		 */
-		public JTextField getTxtTitle() {
-			return txtTitle;
-		}
+	}
+
+	/**
+	 * @return the txtTitle
+	 */
+	public JTextField getTxtTitle() {
+		return txtTitle;
+	}
 
 
-		/**
-		 * @return the txtBody
-		 */
-		public JTextArea getTxtBody() {
-			return txtBody;
-		}
+	/**
+	 * @return the txtBody
+	 */
+	public JTextArea getTxtBody() {
+		return txtBody;
+	}
 
 
-		/**
-		 * @return the cmbStatus
-		 */
-		public JComboBox getCmbStatus() {
-			return cmbStatus;
-		}
+	/**
+	 * @return the cmbStatus
+	 */
+	public JComboBox getCmbStatus() {
+		return cmbStatus;
+	}
 
 
-		/**
-		 * Gets list display
-		 * 
-		 * @return list of acceptance tests
-		 */
-		public JList<AcceptanceTest> getListDisplay(){
-			return listDisplay;
-		}
-		
-		/**
-		 * Sets list display background color
-		 * 
-		 * @param c the color
-		 */
-		public void setListDisplayBackground(Color c) {
-			listDisplay.setBackground(c);
-		}
-		
-		/**
-		 * Sets text title background color
-		 * 
-		 * @param c the color
-		 */
-		public void setTxtTitleBackground(Color c) {
-			txtTitle.setBackground(c);
-		}
-		
-		/**
-		 * Sets text body background color
-		 * 
-		 * @param c the color
-		 */
-		public void setTxtBodyBackground(Color c) {
-			txtBody.setBackground(c);
-		}
-		
-		/**
-		 * Sets cmb status background color
-		 * 
-		 * @param c the color
-		 */
-		public void setCmbStatusBackground(Color c) {
-			cmbStatus.setBackground(c);
-		}
- 
-		/**
-		 * Refreshes the background
-		 */
-		public void refreshBackgrounds() {
-			this.parent.getReqModel().updateBackgrounds();
-		}
-		/**
-		 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
-		 */
-		@Override
-		public void focusGained(FocusEvent e) {
-			this.refreshBackgrounds();
-		}
+	/**
+	 * Gets list display
+	 * 
+	 * @return list of acceptance tests
+	 */
+	public JList<AcceptanceTest> getListDisplay(){
+		return listDisplay;
+	}
+
+	/**
+	 * Sets list display background color
+	 * 
+	 * @param c the color
+	 */
+	public void setListDisplayBackground(Color c) {
+		listDisplay.setBackground(c);
+	}
+
+	/**
+	 * Sets text title background color
+	 * 
+	 * @param c the color
+	 */
+	public void setTxtTitleBackground(Color c) {
+		txtTitle.setBackground(c);
+	}
+
+	/**
+	 * Sets text body background color
+	 * 
+	 * @param c the color
+	 */
+	public void setTxtBodyBackground(Color c) {
+		txtBody.setBackground(c);
+	}
+
+	/**
+	 * Sets cmb status background color
+	 * 
+	 * @param c the color
+	 */
+	public void setCmbStatusBackground(Color c) {
+		cmbStatus.setBackground(c);
+	}
+
+	/**
+	 * Refreshes the background
+	 */
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+	/**
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();
+	}
 
 
-		/**
-		 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-		 */
-		@Override
-		public void focusLost(FocusEvent e) {
-			this.refreshBackgrounds();
-		}
+	/**
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();
+	}
+	/**
+	 * toggle enable of title field
+	 */
+	public void toggleTitleEnabled(boolean b) {
+		txtTitle.setEnabled(b);
+		txtTitleFlag = b;
+	}
+
+	/**
+	 * check to see if title is enabled or not
+	 * if false, then in edit mode
+	 */
+	public boolean isTitleEnabled() {
+		return txtTitleFlag;
+	}
 }

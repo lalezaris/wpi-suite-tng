@@ -8,46 +8,46 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Michael French
- **************************************************/
+ *  mwfrench
+ *  Joe Spicola
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 
 /**
- * The Class EditAcceptanceTestController.
+ * The Class AddAcceptanceTestController.
  * 
- * @author Michael French
+ * @author Joe Spicola
  */
-public class EditAcceptanceTestController implements ActionListener{
+public class CancelAcceptanceTestController implements ActionListener {
+	
 	private final AcceptanceTestsView view;
 
 	/**
 	 * Default constructor
 	 * 
-	 * @param view the acceptance tests view
+	 * @param view
 	 */
-	public EditAcceptanceTestController(AcceptanceTestsView view) {
+	public CancelAcceptanceTestController(AcceptanceTestsView view) {
 		this.view = view;
 	}
 
-	/**
+	/* (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		AcceptanceTest a = new AcceptanceTest(view.getTitleTxt(), view.getBodyTxt());
-		a.setStatus(view.getStatusTxt());
-		if(!view.notReady()){
-			view.replaceTest(a);
-			view.updateList();
-			view.clearTitleTxt();
-			view.clearBodyTxt();
-			view.refreshBackgrounds();
-		}		
+		System.out.println("Clearing fields");
+		System.out.println("Tests in List: " + view.getListSize());
+		view.clearTitleTxt();
+		view.toggleTitleEnabled(true);
+		view.clearBodyTxt();
+		view.clearStatusCmb();
+		view.refreshBackgrounds();
 	}
+	
 }

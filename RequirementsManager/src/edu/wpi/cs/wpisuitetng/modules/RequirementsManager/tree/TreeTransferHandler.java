@@ -160,40 +160,54 @@ class TreeTransferHandler extends TransferHandler {
 		JTree tree = (JTree)support.getComponent();  
 		// Send changes to database
 		Object destObject = ((DefaultMutableTreeNode)parent).getUserObject();
-		String reqTitle = nodes[0].getUserObject().toString();
-		Requirement reqs[] = ((ReqTreeModel)tree.getModel()).getRequirements();
-		Requirement r = new Requirement();
-		for(int i = 0; i < reqs.length; i++) {  
-			if (reqs[i].getTitle() == reqTitle) {
-				r = reqs[i];
+		List<String> s = new ArrayList<String>();
+		for(int i = 0; i < nodes.length; i++) {
+			s.add(nodes[i].getUserObject().toString());
+		}
+		Requirement[] reqs = ((ReqTreeModel)tree.getModel()).getRequirements();
+		List<Requirement> r = new ArrayList<Requirement>();
+		int n = 0;
+		for(int i = 0; i < reqs.length; i++) {
+			for(int x = 0; x < nodes.length; x++) {
+				if (reqs[i].getTitle() == s.get(x)) {
+					r.add(reqs[i]);
+					n += 1;
+				}
 			}
 		}
 		if (destObject.toString().startsWith("Iteration")) {
-			// Change the parent
-			r.setIteration((Iteration)destObject);
-			// Save the changed requirement
-			controller = new SaveRequirementController(r, 0);
-			controller.save();
+			for(int i = 0; i < n; i++) {
+				Requirement req = r.get(i);
+				// Change the parent
+				req.setIteration((Iteration)destObject);
+				// Save the changed requirement
+				controller = new SaveRequirementController(req);
+				controller.save();
+			}
 		} else if (destObject instanceof Requirement) {
-			// Change the parent
-			r.setParentRequirementId(((Requirement)destObject).getId());
-			// Save the changed requirement
-			controller = new SaveRequirementController(((Requirement) r), 1);
-			controller.save();
+			for(int i = 0; i < n; i++) {
+				Requirement req = r.get(i);
+				// Change the parent
+				req.setParentRequirementId(((Requirement)destObject).getId());
+				// Save the changed requirement
+				controller = new SaveRequirementController(((Requirement) req));
+				controller.save();
+			}
 		} else if (destObject.toString().contains("Backlog")){
-			// Change the parent
-			r.setIterationId(0);
-			// Save the changed requirement
-			controller = new SaveRequirementController(r, 0);
-			controller.save();
+			for(int i = 0; i < n; i++) {
+				Requirement req = r.get(i);
+				// Change the parent
+				req.setIterationId(0);
+				// Save the changed requirement
+				controller = new SaveRequirementController(req);
+				controller.save();
+			}
 		} else if (destObject.toString().contains("Deleted")){
 			MainView.getInstance().showErrorMessage("Cannot drag to Deleted");
 		}
 		else {
 			System.out.print("The drop destination is not recognizable!");
 		}
-
-		TreeView.getInstance().refreshTree();
 
 		return true;  
 	}  
@@ -218,7 +232,28 @@ class TreeTransferHandler extends TransferHandler {
 		for(int i = 0; i < selRows.length; i++) {  
 			if(selRows[i] == dropRow) {  
 				return false;  
-			}  
+			}
+		}  
+		// Do not allow a drag for just children
+		for(int i = 0; i < selRows.length; i++) {  
+			TreePath path2 = tree.getPathForRow(selRows[i]);  
+			DefaultMutableTreeNode aNode =  
+					(DefaultMutableTreeNode)path2.getLastPathComponent();
+			if (aNode.getUserObject() instanceof Requirement) {
+				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
+				if ((((Requirement)aNode.getUserObject()).getIterationId() == 0)
+						&& (((Requirement)aNode.getUserObject()).getEstimateEffort() == 0)){
+					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
+							+ aNode.getUserObject().toString() 
+							+ " to an Iteration");
+					return false;
+				}
+				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
+					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
+						return false;
+					}
+				}
+			}
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  
 		// selected unless all of its children are also selected.  
@@ -238,9 +273,30 @@ class TreeTransferHandler extends TransferHandler {
 				target.getLevel() < firstNode.getLevel()) {  
 			return false;  
 		}  
-		System.out.print("in canImport()");
 		return true;  
 	}  
+
+	/**
+	 * Check if a tree node is selected.
+	 *
+	 * @param selRows the selected rows
+	 * @param tree the tree
+	 * @param aNode the node
+	 * @return true, if selected
+	 */
+	private boolean requirementSelected (int[] selRows, JTree tree, DefaultMutableTreeNode aNode) {
+		for(int i = 0; i < selRows.length; i++) {  
+			TreePath path = tree.getPathForRow(selRows[i]);  
+			DefaultMutableTreeNode treeNode =  
+					(DefaultMutableTreeNode)path.getLastPathComponent();
+			if ((treeNode.getUserObject() instanceof Requirement)
+					&& (treeNode.equals(aNode)))
+			{
+				return true;
+			}
+		}  
+		return false;
+	}
 
 	/**
 	 * Check whether the user have selected all the nodes under a parent.

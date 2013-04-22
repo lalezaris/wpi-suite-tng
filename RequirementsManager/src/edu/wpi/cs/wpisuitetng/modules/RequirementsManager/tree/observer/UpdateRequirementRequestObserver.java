@@ -25,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-
 /**
  * A RequestObserver for a Request to update a Requirement.
  *
@@ -37,18 +36,14 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	private final Requirement requirement;
-	// An indicator for changed field;
-	// 0 for Iteration, 1 for ParentRequirementID.
-	protected int changedField;
 
 	/**
 	 * Constructs a new UpdateRequirementRequestObserver.
 	 *
 	 * @param view The TreeView that will be affected by any updates.
 	 */
-	public UpdateRequirementRequestObserver(Requirement r, int c) {
+	public UpdateRequirementRequestObserver(Requirement r) {
 		this.requirement = r;
-		this.changedField = c;
 	}
 
 	/* (non-Javadoc)

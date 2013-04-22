@@ -47,6 +47,8 @@ public class RetrieveAllIterationsController {
     	if (Iterations.length > 0) {
     		// save the data
     		data = Iterations;
+    		
+    		Refresher.getInstance().refreshIterations(Iterations, view);
     	}
     }
 	/**

@@ -74,10 +74,8 @@ public class RequirementModel {
 		}
 
 		for (int i = 0; i < panel.getCmbIteration().getItemCount(); i++) {
-
-			if (Iteration.getIterationById(requirement.getIterationId()).equals(panel.getCmbIteration().getItemAt(i)) ){
+			if (requirement.getIterationId() == (((Iteration) panel.getCmbIteration().getItemAt(i)).getId()) ){
 				panel.getCmbIteration().setSelectedIndex(i);
-
 			}
 		}
 
@@ -223,15 +221,15 @@ public class RequirementModel {
 		if (notesDifference != 0){//if old and new are not the same
 			return true;
 		}
-		
+
 		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
 			return true;
 		}
-		
+
 		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
 			return true;
 		}
-		
+
 		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			return true;
 		}
@@ -240,10 +238,6 @@ public class RequirementModel {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Gets requirement
-	 * 
-=======
 	 * Checks to see if any changes have been made to fields.
 	 * Set background that are changed
 	 * TODO: make individual flags for each, to be able to reset when field goes white again
@@ -257,7 +251,7 @@ public class RequirementModel {
 		boolean flag = false; //gets set to true when something has changed; in order to iterate through everything
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		int acceptDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
-		
+
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
 			//change to yellow background
@@ -267,7 +261,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().txtTitle.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().txtTitle.setBackground(Color.WHITE);//change to white background in case of reset
-		
+
 		//compare Release Numbers
 		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
 			view.getRequirementPanel().txtReleaseNumber.setBackground(Color.YELLOW);
@@ -276,7 +270,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().txtReleaseNumber.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().txtReleaseNumber.setBackground(Color.WHITE);//change to white background in case of reset
-		
+
 		//compare type
 		if (oldR.getType().compareTo(newR.getType()) != 0){//if old and new are not the same
 			view.getRequirementPanel().cmbType.setBackground(Color.YELLOW);
@@ -285,7 +279,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().cmbType.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().cmbType.setBackground(Color.WHITE);//change to white background in case of reset
-		
+
 		//compare Iterations
 		if (oldR.getIterationId()!=(newR.getIterationId())){//if old and new are not the same
 			view.getRequirementPanel().cmbIteration.setBackground(Color.YELLOW);
@@ -294,7 +288,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().cmbIteration.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().cmbIteration.setBackground(Color.WHITE);//change to white background in case of reset
-				
+
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
 			view.getRequirementPanel().txtDescription.setBackground(Color.YELLOW);
@@ -303,7 +297,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().txtDescription.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().txtDescription.setBackground(Color.WHITE);//change to white background in case of reset
-		
+
 		//compare Statuses
 		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
 			view.getRequirementPanel().cmbStatus.setBackground(Color.YELLOW);
@@ -343,7 +337,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().txtActual.getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().txtActual.setBackground(Color.WHITE);//change to white background in case of reset
-		
+
 		//set notes field to yellow
 		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
 			view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.YELLOW);
@@ -351,15 +345,15 @@ public class RequirementModel {
 		}
 		else
 			if(this.view.getRequirementPanel().getNotesView().getTextArea().getBackground().equals(Color.YELLOW))
-					view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.WHITE);
-		
-		
+				view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.WHITE);
+
+
 		//set Assigneeview to yellow
 		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.YELLOW);
 			flag = true;
 		}
-		
+
 		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
 			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
 			flag = true;
@@ -380,8 +374,8 @@ public class RequirementModel {
 				return true;
 			}
 		}
-		*/
-		
+		 */
+
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
 			view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.YELLOW);
@@ -390,7 +384,7 @@ public class RequirementModel {
 		else //no change
 			if(view.getRequirementPanel().getNotesView().getSavedTextArea().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getNotesView().setTxtNotesSavedBackgroundColor(Color.WHITE);//change to white background in case of reset
-		
+
 		//AcceptanceTestFields
 		if(!view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getTitleTxt().equals(null)) {
 			view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.YELLOW);
@@ -399,7 +393,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtTitle().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setTxtTitleBackground(Color.WHITE);
-			
+
 		if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyTxt().equals(null)) {
 			view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.YELLOW);
 			flag = true;
@@ -407,7 +401,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getTxtBody().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setTxtBodyBackground(Color.WHITE);
-			
+
 		if(!view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals("Blank") && !view.getRequirementPanel().getAcceptanceTestsView().getStatusTxt().equals(null)) {
 			view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.YELLOW);
 			flag = true;
@@ -415,7 +409,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getCmbStatus().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setCmbStatusBackground(Color.WHITE);
-			
+
 		if(acceptDifference != 0) {
 			view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
 			flag = true;
@@ -423,12 +417,13 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getListDisplay().getBackground().equals(Color.YELLOW))
 				view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(Color.YELLOW);
-		
+
 		return flag;
 	}
-	
+
 	/**
->>>>>>> origin/team1-dev
+	 * Gets the requirement
+	 * 
 	 * @return the requirement
 	 */
 	public Requirement getRequirement() {

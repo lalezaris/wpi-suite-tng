@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.RetrieveRequirementsTasksController;
@@ -55,6 +56,9 @@ public class TasksView extends JPanel{
 	private DefaultListModel<Task> listModel;
 	private JList listDisplay;
 	
+	//Listener to check fields
+	TaskFieldsListener bigBrother;
+	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
 
@@ -71,12 +75,13 @@ public class TasksView extends JPanel{
 		super(new BorderLayout());
 		
 		//Set initial variables
-		list = new ArrayList<Task>();
-		taskPanelArray = new ArrayList<TasksPanel>();
+		if(list == null)//Only reset and initialize the list if it is new.
+			list = new ArrayList<Task>();
 		
 		//Get the ScrollPane going.
 		listModel = new DefaultListModel<Task>();
 		
+		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		
 		//Use a grid bag layout manager
@@ -85,14 +90,11 @@ public class TasksView extends JPanel{
 		
 		this.parent = parent;
 		
+		//Set listener to monitor fields
+		bigBrother = new TaskFieldsListener(this);
+		bigBrother.start();
+		
 		//Create all of the panels(one per task) and put them in the array.
-		//TODO For testing purposes, making two dummy tasks
-		Task temp = new Task();
-		Task temp2 = new Task();
-		temp.setId(0);
-		addTask(temp);
-		temp2.setId(1);
-		addTask(temp2);
 		createTasksPanels();
 
 		//JList
@@ -104,15 +106,18 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	private void createTasksPanels(){
-		
+		this.removeAll();
 		overallPanel = new JPanel();
 		overallPanel.setLayout(new GridBagLayout());
 		
 		GridBagConstraints cTask = new GridBagConstraints();
 		GridBagConstraints cScrolling = new GridBagConstraints();
 		
-		//TODO This for loop should go for all tasks in the array (list). This is just testing now.
-		for(int i = 0; i < 2; i ++){
+		//Clear the array so you can refill it.
+		taskPanelArray = new ArrayList<TasksPanel>();
+		
+		//Go through for all tasks in the list, + 1 for new tasks.
+		for(int i = 0; i < list.size() + 1; i ++){
 			//Constraints
 			cTask.anchor = GridBagConstraints.FIRST_LINE_START; 
 			cTask.fill = GridBagConstraints.HORIZONTAL;
@@ -128,12 +133,21 @@ public class TasksView extends JPanel{
 			tempPanel.setLayout(new GridBagLayout());
 			
 			//Fill its boxes
-			tempPanel.getTxtName().setText(list.get(i).getName());
-			tempPanel.getTxtDescription().setText(list.get(i).getDescription());
-			tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
-			tempPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
-			tempPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
-			tempPanel.getSaveButton().addActionListener(new SaveTaskListener(i, this));//TODO list.get(i).getId();
+			if(i < list.size()){//For the tasks that already exist, put them here.
+				tempPanel.getTxtName().setText(list.get(i).getName());
+				tempPanel.getTxtDescription().setText(list.get(i).getDescription());
+				tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
+				tempPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
+				tempPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
+				tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
+			}
+			else{
+				if(list.size() > 0)
+					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+				else
+					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+			}
+			
 			//Put it in the array and panel.
 			taskPanelArray.add(tempPanel);
 			overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
@@ -179,7 +193,7 @@ public class TasksView extends JPanel{
 	 * @param t A task with the same ID as the ne you want to replace but with new fields.
 	 */
 	public void replaceTask(Task t){
-		System.out.println("Searching for "+ t.getId() + " with name /'" + t.getName() + "/'");
+		System.out.println("Searching for "+ t.getId() + " with name \'" + t.getName() + "\'");
 		System.out.println("List size: "+ list.size());
 		boolean hasTask = false;
 		int taskLocation = doesTaskExist(t.getId());

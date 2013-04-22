@@ -21,6 +21,7 @@ import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
@@ -46,6 +47,7 @@ public class BarPieChartPanel extends JPanel {
 	private JFreeChart displayedChart;
 	
 	/** The chart box. */
+	private JLabel chartLabel;
 	private JComboBox chartBox;
 	public enum TypeOfChart{
 		Bar,
@@ -54,6 +56,7 @@ public class BarPieChartPanel extends JPanel {
 	TypeOfChart[] chartTypeArray = {TypeOfChart.Bar, TypeOfChart.Pie };
 	
 	/** The characteristic box. */
+	private JLabel characteristicLabel;
 	private JComboBox characteristicBox;
 	public enum characteristic{
 		Status,
@@ -63,6 +66,7 @@ public class BarPieChartPanel extends JPanel {
 	characteristic[] characteristicArray = {characteristic.Status, characteristic.Iteration, characteristic.Assignee };
 
 	/** The characteristic box. */
+	private JLabel subDivideLabel;
 	private JComboBox subDivideBox;
 	public enum SubDivision{
 		None,
@@ -108,6 +112,11 @@ public class BarPieChartPanel extends JPanel {
 		characteristicBox = new JComboBox(characteristicArray);
 		subDivideBox = new JComboBox(subDivisionArray);
 		spinCheckbox = new JCheckBox("Spin");//The button to spin the pie chart.
+		
+		//Make Labels
+		chartLabel = new JLabel("Chart Type:", JLabel.TRAILING);
+		characteristicLabel = new JLabel("X Axis:", JLabel.TRAILING);
+		subDivideLabel = new JLabel("Sub-Divide Bars By:", JLabel.TRAILING);
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -132,6 +141,16 @@ public class BarPieChartPanel extends JPanel {
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
+		boxPanel.add(chartLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 0;
+		cBox.gridy = 1;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
 		boxPanel.add(chartBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -142,12 +161,32 @@ public class BarPieChartPanel extends JPanel {
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;
 		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(characteristicLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 2;
+		cBox.gridy = 1;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		boxPanel.add(characteristicBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 4;
 		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridheight = 1;
+		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		boxPanel.add(subDivideLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 4;
+		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
 		cBox.gridheight = 1;

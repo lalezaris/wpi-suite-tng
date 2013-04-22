@@ -80,24 +80,33 @@ public class SaveRequirementController {
 				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){
 					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){
-						RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(getView());
-
 						Requirement parent = view.getParentRequirement();
-						int estimateEffort = parent.getEstimateEffort() - view.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort();
-						parent.setEstimateEffort(estimateEffort);
-						if(view.getParentView() != null){
+						RequirementView currentView = view;
+						RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(currentView);
+						while(!((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && currentView != null){
+							int estimateEffort = parent.getEstimateEffort() - currentView.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().getEstimateEffort();
+							parent.setEstimateEffort(estimateEffort);
+							if(currentView.getParentView() != null){
 
-							view.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
-							view.getParentView().getReqModel().setEstimateDirty();
-							view.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
+								currentView.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
+								currentView.getParentView().getReqModel().setEstimateDirty();
+								currentView.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
 
+							}
+							Request estimateRequest;
+							estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
+							String JsonRequest = parent.toJSON();
+							estimateRequest.setBody(JsonRequest);
+							estimateRequest.addObserver(parentEstimateRequestObserver);
+							estimateRequest.send();
+							if(!parent.isTopLevelRequirement()){
+								currentView = currentView.getParentView();
+								parent = currentView.getParentRequirement();
+							}
+							else{
+								break;
+							}
 						}
-						Request estimateRequest;
-						estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
-						String JsonRequest = parent.toJSON();
-						estimateRequest.setBody(JsonRequest);
-						estimateRequest.addObserver(parentEstimateRequestObserver);
-						estimateRequest.send();
 					}
 				}
 

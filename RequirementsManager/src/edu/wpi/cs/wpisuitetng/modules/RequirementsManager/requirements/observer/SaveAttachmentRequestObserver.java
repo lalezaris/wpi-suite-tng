@@ -45,13 +45,14 @@ public class SaveAttachmentRequestObserver implements RequestObserver {
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
+		System.out.println("ERROREOOREOORERROREOOREERRERROREOORERROREOORERROREOOREOOERROREOOREOOERROREERROREOOREOOR");
 
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-
+		System.out.println("FAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAIL");
 	}
 
 }

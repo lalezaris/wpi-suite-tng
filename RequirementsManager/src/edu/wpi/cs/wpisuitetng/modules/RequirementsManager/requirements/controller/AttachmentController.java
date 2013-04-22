@@ -32,7 +32,8 @@ public class AttachmentController {
 	}
 	
 	public void uploadClicked(){
-		
+		SaveAttachmentController controller = new SaveAttachmentController(view);
+		controller.save();
 	}
 	
 }

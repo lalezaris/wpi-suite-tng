@@ -266,13 +266,14 @@ public class AttachmentsView extends RequirementTab{
 	//returns the current file to upload
 	//the "current" file should be set whenever the upload action is taken
 	public File getFile(){
-		
+
 		//If you want ALL of the files, use this.selectedFiles, which is an arrayList.
 		//the files array just contains the last selected files from the window. I should probably get 
 		//rid of it... but eeeeh.
 		if (this.selectedFiles != null && this.selectedFiles.size() > 0)
 			return this.selectedFiles.get(0);
 		else return null;
+
 		
 	}
 

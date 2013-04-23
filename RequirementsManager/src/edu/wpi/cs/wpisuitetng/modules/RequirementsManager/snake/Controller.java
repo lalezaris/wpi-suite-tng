@@ -46,7 +46,7 @@ public class Controller {
 		moveTimer = new Timer();
 		moveTimer.schedule(new MoveTask(snake, panel), 1000,100);
 		
-		spawnFood(null);
+		//spawnFood(null);
 		
 		updateHighScore(0,"Unknown");
 		

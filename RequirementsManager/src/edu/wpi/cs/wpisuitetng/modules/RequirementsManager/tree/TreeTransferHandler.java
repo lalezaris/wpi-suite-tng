@@ -254,6 +254,10 @@ class TreeTransferHandler extends TransferHandler {
 				return false;
 			}
 		}
+		// Do not allow a drop on the root
+		if (ttarget.isRoot()) {
+			return false;
+		}
 		for(int i = 0; i < selRows.length; i++) {  
 			TreePath path2 = tree.getPathForRow(selRows[i]);  
 			DefaultMutableTreeNode aNode =  

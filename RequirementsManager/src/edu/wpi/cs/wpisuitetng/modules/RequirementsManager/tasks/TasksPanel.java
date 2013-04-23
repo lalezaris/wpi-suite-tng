@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -74,6 +75,7 @@ public class TasksPanel extends JPanel{
 		txtEffort = new IntegerField(4);
 		txtEffort.setText("0");//Default to 0
 		cmbStatus = new JComboBox<TaskStatus>(taskStatusArray);
+		cmbStatus.setBackground(Color.white);
 		saveButton = new JButton("Save");
 		
 		lblName = new JLabel("Name: *", JLabel.TRAILING);

@@ -12,12 +12,13 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.Timer;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 
 /**
  * The class that listens on all of the fields and validates the task based on what is in them.
@@ -25,36 +26,45 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Task
  * @author Evan Polekoff
  * 
  */
-public class TaskFieldsListener extends Timer implements ActionListener{
+public class TaskFieldsListener implements KeyListener{
 
-	TasksView view;
+	TasksPanel panel;
 	
-	public TaskFieldsListener(TasksView view){
-		super(100, null);
-		
-		this.view = view;
+	public TaskFieldsListener(TasksPanel panel){
+		this.panel = panel;
 	}
-	
+
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		//Iterate over every panel.
-		System.out.println("Tick...");
-		for(int i = 0; i < view.getTaskPanelArray().size(); i ++){
-			//Check Name Field
-			if(view.getTaskPanelArray().get(i).getTxtName().equals("")){
-				view.getTaskPanelArray().get(i).getSaveButton().setEnabled(false);//Disable the save if the name is blank.
-			}
-			//Check Description Field
-			if(view.getTaskPanelArray().get(i).getTxtDescription().equals("")){
-				view.getTaskPanelArray().get(i).getSaveButton().setEnabled(false);//Disable the save if the name is blank.
-			}
-			//Check the effort
-			//Check Name Field
-			if(view.getTaskPanelArray().get(i).getTxtEffort().equals("") || view.getTaskPanelArray().get(i).getTxtEffort().equals("0")){
-				view.getTaskPanelArray().get(i).getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
-			}
+	public void keyTyped(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		//Check Name and Description Fields
+		if(panel.getTxtName().getText().equals("") || panel.getTxtDescription().getText().equals("")){
+			panel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+		}
+		else{
+			panel.getSaveButton().setEnabled(true);
+		}
+		//Check the effort
+		//Check Name Field
+		if(panel.getTxtEffort().getText().equals("") || panel.getTxtEffort().getText().equals("0")){
+			panel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+			panel.getCmbStatus().setSelectedIndex(0);//Default back to blank.
+		}
+		else{
+			panel.getCmbStatus().setEnabled(true);
 		}
 		
+		//Yellowing
+		e.getComponent().setBackground(Color.YELLOW);
 	}
 	
 }

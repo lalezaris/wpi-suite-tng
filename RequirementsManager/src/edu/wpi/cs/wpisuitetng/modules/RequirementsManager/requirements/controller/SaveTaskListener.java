@@ -99,7 +99,9 @@ public class SaveTaskListener implements ActionListener{
 		updated.setName(view.getTaskPanelArray().get(position).getTxtName().getText());
 		updated.setDescription(view.getTaskPanelArray().get(position).getTxtDescription().getText());
 		updated.setAssigneeName(view.getTaskPanelArray().get(position).getTxtAssignee().getText());
-		updated.setEffort(Integer.parseInt(view.getTaskPanelArray().get(position).getTxtEffort().getText()));
+		String tempEffort = view.getTaskPanelArray().get(position).getTxtEffort().getText();
+		if(!tempEffort.equals(""))
+			updated.setEffort(Integer.parseInt(tempEffort));
 		updated.setStatus((TaskStatus)view.getTaskPanelArray().get(position).getCmbStatus().getSelectedItem());	
 		return updated;
 	}

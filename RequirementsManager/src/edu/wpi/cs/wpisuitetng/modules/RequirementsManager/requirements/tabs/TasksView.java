@@ -25,9 +25,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -35,7 +32,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.RetrieveRequirementsTasksController;
 
 /**
  * Tab panel for viewing and working with tasks.
@@ -55,9 +51,6 @@ public class TasksView extends JPanel{
 	private JPanel scrollingPanel;
 	private DefaultListModel<Task> listModel;
 	private JList listDisplay;
-	
-	//Listener to check fields
-	TaskFieldsListener bigBrother;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -84,16 +77,11 @@ public class TasksView extends JPanel{
 		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		this.setLayout(layout);
 		
 		this.parent = parent;
-		
-		//Set listener to monitor fields
-		bigBrother = new TaskFieldsListener(this);
-		bigBrother.start();
 		
 		//Create all of the panels(one per task) and put them in the array.
 		createTasksPanels();
@@ -148,6 +136,21 @@ public class TasksView extends JPanel{
 				else
 					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
 			}
+			//Default the save button and status to disabled
+			if(tempPanel.getTxtName().getText().equals("") || tempPanel.getTxtDescription().getText().equals("")){
+				tempPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+			}
+			if(tempPanel.getTxtEffort().getText().equals("") || tempPanel.getTxtEffort().getText().equals("0")){
+				tempPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+			}
+			
+			//Add listeners to all of the fields.
+			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel));
+			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel));
+			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel));
+			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel));
+		
+			
 			
 			//Put it in the array and panel.
 			taskPanelArray.add(tempPanel);

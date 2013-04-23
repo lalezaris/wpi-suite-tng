@@ -101,7 +101,7 @@ public class filterTest {
 	}
 
 	
-	/*@Test
+	@Test
 	public void panel(){
 		
 		RequirementListPanel listPanel = new RequirementListPanel(MainTabController.getController());
@@ -141,5 +141,5 @@ public class filterTest {
 		
 		assertEquals(listPanel.getFilterController().getModel().getFilter().getRules().size(), 1);
 		
-	}*/
+	}
 }

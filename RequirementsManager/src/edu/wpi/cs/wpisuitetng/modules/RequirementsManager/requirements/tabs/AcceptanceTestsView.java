@@ -41,7 +41,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * The Class AcceptanceTestsView creates a panel for viewing acceptance tests.
  * 
  * @author Michael French
- * @edited Joe Spicola
  */
 @SuppressWarnings({"rawtypes", "serial"})
 public class AcceptanceTestsView extends JPanel implements FocusListener {
@@ -71,7 +70,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	/**
 	 * Instantiates a new acceptance tests view.
 	 *
-	 * @param rView the parent requirement view 
+	 * @param parent the parent requirement view 
 	 */
 	@SuppressWarnings("unchecked")
 	public AcceptanceTestsView(RequirementView parent){
@@ -614,7 +613,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 * If the title written is already in the list, disable the addTest button and enable the
 	 * editTest button. Otherwise, do the opposite.
 	 *
-	 * @see ButtonsEvent
 	 */
 	public class ButtonsListener implements KeyListener {
 

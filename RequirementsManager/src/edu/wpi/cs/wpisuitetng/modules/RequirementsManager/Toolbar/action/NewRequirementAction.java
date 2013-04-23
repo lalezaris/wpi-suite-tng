@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
+ * Action for creating new requirements
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica Liu

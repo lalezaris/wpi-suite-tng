@@ -20,12 +20,8 @@ import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -40,7 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
  * @author Evan Polekoff
  * @version Apr 18, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial"})
 public class TasksView extends JPanel{
 
 	protected RequirementView parent;
@@ -51,7 +47,6 @@ public class TasksView extends JPanel{
 	private JPanel overallPanel;//One panel to hold them all.
 	private JPanel scrollingPanel;
 	private DefaultListModel<Task> listModel;
-	private JList listDisplay;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -63,9 +58,8 @@ public class TasksView extends JPanel{
 	/**
 	 * Instantiates a new tasks view.
 	 *
-	 * @param req the requirement holding the tasks
+	 * @param parent the requirement holding the tasks
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TasksView(RequirementView parent) {
 		super(new BorderLayout());
 		
@@ -86,10 +80,6 @@ public class TasksView extends JPanel{
 		
 		//Create all of the panels(one per task) and put them in the array.
 		createTasksPanels();
-
-		//JList
-		//listDisplay = new JList(listModel);
-		//listDisplay.setLayoutOrientation(JList.VERTICAL);
 	}
 
 	/**Create the task panels to display.
@@ -245,9 +235,9 @@ public class TasksView extends JPanel{
 	}
 
 	/**
-	 * Changes the history array list to the given array list.
+	 * Changes the tasks array list to the given array list.
 	 * 
-	 * @param history
+	 * @param task the list of tasks
 	 */
 	public void setList(ArrayList<Task> task) {
 		this.list = task;
@@ -260,8 +250,8 @@ public class TasksView extends JPanel{
 	}
 
 	
-	/**Redisplay everything. Call after updating tasks.
-	 * 
+	/**
+	 * Redisplay everything. Call after updating tasks.
 	 */
 	public void redisplay(){
 		createTasksPanels();

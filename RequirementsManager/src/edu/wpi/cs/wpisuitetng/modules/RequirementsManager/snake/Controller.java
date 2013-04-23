@@ -134,10 +134,17 @@ public class Controller {
 			//39 = right
 			//40 = down
 			//System.out.println(e.getKeyChar());
+			
 			if (e.getKeyChar() == ' '){
 				reset(); 
-			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN)
-				snake.setDirection(e.getKeyCode());
+			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN){
+				boolean isPlayerDumb = (snake.direction == Snake.LEFT && e.getKeyCode() == Snake.RIGHT)
+						|| (snake.direction == Snake.RIGHT && e.getKeyCode() == Snake.LEFT)
+						|| (snake.direction == Snake.UP && e.getKeyCode() == Snake.DOWN)
+						|| (snake.direction == Snake.DOWN && e.getKeyCode() == Snake.UP);
+				if (!isPlayerDumb)
+					snake.setDirection(e.getKeyCode());
+			}
 		}
 	}
 	

@@ -188,10 +188,17 @@ class TreeTransferHandler extends TransferHandler {
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < n; i++) {
 				Requirement req = r.get(i);
-				// Change the parent
+				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				// Save the changed requirement
-				controller = new SaveRequirementController(((Requirement) req));
+				controller = new SaveRequirementController(req);
+				controller.save();
+				// Save the changed parent
+				Requirement req2 = (Requirement) destObject;
+				int estimated = req2.getEstimateEffort()
+						+ ((Requirement) req).getEstimateEffort();
+				req2.setEstimateEffort(estimated);
+				controller = new SaveRequirementController(req2);
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Backlog")){

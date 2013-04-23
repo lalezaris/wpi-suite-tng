@@ -61,12 +61,12 @@ public class UpdateAllRequirementsController {
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
-
+		this.panel.getTable().setBackground(Color.WHITE);
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
 			try {
 				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
 			} catch (NullPointerException e) {
-				System.out.println("The " + (i + 1) + "th requirement is legal");
+				System.out.println("The " + (i + 1) + "the requirement is not valid");
 			}
 			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
@@ -79,7 +79,6 @@ public class UpdateAllRequirementsController {
 		((RequirementTableModel) panel.getTable().getModel()).clear();
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
-		this.panel.getTable().setBackground(Color.WHITE);		
 	}
 
 	/**

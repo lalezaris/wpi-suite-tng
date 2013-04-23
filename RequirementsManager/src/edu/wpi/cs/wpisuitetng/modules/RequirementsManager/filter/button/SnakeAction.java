@@ -11,7 +11,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class SnakeAction extends AbstractAction{
 
 	public SnakeAction() {
-		super("munch");
+		super("Om Nom Nom");
 	}
 
 	@Override

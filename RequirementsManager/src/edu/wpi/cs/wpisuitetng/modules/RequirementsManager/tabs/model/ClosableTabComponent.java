@@ -148,6 +148,8 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 					} else {
 						tabbedPane.remove(index);
 					}
+				} else{
+					tabbedPane.remove(index);
 				}
 			} 
 		}

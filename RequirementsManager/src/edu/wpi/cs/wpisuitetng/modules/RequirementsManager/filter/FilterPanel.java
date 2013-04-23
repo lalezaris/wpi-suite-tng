@@ -230,6 +230,18 @@ public class FilterPanel extends JPanel{
 		scrollPane.validate();
 		scrollPane.repaint();
 
+		this.addRule();
+		
+		this.rules.get(0).getField().setSelectedIndex(1);
+		this.rules.get(0).updateCompareBox();
+		this.rules.get(0).getCompareMode().setSelectedIndex(1);
+		this.rules.get(0).updatePossibleValues();
+		this.rules.get(0).getPossibleValues().setSelectedIndex(4); //The index of the DELETED status
+		
+		this.rules.get(0).addListeners();
+		//this.rules.get(0).getPossibleValues().setSelectedIndex(1);
+		
+		
 		this.setAlignmentX(0);
 
 		final JPanel p = this;
@@ -283,7 +295,7 @@ public class FilterPanel extends JPanel{
 		c.weighty = 0;
 
 		c.insets = new Insets(5, 5, 0, 0);
-		view.getModel().getFilter().addRule(rule.extractRule());
+		//view.getModel().getFilter().addRule(rule.extractRule());
 		ruleHolderPanel.add(rule,c);
 		ruleHolderPanel.revalidate();
 		ruleHolderPanel.revalidate();
@@ -303,7 +315,7 @@ public class FilterPanel extends JPanel{
 	
 		
 		rules.add(rule);
-		rule.addListeners();
+		
 		ruleHolderPanel.revalidate();
 		this.revalidate();
 		this.repaint();
@@ -313,7 +325,12 @@ public class FilterPanel extends JPanel{
 	}
 
 	private void showSnakeHuh(){
-		snakeButton.setVisible( (ruleCount == 3));
+		boolean show = false;
+		if (this.getRules().size() == 1)
+			if (this.getRules().get(0).getField().getSelectedItem().equals("title"))
+				if (this.getRules().get(0).getPossibleValuesText().getText().equals("snake"))
+					show = true;
+		snakeButton.setVisible( show);
 	}
 	
 	/**
@@ -323,6 +340,7 @@ public class FilterPanel extends JPanel{
 	public void triggerTableUpdate(){
 		setFilterDescText();
 		view.setFilteredInTable();
+		showSnakeHuh();
 	}
 	
 	/**

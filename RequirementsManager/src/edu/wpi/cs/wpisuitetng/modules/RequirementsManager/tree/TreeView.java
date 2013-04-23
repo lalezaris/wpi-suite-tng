@@ -98,6 +98,9 @@ public class TreeView extends JPanel {
 		ReqTreeCellRenderer renderer = new ReqTreeCellRenderer();
 		tree.setCellRenderer(renderer);
 
+		//prevent double clicking from expanding a view.
+		tree.setToggleClickCount(0);
+		
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -186,7 +189,8 @@ public class TreeView extends JPanel {
 									Object selectedObject = selectedNode
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
-										tree.expandPath(path);
+										//tree.expandPath(path);
+										System.out.println(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;

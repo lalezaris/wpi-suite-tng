@@ -17,7 +17,7 @@ public class Controller {
 	GamePanel game;
 	int score = 0;
 	boolean gameRunning = true;
-	
+	protected Timer moveTimer;
 	
 	public Controller(SnakePanel panel, Snake snake, GamePanel game) {
 		this.panel = panel;
@@ -43,7 +43,7 @@ public class Controller {
 		reset();
 		
 		
-		Timer moveTimer = new Timer();
+		moveTimer = new Timer();
 		moveTimer.schedule(new MoveTask(snake, panel), 1000,100);
 		
 		spawnFood(null);
@@ -68,6 +68,8 @@ public class Controller {
 		panel.setSnakeColor(new Color(100,200,150));
 		panel.setFoodColor(new Color(50,255,100));
 		panel.setWallColor(new Color(25,25,25));
+		Food.all.clear();
+		spawnFood(null);
 	}
 	
 	public int getRand(int min, int max){

@@ -65,7 +65,7 @@ public class RulePanel extends JPanel{
 	private JCheckBox enabledBox;
 	private FilterPanel filterPanel;
 	private RuleEditableType editType;
-	private boolean test = true;
+	protected boolean test = true;
 	private boolean enabled = true;
 	private GridBagConstraints constraint;
 
@@ -161,7 +161,7 @@ public class RulePanel extends JPanel{
 	 * Assigns the listeners to different components to make sure that auto-refresh is working
 	 * 
 	 */
-	protected void addListeners(){
+	public void addListeners(){
 
 		ItemListener l1 = new ItemListener(){
 
@@ -249,7 +249,7 @@ public class RulePanel extends JPanel{
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	private void updatePossibleValues(){
+	protected void updatePossibleValues(){
 
 		int possibleValuesIndex = -1, possibleValuesTextIndex = -1;
 		for (int i = 0 ; i < this.getComponentCount(); i ++){

@@ -68,7 +68,7 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		controller.errorRetrievingRequirement("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
+		//controller.errorRetrievingRequirement("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
 	/** 
@@ -80,6 +80,6 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO deal with exception
-		controller.errorRetrievingRequirement("Unable to complete request: " + exception.getMessage());
+		//controller.errorRetrievingRequirement("Unable to complete request: " + exception.getMessage());
 	}
 }

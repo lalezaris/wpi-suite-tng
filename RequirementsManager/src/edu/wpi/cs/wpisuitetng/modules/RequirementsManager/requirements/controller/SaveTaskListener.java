@@ -52,7 +52,7 @@ public class SaveTaskListener implements ActionListener{
 			System.out.println("Making a new Task.");
 			position = view.getTaskPanelArray().size()-1;//Take fields from the last panel.
 			
-			if(readyToSave(position)){
+			if(position >= 0 && readyToSave(position)){
 				view.addTask(makeTask(position));
 				changeMade = true;//Let them know it is OK to refresh.
 			}

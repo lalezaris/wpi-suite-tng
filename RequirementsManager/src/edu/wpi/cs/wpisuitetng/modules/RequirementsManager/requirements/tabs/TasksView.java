@@ -20,6 +20,8 @@ import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,8 +30,10 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
@@ -48,10 +52,18 @@ public class TasksView extends JPanel{
 	private ArrayList<Task> list;
 
 	private ArrayList<TasksPanel> taskPanelArray;
+	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
 	private JPanel scrollingPanel;
 	private DefaultListModel<Task> listModel;
 	private JList listDisplay;
+	
+	private JCheckBox sortBox;
+	private JCheckBox hideBox;
+	
+	//State Variables
+	private boolean hidden;
+	private boolean sorted;
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -83,6 +95,9 @@ public class TasksView extends JPanel{
 		
 		this.parent = parent;
 		
+		//Create the stuff for other features, like the sorting and hiding
+		displayFeatures();
+		
 		//Create all of the panels(one per task) and put them in the array.
 		createTasksPanels();
 
@@ -95,7 +110,7 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	private void createTasksPanels(){
-		this.removeAll();
+		
 		overallPanel = new JPanel();
 		overallPanel.setLayout(new GridBagLayout());
 		
@@ -123,6 +138,7 @@ public class TasksView extends JPanel{
 			
 			//Fill its boxes
 			if(i < list.size()){//For the tasks that already exist, put them here.
+				
 				tempPanel.getTxtName().setText(list.get(i).getName());
 				tempPanel.getTxtDescription().setText(list.get(i).getDescription());
 				tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
@@ -152,15 +168,17 @@ public class TasksView extends JPanel{
 		
 			
 			
-			//Put it in the array and panel.
-			taskPanelArray.add(tempPanel);
-			overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+			//Put it in the array and panel.\
+			if(!hidden || i == list.size() || (hidden && (list.get(i).getStatus() != TaskStatus.ACCEPTED && list.get(i).getStatus() != TaskStatus.CLOSED))){//Don't show these if hidden is selected.
+				taskPanelArray.add(tempPanel);
+				overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+			}
 		}
 		
 		//Put the panels (overallPanel) into a scrollpane
 		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cScrolling.fill = GridBagConstraints.HORIZONTAL;
-		cScrolling.gridx = 0;
+		cScrolling.gridx = 1;
 		cScrolling.gridy = 0;
 		cScrolling.weightx = 0.5;
 		cScrolling.weighty = 0.5;
@@ -172,6 +190,63 @@ public class TasksView extends JPanel{
 		scrollingPanel.add(listScrollPane);
 		
 		this.add(scrollingPanel, cScrolling);
+	}
+	
+	/**Put in the boxes and other features that go along with the Tasks.
+	 * 
+	 */
+	private void displayFeatures(){
+		sortBox = new JCheckBox("Sort Alphabetically");
+		hideBox = new JCheckBox("Hide Closed and Accepted");
+		
+		//Set boxes
+		if(hidden)
+			hideBox.setSelected(true);
+		if(sorted)
+			sortBox.setSelected(true);
+		
+		featurePanel = new JPanel();
+		featurePanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints cFeat = new GridBagConstraints();
+		GridBagConstraints cOverall = new GridBagConstraints();
+		
+		//Constraints
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 0;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		featurePanel.add(sortBox, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 0;
+		cFeat.gridy = 1;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		featurePanel.add(hideBox, cFeat);
+		
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.fill = GridBagConstraints.HORIZONTAL;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridheight = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		
+		this.add(featurePanel, cOverall);
+		
+		//Add listeners to the features
+		sortBox.addActionListener(new TaskFeatureListener(this));
+		hideBox.addActionListener(new TaskFeatureListener(this));
 	}
 	
 	/**Add a task from the View.
@@ -263,6 +338,9 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	public void redisplay(){
+		this.removeAll();
+		
+		displayFeatures();
 		createTasksPanels();
 		repaint();
 		revalidate();
@@ -273,6 +351,34 @@ public class TasksView extends JPanel{
 	 */
 	public ArrayList<TasksPanel> getTaskPanelArray() {
 		return taskPanelArray;
+	}
+
+	/**
+	 * @return the sortBox
+	 */
+	public JCheckBox getSortBox() {
+		return sortBox;
+	}
+
+	/**
+	 * @return the hideBox
+	 */
+	public JCheckBox getHideBox() {
+		return hideBox;
+	}
+
+	/**
+	 * @param hidden the hidden to set
+	 */
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	/**
+	 * @param sorted the sorted to set
+	 */
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
 	}
 	
 }

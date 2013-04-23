@@ -65,7 +65,6 @@ public class TasksView extends JPanel{
 	 *
 	 * @param req the requirement holding the tasks
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public TasksView(RequirementView parent) {
 		super(new BorderLayout());
 		

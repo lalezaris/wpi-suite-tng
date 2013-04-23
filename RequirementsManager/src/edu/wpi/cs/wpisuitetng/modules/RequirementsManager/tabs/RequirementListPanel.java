@@ -287,7 +287,7 @@ public class RequirementListPanel extends JPanel{
 	 * If the requirements have been updated, show message to user.
 	 */
 	public void showUpdateSuccessfully() {
-		updateLabel.setText("Update Succesffully");
+		updateLabel.setText("Update Successful");
 	}
 	
 	/**

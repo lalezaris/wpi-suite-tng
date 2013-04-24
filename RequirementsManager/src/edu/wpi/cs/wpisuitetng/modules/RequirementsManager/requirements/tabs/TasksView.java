@@ -190,7 +190,7 @@ public class TasksView extends JPanel{
 		}
 		
 		//Put the panels (overallPanel) into a scrollpane
-		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START;
 		cScrolling.fill = GridBagConstraints.HORIZONTAL;
 		cScrolling.gridx = 1;
 		cScrolling.gridy = 0;
@@ -379,6 +379,14 @@ public class TasksView extends JPanel{
 		return taskPanelArray;
 	}
 
+	
+	/**Get the tasks from the view.
+	 * @return The list
+	 */
+	public ArrayList<Task> getTasks(){
+		return list;
+	}
+	
 	/**
 	 * @return the sortBox
 	 */

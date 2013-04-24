@@ -61,10 +61,13 @@ public class DeleteRequirementController {
 	 */
 	public void delete() {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
+		Requirement delRequirement = panel.getEditedModel();
 		
 		if (!(view.getParentRequirement() == null)) {
 			final Requirement parent = view.getParentRequirement();
 			parent.setSubRequirements(new ArrayList<Integer> ());
+			
+			parent.setEstimateEffort(parent.getEstimateEffort() - delRequirement.getEstimateEffort());
 			
 			Request parentRequest;
 			parentRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
@@ -78,7 +81,6 @@ public class DeleteRequirementController {
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(view.checkRequiredFields() == 0){
-			Requirement delRequirement = panel.getEditedModel();
 			delRequirement.setParentRequirementId(-1);
 			
 			try {

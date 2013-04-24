@@ -37,6 +37,37 @@ public class TasksTest {
 	public void testAddingTasksToRequirement(){
 		req.addTask(t1);
 		assertEquals(true, req.getTasks().contains(t1));
-		System.out.println(req.getTasks().get(0).getName());
+	}
+	
+	@Test
+	public void testChangingFieldsInTask(){
+		t.setName("rage quit");
+		t.setDescription("screw that shi");
+		t.setAssigneeName("still herp");
+		assertEquals("rage quit", t.getName());
+		assertEquals("screw that shi", t.getDescription());
+		assertEquals("still herp", t.getAssigneeName());
+	}
+	
+	@Test
+	public void testTasksViewTasks(){
+		tv.addTask(t);
+		assertEquals(true, tv.getTasks().contains(t));
+		t.setName("Whatevz yo I'm out!");
+		tv.replaceTask(t);
+		assertEquals(true, tv.getTasks().contains(t));
+		assertEquals("Whatevz yo I'm out!", tv.getTasks().get(0).getName());
+		assertEquals(1, tv.getTasks().size());
+		tv.replaceTask(new Task("a", "a", "a", 2, 2));
+		assertEquals(1, tv.getTasks().size());
+		assertEquals("Whatevz yo I'm out!", tv.getTasks().get(0).getName());
+		assertEquals(t, tv.retrieveTask(9001));
+		assertEquals(0, tv.doesTaskExist(9001));
+		assertEquals(-1, tv.doesTaskExist(9));
+	}
+	
+	@Test
+	public void testTasksViewTasksPanel(){
+		
 	}
 }

@@ -26,9 +26,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 public class RequirementStatusLists{
 
 	static String[] NewList = {"NEW"};
-	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] OpenList = {"OPEN"};
+	static String[] CompleteList = {"OPEN", "COMPLETE"};
+	static String[] DeletedList = {"DELETED","OPEN"};
+	static String[] OpenList = {"OPEN","INPROGRESS","COMPLETE"};
 	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
 
 	/**

@@ -21,6 +21,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -148,8 +149,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
-	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
-	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is invalid", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -249,7 +250,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtTitle.addFocusListener(this);
 		
-		txtReleaseNumber = new JTextField(6);
+		txtReleaseNumber = new JTextField(2);
 		txtReleaseNumber.addFocusListener(this);
 		
 		cmbIteration = new JComboBox();

@@ -78,6 +78,7 @@ public class SaveRequirementController {
 			} else {
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
+				panel.getTasksView().closeIfClosed(panel.getEditedModel().getStatus());//Close all tasks if the requirement was closed.
 				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){ //checks that estimate has been changed
 					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){ //If the estimate is a parent, no children need to be updated, and check that the view is not null
 						Requirement parent = view.getParentRequirement(); //the parent of the current requirement

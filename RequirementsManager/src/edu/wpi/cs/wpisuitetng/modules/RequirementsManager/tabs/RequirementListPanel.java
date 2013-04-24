@@ -98,10 +98,6 @@ public class RequirementListPanel extends JPanel{
 		model = new RequirementTableModel(this);
 		table = new JTable();
 		table.setModel(model);
-		table.getModel().addTableModelListener(new BackGroundListener());
-		for(int i = 0; i < table.getColumnCount(); i++){
-			table.getColumnModel().getColumn(i).setCellRenderer(new ColumnCellRenderer());
-		}
 		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));

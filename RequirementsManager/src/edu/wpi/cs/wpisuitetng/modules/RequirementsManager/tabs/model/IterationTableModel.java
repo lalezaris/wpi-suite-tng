@@ -120,9 +120,9 @@ public class IterationTableModel extends AbstractTableModel {
 	}
 
 	/**
-	 * Adds a row to a requirement.
+	 * Adds a row to a iteration.
 	 * 
-	 * @param req Requirement to add a row to
+	 * @param iteration Iteration to add a row to
 	 */
 	public void addRow(Iteration iteration){
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");

@@ -15,6 +15,7 @@
  *  Lauren Kahn
  *  Michael French
  *  Ned Shelton
+ *  Joe Spicola
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar;
@@ -55,12 +56,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * 
  * @author Tyler Stone 
  * @author Arica Liu
- * @edited Michael French
- * @edited Evan Polekoff
- * @edited Ned Shelton
- * @edited Tushar Narayan
- * @edited Lauren Kahn
- * @edited Joe Spicola
  * 
  * @version April 7, 2013 
  */

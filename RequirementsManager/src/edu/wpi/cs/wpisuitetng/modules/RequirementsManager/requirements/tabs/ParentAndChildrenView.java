@@ -147,7 +147,6 @@ public class ParentAndChildrenView extends JPanel{
 	/**
 	 * Sets the dependencies list.
 	 *
-	 * @param ald arraylist of dependencies
 	 */
 	public void setDependenciesList(){
 		if (txtDependencies!=null)

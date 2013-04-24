@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Mike French
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -28,7 +29,6 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * Tests for the AcceptanceTest class
  * 
  * @author Mike French
- * @edited Tushar Narayan
  * 
  * @version April 14, 2013
  *

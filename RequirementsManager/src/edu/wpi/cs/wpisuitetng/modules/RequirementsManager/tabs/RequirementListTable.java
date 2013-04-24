@@ -24,6 +24,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 
 /**
@@ -107,7 +108,8 @@ public class RequirementListTable extends JTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
-		if (col == 3) {
+		if (col == 3) //STATUS 
+		{
 			JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
 			if (status == RequirementStatus.NEW) {
 				comboBox.addItem(RequirementStatus.NEW);
@@ -135,8 +137,18 @@ public class RequirementListTable extends JTable {
 				comboBox.addItem(RequirementStatus.DELETED);
 			}
 			return new DefaultCellEditor(comboBox);
+		} else if (col == 4) //PRIORITY
+		{
+			JComboBox<RequirementPriority> comboBox = new JComboBox<RequirementPriority>();
+			//if (status == RequirementStatus.DELETED) {
+				comboBox.addItem(RequirementPriority.LOW);
+				comboBox.addItem(RequirementPriority.MEDIUM);
+				comboBox.addItem(RequirementPriority.HIGH);
+				comboBox.addItem(RequirementPriority.BLANK);
+			//}
+			return new DefaultCellEditor(comboBox);
 		}
-	return new DefaultCellEditor(new JTextField());
+		return new DefaultCellEditor(new JTextField());
 	}
 
 }

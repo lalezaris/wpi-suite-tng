@@ -200,7 +200,7 @@ public class RequirementListPanel extends JPanel{
 		
 		System.out.println("GOT TO END OF REQLISTPANEL");
 
-		setUpPriorityColumn();
+		//setUpPriorityColumn();
 	}
 
 	/**

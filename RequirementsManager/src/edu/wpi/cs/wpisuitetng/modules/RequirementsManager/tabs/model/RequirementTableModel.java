@@ -189,7 +189,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				&& row > -1) {
 			return data.get(row)[col];
 		} else
-			return new Object();
+			return "null";
 	}
 
 	/**

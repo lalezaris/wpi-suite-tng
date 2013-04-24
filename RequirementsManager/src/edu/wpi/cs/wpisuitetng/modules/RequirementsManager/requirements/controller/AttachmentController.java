@@ -10,9 +10,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.At
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AttachmentsView;
 
 public class AttachmentController {
+	private int reqID;
 
 	AttachmentsView view;
-	public AttachmentController (AttachmentsView view){
+	public AttachmentController (AttachmentsView view, int reqID){
+		this.reqID =reqID;
 		this.view = view;
 		
 		this.view.getAddFileButton().setAction( new AttachmentAddAction(this, this.view.getAddFileButton().getText()));
@@ -27,13 +29,13 @@ public class AttachmentController {
         if( j.showOpenDialog(null) != JFileChooser.APPROVE_OPTION ){
             //didn't pick anything.
         	return;
-        }
+        } 
         view.addSelectedFiles(j.getSelectedFiles());
 	}
 	
 	public void uploadClicked(){
 		SaveAttachmentController controller = new SaveAttachmentController(view);
-		controller.save();
+		controller.save(reqID);
 	}
 	
 }

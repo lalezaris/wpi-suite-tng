@@ -13,7 +13,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveAttachmentController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -36,22 +38,25 @@ public class SaveAttachmentRequestObserver implements RequestObserver {
 		ResponseModel response = request.getResponse();
 		if((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)){
 			Attachment attachments = Attachment.fromJSON(response.getBody());
+			System.out.println("file is stored with this id: " + attachments.getId());
 			
-			controller.recievedData();
+
+			
+			controller.recievedData(attachments);
 		}
 
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method hub
 		System.out.println("ERROREOOREOORERROREOOREERRERROREOORERROREOORERROREOOREOOERROREOOREOOERROREERROREOOREOOR");
 		System.out.println(iReq.getBody());
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method flub
 		System.out.println("FAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAILFAIL");
 	}
 

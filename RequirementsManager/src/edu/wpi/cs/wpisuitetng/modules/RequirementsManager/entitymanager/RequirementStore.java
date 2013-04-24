@@ -99,6 +99,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 			}
 		}
 
+		System.out.println("making new requiremnt with attachment"+newRequirement.getAttachedFileId().get(0));
 		return newRequirement;
 	}
 
@@ -199,6 +200,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//TODO modify this function to use validators and make sure not to update if no 
 		//changes have been made.
 
+		System.out.println("making new requiremnt with attachment"+serverReq.getAttachedFileId().get(0));
 		return serverReq;
 	}
 

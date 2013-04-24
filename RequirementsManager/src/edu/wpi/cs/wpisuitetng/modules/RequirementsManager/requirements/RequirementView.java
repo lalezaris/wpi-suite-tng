@@ -140,7 +140,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAssigneeView().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAssigneeView()));
 
 		
-		AttachmentController attachmentController = new AttachmentController( mainPanel.getAttachmentsView());
+		AttachmentController attachmentController = new AttachmentController( mainPanel.getAttachmentsView() , reqModel.getUneditedRequirement().getId());
 
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);

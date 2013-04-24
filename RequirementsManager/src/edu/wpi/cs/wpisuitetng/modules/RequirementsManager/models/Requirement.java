@@ -65,6 +65,9 @@ public class Requirement extends AbstractModel{
 	private ArrayList<HistoricalChange> history;
 	private ArrayList<AcceptanceTest> acceptanceTests;
 	private ArrayList<Task> tasks;
+	
+	private ArrayList<String> attachedFileName;
+	private ArrayList<Integer> attachedFileId;
 
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -152,6 +155,14 @@ public class Requirement extends AbstractModel{
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
+		
+		this.setAttachedFileName(new ArrayList<String>());
+		this.setAttachedFileId(new ArrayList<Integer>(){
+			public boolean add(Integer i){
+				System.out.println("so i added this thing to me: "+i);
+				return super.add(i);
+			}
+		});;
 	}
 
 	/**
@@ -745,5 +756,41 @@ public class Requirement extends AbstractModel{
 	public void updateAttachments(List<Object> attachmentsList) {
 		// TODO change 'Obeject' to 'Attachment'
 		// TODO actually update the attachments.....
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the attachedFileName
+	 */
+	public ArrayList<String> getAttachedFileName() {
+		return attachedFileName;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @param attachedFileName: the attachedFileName to set
+	 */
+	public void setAttachedFileName(ArrayList<String> attachedFileName) {
+		this.attachedFileName = attachedFileName;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the attachedFileId
+	 */
+	public ArrayList<Integer> getAttachedFileId() {
+		return attachedFileId;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @param attachedFileId: the attachedFileId to set
+	 */
+	public void setAttachedFileId(ArrayList<Integer> attachedFileId) {
+		this.attachedFileId = attachedFileId;
 	}
 }

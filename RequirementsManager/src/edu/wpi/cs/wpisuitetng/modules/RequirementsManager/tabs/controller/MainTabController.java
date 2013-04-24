@@ -56,6 +56,15 @@ public class MainTabController {
 	MainTabView view;
 	HashMap<Integer, RequirementView> reqViewHashMap;
 
+	/**
+	 * 
+	 * @return the reqViewHashMap
+	 */
+	public HashMap<Integer, RequirementView> getReqViewHashMap() {
+		return reqViewHashMap;
+	}
+
+
 	private static MainTabController staticView;
 
 	/**

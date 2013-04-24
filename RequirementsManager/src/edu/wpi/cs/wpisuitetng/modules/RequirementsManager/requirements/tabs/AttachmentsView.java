@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
@@ -49,6 +50,7 @@ public class AttachmentsView extends RequirementTab{
 
 
 	private RequirementView parent;
+	private Requirement requirement;
 	private JButton addFileButton, uploadFileButton;
 
 	private ArrayList<File> selectedFiles, attachedFiles;
@@ -65,6 +67,7 @@ public class AttachmentsView extends RequirementTab{
 	 */
 	public AttachmentsView(RequirementView parent){
 		this.parent = parent;
+		this.requirement = parent.getReqModel().getUneditedRequirement();
 		
 		this.selectedFiles = new ArrayList<File>();
 		this.attachedFiles = new ArrayList<File>();
@@ -148,14 +151,15 @@ public class AttachmentsView extends RequirementTab{
 		c.gridy = 3;
 		c.gridx = 0;
 		this.mainPanel.add(attachedScrollPane, c);
-		
-		
+
+		ArrayList<String> attachmentNames = requirement.getAttachedFileName();
+		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
+		System.out.println("&& about to add the attachments, size : "+attachmentNames.size());
+		for(int i = 0; i < attachmentNames.size(); i++){
+			System.out.println("&& I added a flie to the pane called : "+attachmentNames.get(i));
+			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
+		}
 		this.add(this.mainPanel);
-		
-		
-		
-		//TODO: remove the following line:
-		this.setAttachedFiles(new File[]{new File("/test/dir/file.txt") , new File("/test/dir/stupid.txt") , new File("/test/dir/reallyawesomefilenameforthewin")});
 		
 	}
 

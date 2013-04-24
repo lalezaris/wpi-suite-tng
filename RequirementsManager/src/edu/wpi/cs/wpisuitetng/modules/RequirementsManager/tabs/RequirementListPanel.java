@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -32,6 +33,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -91,7 +96,12 @@ public class RequirementListPanel extends JPanel{
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel(this);
-		table = new JTable(model);
+		table = new JTable();
+		table.setModel(model);
+		table.getModel().addTableModelListener(new BackGroundListener());
+		for(int i = 0; i < table.getColumnCount(); i++){
+			table.getColumnModel().getColumn(i).setCellRenderer(new ColumnCellRenderer());
+		}
 		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
@@ -287,7 +297,7 @@ public class RequirementListPanel extends JPanel{
 	 * If the requirements have been updated, show message to user.
 	 */
 	public void showUpdateSuccessfully() {
-		updateLabel.setText("Update Successful");
+//		updateLabel.setText("Update Successfully");
 	}
 	
 	/**
@@ -373,8 +383,4 @@ public class RequirementListPanel extends JPanel{
 		
 	}
 	
-	public void setBackgroundRowColumn(int row, int col){
-//		table.getT(row, col).setBackground(Color.YELLOW);
-//		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
-	}
 }

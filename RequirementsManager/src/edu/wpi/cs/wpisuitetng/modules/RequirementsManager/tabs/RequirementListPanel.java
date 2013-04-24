@@ -49,6 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.Requiremen
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.action.UpdateAllRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RequirementTableSortController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.RightClickMenuListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.UpdateAllRequirementsController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
@@ -187,7 +188,8 @@ public class RequirementListPanel extends JPanel{
 				}
 			}
 		});
-		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
+//		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
+//		table.addMouseListener(new RightClickMenuListener(this));
 
 		
 		System.out.println("GOT TO END OF REQLISTPANEL");

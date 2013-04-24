@@ -24,6 +24,8 @@ public class Snake {
 	
 	ArrayList<Spot> spots;
 	int direction;
+	int nextDirection = 0;
+	boolean hasMoved = true;
 	int length;
 	int turnsToGrow;
 	Controller controller;
@@ -62,6 +64,14 @@ public class Snake {
 			this.spots.add(new Spot(head.x + 1, head.y));
 		} else if (this.direction == DOWN){
 			this.spots.add(new Spot(head.x, head.y + 1));
+		}
+		
+		if(nextDirection == 0){
+			hasMoved = true;
+		}
+		if(nextDirection != 0){
+			direction = nextDirection;
+			nextDirection = 0;
 		}
 		
 		head = this.getHead();
@@ -111,6 +121,19 @@ public class Snake {
 		return spots;
 	}
 	
+	public void setHasMoved(boolean value){
+		hasMoved = value;
+	}
 	
-
+	public boolean isHasMoved(){
+		return hasMoved;
+	}
+	
+	public void setNextDirection(int nextDirection){
+		this.nextDirection = nextDirection;
+	}
+	
+	public int getNextDirection(){
+		return nextDirection;
+	}
 }

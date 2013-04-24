@@ -148,14 +148,23 @@ public class Controller {
 			//System.out.println(e.getKeyChar());
 			
 			if (e.getKeyChar() == ' '){
-				reset(); 
+				if(!gameRunning)
+					reset(); 
 			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN){
 				boolean isPlayerDumb = (snake.direction == Snake.LEFT && e.getKeyCode() == Snake.RIGHT)
 						|| (snake.direction == Snake.RIGHT && e.getKeyCode() == Snake.LEFT)
 						|| (snake.direction == Snake.UP && e.getKeyCode() == Snake.DOWN)
 						|| (snake.direction == Snake.DOWN && e.getKeyCode() == Snake.UP);
-				if (!isPlayerDumb)
-					snake.setDirection(e.getKeyCode());
+				if (!isPlayerDumb){
+					if(!snake.isHasMoved()){
+						if(snake.getNextDirection() == 0)
+							snake.setNextDirection(e.getKeyCode());
+					}
+					else{
+						snake.setDirection(e.getKeyCode());
+					}
+					snake.setHasMoved(false);
+				}
 			}
 		}
 	}

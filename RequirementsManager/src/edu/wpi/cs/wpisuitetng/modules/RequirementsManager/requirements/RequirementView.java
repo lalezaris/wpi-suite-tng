@@ -476,7 +476,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					knownIts.add(knownIterations[i]);
 				}
 			} else {
-				System.out.println("No parent...");
 				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
 					knownIts.add(knownIterations[i]);
 				}

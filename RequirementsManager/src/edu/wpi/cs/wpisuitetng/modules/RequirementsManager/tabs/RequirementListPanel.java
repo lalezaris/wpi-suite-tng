@@ -188,9 +188,6 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
-		
-		System.out.println("GOT TO END OF REQLISTPANEL");
-		
 		setUpStatusColumn();
 		setUpPriorityColumn();
 	}

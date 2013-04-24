@@ -50,11 +50,9 @@ public class SaveRequirementController {
 
 		String JsonRequest = requirement.toJSON();
 		request.setBody(JsonRequest);
-		System.out.println("Sending REQ to server:" +JsonRequest );
 		request.addObserver(requestObserver);
 		request.send();
 
-		System.out.println("SAVE REQUIREMENT");
 	}
 
 	/**

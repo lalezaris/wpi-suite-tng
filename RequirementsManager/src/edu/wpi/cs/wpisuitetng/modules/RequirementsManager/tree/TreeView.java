@@ -190,7 +190,6 @@ public class TreeView extends JPanel {
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
 										//tree.expandPath(path);
-										System.out.println(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;

@@ -55,9 +55,7 @@ public class FilterModel {
 	 */
 	public void setModelFromPanel(FilterPanel panel){
 		filter.removeAllRules();
-		System.out.println("Finding Filters");
 		for (int i = 0 ; i < panel.getRules().size(); i ++){
-			System.out.println(i + " Found Filter");
 			if (panel.getRules().get(i).getIsEnabled()){
 				Rule rule = panel.getRules().get(i).extractRule();
 				if (rule!=null)

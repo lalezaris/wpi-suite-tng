@@ -35,7 +35,6 @@ public class Controller {
 		this.panel = panel;
 		this.snake = snake;
 		this.game = game;
-		System.out.println("outout");
 		this.panel.addKeyListener(new KeyInput(this.snake));
 		panel.setSpots(snake.getSpots());
 		
@@ -104,24 +103,42 @@ public class Controller {
 		if (old!=null){
 			Food fresh = new Food(new Spot(getRand(2,xMax-1), getRand(2,yMax-1)));
 			
-			if (score > 5)
+			if (score > 5){
 				fresh.score++;
-			if (score > 15)
+				fresh.setColor(Color.BLUE);
+			}
+			if (score > 15){
 				fresh.score++;
-			if (score > 25)
+				fresh.setColor(Color.CYAN);
+			}
+			if (score > 25){
 				fresh.score++;
-			if (score > 40)
+				fresh.setColor(Color.GREEN);
+			}
+			if (score > 40){
 				fresh.score++;
-			if (score > 55)
+				fresh.setColor(Color.MAGENTA);
+			}
+			if (score > 55){
 				fresh.score++;
-			if (score > 75)
+				fresh.setColor(Color.ORANGE);
+			}
+			if (score > 75){
 				fresh.score++;
-			if (score > 100)
+				fresh.setColor(Color.PINK);
+			}
+			if (score > 100){
 				fresh.score++;
-			if (score > 150)
+				fresh.setColor(Color.RED);
+			}
+			if (score > 150){
 				fresh.score++;
-			if (score > 200)
+				fresh.setColor(Color.YELLOW);
+			}
+			if (score > 200){
 				fresh.score++;
+				fresh.setColor(new Color(152, 60, 255));
+			}
 			for (int i = 0 ; i < snake.spots.size(); i ++)
 				if (snake.spots.get(i).equals(fresh.spot)){
 					eatFood(fresh);
@@ -145,7 +162,7 @@ public class Controller {
 			//38 = up
 			//39 = right
 			//40 = down
-			//System.out.println(e.getKeyChar());
+			//(e.getKeyChar());
 			
 			if (e.getKeyChar() == ' '){
 				if(!gameRunning)

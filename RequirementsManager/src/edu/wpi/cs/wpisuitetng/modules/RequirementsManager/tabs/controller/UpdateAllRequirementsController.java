@@ -66,7 +66,6 @@ public class UpdateAllRequirementsController {
 			try {
 				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
 			} catch (NullPointerException e) {
-				System.out.println("The " + (i + 1) + "the requirement is not valid");
 			}
 			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());

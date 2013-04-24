@@ -168,8 +168,13 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 
+		System.out.println("Requirement Title: " + req.getTitle());
+		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
+		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
+		
+		
 		HChange.updateChangeFromDiff(serverReq,req, this);
-
+		
 		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 

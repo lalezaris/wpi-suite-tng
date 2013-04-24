@@ -242,12 +242,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object value, int row, int col) {
-		if (DEBUG) {
-			System.out.println("Setting value at " + row + "," + col
-					+ " to " + value
-					+ " (an instance of "
-					+ value.getClass() + ")");
-		}
 
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
@@ -336,14 +330,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		int numRows = getRowCount();
 		int numCols = getColumnCount();
 
-		for (int i=0; i < numRows; i++) {
-			System.out.print("    row " + i + ":");
-			for (int j=0; j < numCols; j++) {
-				System.out.print("  " + getValueAt(i,j));
-			}
-			System.out.println();
-		}
-		System.out.println("--------------------------");
+
 	}
 
 	/**

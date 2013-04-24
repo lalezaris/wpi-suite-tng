@@ -153,6 +153,18 @@ public class TasksView extends JPanel{
 				tempPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
 			}
 			
+			//Deal with permissions
+			if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
+				//Gray all of the fields.
+				tempPanel.getTxtName().setEditable(false);
+				tempPanel.getTxtDescription().setEditable(false);
+				tempPanel.getTxtAssignee().setEditable(false);
+				tempPanel.getTxtEffort().setEditable(false);
+				tempPanel.getCmbStatus().setEditable(false);
+				tempPanel.getSaveButton().setEnabled(false);
+			}
+				
+			
 			//Add listeners to all of the fields.
 			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel, this));
 			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel, this));
@@ -283,15 +295,12 @@ public class TasksView extends JPanel{
 	 * @param t A task with the same ID as the ne you want to replace but with new fields.
 	 */
 	public void replaceTask(Task t){
-		System.out.println("Searching for "+ t.getId() + " with name \'" + t.getName() + "\'");
-		System.out.println("List size: "+ list.size());
 		boolean hasTask = false;
 		int taskLocation = doesTaskExist(t.getId());
 		if(taskLocation != -1)
 			hasTask = true;
 		//Update all of the fields.
 		if (hasTask){
-			System.out.println("Found "+ t.getId() + " with name /'" + t.getName() + "/'");
 			list.get(taskLocation).setAssigneeName(t.getAssigneeName());
 			list.get(taskLocation).setStatus(t.getStatus());
 			list.get(taskLocation).setDescription(t.getDescription());

@@ -315,7 +315,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
 					iterationPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], "Iteration: " + iterationName);
 					iterationNoneBarDataset.setValue(cumulativeData, "Requirement", "Iteration: " + iterationName);
-					iterationPieDataset.setValue("Iteration: " + iterationName, cumulativeData);
+					if(cumulativeData != 0)
+						iterationPieDataset.setValue("Iteration: " + iterationName, cumulativeData);
 				}
 				//Tack type on
 				for(int j = 0; j < allTypes.length; j++){
@@ -353,7 +354,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
 					statusPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allStatuses[i].toString());
 					statusNoneBarDataset.setValue(cumulativeData, "Requirement", allStatuses[i].toString());
-					statusPieDataset.setValue(allStatuses[i].toString(), cumulativeData);
+					if(cumulativeData != 0)
+						statusPieDataset.setValue(allStatuses[i].toString(), cumulativeData);
 				}
 				//Tack type on
 				for(int j = 0; j < allTypes.length; j++){
@@ -394,7 +396,8 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
 					assigneePrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allUsers[i].getName());
 					assigneeNoneBarDataset.setValue(cumulativeData, "Requirement", allUsers[i].getName());
-					assigneePieDataset.setValue(allUsers[i].getName(), cumulativeData);
+					if(cumulativeData != 0)
+						assigneePieDataset.setValue(allUsers[i].getName(), cumulativeData);
 				}
 				//Tack type on
 				for(int j = 0; j < allTypes.length; j++){

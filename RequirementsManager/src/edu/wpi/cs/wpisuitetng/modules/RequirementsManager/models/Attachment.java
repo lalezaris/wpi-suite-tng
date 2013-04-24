@@ -1,6 +1,11 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.commons.codec.binary.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +28,22 @@ public class Attachment extends AbstractModel{
 	//loads fileContents from the file
 	public void loadFile(File file){
 		//TODO actually load the contents into fileContents when this is called
+		try {
+			FileInputStream in = new FileInputStream(file);
+			int i=0;
+			byte[] contents = new byte[(int) file.length()];
+			
+			while((contents[i++] = (byte) in.read())!=-1);
+			in.close();
+			this.fileContents = Base64.encodeBase64String(contents);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

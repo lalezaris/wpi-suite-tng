@@ -22,6 +22,7 @@ public class SaveAttachmentController {
 		request = Network.getInstance().makeRequest("attachmentcontroller/attachment", HttpMethod.PUT);//note, have not actually registered that in the core yet
 		
 		Attachment attachment = new Attachment(view.getFile());
+		attachment.loadFile(view.getFile());
 		
 		String JsonRequest = attachment.toJSON();
 		request.setBody(JsonRequest);

@@ -74,7 +74,7 @@ public class FilterModel {
 
 	/**
 	 * Sets the iterations
-	 * @param iterations: sets the iterations 
+	 * @param iterations sets the iterations 
 	 */
 	public void setIterations(Iteration[] iterations) {
 		this.iterations = iterations;
@@ -91,7 +91,7 @@ public class FilterModel {
 
 	/**
 	 * Sets the users
-	 * @param users: sets the users 
+	 * @param users sets the users 
 	 */
 	public void setUsers(User[] users) {
 		this.users = users;

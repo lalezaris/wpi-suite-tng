@@ -129,7 +129,7 @@ public class Rule implements IFilterRule{
 	/**
 	 * Sets the isEnabled
 	 * 
-	 * @param isEnabled: sets the isEnabled 
+	 * @param isEnabled sets the isEnabled 
 	 */
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;

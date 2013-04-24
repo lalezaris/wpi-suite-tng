@@ -210,7 +210,7 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Add an existing Task to this Requirement.
 	 *
-	 * @param a the Task
+	 * @param t the Task
 	 */
 	public void addTask(Task t){
 		tasks.add(t);
@@ -221,7 +221,7 @@ public class Requirement extends AbstractModel{
 	 *
 	 * replaces the current Task list with the given one
 	 * 
-	 * @param a the array list of Tasks
+	 * @param t the array list of Tasks
 	 */
 	public void updateTasks(ArrayList<Task> t){
 		this.tasks = t;

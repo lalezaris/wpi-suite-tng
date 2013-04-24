@@ -73,6 +73,9 @@ public class MainTabController {
 				MainTabController.this.onMouseClick(event);
 			}
 		});
+		
+		
+		
 	}
 
 	/**

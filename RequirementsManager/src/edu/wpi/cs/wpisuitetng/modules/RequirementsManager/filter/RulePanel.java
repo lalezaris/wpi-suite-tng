@@ -514,7 +514,6 @@ public class RulePanel extends JPanel{
 	/**
 	 * Create a new rule depending on what is shown in the panel
 	 * 
-	 * @return
 	 */
 	public Rule extractRule(){
 		Rule r = null;

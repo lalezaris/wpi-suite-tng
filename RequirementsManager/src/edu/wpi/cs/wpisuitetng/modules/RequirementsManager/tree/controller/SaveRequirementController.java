@@ -34,7 +34,7 @@ public class SaveRequirementController {
 
 	/**
 	 * Construct a new handler for the given view
-	 * @param view the view containing the request fields
+	 * @param r the requirement containing the request fields
 	 */
 	public SaveRequirementController(Requirement r) {
 		requirement = r;

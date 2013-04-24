@@ -34,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings("serial")
-public class DependenciesView extends JPanel{
+public class ParentAndChildrenView extends JPanel{
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -54,21 +54,21 @@ public class DependenciesView extends JPanel{
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
-	protected RequirementView parent;
+	protected RequirementView parentRequirementView;
 
 	/**
 	 * Instantiates a new dependencies view.
 	 *
 	 * @param parent the parent RequirementView
 	 */
-	public DependenciesView(RequirementView parent){
+	public ParentAndChildrenView(RequirementView parent){
 		this.childRequirementIDs = new ArrayList<Integer>();
 		this.parentID = 0;
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
-		this.parent = parent;
+		this.parentRequirementView = parent;
 		// Add all components to this panel
 		this.addComponents();
 	}
@@ -147,7 +147,6 @@ public class DependenciesView extends JPanel{
 	/**
 	 * Sets the dependencies list.
 	 *
-	 * @param ald arraylist of dependencies
 	 */
 	public void setDependenciesList(){
 		if (txtDependencies!=null)
@@ -162,20 +161,20 @@ public class DependenciesView extends JPanel{
 	 */
 	public String dependenciesListToString(){
 		String list = "";
-		if(this.parent != null){
-			this.childRequirementIDs = parent.getReqModel().getRequirement().getChildRequirementIds();
-			this.parentID = parent.getReqModel().getRequirement().getParentRequirementId();
+		if(this.parentRequirementView != null){
+			this.childRequirementIDs = parentRequirementView.getReqModel().getRequirement().getChildRequirementIds();
+			this.parentID = parentRequirementView.getReqModel().getRequirement().getParentRequirementId();
 		}
-		if(parentID == -1) list += "No upstream dependency (parent requirement).\n\n";
-		else list += "Upstream dependency (parent requirement): Requirement #" + parentID + "\n\n";
+		if(parentID == -1) list += "No parent requirement.\n\n";
+		else list += "Parent requirement: Requirement #" + parentID + "\n\n";
 		if(childRequirementIDs.size() > 0){
-			list += "Direct downstream dependencies (child requirements):\n";
+			list += "Child requirements):\n\n";
 			for (int i = 0; i < childRequirementIDs.size(); i++){
-				list += "> Requirement #" + childRequirementIDs.get(i).toString() + "\n\n";
+				list += "> Requirement #" + childRequirementIDs.get(i).toString() + "\n";
 			}
 		}
 		else
-			list += "No downstream dependencies (children requirements).\n\n";
+			list += "No child requirements.\n\n";
 		return list;
 	}
 

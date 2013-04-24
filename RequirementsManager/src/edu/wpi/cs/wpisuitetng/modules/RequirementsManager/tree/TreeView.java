@@ -238,12 +238,14 @@ public class TreeView extends JPanel {
 											.getLastPathComponent();
 									Object selectedObject = selectedNode
 											.getUserObject();
+
 									if (selectedObject instanceof Iteration) {
 										
 										if(((Iteration) selectedObject).getIterationName().equals("Backlog")){
 											return ""+ ((Iteration) selectedObject).getId();
 										}
 										
+
 										tree.expandPath(path);
 										return ""+ ((Iteration) selectedObject).getId();
 									} else {

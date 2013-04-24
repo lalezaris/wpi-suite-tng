@@ -111,6 +111,7 @@ public class BarPieChartPanel extends JPanel {
 	private void addComponents(){
 
 		JLabel noData = new JLabel("No Data Available", JLabel.TRAILING);
+		noData.setFont(new Font("Serif", Font.PLAIN, 128));
 		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
@@ -223,6 +224,7 @@ public class BarPieChartPanel extends JPanel {
 		//Make the error message for when there is no graph.
 		errorPanel = new JPanel();
 		errorPanel.add(noData);
+		
 		
 		
 		setChart(displayedChart, TypeOfChart.Bar, false, false);

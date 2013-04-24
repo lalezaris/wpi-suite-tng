@@ -49,7 +49,6 @@ public class SaveTaskListener implements ActionListener{
 			}
 		}
 		else{//If the task does not exist, make a new one.
-			System.out.println("Making a new Task.");
 			position = view.getTaskPanelArray().size()-1;//Take fields from the last panel.
 			
 			if(position >= 0 && readyToSave(position)){
@@ -72,7 +71,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check the Name field
 		if(view.getTaskPanelArray().get(position).getTxtName().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.red);
+			view.getTaskPanelArray().get(position).getTxtName().setBackground(new Color(255, 155, 157));
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.white);
@@ -81,7 +80,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check Description Field
 		if(view.getTaskPanelArray().get(position).getTxtDescription().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.red);
+			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(new Color(255, 155, 157));
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.white);

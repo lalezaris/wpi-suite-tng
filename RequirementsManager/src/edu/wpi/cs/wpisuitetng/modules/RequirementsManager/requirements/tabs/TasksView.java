@@ -170,17 +170,22 @@ public class TasksView extends JPanel{
 		
 			
 			
-			//Put it in the array and panel.\
-			if(!hidden && (contains.equals("")) || //Don't show these if hidden is selected or contains is empty.
-				i == list.size() || //Always show the last box (so they can add more)
-				(hidden && (list.get(i).getStatus() != TaskStatus.ACCEPTED && list.get(i).getStatus() != TaskStatus.CLOSED)) || //Show the ones not meant to be hidden.
-				(!contains.equals("") && list.get(i).getName().contains(contains))){//Don't show if it does not contain this string.
-				
+			//Put it in the array and panel.
+			boolean canDisplay = true;
+			
+			if(i != list.size()){//Always display the last panel, since it is how new tasks are added.
+				//Hide Closed and Accepted
+				if(hidden && (list.get(i).getStatus() == TaskStatus.ACCEPTED || list.get(i).getStatus() == TaskStatus.CLOSED)){
+					canDisplay = false;
+				}
+				//Hide non-matching names
+				if(!contains.equals("") && !list.get(i).getName().contains(contains)){
+					canDisplay = false;
+				}
+			}
+			if(canDisplay){
 				taskPanelArray.add(tempPanel);
 				overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
-			}
-			else{
-				//TODO: Pop-up asking if they are sure and that it will delete their changes.
 			}
 		}
 		

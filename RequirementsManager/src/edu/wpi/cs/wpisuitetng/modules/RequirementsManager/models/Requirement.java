@@ -152,6 +152,31 @@ public class Requirement extends AbstractModel{
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
 	}
+	
+	
+	/**
+	 * Instantiates a fake requirement. ONLY to be used for tree view.
+	 *
+	 * @param Requirement r the Requirement to be forked from
+	 */
+	public Requirement(Requirement r){
+		this();
+		this.iterationId = r.getIterationId();
+		this.id = r.getId();
+		this.title = r.title;
+	}
+	
+	/**
+	 * Check if a requirement is fake.
+	 *
+	 * @return true, if fake
+	 */
+	public boolean checkFake() {
+		if (this.getDescription() == "" || this.getDescription() == null) {
+			return true;
+		}
+		else return false;
+	}
 
 	/**
 	 * Add an existing AcceptanceTest to this Requirement.

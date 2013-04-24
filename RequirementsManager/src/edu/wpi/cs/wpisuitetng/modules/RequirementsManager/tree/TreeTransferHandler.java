@@ -162,12 +162,13 @@ class TreeTransferHandler extends TransferHandler {
 		// Send changes to database
 		Object destObject = ((DefaultMutableTreeNode)parent).getUserObject();
 		List<Requirement> r = new ArrayList<Requirement>(); // List of requirements to be saved
+		Requirement reqs[] = ((ReqTreeModel)tree.getModel()).getRequirements(); // Get a list of all requirements
 		for(int i = 0; i < nodes.length; i++) {
 			r.add((Requirement)((DefaultMutableTreeNode)(nodes[i].getUserObject())).getUserObject());
 		}
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = r.get(i);
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
@@ -176,7 +177,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = r.get(i);
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				// Save the changed requirement
@@ -192,7 +193,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject.toString().contains("Backlog")){
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = r.get(i);
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent
 				req.setIterationId(0);
 				// Save the changed requirement
@@ -208,6 +209,26 @@ class TreeTransferHandler extends TransferHandler {
 
 		return true;  
 	}  
+
+	/**
+	 * Check if a Requirement is "fake" and return the real one.
+	 *
+	 * @param r the requirement
+	 * @return the real requirement
+	 */
+	private Requirement checkFake(Requirement r, Requirement[] reqs) {
+		if (r.checkFake()) {
+			Requirement requirement = new Requirement();
+			// Find the right requirement
+			for(int i = 0; i < reqs.length; i++) {
+				if (r.getId() == reqs[i].getId()) {
+					requirement = reqs[i];
+				}
+			}
+			return requirement;
+		}
+		return r;
+	}
 
 	/**
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)

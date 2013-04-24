@@ -35,7 +35,7 @@ public class SaveAttachmentRequestObserver implements RequestObserver {
 		
 		ResponseModel response = request.getResponse();
 		if((response.getStatusCode() >= 200)&&(response.getStatusCode() < 300)){
-			Attachment[] attachments = Attachment.fromJSONArray(response.getBody());
+			Attachment attachments = Attachment.fromJSON(response.getBody());
 			
 			controller.recievedData();
 		}
@@ -46,7 +46,7 @@ public class SaveAttachmentRequestObserver implements RequestObserver {
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
 		System.out.println("ERROREOOREOORERROREOOREERRERROREOORERROREOORERROREOOREOOERROREOOREOOERROREERROREOOREOOR");
-
+		System.out.println(iReq.getBody());
 	}
 
 	@Override

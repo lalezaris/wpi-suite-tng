@@ -793,7 +793,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
-
+		requirement.updateTasks(tasksView.getTasks());
+		
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
 		}

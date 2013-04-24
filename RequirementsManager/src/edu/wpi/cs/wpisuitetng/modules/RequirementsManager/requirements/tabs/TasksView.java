@@ -13,17 +13,14 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -47,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
  * @author Evan Polekoff
  * @version Apr 18, 2013
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial"})
 public class TasksView extends JPanel{
 
 	protected RequirementView parent;
@@ -57,6 +54,7 @@ public class TasksView extends JPanel{
 	private ArrayList<TasksPanel> taskPanelArray;
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
+
 	private JScrollPane listScrollPane;
 	private JSplitPane splitPane;
 	
@@ -78,7 +76,7 @@ public class TasksView extends JPanel{
 	/**
 	 * Instantiates a new tasks view.
 	 *
-	 * @param req the requirement holding the tasks
+	 * @param parent the requirement holding the tasks
 	 */
 	public TasksView(RequirementView parent) {
 		super(new BorderLayout());
@@ -326,9 +324,9 @@ public class TasksView extends JPanel{
 	}
 
 	/**
-	 * Changes the history array list to the given array list.
+	 * Changes the tasks array list to the given array list.
 	 * 
-	 * @param history
+	 * @param task the list of tasks
 	 */
 	public void setList(ArrayList<Task> task) {
 		this.list = task;
@@ -337,8 +335,8 @@ public class TasksView extends JPanel{
 	}
 
 	
-	/**Redisplay everything. Call after updating tasks.
-	 * 
+	/**
+	 * Redisplay everything. Call after updating tasks.
 	 */
 	public void redisplay(){
 		this.removeAll();

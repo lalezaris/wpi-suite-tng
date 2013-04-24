@@ -47,7 +47,6 @@ public class OpenHelpAction extends AbstractAction {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param controller
 	 */
 	public OpenHelpAction() {
 		super("User Guide");

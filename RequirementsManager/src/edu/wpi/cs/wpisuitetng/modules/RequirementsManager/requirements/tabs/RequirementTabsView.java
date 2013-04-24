@@ -34,9 +34,12 @@ public class RequirementTabsView extends JTabbedPane {
 	/**
 	 * Instantiates a new requirement tabs view.
 	 *
-	 * @param n the NotesView
+	 * @param nv the NotesView
 	 * @param hv the HistoryView
+	 * @param atv the AcceptanceTestsView
 	 * @param av the AssigneeView
+	 * @param dv the DependenciesView
+	 * @param tv the TasksView
 	 */
 	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, DependenciesView dv, TasksView tv) {
 		//TODO get history objects from database

@@ -1272,7 +1272,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the acceptance tests view
 	 * 
-	 * @param acceptanceTestsView: the acceptanceTestsView to set
+	 * @param acceptanceTestsView the acceptanceTestsView to set
 	 */
 	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
 		this.acceptanceTestsView = acceptanceTestsView;

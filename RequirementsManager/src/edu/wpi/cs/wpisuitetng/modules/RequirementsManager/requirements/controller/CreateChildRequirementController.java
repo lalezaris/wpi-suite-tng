@@ -11,7 +11,7 @@
  * Lauren Kahn
  * Tushar Narayan
  * Tyler Stone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -33,7 +33,7 @@ public class CreateChildRequirementController{
 
 	private Requirement childRequirement;
 	private RequirementView view;
-	
+
 	/**
 	 * Instantiates a CreateChildRequirementController.
 	 *
@@ -41,14 +41,13 @@ public class CreateChildRequirementController{
 	 */
 	public CreateChildRequirementController(RequirementView view) {
 		this.view = view;
-
-		this.childRequirement = new Requirement();
 	}
 
 	/**
 	 * Serve up the child requirement.
 	 */
 	public void viewChild() {
+		this.childRequirement = new Requirement();
 		childRequirement.setIterationId(Iteration.getBacklog().getId());
 		childRequirement.setReleaseNumber(view.getReqModel().getRequirement().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
@@ -56,7 +55,7 @@ public class CreateChildRequirementController{
 		childRequirement.setParentRequirementId(view.getReqModel().getRequirement().getId());
 		showRequirement(childRequirement);
 	} 
-	
+
 	/**
 	 * Show requirement.
 	 *

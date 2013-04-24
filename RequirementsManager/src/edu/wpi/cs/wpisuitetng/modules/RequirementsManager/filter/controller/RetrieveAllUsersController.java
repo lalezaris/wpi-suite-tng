@@ -9,17 +9,18 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.observer.RetrieveAllUsersObserver;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * controller to request a list of users
+ * Controller to retrieve all users
  *
  * @author Chris Hanna
  *
@@ -30,16 +31,17 @@ public class RetrieveAllUsersController {
 
 	FilterController controller;
 	/**
-	 * create a controller to request a list of users
-	 * @param controller
+	 * Create a controller to request a list of users
+	 * @param controller the controller
+	 * 
 	 */
 	public RetrieveAllUsersController(FilterController controller) {
 		this.controller = controller;
 	}
-	
+
 	/**
 
-	 * send a request for the list of users
+	 * Send a request for the list of users
 	 * 
 
 	 */
@@ -48,10 +50,10 @@ public class RetrieveAllUsersController {
 		request.addObserver(new RetrieveAllUsersObserver(this));
 		request.send();
 	}
-	
+
 	/**
 
-	 * run when the observer gets the list of users
+	 * Run when the observer gets the list of users
 	 * 
 	 * @param users
 

@@ -148,7 +148,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 		}
 		root.add(deleted);
 		TreeView.expandAll();
-		//}
 	}
 
 	/**

@@ -26,9 +26,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class to hold a HistoricalChange object for recording the history of a requirement. 
  * Contains the date, object id, user, change id.
  * 
- * @Author: Michael French
- * @Author: Evan Polekoff
- * @Author: Sam Abradi
+ * @author Michael French
+ * @author Evan Polekoff
+ * @author Sam Abradi
  * 
  * @version Mar 31, 2013
  */
@@ -114,6 +114,7 @@ public class HistoricalChange extends AbstractModel{
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		int acceptanceTestDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
+		int taskDifference = (newR.getTasks().size() - oldR.getTasks().size());
 
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
@@ -123,8 +124,6 @@ public class HistoricalChange extends AbstractModel{
 		//compare Release Numbers
 		if (!oldR.getReleaseNumber().equals(newR.getReleaseNumber())){//if old and new are not the same
 			change +="<p> "+ "Release Number changed from " + oldR.getReleaseNumber() + " to " + newR.getReleaseNumber() + ".</p>";
-			System.out.println("Checked Release Numbers.");
-			System.out.println("Change So Far: " + change);
 		}
 
 		//compare type
@@ -146,7 +145,7 @@ public class HistoricalChange extends AbstractModel{
 
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			change +="<p> "+ "Description changed from:\n\"" + oldR.getDescription() + "\"\n to \n\"" + newR.getDescription() + ".\"</p>";
+			change +="<p> "+ "Description changed from: \"" + oldR.getDescription() + "\" to \"" + newR.getDescription() + ".\"</p>";
 		}
 
 		//compare Statuses
@@ -215,10 +214,14 @@ public class HistoricalChange extends AbstractModel{
 				change += "<p> Acceptance Test " + oldR.getAcceptanceTests().get(i).getTitle() + " was updated";
 			}
 		}
-
+		
+		//compare Task list size
+		if (taskDifference != 0){//if old and new are not the same
+			change += "<p> "+ taskDifference+ " tasks added.</p>";
+		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
@@ -226,7 +229,7 @@ public class HistoricalChange extends AbstractModel{
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
@@ -234,7 +237,7 @@ public class HistoricalChange extends AbstractModel{
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
 	 */
 	@Override
@@ -288,7 +291,7 @@ public class HistoricalChange extends AbstractModel{
 		return change;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -296,7 +299,7 @@ public class HistoricalChange extends AbstractModel{
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

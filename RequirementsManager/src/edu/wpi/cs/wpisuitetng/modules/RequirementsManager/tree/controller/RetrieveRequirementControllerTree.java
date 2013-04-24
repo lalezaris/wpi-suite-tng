@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.IRetrieveRequirementController;
@@ -31,7 +31,7 @@ public class RetrieveRequirementControllerTree<T> {
 	private IRetrieveRequirementController<T> caller;
 	private String address;
 	private RequestObserver observer;
-	
+
 
 	/**
 	 * Instantiates a new retrieve requirement controller tree.
@@ -46,7 +46,7 @@ public class RetrieveRequirementControllerTree<T> {
 		this.address = address;
 		this.caller = caller;
 	}
-	
+
 	/**
 	 * Retrieve requirement controller tree.
 	 */
@@ -61,14 +61,14 @@ public class RetrieveRequirementControllerTree<T> {
 	}
 
 	/**
-	 * Recieve data.
+	 * Receive data.
 	 *
 	 * @param content the content
 	 */
 	public void recieveData(String content){
 		caller.runWhenRecieved(content);
 	}
-	
+
 	/**
 	 * Called by {@link RetrieveRequirementRequestObserver} when an error
 	 * occurred retrieving the requirement from the server.
@@ -76,6 +76,5 @@ public class RetrieveRequirementControllerTree<T> {
 	 * @param error the error
 	 */
 	public void errorRetrievingRequirement(String error) {
-		//TODO
 	}
 }

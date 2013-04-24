@@ -75,7 +75,6 @@ public class MainTabController {
 		});
 	}
 
-	//TODO: improve implementation
 	/**
 	 * Gets MainTabController
 	 * 
@@ -100,8 +99,6 @@ public class MainTabController {
 		view.setSelectedIndex(index);
 		return new Tab(view, view.getTabComponentAt(index));
 	}
-
-
 
 	/**
 	 * Adds a tab.
@@ -131,7 +128,6 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("#" + requirementId + ": " + requirementTitle.substring(0, Math.min(10, requirementTitle.length())));
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			System.out.println("found tab already");
 			return null;
 		}
 		else{
@@ -144,7 +140,6 @@ public class MainTabController {
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			view.setSelectedIndex(Rview.getTab().getThisIndex());
-			System.out.println(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}
@@ -164,8 +159,6 @@ public class MainTabController {
 	
 	/**
 	 * Make the Snake Tab!!!
-	 * 
-	 * @return
 	 */
 	public Tab addSnakeTab(){
 		int checkTabIndex = view.indexOfTab("Snake");
@@ -197,7 +190,6 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("Requirement List");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			System.out.println("found tab already");
 			return null;
 		}
 		else{
@@ -205,6 +197,7 @@ public class MainTabController {
 
 			Tab tab = addTab();
 			RequirementListPanel panel = view.getTableModel();
+			panel.setUpFilter();
 			panel.setTab(tab);
 			tab.setComponent(panel);
 			panel.requestFocus();
@@ -239,7 +232,7 @@ public class MainTabController {
 			return newTab;
 		}
 		else{
-		return addRequirementTab(requirement, Mode.EDIT);
+			return addRequirementTab(requirement, Mode.EDIT);
 		}
 	}
 
@@ -256,16 +249,7 @@ public class MainTabController {
 	 * Adds a tab that shows the bar chart.
 	 * 
 	 */
-	@SuppressWarnings("unused")
 	public Tab addBarChartTab() {
-		/*
-		 * Since Requirement tabs are displayed on Janeway as "Requirement #1",
-		 * get the id of the Requirement, and check if a tab with that title
-		 * already exists.
-		 * indexOfTab returns -1 if no tab with that title exists, or required tab index.
-		 * Switch focus to that tab, or go ahead and create a new one.
-		 */
-		String tabTitle = "Bar Chart";
 		int checkTabIndex = view.indexOfTab("Statistics");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
@@ -403,7 +387,6 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("Iteration List");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			System.out.println("found tab already");
 			return null;
 		}
 		else{
@@ -433,7 +416,7 @@ public class MainTabController {
 	 * @return The created Tab
 	 */
 	public Tab addCreateIterationTab() {
-		return addNewIterationTab(); //new Iteration(), IterationPanel.Mode.CREATE
+		return addNewIterationTab();
 	}
 
 

@@ -9,7 +9,7 @@
  *
  * Contributors:
  * Joe Spicola
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.awt.event.ActionEvent;
@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Note
  *
  */
 public class AddNoteController implements ActionListener {
-		
+
 	private final NotesView view;
 
 	/**
@@ -38,18 +38,16 @@ public class AddNoteController implements ActionListener {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("NOTE:" + view.getTextArea().getText().trim());
-		if(view.getTextArea().getText().trim().equals(null)||view.getTextArea().getText().trim().equals("")){
-			//do nothing no text has been entered
-		} else {
+		if(!(view.getTextArea().getText().trim().equals(null)||view.getTextArea().getText().trim().equals(""))){
 			view.addNoteToList(view.stringToNote(view.getNoteString()));
 			view.setTxtNotesSaved();
 			view.setTxtNotes();
+			view.refreshBackgrounds();
 		}		
 	}
 }

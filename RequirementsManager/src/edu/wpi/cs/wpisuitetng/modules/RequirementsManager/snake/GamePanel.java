@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import java.awt.Color;
@@ -101,10 +113,9 @@ public class GamePanel extends JPanel{
 
                         @Override
                         public void windowClosing(WindowEvent e) {
-                        	System.out.println("GOOD BYE SNAKE");
-                        	controller.end();
                             /* Finally get to remove the handler. */
                             //me.getApparent().removeLocationSelectionListener(me.GUID(), me);
+                        	me.controller.moveTimer.cancel();
                         }
 
 						@Override

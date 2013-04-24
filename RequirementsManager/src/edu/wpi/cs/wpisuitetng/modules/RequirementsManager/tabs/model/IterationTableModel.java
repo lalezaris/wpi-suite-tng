@@ -41,7 +41,7 @@ public class IterationTableModel extends AbstractTableModel {
 
 	protected String[] columnNames = { "ID", "Name", "Start Date", "End Date"};
 	protected ArrayList<Object[]> data = new ArrayList<Object[]>();
-	
+
 	public static final String ASCENDING_SUFFIX = "\u2193";//the character displayed at the end of a header
 	//if the column has been sorted in ascending order (down arrow)
 
@@ -131,11 +131,9 @@ public class IterationTableModel extends AbstractTableModel {
 		try {
 			start = sdf.format(iteration.getStartDate());
 			end = sdf.format(iteration.getEndDate());
-			System.out.println("set the Iteration dates to teh new format!");
 		} catch (Exception e) {
-			System.out.println(e);			
 		}
-		
+
 		Object[] r = {
 				iteration.getId() ,
 				iteration.getIterationName(),
@@ -162,7 +160,7 @@ public class IterationTableModel extends AbstractTableModel {
 	{
 		return Integer.parseInt( getValueAt(row, 0).toString() );
 	}
-	
+
 	/** Sorts the table in ascending order bases on the column given. If it was already 
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
 	 * It will also append a suffix to the header of the column being sorted indicating
@@ -180,11 +178,21 @@ public class IterationTableModel extends AbstractTableModel {
 		//false if it has something appended to it
 
 		Comparator<Object[]> comparator = new Comparator<Object[]>(){
+			/**
+			 * Compares two objects
+			 * 
+			 * @param a first object to compare
+			 * @param b second object to compare
+			 * @return the comparison
+			 */
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			@Override
 			public int compare(Object[] a, Object[] b){
 				return ((Comparable<Comparable>) a[col]).compareTo((Comparable<Comparable>)b[col])*(wasJustAscending ? -1 : 1);
 			}
+			/**
+			 * @see java.lang.Object#equals(java.lang.Object)
+			 */
 			@Override
 			public boolean equals(Object o){
 				return false;
@@ -194,10 +202,10 @@ public class IterationTableModel extends AbstractTableModel {
 		for(int i=0; i<data.size(); i++){
 			dataArray[i] = data.get(i);
 		}
-		
+
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-		
+
 		//reset the headers
 		for(int i=0; i<cm.getColumnCount(); i++){
 			cm.getColumn(i).setHeaderValue(columnNames[i]);

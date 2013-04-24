@@ -7,10 +7,11 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: 	Lauren Kahn
- * 					Michael Perrone
- * 					Ned Shelton
- * 					Xia Li
+ * Contributors: 	
+ * Lauren Kahn
+ * Michael Perrone
+ * Ned Shelton
+ * Xia Li
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
@@ -92,8 +93,7 @@ public class Note {
 	/**
 	 * Set the creationDate
 	 * 
-	 * @param creationDate
-	 *            : sets the creationDate
+	 * @param creationDate sets the creationDate
 	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;

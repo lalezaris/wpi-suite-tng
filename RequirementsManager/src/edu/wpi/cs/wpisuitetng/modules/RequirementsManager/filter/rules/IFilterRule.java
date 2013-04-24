@@ -9,11 +9,11 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
- * 
+ * Interface for filter rules
  *
  * @author Chris Hanna
  *
@@ -22,27 +22,32 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  */
 public interface IFilterRule{
 
-	
+
 	/**
 	 * Call this function.
 	 * If the rule should be ANDed together with other rules, this returns true
 	 * If the rule should be ORed together with other rules, this returns false
 	 * 
-	 * @return
+	 * @return true if AND, OR if false
 	 */
 	boolean isAnd();
-	
+
+	/**
+	 * Sets if the function is AND or OR
+	 * 
+	 * @param isAnd sets the function to AND or OR
+	 */
 	void setIsAnd(boolean isAnd);
 
 	/**
 	 * Returns true if the parent meets the rule, or false otherwise
 	 * 
-	 * @param parent
-	 * @return
+	 * @param parent the parent for the filter
+	 * @return if the parent meets the rules or not
 	 * @throws RuleTargetException
 	 */
 	boolean apply(Object parent) throws RuleTargetException;
 
-	
-	
+
+
 }

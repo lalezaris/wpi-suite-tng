@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Spicola
-**************************************************/
+ *  Joe Spicola
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.Color;
@@ -42,7 +42,7 @@ public class TextAreaUpdateListener implements ItemListener {
 	protected final RequirementPanel panel;
 	protected final JTextArea component;
 	protected final Border defaultBorder;
-	
+
 	/**
 	 * Constructs a TextAreaUpdateListener.
 	 * 
@@ -57,8 +57,8 @@ public class TextAreaUpdateListener implements ItemListener {
 		this.component = component;
 		this.defaultBorder = component.getBorder();
 	}
-	
-	/* 
+
+	/** 
 	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 	 */
 	@Override

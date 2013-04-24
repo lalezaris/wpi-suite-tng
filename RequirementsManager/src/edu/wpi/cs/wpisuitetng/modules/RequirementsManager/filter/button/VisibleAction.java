@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
 import java.awt.event.ActionEvent;
@@ -30,9 +30,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
 public class VisibleAction extends AbstractAction{
 
 	FilterController controller;
-	
+
 	/**
-	 * make a new visibility action.
+	 * Make a new visibility action.
 	 *
 	 * @param controller the controller
 	 */
@@ -40,14 +40,14 @@ public class VisibleAction extends AbstractAction{
 		super("Show Filters");
 		this.controller = controller;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().toggleVisibility();
-		
+
 	}
 
 }

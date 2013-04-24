@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -17,7 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 /**
  * Controller that handles the cancel requirement action.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Mar 27, 2013
  *

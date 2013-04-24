@@ -14,6 +14,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -43,7 +45,7 @@ public class UpdateAllRequirementsController {
 	protected RequirementListPanel panel;
 	protected RequirementValidator reqVal;
 	protected List<ValidationIssue> issues;
-	
+
 	/**
 	 * Instantiates a new update all requirements controller.
 	 *
@@ -51,36 +53,41 @@ public class UpdateAllRequirementsController {
 	 */
 	public UpdateAllRequirementsController(RequirementListPanel panel){
 		this.panel = panel;
+		issues = new ArrayList<ValidationIssue>();
 	}
-	
+
 	/**
 	 * Update everything.
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
-		
+
 		for (int i = 0 ; i < table.getRequirements().size(); i++) {
-			issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
+			try {
+				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
+			} catch (NullPointerException e) {
+				System.out.println("The " + (i + 1) + "th requirement is legal");
+			}
 			if(issues.size() > 0){
 				printIssues(issues, table.getRequirements().get(i).getTitle());
 			}
 			
-			if (table.getRequirements().get(i) != null) {
+			if (table.getRequirements().get(i) != null && issues.size() == 0) {
 				saveRequirement(table.getRequirements().get(i));
 			}
 		}
 		((RequirementTableModel) panel.getTable().getModel()).clear();
 		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
+		this.panel.getTable().setBackground(Color.WHITE);		
 	}
-	
+
 	/**
 	 * Save requirement.
 	 *
 	 * @param r the requirement
 	 */
 	private void saveRequirement(Requirement r){
-		System.out.println(r.getId());
 		Request request = Network.getInstance().makeRequest(
 				"requirementsmanager/requirement/"
 						+ r.getId(), HttpMethod.POST);
@@ -90,7 +97,7 @@ public class UpdateAllRequirementsController {
 		request.send();
 		this.panel.getModel().setIsChange(false);
 	}
-	
+
 	/**
 	 * A function to printout all of the issues in a pop up message
 	 * 
@@ -108,5 +115,9 @@ public class UpdateAllRequirementsController {
 		JOptionPane.showMessageDialog(null, 
 				title + message.toString(), 
 				"Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public RequirementListPanel getPanel() {
+		return panel;
 	}
 }

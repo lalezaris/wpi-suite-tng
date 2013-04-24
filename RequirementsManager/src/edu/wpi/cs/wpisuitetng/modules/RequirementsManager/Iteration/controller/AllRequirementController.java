@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller;
 
@@ -30,15 +30,15 @@ public class AllRequirementController {
 
 	IterationPanel panel;
 	/**
-	 * Construct a RequirementController.
+	 * Construct an AllRequirementController.
 	 * 
 	 * @param view An IterationPanel
 	 */
 	public AllRequirementController(IterationPanel panel){
 		this.panel = panel;
-		
+
 	}
-	
+
 	/**
 	 * Send a request to retrieve requirements.
 	 */

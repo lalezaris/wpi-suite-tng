@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Arica Liu
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
 import javax.swing.JOptionPane;
@@ -46,7 +46,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		this.view = view;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -61,7 +61,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
 			// parse the Iteration from the body
 			final Iteration iteration = Iteration.fromJSON(response.getBody());
-			
+
 			Refresher.getInstance().refreshIterationsFromServer(view);
 			// make sure the Iteration isn't null
 			if (iteration != null) {
@@ -87,7 +87,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -98,7 +98,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 		always();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

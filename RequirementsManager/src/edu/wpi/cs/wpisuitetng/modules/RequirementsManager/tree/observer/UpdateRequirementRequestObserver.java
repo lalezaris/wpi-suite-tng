@@ -19,14 +19,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.BatchRequirementEditController.ChangeField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
-
 
 /**
  * A RequestObserver for a Request to update a Requirement.
@@ -39,21 +36,17 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class UpdateRequirementRequestObserver implements RequestObserver {
 
 	private final Requirement requirement;
-	// An indicator for changed field;
-	// 0 for Iteration, 1 for ParentRequirementID.
-	protected int changedField;
 
 	/**
 	 * Constructs a new UpdateRequirementRequestObserver.
 	 *
-	 * @param view The TreeView that will be affected by any updates.
+	 * @param r the requirement to update
 	 */
-	public UpdateRequirementRequestObserver(Requirement r, int c) {
+	public UpdateRequirementRequestObserver(Requirement r) {
 		this.requirement = r;
-		this.changedField = c;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -78,21 +71,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						/* 
-						 * Update all children
-						 */
-
-						if (changedField == 0) {
-							BatchRequirementEditController<Integer> batchController = 
-									new BatchRequirementEditController<Integer>(ChangeField.ITERATIONID, getRequirement().getIterationId());
-							//change all children
-							batchController.instantiateChange(getRequirement().getChildRequirementIds());
-						} else if (changedField == 1) {
-							//							BatchRequirementEditController<Integer> batchController2 = 
-							//									new BatchRequirementEditController<Integer>(ChangeField.PARENTID, getRequirement().getParentRequirementId());
-							//							//change all children
-							//							batchController2.instantiateChange(getRequirement().getChildRequirementIds());
-						}
+						//Nothing to do on update
 					}
 				});
 			}
@@ -108,7 +87,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -118,7 +97,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
@@ -127,6 +106,11 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 				"Save Requirement Error", JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Gets the requirement
+	 * 
+	 * @return the requirement
+	 */
 	public Requirement getRequirement() {
 		return requirement;
 	}

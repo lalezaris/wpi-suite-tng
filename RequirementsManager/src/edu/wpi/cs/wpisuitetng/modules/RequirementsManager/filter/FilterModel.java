@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
@@ -32,14 +32,14 @@ public class FilterModel {
 	Iteration[] iterations;
 	User[] users;
 	/**
-	 * create a new model
+	 * Create a new model
 	 * 
 	 */
 	public FilterModel() {
 		filter = new Filter();
-		
+
 		iterations = new Iteration[0];
-		
+
 		Rule test = new Rule(RequirementStatus.COMPLETE, RuleComparisonMode.EQUALS, "status");
 		filter.addRule(test);
 	}
@@ -47,7 +47,7 @@ public class FilterModel {
 	public Filter getFilter(){
 		return filter;
 	}
-	
+
 	/**
 	 * Refresh the model from the information in a panel
 	 * 
@@ -64,7 +64,6 @@ public class FilterModel {
 					filter.addRule(rule);
 			}
 		}
-		
 	}
 
 	/**
@@ -81,7 +80,7 @@ public class FilterModel {
 	 */
 	public void setIterations(Iteration[] iterations) {
 		this.iterations = iterations;
-		
+
 	}
 
 	/**
@@ -99,5 +98,5 @@ public class FilterModel {
 	public void setUsers(User[] users) {
 		this.users = users;
 	}
-	
+
 }

@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Tyler
-**************************************************/
+ *  Tyler Stone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -22,18 +22,18 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * The controller to retrieve a parent requirement from the database
  *
- * @author Tyler
+ * @author Tyler Stone
  *
  * @version Apr 16, 2013
  *
  */
 public class RetrieveParentRequirementController {
 	RequirementView view;
-	
+
 	public RetrieveParentRequirementController(RequirementView view){
 		this.view = view;
 	}
-	
+
 	public void retrieveParent() {
 		final RequestObserver requestObserver = new RetrieveParentRequirementObserver(view);
 		Request request;

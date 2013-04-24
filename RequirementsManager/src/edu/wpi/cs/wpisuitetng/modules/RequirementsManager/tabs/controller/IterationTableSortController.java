@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Michael "Lady Nails" Perrone
-**************************************************/
+ *  Michael Perrone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
 import java.awt.Point;
@@ -19,7 +19,6 @@ import javax.swing.table.TableColumnModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTableModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class IterationTableSortController.
  * Controller for sorting the table view of iterations.
@@ -27,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.IterationTa
  */
 public class IterationTableSortController {
 	JTable table;
-	
+
 	/**
 	 * Instantiates a new iteration table sort controller.
 	 *

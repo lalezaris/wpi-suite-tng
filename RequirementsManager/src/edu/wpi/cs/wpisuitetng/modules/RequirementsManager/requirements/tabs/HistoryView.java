@@ -35,11 +35,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings({ "serial", "unused" })
-public class HistoryView extends RequirementTab {	
+public class HistoryView extends RequirementTab {
 	private JList<HistoricalChange> list;
 	private DefaultListModel<HistoricalChange> listModel;
 
 	protected ArrayList<HistoricalChange> historyAL;
+	JScrollPane listScrollPane;
 
 	/**
 	 * HistoryView Constructor.
@@ -53,10 +54,12 @@ public class HistoryView extends RequirementTab {
 		listModel = new DefaultListModel<HistoricalChange>();
 
 		list = new JList(listModel);
+		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setLayoutOrientation(JList.VERTICAL);
+//		list.setFixedCellWidth(500);
 
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane(list);
+		listScrollPane = new JScrollPane(list);
 
 		add(listScrollPane, BorderLayout.CENTER);
 	}
@@ -72,10 +75,10 @@ public class HistoryView extends RequirementTab {
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
-		redisplay();
+		//redisplay();
 		repaint();
 		revalidate();
-		redisplay();
+		//redisplay();
 	}
 
 	protected void redisplay(){
@@ -86,10 +89,10 @@ public class HistoryView extends RequirementTab {
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
-		
+
 		if (list!=null)
-		this.remove(list);
-		
+		this.remove(listScrollPane);
+
 		//Create the list and put it in a scroll pane.
 		list = new JList<HistoricalChange>(listModel);
 		list.setLayoutOrientation(JList.VERTICAL);
@@ -97,10 +100,10 @@ public class HistoryView extends RequirementTab {
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
 		JScrollPane listScrollPane = new JScrollPane(list);
 
-		add(listScrollPane, BorderLayout.CENTER);
+		add(list, BorderLayout.CENTER);
 	}
-	
-	
+
+
 	/**
 	 * Gets history list.
 	 * 

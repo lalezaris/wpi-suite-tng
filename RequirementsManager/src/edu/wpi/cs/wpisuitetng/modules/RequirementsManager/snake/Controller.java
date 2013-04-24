@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import java.awt.Color;
@@ -17,7 +29,7 @@ public class Controller {
 	GamePanel game;
 	int score = 0;
 	boolean gameRunning = true;
-	Timer moveTimer;
+	protected Timer moveTimer;
 	
 	public Controller(SnakePanel panel, Snake snake, GamePanel game) {
 		this.panel = panel;
@@ -46,7 +58,7 @@ public class Controller {
 		moveTimer = new Timer();
 		moveTimer.schedule(new MoveTask(snake, panel), 1000,100);
 		
-		spawnFood(null);
+		//spawnFood(null);
 		
 		updateHighScore(0,"Unknown");
 		
@@ -68,6 +80,8 @@ public class Controller {
 		panel.setSnakeColor(new Color(100,200,150));
 		panel.setFoodColor(new Color(50,255,100));
 		panel.setWallColor(new Color(25,25,25));
+		Food.all.clear();
+		spawnFood(null);
 	}
 	
 	public int getRand(int min, int max){
@@ -132,10 +146,17 @@ public class Controller {
 			//39 = right
 			//40 = down
 			//System.out.println(e.getKeyChar());
+			
 			if (e.getKeyChar() == ' '){
 				reset(); 
-			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN)
-				snake.setDirection(e.getKeyCode());
+			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN){
+				boolean isPlayerDumb = (snake.direction == Snake.LEFT && e.getKeyCode() == Snake.RIGHT)
+						|| (snake.direction == Snake.RIGHT && e.getKeyCode() == Snake.LEFT)
+						|| (snake.direction == Snake.UP && e.getKeyCode() == Snake.DOWN)
+						|| (snake.direction == Snake.DOWN && e.getKeyCode() == Snake.UP);
+				if (!isPlayerDumb)
+					snake.setDirection(e.getKeyCode());
+			}
 		}
 	}
 	

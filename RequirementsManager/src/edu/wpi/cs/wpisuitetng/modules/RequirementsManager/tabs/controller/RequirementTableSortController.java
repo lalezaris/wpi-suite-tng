@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- * Michaela Perrrrrrrrrrone
-**************************************************/
+ * Michael Perrone
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
 import java.awt.Point;
@@ -19,15 +19,14 @@ import javax.swing.table.TableColumnModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RequirementTableSortController.
- * Controller for sortying the requirement table.
+ * Controller for sorting the requirement table.
  * @author Michael Perrone
  */
 public class RequirementTableSortController {
 	JTable table;
-	
+
 	/**
 	 * Instantiates a new requirement table sort controller.
 	 *

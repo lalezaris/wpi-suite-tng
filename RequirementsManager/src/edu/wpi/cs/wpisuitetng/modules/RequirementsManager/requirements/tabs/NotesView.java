@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -38,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends RequirementTab {
+public class NotesView extends RequirementTab implements FocusListener {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -57,9 +59,9 @@ public class NotesView extends RequirementTab {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
-	
+
 	protected RequirementView parent;
-	
+
 	/**
 	 * Instantiates a new notes view.
 	 *
@@ -72,9 +74,7 @@ public class NotesView extends RequirementTab {
 		this.setLayout(layout);
 		this.parent = parent;
 		// Add all components to this panel
-		addComponents();
-
-		
+		addComponents();		
 	}
 
 	/**
@@ -100,6 +100,7 @@ public class NotesView extends RequirementTab {
 
 		/* begin panel styling */
 		txtNotes = new JTextArea(4, 40);
+		txtNotes.addFocusListener(this);
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
@@ -166,7 +167,7 @@ public class NotesView extends RequirementTab {
 	}
 
 	/**
-	 * Initialize the notes textarea.
+	 * Initialize the notes text area.
 	 */
 	public void setTxtNotes(){
 		txtNotes.setText("");
@@ -205,7 +206,7 @@ public class NotesView extends RequirementTab {
 	 * Adds a Note to the ArrayList of notes.
 	 *
 	 * @param n the note
-	 * @return n the note
+	 * @return the note
 	 */
 	public Note addNoteToList(Note n){
 		notes.add(n);
@@ -272,14 +273,41 @@ public class NotesView extends RequirementTab {
 	public JTextArea getTextArea(){
 		return this.txtNotes;
 	}
-	
+
 	/**
-	 * gets the text area for displaying the saved notes
+	 * Gets the text area for displaying the saved notes
 	 * 
 	 * @return returns the text area for displaying the saved notes
 	 */
 	public JTextArea getSavedTextArea(){
-		return txtNotesSaved;
+		return this.txtNotesSaved;
+	}
+	
+	public void setTxtNotesBackgroundColor(Color c) {
+		this.txtNotes.setBackground(c);
+	}
+	
+	public void setTxtNotesSavedBackgroundColor(Color c) {
+		this.txtNotesSaved.setBackground(c);
+	}
+
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();		
 	}
 
 	@Override

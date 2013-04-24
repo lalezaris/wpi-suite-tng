@@ -45,16 +45,38 @@ public class RemoveAssigneeController implements ActionListener {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
 		this.allUserAL = view.getAllUserAL();
 		this.assignedUserAL = view.getAssignedUserAL();
 		this.selectedUsers = new ArrayList<String> (view.getAssignedUserList().getSelectedValuesList());
+//<<<<<<< HEAD
+//		this.selectedUsersIndex = view.getAssignedUserList().getSelectedIndices();
+//		
+//		/**
+//		 * Iterates through loop backward, in order to remove elements from allusers without messing
+//		 * up the earlier indexes.
+//		 */
+//		System.out.println(selectedUsersIndex.length);
+//		System.out.println(selectedUsers);
+//		System.out.println(selectedUsers.get(0));
+//		System.out.println(allUserAL);
+//		for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
+//			assignedUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
+//			view.getAssignedUserLM().remove(i); //removes the user from the list model
+//		}
+//		
+//		//add array list to the list models
+//		//view.setUserList(allUserAL);
+//		System.out.println("Remove worked");
+//		view.setAssigneeList(assignedUserAL);
+//		view.updateNotAssigned();
+//		view.setButtonPressed(true);
+//		view.refreshAllBackgrounds();
+//=======
 		if(this.selectedUsers.size() != 0){
 			this.selectedUsersIndex = view.getAssignedUserList().getSelectedIndices();
 
@@ -62,18 +84,12 @@ public class RemoveAssigneeController implements ActionListener {
 			 * Iterates through loop backward, in order to remove elements from allusers without messing
 			 * up the earlier indexes.
 			 */
-			System.out.println(selectedUsersIndex.length);
-			System.out.println(selectedUsers);
-			System.out.println(selectedUsers.get(0));
-			System.out.println(allUserAL);
 			for(int i = (selectedUsersIndex.length - 1); i >= 0; i--) {
 				assignedUserAL.remove(selectedUsersIndex[i]);//removes user according to selected users' index
 				view.getAssignedUserLM().remove(i); //removes the user from the list model
 			}
 
 			//add array list to the list models
-			//view.setUserList(allUserAL);
-			System.out.println("Remove worked");
 			view.setAssigneeList(assignedUserAL);
 			view.updateNotAssigned();
 			view.setButtonPressed(true);

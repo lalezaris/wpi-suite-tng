@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action;
 
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 /**
  * The action that is fired when the delete button is pressed
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Mar 27, 2013
  *
@@ -31,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 public class DeleteRequirementAction extends AbstractAction {
 
 	private final DeleteRequirementController controller;
-	
+
 	/**
 	 * Create a SaveChangesAction
 	 * @param controller When the action is performed, controller.save will be called
@@ -41,8 +41,8 @@ public class DeleteRequirementAction extends AbstractAction {
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_D);
 	}
-	
-	/* 
+
+	/** 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

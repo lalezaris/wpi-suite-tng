@@ -62,6 +62,9 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 * @param s A session (project)
 	 * @param content The JSON-ified representation of RMPermission
 	 * @return The RMPermission in object form
+	 * @throws BadRequestException
+	 * @throws ConflictException
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -85,6 +88,7 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 * @param s A session (project)
 	 * @param username The username of the UserPermission(s)
 	 * @return An array of all UserPermission(s) with the given username
+	 * @throws NotFoundException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -110,6 +114,7 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 * 
 	 * @param s A session (project)
 	 * @return An array of all user permissions stored in the DB
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -123,6 +128,7 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 * @param s A session (project)
 	 * @param content The content to be passed in
 	 * @return The updated UserPermission
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -174,6 +180,7 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 *
 	 * @param s A session (project)
 	 * @param model The UserPermission to be saved
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
@@ -200,6 +207,7 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 * 
 	 * @param s A session (project)
 	 * @param username The username of the UserPermission to be removed
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -209,7 +217,8 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 		return (db.delete(getEntity(s, username)[0]) != null) ? true : false;
 	}
 
-	/*
+	/**
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
@@ -243,7 +252,8 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 		return db.retrieveAll(new UserPermission()).size();
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
@@ -251,7 +261,8 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 		return null;
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException 
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override

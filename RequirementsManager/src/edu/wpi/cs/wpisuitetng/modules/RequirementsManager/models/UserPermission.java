@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Michael Perrone
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import com.google.gson.Gson;
@@ -32,7 +32,7 @@ public class UserPermission extends AbstractModel {
 	private RMPermissionsLevel permissions;
 	private int id;
 	private String message;
-	
+
 	/**
 	 * Constructor to input username and permissions
 	 * 
@@ -44,7 +44,7 @@ public class UserPermission extends AbstractModel {
 		this.permissions = permissions;
 		this.id = -1;
 	}	
-	
+
 	/**
 	 * Default Constructor 
 	 * 
@@ -54,7 +54,7 @@ public class UserPermission extends AbstractModel {
 		this.permissions = RMPermissionsLevel.NONE;
 		this.id = -1;
 	}
-	
+
 	/**
 	 * Gets the username
 	 * 
@@ -81,8 +81,8 @@ public class UserPermission extends AbstractModel {
 	public void setPermissions(RMPermissionsLevel permissions) {
 		this.permissions = permissions;
 	}
-	
-	
+
+
 	/**
 	 * Sets id
 	 * 
@@ -99,7 +99,7 @@ public class UserPermission extends AbstractModel {
 	public int getId(){
 		return this.id;
 	}
-	
+
 	/**
 	 * Gets message
 	 * 
@@ -108,7 +108,7 @@ public class UserPermission extends AbstractModel {
 	public String getMessage(){
 		return this.message;
 	}
-	
+
 	/**
 	 * Sets message
 	 * 
@@ -118,23 +118,23 @@ public class UserPermission extends AbstractModel {
 		this.message = message;
 	}
 
-	/*
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
 	 */
 	@Override
 	public void save() {
-		
+
 	}
 
-	/* 
+	/** 
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
 	 */
 	@Override
 	public void delete() {
-		
+
 	}
 
-	
+
 	/**
 	 * Converts this User to a JSON string
 	 * @return a string in JSON representing this User
@@ -147,7 +147,7 @@ public class UserPermission extends AbstractModel {
 
 		return json;
 	}	
-	
+
 	/**
 	 * Converts the given list of Users to a JSON string.
 	 *
@@ -160,8 +160,8 @@ public class UserPermission extends AbstractModel {
 		json = gson.toJson(ulist, UserPermission.class);
 		return json;
 	}
-	
-	/* 
+
+	/** 
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
 	 */
 	@Override
@@ -180,7 +180,7 @@ public class UserPermission extends AbstractModel {
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, UserPermission.class);
 	}
-	
+
 	/**
 	 * Convert a json string into an array of UserPermission.
 	 * 
@@ -192,14 +192,14 @@ public class UserPermission extends AbstractModel {
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, UserPermission[].class);
 	}
-	
-	
+
+
 	/**
 	 * Add dependencies necessary for Gson to interact with this class.
 	 * 
 	 * @param builder Builder to modify
 	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
-		
+
 	}
 }

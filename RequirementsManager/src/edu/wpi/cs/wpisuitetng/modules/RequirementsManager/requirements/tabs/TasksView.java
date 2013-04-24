@@ -15,24 +15,32 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.RetrieveRequirementsTasksController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.SaveTaskListener;
 
 /**
  * Tab panel for viewing and working with tasks.
@@ -42,18 +50,31 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.controller.SaveT
  */
 @SuppressWarnings("serial")
 public class TasksView extends RequirementTab{
-	
 	protected RequirementView parent;
 	
-	private ArrayList<Task> taskArray;
+	private ArrayList<Task> list;
+
 	private ArrayList<TasksPanel> taskPanelArray;
-	private JList<Task> list;
+	private JPanel featurePanel;
+	private JPanel overallPanel;//One panel to hold them all.
+	private JPanel scrollingPanel;
 	private DefaultListModel<Task> listModel;
+	private JList listDisplay;
+	
+	private JTextField containsField;
+	private JCheckBox hideBox;
+	
+	//State Variables
+	private boolean changed;
+	private boolean hidden;
+	private String contains = "";
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
-	
-	private RetrieveRequirementsTasksController loadAllController;
+
+	//Permissions level
+	protected RMPermissionsLevel pLevel;
+
 
 	/**
 	 * Instantiates a new tasks view.
@@ -63,90 +84,316 @@ public class TasksView extends RequirementTab{
 	public TasksView(RequirementView parent) {
 		setLayout(new BorderLayout());
 		
-		//Make the Controller to load all of the tasks.
-		loadAllController = new RetrieveRequirementsTasksController(this);
-		
 		//Set initial variables
-		taskArray = new ArrayList<Task>();
-		taskPanelArray = new ArrayList<TasksPanel>();
+		if(list == null)//Only reset and initialize the list if it is new.
+			list = new ArrayList<Task>();
 		
 		//Get the ScrollPane going.
 		listModel = new DefaultListModel<Task>();
-		list = new JList(listModel);
-		list.setLayoutOrientation(JList.VERTICAL);
-
-		list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane(list);
 		
+		//Get permissions
+		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		//Use a grid bag layout manager
+		layout = new GridBagLayout();
+		this.setLayout(layout);
+		
+		this.parent = parent;
+		
+		//Create the stuff for other features, like the sorting and hiding
+		displayFeatures();
+		
+		//Create all of the panels(one per task) and put them in the array.
 		createTasksPanels();
-		displayTasks(listScrollPane);
-		
-		add(listScrollPane, BorderLayout.CENTER);
+
+		//JList
+		//listDisplay = new JList(listModel);
+		//listDisplay.setLayoutOrientation(JList.VERTICAL);
 	}
-	
+
 	/**Create the task panels to display.
 	 * 
 	 */
 	private void createTasksPanels(){
-		//TODO Make this a for loop for the length of the taskArray and add one for each. I am just doing 1 for testing.
-		taskPanelArray.add(new TasksPanel());
-		taskPanelArray.get(0).getSaveButton().addActionListener(new SaveTaskListener());
+		
+		overallPanel = new JPanel();
+		overallPanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints cTask = new GridBagConstraints();
+		GridBagConstraints cScrolling = new GridBagConstraints();
+		
+		//Clear the array so you can refill it.
+		taskPanelArray = new ArrayList<TasksPanel>();
+		
+		//Go through for all tasks in the list, + 1 for new tasks.
+		for(int i = 0; i < list.size() + 1; i ++){
+			//Constraints
+			cTask.anchor = GridBagConstraints.FIRST_LINE_START; 
+			cTask.fill = GridBagConstraints.HORIZONTAL;
+			cTask.gridx = 0;
+			cTask.gridy = i*100;
+			cTask.weightx = 0.5;
+			cTask.weighty = 0.5;
+			cTask.gridheight = 1;
+			cTask.insets = new Insets(10,10,10,0); //top,left,bottom,right
+			
+			//Make the panel
+			TasksPanel tempPanel = new TasksPanel();
+			tempPanel.setLayout(new GridBagLayout());
+			
+			//Fill its boxes
+			if(i < list.size()){//For the tasks that already exist, put them here.
+				
+				tempPanel.getTxtName().setText(list.get(i).getName());
+				tempPanel.getTxtDescription().setText(list.get(i).getDescription());
+				tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
+				tempPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
+				tempPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
+				tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
+			}
+			else{
+				if(list.size() > 0)
+					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+				else
+					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+			}
+			//Default the save button and status to disabled
+			if(tempPanel.getTxtName().getText().equals("") || tempPanel.getTxtDescription().getText().equals("")){
+				tempPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+			}
+			if(tempPanel.getTxtEffort().getText().equals("") || tempPanel.getTxtEffort().getText().equals("0")){
+				tempPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+			}
+			
+			//Add listeners to all of the fields.
+			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel, this));
+		
+			
+			
+			//Put it in the array and panel.
+			boolean canDisplay = true;
+			
+			if(i != list.size()){//Always display the last panel, since it is how new tasks are added.
+				//Hide Closed and Accepted
+				if(hidden && (list.get(i).getStatus() == TaskStatus.ACCEPTED || list.get(i).getStatus() == TaskStatus.CLOSED)){
+					canDisplay = false;
+				}
+				//Hide non-matching names
+				if(!contains.equals("") && !list.get(i).getName().contains(contains)){
+					canDisplay = false;
+				}
+			}
+			if(canDisplay){
+				taskPanelArray.add(tempPanel);
+				overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+			}
+		}
+		
+		//Put the panels (overallPanel) into a scrollpane
+		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START;
+		cScrolling.fill = GridBagConstraints.HORIZONTAL;
+		cScrolling.gridx = 1;
+		cScrolling.gridy = 0;
+		cScrolling.weightx = 0.5;
+		cScrolling.weighty = 0.5;
+		cScrolling.gridheight = 1;
+		cScrolling.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		JScrollPane listScrollPane = new JScrollPane(overallPanel);
+		scrollingPanel = new JPanel();
+		scrollingPanel.setLayout(new GridBagLayout());
+		scrollingPanel.add(listScrollPane);
+		
+		this.add(scrollingPanel, cScrolling);
 	}
 	
-	/**Go through the list and display them all.
+	/**Put in the boxes and other features that go along with the Tasks.
 	 * 
 	 */
-	private void displayTasks(JScrollPane listScrollPane){
-		listScrollPane.add(taskPanelArray.get(0));
+	private void displayFeatures(){
+		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
+		containsField = new JTextField("", 20);
+		hideBox = new JCheckBox("Hide Closed and Accepted");
+		
+		//Set boxes
+		if(hidden)
+			hideBox.setSelected(true);
+		if(!contains.equals(""))
+			containsField.setText(contains);
+		
+		featurePanel = new JPanel();
+		featurePanel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints cFeat = new GridBagConstraints();
+		GridBagConstraints cOverall = new GridBagConstraints();
+		
+		//Constraints
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 0;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,50,10,0); //top,left,bottom,right
+		featurePanel.add(containsLabel, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 1;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		featurePanel.add(containsField, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 0;
+		cFeat.gridy = 2;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		featurePanel.add(hideBox, cFeat);
+		
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cOverall.fill = GridBagConstraints.HORIZONTAL;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridheight = 1;
+		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		
+		this.add(featurePanel, cOverall);
+		
+		//Add listeners to the features
+		containsField.addKeyListener(new TaskSearchListener(this));
+		hideBox.addActionListener(new TaskFeatureListener(this));
 	}
 	
+	/**Add a task from the View.
+	 * @param t The task to add
+	 */
+	public void addTask(Task t){
+		boolean hasTask = false;
+		int testLocation = doesTaskExist(t.getId());
+		if(testLocation != -1)
+			hasTask = true;
+		if (!hasTask){
+			list.add(t);
+		}else{
+			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists! (ID: " + t.getId() + ")");
+		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+	}
+	
+	/**Used to update a given Task
+	 * @param t A task with the same ID as the ne you want to replace but with new fields.
+	 */
+	public void replaceTask(Task t){
+		System.out.println("Searching for "+ t.getId() + " with name \'" + t.getName() + "\'");
+		System.out.println("List size: "+ list.size());
+		boolean hasTask = false;
+		int taskLocation = doesTaskExist(t.getId());
+		if(taskLocation != -1)
+			hasTask = true;
+		//Update all of the fields.
+		if (hasTask){
+			System.out.println("Found "+ t.getId() + " with name /'" + t.getName() + "/'");
+			list.get(taskLocation).setAssigneeName(t.getAssigneeName());
+			list.get(taskLocation).setStatus(t.getStatus());
+			list.get(taskLocation).setDescription(t.getDescription());
+			list.get(taskLocation).setEffort(t.getEffort());
+			list.get(taskLocation).setName(t.getName());
+		}
+		for(int i = 0; i < list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(i, list.get(i));}
+		}
+	}
+	
+	/**Find a task based on the id you give it.
+	 * @param id The id of the task you want to find.
+	 */
+	public Task retrieveTask(int id){
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == id){
+				return list.get(i);
+			}
+		}
+		return new Task();
+	}
+	
+	/**Look for the given task in the list.
+	 * @param id The task to look for.
+	 * @return The spot in the list that this task belongs to, if it does.
+	 */
+	public int doesTaskExist(int id) {
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == id){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	/**
 	 * Changes the history array list to the given array list.
 	 * 
 	 * @param history
 	 */
-	public void setTasksList(ArrayList<Task> task) {
-		this.taskArray = task;
-		for(int i = 0; i <taskArray.size(); i++){
-			if(!listModel.contains(taskArray.get(i))){
-				listModel.add(0, taskArray.get(i));}
+	public void setList(ArrayList<Task> task) {
+		this.list = task;
+		for(int i = 0; i <list.size(); i++){
+			if(!listModel.contains(list.get(i))){
+				listModel.add(0, list.get(i));}
 		}
-		redisplay();
 		repaint();
 		revalidate();
-		redisplay();
 	}
 
-	protected void redisplay(){
-
-		listModel = new DefaultListModel<Task>();
-
-		for(int i = 0; i <this.taskArray.size(); i++){
-			if(!listModel.contains(taskArray.get(i))){
-				listModel.add(0, taskArray.get(i));}
-		}
-		
-		if (list!=null)
-		this.remove(list);
-		
-		//Create the list and put it in a scroll pane.
-		list = new JList<Task>(listModel);
-		list.setLayoutOrientation(JList.VERTICAL);
-
-		list.setCellRenderer(new HistoryViewCellRenderer(350));
-		JScrollPane listScrollPane = new JScrollPane(list);
-		displayTasks(listScrollPane);
-		
-		add(listScrollPane, BorderLayout.CENTER);
-	}
 	
-	
-	/**Set the array and repaint everything.
-	 * @param tasks Array to set to.
+	/**Redisplay everything. Call after updating tasks.
+	 * 
 	 */
-	public void setTaskArray(Task[] tasks) {
-		taskArray = new ArrayList<Task>(Arrays.asList(tasks));
-		setTasksList(taskArray);
+	public void redisplay(){
+		this.removeAll();
+		
+		displayFeatures();
+		createTasksPanels();
+		repaint();
+		revalidate();
+		setChanged(false);//Let it be saved again.
+	}
+
+	/**
+	 * @return the taskPanelArray
+	 */
+	public ArrayList<TasksPanel> getTaskPanelArray() {
+		return taskPanelArray;
+	}
+
+	
+	/**Get the tasks from the view.
+	 * @return The list
+	 */
+	public ArrayList<Task> getTasks(){
+		return list;
+	}
+	
+	/**
+	 * @return the sortBox
+	 */
+	public JTextField getContainsField() {
+		return containsField;
 	}
 
 	@Override
@@ -162,5 +409,33 @@ public class TasksView extends RequirementTab{
 	@Override
 	public String getTooltipText() {
 		return "Edit and view tasks";
+	}
+
+	/**
+	 * @return the hideBox
+	 */
+	public JCheckBox getHideBox() {
+		return hideBox;
+	}
+
+	/**
+	 * @param hidden the hidden to set
+	 */
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	/**
+	 * @param contains the string to look for
+	 */
+	public void setContains(String contains) {
+		this.contains = contains;
+	}
+
+	/**
+	 * @param changed the changed to set
+	 */
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}
 }

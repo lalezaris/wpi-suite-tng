@@ -11,11 +11,12 @@
  *  Chris Dunkers
  *  Joe Spicola
  *  Tushar Narayan
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 /**
@@ -47,8 +48,10 @@ public class RequirementTabsView extends JTabbedPane {
 		}
 		/*addTab("Notes", new ImageIcon(), nv, "Add and modify notes");
 		addTab("History", new ImageIcon(), hv, "View history of changes");
-		addTab("Assigned To", new ImageIcon(), av, "Add and modify assignees");
-		addTab("Acceptance Tests", new ImageIcon(), atv, "Add and modify acceptance tests");
+		JScrollPane scrollPaneAssigneeView = new JScrollPane(av);
+		addTab("Assigned To", new ImageIcon(), scrollPaneAssigneeView, "Add and modify assignees");
+		JScrollPane scrollPaneAcceptanceTestView = new JScrollPane(atv);
+		addTab("Acceptance Tests", new ImageIcon(), scrollPaneAcceptanceTestView, "Add and modify acceptance tests");
 		addTab("Dependencies", new ImageIcon(), dv, "View upstream and downstream dependencies");
 		addTab("Tasks", new ImageIcon(), tv, "Edit and view tasks");*/
 	}

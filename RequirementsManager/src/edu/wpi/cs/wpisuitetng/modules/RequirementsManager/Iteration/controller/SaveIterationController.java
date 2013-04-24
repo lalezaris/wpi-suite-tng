@@ -51,30 +51,14 @@ public class SaveIterationController {
 	/**
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
-	public void save() {
-//		final IterationPanel panel = (IterationPanel) getView().getIterationPanel();
-//		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(getView()) : new UpdateIterationRequestObserver(getView());
-//		Request request;
-//		request = Network.getInstance().makeRequest("iterationsmanager/iteration", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
-//
-//		if(view.checkRequiredFields() == 0){
-//			String JsonRequest = view.getIterationModel().getEditedModel().toJSON();
-//			request.setBody(JsonRequest);
-//			System.out.println("Sending REQ to server:" +JsonRequest );
-//			request.addObserver(requestObserver);
-//			request.send();
-//			//close tab
-//			view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
-//			System.out.println("SAVE ITERATION");
-//		}
-		
+	public void save() {		
 		Request request;
 		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(new CheckIterationFieldsObserver(this));
 		request.send();
-		
+
 	} 
-	
+
 	public void checkIterationField(Iteration[] iterations){
 		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : new UpdateIterationRequestObserver(view);
@@ -84,15 +68,13 @@ public class SaveIterationController {
 		if(view.checkRequiredFields(iterations) == 0){
 			String JsonRequest = view.getIterationModel().getEditedModel().toJSON();
 			requestSave.setBody(JsonRequest);
-			System.out.println("Sending REQ to server:" +JsonRequest );
 			requestSave.addObserver(requestObserver);
 			requestSave.send();
 			//close tab
 			view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
-			System.out.println("SAVE ITERATION");
 		}
 	}
-	
+
 	/**
 	 * Gets view.
 	 * 

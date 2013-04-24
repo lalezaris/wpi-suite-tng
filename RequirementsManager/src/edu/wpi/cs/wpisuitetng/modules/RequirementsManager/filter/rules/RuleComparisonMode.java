@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 /**
@@ -30,13 +30,21 @@ public enum RuleComparisonMode {
 	CONTAINS("CONTAINS"),
 	ASSIGNEDTO("IS ASSIGNED TO"),
 	NOTASSIGNEDTO(" IS NOT ASSIGNED TO");
-	
+
 	private String name;
-	
+
+	/**
+	 * Constructor for RuleComparisonMode
+	 * 
+	 * @param name the comparison mode
+	 */
 	private RuleComparisonMode(String name){
 		this.name = name;
 	}
-	
+
+	/**
+	 * @see java.lang.Enum#toString()
+	 */
 	@Override
 	public String toString(){
 		return name;

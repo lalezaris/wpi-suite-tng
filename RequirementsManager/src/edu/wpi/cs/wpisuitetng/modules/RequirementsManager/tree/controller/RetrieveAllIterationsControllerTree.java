@@ -52,7 +52,7 @@ public class RetrieveAllIterationsControllerTree {
 	public void refreshData() {	
 		final RequestObserver requestObserver = new RetrieveAllIterationsRequestObserverTree(this);
 		Request request;
-		request = Network.getInstance().makeRequest("iterationsmanager/iteration", /*is this ok? ->*/ HttpMethod.GET);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.GET);
 		request.addObserver(requestObserver);
 		request.send();
 	}
@@ -78,6 +78,5 @@ public class RetrieveAllIterationsControllerTree {
 	 * error occurs retrieving the Iterations from the server.
 	 */
 	public void errorReceivingData(String error) { 
-		// TODO: Improve implementation
 	}
 }

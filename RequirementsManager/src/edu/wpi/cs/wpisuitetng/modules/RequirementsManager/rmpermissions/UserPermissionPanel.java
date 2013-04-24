@@ -16,9 +16,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -87,27 +84,21 @@ public class UserPermissionPanel extends JPanel{
 		/*initialize all of the components to be displayed*/
 		noneUsersList = new DefaultListModel();
 		lstNoneUsers = new JList(noneUsersList);
-		lstNoneUsers.setFixedCellWidth(250);
+		lstNoneUsers.setFixedCellWidth(150);
 		updateUsersList = new DefaultListModel();
 		lstUpdateUsers = new JList(updateUsersList);
-		lstUpdateUsers.setFixedCellWidth(250);
+		lstUpdateUsers.setFixedCellWidth(150);
 		adminUsersList = new DefaultListModel();
 		lstAdminUsers = new JList(adminUsersList);
-		lstAdminUsers.setFixedCellWidth(250);
-		
+		lstAdminUsers.setFixedCellWidth(150);
 
 		/*initialize all of the buttons to be displayed*/
 		btnNone = new JButton("Move to None");
-		//btnNone.addActionListener(new NonePermissionController(this));
 		btnUpdate = new JButton("Move to Update");
-		//btnUpdate.addActionListener(new UpdatePermissionController(this));
 		btnAdmin = new JButton("Move to Admin");
-		//btnAdmin.addActionListener(new AdminPermissionController(this));
 		btnUpdateAll = new JButton("Update Permissions");
-		//btnUpdateAll.addActionListener(new UpdateAllPermissionsController(this));
 
 		/*labels for the components*/
-		//		JLabel lblProjectUsers = new JLabel("Project Users:", LABEL_ALIGNMENT);
 		JLabel lblNoneUsers = new JLabel("None Users:", LABEL_ALIGNMENT);
 		JLabel lblUpdateUsers = new JLabel("Update Users:", LABEL_ALIGNMENT);
 		JLabel lblAdminUsers = new JLabel("Admin Users:", LABEL_ALIGNMENT);
@@ -171,9 +162,9 @@ public class UserPermissionPanel extends JPanel{
 		cPanel.gridwidth = 1;
 		cPanel.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		listPanel.add(lblNoneUsers, cPanel);
-		
+
 		JScrollPane noneScrollPane = new JScrollPane(lstNoneUsers);
-		noneScrollPane.setPreferredSize(new Dimension(300,600));
+		noneScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 0;
 		cPanel.gridy = 2;
@@ -193,7 +184,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblUpdateUsers, cPanel);
 
 		JScrollPane updateScrollPane = new JScrollPane(lstUpdateUsers);
-		updateScrollPane.setPreferredSize(new Dimension(300,600));
+		updateScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 1;
 		cPanel.gridy = 2;
@@ -213,7 +204,7 @@ public class UserPermissionPanel extends JPanel{
 		listPanel.add(lblAdminUsers, cPanel);
 
 		JScrollPane adminScrollPane = new JScrollPane(lstAdminUsers);
-		adminScrollPane.setPreferredSize(new Dimension(300,600));
+		adminScrollPane.setPreferredSize(new Dimension(200,300));
 		cPanel.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cPanel.gridx = 2;
 		cPanel.gridy = 2;
@@ -232,15 +223,6 @@ public class UserPermissionPanel extends JPanel{
 		cOverall.gridwidth = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		overallPanel.add(btnUpdateAll, cOverall);
-		
-//		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
-//		cOverall.gridx = 0;
-//		cOverall.gridy = 1;
-//		cOverall.weightx = 0.1;
-//		cOverall.weighty = 0.1;
-//		cOverall.gridwidth = 1;
-//		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
-//		overallPanel.add(btnPanel, cOverall);
 
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
@@ -258,9 +240,9 @@ public class UserPermissionPanel extends JPanel{
 		c.weightx = 0.1;
 		c.weighty = 0.1;
 		c.gridwidth = 1;
-//		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		this.add(overallPanel, c);
 	}
+
 
 	/**
 	 * Gets none users.

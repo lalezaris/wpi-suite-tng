@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
 import java.awt.event.ActionEvent;
@@ -29,8 +29,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
 public class AddAction extends AbstractAction {
 
 	FilterController controller;
-	
-	
+
+
 	/**
 	 * Make a new AddAction.
 	 *
@@ -41,12 +41,13 @@ public class AddAction extends AbstractAction {
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().addRule();
+		controller.getPanel().getRules().get(controller.getPanel().getRules().size()-1).addListeners();
 	}
 
 }

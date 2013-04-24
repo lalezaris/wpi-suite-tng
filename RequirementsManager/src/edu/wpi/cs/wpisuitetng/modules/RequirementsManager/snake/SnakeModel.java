@@ -1,11 +1,21 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 public class SnakeModel extends AbstractModel{
 
@@ -36,7 +46,7 @@ public class SnakeModel extends AbstractModel{
 
 	/**
 	 * Sets the score
-	 * @param score: sets the score 
+	 * @param score sets the score 
 	 */
 	public void setScore(int score) {
 		this.score = score;
@@ -56,7 +66,7 @@ public class SnakeModel extends AbstractModel{
 
 	/**
 	 * Sets the name
-	 * @param name: sets the name 
+	 * @param name sets the name 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -66,13 +76,11 @@ public class SnakeModel extends AbstractModel{
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 

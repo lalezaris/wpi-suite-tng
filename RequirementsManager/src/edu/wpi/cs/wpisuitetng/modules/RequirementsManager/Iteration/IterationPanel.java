@@ -25,6 +25,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ import javax.swing.JTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
@@ -57,7 +60,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Requirement
  *
  */
 @SuppressWarnings("serial")
-public class IterationPanel extends JPanel {
+public class IterationPanel extends JPanel implements FocusListener {
 
 	/**
 	 * The Enum Mode.
@@ -77,7 +80,7 @@ public class IterationPanel extends JPanel {
 	protected IterationView parent;
 
 	/** Form elements */
-	protected JTextField txtIterationName;
+	protected JPlaceholderTextField txtIterationName;
 	protected JLabel txtStartDate;
 	protected JButton selectStartDate = new JButton("Select Start Date");
 	protected JLabel txtEndDate;
@@ -94,9 +97,9 @@ public class IterationPanel extends JPanel {
 	JLabel lblIterationNameError = new JLabel("ERROR: Must have a iteration name", LABEL_ALIGNMENT);
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
-	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
+	JLabel lblDateError = new JLabel("<html>ERROR: The start date must be <p>before the end date</p></html>", LABEL_ALIGNMENT);
 	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
-	JLabel lblDateOverlapError = new JLabel("ERROR: The iteration is overlapping with already existing Iteration(s)", LABEL_ALIGNMENT);
+	JLabel lblDateOverlapError = new JLabel("<html>ERROR: The iteration is overlapping with <p>already existing Iteration(s)</p></html>", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -115,8 +118,8 @@ public class IterationPanel extends JPanel {
 	protected static final int HORIZONTAL_PADDING = 5;
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
-	
-	
+
+
 	protected JTable table;
 	protected RequirementListPanel reqListPanel;
 	protected RequirementTableModel requirementTableModel;
@@ -124,12 +127,10 @@ public class IterationPanel extends JPanel {
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
 	 *
-	 * @param parent The parent of the iteration
 	 * @param parent the iteration view for the iteration panel
 	 */
-	public IterationPanel(IterationView parent /*, Mode mode*/) {
+	public IterationPanel(IterationView parent) {
 		this.parent = parent;
-//		this.editMode = mode;
 
 		// Indicate that input is enabled
 		inputEnabled = true;
@@ -158,9 +159,12 @@ public class IterationPanel extends JPanel {
 		panelOne = new JPanel();
 		panelTwo = new JPanel();
 
-		txtIterationName = new JTextField("", 20);
+		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
+		txtIterationName.addFocusListener(this);
 		txtStartDate = new JLabel("");
+		txtStartDate.addFocusListener(this);
 		txtEndDate = new JLabel("");
+		txtEndDate.addFocusListener(this);
 
 		// Buttons for "Save" and "Cancel"
 		btnSaveIteration = new JButton("Save");
@@ -192,18 +196,6 @@ public class IterationPanel extends JPanel {
 		cOne.gridwidth = 1;
 		panelOne.add(txtIterationName, cOne);
 
-		cOne.gridx = 4;
-		cOne.gridy = 0;
-		cOne.weightx = 0.5;
-		cOne.weighty = 0.5;
-		cOne.gridwidth = 1;
-		lblIterationNameError.setForeground(Color.RED);
-		lblIterationNameError.setVisible(false);
-		panelOne.add(lblIterationNameError, cOne);
-
-		lblIterationNameExistsError.setForeground(Color.RED);
-		lblIterationNameExistsError.setVisible(false);
-		panelOne.add(lblIterationNameExistsError, cOne);
 
 		//Panel Two - panel below panel one -------------------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -247,11 +239,11 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 0;
+		cTwo.gridx = 0;
+		cTwo.gridy = 5;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblStartDateError.setVisible(false);
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
@@ -261,6 +253,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(lblEndDate, cTwo);
 
 		cTwo.anchor = GridBagConstraints.LINE_START;
@@ -268,6 +261,7 @@ public class IterationPanel extends JPanel {
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		txtEndDate.setEnabled(true);
 		panelTwo.add(txtEndDate, cTwo);
 
@@ -280,6 +274,9 @@ public class IterationPanel extends JPanel {
 
 		selectEndDate.addActionListener(new ActionListener()
 		{
+			/**
+			 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+			 */
 			public void actionPerformed(ActionEvent ae)
 			{
 				DatePicker dp = new DatePicker(f);
@@ -290,29 +287,31 @@ public class IterationPanel extends JPanel {
 			}
 		});
 
-		cTwo.gridx = 6;
-		cTwo.gridy = 1;
+		cTwo.gridx = 0;
+		cTwo.gridy = 6;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.gridwidth = 1;
+		cTwo.gridwidth = 7;
 		lblEndDateError.setForeground(Color.RED);
 		lblEndDateError.setVisible(false);
 		panelTwo.add(lblEndDateError, cTwo);
 
 		cTwo.gridx = 0;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnSaveIteration, cTwo);
 
 		cTwo.gridx = 2;
-		cTwo.gridy = 2;
+		cTwo.gridy = 3;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
 		panelTwo.add(btnCancelIteration, cTwo);
 
-		cTwo.gridx = 3;
-		cTwo.gridy = 2;
+		cTwo.gridx = 0;
+		cTwo.gridy = 7;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 7;
@@ -323,6 +322,19 @@ public class IterationPanel extends JPanel {
 		lblDateOverlapError.setVisible(false);
 		lblDateOverlapError.setForeground(Color.RED);
 		panelTwo.add(lblDateOverlapError, cTwo);
+
+		cTwo.gridx = 0;
+		cTwo.gridy = 4;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 7;
+		lblIterationNameError.setForeground(Color.RED);
+		lblIterationNameError.setVisible(false);
+		panelTwo.add(lblIterationNameError, cTwo);
+
+		lblIterationNameExistsError.setForeground(Color.RED);
+		lblIterationNameExistsError.setVisible(false);
+		panelTwo.add(lblIterationNameExistsError, cTwo);
 
 		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
 		//Use a grid bag layout manager
@@ -351,16 +363,22 @@ public class IterationPanel extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		JPanel left = new JPanel();
-		left.add(panelOverall);
+		left.setLayout(new GridBagLayout());
+		GridBagConstraints cLeft = new GridBagConstraints();
+		cLeft.anchor = GridBagConstraints.FIRST_LINE_START;
+		cLeft.gridx = 0;
+		cLeft.gridy = 0;
+		cLeft.weightx = 0.1;
+		cLeft.weighty = 0.1;
+		left.add(panelOverall,cLeft);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(left);
-		
+
 
 		JPanel right = new JPanel();
 		if(this.getParent().getMode() == Mode.EDIT){
 			right.setLayout(new BorderLayout());
 			reqListPanel = new RequirementListPanel(MainTabController.getController());
-			reqListPanel.getFilterController().getPanel().setWidth(500);
 			String[] removeFields = {"iteration"};
 			reqListPanel.getFilterController().getPanel().removeFields(removeFields);
 			right.add(reqListPanel,BorderLayout.CENTER);
@@ -377,7 +395,7 @@ public class IterationPanel extends JPanel {
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 
-	
+
 	/**
 	 * Return the parent IterationView.
 	 * 
@@ -406,7 +424,7 @@ public class IterationPanel extends JPanel {
 	public Mode getEditMode() {
 		return editMode;
 	}
-	
+
 	/**
 	 * 
 	 * Sets the visibility of multiple JComponents to the given state.
@@ -470,11 +488,17 @@ public class IterationPanel extends JPanel {
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
 				return true;
 			}
+
+			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
+				return true;
+			}
 		}
 		return false;
 	}
 
 	/**
+	 * Gets the save iteration button
+	 * 
 	 * @return the btnSaveIteration
 	 */
 	public JButton getBtnSaveIteration() {
@@ -482,6 +506,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the cancel iteration button
+	 * 
 	 * @return the btnCancelIteration
 	 */
 	public JButton getBtnCancelIteration() {
@@ -489,6 +515,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text iteration name
+	 * 
 	 * @return the txtIterationName
 	 */
 	public JTextField getTxtIterationName() {
@@ -496,6 +524,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text start date
+	 * 
 	 * @return the txtStartDate
 	 */
 	public JLabel getTxtStartDate() {
@@ -503,6 +533,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the text end date
+	 * 
 	 * @return the txtEndDate
 	 */
 	public JLabel getTxtEndDate() {
@@ -510,6 +542,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the iteration name error
+	 * 
 	 * @return the lblIterationNameError
 	 */
 	public JLabel getLblIterationNameError() {
@@ -517,6 +551,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the start date error
+	 * 
 	 * @return the lblStartDateError
 	 */
 	public JLabel getLblStartDateError() {
@@ -524,6 +560,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the end date error
+	 * 
 	 * @return the lblEndDateError
 	 */
 	public JLabel getLblEndDateError() {
@@ -531,6 +569,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the date error
+	 * 
 	 * @return the lblDateError
 	 */
 	public JLabel getLblDateError() {
@@ -538,6 +578,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the iteration name exists error
+	 * 
 	 * @return the lblIterationNameExistsError
 	 */
 	public JLabel getLblIterationNameExistsError() {
@@ -545,6 +587,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the label of the date overlap error
+	 * 
 	 * @return the lblDateOverlapError
 	 */
 	public JLabel getLblDateOverlapError() {
@@ -552,6 +596,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Sets the edit mode
+	 * 
 	 * @param editMode the editMode to set
 	 */
 	public void setEditMode(Mode editMode) {
@@ -559,6 +605,8 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
+	 * Gets the panel layout
+	 * 
 	 * @return the layout
 	 */
 	public GridBagLayout getPanelLayout() {
@@ -566,7 +614,6 @@ public class IterationPanel extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Receives the requirements from the server and adds the correct ones to the requirement panel
 	 * 
 	 * @param reqs the requirements the server received
@@ -583,5 +630,74 @@ public class IterationPanel extends JPanel {
 		reqListPanel.repaint();
 		reqListPanel.revalidate();
 	}
-	
+
+	/**
+	 * Sends filter server request
+	 */
+	public void sendFilterServerRequest(){
+		//reqListPanel.getFilterController().sendServerRequests();
+	}
+
+	/**
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		updateBackgrounds();
+	}
+
+	/**
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		updateBackgrounds();
+	}
+
+	/**
+	 * Updates the backgrounds to yellow or white depending on if there have been changes
+	 * 
+	 * @return boolean for if backgrounds have been updated
+	 */
+	public boolean updateBackgrounds(){
+
+		if(this.getParent().getMode() == Mode.CREATE){	
+			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+				txtIterationName.setBackground(Color.YELLOW);
+			} else 
+				txtIterationName.setBackground(Color.WHITE);
+
+			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
+				txtStartDate.setBackground(Color.YELLOW);
+			} else 
+				txtStartDate.setBackground(Color.WHITE);
+
+			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
+				txtEndDate.setBackground(Color.YELLOW);
+			} else 
+				txtEndDate.setBackground(Color.WHITE); 
+		} else {
+			Iteration oldI = getParent().getIterationModel().getUneditedModel();
+
+			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+				txtIterationName.setBackground(Color.YELLOW);
+			} else 
+				txtIterationName.setBackground(Color.WHITE);
+
+			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+				txtStartDate.setBackground(Color.YELLOW);
+			} else 
+				txtStartDate.setBackground(Color.WHITE);
+
+			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+				txtEndDate.setBackground(Color.YELLOW);
+			} else 
+				txtEndDate.setBackground(Color.WHITE);
+
+			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
+				return true;
+			}
+		}
+		return false;
+	}
 }

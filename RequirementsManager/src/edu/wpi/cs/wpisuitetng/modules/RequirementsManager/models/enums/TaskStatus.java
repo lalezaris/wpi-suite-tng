@@ -11,7 +11,7 @@
  * 	Sam Abradi
  *  Evan Polekoff
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums;
 
 /**
@@ -30,9 +30,9 @@ public enum TaskStatus {
 	OPEN("OPEN"),
 	CLOSED("CLOSED"),
 	ACCEPTED("ACCEPTED");
-	
-private String name;
-	
+
+	private String name;
+
 	/**
 	 * Instantiates a new requirement priority.
 	 *
@@ -41,7 +41,7 @@ private String name;
 	TaskStatus(String name){
 		this.name = name;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -50,16 +50,16 @@ private String name;
 	public String getName(){
 		return name;
 	}
-	
-	/* (non-Javadoc)
+
+	/**
 	 * @see java.lang.Enum#toString()
 	 */
 	@Override
 	public String toString(){
 		return name;
 	}
-	
-	
+
+
 	/**
 	 * Get value from a string.
 	 *

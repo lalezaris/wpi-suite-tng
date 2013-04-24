@@ -40,7 +40,7 @@ public class RequirementTableModelTest {
 
 	@Before
 	public void setUp(){
-		rtm1 = new RequirementTableModel();
+		rtm1 = new RequirementTableModel(null);
 		Requirement req1 = new Requirement(1,"req1","des1",null);
 		req1.setEstimateEffort(-1);
 		Requirement req2 = new Requirement(2,"req2", "des2",null);

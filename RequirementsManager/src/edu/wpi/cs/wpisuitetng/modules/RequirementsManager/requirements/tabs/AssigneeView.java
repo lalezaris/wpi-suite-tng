@@ -15,7 +15,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -53,7 +56,7 @@ public class AssigneeView extends RequirementTab{
 	private JButton btnAdd;
 	private JButton btnRemove;
 	private JPanel buttonPanel;
-
+	private RequirementView parent;
 
 	private boolean isButtonPressed; 
 
@@ -62,8 +65,9 @@ public class AssigneeView extends RequirementTab{
 	 *
 	 * @param parent the requirement view for the assignee view
 	 */
-	public AssigneeView(RequirementView parent){
-		FlowLayout flowLayout = new FlowLayout();
+	public AssigneeView(RequirementView p){
+		this.parent = p;
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
 		isButtonPressed = false;
@@ -72,11 +76,6 @@ public class AssigneeView extends RequirementTab{
 
 		allUserLM = new DefaultListModel<String>();
 		assignedUserLM = new DefaultListModel<String>();
-		
-		User[] projectUsers = CurrentUserPermissions.getProjectUsers();
-
-		System.out.println(">> DONE FILLING projectUsers ArrayList <<");
-		System.out.println();
 
 		allUserList = new JList<String>(allUserLM);
 		allUserList.setFixedCellWidth(200);
@@ -84,11 +83,17 @@ public class AssigneeView extends RequirementTab{
 		assignedUserList.setFixedCellWidth(200);
 
 		buttonPanel = new JPanel(){
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
 				return 0;
@@ -97,8 +102,10 @@ public class AssigneeView extends RequirementTab{
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 
 		btnAdd = new JButton("ADD");
+		//btnAdd.addFocusListener(this);
 
 		btnRemove = new JButton("REMOVE");
+		//btnRemove.addFocusListener(this);
 
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);
@@ -107,48 +114,74 @@ public class AssigneeView extends RequirementTab{
 		assignedUserList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		JPanel leftPanel = new JPanel()	{
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
-				return 0;
+				return height/2 - buttonPanel.getHeight()/2;
 			}
 		};
+		
+		
+
 		leftPanel.setLayout(new BorderLayout());
 		JLabel leftLabel = new JLabel("Not Assigned:");
 		leftPanel.add(leftLabel, BorderLayout.NORTH);
 		allUserList.setAlignmentX(CENTER_ALIGNMENT);
-		leftPanel.add(allUserList);
-		this.add(leftPanel, BorderLayout.CENTER);
+		allUserList.setFixedCellWidth(180);
+		
+
+		JScrollPane leftScrollPane = new JScrollPane(allUserList);
+		leftScrollPane.setPreferredSize(new Dimension(200,300));
+		
+		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
+		this.add(leftPanel);
 
 		this.add(buttonPanel);
 
 		JPanel rightPanel = new JPanel(){	
+			/**
+			 * @see javax.swing.JComponent#getBaselineResizeBehavior()
+			 */
 			@Override
 			public Component.BaselineResizeBehavior getBaselineResizeBehavior() {
 				return Component.BaselineResizeBehavior.CONSTANT_ASCENT;
 			}
 
+			/**
+			 * @see javax.swing.JComponent#getBaseline(int, int)
+			 */
 			@Override
 			public int getBaseline(int width, int height) {
-				return 0;
+				return height/2 - buttonPanel.getHeight()/2;
 			}
 		};
 		rightPanel.setLayout(new BorderLayout());
 		JLabel rightLabel = new JLabel("Assigned:");
 		rightPanel.add(rightLabel, BorderLayout.NORTH);
 		assignedUserList.setAlignmentX(CENTER_ALIGNMENT);
-		rightPanel.add(assignedUserList, BorderLayout.CENTER);
+		assignedUserList.setFixedCellWidth(180);
+		
+		JScrollPane rightScrollPane = new JScrollPane(assignedUserList);
+		rightScrollPane.setPreferredSize(new Dimension(200,300));
+		
+		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 		leftPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		this.add(rightPanel);
 	}
 
 	/**
-	 * Returns button object that adds users from a requirement.
+	 * Gets button object that adds users from a requirement.
 	 * 
 	 * @return The button that adds users from a requirement
 	 */
@@ -157,7 +190,7 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
-	 * Returns button object that removes users from a requirement.
+	 * Gets button object that removes users from a requirement.
 	 * 
 	 * @return button that removes users from a requirement
 	 */
@@ -168,7 +201,7 @@ public class AssigneeView extends RequirementTab{
 	/**
 	 * Set the Assignee list.
 	 * 
-	 * @param assignee
+	 * @param assignee the assignee to add to the list
 	 */
 	public void setAssigneeList(ArrayList<String> assignee) {
 		this.assignedUserAL = assignee;
@@ -186,7 +219,6 @@ public class AssigneeView extends RequirementTab{
 	 * @param all the new all users list
 	 */
 	public void setAllList(ArrayList<String> all) {
-		// TODO Auto-generated method stub
 		this.allUserAL = all;
 		Collections.sort(allUserAL);
 
@@ -195,7 +227,7 @@ public class AssigneeView extends RequirementTab{
 			allUserLM.addElement(s);
 		}
 	}
-	
+
 	/**
 	 * Sets the lists.
 	 */
@@ -225,7 +257,7 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
-	 * Returns the array list containing all users.
+	 * Gets the array list containing all users.
 	 * 
 	 * @return the array list containing all users
 	 */
@@ -234,7 +266,7 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
-	 * Returns the array list containing users assigned to this requirement.
+	 * Gets the array list containing users assigned to this requirement.
 	 * 
 	 * @return the array list containing users assigned to this requirement
 	 */
@@ -270,6 +302,8 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
+	 * Gets assigned user list
+	 * 
 	 * @return the allUserList
 	 */
 	public JList<String> getAssignedUserList() {
@@ -277,6 +311,8 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
+	 * Returns if button is pressed
+	 * 
 	 * @return the isButtonPressed
 	 */
 	public boolean isButtonPressed() {
@@ -284,6 +320,8 @@ public class AssigneeView extends RequirementTab{
 	}
 
 	/**
+	 * Sets if button is pressed
+	 * 
 	 * @param isButtonPressed the isButtonPressed to set
 	 */
 	public void setButtonPressed(boolean isButtonPressed) {
@@ -303,12 +341,21 @@ public class AssigneeView extends RequirementTab{
 				allUserAL.add(projectUsers[i].getUsername());
 			}
 		}
-		
+
 		allUserLM.clear();
 
 		for(int i=0;i<allUserAL.size();i++){
 			allUserLM.addElement(allUserAL.get(i));
 		}		
+	}
+	
+	public void setBackgroundColors(Color c) {
+		allUserList.setBackground(c);
+		assignedUserList.setBackground(c);
+	}
+	
+	public Color getBackgroundColor() {
+		return allUserList.getBackground();
 	}
 
 	@Override
@@ -326,4 +373,10 @@ public class AssigneeView extends RequirementTab{
 		return "Add and modify assignees";
 	}
 
+	/* 
+	 * call the background color refresher
+	 */
+	public void refreshAllBackgrounds() {
+		parent.getReqModel().updateBackgrounds();
+	}
 }

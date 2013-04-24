@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 	RetrieveAllRequirementsController r;
-	
+
 	/**
 	 * This method is called when information about an RetrieveAllRequirementsRequest
 	 * which was previously requested using an asynchronous
@@ -42,7 +42,7 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 		this.r = r;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -64,21 +64,21 @@ public class RetrieveAllRequirementsRequestObserver implements RequestObserver{
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.print("Response Error: " + iReq.getBody() + "  ::  " + iReq.toString() );
-		
+
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		
+
 	}
 }
 

@@ -8,8 +8,10 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * @author "Michael Perrone"
+ *
+ * Contributors:
+ *  Chris Dunkers
  **************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
@@ -23,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

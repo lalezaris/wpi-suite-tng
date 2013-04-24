@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  chrissy-hanny-boo-boo
+ *  Chris Hanna
  ***************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveAllIterationsController {
 
 	RequirementView view;
-	
+
 	/**
 	 * Instantiates a new retrieve all iterations controller.
 	 *
@@ -38,9 +38,9 @@ public class RetrieveAllIterationsController {
 	public RetrieveAllIterationsController(RequirementView view){
 		this.view = view;
 	}
-	
+
 	/**
-	 * Retrieve iterations from <code>view</code>
+	 * Retrieve iterations from view
 	 */
 	public void retrieve(){
 		final RequestObserver requestObserver = new RetrieveAllIterationsObserver(this);
@@ -49,9 +49,9 @@ public class RetrieveAllIterationsController {
 		request.addObserver(requestObserver);
 		request.send();
 	}
-	
+
 	/**
-	 * Changes iteration combo box for <code>view</code>.
+	 * Changes iteration combo box for view.
 	 *
 	 * @param iterations the iterations to added to the combo box.
 	 */

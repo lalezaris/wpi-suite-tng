@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Ned Shelton
-**************************************************/
+ **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller;
 

@@ -128,16 +128,16 @@ public class DependenciesView extends RequirementTab{
 	}
 
 	/**
-	 * Returns the ArrayList of ids of children dependencies in the current view.
+	 * Gets the ArrayList of ids of children dependencies in the current view.
 	 *
 	 * @return the ArrayList of ids of children
 	 */
 	public ArrayList<Integer> getChildrenRequirementsList(){
 		return childRequirementIDs;
 	}
-	
+
 	/**
-	 * Returns the id of parent dependency in the current view.
+	 * Gets the id of parent dependency in the current view.
 	 *
 	 * @return the id of parent
 	 */

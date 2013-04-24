@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Chirs Hanna
-**************************************************/
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.controller;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class SetUpPermissionsPanelController {
 
 	private UserPermissionPanel panel;
 	private PermissionModel model;
-	
+
 	/**
 	 * Instantiates a new sets the up permissions panel controller.
 	 *
@@ -50,7 +50,7 @@ public class SetUpPermissionsPanelController {
 		this.panel = panel;
 		this.model = model;
 	}
-	
+
 	/**
 	 * Set up the panel.
 	 */
@@ -58,7 +58,7 @@ public class SetUpPermissionsPanelController {
 		sendForUsers();
 		sendForPermissions();
 	}
-	
+
 	/**
 	 * Send a request to get all the users from the server.
 	 */
@@ -68,7 +68,7 @@ public class SetUpPermissionsPanelController {
 		request.addObserver(new UsersObserver(this));
 		request.send();
 	}
-	
+
 	/**
 	 * Send a request to get all the permissions from the server.
 	 */
@@ -78,7 +78,7 @@ public class SetUpPermissionsPanelController {
 		request.addObserver(new PermissionsObserver(this));
 		request.send();
 	}
-	
+
 	/**
 	 * An observer got a response, and wants to update the known users.
 	 *
@@ -89,8 +89,8 @@ public class SetUpPermissionsPanelController {
 		this.model.setGotUsers(true);
 		setUpPanel();
 	}
-	
-	
+
+
 	/**
 	 * An observer got a response, and wants to update the known permissions.
 	 *
@@ -101,38 +101,38 @@ public class SetUpPermissionsPanelController {
 		this.model.setGotPermissions(true);
 		setUpPanel();
 	}
-	
+
 	/**
 	 * Sets up the panel.
 	 */
 	@SuppressWarnings("unchecked")
 	private void setUpPanel(){
-		
+
 		if (this.model.isGotPermissions() && this.model.isGotUsers()){
 			List<String> none = new ArrayList<String>();
 			List<String> admin = new ArrayList<String>();
 			List<String> update = new ArrayList<String>();
-			
+
 			SavePermissionsController controller = new SavePermissionsController(this.panel);
 			for (int i = 0 ; i < this.model.getUsers().length ; i ++){
 				boolean hasPermission = false;
 				for (int j = 0 ; j < this.model.getPermissions().length ; j ++){
 					if (this.model.getUsers()[i].getUsername().equals(this.model.getPermissions()[j].getUsername())){
 						hasPermission = true;
-						
+
 						switch (this.model.getPermissions()[j].getPermissions()){
-							case ADMIN: admin.add(this.model.getUsers()[i].getUsername());
-							break;
-							case UPDATE: update.add(this.model.getUsers()[i].getUsername());
-							break;
-							case NONE: none.add(this.model.getUsers()[i].getUsername());
-							break;
+						case ADMIN: admin.add(this.model.getUsers()[i].getUsername());
+						break;
+						case UPDATE: update.add(this.model.getUsers()[i].getUsername());
+						break;
+						case NONE: none.add(this.model.getUsers()[i].getUsername());
+						break;
 						}
-						
+
 					}
-					
+
 				}
-				
+
 				if (!hasPermission){
 					if (this.model.getUsers()[i].getRole() == Role.ADMIN){
 						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.ADMIN)
@@ -140,21 +140,21 @@ public class SetUpPermissionsPanelController {
 						admin.add(this.model.getUsers()[i].getUsername());
 					} else {
 						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.NONE)
-								, PermissionSaveMode.NEW);
+						, PermissionSaveMode.NEW);
 						none.add(this.model.getUsers()[i].getUsername());
 					}
 				}
 			}
-			
+
 			this.panel.setNoneUsersList( panel.getView().getNewModel(none) );
 			this.panel.setUpdateUsersList( panel.getView().getNewModel(update) );
 			this.panel.setAdminUsersList( panel.getView().getNewModel(admin));
-			
+
 			this.panel.getNoneUsers().setModel(this.panel.getNoneUsersList());
 			this.panel.getUpdateUsers().setModel(this.panel.getUpdateUsersList());
 			this.panel.getAdminUsers().setModel(this.panel.getAdminUsersList());
 		}
-		
+
 		if (this.model.isGotPermissions() || this.model.isGotUsers()){
 			CurrentUserPermissions.updateCurrentUserPermissions();
 		}

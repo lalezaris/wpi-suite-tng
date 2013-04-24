@@ -11,8 +11,7 @@
  *  Tianyu Li
  *  Mike Perrone
  *  Chris Hanna
- *  
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.BorderLayout;
@@ -39,13 +38,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 public class RequirementListView extends JPanel implements IToolbarGroupProvider {
 
 	private ToolbarGroupView buttonGroup;
-	private JButton refreshButton, updateButton;
 	private RequirementListPanel mainPanel;
 	private RetrieveAllRequirementsController refreshController;
 	final JScrollPane mainPanelScrollPane;
 	private Tab containingTab;
-	private boolean inputEnabled;
-	
 	/**
 	 * Instantiates a new requirement list view.
 	 *
@@ -54,34 +50,33 @@ public class RequirementListView extends JPanel implements IToolbarGroupProvider
 	public RequirementListView(Tab tab){
 		containingTab = tab;
 
-		inputEnabled = true;
-		
 		// Instantiate the button panel
 		buttonGroup = new ToolbarGroupView("Requirements List");
-		
+
 		containingTab.setIcon(new ImageIcon());
 		containingTab.setTitle("Requirements List");
-		
-		
+
+
 		// Instantiate the main create requirement panel
 		this.setLayout(new BorderLayout());
-		
+
 		mainPanelScrollPane = new JScrollPane(mainPanel);
-				
+
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		
+
 		// Prevent content of scroll pane from smearing (credit: https://gist.github.com/303464)
 		mainPanelScrollPane.getVerticalScrollBar().addAdjustmentListener(new java.awt.event.AdjustmentListener(){
 			public void adjustmentValueChanged(java.awt.event.AdjustmentEvent ae){
-						mainPanelScrollPane.repaint();
+				mainPanelScrollPane.repaint();
 			}
 		});
-		
+
 		this.add(mainPanelScrollPane, BorderLayout.CENTER);
 		refreshController.refreshData();
 	}
-	
-	/* Gets ToolbarGroupView
+
+	/**
+	 * Gets ToolbarGroupView
 	 * @see edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider#getGroup()
 	 */
 	@Override

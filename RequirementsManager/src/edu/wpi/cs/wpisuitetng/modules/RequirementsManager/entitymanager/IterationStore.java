@@ -10,7 +10,7 @@
  * Contributors:
  *  Sam Abradi
  *  Arica Liu
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.util.List;
@@ -45,10 +45,10 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * @param data The data to be stored
 	 */
 	public IterationStore(Data data){
-	    db = data;
-	    updateMapper = new ModelMapper(); 
+		db = data;
+		updateMapper = new ModelMapper(); 
 	}
-	
+
 	/**
 	 * Takes a string that is the JSON-ified representation of Iteration, and a session (project);
 	 * returns the iteration in object form.
@@ -57,6 +57,9 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * @param s A session (project)
 	 * @param content The JSON-ified representation of Iteration
 	 * @return The iteration in object form
+	 * @throws BadRequestException
+	 * @throws ConflictException
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -78,6 +81,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * @param s A session (project)
 	 * @param id The ID of the Iteration(s)
 	 * @return An array of all Iteration(s) with the given username
+	 * @throws NotFoundException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -90,7 +94,6 @@ public class IterationStore implements EntityManager<Iteration> {
 		try {
 			iterations = db.retrieve(Iteration.class, "id", intId, s.getProject()).toArray(new Iteration[0]);
 		} catch (WPISuiteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(iterations.length < 1 || iterations[0] == null) {
@@ -104,6 +107,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * 
 	 * @param s A session (project)
 	 * @return An array of all iterations stored in the DB
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
@@ -117,6 +121,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * @param s A session (project)
 	 * @param content The content to be passed in
 	 * @return The updated Iteration
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -131,17 +136,15 @@ public class IterationStore implements EntityManager<Iteration> {
 			throw new WPISuiteException("ID not found");
 		}
 		Iteration serverIt = (Iteration) oldIterations.get(0);
-		
+
 		// copy values to old iteration and fill in our changeset appropriately
 		updateMapper.map(it, serverIt);
 
-		//serverIt.setIterationId(it.getId());
-		
 		//apply the changes
 		if(!db.save(serverIt, s.getProject())) {
 			throw new WPISuiteException();
 		}
-		
+
 		//TODO modify this function to use validators and make sure not to update if no 
 		//changes have been made.
 		return serverIt;
@@ -152,6 +155,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	 *
 	 * @param s A session (project)
 	 * @param model The Iteration to be saved
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
@@ -172,12 +176,13 @@ public class IterationStore implements EntityManager<Iteration> {
 			throw new UnauthorizedException();
 		}
 	}
-	
+
 	/**
 	 * Removes an iteration from the DB based on ID.
 	 * 
 	 * @param s A session (project)
 	 * @param id The id of the Iteration to be removed
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
@@ -187,6 +192,7 @@ public class IterationStore implements EntityManager<Iteration> {
 	}
 
 	/* 
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
@@ -198,13 +204,14 @@ public class IterationStore implements EntityManager<Iteration> {
 	 * Deletes everything in DB.
 	 * 
 	 * @param s A session (project)
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
 		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new Iteration(), s.getProject());
-		
+
 	}
 
 	/** 
@@ -219,8 +226,9 @@ public class IterationStore implements EntityManager<Iteration> {
 		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new Iteration()).size();
 	}
-	
-	/* 
+
+	/** 
+	 * @throws WPISuiteExcpetion
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
@@ -228,7 +236,8 @@ public class IterationStore implements EntityManager<Iteration> {
 		return null;
 	}
 
-	/* 
+	/**
+	 * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override

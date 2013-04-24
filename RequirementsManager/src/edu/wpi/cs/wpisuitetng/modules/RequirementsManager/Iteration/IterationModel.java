@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Dunkers
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.text.ParseException;
@@ -34,7 +34,13 @@ public class IterationModel {
 	protected boolean gotIteration;
 	protected boolean gotAllIterations;
 	IterationView iterationView;
-	
+
+	/**
+	 * Constructor for IterationModel
+	 * 
+	 * @param iteration the iteration for the model to hold
+	 * @param iterationView the iteration view for the model to hold
+	 */
 	public IterationModel(Iteration iteration, IterationView iterationView){
 		editedModel = iteration;
 		uneditedModel = iteration;
@@ -42,7 +48,7 @@ public class IterationModel {
 		gotIteration = false;
 		gotAllIterations = false;
 	}
-	
+
 	/**
 	 * Updates the IterationPanel's model to contain the values of the given
 	 * Iteration and sets the IterationPanel's editMode to {@link Mode#EDIT}.
@@ -80,20 +86,15 @@ public class IterationModel {
 	/**
 	 * Update fields in the iteration Panel
 	 */
+
 	protected void updateFields() {
-//		if((!(uneditedModel.getIterationName().equals(null)) && (!(uneditedModel.getIterationName().equals("")))))
-//			((IterationPanel) this.iterationView.getIterationPanel()).getTxtIterationName().setText(uneditedModel.getIterationName());
-//
-//		((IterationPanel) this.iterationView.getIterationPanel()).getTxtStartDate().setText(uneditedModel.getStartDate().toString());
-//		((IterationPanel) this.iterationView.getIterationPanel()).getTxtEndDate().setText(uneditedModel.getEndDate().toString());
-		
 		if (((IterationPanel) iterationView.getIterationPanel()).getEditMode() == Mode.EDIT) {
 			((IterationPanel) iterationView.getIterationPanel()).getTxtIterationName().setText(editedModel.getIterationName().toString());
 			((IterationPanel) iterationView.getIterationPanel()).getTxtStartDate().setText(DateToString(editedModel.getStartDate()));
 			((IterationPanel) iterationView.getIterationPanel()).getTxtEndDate().setText(DateToString(editedModel.getEndDate()));
 		}
 	}
-	
+
 	/**
 	 * Return the model object represented by this view's fields.
 	 * 
@@ -113,7 +114,7 @@ public class IterationModel {
 
 		return iteration;
 	}
-	
+
 	/**
 	 * Convert a Date to a formatted String. 
 	 * 
@@ -127,7 +128,7 @@ public class IterationModel {
 
 		return convertedDate;
 	}
-	
+
 	/**
 	 * Convert a String to Date. 
 	 * 
@@ -144,7 +145,7 @@ public class IterationModel {
 		} 
 		return convertedDate;
 	}
-	
+
 	/**
 	 * Return the unedited Model (an Iteration).
 	 * 
@@ -169,6 +170,8 @@ public class IterationModel {
 	}
 
 	/**
+	 * Returns if got all iterations
+	 * 
 	 * @return the gotAllIterations
 	 */
 	public boolean isGotAllIterations() {
@@ -176,12 +179,14 @@ public class IterationModel {
 	}
 
 	/**
+	 * Sets if got all iterations
+	 * 
 	 * @param gotAllIterations the gotAllIterations to set
 	 */
 	public void setGotAllIterations(boolean gotAllIterations) {
 		this.gotAllIterations = gotAllIterations;
 	}
-	
-	
-	
+
+
+
 }

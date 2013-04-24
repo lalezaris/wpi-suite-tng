@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Chris Hanna
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button;
 
 import java.awt.event.ActionEvent;
@@ -30,9 +30,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterControlle
 public class RemoveAction extends AbstractAction{
 
 	FilterController controller;
-	
+
 	/**
-	 * make a new remove action.
+	 * Make a new remove action.
 	 *
 	 * @param controller the controller
 	 */
@@ -41,14 +41,14 @@ public class RemoveAction extends AbstractAction{
 		this.controller = controller;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.getPanel().deleteSelected();
 		controller.setFilteredInTable();
-		
+
 	}
 
 }

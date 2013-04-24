@@ -9,7 +9,8 @@
  *
  * Contributors:
  *  Tyler Stone
-**************************************************/
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
 import javax.swing.JLabel;
@@ -20,7 +21,6 @@ import javax.swing.JPanel;
  * Adapted from Defect Tracker
  *
  * @author Tyler Stone 
- * @modified by Chris H on Mar 24
  * @version Mar 17, 2013
  *
  */

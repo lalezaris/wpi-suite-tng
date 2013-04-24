@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  CDUNKERS
-**************************************************/
+ *  Chris Dunkers
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 import java.util.ArrayList;
@@ -33,13 +33,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 /**
  * Controller that handles the delete requirement action.
  *
- * @author CDUNKERS
+ * @author Chris Dunkers
  *
  * @version Mar 27, 2013
  *
  */
 public class DeleteRequirementController {
-	
+
 	/** The view object containing the request fields */
 	protected RequirementView view;
 	protected RequirementValidator reqVal;
@@ -70,26 +70,19 @@ public class DeleteRequirementController {
 				if(issues.size() > 0){
 					printIssues(issues);
 				} else {
-
-//					panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
-//					panel.getAtv().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
-
-					System.out.println("Mode:" + panel.getEditMode());
 					String JsonRequest = delRequirement.toJSON();
 					request.setBody(JsonRequest);
-					System.out.println("Sending REQ to server:" +JsonRequest );
 					request.addObserver(requestObserver);
 					request.send();
 					//close tab
 					this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
-					System.out.println("DELETE REQUIREMENT");
 				}
 			} catch (Exception e){
 			}
 		} 
 	} 
-	
-	
+
+
 	/**
 	 * A function to printout all of the issues in a pop up message
 	 * 
@@ -101,7 +94,7 @@ public class DeleteRequirementController {
 			message.append(issues.get(i).getFieldName() + ":" + " ");
 			message.append(issues.get(i).getMessage() + "\r\n");			
 		}
-		
+
 		JOptionPane.showMessageDialog(view, 
 				message.toString(), 
 				"Error", JOptionPane.ERROR_MESSAGE);

@@ -9,7 +9,7 @@
  *
  * Contributors:
  *  Sam Lalezari
-**************************************************/
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -28,7 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 public class ReqTreeNode extends DefaultMutableTreeNode {
 
 	protected Requirement req = null;
-	
+
 	/**
 	 * Instantiates a new requirement tree node.
 	 *
@@ -38,7 +38,7 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 		super(req.getTitle());
 		this.req = req;
 	}
-	
+
 	/**
 	 * Gets the name.
 	 *
@@ -47,7 +47,7 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 	public String getName(){
 		return this.req.getTitle();
 	}
-	
+
 	/**
 	 * Gets the requirement.
 	 *

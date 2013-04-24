@@ -28,8 +28,8 @@ public class RequirementStatusLists{
 	static String[] NewList = {"NEW"};
 	static String[] CompleteList = {"OPEN", "COMPLETE"};
 	static String[] DeletedList = {"DELETED","OPEN"};
-	static String[] OpenList = {"OPEN","INPROGRESS","COMPLETE"};
-	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
+	static String[] OpenList = {"OPEN","INPROGRESS"};
+	static String[] InProgressList = {"INPROGRESS", "COMPLETE", "OPEN"};
 
 	/**
 	 * Instantiates a new requirement status lists.

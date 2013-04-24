@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -102,8 +103,25 @@ public class IterationView extends JPanel {
 			}
 		});
 
-		this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		this.add(mainPanel, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
+		if(iteration.compareTo(Iteration.getBacklog()) == 0){
+			mainPanel.getBtnSaveIteration().setEnabled(false);
+			mainPanel.getBtnSaveIteration().setVisible(false);
+			mainPanel.getBtnCancelIteration().setEnabled(false);
+			mainPanel.getBtnCancelIteration().setVisible(false);
+			mainPanel.getTxtEndDate().setVisible(false);
+			mainPanel.getTxtStartDate().setVisible(false);
+			mainPanel.getLblStartDate().setVisible(false);
+			mainPanel.getLblEndDate().setVisible(false);
+			mainPanel.getSelectEndDate().setEnabled(false);
+			mainPanel.getSelectEndDate().setVisible(false);
+			mainPanel.getSelectStartDate().setEnabled(false);
+			mainPanel.getSelectStartDate().setVisible(false);
+			mainPanel.getTxtIterationName().setEnabled(false);
+			mainPanel.getTxtIterationName().setBackground(this.getBackground());
+			mainPanel.getTxtIterationName().setDisabledTextColor(Color.BLACK);
+		}
 	}
 
 	/**

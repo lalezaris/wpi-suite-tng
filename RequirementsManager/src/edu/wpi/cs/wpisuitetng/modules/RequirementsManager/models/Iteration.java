@@ -352,7 +352,10 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return 1;
 		if(o.startDate == null)
 			return -1;
-		return (this.startDate.compareTo(o.startDate));
+		if(this.startDate.compareTo(o.startDate) == 0)
+			return this.endDate.compareTo(o.endDate);
+		else 
+			return (this.startDate.compareTo(o.startDate));
 	}
 
 	/**

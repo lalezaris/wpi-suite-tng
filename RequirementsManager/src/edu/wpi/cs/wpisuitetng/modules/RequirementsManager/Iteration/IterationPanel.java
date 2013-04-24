@@ -159,7 +159,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		GridBagConstraints cOverall = new GridBagConstraints();
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
-
+		
 		// Construct all of the components for the form
 		panelOverall = new JPanel();
 		panelOne = new JPanel();
@@ -181,8 +181,8 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
-		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
-		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
+		lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
+		lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
 		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------

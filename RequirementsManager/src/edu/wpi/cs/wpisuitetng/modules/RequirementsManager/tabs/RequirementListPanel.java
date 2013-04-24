@@ -67,7 +67,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  */
 @SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
-	private JTable table;
+	private RequirementListTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
 	private UpdateAllRequirementsController updateController;
@@ -97,7 +97,7 @@ public class RequirementListPanel extends JPanel{
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel(this);
-		table = new JTable();
+		table = new RequirementListTable(this);
 		table.setModel(model);
 		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
@@ -197,7 +197,9 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
-		setUpStatusColumn();
+		
+		System.out.println("GOT TO END OF REQLISTPANEL");
+
 		setUpPriorityColumn();
 	}
 
@@ -272,20 +274,6 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public void refreshList() {
 		retrieveController.refreshData();
-	}
-
-	/**
-	 * Set the drop down menu to the status
-	 */
-	private void setUpStatusColumn() {
-		JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
-		comboBox.addItem(RequirementStatus.NEW);
-		comboBox.addItem(RequirementStatus.OPEN);
-		comboBox.addItem(RequirementStatus.INPROGRESS);
-		comboBox.addItem(RequirementStatus.COMPLETE);
-		comboBox.addItem(RequirementStatus.DELETED);
-
-		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
 	}
 
 	/**

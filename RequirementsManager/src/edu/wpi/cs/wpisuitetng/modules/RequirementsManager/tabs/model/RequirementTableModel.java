@@ -283,7 +283,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col == 0){ //ID should not be editable
 			return false;
 		}
-		if (col > 5) { //Iteration, Assigned, and Parent should not be editable
+		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
 		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
@@ -353,9 +353,15 @@ public class RequirementTableModel extends AbstractTableModel {
 				//panel.setBackgroundRowColumn(row, col);
 				this.setChangedCell(row, col, true);
 			}
-
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
-		}		
+		}	
+		if (title.equals("Iteration")) {
+			if(((Iteration)value).compareTo(requirements.get(row).getIteration()) != 0){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col, true);
+			}
+			requirements.get(row).setIteration((Iteration)value);
+		}
 
 		Object[] element = data.get(row);
 		element[col] = value;

@@ -12,6 +12,7 @@
  * Tushar Narayan
  * Michael Perrone
  * Michael French
+ * Tianyu Li
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
@@ -45,6 +46,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	private List<Integer> requirements;
 	private IterationStatus status;
 	private int id;
+	private boolean inList = false;
 
 	/**
 	 * Constructor for Iteration.
@@ -79,6 +81,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			backlog.setRequirements(new ArrayList<Integer>());
 			backlog.startDate = null;
 			backlog.endDate = null;
+			backlog.inList = true;
 		}
 		return backlog;
 	}
@@ -356,6 +359,20 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return this.endDate.compareTo(o.endDate);
 		else 
 			return (this.startDate.compareTo(o.startDate));
+	}
+
+	/**
+	 * @return the inList
+	 */
+	public boolean isInList() {
+		return inList;
+	}
+
+	/**
+	 * @param inList the inList to set
+	 */
+	public void setInList(boolean inList) {
+		this.inList = inList;
 	}
 
 	/**

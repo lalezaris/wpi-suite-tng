@@ -13,6 +13,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -24,8 +25,11 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 
 /**
  * The JTable for requirement list, used for override
@@ -108,6 +112,8 @@ public class RequirementListTable extends JTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 		RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
+		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
+		iterations = checkIterations(iterations);
 		if (col == 3) //STATUS 
 		{
 			JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
@@ -147,8 +153,32 @@ public class RequirementListTable extends JTable {
 				comboBox.addItem(RequirementPriority.BLANK);
 			//}
 			return new DefaultCellEditor(comboBox);
+		} else if (col == 6) {
+			JComboBox<Iteration> comboBox = new JComboBox<Iteration>();
+			for (int i = 0 ; i < iterations.length; i++) {
+				if (iterations[i].isInList()) {
+					comboBox.addItem(iterations[i]);
+				}
+			}
+			return new DefaultCellEditor(comboBox);
 		}
 		return new DefaultCellEditor(new JTextField());
+	}
+
+	/**
+	 * Check if the iterations are closed and remove the closed ones.
+	 * 
+	 * @param iterations the iterations before check
+	 * @return iterations after check
+	 */
+	private Iteration[] checkIterations(Iteration[] iterations) {
+		Date currentDate = new Date();
+		for (int i = 0; i < iterations.length; i++) {
+			if (iterations[i].getStartDate().before(currentDate) && iterations[i].getEndDate().after(currentDate)) {
+				iterations[i].setInList(true);
+			}
+		}
+		return iterations;
 	}
 
 }

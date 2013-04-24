@@ -37,6 +37,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -123,6 +124,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 	protected JTable table;
 	protected RequirementListPanel reqListPanel;
 	protected RequirementTableModel requirementTableModel;
+	
+	protected JLabel lblStartDate;
+	protected JLabel lblEndDate;
 
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
@@ -172,8 +176,8 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		// Construct labels for the form fields
 		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
-		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
-		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
+		lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
+		lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a GridGagLayout manager
@@ -372,8 +376,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 		cLeft.weightx = 0.1;
 		cLeft.weighty = 0.1;
 		left.add(panelOverall,cLeft);
+		JScrollPane leftScroll = new JScrollPane(left);
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setLeftComponent(left);
+		splitPane.setLeftComponent(leftScroll);
 
 
 		JPanel right = new JPanel();
@@ -388,8 +393,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 			rightSub.add(new JLabel("Requirements in this iteration:"),1.0);
 			right.add(rightSub,BorderLayout.NORTH);
 		}
-
-		splitPane.setRightComponent(right);
+		JScrollPane rightScroll = new JScrollPane(right);
+		
+		splitPane.setRightComponent(rightScroll);
 
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
@@ -476,20 +482,21 @@ public class IterationPanel extends JPanel implements FocusListener {
 				return true;
 			} 
 		} else {
-			Iteration oldI = getParent().getIterationModel().getUneditedModel();
-
-			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
-				return true;
+			if(parent.getIterationModel().getUneditedModel().compareTo(Iteration.getBacklog()) != 0){
+				Iteration oldI = getParent().getIterationModel().getUneditedModel();
+	
+				if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+					return true;
+				}
+	
+				if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+					return true;
+				}
+	
+				if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+					return true;
+				}
 			}
-
-			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
-				return true;
-			}
-
-			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
-				return true;
-			}
-
 			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
 				return true;
 			}
@@ -695,10 +702,39 @@ public class IterationPanel extends JPanel implements FocusListener {
 			} else 
 				txtEndDate.setBackground(Color.WHITE);
 
-			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
-				return true;
 			}
-		}
 		return false;
 	}
+
+	/**
+	 * @return the selectStartDate
+	 */
+	public JButton getSelectStartDate() {
+		return selectStartDate;
+	}
+
+	/**
+	 * @return the selectEndDate
+	 */
+	public JButton getSelectEndDate() {
+		return selectEndDate;
+	}
+
+	/**
+	 * @return the lblStartDate
+	 */
+	public JLabel getLblStartDate() {
+		return lblStartDate;
+	}
+
+	/**
+	 * @return the lblEndDate
+	 */
+	public JLabel getLblEndDate() {
+		return lblEndDate;
+	}
+	
+	
+	
+	
 }

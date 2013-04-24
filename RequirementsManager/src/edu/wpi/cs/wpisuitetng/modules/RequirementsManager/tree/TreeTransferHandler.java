@@ -29,6 +29,8 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
@@ -46,6 +48,7 @@ class TreeTransferHandler extends TransferHandler {
 	DataFlavor[] flavors = new DataFlavor[1];  
 	DefaultMutableTreeNode[] nodesToRemove;
 	SaveRequirementController controller;
+	SaveIterationController itcontroller;
 	Requirement[] reqs;
 
 	/**
@@ -169,11 +172,17 @@ class TreeTransferHandler extends TransferHandler {
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
 				Requirement req = checkFake(r.get(i));
-				// Change the parent
+				// Change the requirement
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
+				// Change the iteration
+				Iteration it = (Iteration)destObject;
+				it.addRequirement(req.getId());
+				// Save the changed iteration
+				itcontroller = new SaveIterationController(it);
+				itcontroller.save();
 			}
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < nodes.length; i++) {
@@ -188,20 +197,39 @@ class TreeTransferHandler extends TransferHandler {
 				int estimated = req2.getEstimateEffort()
 						+ ((Requirement) req).getEstimateEffort();
 				req2.setEstimateEffort(estimated);
+				req2.addChildRequirement(req.getId());
 				controller = new SaveRequirementController(req2);
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Backlog")){
 			for(int i = 0; i < nodes.length; i++) {
 				Requirement req = checkFake(r.get(i));
-				// Change the parent
+				// Change the requirement
 				req.setIterationId(0);
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Deleted")){
-			MainView.getInstance().showErrorMessage("Cannot drag to Deleted");
+//			MainView.getInstance().showErrorMessage("Cannot drag to Deleted");
+			for(int i = 0; i < nodes.length; i++) {
+				Requirement req = checkFake(r.get(i));
+				// Change the parent of the requirement
+				req.setParentRequirementId(-1);
+				req.setStatus(RequirementStatus.DELETED);
+				req.setIterationId(0);
+				// Save the changed requirement
+				controller = new SaveRequirementController(req);
+				controller.save();
+				// Save the changed parent
+				Requirement req2 = (Requirement) destObject;
+				req2.removeChildRequirement(req.getId());
+				int estimated = req2.getEstimateEffort()
+						- ((Requirement) req).getEstimateEffort();
+				req2.setEstimateEffort(estimated);
+				controller = new SaveRequirementController(req2);
+				controller.save();
+			}
 		}
 		else {
 			System.out.print("The drop destination is not recognizable!");

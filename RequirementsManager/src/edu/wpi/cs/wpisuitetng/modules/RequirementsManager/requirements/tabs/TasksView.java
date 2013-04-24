@@ -35,6 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 
@@ -58,12 +59,13 @@ public class TasksView extends JPanel{
 	private DefaultListModel<Task> listModel;
 	private JList listDisplay;
 	
-	private JCheckBox sortBox;
+	private JTextField containsField;
 	private JCheckBox hideBox;
 	
 	//State Variables
+	private boolean changed;
 	private boolean hidden;
-	private boolean sorted;
+	private String contains = "";
 	
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -161,17 +163,24 @@ public class TasksView extends JPanel{
 			}
 			
 			//Add listeners to all of the fields.
-			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel));
-			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel));
-			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel));
-			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel));
+			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel, this));
 		
 			
 			
 			//Put it in the array and panel.\
-			if(!hidden || i == list.size() || (hidden && (list.get(i).getStatus() != TaskStatus.ACCEPTED && list.get(i).getStatus() != TaskStatus.CLOSED))){//Don't show these if hidden is selected.
+			if(!hidden && (contains.equals("")) || //Don't show these if hidden is selected or contains is empty.
+				i == list.size() || //Always show the last box (so they can add more)
+				(hidden && (list.get(i).getStatus() != TaskStatus.ACCEPTED && list.get(i).getStatus() != TaskStatus.CLOSED)) || //Show the ones not meant to be hidden.
+				(!contains.equals("") && list.get(i).getName().contains(contains))){//Don't show if it does not contain this string.
+				
 				taskPanelArray.add(tempPanel);
 				overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+			}
+			else{
+				//TODO: Pop-up asking if they are sure and that it will delete their changes.
 			}
 		}
 		
@@ -196,14 +205,15 @@ public class TasksView extends JPanel{
 	 * 
 	 */
 	private void displayFeatures(){
-		sortBox = new JCheckBox("Sort Alphabetically");
+		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
+		containsField = new JTextField("", 20);
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 		
 		//Set boxes
 		if(hidden)
 			hideBox.setSelected(true);
-		if(sorted)
-			sortBox.setSelected(true);
+		if(!contains.equals(""))
+			containsField.setText(contains);
 		
 		featurePanel = new JPanel();
 		featurePanel.setLayout(new GridBagLayout());
@@ -219,13 +229,23 @@ public class TasksView extends JPanel{
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
 		cFeat.gridheight = 1;
+		cFeat.insets = new Insets(10,50,10,0); //top,left,bottom,right
+		featurePanel.add(containsLabel, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.gridx = 1;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.gridheight = 1;
 		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		featurePanel.add(sortBox, cFeat);
+		featurePanel.add(containsField, cFeat);
 		
 		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cFeat.fill = GridBagConstraints.HORIZONTAL;
 		cFeat.gridx = 0;
-		cFeat.gridy = 1;
+		cFeat.gridy = 2;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
 		cFeat.gridheight = 1;
@@ -245,7 +265,7 @@ public class TasksView extends JPanel{
 		this.add(featurePanel, cOverall);
 		
 		//Add listeners to the features
-		sortBox.addActionListener(new TaskFeatureListener(this));
+		containsField.addKeyListener(new TaskSearchListener(this));
 		hideBox.addActionListener(new TaskFeatureListener(this));
 	}
 	
@@ -344,6 +364,7 @@ public class TasksView extends JPanel{
 		createTasksPanels();
 		repaint();
 		revalidate();
+		setChanged(false);//Let it be saved again.
 	}
 
 	/**
@@ -356,8 +377,8 @@ public class TasksView extends JPanel{
 	/**
 	 * @return the sortBox
 	 */
-	public JCheckBox getSortBox() {
-		return sortBox;
+	public JTextField getContainsField() {
+		return containsField;
 	}
 
 	/**
@@ -375,10 +396,17 @@ public class TasksView extends JPanel{
 	}
 
 	/**
-	 * @param sorted the sorted to set
+	 * @param contains the string to look for
 	 */
-	public void setSorted(boolean sorted) {
-		this.sorted = sorted;
+	public void setContains(String contains) {
+		this.contains = contains;
+	}
+
+	/**
+	 * @param changed the changed to set
+	 */
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}
 	
 }

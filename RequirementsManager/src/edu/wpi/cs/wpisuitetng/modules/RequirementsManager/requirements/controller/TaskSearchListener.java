@@ -12,37 +12,39 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 
 /**
- * Listens on the feature boxes for tasks.
+ * Listen for strings to search for
  * 
  * @author Evan Polekoff
  * 
  */
-public class TaskFeatureListener implements ActionListener{
-
+public class TaskSearchListener implements KeyListener{
 	TasksView view;
 	
-	public TaskFeatureListener(TasksView view){
+	public TaskSearchListener(TasksView view){
 		this.view = view;
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		//Hide Done or Accepted
-		if(view.getHideBox().isSelected()){
-			view.setHidden(true);
-		}
-		else{
-			view.setHidden(false);
-		}
+	public void keyTyped(KeyEvent e) {
 		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		view.setContains(view.getContainsField().getText());
 		view.redisplay();
-		
+		view.getContainsField().requestFocusInWindow();//Keep typing in the same field.
 	}
 	
 }

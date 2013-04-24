@@ -66,7 +66,7 @@ public class AssigneeView extends JPanel {
 	 */
 	public AssigneeView(RequirementView p){
 		this.parent = p;
-		FlowLayout flowLayout = new FlowLayout();
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
 		isButtonPressed = false;

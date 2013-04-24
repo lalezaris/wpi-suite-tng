@@ -196,6 +196,8 @@ public class MainTabController {
 
 			Tab tab = addTab();
 			RequirementListPanel panel = view.getTableModel();
+			panel.getTable().clearSelection();
+			panel.getTable().getSelectionModel().clearSelection();
 			panel.setUpFilter();
 			panel.setTab(tab);
 			tab.setComponent(panel);

@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -32,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -214,6 +216,10 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).addRow(req);
 	}
 
+	public void updateRequirement(int row, Requirement req){
+		((RequirementTableModel)table.getModel()).updateRow(row, req);
+		
+	}
 
 	/**
 	 * Clears the list.
@@ -238,6 +244,7 @@ public class RequirementListPanel extends JPanel{
 		filterController.setFilteredInTable();
 	}
 
+	
 	public void filterRequirements(Requirement[] requirements){
 		this.filteredContent = requirements;
 		clearList();
@@ -377,4 +384,8 @@ public class RequirementListPanel extends JPanel{
 //		table.getT(row, col).setBackground(Color.YELLOW);
 //		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
 	}
+	
+
+	
+	
 }

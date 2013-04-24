@@ -235,7 +235,7 @@ public class TreeView extends JPanel {
 											.getLastPathComponent();
 									Object selectedObject = selectedNode
 											.getUserObject();
-									if (selectedObject instanceof Iteration) {
+									if (selectedObject instanceof Iteration) {								
 										tree.expandPath(path);
 										return ""+((Iteration) selectedObject).getId();
 									} else {

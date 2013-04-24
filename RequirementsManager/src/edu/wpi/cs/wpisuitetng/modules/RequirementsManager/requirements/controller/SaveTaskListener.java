@@ -57,8 +57,16 @@ public class SaveTaskListener implements ActionListener{
 			}
 		}
 		//Redisplay stuff so it shows up
-		if(changeMade)//Only refresh if something was changed. Otherwise, it would kill the fields.
+		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
 			view.redisplay();
+			for(int i = 0; i < view.getTaskPanelArray().size(); i++){
+				view.getTaskPanelArray().get(i).setOpaque(true);
+				view.getTaskPanelArray().get(i).setForeground(new Color(255, 155, 157));//Make the whole panel yellow instead.
+				view.getTaskPanelArray().get(i).setBackground(new Color(255, 155, 157));//Make the whole panel yellow instead.
+				view.getTaskPanelArray().get(i).repaint();
+				view.getTaskPanelArray().get(i).revalidate();
+			}
+		}
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.

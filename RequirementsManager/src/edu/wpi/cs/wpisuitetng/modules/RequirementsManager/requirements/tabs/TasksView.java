@@ -373,7 +373,7 @@ public class TasksView extends JPanel{
 		createTasksPanels();
 		repaint();
 		revalidate();
-		setChanged(false);//Let it be saved again.
+		//setChanged(false);//Let it be saved again.
 		
 		/*
 		GridBagConstraints splitConstraints = new GridBagConstraints();

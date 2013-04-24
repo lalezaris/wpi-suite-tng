@@ -62,6 +62,7 @@ public class UpdateAllRequirementsController {
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
+
 		System.out.println("UPDATING TABLE");
 		
 		List<Requirement> reqs = new ArrayList<Requirement>();
@@ -84,6 +85,7 @@ public class UpdateAllRequirementsController {
 					reqsRow.add(cells.get(i).getRow());
 					saveRequirement(table.getRequirements().get(cells.get(i).getRow()));
 				}
+
 			}
 		}
 		//panel.updateUI();
@@ -120,8 +122,10 @@ public class UpdateAllRequirementsController {
 		//((RequirementTableModel) panel.getTable().getModel()).clear();
 		//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
+
 		this.panel.getFilterController().getPanel().triggerTableUpdate();
 		//this.panel.updateUI();
+
 	}
 
 	/**

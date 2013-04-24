@@ -114,6 +114,7 @@ public class HistoricalChange extends AbstractModel{
 	public void updateChangeFromDiff(Requirement oldR, Requirement newR, RequirementStore manager){
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		int acceptanceTestDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
+		int taskDifference = (newR.getTasks().size() - oldR.getTasks().size());
 
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
@@ -213,7 +214,11 @@ public class HistoricalChange extends AbstractModel{
 				change += "<p> Acceptance Test " + oldR.getAcceptanceTests().get(i).getTitle() + " was updated";
 			}
 		}
-
+		
+		//compare Task list size
+		if (taskDifference != 0){//if old and new are not the same
+			change += "<p> "+ taskDifference+ " tasks added.</p>";
+		}
 	}
 
 	/**

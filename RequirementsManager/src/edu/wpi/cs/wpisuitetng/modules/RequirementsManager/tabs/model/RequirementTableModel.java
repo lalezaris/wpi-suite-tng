@@ -315,6 +315,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		if (title.equals("Parent ID")) {
+
 			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
 				//panel.setBackgroundRowColumn(row,col);
 				this.setChangedCell(row, col);
@@ -354,6 +355,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				//panel.setBackgroundRowColumn(row, col);
 				this.setChangedCell(row, col);
 			}
+
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}		
 

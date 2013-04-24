@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ *  Chris Hanna
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import java.util.ArrayList;
@@ -12,6 +24,8 @@ public class Snake {
 	
 	ArrayList<Spot> spots;
 	int direction;
+	int nextDirection = 0;
+	boolean hasMoved = true;
 	int length;
 	int turnsToGrow;
 	Controller controller;
@@ -50,6 +64,14 @@ public class Snake {
 			this.spots.add(new Spot(head.x + 1, head.y));
 		} else if (this.direction == DOWN){
 			this.spots.add(new Spot(head.x, head.y + 1));
+		}
+		
+		if(nextDirection == 0){
+			hasMoved = true;
+		}
+		if(nextDirection != 0){
+			direction = nextDirection;
+			nextDirection = 0;
 		}
 		
 		head = this.getHead();
@@ -99,6 +121,19 @@ public class Snake {
 		return spots;
 	}
 	
+	public void setHasMoved(boolean value){
+		hasMoved = value;
+	}
 	
-
+	public boolean isHasMoved(){
+		return hasMoved;
+	}
+	
+	public void setNextDirection(int nextDirection){
+		this.nextDirection = nextDirection;
+	}
+	
+	public int getNextDirection(){
+		return nextDirection;
+	}
 }

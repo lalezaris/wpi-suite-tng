@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -60,16 +61,34 @@ public class DeleteRequirementController {
 	 */
 	public void delete() {
 		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
+		Requirement delRequirement = panel.getEditedModel();
+		
+		if (!(view.getParentRequirement() == null)) {
+			final Requirement parent = view.getParentRequirement();
+			parent.setSubRequirements(new ArrayList<Integer> ());
+			
+			parent.setEstimateEffort(parent.getEstimateEffort() - delRequirement.getEstimateEffort());
+			
+			Request parentRequest;
+			parentRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
+		
+			String parentJsonRequest = parent.toJSON();
+			parentRequest.setBody(parentJsonRequest);
+			parentRequest.send();
+		}
+		
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateRequirementRequestObserver(view) : new UpdateRequirementRequestObserver(view);
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE) ? HttpMethod.PUT : HttpMethod.POST);
 		if(view.checkRequiredFields() == 0){
-			Requirement delRequirement = panel.getEditedModel();
+			delRequirement.setParentRequirementId(-1);
+			
 			try {
 				issues = reqVal.validate(delRequirement, view.getMode());
 				if(issues.size() > 0){
 					printIssues(issues);
 				} else {
+					delRequirement.setStatus(RequirementStatus.DELETED);
 					String JsonRequest = delRequirement.toJSON();
 					request.setBody(JsonRequest);
 					request.addObserver(requestObserver);

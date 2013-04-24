@@ -42,7 +42,7 @@ public class NewIterationAction extends AbstractAction {
 	 * @param controller When the action is performed, controller.addNewIterationTab() is called
 	 */
 	public NewIterationAction(MainTabController controller) {
-		super("Create Iteration");
+		super("Iteration");
 		this.controller = controller;
 		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}

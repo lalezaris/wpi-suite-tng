@@ -161,24 +161,14 @@ class TreeTransferHandler extends TransferHandler {
 		JTree tree = (JTree)support.getComponent();  
 		// Send changes to database
 		Object destObject = ((DefaultMutableTreeNode)parent).getUserObject();
-		List<String> s = new ArrayList<String>();
+		List<Requirement> r = new ArrayList<Requirement>(); // List of requirements to be saved
+		Requirement reqs[] = ((ReqTreeModel)tree.getModel()).getRequirements(); // Get a list of all requirements
 		for(int i = 0; i < nodes.length; i++) {
-			s.add(nodes[i].getUserObject().toString());
-		}
-		Requirement[] reqs = ((ReqTreeModel)tree.getModel()).getRequirements();
-		List<Requirement> r = new ArrayList<Requirement>();
-		int n = 0;
-		for(int i = 0; i < reqs.length; i++) {
-			for(int x = 0; x < nodes.length; x++) {
-				if (reqs[i].getTitle() == s.get(x)) {
-					r.add(reqs[i]);
-					n += 1;
-				}
-			}
+			r.add((Requirement)((DefaultMutableTreeNode)(nodes[i].getUserObject())).getUserObject());
 		}
 		if (destObject.toString().startsWith("Iteration")) {
-			for(int i = 0; i < n; i++) {
-				Requirement req = r.get(i);
+			for(int i = 0; i < nodes.length; i++) {
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
@@ -186,8 +176,8 @@ class TreeTransferHandler extends TransferHandler {
 				controller.save();
 			}
 		} else if (destObject instanceof Requirement) {
-			for(int i = 0; i < n; i++) {
-				Requirement req = r.get(i);
+			for(int i = 0; i < nodes.length; i++) {
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				// Save the changed requirement
@@ -202,8 +192,8 @@ class TreeTransferHandler extends TransferHandler {
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Backlog")){
-			for(int i = 0; i < n; i++) {
-				Requirement req = r.get(i);
+			for(int i = 0; i < nodes.length; i++) {
+				Requirement req = checkFake(r.get(i), reqs);
 				// Change the parent
 				req.setIterationId(0);
 				// Save the changed requirement
@@ -219,6 +209,26 @@ class TreeTransferHandler extends TransferHandler {
 
 		return true;  
 	}  
+
+	/**
+	 * Check if a Requirement is "fake" and return the real one.
+	 *
+	 * @param r the requirement
+	 * @return the real requirement
+	 */
+	private Requirement checkFake(Requirement r, Requirement[] reqs) {
+		if (r.checkFake()) {
+			Requirement requirement = new Requirement();
+			// Find the right requirement
+			for(int i = 0; i < reqs.length; i++) {
+				if (r.getId() == reqs[i].getId()) {
+					requirement = reqs[i];
+				}
+			}
+			return requirement;
+		}
+		return r;
+	}
 
 	/**
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
@@ -268,7 +278,7 @@ class TreeTransferHandler extends TransferHandler {
 						&& (((Requirement)aNode.getUserObject()).getEstimateEffort() == 0)){
 					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
 							+ aNode.getUserObject().toString() 
-							+ " to an Iteration");
+							+ " to an Iteration/Requirement");
 					return false;
 				}
 				// Do not allow a drop on the same parent
@@ -284,6 +294,10 @@ class TreeTransferHandler extends TransferHandler {
 			}
 			// Do not allow a drag for an Iteration
 			else if (aNode.getUserObject() instanceof Iteration) {
+				return false;
+			}
+			// Do not allow a drag for an Deleted folder
+			else if (aNode.getUserObject().toString().contains("Deleted")) {
 				return false;
 			}
 		}  

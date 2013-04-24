@@ -8,8 +8,8 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
- *  Evan Polekoff
- **************************************************/
+ *  Spicola
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
@@ -37,17 +37,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanelTemp;
 
 /**
  * Tab panel for viewing and working with tasks.
  *
  * @author Evan Polekoff
- * @version Apr 18, 2013
+ * @author Spicola
+ *
+ * @version Apr 24, 2013
+ *
  */
 @SuppressWarnings({"serial"})
-public class TasksView extends JPanel{
-
-	protected RequirementView parent;
+public class TasksView extends JPanel {
+	/*layout manager for this panel*/
+	protected BorderLayout layout;
+	
+protected RequirementView parent;
 	
 	private ArrayList<Task> list;
 
@@ -57,6 +63,10 @@ public class TasksView extends JPanel{
 
 	private JScrollPane listScrollPane;
 	private JSplitPane splitPane;
+	private TasksPanel tempTaskPanel;
+	
+	private GridBagLayout layoutTasks;
+	private GridBagLayout layoutDisplay;
 	
 	private JTextField containsField;
 	private JCheckBox hideBox;
@@ -66,13 +76,9 @@ public class TasksView extends JPanel{
 	private boolean hidden;
 	private String contains = "";
 	
-	/** The layout manager for this panel */
-	protected GridBagLayout layout;
-
 	//Permissions level
 	protected RMPermissionsLevel pLevel;
-
-
+	
 	/**
 	 * Instantiates a new tasks view.
 	 *
@@ -87,26 +93,37 @@ public class TasksView extends JPanel{
 		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
-		//Use a grid bag layout manager
-		layout = new GridBagLayout();
-		this.setLayout(layout);
 		
 		this.parent = parent;
 		
-		//Create all of the panels(one per task) and put them in the array. Also put features there.
+		//Use a grid bag layout manager
+		this.layout = new BorderLayout();
+		this.setLayout(layout);
+		
 		redisplay();
 	}
-
-	/**Create the task panels to display.
-	 * 
+	
+	public void redisplay() {
+		this.removeAll();
+		repaint();
+		revalidate();
+		setChanged(false);
+		
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				displayFeatures(), createTasksPanels());
+		this.add(splitPane,BorderLayout.CENTER);
+	}
+	
+	/**
+	 * Create the task panels to display.
+	 * @return scroll pane
 	 */
-	private void createTasksPanels(){
-		
-		overallPanel = new JPanel();
-		overallPanel.setLayout(new GridBagLayout());
-		
+	private JScrollPane createTasksPanels() {
+		//create constraint variables
 		GridBagConstraints cTask = new GridBagConstraints();
 		GridBagConstraints cScrolling = new GridBagConstraints();
+		//construct panels
+		overallPanel = new JPanel();
 		
 		//Clear the array so you can refill it.
 		taskPanelArray = new ArrayList<TasksPanel>();
@@ -114,63 +131,56 @@ public class TasksView extends JPanel{
 		//Go through for all tasks in the list, + 1 for new tasks.
 		for(int i = 0; i < list.size() + 1; i ++){
 			//Constraints
-			cTask.anchor = GridBagConstraints.FIRST_LINE_START; 
-			cTask.fill = GridBagConstraints.HORIZONTAL;
+			cTask.anchor = GridBagConstraints.LINE_START; 
 			cTask.gridx = 0;
 			cTask.gridy = i;
 			cTask.weightx = 0.5;
 			cTask.weighty = 0.5;
-			cTask.gridheight = 1;
-			cTask.insets = new Insets(10,10,10,0); //top,left,bottom,right
+			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		
+			tempTaskPanel = new TasksPanel();
 			
-			//Make the panel
-			TasksPanel tempPanel = new TasksPanel();
-			tempPanel.setLayout(new GridBagLayout());
-			
-			//Fill its boxes
 			if(i < list.size()){//For the tasks that already exist, put them here.
 				
-				tempPanel.getTxtName().setText(list.get(i).getName());
-				tempPanel.getTxtDescription().setText(list.get(i).getDescription());
-				tempPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
-				tempPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
-				tempPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
-				tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
+				tempTaskPanel.getTxtName().setText(list.get(i).getName());
+				tempTaskPanel.getTxtDescription().setText(list.get(i).getDescription());
+				tempTaskPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
+				tempTaskPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
+				tempTaskPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
+				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
 			}
 			else{
 				if(list.size() > 0)
-					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+					tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
 				else
-					tempPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+					tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
 			}
+			
 			//Default the save button and status to disabled
-			if(tempPanel.getTxtName().getText().equals("") || tempPanel.getTxtDescription().getText().equals("")){
-				tempPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+			if(tempTaskPanel.getTxtName().getText().equals("") || tempTaskPanel.getTxtDescription().getText().equals("")){
+				tempTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
 			}
-			if(tempPanel.getTxtEffort().getText().equals("") || tempPanel.getTxtEffort().getText().equals("0")){
-				tempPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+			if(tempTaskPanel.getTxtEffort().getText().equals("") || tempTaskPanel.getTxtEffort().getText().equals("0")){
+				tempTaskPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
 			}
 			
 			//Deal with permissions
 			if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
 				//Gray all of the fields.
-				tempPanel.getTxtName().setEditable(false);
-				tempPanel.getTxtDescription().setEditable(false);
-				tempPanel.getTxtAssignee().setEditable(false);
-				tempPanel.getTxtEffort().setEditable(false);
-				tempPanel.getCmbStatus().setEditable(false);
-				tempPanel.getSaveButton().setEnabled(false);
+				tempTaskPanel.getTxtName().setEditable(false);
+				tempTaskPanel.getTxtDescription().setEditable(false);
+				tempTaskPanel.getTxtAssignee().setEditable(false);
+				tempTaskPanel.getTxtEffort().setEditable(false);
+				tempTaskPanel.getCmbStatus().setEditable(false);
+				tempTaskPanel.getSaveButton().setEnabled(false);
 			}
-				
 			
 			//Add listeners to all of the fields.
-			tempPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempPanel, this));
-			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel, this));
-			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel, this));
-			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempTaskPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+			tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+			tempTaskPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+			tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 		
-			
-			
 			//Put it in the array and panel.
 			boolean canDisplay = true;
 			
@@ -184,31 +194,43 @@ public class TasksView extends JPanel{
 					canDisplay = false;
 				}
 			}
+			
+			
 			if(canDisplay){
-				taskPanelArray.add(tempPanel);
-				overallPanel.add(tempPanel, cTask);//Put each one in the overallPanel to display them all at once.
+				taskPanelArray.add(tempTaskPanel);
+				layoutTasks = new GridBagLayout();
+				overallPanel.setLayout(layoutTasks);
+				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
 			}
 		}
 		
-		//Put the panels (overallPanel) into a scrollpane.
-		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START;
-		cScrolling.fill = GridBagConstraints.HORIZONTAL;
-		cScrolling.gridx = 1;
+		//put overall into a scrollpane
+		listScrollPane = new JScrollPane(overallPanel);
+		
+		cScrolling.anchor = GridBagConstraints.LINE_START;
+		cScrolling.gridx = 0;
 		cScrolling.gridy = 0;
 		cScrolling.weightx = 0.5;
 		cScrolling.weighty = 0.5;
-		cScrolling.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		
-		//Add to pane
-		listScrollPane = new JScrollPane(overallPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		cScrolling.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		
 		//this.add(listScrollPane, cScrolling);
+		
+		return listScrollPane;
 	}
 	
 	/**Put in the boxes and other features that go along with the Tasks.
+	 * @return 
 	 * 
 	 */
-	private void displayFeatures(){
+	private JPanel displayFeatures(){
+		//constraints
+		GridBagConstraints cFeat = new GridBagConstraints();
+		GridBagConstraints cOverall = new GridBagConstraints();
+		
+		//panels
+		featurePanel = new JPanel();
+		
 		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
 		containsField = new JTextField("", 20);
 		hideBox = new JCheckBox("Hide Closed and Accepted");
@@ -219,59 +241,39 @@ public class TasksView extends JPanel{
 		if(!contains.equals(""))
 			containsField.setText(contains);
 		
-		featurePanel = new JPanel();
-		featurePanel.setLayout(new GridBagLayout());
+		//individual panel -------------------
+		layoutDisplay = new GridBagLayout();
+		featurePanel.setLayout(layoutDisplay);
 		
-		GridBagConstraints cFeat = new GridBagConstraints();
-		GridBagConstraints cOverall = new GridBagConstraints();
-		
-		//Constraints
-		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.anchor = GridBagConstraints.LINE_START; 
 		cFeat.gridx = 0;
 		cFeat.gridy = 0;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
-		cFeat.gridheight = 1;
-		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		featurePanel.add(containsLabel, cFeat);
 		
-		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.anchor = GridBagConstraints.LINE_START; 
 		cFeat.gridx = 1;
 		cFeat.gridy = 0;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
-		cFeat.gridheight = 1;
-		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		featurePanel.add(containsField, cFeat);
 		
-		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFeat.fill = GridBagConstraints.HORIZONTAL;
+		cFeat.anchor = GridBagConstraints.LINE_START; 
 		cFeat.gridx = 0;
-		cFeat.gridy = 2;
+		cFeat.gridy = 1;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
-		cFeat.gridheight = 1;
-		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		featurePanel.add(hideBox, cFeat);
 		
-		
-		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cOverall.fill = GridBagConstraints.HORIZONTAL;
-		cOverall.gridx = 0;
-		cOverall.gridy = 0;
-		cOverall.weightx = 0.5;
-		cOverall.weighty = 0.5;
-		cOverall.gridheight = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
 		hideBox.addActionListener(new TaskFeatureListener(this));
-		
-		//this.add(featurePanel, cOverall);
-		
-		
+				
+		return featurePanel;
 	}
 	
 	/**Add a task from the View.
@@ -342,29 +344,7 @@ public class TasksView extends JPanel{
 		repaint();
 		revalidate();
 	}
-
 	
-	/**
-	 * Redisplay everything. Call after updating tasks.
-	 */
-	public void redisplay(){
-		this.removeAll();
-		
-		displayFeatures();
-		createTasksPanels();
-		repaint();
-		revalidate();
-		setChanged(false);//Let it be saved again.
-		
-		/*
-		GridBagConstraints splitConstraints = new GridBagConstraints();
-		splitConstraints.fill = GridBagConstraints.BOTH;
-		*/
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, featurePanel, listScrollPane);
-		//splitPane.setMinimumSize(getPreferredSize());
-		this.add(splitPane/*,splitConstraints*/);
-	}
-
 	/**
 	 * @return the taskPanelArray
 	 */
@@ -421,6 +401,4 @@ public class TasksView extends JPanel{
 	public boolean isChanged() {
 		return changed;
 	}
-	
-	
 }

@@ -206,13 +206,12 @@ public class IterationPanel extends JPanel implements FocusListener {
 		layoutTwo = new GridBagLayout();
 		panelTwo.setLayout(layoutTwo);
 
-		cTwo.anchor = GridBagConstraints.LINE_END;
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.insets = new Insets(10,10,10,0);
 		cTwo.gridx = 0;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.anchor = GridBagConstraints.LINE_START;
 		panelTwo.add(lblStartDate, cTwo);
 
 		cTwo.anchor = GridBagConstraints.LINE_START;
@@ -224,6 +223,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		txtStartDate.setEnabled(true);
 		panelTwo.add(txtStartDate, cTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 4;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
@@ -243,6 +243,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 			}
 		});
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 0;
 		cTwo.gridy = 5;
 		cTwo.weightx = 0.5;
@@ -252,7 +253,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
 
-		cTwo.anchor = GridBagConstraints.LINE_END;
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;

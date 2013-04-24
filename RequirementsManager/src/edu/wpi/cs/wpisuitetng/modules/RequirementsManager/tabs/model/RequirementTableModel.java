@@ -257,33 +257,21 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		if (title.equals("Parent ID")) {
-			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
-			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
-			if(!((String)value).equals(requirements.get(row).getTitle())){
-			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
-			if(!((String)value).equals(requirements.get(row).getDescription())){
-			}
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
-			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
-			}
 			requirements.get(row).setStatus((RequirementStatus)value);
 		}
 		if (title.equals("Priority")) {
-			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
-			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
-			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
-			}
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}		
 

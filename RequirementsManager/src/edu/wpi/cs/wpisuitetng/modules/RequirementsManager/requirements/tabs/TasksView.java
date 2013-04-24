@@ -33,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskDropdownListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
@@ -169,6 +170,7 @@ public class TasksView extends JPanel{
 			tempPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempPanel, this));
 			tempPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempPanel, this));
 			tempPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempPanel, this));
+			tempPanel.getCmbStatus().addActionListener(new TaskDropdownListener(tempPanel, this));
 		
 			
 			

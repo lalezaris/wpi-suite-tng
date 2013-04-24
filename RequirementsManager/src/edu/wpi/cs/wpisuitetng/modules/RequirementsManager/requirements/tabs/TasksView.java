@@ -13,6 +13,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,8 +57,6 @@ public class TasksView extends JPanel{
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
 	private JPanel scrollingPanel;
-	private DefaultListModel<Task> listModel;
-	private JList listDisplay;
 	
 	private JTextField containsField;
 	private JCheckBox hideBox;
@@ -86,9 +85,6 @@ public class TasksView extends JPanel{
 		if(list == null)//Only reset and initialize the list if it is new.
 			list = new ArrayList<Task>();
 		
-		//Get the ScrollPane going.
-		listModel = new DefaultListModel<Task>();
-		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		//Use a grid bag layout manager
@@ -102,10 +98,6 @@ public class TasksView extends JPanel{
 		
 		//Create all of the panels(one per task) and put them in the array.
 		createTasksPanels();
-
-		//JList
-		//listDisplay = new JList(listModel);
-		//listDisplay.setLayoutOrientation(JList.VERTICAL);
 	}
 
 	/**Create the task panels to display.
@@ -128,7 +120,7 @@ public class TasksView extends JPanel{
 			cTask.anchor = GridBagConstraints.FIRST_LINE_START; 
 			cTask.fill = GridBagConstraints.HORIZONTAL;
 			cTask.gridx = 0;
-			cTask.gridy = i*100;
+			cTask.gridy = i;
 			cTask.weightx = 0.5;
 			cTask.weighty = 0.5;
 			cTask.gridheight = 1;
@@ -189,21 +181,23 @@ public class TasksView extends JPanel{
 			}
 		}
 		
-		//Put the panels (overallPanel) into a scrollpane
+		//Put the panels (overallPanel) into a scrollpane.
 		cScrolling.anchor = GridBagConstraints.FIRST_LINE_START;
 		cScrolling.fill = GridBagConstraints.HORIZONTAL;
 		cScrolling.gridx = 1;
 		cScrolling.gridy = 0;
 		cScrolling.weightx = 0.5;
 		cScrolling.weighty = 0.5;
-		cScrolling.gridheight = 1;
 		cScrolling.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		JScrollPane listScrollPane = new JScrollPane(overallPanel);
+		
+		//Add to pane
+		JScrollPane listScrollPane = new JScrollPane(overallPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		listScrollPane.setSize(200, 300);
 		scrollingPanel = new JPanel();
 		scrollingPanel.setLayout(new GridBagLayout());
 		scrollingPanel.add(listScrollPane);
 		
-		this.add(scrollingPanel, cScrolling);
+		this.add(listScrollPane, cScrolling);
 	}
 	
 	/**Put in the boxes and other features that go along with the Tasks.
@@ -234,7 +228,7 @@ public class TasksView extends JPanel{
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
 		cFeat.gridheight = 1;
-		cFeat.insets = new Insets(10,50,10,0); //top,left,bottom,right
+		cFeat.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		featurePanel.add(containsLabel, cFeat);
 		
 		cFeat.anchor = GridBagConstraints.FIRST_LINE_START; 
@@ -267,11 +261,13 @@ public class TasksView extends JPanel{
 		cOverall.gridheight = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		
-		this.add(featurePanel, cOverall);
-		
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
 		hideBox.addActionListener(new TaskFeatureListener(this));
+		
+		this.add(featurePanel, cOverall);
+		
+		
 	}
 	
 	/**Add a task from the View.
@@ -286,10 +282,6 @@ public class TasksView extends JPanel{
 			list.add(t);
 		}else{
 			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists! (ID: " + t.getId() + ")");
-		}
-		for(int i = 0; i < list.size(); i++){
-			if(!listModel.contains(list.get(i))){
-				listModel.add(i, list.get(i));}
 		}
 	}
 	
@@ -311,10 +303,6 @@ public class TasksView extends JPanel{
 			list.get(taskLocation).setDescription(t.getDescription());
 			list.get(taskLocation).setEffort(t.getEffort());
 			list.get(taskLocation).setName(t.getName());
-		}
-		for(int i = 0; i < list.size(); i++){
-			if(!listModel.contains(list.get(i))){
-				listModel.add(i, list.get(i));}
 		}
 	}
 	
@@ -350,10 +338,6 @@ public class TasksView extends JPanel{
 	 */
 	public void setList(ArrayList<Task> task) {
 		this.list = task;
-		for(int i = 0; i <list.size(); i++){
-			if(!listModel.contains(list.get(i))){
-				listModel.add(0, list.get(i));}
-		}
 		repaint();
 		revalidate();
 	}

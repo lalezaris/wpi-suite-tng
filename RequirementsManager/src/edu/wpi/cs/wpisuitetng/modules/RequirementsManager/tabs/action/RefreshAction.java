@@ -52,5 +52,6 @@ public class RefreshAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.refreshData();
+		
 	}
 }

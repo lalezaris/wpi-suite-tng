@@ -68,6 +68,9 @@ public class UpdateAllRequirementsController {
 		List<Requirement> reqs = new ArrayList<Requirement>();
 		List<Integer> reqsRow = new ArrayList<Integer>();
 		List<CellLocation> cells = table.getChangedLocations();
+		
+		
+		//ADD ROWS WITH VALID CHANGE CELLS TO LIST OF REQUIREMENTS TO BE SAVED
 		for (int i = 0 ; i < cells.size() ; i ++){
 			if (table.getRequirements().get(cells.get(i).getRow())!= null){
 				Requirement r = table.getRequirements().get(cells.get(i).getRow());
@@ -80,34 +83,41 @@ public class UpdateAllRequirementsController {
 					printIssues(issues, r.getTitle());
 				}
 				if (r != null && issues.size() == 0){
-					reqs.add(table.getRequirements().get(cells.get(i).getRow()));
-					reqsRow.add(cells.get(i).getRow());
-					saveRequirement(table.getRequirements().get(cells.get(i).getRow()));
+					if (!reqs.contains(r)){
+						reqs.add(r);
+						//reqsRow.add(cells.get(i).getRow());
+					}
 				}
 			}
 		}
-		//panel.updateUI();
+
+		//REMOVE ROWS FROM FUTURE SAVE THAT CONTAIN AN INVALID CELL CHANGE
+		for (int i = 0 ; i <cells.size(); i ++){
+			if (table.getRequirements().get(cells.get(i).getRow())!= null){
+				Requirement r = table.getRequirements().get(cells.get(i).getRow());
+				if (reqs.contains(r)){
+					if (!cells.get(i).isValid()){
+						reqs.remove(r);
+					}
+				}
+			} else{
+				//reqsRow.add(cells.get(i).getRow());
+			}
+		}
 		
-//		for (int i = 0 ; i < table.getRequirements().size(); i++) {
-//			try {
-//				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
-//			} catch (NullPointerException e) {
-//				System.out.println("The " + (i + 1) + "th requirement is legal");
-//			}
-//			if(issues.size() > 0){
-//				printIssues(issues, table.getRequirements().get(i).getTitle());
-//			}
-//			
-//			if (table.getRequirements().get(i) != null && issues.size() == 0) {
-//				System.out.println("SENDING SAVE REQUEST FROM TABLE");
-//				reqs.add(table.getRequirements().get(i));
-//				saveRequirement(table.getRequirements().get(i));
-//			}
-//		}
-		//panel.refreshList();
 		for (int i = 0 ; i < reqs.size(); i ++){
 			System.out.println("update req :" + reqs.get(i).getId() + " with iteration " + reqs.get(i).getIteration());
-			table.updateRow(reqsRow.get(i), reqs.get(i));
+			saveRequirement(reqs.get(i));
+			
+			int row = 0;
+			for (int c = 0 ; c < cells.size(); c ++){
+				if (table.getRequirements().get(cells.get(c).getRow())!= null 
+						&& reqs.get(i).equals(table.getRequirements().get(cells.get(c).getRow()))){
+					row = cells.get(c).getRow();
+				}
+			}
+			
+			table.updateRow(row, reqs.get(i));
 		}
 		panel.updateUI();
 		//Requirement[] reqArray = new Requirement[reqs.size()];

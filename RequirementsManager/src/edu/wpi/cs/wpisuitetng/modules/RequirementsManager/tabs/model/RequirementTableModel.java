@@ -39,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 
 /**
@@ -100,18 +101,21 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		    //Get the status for the current row.
 		    RequirementTableModel tableModel = (RequirementTableModel) table.getModel();
-		    
-		    if (tableModel.changedCells.contains( new CellLocation(row, col))){
-		    	l.setBackground(new Color(255,255,150));
+		    CellLocation cell = new CellLocation(row, col);
+		    if (tableModel.changedCells.contains(cell)){
+		    	//cell = tableModel.changedCells.get(tableModel.changedCells.indexOf(cell));
+		    	
+		    	for (int i = 0 ; i < tableModel.changedCells.size(); i ++)
+		    		if (tableModel.changedCells.get(i).equals(cell))
+		    		{
+		    			cell = tableModel.changedCells.get(i);
+		    			System.out.println("setting cell to"); //TODO get rid of print
+		    			break;
+		    		}
+		    	if (cell.isValid())
+		    		l.setBackground(MainView.getChangedValidColor());
+		    	else l.setBackground(MainView.getChangedInvalidColor());
 		    } else l.setBackground(Color.white);
-		    //if (tableModel.)
-		    //if (tableModel.getStatus(row) == RequirementTableModel.APPROVED) {
-//		    if (tableModel.getValueAt(row, col).equals(1))
-//		      l.setBackground(Color.GREEN);
-//		    else l.setBackground(Color.RED);
-		    //} else {
-		    //  l.setBackground(Color.RED);
-		    //}
 
 		  //Return the JLabel which renders the cell.
 		  return l;
@@ -312,42 +316,42 @@ public class RequirementTableModel extends AbstractTableModel {
 
 			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, true);
 			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
-			if(((String)value).equals(requirements.get(row).getTitle())){
+			if(!((String)value).equals(requirements.get(row).getTitle())){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, false);
 			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
-			if(((String)value).equals(requirements.get(row).getDescription())){
+			if(!((String)value).equals(requirements.get(row).getDescription())){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, true);
 			}
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
 			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, true);
 			}
 			requirements.get(row).setStatus((RequirementStatus)value);
 		}
 		if (title.equals("Priority")) {
 			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, true);
 			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
 			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
 				//panel.setBackgroundRowColumn(row, col);
-				this.setChangedCell(row, col);
+				this.setChangedCell(row, col, true);
 			}
 
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
@@ -367,10 +371,32 @@ public class RequirementTableModel extends AbstractTableModel {
 
 	public class CellLocation{
 		private int row, col;
+		private boolean isValid;
+		
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
+			this.isValid = false;
 		}
+		
+		
+		
+		/**
+		 * Gets the isValid
+		 * @return the isValid
+		 */
+		public boolean isValid() {
+			return isValid;
+		}
+
+		/**
+		 * Sets the isValid
+		 * @param isValid: sets the isValid 
+		 */
+		public void setValid(boolean isValid) {
+			this.isValid = isValid;
+		}
+
 		/**
 		 * Gets the row
 		 * @return the row
@@ -396,17 +422,63 @@ public class RequirementTableModel extends AbstractTableModel {
 			return false;
 		}
 		
+		@Override
+		public int hashCode(){
+			return (1*this.row) + (3*this.col);
+		}
+		
+		
 	}
 	
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
 	
-	private void setChangedCell(int row, int col){
+	private void setChangedCell(int row, int col, boolean valid){
 		this.isChange = true;
-		this.changedCells.add(new CellLocation(row, col));
+		CellLocation cell = new CellLocation(row, col);
+		cell.setValid(valid);
+		this.changedCells.add(cell);
 	}
 	
-	public void clearChangeVisuals(){
+	
+	/**
+	 * Display a reckless disregard for colors while clearing colors. Just Get rid of ALL the colors!
+	 * 
+	 */
+	public void clearChangeVisualsDisregard(){
 		this.changedCells.clear();
+	}
+	
+	/**
+	 * Clear the change colors that are green!
+	 * 
+	 */
+	public void clearChangeVisuals(){
+		
+		ArrayList<CellLocation> remove = new ArrayList<CellLocation>();
+		ArrayList<CellLocation> all = new ArrayList<CellLocation>();
+		for (int i = 0 ; i < this.changedCells.size(); i ++)
+			all.add(this.changedCells.get(i));
+		
+		for (int i = 0 ; i < this.changedCells.size(); i ++){
+			if (!changedCells.get(i).isValid()){
+				if (!remove.contains(changedCells.get(i))){
+					remove.add(this.changedCells.get(i));
+					for (int j = 0 ; j < this.changedCells.size(); j ++){
+						if (this.changedCells.get(j).getRow() == this.changedCells.get(i).getRow()){
+							if (!remove.contains(this.changedCells.get(j)))
+								remove.add(this.changedCells.get(j));
+						}
+					}
+				}
+			}
+		}
+		
+		for (int i = 0 ; i < all.size(); i ++){
+			if (!remove.contains(all.get(i)))
+				this.changedCells.remove(all.get(i));
+		}
+		
+		
 	}
 	
 	public ArrayList<CellLocation> getChangedLocations(){

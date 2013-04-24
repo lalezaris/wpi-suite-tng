@@ -21,9 +21,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -104,6 +106,14 @@ public class RequirementListPanel extends JPanel{
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));
+		
+		refreshButton.addActionListener(new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((RequirementTableModel) table.getModel()).clearChangeVisualsDisregard();
+			}
+		});
+		
 		updateButton = new JButton("Update");
 		updateController = new UpdateAllRequirementsController(this);
 		updateButton.setAction(new UpdateAllRequirementAction(updateController));
@@ -240,6 +250,7 @@ public class RequirementListPanel extends JPanel{
 		for (int i = requirements.length -1; i > -1; i --){
 			addRequirement(requirements[i]);
 		}
+		
 		table.updateUI();
 		filterController.setFilteredInTable();
 	}

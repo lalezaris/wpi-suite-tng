@@ -161,6 +161,7 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(Requirement r){
 		this();
+		this.iteration = r.getIteration();
 		this.iterationId = r.getIterationId();
 		this.id = r.getId();
 		this.title = r.title;

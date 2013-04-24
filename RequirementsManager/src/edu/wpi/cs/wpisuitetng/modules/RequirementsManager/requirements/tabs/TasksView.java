@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
 
@@ -56,7 +57,8 @@ public class TasksView extends JPanel{
 	private ArrayList<TasksPanel> taskPanelArray;
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
-	private JPanel scrollingPanel;
+	private JScrollPane listScrollPane;
+	private JSplitPane splitPane;
 	
 	private JTextField containsField;
 	private JCheckBox hideBox;
@@ -93,11 +95,8 @@ public class TasksView extends JPanel{
 		
 		this.parent = parent;
 		
-		//Create the stuff for other features, like the sorting and hiding
-		displayFeatures();
-		
-		//Create all of the panels(one per task) and put them in the array.
-		createTasksPanels();
+		//Create all of the panels(one per task) and put them in the array. Also put features there.
+		redisplay();
 	}
 
 	/**Create the task panels to display.
@@ -191,13 +190,9 @@ public class TasksView extends JPanel{
 		cScrolling.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		
 		//Add to pane
-		JScrollPane listScrollPane = new JScrollPane(overallPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		listScrollPane.setSize(200, 300);
-		scrollingPanel = new JPanel();
-		scrollingPanel.setLayout(new GridBagLayout());
-		scrollingPanel.add(listScrollPane);
+		listScrollPane = new JScrollPane(overallPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		this.add(listScrollPane, cScrolling);
+		//this.add(listScrollPane, cScrolling);
 	}
 	
 	/**Put in the boxes and other features that go along with the Tasks.
@@ -260,12 +255,11 @@ public class TasksView extends JPanel{
 		cOverall.weighty = 0.5;
 		cOverall.gridheight = 1;
 		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
 		hideBox.addActionListener(new TaskFeatureListener(this));
 		
-		this.add(featurePanel, cOverall);
+		//this.add(featurePanel, cOverall);
 		
 		
 	}
@@ -354,6 +348,14 @@ public class TasksView extends JPanel{
 		repaint();
 		revalidate();
 		setChanged(false);//Let it be saved again.
+		
+		/*
+		GridBagConstraints splitConstraints = new GridBagConstraints();
+		splitConstraints.fill = GridBagConstraints.BOTH;
+		*/
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, featurePanel, listScrollPane);
+		//splitPane.setMinimumSize(getPreferredSize());
+		this.add(splitPane/*,splitConstraints*/);
 	}
 
 	/**
@@ -405,5 +407,13 @@ public class TasksView extends JPanel{
 	public void setChanged(boolean changed) {
 		this.changed = changed;
 	}
+
+	/**
+	 * @return the changed
+	 */
+	public boolean isChanged() {
+		return changed;
+	}
+	
 	
 }

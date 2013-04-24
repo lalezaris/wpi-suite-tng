@@ -233,6 +233,10 @@ public class RequirementModel {
 		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			return true;
 		}
+		
+		if(this.view.getRequirementPanel().getTasksView().isChanged()){
+			return true;
+		}
 
 		return false;
 	}

@@ -27,6 +27,7 @@ import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,14 +39,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * The Class to hold AssigneeView.
  *
  * @author Michael Perrone
- *
- * @version Apr 21, 2013
- *
- */
-/**
- * Insert Description Here
- *
- * @author Chris Hanna
  *
  * @version Apr 21, 2013
  *
@@ -78,7 +71,7 @@ public class AttachmentsView extends RequirementTab{
 		this.addFileButton = new JButton("Choose");
 		this.uploadFileButton = new JButton("Upload");
 		
-		this.selectLabel = new JLabel("Select new File  ");
+		this.selectLabel = new JLabel("Select New Files  ");
 		this.uploadLabel = new JLabel("Upload Files  ");
 		this.selectedLabel = new JLabel("Selected Files");
 		this.attachedLabel = new JLabel("Attached Files");
@@ -96,6 +89,7 @@ public class AttachmentsView extends RequirementTab{
 		selectedScrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		this.attachedPanel = new JPanel();
+		this.attachedPanel.setLayout(new GridBagLayout());
 		JScrollPane attachedScrollPane = new JScrollPane(attachedPanel);
 		attachedScrollPane.setPreferredSize(new Dimension(450,150));
 		attachedScrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -157,20 +151,27 @@ public class AttachmentsView extends RequirementTab{
 		
 		this.add(this.mainPanel);
 		
+		
+		
+		//TODO: remove the following line:
+		this.setAttachedFiles(new File[]{new File("/test/dir/file.txt") , new File("/test/dir/stupid.txt") , new File("/test/dir/reallyawesomefilenameforthewin")});
+		
 	}
 
-	class FilePanel extends JPanel{
+	/*
+	 * A panel for each selected file.
+	 */
+	private class SelectedPanel extends JPanel{
 		
-		JLabel text;
-		JButton delete;
-		File file;
-		public FilePanel(File f){
+		private JLabel text;
+		private JButton delete;
+		private File file;
+		public SelectedPanel(File f){
 			this.file = f;
 			text = new JLabel(f.getName());
-			
 			delete = new JButton("Remove");
 			
-			final FilePanel fp = this;
+			final SelectedPanel fp = this;
 			delete.setAction( new AbstractAction("X"){
 				
 				@Override
@@ -179,12 +180,61 @@ public class AttachmentsView extends RequirementTab{
 				}
 				
 			});
-			
 			this.add(delete);
-			this.add(text);
-			
-		}
+			this.add(text);	
+		}	
+	}
+	
+	/*
+	 * Panel for attached files.
+	 */
+	private class AttachedPanel extends JPanel{
 		
+		private JLabel text;
+		private JButton delete;
+		public JButton download;
+		private File file;
+		public AttachedPanel(File f){
+			this.file = f;
+			text = new JLabel(f.getName());
+			delete = new JButton("delete");
+			download = new JButton("download");
+			download.setAction(new AbstractAction("download"){
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					downloadFile(file);
+				}
+			});
+			
+			final AttachedPanel ap = this;
+			delete.setAction( new AbstractAction("delete"){
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeFileFromAttached(ap);
+				}
+				
+			});
+			this.add(download);
+			this.add(text);	
+			this.add(delete);
+		}	
+	}
+	
+	/**
+	 * download the file to the user's computer
+	 */
+	public void downloadFile(File f){
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		
+        if( chooser.showSaveDialog(null) != JFileChooser.APPROVE_OPTION ){
+            //didn't pick anything.
+        	return;
+        }
+        File target = chooser.getSelectedFile();
+        target = new File(target.getPath()+f.getName());
+        //TODO: something with abradi to actually get stuff
 	}
 	
 	/**
@@ -332,25 +382,24 @@ public class AttachmentsView extends RequirementTab{
 	}
 		
 	/**
-	 * This function is not implemented because it is not part of the user story.
+	 * Removes an attached file
 	 * 
-	 * @param fp
+	 * @param ap 
 	 */
-	@Deprecated
-	private void removeFileFromAttached(FilePanel fp){
-		//apparently we NEVER need to implement this function.
+	private void removeFileFromAttached(AttachedPanel ap){
+		//TODO: hook this up with mister abradi's server stuff
 	}
-
-	private void removeFileFromSelected(FilePanel fp){
-		selectedFiles.remove(fp.file);
-		selectedPanel.remove(fp);
+	
+	private void removeFileFromSelected(SelectedPanel sp){
+		selectedFiles.remove(sp.file);
+		selectedPanel.remove(sp);
 		selectedPanel.revalidate();
 		selectedPanel.repaint();
 	}
 	
 	private void addFileToSelected(File f){
 		selectedFiles.add(f);
-		FilePanel fp = new FilePanel(f);
+		SelectedPanel fp = new SelectedPanel(f);
 		fp.setBorder(BorderFactory.createLineBorder(Color.black));
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
@@ -371,8 +420,9 @@ public class AttachmentsView extends RequirementTab{
 	
 	private void addFileToAttached(File f){
 		attachedFiles.add(f);
-		FilePanel fp = new FilePanel(f);
-		fp.setBorder(BorderFactory.createLineBorder(Color.black));
+		AttachedPanel ap = new AttachedPanel(f);
+		ap.setBorder(BorderFactory.createLineBorder(Color.black));
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
 		c.weighty = 0;
@@ -380,7 +430,7 @@ public class AttachmentsView extends RequirementTab{
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.gridy = attachedDummyInc;
 		attachedDummyInc++;
-		attachedPanel.add(fp,c);
+		attachedPanel.add(ap,c);
 		for (int i = 0 ; i < attachedPanel.getComponentCount(); i ++)
 			if (attachedPanel.getComponent(i).equals(dummy))
 				attachedPanel.remove(dummy);

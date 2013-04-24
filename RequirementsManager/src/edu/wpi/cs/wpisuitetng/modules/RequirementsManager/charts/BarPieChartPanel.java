@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -88,6 +89,8 @@ public class BarPieChartPanel extends JPanel {
 	/** The graph panel. */
 	ChartPanel graphPanel;
 	DefaultToolbarView toolbar;
+	
+	JPanel errorPanel;
 	/**
 	 * Instantiates a new bar chart panel.
 	 *
@@ -107,6 +110,9 @@ public class BarPieChartPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
 
+		JLabel noData = new JLabel("No Data Available", JLabel.TRAILING);
+		noData.setFont(new Font("Serif", Font.PLAIN, 128));
+		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
 		chartBox.setBackground(Color.WHITE);
@@ -215,7 +221,13 @@ public class BarPieChartPanel extends JPanel {
 		cOverall.insets = new Insets(0,0,0,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(displayedChart, TypeOfChart.Bar, false);
+		//Make the error message for when there is no graph.
+		errorPanel = new JPanel();
+		errorPanel.add(noData);
+		
+		
+		
+		setChart(displayedChart, TypeOfChart.Bar, false, false);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -228,8 +240,9 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chartType type of chart to pass in
 	 * @param pieSpin boolean for if the pie chart should spin
 	 */
-	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin, boolean visible){
 		overallPanel.remove(graphPanel);
+		overallPanel.remove(errorPanel);
 		displayedChart = newChart;
 
 		graphPanel = new ChartPanel(newChart);
@@ -237,40 +250,50 @@ public class BarPieChartPanel extends JPanel {
 
 		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
-
-		//Set Chart Properties
-		if(newChart != null){
-			newChart.setBackgroundPaint(Color.white);
-			if(chartType == TypeOfChart.Bar){
-				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
-				rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-			}
-			//Pie
-			else{
-				PiePlot3D plot = (PiePlot3D) newChart.getPlot();
-				plot.setStartAngle(0);
-				plot.setForegroundAlpha(1);
-				rotator = new PieRotator(plot);
-				if(pieSpin){
-					rotator.start();
+		
+		if(visible){
+			//Set Chart Properties
+			if(newChart != null){
+				newChart.setBackgroundPaint(Color.white);
+				if(chartType == TypeOfChart.Bar){
+					final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
+					rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+				}
+				//Pie
+				else{
+					PiePlot3D plot = (PiePlot3D) newChart.getPlot();
+					plot.setStartAngle(0);
+					plot.setForegroundAlpha(1);
+					rotator = new PieRotator(plot);
+					if(pieSpin){
+						rotator.start();
+					}
 				}
 			}
+			spinCheckbox.setEnabled(visible);
+			
+			//Add the Graph to the panel
+			cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
+			cGraph.fill = GridBagConstraints.HORIZONTAL;
+			cGraph.gridx = 0;
+			cGraph.gridy = 3;
+			cGraph.weightx = 0.5;
+			cGraph.weighty = 0.5;
+			cGraph.gridheight = 1;
+			cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
+			overallPanel.add(graphPanel,cGraph);
+			this.repaint();
+			graphPanel.updateUI();
 		}
-
-		//Add the Graph to the panel
-		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
-		cGraph.fill = GridBagConstraints.HORIZONTAL;
-		cGraph.gridx = 0;
-		cGraph.gridy = 3;
-		cGraph.weightx = 0.5;
-		cGraph.weighty = 0.5;
-		cGraph.gridheight = 1;
-		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		overallPanel.add(graphPanel,cGraph);
+		else{
+			spinCheckbox.setEnabled(visible);
+			
+			overallPanel.add(errorPanel);
+		}
+		this.remove(overallPanel);
+		this.add(overallPanel,BorderLayout.CENTER);
 		this.repaint();
 		graphPanel.updateUI();
-
-		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
 	}
 

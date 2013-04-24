@@ -47,7 +47,7 @@ public class Requirement extends AbstractModel{
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
-	private int iterationId; //TODO: refactor to improve implementation
+	private int iterationId = 0; //TODO: refactor to improve implementation
 	private Iteration iteration;
 	private String description;
 	private RequirementStatus status;
@@ -152,6 +152,31 @@ public class Requirement extends AbstractModel{
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
 	}
+	
+	
+	/**
+	 * Instantiates a fake requirement. ONLY to be used for tree view.
+	 *
+	 * @param Requirement r the Requirement to be forked from
+	 */
+	public Requirement(Requirement r){
+		this();
+		this.iterationId = r.getIterationId();
+		this.id = r.getId();
+		this.title = r.title;
+	}
+	
+	/**
+	 * Check if a requirement is fake.
+	 *
+	 * @return true, if fake
+	 */
+	public boolean checkFake() {
+		if (this.getDescription() == "" || this.getDescription() == null) {
+			return true;
+		}
+		else return false;
+	}
 
 	/**
 	 * Add an existing AcceptanceTest to this Requirement.
@@ -185,7 +210,7 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Add an existing Task to this Requirement.
 	 *
-	 * @param a the Task
+	 * @param t the Task
 	 */
 	public void addTask(Task t){
 		tasks.add(t);
@@ -196,7 +221,7 @@ public class Requirement extends AbstractModel{
 	 *
 	 * replaces the current Task list with the given one
 	 * 
-	 * @param a the array list of Tasks
+	 * @param t the array list of Tasks
 	 */
 	public void updateTasks(ArrayList<Task> t){
 		this.tasks = t;
@@ -225,6 +250,17 @@ public class Requirement extends AbstractModel{
 	 */
 	public ArrayList<Integer> getChildRequirementIds() {
 		return childIDs;
+	}
+	
+	/**
+	 * Removes a child requirement ID from the list of children
+	 */
+	public void removeChildRequirement(int id) {
+		for (int num = 0; num < childIDs.size(); num++) {
+			if (childIDs.get(num) == id) {
+				childIDs.remove(num);
+			}
+		}
 	}
 
 	/**

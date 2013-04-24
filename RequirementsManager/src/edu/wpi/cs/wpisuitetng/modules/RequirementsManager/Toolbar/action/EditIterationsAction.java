@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addEditIterationab()}, default mnemonic key is E.
+ * Actions for editing iterations
  *
  * @author Lauren Kahn
  *

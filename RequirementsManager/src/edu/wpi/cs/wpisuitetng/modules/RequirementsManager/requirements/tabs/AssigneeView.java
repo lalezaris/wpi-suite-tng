@@ -62,7 +62,7 @@ public class AssigneeView extends JPanel {
 	/**
 	 * Instantiates a new assignee view.
 	 *
-	 * @param parent the requirement view for the assignee view
+	 * @param parentRequirementView the requirement view for the assignee view
 	 */
 	public AssigneeView(RequirementView p){
 		this.parent = p;

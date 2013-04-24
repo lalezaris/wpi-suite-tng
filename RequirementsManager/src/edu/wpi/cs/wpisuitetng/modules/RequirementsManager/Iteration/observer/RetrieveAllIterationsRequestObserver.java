@@ -76,7 +76,7 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	 * Required by the RequestObserver but currently does not do anything at this time.
 	 * 
 	 * @param iReq The IRequest to respond to
-	 * @parm exception The Exception that is causing the failure
+	 * @param exception The Exception that is causing the failure
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

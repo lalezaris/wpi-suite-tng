@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel.CellLocation;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -61,24 +62,68 @@ public class UpdateAllRequirementsController {
 	 */
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
-		this.panel.getTable().setBackground(Color.WHITE);
-		for (int i = 0 ; i < table.getRequirements().size(); i++) {
-			try {
-				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
-			} catch (NullPointerException e) {
-				System.out.println("The " + (i + 1) + "the requirement is not valid");
-			}
-			if(issues.size() > 0){
-				printIssues(issues, table.getRequirements().get(i).getTitle());
-			}
-			
-			if (table.getRequirements().get(i) != null && issues.size() == 0) {
-				saveRequirement(table.getRequirements().get(i));
+
+
+		
+		List<Requirement> reqs = new ArrayList<Requirement>();
+		List<Integer> reqsRow = new ArrayList<Integer>();
+		List<CellLocation> cells = table.getChangedLocations();
+		for (int i = 0 ; i < cells.size() ; i ++){
+			if (table.getRequirements().get(cells.get(i).getRow())!= null){
+				Requirement r = table.getRequirements().get(cells.get(i).getRow());
+				try {
+					issues = reqVal.validate(r, RequirementPanel.Mode.EDIT);
+				} catch (NullPointerException e) {
+					System.out.println("The " + (i + 1) + "th requirement is legal");
+				}
+				if(issues.size() > 0){
+					printIssues(issues, r.getTitle());
+				}
+				if (r != null && issues.size() == 0){
+					reqs.add(table.getRequirements().get(cells.get(i).getRow()));
+					reqsRow.add(cells.get(i).getRow());
+					saveRequirement(table.getRequirements().get(cells.get(i).getRow()));
+				}
 			}
 		}
-		((RequirementTableModel) panel.getTable().getModel()).clear();
-		((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
+		//panel.updateUI();
+		
+//		for (int i = 0 ; i < table.getRequirements().size(); i++) {
+//			try {
+//				issues = reqVal.validate(table.getRequirements().get(i), RequirementPanel.Mode.EDIT);
+//			} catch (NullPointerException e) {
+//				System.out.println("The " + (i + 1) + "th requirement is legal");
+//			}
+//			if(issues.size() > 0){
+//				printIssues(issues, table.getRequirements().get(i).getTitle());
+//			}
+//			
+//			if (table.getRequirements().get(i) != null && issues.size() == 0) {
+//				System.out.println("SENDING SAVE REQUEST FROM TABLE");
+//				reqs.add(table.getRequirements().get(i));
+//				saveRequirement(table.getRequirements().get(i));
+//			}
+//		}
+		//panel.refreshList();
+		for (int i = 0 ; i < reqs.size(); i ++){
+			System.out.println("update req :" + reqs.get(i).getId() + " with iteration " + reqs.get(i).getIteration());
+			table.updateRow(reqsRow.get(i), reqs.get(i));
+		}
+		panel.updateUI();
+		//Requirement[] reqArray = new Requirement[reqs.size()];
+		//for (int i = 0 ; i < reqArray.length; i ++)
+			//reqArray[i] = reqs.get(i);
+		//panel.addRequirements(reqArray);
+		
+		((RequirementTableModel) panel.getTable().getModel()).clearChangeVisuals();
+		//panel.getTable().updateUI();
+		//((RequirementTableModel) panel.getTable().getModel()).clear();
+		//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
 		this.panel.getModel().setIsChange(false);
+
+		this.panel.getFilterController().getPanel().triggerTableUpdate();
+		//this.panel.updateUI();
+
 	}
 
 	/**

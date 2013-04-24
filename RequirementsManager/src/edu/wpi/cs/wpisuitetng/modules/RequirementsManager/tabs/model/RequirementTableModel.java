@@ -15,18 +15,23 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
@@ -34,6 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
+
 
 /**
  * Model for the Requirement Table.
@@ -82,6 +88,37 @@ public class RequirementTableModel extends AbstractTableModel {
 		return data.size();
 	}
 
+	
+	
+	
+	public class ChangedCellRenderer extends DefaultTableCellRenderer {
+		  @Override
+		  public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+
+		    //Cells are by default rendered as a JLabel.
+		    JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+		    //Get the status for the current row.
+		    RequirementTableModel tableModel = (RequirementTableModel) table.getModel();
+		    
+		    if (tableModel.changedCells.contains( new CellLocation(row, col))){
+		    	l.setBackground(new Color(255,255,150));
+		    } else l.setBackground(Color.white);
+		    //if (tableModel.)
+		    //if (tableModel.getStatus(row) == RequirementTableModel.APPROVED) {
+//		    if (tableModel.getValueAt(row, col).equals(1))
+//		      l.setBackground(Color.GREEN);
+//		    else l.setBackground(Color.RED);
+		    //} else {
+		    //  l.setBackground(Color.RED);
+		    //}
+
+		  //Return the JLabel which renders the cell.
+		  return l;
+
+		}
+	}
+	
 	/**
 	 * Sets column widths.
 	 * 
@@ -89,9 +126,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void setColumnWidths(JTable table){
 		table.getTableHeader().setReorderingAllowed(false);
-		for (int i = 0 ; i < 8 ; i ++){
+		for (int i = 0 ; i < table.getColumnModel().getColumnCount() ; i ++){
 			TableColumn column = table.getColumnModel().getColumn(i);
 
+			table.getColumnModel().getColumn(i).setCellRenderer(new ChangedCellRenderer());
+			
 			if (i == 0) {
 				column.setPreferredWidth(30); //ID
 			} else if (i == 1) {
@@ -150,7 +189,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				&& row > -1) {
 			return data.get(row)[col];
 		} else
-			return null;
+			return "null";
 	}
 
 	/**
@@ -168,7 +207,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				req.getStatus(),
 				req.getPriority(),
 				req.getEstimateEffort() ,
-				req.getIteration(),
+				Iteration.getIterationById(req.getIterationId()),
 				ass,
 				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
 		};
@@ -176,6 +215,25 @@ public class RequirementTableModel extends AbstractTableModel {
 		requirements.add(req);
 	}
 
+	public void updateRow(int row, Requirement req){
+		System.out.println("UPDATING ROW " + row);
+		String ass = req.getAssignee().toString();
+		ass = ass.substring(1,ass.length()-1);
+		Object[] r = {
+				req.getId() ,
+				req.getTitle() ,
+				req.getDescription() ,
+				req.getStatus(),
+				req.getPriority(),
+				req.getEstimateEffort() ,
+				Iteration.getIterationById(req.getIterationId()),
+				ass,
+				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
+		};
+		data.set(row, r);
+		requirements.set(row, req);
+	}
+	
 	/**
 	 * Removes row.
 	 * 
@@ -242,12 +300,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object value, int row, int col) {
-		if (DEBUG) {
-			System.out.println("Setting value at " + row + "," + col
-					+ " to " + value
-					+ " (an instance of "
-					+ value.getClass() + ")");
-		}
 
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
@@ -257,21 +309,47 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		if (title.equals("Parent ID")) {
+
+			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col);
+			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
+			if(((String)value).equals(requirements.get(row).getTitle())){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col);
+			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
+			if(((String)value).equals(requirements.get(row).getDescription())){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col);
+			}
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
+			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col);
+			}
 			requirements.get(row).setStatus((RequirementStatus)value);
 		}
 		if (title.equals("Priority")) {
+			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
+				//panel.setBackgroundRowColumn(row,col);
+				this.setChangedCell(row, col);
+			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
+			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
+				//panel.setBackgroundRowColumn(row, col);
+				this.setChangedCell(row, col);
+			}
+
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}		
 
@@ -279,7 +357,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		element[col] = value;
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
-		isChange = true;
+		//isChange = true;
 		panel.hideUpdateSuccessfully();
 
 		if (DEBUG) {
@@ -287,6 +365,53 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 	}
 
+	public class CellLocation{
+		private int row, col;
+		public CellLocation(int row, int col){
+			this.row = row;
+			this.col = col;
+		}
+		/**
+		 * Gets the row
+		 * @return the row
+		 */
+		public int getRow() {
+			return row;
+		}
+		/**
+		 * Gets the col
+		 * @return the col
+		 */
+		public int getCol() {
+			return col;
+		}
+		
+		@Override
+		public boolean equals(Object obj){
+			if (obj instanceof CellLocation){
+				CellLocation other = (CellLocation)obj;
+				return (other.row == this.row
+						&& other.col == this.col);
+			}
+			return false;
+		}
+		
+	}
+	
+	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
+	
+	private void setChangedCell(int row, int col){
+		this.isChange = true;
+		this.changedCells.add(new CellLocation(row, col));
+	}
+	
+	public void clearChangeVisuals(){
+		this.changedCells.clear();
+	}
+	
+	public ArrayList<CellLocation> getChangedLocations(){
+		return this.changedCells;
+	}
 	/**
 	 * Method to check if the input value is legal
 	 * 
@@ -336,14 +461,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		int numRows = getRowCount();
 		int numCols = getColumnCount();
 
-		for (int i=0; i < numRows; i++) {
-			System.out.print("    row " + i + ":");
-			for (int j=0; j < numCols; j++) {
-				System.out.print("  " + getValueAt(i,j));
-			}
-			System.out.println();
-		}
-		System.out.println("--------------------------");
+
 	}
 
 	/**

@@ -190,7 +190,6 @@ public class TreeView extends JPanel {
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
 										//tree.expandPath(path);
-										System.out.println(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;
@@ -218,10 +217,14 @@ public class TreeView extends JPanel {
 								 */
 								@Override
 								public void runWhenRecieved(String s){
-
-									Iteration iteration = Iteration.fromJSONArray(s)[0];
-									if (this.isIteration) {
-										MainTabController.getController().addEditIterationTab(iteration);
+									
+									if(s.equals("0")){
+										MainTabController.getController().addEditIterationTab(Iteration.getBacklog());
+									}else{
+										Iteration iteration = Iteration.fromJSONArray(s)[0];
+										if (this.isIteration) {
+											MainTabController.getController().addEditIterationTab(iteration);
+										}
 									}
 								}
 
@@ -235,16 +238,26 @@ public class TreeView extends JPanel {
 											.getLastPathComponent();
 									Object selectedObject = selectedNode
 											.getUserObject();
+
 									if (selectedObject instanceof Iteration) {
+										
+										if(((Iteration) selectedObject).getIterationName().equals("Backlog")){
+											return ""+ ((Iteration) selectedObject).getId();
+										}
+										
+
 										tree.expandPath(path);
-										return ""+((Iteration) selectedObject).getId();
+										return ""+ ((Iteration) selectedObject).getId();
 									} else {
 										this.isIteration = false;
 										return "-1";
 									}
 								}
 							});
-					controller.retrieve();
+					if(!controller.getID().equals("0")){
+						controller.retrieve();
+					} else 
+						controller.runWhenRecieved("0");
 				}
 			}
 		};

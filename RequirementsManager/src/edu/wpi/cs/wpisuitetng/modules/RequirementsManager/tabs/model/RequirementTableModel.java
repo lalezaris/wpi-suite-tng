@@ -323,7 +323,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (title.equals("Name")) {
 			if(!((String)value).equals(requirements.get(row).getTitle())){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, false);
+				this.setChangedCell(row, col, true);
 			}
 			requirements.get(row).setTitle((String)value);
 		}

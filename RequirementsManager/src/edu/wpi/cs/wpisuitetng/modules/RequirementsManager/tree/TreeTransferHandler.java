@@ -46,6 +46,7 @@ class TreeTransferHandler extends TransferHandler {
 	DataFlavor[] flavors = new DataFlavor[1];  
 	DefaultMutableTreeNode[] nodesToRemove;
 	SaveRequirementController controller;
+	Requirement[] reqs;
 
 	/**
 	 * Instantiates a new TreeTransferHandler.
@@ -68,6 +69,7 @@ class TreeTransferHandler extends TransferHandler {
 	 */
 	protected Transferable createTransferable(JComponent c) {   
 		JTree tree = (JTree)c;  
+		reqs = ((ReqTreeModel)tree.getModel()).getRequirements(); // Get a list of all requirements
 		TreePath[] paths = tree.getSelectionPaths();  
 		if(paths != null) {  
 			// Make up a node array of copies for transfer and  
@@ -118,14 +120,14 @@ class TreeTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
 	 */
 	protected void exportDone(JComponent source, Transferable data, int action) {  
-		if((action & MOVE) == MOVE) {  
-			JTree tree = (JTree)source;  
-			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();  
-			// Remove nodes saved in nodesToRemove in createTransferable.  
-			for(int i = 0; i < nodesToRemove.length; i++) {  
-				model.removeNodeFromParent(nodesToRemove[i]);  
-			}  
-		}  
+//		if((action & MOVE) == MOVE) {  
+//			JTree tree = (JTree)source;  
+//			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();  
+//			// Remove nodes saved in nodesToRemove in createTransferable.  
+//			for(int i = 0; i < nodesToRemove.length; i++) {  
+//				model.removeNodeFromParent(nodesToRemove[i]);  
+//			}  
+//		}  
 	}  
 
 	/**
@@ -158,17 +160,15 @@ class TreeTransferHandler extends TransferHandler {
 		TreePath dest = dl.getPath();  
 		DefaultMutableTreeNode parent =  
 				(DefaultMutableTreeNode)dest.getLastPathComponent();  
-		JTree tree = (JTree)support.getComponent();  
 		// Send changes to database
 		Object destObject = ((DefaultMutableTreeNode)parent).getUserObject();
 		List<Requirement> r = new ArrayList<Requirement>(); // List of requirements to be saved
-		Requirement reqs[] = ((ReqTreeModel)tree.getModel()).getRequirements(); // Get a list of all requirements
 		for(int i = 0; i < nodes.length; i++) {
 			r.add((Requirement)((DefaultMutableTreeNode)(nodes[i].getUserObject())).getUserObject());
 		}
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i), reqs);
+				Requirement req = checkFake(r.get(i));
 				// Change the parent
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
@@ -177,7 +177,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i), reqs);
+				Requirement req = checkFake(r.get(i));
 				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				// Save the changed requirement
@@ -193,7 +193,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject.toString().contains("Backlog")){
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i), reqs);
+				Requirement req = checkFake(r.get(i));
 				// Change the parent
 				req.setIterationId(0);
 				// Save the changed requirement
@@ -216,7 +216,7 @@ class TreeTransferHandler extends TransferHandler {
 	 * @param r the requirement
 	 * @return the real requirement
 	 */
-	private Requirement checkFake(Requirement r, Requirement[] reqs) {
+	private Requirement checkFake(Requirement r) {
 		if (r.checkFake()) {
 			Requirement requirement = new Requirement();
 			// Find the right requirement
@@ -273,9 +273,10 @@ class TreeTransferHandler extends TransferHandler {
 			DefaultMutableTreeNode aNode =  
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
 			if (aNode.getUserObject() instanceof Requirement) {
+				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
 				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
-				if ((((Requirement)aNode.getUserObject()).getIterationId() == 0)
-						&& (((Requirement)aNode.getUserObject()).getEstimateEffort() == 0)){
+				if ((requirement.getIterationId() == 0)
+						&& (requirement.getEstimateEffort() == 0)){
 					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
 							+ aNode.getUserObject().toString() 
 							+ " to an Iteration/Requirement");
@@ -286,11 +287,11 @@ class TreeTransferHandler extends TransferHandler {
 					return false;
 				}
 				// Do not allow a drag for just children
-				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
-					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
-						return false;
-					}
-				}
+//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
+//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
+//						return false;
+//					}
+//				}
 			}
 			// Do not allow a drag for an Iteration
 			else if (aNode.getUserObject() instanceof Iteration) {
@@ -303,10 +304,10 @@ class TreeTransferHandler extends TransferHandler {
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  
 		// selected unless all of its children are also selected.  
-		int action = support.getDropAction();  
-		if(action == MOVE) {  
-			return haveCompleteNode(tree);  
-		}  
+//		int action = support.getDropAction();  
+//		if(action == MOVE) {  
+//			return haveCompleteNode(tree);  
+//		}  
 		// Do not allow a non-leaf node to be copied to a level  
 		// which is less than its source level.  
 		TreePath dest = dl.getPath();  

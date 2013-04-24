@@ -46,7 +46,7 @@ public class RequirementValidator {
 			return issues;
 		}
 
-		if(mode == Mode.CREATE){
+		if(mode == Mode.CREATE || mode == Mode.CREATE){
 			if(requirement.getIterationId() == Iteration.getBacklog().getId()){
 				if(!requirement.getStatus().equals(RequirementStatus.NEW)){
 					issues.add(new ValidationIssue("On Create, must be NEW when in the backlog", "Status"));

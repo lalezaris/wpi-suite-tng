@@ -363,7 +363,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	/**
 	 * Returns weather or not both the title field and body field are filled in.
 	 *
-	 * @return true, if both title and body fields are filled in. False otherwise.
+	 * @return false, if both title and body fields are filled in. true otherwise.
 	 */
 	public boolean notReady(){
 		String t = txtTitle.getText().trim();
@@ -393,23 +393,6 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 */
 	public JTextArea getTextArea(){
 		return this.txtBody;
-	}
-
-	/**
-	 * Update mouse listener.
-	 */
-	public void updateMouseListener(){
-		MouseListener mouseListener = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int index = listDisplay.locationToIndex(e.getPoint());
-				txtTitle.setText(list.get(index).getTitle());
-				txtTitle.setEnabled(false);
-				txtTitleFlag = false;
-				txtBody.setText(list.get(index).getBody());
-				cmbStatus.setSelectedIndex(list.get(index).getStatusIndex());
-			}
-		};
-		listDisplay.addMouseListener(mouseListener);
 	}
 
 	/**

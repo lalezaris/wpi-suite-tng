@@ -109,8 +109,11 @@ public class BarPieChartPanel extends JPanel {
 
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
+		chartBox.setBackground(Color.WHITE);
 		characteristicBox = new JComboBox(characteristicArray);
+		characteristicBox.setBackground(Color.WHITE);
 		subDivideBox = new JComboBox(subDivisionArray);
+		subDivideBox.setBackground(Color.WHITE);
 		spinCheckbox = new JCheckBox("Spin");//The button to spin the pie chart.
 		
 		//Make Labels

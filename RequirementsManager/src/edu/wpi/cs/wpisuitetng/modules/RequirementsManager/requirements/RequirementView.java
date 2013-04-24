@@ -422,12 +422,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		case NONE:
 			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
-					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove(),mainPanel.getAcceptanceTestsView().getListDisplay()});
+					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove(),mainPanel.getAcceptanceTestsView().getListDisplay()});
 			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
 			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
-			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons()});
+			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons(),mainPanel.getCreateChildRequirement()});
 			break;
 		case UPDATE: 
 

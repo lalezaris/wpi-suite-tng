@@ -57,7 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
@@ -140,8 +140,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	//TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
-	/** DependenciesView for viewing child requirements **/
-	private DependenciesView dependenciesView;
+	/** Parent and Requirement View for viewing parent and child requirements **/
+	private ParentAndChildrenView parentChildrenView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -209,8 +209,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		//get the list of tasks from the given requirement
 		this.tasksView = new TasksView(parent);
 
-		//get the list of dependencies from the given requirement
-		this.dependenciesView = new DependenciesView(parent);
+		//get the parent and the list of children from the given requirement
+		this.parentChildrenView = new ParentAndChildrenView(parent);
 
 		// Indicate that input is enabled
 		this.inputEnabled = true;
@@ -292,7 +292,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, parentChildrenView, tasksView);
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -792,7 +792,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.updateHistory(historyView.getHistoryList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
-		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
+		requirement.setSubRequirements(parentChildrenView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 		requirement.updateTasks(tasksView.getTasks());
@@ -1048,8 +1048,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * 
 	 * @return dependencies view
 	 */
-	public DependenciesView getDependenciesView(){
-		return dependenciesView;
+	public ParentAndChildrenView getDependenciesView(){
+		return parentChildrenView;
 	}
 
 	/**

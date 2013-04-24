@@ -351,6 +351,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	@Override
 	public int compareTo(Iteration o) {
+		try {
 		if(this.startDate == null)
 			return 1;
 		if(o.startDate == null)
@@ -359,6 +360,9 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 			return this.endDate.compareTo(o.endDate);
 		else 
 			return (this.startDate.compareTo(o.startDate));
+		} catch (NullPointerException e) {
+			return 1;
+		}
 	}
 
 	/**

@@ -44,6 +44,7 @@ import javax.swing.JTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlaceholderTextField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
@@ -88,6 +89,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	protected JButton saveIterationTop;
 	protected JButton btnSaveIteration;
 	protected JButton btnCancelIteration;
+	protected IntegerField txtEstimate;
 	protected JFrame f = new JFrame();
 
 	/** A flag indicating if input is enabled on the form */
@@ -165,6 +167,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 		txtStartDate.addFocusListener(this);
 		txtEndDate = new JLabel("");
 		txtEndDate.addFocusListener(this);
+		txtEstimate = new IntegerField(4);
+		
+		txtEstimate.setEnabled(false);
 
 		// Buttons for "Save" and "Cancel"
 		btnSaveIteration = new JButton("Save");
@@ -174,6 +179,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
 		JLabel lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
 		JLabel lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
+		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a GridGagLayout manager
@@ -271,6 +277,20 @@ public class IterationPanel extends JPanel implements FocusListener {
 		cTwo.weighty = 0.5;
 		cTwo.gridwidth = 1;
 		panelTwo.add(selectEndDate, cTwo);
+		
+		cTwo.gridx = 0;
+		cTwo.gridy = 2;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
+		panelTwo.add(lblEstimate, cTwo);
+		
+		cTwo.gridx = 2;
+		cTwo.gridy = 2;
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridwidth = 1;
+		panelTwo.add(txtEstimate, cTwo);
 
 		selectEndDate.addActionListener(new ActionListener()
 		{
@@ -614,6 +634,45 @@ public class IterationPanel extends JPanel implements FocusListener {
 	}
 
 	/**
+	 * Gets estimate
+	 * 
+	 * @return estimate
+	 */
+	public IntegerField getTxtEstimate() {
+		return txtEstimate;
+	}
+
+	/**
+	 * Sets estimate
+	 * 
+	 * @param txtEstimate what to set the estimate to
+	 */
+	public void setTxtEstimate(IntegerField txtEstimate) {
+		this.txtEstimate = txtEstimate;
+	}
+	
+	/**
+	 * Calculates the estimate of the parent requirements in an iteration
+	 * 
+	 * @param requirements the requirements to get the estimate of
+	 * @return the estimate 
+	 */
+	public int calculateTxtEstimate(Requirement[] requirements){
+		int totalEstimate = 0;
+		int counter = 0;
+		Iteration i = getParent().getIterationModel().getUneditedModel();
+		Requirement[] parents = requirements;
+		for(Requirement parent: requirements){
+			if(parent.isTopLevelRequirement() && parent.getIterationId() == i.getId()){
+				parents[counter] = parent;
+				counter++;
+				totalEstimate += parent.getEstimateEffort();
+			}
+		}
+		return totalEstimate; 
+	}
+
+	/**
 	 * Receives the requirements from the server and adds the correct ones to the requirement panel
 	 * 
 	 * @param reqs the requirements the server received
@@ -653,6 +712,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	public void focusLost(FocusEvent e) {
 		updateBackgrounds();
 	}
+	
 
 	/**
 	 * Updates the backgrounds to yellow or white depending on if there have been changes

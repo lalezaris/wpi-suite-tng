@@ -86,12 +86,13 @@ public class SaveRequirementController {
 						while(!((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && currentView != null){
 							int estimateEffort = parent.getEstimateEffort() - currentView.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().getEstimateEffort();
 							parent.setEstimateEffort(estimateEffort);
+							System.out.println("Parent Id Outside Loop: " + currentView.getParentView().getReqModel().getRequirement().getId());
 							if(currentView.getParentView() != null){
 
 								currentView.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort);
 								currentView.getParentView().getReqModel().setEstimateDirty();
 								currentView.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false);
-
+								System.out.println("Parent Id: " + currentView.getParentView().getReqModel().getRequirement().getId());
 							}
 							Request estimateRequest;
 							estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
@@ -99,7 +100,7 @@ public class SaveRequirementController {
 							estimateRequest.setBody(JsonRequest);
 							estimateRequest.addObserver(parentEstimateRequestObserver);
 							estimateRequest.send();
-							if(!parent.isTopLevelRequirement()){
+							if(!parent.isTopLevelRequirement() && currentView.getParentView() != null){
 								currentView = currentView.getParentView();
 								parent = currentView.getParentRequirement();
 							}

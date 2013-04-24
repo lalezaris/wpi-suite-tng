@@ -60,7 +60,8 @@ public class AllRequirementObserver implements RequestObserver{
 		}
 
 		this.panel.receiveServerRequirements(reqs);
-
+		this.panel.getTxtEstimate().setText("" + this.panel.calculateTxtEstimate(reqs));
+		this.panel.repaint();
 	}
 
 	/**

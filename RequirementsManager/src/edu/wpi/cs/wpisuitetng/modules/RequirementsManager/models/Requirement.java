@@ -251,6 +251,17 @@ public class Requirement extends AbstractModel{
 	public ArrayList<Integer> getChildRequirementIds() {
 		return childIDs;
 	}
+	
+	/**
+	 * Removes a child requirement ID from the list of children
+	 */
+	public void removeChildRequirement(int id) {
+		for (int num = 0; num < childIDs.size(); num++) {
+			if (childIDs.get(num) == id) {
+				childIDs.remove(num);
+			}
+		}
+	}
 
 	/**
 	 * Gets the number of children.

@@ -464,7 +464,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
-				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
+				if (knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 || knownIterations[i] == Iteration.getBacklog()) {
 					knownIts.add(knownIterations[i]);
 				}
 			} else {

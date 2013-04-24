@@ -395,14 +395,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtActual().setEnabled(false);
 		}
 
-		if (this.getMode() == Mode.CHILD) {
-			mainPanel.getTxtReleaseNumber().setEnabled(false);
-		}
-
-		if(!(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
-			mainPanel.getTxtReleaseNumber().setEnabled(false);
-		}
-
 		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.getTxtEstimate().setEnabled(false);
 		}
@@ -480,7 +472,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
-				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
+				if (knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 || knownIterations[i] == Iteration.getBacklog()) {
 					knownIts.add(knownIterations[i]);
 				}
 			} else {

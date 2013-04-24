@@ -115,8 +115,8 @@ public class BarPieChartPanel extends JPanel {
 		
 		//Make Labels
 		chartLabel = new JLabel("Chart Type:", JLabel.TRAILING);
-		characteristicLabel = new JLabel("X Axis:", JLabel.TRAILING);
-		subDivideLabel = new JLabel("Sub-Divide Bars By:", JLabel.TRAILING);
+		characteristicLabel = new JLabel("Characteristics:", JLabel.TRAILING);
+		subDivideLabel = new JLabel("Sub-Divide Bars:", JLabel.TRAILING);
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -131,86 +131,85 @@ public class BarPieChartPanel extends JPanel {
 
 		GridBagConstraints cOverall = new GridBagConstraints();
 		overallPanel.setLayout(layoutOverall);
-
-		/*add all of the components to the btnPanel*/
+		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.fill = GridBagConstraints.NONE;
 		cBox.gridx = 0;
 		cBox.gridy = 0;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
 		boxPanel.add(chartLabel, cBox);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
-		cBox.gridx = 0;
-		cBox.gridy = 1;
-		cBox.weightx = 0.5;
-		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
-		boxPanel.add(chartBox, cBox);
-
-		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.fill = GridBagConstraints.NONE;
 		cBox.gridx = 2;
 		cBox.gridy = 0;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
 		boxPanel.add(characteristicLabel, cBox);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
-		cBox.gridx = 2;
-		cBox.gridy = 1;
-		cBox.weightx = 0.5;
-		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		boxPanel.add(characteristicBox, cBox);
-
-		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.fill = GridBagConstraints.NONE;
 		cBox.gridx = 4;
 		cBox.gridy = 0;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
 		boxPanel.add(subDivideLabel, cBox);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 0;
+		cBox.gridy = 1;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //insets for top, left, bottom, and right
+		boxPanel.add(chartBox, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 2;
+		cBox.gridy = 1;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		boxPanel.add(characteristicBox, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 4;
 		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		boxPanel.add(subDivideBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 6;
-		cBox.gridy = 0;
+		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		boxPanel.add(spinCheckbox, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
-		cOverall.weightx = 0.1;
-		cOverall.weighty = 0.1;
+		cOverall.weightx = 1;
+		cOverall.weighty = 1;
 		cOverall.gridwidth = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cOverall.insets = new Insets(0,0,0,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
 		setChart(displayedChart, TypeOfChart.Bar, false);
@@ -279,6 +278,7 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setVisible(enabled);
+		subDivideLabel.setVisible(enabled);
 		if(!enabled){
 			subDivideBox.setSelectedIndex(0);
 		}

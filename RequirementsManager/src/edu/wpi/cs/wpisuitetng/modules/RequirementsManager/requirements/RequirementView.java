@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -192,6 +193,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			return 5;
 		else if (actual == -1)
 			return 6;
+		
+		if(((Iteration)mainPanel.getCmbIteration().getSelectedItem()).getId() != Iteration.getBacklog().getId()){
+			if(estimate == -1 || mainPanel.getTxtEstimate().getText().trim().equals("0")){
+				mainPanel.getLblEstimateError().setVisible(true);
+				return 7;
+			}
+		}
 
 
 		if((tempTitle.equals(null) || tempTitle.equals("")) && 
@@ -387,14 +395,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtActual().setEnabled(false);
 		}
 
-		if (this.getMode() == Mode.CHILD) {
-			mainPanel.getTxtReleaseNumber().setEnabled(false);
-		}
-
-		if(!(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
-			mainPanel.getTxtReleaseNumber().setEnabled(false);
-		}
-
 		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.getTxtEstimate().setEnabled(false);
 		}
@@ -422,12 +422,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		case NONE:
 			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbStatus(),mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),mainPanel.getSaveRequirementBottom(), 
-					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getCreateChildRequirement(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove(),mainPanel.getAcceptanceTestsView().getListDisplay()});
+					mainPanel.getDeleteRequirementBottom(), mainPanel.getCancelRequirementBottom(), mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove(),mainPanel.getAcceptanceTestsView().getListDisplay()});
 			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
 			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
 					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
-			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons()});
+			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getPanelButtons(),mainPanel.getCreateChildRequirement()});
 			break;
 		case UPDATE: 
 
@@ -472,7 +472,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
-				if (parentRequirement.getIterationId() == knownIterations[i].getId() || knownIterations[i] == Iteration.getBacklog()) {
+				if (knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 || knownIterations[i] == Iteration.getBacklog()) {
 					knownIts.add(knownIterations[i]);
 				}
 			} else {
@@ -511,7 +511,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		mainPanel.getSplitPaneLeft().setDividerLocation(0.95);
-		//		mainPanel.getSplitPane().setDividerLocation(0.5);
+		mainPanel.getSplitPaneLeft().setAutoscrolls(true);
+		mainPanel.getSplitPaneLeft().setDividerSize(0);
+		mainPanel.getSplitPaneLeft().setResizeWeight(1);
 		mainPanel.getSplitPane().setDividerLocation(mainPanel.getTxtDescription().getWidth()+50);
 
 	}

@@ -37,6 +37,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -99,7 +100,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	JLabel lblIterationNameError = new JLabel("ERROR: Must have a iteration name", LABEL_ALIGNMENT);
 	JLabel lblStartDateError = new JLabel("ERROR: Must have a start date", LABEL_ALIGNMENT);
 	JLabel lblEndDateError = new JLabel("ERROR: Must have a end date", LABEL_ALIGNMENT);
-	JLabel lblDateError = new JLabel("ERROR: The start date must be before the end date", LABEL_ALIGNMENT);
+	JLabel lblDateError = new JLabel("<html>ERROR: The start date must be <p>before the end date</p></html>", LABEL_ALIGNMENT);
 	JLabel lblIterationNameExistsError = new JLabel("ERROR: The iteration name already exists", LABEL_ALIGNMENT);
 	JLabel lblDateOverlapError = new JLabel("<html>ERROR: The iteration is overlapping with <p>already existing Iteration(s)</p></html>", LABEL_ALIGNMENT);
 
@@ -125,6 +126,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 	protected JTable table;
 	protected RequirementListPanel reqListPanel;
 	protected RequirementTableModel requirementTableModel;
+	
+	protected JLabel lblStartDate;
+	protected JLabel lblEndDate;
 
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
@@ -208,13 +212,12 @@ public class IterationPanel extends JPanel implements FocusListener {
 		layoutTwo = new GridBagLayout();
 		panelTwo.setLayout(layoutTwo);
 
-		cTwo.anchor = GridBagConstraints.LINE_END;
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.insets = new Insets(10,10,10,0);
 		cTwo.gridx = 0;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
-		cTwo.anchor = GridBagConstraints.LINE_START;
 		panelTwo.add(lblStartDate, cTwo);
 
 		cTwo.anchor = GridBagConstraints.LINE_START;
@@ -226,6 +229,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		txtStartDate.setEnabled(true);
 		panelTwo.add(txtStartDate, cTwo);
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 4;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
@@ -245,6 +249,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 			}
 		});
 
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 0;
 		cTwo.gridy = 5;
 		cTwo.weightx = 0.5;
@@ -254,7 +259,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		lblStartDateError.setForeground(Color.RED);
 		panelTwo.add(lblStartDateError, cTwo);
 
-		cTwo.anchor = GridBagConstraints.LINE_END;
+		cTwo.anchor = GridBagConstraints.LINE_START;
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
@@ -391,8 +396,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 		cLeft.weightx = 0.1;
 		cLeft.weighty = 0.1;
 		left.add(panelOverall,cLeft);
+		JScrollPane leftScroll = new JScrollPane(left);
 		JSplitPane splitPane = new JSplitPane();
-		splitPane.setLeftComponent(left);
+		splitPane.setLeftComponent(leftScroll);
 
 
 		JPanel right = new JPanel();
@@ -407,8 +413,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 			rightSub.add(new JLabel("Requirements in this iteration:"),1.0);
 			right.add(rightSub,BorderLayout.NORTH);
 		}
-
-		splitPane.setRightComponent(right);
+		JScrollPane rightScroll = new JScrollPane(right);
+		
+		splitPane.setRightComponent(rightScroll);
 
 		this.setLayout(new BorderLayout());
 		new AllRequirementController(this).retrieve();
@@ -495,20 +502,21 @@ public class IterationPanel extends JPanel implements FocusListener {
 				return true;
 			} 
 		} else {
-			Iteration oldI = getParent().getIterationModel().getUneditedModel();
-
-			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
-				return true;
+			if(parent.getIterationModel().getUneditedModel().compareTo(Iteration.getBacklog()) != 0){
+				Iteration oldI = getParent().getIterationModel().getUneditedModel();
+	
+				if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
+					return true;
+				}
+	
+				if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
+					return true;
+				}
+	
+				if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
+					return true;
+				}
 			}
-
-			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
-				return true;
-			}
-
-			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
-				return true;
-			}
-
 			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
 				return true;
 			}
@@ -754,10 +762,39 @@ public class IterationPanel extends JPanel implements FocusListener {
 			} else 
 				txtEndDate.setBackground(Color.WHITE);
 
-			if(((RequirementTableModel)reqListPanel.getTable().getModel()).getIsChange()){
-				return true;
 			}
-		}
 		return false;
 	}
+
+	/**
+	 * @return the selectStartDate
+	 */
+	public JButton getSelectStartDate() {
+		return selectStartDate;
+	}
+
+	/**
+	 * @return the selectEndDate
+	 */
+	public JButton getSelectEndDate() {
+		return selectEndDate;
+	}
+
+	/**
+	 * @return the lblStartDate
+	 */
+	public JLabel getLblStartDate() {
+		return lblStartDate;
+	}
+
+	/**
+	 * @return the lblEndDate
+	 */
+	public JLabel getLblEndDate() {
+		return lblEndDate;
+	}
+	
+	
+	
+	
 }

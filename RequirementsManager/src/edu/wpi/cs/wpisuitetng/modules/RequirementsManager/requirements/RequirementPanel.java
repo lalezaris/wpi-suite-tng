@@ -21,6 +21,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -90,6 +91,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** The parent view **/
 	protected RequirementView parent;
 	protected RequirementPanel.Mode mode;
+	
 	/*
 	 * Form elements
 	 */
@@ -147,8 +149,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
-	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
-	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is invalid", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -248,7 +250,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtTitle.addFocusListener(this);
 		
-		txtReleaseNumber = new JTextField(6);
+		txtReleaseNumber = new JTextField(2);
 		txtReleaseNumber.addFocusListener(this);
 		
 		cmbIteration = new JComboBox();
@@ -725,14 +727,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		inputEnabled = enabled;
 
 		txtTitle.setEnabled(enabled);
-		
-		if (this.parent.getReqModel().getRequirement().getParentRequirementId() == -1) {
-			txtReleaseNumber.setEnabled(enabled);
-		}
+		txtReleaseNumber.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
-		txtEstimate.setEnabled(enabled);
+		
+		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			txtEstimate.setEnabled(enabled);
+		}
 	}
 
 	public void setUpPanel(){
@@ -793,7 +795,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
-
+		requirement.updateTasks(tasksView.getTasks());
+		
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
 		}

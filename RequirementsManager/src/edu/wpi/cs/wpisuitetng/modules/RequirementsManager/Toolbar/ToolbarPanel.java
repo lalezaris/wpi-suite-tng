@@ -175,19 +175,19 @@ public class ToolbarPanel extends DefaultToolbarView {
 				"List the requirements or iterations");
 		
 		//add menu items
-		createReq = new JMenuItem("Create Requirement");
-		createReq.setAction(new NewRequirementAction(tabController,"Create Requirement"));
+		createReq = new JMenuItem("Requirement");
+		createReq.setAction(new NewRequirementAction(tabController,"Requirement"));
 		createMenu.add(createReq);
 		
-		createIter = new JMenuItem("Create Iteration");
+		createIter = new JMenuItem("Iteration");
 		createIter.setAction(new NewIterationAction(tabController));
 		createMenu.add(createIter);
 		
-		listReq = new JMenuItem("List Requirements");
-		listReq.setAction(new ListAction(tabController,"List Requirements"));
+		listReq = new JMenuItem("Requirements");
+		listReq.setAction(new ListAction(tabController,"Requirements"));
 		listMenu.add(listReq);
 		
-		listIter = new JMenuItem("List Iterations");
+		listIter = new JMenuItem("Iterations");
 		listIter.setAction(new ListIterationAction(tabController));
 		listMenu.add(listIter);
 		

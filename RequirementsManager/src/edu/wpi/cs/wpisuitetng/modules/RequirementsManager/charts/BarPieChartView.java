@@ -134,7 +134,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		this();
 
 		containingTab = tab;
-		containingTab.setTitle("Bar Chart");
+		containingTab.setTitle("Statistics");
 
 
 	}

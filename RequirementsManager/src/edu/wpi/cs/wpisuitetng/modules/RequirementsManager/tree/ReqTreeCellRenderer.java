@@ -10,6 +10,7 @@
  * Contributors: 
  * Chris Hanna 
  * Tyler Stone
+ * Arica Liu
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
@@ -106,6 +107,11 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 				break;
 			default:
 				setIcon(no_priority_icon);
+			}
+			
+			// Grey out the fake requirements 
+			if (req.checkFake()) {
+				setEnabled(false);
 			}
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();

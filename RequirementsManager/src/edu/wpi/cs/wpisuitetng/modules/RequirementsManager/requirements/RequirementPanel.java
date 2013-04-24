@@ -90,6 +90,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** The parent view **/
 	protected RequirementView parent;
 	protected RequirementPanel.Mode mode;
+	
 	/*
 	 * Form elements
 	 */
@@ -725,14 +726,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		inputEnabled = enabled;
 
 		txtTitle.setEnabled(enabled);
-		
-		if (this.parent.getReqModel().getRequirement().getParentRequirementId() == -1) {
-			txtReleaseNumber.setEnabled(enabled);
-		}
+		txtReleaseNumber.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
-		txtEstimate.setEnabled(enabled);
+		
+		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			txtEstimate.setEnabled(enabled);
+		}
 	}
 
 	public void setUpPanel(){

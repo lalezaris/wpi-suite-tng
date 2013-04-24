@@ -391,10 +391,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtReleaseNumber().setEnabled(false);
 		}
 
-		if(!(this.getReqModel().getRequirement().getParentRequirementId() == -1)){
-			mainPanel.getTxtReleaseNumber().setEnabled(false);
-		}
-
 		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
 			mainPanel.getTxtEstimate().setEnabled(false);
 		}

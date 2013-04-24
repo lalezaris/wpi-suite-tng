@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -70,6 +71,7 @@ public class DeleteRequirementController {
 				if(issues.size() > 0){
 					printIssues(issues);
 				} else {
+					delRequirement.setStatus(RequirementStatus.DELETED);
 					String JsonRequest = delRequirement.toJSON();
 					request.setBody(JsonRequest);
 					request.addObserver(requestObserver);

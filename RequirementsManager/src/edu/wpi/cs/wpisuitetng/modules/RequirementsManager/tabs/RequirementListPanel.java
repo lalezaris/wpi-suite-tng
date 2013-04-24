@@ -383,49 +383,4 @@ public class RequirementListPanel extends JPanel{
 		
 	}
 	
-	public void setBackgroundRowColumn(Object value, int row, int col){
-//			table.getCellRenderer(row, col).getTableCellRendererComponent(table, value, true, true, row, col);
-	}
-	
-	public class BackGroundListener implements TableModelListener {
-	    
-		@Override
-	    public void tableChanged(TableModelEvent e) {
-			int row = e.getLastRow();
-	        int column = e.getColumn();
-	        TableModel model = (TableModel)e.getSource();
-	        String columnName = model.getColumnName(column);
-	        Object data = model.getValueAt(row, column);
-	        
-	        if(e.getType() == TableModelEvent.UPDATE){
-	        	if(table.getModel().getValueAt(row, column).equals(data)){
-	        		table.getCellRenderer(row, column).getTableCellRendererComponent(table, data, true, true, row, column);
-	        	}
-	        }
-	    }
-	}
-	
-	public class ColumnCellRenderer extends DefaultTableCellRenderer 
-	  {
-		public ColumnCellRenderer(){
-			super();
-			setOpaque(true); //MUST do this for background to show up.
-		}
-
-		@Override 
-	    public Component getTableCellRendererComponent(JTable table,
-	       Object value, boolean isSelected, boolean hasFocus, int row, int column)
-	    {
-			Component c = super.getTableCellRendererComponent(table, value,
-			          isSelected, hasFocus, row, column);
-			if(table.getModel().getValueAt(row, column).equals(value)){
-		        if (isSelected && hasFocus){
-		        	c.setBackground(Color.YELLOW);
-		        }
-	    	} else {
-	    		c.setBackground(Color.WHITE);
-	    	}
-	        return c;
-	    }
-	  }
 }

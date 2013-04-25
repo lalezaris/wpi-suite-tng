@@ -43,6 +43,7 @@ public class RequirementTableModelTest {
 
 	@Before
 	public void setUp(){
+		
 		rtm1 = new RequirementTableModel(null);
 		Requirement req1 = new Requirement(1,"req1","des1",null);
 		req1.setEstimateEffort(-1);
@@ -90,6 +91,10 @@ public class RequirementTableModelTest {
 
 	@Test
 	public void dataCanBeinserted() {
+		Refresher.getInstance();
+		Iteration[] itlist = {Iteration.getBacklog()};
+		Refresher.getInstance().setLastKnownIterations(itlist);
+		
 		assertEquals("Name", rtm1.getColumnName(1));
 		assertEquals(4, rtm1.getRowCount());
 		assertEquals(1, rtm1.getValueAt(0, 0));
@@ -98,7 +103,7 @@ public class RequirementTableModelTest {
 		assertEquals("req2", rtm1.getValueAt(1, 1));
 		assertEquals("des3", rtm1.getValueAt(2, 2));
 		assertEquals(4, rtm1.getValueAt(3, 0));
-		assertEquals(null, rtm1.getValueAt(5, 0));
+		assertEquals("null", rtm1.getValueAt(5, 0));
 	}
 
 	@Test

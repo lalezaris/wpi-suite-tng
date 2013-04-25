@@ -124,6 +124,10 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	private DefaultPieDataset iterationPieDataset = new DefaultPieDataset();
 	private DefaultPieDataset statusPieDataset = new DefaultPieDataset();
 	private DefaultPieDataset assigneePieDataset = new DefaultPieDataset();
+	
+	private boolean iterationVisible;
+	private boolean statusVisible;
+	private boolean assigneeVisible;
 
 	/**
 	 * Constructs a Bar Chart View so the bar chart can be viewed.
@@ -234,19 +238,19 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 	public void repaintChart(){
 		if(chartType == TypeOfChart.Bar){
 			if(currentCharacteristic.equals("Status")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(statusTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(statusPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(statusNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(statusTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false, statusVisible);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(statusPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false, statusVisible);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(statusNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false, statusVisible);
 			}
 			else if(currentCharacteristic.equals("Assignee")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(assigneeTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(assigneePrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(assigneeNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(assigneeTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false, assigneeVisible);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(assigneePrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false, assigneeVisible);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(assigneeNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false, assigneeVisible);
 			}
 			else if (currentCharacteristic.equals("Iteration")){
-				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(iterationTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(iterationPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
-				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(iterationNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false);
+				if(currentSubDivision == SubDivision.Type) mainPanel.setChart(makeBarChart(iterationTypeBarDataset, currentCharacteristic), TypeOfChart.Bar, false, iterationVisible);
+				if(currentSubDivision == SubDivision.Priority) mainPanel.setChart(makeBarChart(iterationPrioBarDataset, currentCharacteristic), TypeOfChart.Bar, false, iterationVisible);
+				if(currentSubDivision == SubDivision.None) mainPanel.setChart(makeBarChart(iterationNoneBarDataset, currentCharacteristic), TypeOfChart.Bar, false, iterationVisible);
 			}
 			//Set the subdivide to be ungrayed out.
 			mainPanel.setSubDivideEnable(true);
@@ -254,13 +258,13 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 		}
 		else if(chartType == TypeOfChart.Pie){
 			if(currentCharacteristic.equals("Status")){
-				mainPanel.setChart(makePieChart(statusPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
+				mainPanel.setChart(makePieChart(statusPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin, statusVisible);
 			}
 			else if(currentCharacteristic.equals("Assignee")){
-				mainPanel.setChart(makePieChart(assigneePieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
+				mainPanel.setChart(makePieChart(assigneePieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin, assigneeVisible);
 			}
 			else if (currentCharacteristic.equals("Iteration")){
-				mainPanel.setChart(makePieChart(iterationPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin);
+				mainPanel.setChart(makePieChart(iterationPieDataset, currentCharacteristic), TypeOfChart.Pie, pieSpin, iterationVisible);
 			}
 			//Set the subdivide to be grayed out.
 			mainPanel.setSubDivideEnable(false);
@@ -289,6 +293,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			//Look at each iteration name and count the requirements in each iteration.
 			int [][] priorityCount = new int[allIterations.length][allPriorities.length];
 			int [][] typeCount = new int[allIterations.length][allTypes.length];
+			boolean visible = false;//Hide the graph until something is displayed (so if there is nothing there, it will be invisible)
 			for(int r=0; r<allRequirements.length;r++){
 				for(int i=0; i<allIterations.length; i++){
 					if(allIterations[i].getId() == allRequirements[r].getIterationId()&&
@@ -297,32 +302,37 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 						for(int j = 0; j < allPriorities.length; j ++){
 							if(allPriorities[j] == allRequirements[r].getPriority()){
 								priorityCount[i][j]++;
+								visible = true;
 							}
 						}
 						//Set the Type
 						for(int j = 0; j < allTypes.length; j ++){
 							if(allTypes[j] == allRequirements[r].getType()){
 								typeCount[i][j]++;
+								visible = true;
 							}
 						}
 					}
 				}
 			}
-			for(int i=0; i<allIterations.length;i++){//Get the names of the iterations by their ID numbers for the chart.
-				String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
-				int cumulativeData = 0;
-				for(int j = 0; j < allPriorities.length; j++){
-					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
-					iterationPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], "Iteration: " + iterationName);
-					iterationNoneBarDataset.setValue(cumulativeData, "Requirement", "Iteration: " + iterationName);
-					if(cumulativeData != 0)
-						iterationPieDataset.setValue("Iteration: " + iterationName, cumulativeData);
-				}
-				//Tack type on
-				for(int j = 0; j < allTypes.length; j++){
-					iterationTypeBarDataset.setValue(typeCount[i][j], allTypes[j], "Iteration: " + iterationName);
+			if(visible){
+				for(int i=0; i<allIterations.length;i++){//Get the names of the iterations by their ID numbers for the chart.
+					String iterationName = Iteration.getIterationById(allIterations[i].getId()).getName();
+					int cumulativeData = 0;
+					for(int j = 0; j < allPriorities.length; j++){
+						cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
+						iterationPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], "Iteration: " + iterationName);
+						iterationNoneBarDataset.setValue(cumulativeData, "Requirement", "Iteration: " + iterationName);
+						if(cumulativeData != 0)
+							iterationPieDataset.setValue("Iteration: " + iterationName, cumulativeData);
+					}
+					//Tack type on
+					for(int j = 0; j < allTypes.length; j++){
+						iterationTypeBarDataset.setValue(typeCount[i][j], allTypes[j], "Iteration: " + iterationName);
+					}
 				}
 			}
+			iterationVisible = visible;
 
 			//==========
 			//Status
@@ -330,6 +340,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			//Look at each status name and count the requirements of each status.
 			priorityCount = new int[allStatuses.length][allPriorities.length];
 			typeCount = new int[allStatuses.length][allTypes.length];
+			visible = false;
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allStatuses.length; i++){
 					if(allRequirements[r].getStatus() == allStatuses[i]){
@@ -337,31 +348,36 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 						for(int j = 0; j < allPriorities.length; j ++){
 							if(allPriorities[j] == allRequirements[r].getPriority()){
 								priorityCount[i][j] ++;
+								visible = true;
 							}
 						}
 						//Set the Type
 						for(int j = 0; j < allTypes.length; j ++){
 							if(allTypes[j] == allRequirements[r].getType()){
 								typeCount[i][j]++;
+								visible = true;
 							}
 						}
 					}
 				}
 			}
-			for(int i=0; i<allStatuses.length;i++){
-				int cumulativeData = 0;
-				for(int j = 0; j < allPriorities.length; j++){
-					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
-					statusPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allStatuses[i].toString());
-					statusNoneBarDataset.setValue(cumulativeData, "Requirement", allStatuses[i].toString());
-					if(cumulativeData != 0)
-						statusPieDataset.setValue(allStatuses[i].toString(), cumulativeData);
-				}
-				//Tack type on
-				for(int j = 0; j < allTypes.length; j++){
-					statusTypeBarDataset.setValue(typeCount[i][j], allTypes[j], allStatuses[i].toString());
+			if(visible){
+				for(int i=0; i<allStatuses.length;i++){
+					int cumulativeData = 0;
+					for(int j = 0; j < allPriorities.length; j++){
+						cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
+						statusPrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allStatuses[i].toString());
+						statusNoneBarDataset.setValue(cumulativeData, "Requirement", allStatuses[i].toString());
+						if(cumulativeData != 0)
+							statusPieDataset.setValue(allStatuses[i].toString(), cumulativeData);
+					}
+					//Tack type on
+					for(int j = 0; j < allTypes.length; j++){
+						statusTypeBarDataset.setValue(typeCount[i][j], allTypes[j], allStatuses[i].toString());
+					}
 				}
 			}
+			statusVisible = visible;
 
 			//==========
 			//Assignee
@@ -369,6 +385,7 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 			//Look at each user name and count the requirements of each user.
 			priorityCount = new int[allUsers.length][allPriorities.length];
 			typeCount = new int[allUsers.length][allTypes.length];
+			visible = false;
 			for(int r=0; r<allRequirements.length; r++){
 				for(int i=0; i<allUsers.length; i++){
 					for(int j = 0; j < allRequirements[r].getAssignee().size(); j ++){
@@ -378,32 +395,37 @@ public class BarPieChartView extends JPanel implements IToolbarGroupProvider {
 							for(int k = 0; k < allPriorities.length; k ++){
 								if(allPriorities[k] == allRequirements[r].getPriority()){
 									priorityCount[i][k] ++;
+									visible = true;
 								}
 							}
 							//Set the Type
 							for(int k = 0; k < allTypes.length; k ++){
 								if(allTypes[k] == allRequirements[r].getType()){
 									typeCount[i][k]++;
+									visible = true;
 								}
 							}
 						}
 					}
 				}
 			}
-			for(int i=0; i<allUsers.length;i++){
-				int cumulativeData = 0;
-				for(int j = 0; j < allPriorities.length; j++){
-					cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
-					assigneePrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allUsers[i].getName());
-					assigneeNoneBarDataset.setValue(cumulativeData, "Requirement", allUsers[i].getName());
-					if(cumulativeData != 0)
-						assigneePieDataset.setValue(allUsers[i].getName(), cumulativeData);
-				}
-				//Tack type on
-				for(int j = 0; j < allTypes.length; j++){
-					assigneeTypeBarDataset.setValue(typeCount[i][j], allTypes[j], allUsers[i].getName());
+			if(visible){
+				for(int i=0; i<allUsers.length;i++){
+					int cumulativeData = 0;
+					for(int j = 0; j < allPriorities.length; j++){
+						cumulativeData += priorityCount[i][j];//Accumulate the variables to get the total.
+						assigneePrioBarDataset.setValue(priorityCount[i][j], allPriorities[j], allUsers[i].getName());
+						assigneeNoneBarDataset.setValue(cumulativeData, "Requirement", allUsers[i].getName());
+						if(cumulativeData != 0)
+							assigneePieDataset.setValue(allUsers[i].getName(), cumulativeData);
+					}
+					//Tack type on
+					for(int j = 0; j < allTypes.length; j++){
+						assigneeTypeBarDataset.setValue(typeCount[i][j], allTypes[j], allUsers[i].getName());
+					}
 				}
 			}
+			assigneeVisible = visible;
 		}
 
 	}

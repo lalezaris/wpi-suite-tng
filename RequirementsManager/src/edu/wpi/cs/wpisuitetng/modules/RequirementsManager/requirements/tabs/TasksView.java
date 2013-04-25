@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
@@ -37,7 +38,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanelTemp;
 
 /**
  * Tab panel for viewing and working with tasks.
@@ -180,6 +180,7 @@ protected RequirementView parent;
 			tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+
 		
 			//Put it in the array and panel.
 			boolean canDisplay = true;
@@ -202,6 +203,7 @@ protected RequirementView parent;
 				overallPanel.setLayout(layoutTasks);
 				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
 			}
+			taskPanelArray.add(tempTaskPanel);
 		}
 		
 		//put overall into a scrollpane
@@ -226,7 +228,6 @@ protected RequirementView parent;
 	private JPanel displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
-		GridBagConstraints cOverall = new GridBagConstraints();
 		
 		//panels
 		featurePanel = new JPanel();
@@ -314,7 +315,7 @@ protected RequirementView parent;
 	 */
 	public Task retrieveTask(int id){
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId() == id){
+			if (list.get(i).getId() == id){	
 				return list.get(i);
 			}
 		}
@@ -341,10 +342,29 @@ protected RequirementView parent;
 	 */
 	public void setList(ArrayList<Task> task) {
 		this.list = task;
-		repaint();
-		revalidate();
+		redisplay();
 	}
 	
+	/**If the saved requirement is closed, close every task that belongs to it.
+	 * @param status The status of the requirement to check.
+	 */
+	public void closeIfClosed(RequirementStatus status) {
+		if(status == RequirementStatus.COMPLETE){
+			//Cycle through and close all tasks.
+			for(int i = 0; i < list.size(); i++){
+				list.get(i).setStatus(TaskStatus.CLOSED);
+			}
+			for(int i = 0; i < taskPanelArray.size(); i++){
+				taskPanelArray.get(i).getCmbStatus().setEnabled(false);
+			}
+		}
+		else{
+			for(int i = 0; i < taskPanelArray.size(); i++){
+				taskPanelArray.get(i).getCmbStatus().setEnabled(true);
+			}
+		}
+	}
+
 	/**
 	 * @return the taskPanelArray
 	 */

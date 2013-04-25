@@ -13,18 +13,21 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
@@ -33,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskDropdownListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFieldsListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
@@ -56,6 +60,7 @@ public class TasksView extends JPanel {
 protected RequirementView parent;
 	
 	private ArrayList<Task> list;
+	private ArrayList<Task> originalList;
 
 	private ArrayList<TasksPanel> taskPanelArray;
 	private JPanel featurePanel;
@@ -88,8 +93,8 @@ protected RequirementView parent;
 		super(new BorderLayout());
 		
 		//Set initial variables
-		if(list == null)//Only reset and initialize the list if it is new.
-			list = new ArrayList<Task>();
+		list = new ArrayList<Task>();
+		originalList = new ArrayList<Task>();
 		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
@@ -107,7 +112,7 @@ protected RequirementView parent;
 		this.removeAll();
 		repaint();
 		revalidate();
-		setChanged(false);
+		//setChanged(false);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				displayFeatures(), createTasksPanels());
@@ -148,6 +153,30 @@ protected RequirementView parent;
 				tempTaskPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
 				tempTaskPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
 				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
+				
+				//If something was changed, put the border on
+				if(list.get(i).getName().equals(originalList.get(i).getName()) &&
+						list.get(i).getDescription().equals(originalList.get(i).getDescription()) &&
+						list.get(i).getAssigneeName().equals(originalList.get(i).getAssigneeName()) &&
+						list.get(i).getEffort() == originalList.get(i).getEffort() &&
+						list.get(i).getStatus().equals(originalList.get(i).getStatus())){
+					//Remove the border
+					tempTaskPanel.setBorder(null);
+				}
+				//Set the border to show it is different.
+				else{
+					Border compound = BorderFactory.createCompoundBorder(
+							BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
+					Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
+					//Make it yellow
+					compound = BorderFactory.createCompoundBorder(
+							yellowline, compound);
+					//Add a 3rd line
+					compound = BorderFactory.createCompoundBorder(
+							yellowline, compound);
+					//Draw the border on the panel that was edited.
+					tempTaskPanel.setBorder(compound);
+				}
 			}
 			else{
 				if(list.size() > 0)
@@ -163,6 +192,7 @@ protected RequirementView parent;
 			if(tempTaskPanel.getTxtEffort().getText().equals("") || tempTaskPanel.getTxtEffort().getText().equals("0")){
 				tempTaskPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
 			}
+			
 			
 			//Deal with permissions
 			if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
@@ -180,6 +210,7 @@ protected RequirementView parent;
 			tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+			tempTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
 
 		
 			//Put it in the array and panel.
@@ -198,7 +229,6 @@ protected RequirementView parent;
 			
 			
 			if(canDisplay){
-				taskPanelArray.add(tempTaskPanel);
 				layoutTasks = new GridBagLayout();
 				overallPanel.setLayout(layoutTasks);
 				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
@@ -233,7 +263,7 @@ protected RequirementView parent;
 		featurePanel = new JPanel();
 		
 		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
-		containsField = new JTextField("", 20);
+		containsField = new JTextField(20);
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 		
 		//Set boxes
@@ -340,9 +370,21 @@ protected RequirementView parent;
 	 * 
 	 * @param task the list of tasks
 	 */
-	public void setList(ArrayList<Task> task) {
-		this.list = task;
+	public void setList(ArrayList<Task> tasks) {
+		this.list = tasks;
+		makeOriginalList(tasks);//Keep track of the tasks in the list.
 		redisplay();
+	}
+	
+	/**Copy the list element by element so they are not shallow copies.
+	 * @param list The list to copy
+	 */
+	private void makeOriginalList(ArrayList<Task> tasks){
+		originalList.clear();
+		for(int i = 0; i < tasks.size(); i++){
+			originalList.add(new Task(tasks.get(i).getName(), tasks.get(i).getDescription(), tasks.get(i).getAssigneeName(), tasks.get(i).getEffort(), tasks.get(i).getId()));
+			originalList.get(originalList.size()-1).setStatus(tasks.get(i).getStatus());
+		}
 	}
 	
 	/**If the saved requirement is closed, close every task that belongs to it.
@@ -364,7 +406,7 @@ protected RequirementView parent;
 			}
 		}
 	}
-
+	
 	/**
 	 * @return the taskPanelArray
 	 */

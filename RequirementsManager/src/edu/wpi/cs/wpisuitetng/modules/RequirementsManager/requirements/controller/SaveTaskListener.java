@@ -62,17 +62,6 @@ public class SaveTaskListener implements ActionListener{
 		//Redisplay stuff so it shows up
 		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
 			view.redisplay();
-				Border compound = BorderFactory.createCompoundBorder(
-						BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
-				Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
-				//Make it yellow
-				compound = BorderFactory.createCompoundBorder(
-						yellowline, compound);
-				//Add a 3rd line
-				compound = BorderFactory.createCompoundBorder(
-						yellowline, compound);
-				//Draw the border on the panel that was edited.
-				view.getTaskPanelArray().get(position).setBorder(compound);
 		}
 	}
 	

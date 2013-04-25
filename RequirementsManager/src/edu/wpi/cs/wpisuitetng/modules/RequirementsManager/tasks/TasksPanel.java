@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Spicola
+ *  Evan Polekoff
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks;
 
@@ -44,7 +45,7 @@ public class TasksPanel extends JPanel {
 	//Stuff for entering fields.
 	protected JTextField txtName;
 	protected JTextArea txtDescription;
-	protected JTextField txtAssignee;
+	protected JComboBox<String> cmbAssignee;
 	protected JTextField txtEffort;
 	protected JComboBox<TaskStatus> cmbStatus;
 	protected TaskStatus[] taskStatusArray = {TaskStatus.BLANK, TaskStatus.INPROGRESS, TaskStatus.OPEN, TaskStatus.CLOSED, TaskStatus.ACCEPTED};
@@ -71,6 +72,9 @@ public class TasksPanel extends JPanel {
 	protected JPanel fieldPanel;
 	protected JPanel overallPanel;
 	
+	//Array of users to display.
+	String[] users;
+	
 	/*
 	 * Constants used to layout the form
 	 */
@@ -78,10 +82,13 @@ public class TasksPanel extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
-	public TasksPanel() {
+	public TasksPanel(String[] users) {
 		//Use a grid bag layout manager
 		this.layout = new BorderLayout();
 		this.setLayout(layout);
+		
+		//Set variables
+		this.users = users;
 
 		// Add all components to this panel
 		addComponents();
@@ -103,7 +110,8 @@ public class TasksPanel extends JPanel {
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		
-		txtAssignee = new JTextField(12);
+		cmbAssignee = new JComboBox<String>(users);
+		cmbAssignee.setBackground(Color.WHITE);
 		
 		txtEffort = new IntegerField(2);
 		txtEffort.setText("0");//Default to 0
@@ -174,7 +182,7 @@ public class TasksPanel extends JPanel {
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
 		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		fieldPanel.add(txtAssignee, cFields);
+		fieldPanel.add(cmbAssignee, cFields);
 		
 		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
@@ -259,8 +267,8 @@ public class TasksPanel extends JPanel {
 	/**
 	 * @return the txtAssignee
 	 */
-	public JTextField getTxtAssignee() {
-		return txtAssignee;
+	public JComboBox<String> getCmbAssignee() {
+		return cmbAssignee;
 	}
 
 	/**

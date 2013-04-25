@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Spicola
+ *  Evan Polekoff
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
@@ -81,6 +82,9 @@ protected RequirementView parent;
 	private boolean hidden;
 	private String contains = "";
 	
+	//Loaded data
+	String[] users = {"None", "Yet"};
+	
 	//Permissions level
 	protected RMPermissionsLevel pLevel;
 	
@@ -143,13 +147,13 @@ protected RequirementView parent;
 			cTask.weighty = 0.5;
 			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		
-			tempTaskPanel = new TasksPanel();
+			tempTaskPanel = new TasksPanel(users);
 			
 			if(i < list.size()){//For the tasks that already exist, put them here.
 				
 				tempTaskPanel.getTxtName().setText(list.get(i).getName());
 				tempTaskPanel.getTxtDescription().setText(list.get(i).getDescription());
-				tempTaskPanel.getTxtAssignee().setText(list.get(i).getAssigneeName());
+				tempTaskPanel.getCmbAssignee().setSelectedItem(list.get(i).getAssigneeName());
 				tempTaskPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
 				tempTaskPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
 				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
@@ -199,7 +203,7 @@ protected RequirementView parent;
 				//Gray all of the fields.
 				tempTaskPanel.getTxtName().setEditable(false);
 				tempTaskPanel.getTxtDescription().setEditable(false);
-				tempTaskPanel.getTxtAssignee().setEditable(false);
+				tempTaskPanel.getCmbAssignee().setEditable(false);
 				tempTaskPanel.getTxtEffort().setEditable(false);
 				tempTaskPanel.getCmbStatus().setEditable(false);
 				tempTaskPanel.getSaveButton().setEnabled(false);
@@ -208,7 +212,7 @@ protected RequirementView parent;
 			//Add listeners to all of the fields.
 			tempTaskPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
-			tempTaskPanel.getTxtAssignee().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+			tempTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
 			tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
 			tempTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
 
@@ -395,14 +399,6 @@ protected RequirementView parent;
 			//Cycle through and close all tasks.
 			for(int i = 0; i < list.size(); i++){
 				list.get(i).setStatus(TaskStatus.CLOSED);
-			}
-			for(int i = 0; i < taskPanelArray.size(); i++){
-				taskPanelArray.get(i).getCmbStatus().setEnabled(false);
-			}
-		}
-		else{
-			for(int i = 0; i < taskPanelArray.size(); i++){
-				taskPanelArray.get(i).getCmbStatus().setEnabled(true);
 			}
 		}
 	}

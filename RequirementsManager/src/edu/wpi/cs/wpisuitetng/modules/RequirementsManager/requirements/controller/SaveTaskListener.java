@@ -16,6 +16,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
@@ -59,13 +62,17 @@ public class SaveTaskListener implements ActionListener{
 		//Redisplay stuff so it shows up
 		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
 			view.redisplay();
-			for(int i = 0; i < view.getTaskPanelArray().size(); i++){
-				view.getTaskPanelArray().get(i).setOpaque(true);
-				view.getTaskPanelArray().get(i).setForeground(new Color(255, 155, 157));//Make the whole panel yellow instead.
-				view.getTaskPanelArray().get(i).setBackground(new Color(255, 155, 157));//Make the whole panel yellow instead.
-				view.getTaskPanelArray().get(i).repaint();
-				view.getTaskPanelArray().get(i).revalidate();
-			}
+				Border compound = BorderFactory.createCompoundBorder(
+						BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
+				Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
+				//Make it yellow
+				compound = BorderFactory.createCompoundBorder(
+						yellowline, compound);
+				//Add a 3rd line
+				compound = BorderFactory.createCompoundBorder(
+						yellowline, compound);
+				//Draw the border on the panel that was edited.
+				view.getTaskPanelArray().get(position).setBorder(compound);
 		}
 	}
 	

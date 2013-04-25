@@ -171,7 +171,7 @@ class TreeTransferHandler extends TransferHandler {
 		}
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i));
+				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the requirement
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
@@ -186,7 +186,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i));
+				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				// Save the changed requirement
@@ -203,7 +203,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject.toString().contains("Backlog")){
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i));
+				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the requirement
 				req.setIterationId(0);
 				// Save the changed requirement
@@ -213,7 +213,7 @@ class TreeTransferHandler extends TransferHandler {
 		} else if (destObject.toString().contains("Deleted")){
 //			MainView.getInstance().showErrorMessage("Cannot drag to Deleted");
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = checkFake(r.get(i));
+				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the parent of the requirement
 				req.setParentRequirementId(-1);
 				req.setStatus(RequirementStatus.DELETED);
@@ -254,6 +254,13 @@ class TreeTransferHandler extends TransferHandler {
 				}
 			}
 			return requirement;
+		}
+		return r;
+	}
+	
+	private Requirement backFromDel(Requirement r) {
+		if (r.getStatus() == RequirementStatus.DELETED) {
+			r.setStatus(RequirementStatus.OPEN);
 		}
 		return r;
 	}
@@ -332,10 +339,10 @@ class TreeTransferHandler extends TransferHandler {
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  
 		// selected unless all of its children are also selected.  
-//		int action = support.getDropAction();  
-//		if(action == MOVE) {  
-//			return haveCompleteNode(tree);  
-//		}  
+		int action = support.getDropAction();  
+		if(action == MOVE) {  
+			return haveCompleteNode(tree);  
+		}  
 		// Do not allow a non-leaf node to be copied to a level  
 		// which is less than its source level.  
 		TreePath dest = dl.getPath();  

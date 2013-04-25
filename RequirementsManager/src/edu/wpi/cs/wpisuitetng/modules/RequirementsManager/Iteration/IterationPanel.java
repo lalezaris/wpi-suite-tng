@@ -693,9 +693,11 @@ public class IterationPanel extends JPanel implements FocusListener {
 				list.add(r);
 			}
 		}
-		reqListPanel.addRequirements(list.toArray(new Requirement[]{}));
-		reqListPanel.repaint();
-		reqListPanel.revalidate();
+		if(parent.getMode() != Mode.CREATE){
+			reqListPanel.addRequirements(list.toArray(new Requirement[]{}));
+			reqListPanel.repaint();
+			reqListPanel.revalidate();
+		}
 	}
 
 	/**

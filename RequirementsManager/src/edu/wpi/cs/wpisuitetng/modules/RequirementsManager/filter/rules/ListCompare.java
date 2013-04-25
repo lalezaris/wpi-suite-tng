@@ -27,11 +27,11 @@ import java.util.List;
 public class ListCompare<T> implements Comparable{
 
 	List<T> list;
+	
 	/**
-	 * Constructor for ListCompare
-	 * 
-	 * @param the list to compare
-	 * 
+	 * Constructor for ListCompare.
+	 *
+	 * @param list the list
 	 */
 	public ListCompare(List<T> list) {
 		this.list = list;

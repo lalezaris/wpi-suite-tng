@@ -31,6 +31,12 @@ public class TaskFieldsListener implements KeyListener{
 	TasksPanel panel;
 	TasksView view;
 	
+	/**
+	 * Instantiates a new task fields listener.
+	 *
+	 * @param panel the panel
+	 * @param view the view
+	 */
 	public TaskFieldsListener(TasksPanel panel, TasksView view){
 		this.panel = panel;
 		this.view = view;

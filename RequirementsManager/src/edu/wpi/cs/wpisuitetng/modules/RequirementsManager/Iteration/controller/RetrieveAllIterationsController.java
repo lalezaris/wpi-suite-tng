@@ -71,12 +71,4 @@ public class RetrieveAllIterationsController {
 		request.send();
 	}
 
-	/*
-	 * TODO: proper implementation
-	 * 
-	 * @param string
-	 */
-	public void errorReceivingData(String string) {
-
-	}
 }

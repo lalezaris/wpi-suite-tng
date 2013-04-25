@@ -27,10 +27,18 @@ public class SpinListener implements ActionListener{
 
 	protected BarPieChartView view;
 
+	/**
+	 * Instantiates a new spin listener.
+	 *
+	 * @param view the parent view
+	 */
 	public SpinListener(BarPieChartView view){
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		view.setPieSpin(!view.isPieSpin());

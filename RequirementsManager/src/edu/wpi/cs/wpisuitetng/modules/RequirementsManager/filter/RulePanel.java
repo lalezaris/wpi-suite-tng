@@ -72,9 +72,11 @@ public class RulePanel extends JPanel{
 
 	private Iteration[] knownIterations;
 	private User[] knownUsers;
+	
 	/**
 	 * Create a blank panel for a rule.
-	 * 
+	 *
+	 * @param parent the parent filter panel
 	 */
 	@SuppressWarnings("unchecked")
 	public RulePanel(FilterPanel parent) {
@@ -345,6 +347,11 @@ public class RulePanel extends JPanel{
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
+	/**
+	 * Sets the user values.
+	 *
+	 * @param users the new user values
+	 */
 	@SuppressWarnings("unchecked")
 	public void setUserValues(User[] users){
 		test = false;
@@ -366,6 +373,11 @@ public class RulePanel extends JPanel{
 		test = true;
 	}
 
+	/**
+	 * Sets the iteration values.
+	 *
+	 * @param iterations the new iteration values
+	 */
 	@SuppressWarnings("unchecked")
 	public void setIterationValues(Iteration[] iterations){
 		test = false;
@@ -512,9 +524,9 @@ public class RulePanel extends JPanel{
 
 
 	/**
-	 * Create a new rule depending on what is shown in the panel
-	 * 
-	 * @return
+	 * Create a new rule depending on what is shown in the panel.
+	 *
+	 * @return the rule
 	 */
 	public Rule extractRule(){
 		Rule r = null;

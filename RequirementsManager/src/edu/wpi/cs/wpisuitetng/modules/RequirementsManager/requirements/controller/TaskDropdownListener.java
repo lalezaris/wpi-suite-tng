@@ -41,9 +41,9 @@ public class TaskDropdownListener implements ActionListener{
 				panel.getCmbStatus().setBackground(new Color(255, 252, 132));
 			}
 			
-			/*if(e.getSource().equals(panel.getCmbAssignee())){
+			if(e.getSource().equals(panel.getCmbAssignee())){
 				panel.getCmbAssignee().setBackground(new Color(255, 252, 132));
-			}*/
+			}
 		
 	}
 	

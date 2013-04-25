@@ -174,7 +174,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
 
-
 	/*
 	 * Constants used to layout the form
 	 */

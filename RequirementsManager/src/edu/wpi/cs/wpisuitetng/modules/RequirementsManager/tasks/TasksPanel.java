@@ -8,8 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html 
  *
  * Contributors:
+ *  Spicola
  *  Evan Polekoff
- **************************************************/
+**************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks;
 
 import java.awt.BorderLayout;
@@ -22,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
@@ -31,21 +34,23 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerFi
  * Panel for each individual Task
  *
  * @author Evan Polekoff
+ * @author Spicola
+ *
+ * @version Apr 24, 2013
+ *
  */
 @SuppressWarnings("serial")
-public class TasksPanel extends JPanel{
-
-	/*layout manager for this panel*/
-	protected GridBagLayout layout;
-
+public class TasksPanel extends JPanel {
+	
 	//Stuff for entering fields.
-	private JTextField txtName;
-	private JTextField txtDescription;
-	private JTextField txtAssignee;
-	private JTextField txtEffort;
-	private JComboBox<TaskStatus> cmbStatus;
-	TaskStatus[] taskStatusArray = {TaskStatus.BLANK, TaskStatus.INPROGRESS, TaskStatus.OPEN, TaskStatus.CLOSED, TaskStatus.ACCEPTED};
-	private JButton saveButton;
+	protected JTextField txtName;
+	protected JTextArea txtDescription;
+	protected JComboBox<String> cmbAssignee;
+	protected JTextField txtEffort;
+	protected JComboBox<TaskStatus> cmbStatus;
+	protected TaskStatus[] taskStatusArray = {TaskStatus.BLANK, TaskStatus.INPROGRESS, TaskStatus.OPEN, TaskStatus.CLOSED, TaskStatus.ACCEPTED};
+	protected JButton saveButton;
+	
 	
 	//Labels
 	private JLabel lblName;
@@ -54,177 +59,188 @@ public class TasksPanel extends JPanel{
 	private JLabel lblEffort;
 	private JLabel lblStatus;
 	
+	/*layout manager for this panel*/
+	protected BorderLayout layout;
 	
-	//Panel for entry fields.
-	JPanel fieldPanel = new JPanel();
+	/**
+	 * Layout managers for other panels
+	 */
+	protected GridBagLayout layoutBtn;
+	protected GridBagLayout layoutOverall;
+	
+	//panels
+	protected JPanel fieldPanel;
+	protected JPanel overallPanel;
+	
+	//Array of users to display.
+	String[] users;
+	
+	/*
+	 * Constants used to layout the form
+	 */
+	protected static final int HORIZONTAL_PADDING = 5;
+	protected static final int VERTICAL_PADDING = 15;
+	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
+	
+	public TasksPanel(String[] users) {
+		//Use a grid bag layout manager
+		this.layout = new BorderLayout();
+		this.setLayout(layout);
+		
+		//Set variables
+		this.users = users;
 
-	//Overall Panel
-	JPanel overallPanel = new JPanel();
-
-	public TasksPanel(){
-
+		// Add all components to this panel
 		addComponents();
 	}
-
-	private void addComponents(){
-
-		//Make fields
-		txtName = new JTextField();
-		txtDescription = new JTextField();
-		txtAssignee = new JTextField();
-		txtEffort = new IntegerField(4);
+	
+	private void addComponents() {
+		//create constraint variables
+		GridBagConstraints cFields = new GridBagConstraints();
+		GridBagConstraints cOverall = new GridBagConstraints();
+		
+		//construct panels
+		overallPanel = new JPanel();
+		fieldPanel = new JPanel();
+		
+		//make fields
+		txtName = new JTextField(12);
+		
+		txtDescription = new JTextArea(10, 35);
+		txtDescription.setLineWrap(true);
+		txtDescription.setWrapStyleWord(true);
+		
+		cmbAssignee = new JComboBox<String>(users);
+		cmbAssignee.setBackground(Color.WHITE);
+		
+		txtEffort = new IntegerField(2);
 		txtEffort.setText("0");//Default to 0
+		
 		cmbStatus = new JComboBox<TaskStatus>(taskStatusArray);
-		cmbStatus.setBackground(Color.white);
+		cmbStatus.setBackground(Color.WHITE);
+		
 		saveButton = new JButton("Save");
 		
+		//set labels
 		lblName = new JLabel("Name: *", JLabel.TRAILING);
 		lblDescription = new JLabel("Description: *", JLabel.TRAILING);
 		lblAssignee = new JLabel("Assignee: ", JLabel.TRAILING);
 		lblEffort = new JLabel("Effort: ", JLabel.TRAILING);
 		lblStatus = new JLabel("Status: ", JLabel.TRAILING);
 		
+		//set max size to prevent stretching
+		txtName.setMaximumSize(txtName.getPreferredSize());
 		
-		//Gridbag stuff
-		GridBagLayout layoutOverall = new GridBagLayout();
-		overallPanel.setLayout(layoutOverall);
-
-		layout = new GridBagLayout();
-		this.setLayout(new BorderLayout());
-
-		GridBagConstraints cFields = new GridBagConstraints();
-		GridBagLayout layoutBtn = new GridBagLayout();
+		//individual panel -------------------------------------
+		layoutBtn = new GridBagLayout();
 		fieldPanel.setLayout(layoutBtn);
-
-		GridBagConstraints cOverall = new GridBagConstraints();
-		overallPanel.setLayout(layoutOverall);
-
-		//Place all of the fields!!!
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
 		cFields.gridy = 0;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(lblName, cFields);
 		
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 1;
 		cFields.gridy = 0;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(txtName, cFields);
-
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
-		cFields.gridy = 2;
+		cFields.gridy = 1;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(lblDescription, cFields);
 		
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
+		cFields.anchor = GridBagConstraints.LINE_START; 
+		cFields.gridx = 1;
+		cFields.gridy = 1;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		fieldPanel.add(scrollPaneDescription, cFields);
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
+		cFields.gridx = 0;
+		cFields.gridy = 2;
+		cFields.weightx = 0.5;
+		cFields.weighty = 0.5;
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		fieldPanel.add(lblAssignee, cFields);
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 1;
 		cFields.gridy = 2;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		fieldPanel.add(txtDescription, cFields);
-
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
-		cFields.gridx = 0;
-		cFields.gridy = 4;
-		cFields.weightx = 0.5;
-		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		fieldPanel.add(lblAssignee, cFields);
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		fieldPanel.add(cmbAssignee, cFields);
 		
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
-		cFields.gridx = 1;
-		cFields.gridy = 4;
-		cFields.weightx = 0.5;
-		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		fieldPanel.add(txtAssignee, cFields);
-
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
-		cFields.gridy = 6;
+		cFields.gridy = 3;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
 		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(lblEffort, cFields);
 		
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 1;
-		cFields.gridy = 6;
+		cFields.gridy = 3;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(txtEffort, cFields);
-
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
-		cFields.gridy = 8;
+		cFields.gridy = 4;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(lblStatus, cFields);
 		
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 1;
-		cFields.gridy = 8;
+		cFields.gridy = 4;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(cmbStatus, cFields);
-
-		cFields.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cFields.fill = GridBagConstraints.HORIZONTAL;
+		
+		cFields.anchor = GridBagConstraints.LINE_START; 
 		cFields.gridx = 0;
-		cFields.gridy = 10;
+		cFields.gridy = 5;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.gridheight = 1;
-		cFields.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		fieldPanel.add(saveButton, cFields);
-
-		//Wrap them all in one overall panel.
-		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
+		
+		//add fieldPanel to overall ---------------------
+		layoutOverall = new GridBagLayout();
+		overallPanel.setLayout(layoutOverall);
+		
+		cOverall.anchor = GridBagConstraints.LINE_START; 
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
-		cOverall.weightx = 0.1;
-		cOverall.weighty = 0.1;
-		cOverall.gridwidth = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		overallPanel.add(fieldPanel, cOverall);
-
-		add(overallPanel,BorderLayout.CENTER);
-		validate();
-		repaint();
+		
+		//add to this panel
+		this.add(overallPanel,BorderLayout.CENTER);
 	}
-
+	
 	/**
 	 * Gets the save button
 	 * 
@@ -244,15 +260,15 @@ public class TasksPanel extends JPanel{
 	/**
 	 * @return the txtDescription
 	 */
-	public JTextField getTxtDescription() {
+	public JTextArea getTxtDescription() {
 		return txtDescription;
 	}
 
 	/**
 	 * @return the txtAssignee
 	 */
-	public JTextField getTxtAssignee() {
-		return txtAssignee;
+	public JComboBox<String> getCmbAssignee() {
+		return cmbAssignee;
 	}
 
 	/**
@@ -268,5 +284,4 @@ public class TasksPanel extends JPanel{
 	public JComboBox<TaskStatus> getCmbStatus() {
 		return cmbStatus;
 	}
-	
 }

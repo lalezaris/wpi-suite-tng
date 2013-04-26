@@ -131,6 +131,7 @@ protected RequirementView parent;
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
+		
 	}
 	
 	/**
@@ -223,6 +224,8 @@ protected RequirementView parent;
 			}
 			taskPanelArray.add(tempTaskPanel);
 		}
+		
+		overallPanel.setMaximumSize(getPreferredSize());
 		
 		//put overall into a scrollpane
 		listScrollPane = new JScrollPane(overallPanel);

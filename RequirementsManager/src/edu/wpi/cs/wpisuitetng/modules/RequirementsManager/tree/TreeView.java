@@ -100,8 +100,8 @@ public class TreeView extends JPanel {
 								+ req.getIteration().getIterationName();
 					}  else	if (req.getParentRequirementId() != -1) {
 						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
-						return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
-								+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+							return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
+									+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
 						}
 					} else
 						return "Requirement " + req.getTitle();
@@ -269,7 +269,23 @@ public class TreeView extends JPanel {
 
 							});
 					controller.retrieve();
+				} else if (selRow != -1 && e.getClickCount() == 1) {
+					TreePath path = tree.getSelectionPath();
+					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
+							.getLastPathComponent();
+					Object selectedObject = selectedNode
+							.getUserObject();
+					if (selectedNode.getUserObject() instanceof Requirement) {
+						setStatus(((Requirement) selectedObject).getTitle());
+					}
 				}
+			}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e) {
+				clearStatus();
 			}
 		};
 

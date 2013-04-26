@@ -382,11 +382,14 @@ class TreeTransferHandler extends TransferHandler {
 					}
 				}
 				if (ttarget.getUserObject().toString().contains("Iteration")) {
-					if (((Iteration)ttarget.getUserObject()).getEndDate().
-							after(requirement.getIteration().getEndDate())) {
-						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
-								+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
-						return false;
+					if (requirement.getParentRequirementId() != -1) {
+						Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
+						if (((Iteration)ttarget.getUserObject()).getEndDate().
+								after(parent.getIteration().getEndDate())) {
+							TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
+									+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
+							return false;
+						}
 					}
 				}
 			}
@@ -426,7 +429,7 @@ class TreeTransferHandler extends TransferHandler {
 		//			TreeView.getInstance().setStatus("Can't drop to a level less than its source level!");
 		//			return false;  
 		//		}
-		
+
 		TreeView.getInstance().clearStatus();
 		return true;  
 	}  

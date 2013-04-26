@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -617,9 +618,33 @@ public class RequirementTableModel extends AbstractTableModel {
 		public int hashCode(){
 			return (1*this.row) + (3*this.col);
 		}
+		public void setRow(int i) {
+			this.row = i;
+			
+		}
+		
+		
+		public void updatePostion(List<Object[]> data, ArrayList<Object[]> oldData){
+			//figure out where I was in the old requirement.
+			int oldRow = this.row;
+			int reqID = (Integer)oldData.get(oldRow)[0];
+			int newRow = oldRow;
+			//figure out what row the reqID is in now...
+			for (int i = 0 ; i < data.size(); i ++){
+				int testReqID = (Integer)data.get(i)[0];
+				if (testReqID == reqID){
+					newRow = i;
+				}
+			}
+			
+			this.row = newRow;
+			
+		}
 		
 		
 	}
+	
+	private HashMap<Integer, CellLocation> cellDifferenceTable = new HashMap<Integer, CellLocation>();
 	
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
 	
@@ -796,6 +821,10 @@ public class RequirementTableModel extends AbstractTableModel {
 		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
 			return;
 		}
+		
+		//IF changes, disable sorts
+		if (panel.getTable().isEditing())
+			return;
 
 		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
 		final boolean wasJustAscending = currentHeader.equals(columnNames[col]+ASCENDING_SUFFIX);//true if the header is the original
@@ -823,9 +852,26 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 		}
 
+		this.cellDifferenceTable.clear();
+		
+		for(int i = 0 ; i < this.changedCells.size() ; i ++){
+			int r = this.changedCells.get(i).getRow();
+			Integer reqId = (Integer)this.data.get(r)[0];
+			this.cellDifferenceTable.put(reqId, this.changedCells.get(i));
+		}
+		
+		//Sort data
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-
+	
+		for (int i = 0 ; i < this.data.size(); i ++){
+			if (this.cellDifferenceTable.get(this.data.get(i)[0])!=null){
+				this.cellDifferenceTable.get(this.data.get(i)[0]).setRow(i);
+			}
+		}
+		
+		this.panel.repaint();
+		
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){
 				dataArray[j][8] = "";

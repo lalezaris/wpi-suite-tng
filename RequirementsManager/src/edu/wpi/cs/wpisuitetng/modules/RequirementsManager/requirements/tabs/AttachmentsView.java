@@ -152,7 +152,7 @@ public class AttachmentsView extends RequirementTab{
 		c.gridx = 0;
 		this.mainPanel.add(attachedScrollPane, c);
 
-		ArrayList<String> attachmentNames = requirement.getAttachedFileName();
+		ArrayList<String> attachmentNames = requirement.getAttachedFileNames();
 		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
 		System.out.println("&& about to add the attachments, size : "+attachmentNames.size());
 		for(int i = 0; i < attachmentNames.size(); i++){

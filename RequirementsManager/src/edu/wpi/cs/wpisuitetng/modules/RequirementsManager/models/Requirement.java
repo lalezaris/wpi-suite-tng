@@ -21,6 +21,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,9 @@ public class Requirement extends AbstractModel{
 	private ArrayList<Task> tasks;
 	
 	private ArrayList<String> attachedFileName;
+	private String attachedFileNameStr;
 	private ArrayList<Integer> attachedFileId;
+	private String attachedFileIdStr;
 
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -763,8 +766,14 @@ public class Requirement extends AbstractModel{
 	 * Make sure the method's name starts with get (delete this statement)
 	 * @return the attachedFileName
 	 */
-	public ArrayList<String> getAttachedFileName() {
-		return attachedFileName;
+	public ArrayList<String> getAttachedFileNames() {
+		String[] s = this.attachedFileNameStr.split(":");
+		ArrayList<String> ret = new ArrayList<String>();
+		for(String str : s){
+			ret.add(str);
+		}
+		return ret;
+		//return attachedFileName;
 	}
 
 	/**
@@ -772,9 +781,16 @@ public class Requirement extends AbstractModel{
 	 * Make sure the method's name starts with get (delete this statement)
 	 * @param attachedFileName: the attachedFileName to set
 	 */
-	public void setAttachedFileName(ArrayList<String> attachedFileName) {
-		this.attachedFileName = attachedFileName;
+	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
+		if (this.attachedFileNameStr != null){
+			this.attachedFileNameStr = "";
+		}
+		for(String s : attachedFileNames){
+			this.attachedFileNameStr += s + ":";
+		}
 	}
+	
+	
 
 	/**
 	 * Enter description here.
@@ -782,7 +798,12 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileId
 	 */
 	public ArrayList<Integer> getAttachedFileId() {
-		return attachedFileId;
+		String[] ids= this.attachedFileNameStr.split(":");
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		for(String i : ids){
+			ret.add(Integer.parseInt(i));
+		}
+		return ret;
 	}
 
 	/**
@@ -790,7 +811,12 @@ public class Requirement extends AbstractModel{
 	 * Make sure the method's name starts with get (delete this statement)
 	 * @param attachedFileId: the attachedFileId to set
 	 */
-	public void setAttachedFileId(ArrayList<Integer> attachedFileId) {
-		this.attachedFileId = attachedFileId;
+	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
+		if (this.attachedFileIdStr != null){
+			this.attachedFileIdStr = "";
+		}
+		for(Integer s : attachedFileIds){
+			this.attachedFileIdStr += s + ":";
+		}
 	}
 }

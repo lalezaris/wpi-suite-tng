@@ -56,13 +56,13 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 		serverReq.getAttachedFileId().add(newAttachment.getId());
-		serverReq.getAttachedFileName().add(newAttachment.getFileName());
+		serverReq.getAttachedFileNames().add(newAttachment.getFileName());
 		
 		
 		
 		db.save(serverReq.getAttachedFileId());
 		System.out.println("this should be saved: " + serverReq.getAttachedFileId().get(0));
-		db.save(serverReq.getAttachedFileName());
+		db.save(serverReq.getAttachedFileNames());
 		if(!db.save(serverReq, s.getProject())) {
 			System.out.println("there was an error while updating a requirement with the new attachment");
 			throw new WPISuiteException();

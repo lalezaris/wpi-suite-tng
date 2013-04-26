@@ -44,7 +44,7 @@ public class SaveAttachmentController {
 
 
 		changeReq.getAttachedFileId().add(attachment.getId());
-		changeReq.getAttachedFileName().add(attachment.getFileName());
+		changeReq.getAttachedFileNames().add(attachment.getFileName());
 		System.out.println("is there a thing here?"+view.getReqModel().getUneditedRequirement().getAttachedFileId().get(0));
 		
 		SaveRequirementController saveReq = new SaveRequirementController(view);

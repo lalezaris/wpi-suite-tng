@@ -158,7 +158,12 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
-
+		System.out.println("\n\n\n\n\n");
+		for (int i= 0; i < req.getHistory().size(); i++){
+			System.out.println(req.getHistory().get(i).getChange());
+		}
+		System.out.println("\n\n\n\n\n");
+		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
@@ -174,6 +179,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		
 		
 		HChange.updateChangeFromDiff(serverReq,req, this);
+		//HChange.updateChangeFromDiff(req,serverReq, this);//switcharooo, didn't work, switched back
 		
 		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);

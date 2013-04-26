@@ -34,7 +34,6 @@ public class RequirementModel {
 	private Requirement requirement;
 	private Requirement uneditedRequirement;
 	private RequirementView view;
-	protected boolean dirtyEstimate;
 
 	/**
 	 * Instantiates a new requirement model.
@@ -56,7 +55,6 @@ public class RequirementModel {
 	 */
 	protected void setUpPanel(Mode editMode){
 		RequirementPanel panel = view.getRequirementPanel();
-		dirtyEstimate = false;
 
 		if(!(requirement.getTitle().equals(null) || 
 				requirement.getTitle().equals("")))
@@ -188,7 +186,7 @@ public class RequirementModel {
 		}
 
 		//compare estimate efforts
-		if (oldR.getEstimateEffort() != newR.getEstimateEffort() && dirtyEstimate == false){//if old and new are not the same
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
 			return true;
 		}
 
@@ -482,14 +480,6 @@ public class RequirementModel {
 	 */
 	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
 		this.uneditedRequirement.setEstimateEffort(estimateEffort);
-	}
-
-
-	/**
-	 * Sets dirty estimate to true.
-	 */
-	public void setEstimateDirty() {
-		dirtyEstimate = true;
 	}
 
 }

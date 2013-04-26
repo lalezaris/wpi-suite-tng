@@ -64,6 +64,7 @@ public class Requirement extends AbstractModel{
 	private ArrayList<HistoricalChange> history;
 	private ArrayList<AcceptanceTest> acceptanceTests;
 	private ArrayList<Task> tasks;
+	private int totalEstimateEffort;
 
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -139,6 +140,7 @@ public class Requirement extends AbstractModel{
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
+		this.totalEstimateEffort = 0; //default total estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
@@ -777,5 +779,21 @@ public class Requirement extends AbstractModel{
 	@SuppressWarnings("unchecked")
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childIDs = (ArrayList<Integer>) newList.clone();
+	}
+	
+	/**
+	 * @return the totalEstimateEffort
+	 */
+	public int getTotalEstimateEffort() {
+		if(totalEstimateEffort != 0)
+			return totalEstimateEffort;
+		else return getEstimateEffort();
+	}
+
+	/**
+	 * @param totalEstimateEffort the totalEstimateEffort to set
+	 */
+	public void setTotalEstimateEffort(int totalEstimateEffort) {
+		this.totalEstimateEffort = totalEstimateEffort;
 	}
 }

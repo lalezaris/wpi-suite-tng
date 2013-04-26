@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -79,18 +80,17 @@ public class SaveRequirementController {
 				panel.getNotesView().getSaveButton().doClick();	//save the note if did not press button		
 				panel.getAcceptanceTestsView().getAddButton().doClick(); //save the acceptance test if the add test button was not pressed
 				panel.getTasksView().closeIfClosed(panel.getEditedModel().getStatus());//Close all tasks if the requirement was closed.
-				if(view.getReqModel().getUneditedRequirement().getEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getEstimateEffort()){ //checks that estimate has been changed
-					if(!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && view != null){ //If the estimate is a parent, no children need to be updated, and check that the view is not null
+				if(view.getReqModel().getUneditedRequirement().getTotalEstimateEffort() != ((RequirementPanel) view.getRequirementPanel()).getEditedModel().getTotalEstimateEffort()){ //checks that estimate has been changed
+					if((((RequirementPanel) view.getRequirementPanel()).getEditedModel().getChildRequirementIds().size() > 0) && (view != null)){ //If the estimate is a parent, no children need to be updated, and check that the view is not null
 						Requirement parent = view.getParentRequirement(); //the parent of the current requirement
 						RequirementView currentView = view; //the view of the current requirement
 						RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(currentView); //request observer for the parent of the current requirement
 						while(!((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && currentView != null){ //runs loop if the current requirement is not a top level requirement and that the current view is not null
-							int estimateEffort = parent.getEstimateEffort() - currentView.getReqModel().getUneditedRequirement().getEstimateEffort() + ((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().getEstimateEffort();//calculate the estimate: parent estimate - child's unedited estimate + child's edited estimate
-							parent.setEstimateEffort(estimateEffort); //Set parent's estimate effort to what was calculated
+							int totalChildEstimateEffort = parent.getTotalEstimateEffort() - currentView.getReqModel().getUneditedRequirement().getTotalEstimateEffort() + ((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().getTotalEstimateEffort();//calculate the estimate: parent estimate - child's unedited estimate + child's edited estimate
+							parent.setTotalEstimateEffort(totalChildEstimateEffort); //Set parent's estimate effort to what was calculated
 							if(currentView.getParentView() != null){ // checks if the parent view of the current view is not null so that dynamic updating can occur
-								currentView.getParentView().getRequirementPanel().setTxtEstimate(estimateEffort); //Sets the text estimate of the parent requirement
-								currentView.getParentView().getReqModel().setEstimateDirty(); //Used for checking if estimate has been changed 
-								currentView.getParentView().getRequirementPanel().getTxtEstimate().setEnabled(false); //Disables the estimate field in the parent
+								currentView.getParentView().getRequirementPanel().setTxtTotalEstimate(totalChildEstimateEffort); //Sets the text estimate of the parent requirement
+								currentView.getParentView().getRequirementPanel().getTxtTotalEstimate().setEnabled(false); //Disables the estimate field in the parent
 							}
 							//Sends request to update parent
 							Request estimateRequest;

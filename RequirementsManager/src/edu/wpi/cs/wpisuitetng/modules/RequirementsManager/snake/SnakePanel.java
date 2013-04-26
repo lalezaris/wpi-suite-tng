@@ -153,7 +153,7 @@ public class SnakePanel extends JPanel{
 	public void drawFood(Graphics g){
 		for (int i = 0 ; i < Food.all.size(); i ++){
 			g.setColor(Food.all.get(i).getColor());
-			drawChunk(g, Food.all.get(i).spot.x, Food.all.get(i).spot.y, foodColor);
+			drawChunk(g, Food.all.get(i).spot.x, Food.all.get(i).spot.y, Food.all.get(i).getColor());
 			//g.fillRect(1 + (Food.all.get(i).spot.x*gridSize), 1 + (Food.all.get(i).spot.y*gridSize), gridSize, gridSize);
 		}
 	}

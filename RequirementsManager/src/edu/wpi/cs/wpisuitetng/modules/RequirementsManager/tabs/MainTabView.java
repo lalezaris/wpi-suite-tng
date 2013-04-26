@@ -149,6 +149,7 @@ public class MainTabView extends JTabbedPane {
 							"Warning",
 							JOptionPane.YES_NO_OPTION);
 					if (buttons == JOptionPane.YES_OPTION) {
+						panel.getModel().cancelChanges();
 						super.setSelectedIndex(index);
 					}
 				}

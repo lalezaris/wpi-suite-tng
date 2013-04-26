@@ -143,7 +143,6 @@ public class MainTabController {
 			reqViewHashMap.put(requirementId, Rview);
 			tab.setComponent(Rview);
 			Rview.requestFocus();
-			view.setSelectedIndex(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}
@@ -203,7 +202,6 @@ public class MainTabController {
 			RequirementListPanel panel = view.getTableModel();
 			panel.getTable().clearSelection();
 			panel.getTable().getSelectionModel().clearSelection();
-			panel.setUpFilter();
 			panel.setTab(tab);
 			tab.setComponent(panel);
 			panel.requestFocus();

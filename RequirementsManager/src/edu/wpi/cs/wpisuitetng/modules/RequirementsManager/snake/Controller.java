@@ -81,6 +81,8 @@ public class Controller {
 	 * Reset.
 	 */
 	public void reset(){
+		lastSave = true;
+		
 		panel.setGameOver(false);
 		score = 0;
 		game.scoreBody.setText(""+score);
@@ -265,12 +267,16 @@ public class Controller {
 		return gameRunning;
 	}
 
+	
+	private boolean lastSave = true;
 	/**
 	 * @param gameRunning the gameRunning to set
 	 */
 	public void setGameRunning(boolean gameRunning) {
-		if (!gameRunning)
+		if (!gameRunning && lastSave){
+			lastSave = false;
 			updateHighScore(score, ConfigManager.getConfig().getUserName());
+		}
 		this.gameRunning = gameRunning;
 		this.panel.setGameOver(!gameRunning);
 	}

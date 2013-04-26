@@ -186,7 +186,4 @@ public class IterationModel {
 	public void setGotAllIterations(boolean gotAllIterations) {
 		this.gotAllIterations = gotAllIterations;
 	}
-
-
-
 }

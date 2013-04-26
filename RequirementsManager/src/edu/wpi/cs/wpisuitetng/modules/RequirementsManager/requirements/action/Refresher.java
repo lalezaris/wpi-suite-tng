@@ -214,4 +214,19 @@ public class Refresher {
 			}
 		}
 	}
+	
+	
+	public RequirementListPanel getReqList(){
+		return this.table;
+	}
+	
+	/**
+	 * Get the tree model
+	 * 
+	 * @return
+	 */
+	public ReqTreeModel getTreeModel(){
+		return tree;
+	}
+	
 }

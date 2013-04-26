@@ -111,7 +111,7 @@ public class TasksPanel extends JPanel {
 		//make fields
 		txtName = new JTextField(12);
 		
-		txtDescription = new JTextArea(10, 35);
+		txtDescription = new JTextArea(10, 20);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		

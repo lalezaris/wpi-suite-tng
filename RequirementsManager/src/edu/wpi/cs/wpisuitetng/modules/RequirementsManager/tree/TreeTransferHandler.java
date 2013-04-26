@@ -30,7 +30,8 @@ import javax.swing.tree.TreePath;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
@@ -132,6 +133,7 @@ class TreeTransferHandler extends TransferHandler {
 		//				model.removeNodeFromParent(nodesToRemove[i]);  
 		//			}  
 		//		}  
+		TreeView.getInstance().clearStatus();
 	}  
 
 	/**
@@ -242,13 +244,13 @@ class TreeTransferHandler extends TransferHandler {
 					controller.save();
 				}
 			} else if (n == JOptionPane.NO_OPTION) {
-				System.out.print("Cancelled deletion.");
+				TreeView.getInstance().setStatus("Cancelled deletion.");
 			} else {
-				System.out.print("Closed dialog.");
+				TreeView.getInstance().setStatus("Closed dialog.");
 			}
 		}
 		else {
-			System.out.print("The drop destination is not recognizable!");
+			TreeView.getInstance().setStatus("The drop destination is not recognizable!");
 		}
 
 		return true;  
@@ -291,110 +293,123 @@ class TreeTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
 	public boolean canImport(TransferHandler.TransferSupport support) {
-		//		Refresher.getInstance().getTablePanel().Model.getIsChanges();
-		if (false) {
-			return false;
-		} else {
-			if(!support.isDrop()) {
-				System.out.println("Not a drop operation!");
-				return false;  
-			}  
-			support.setShowDropLocation(true);  
-			if(!support.isDataFlavorSupported(nodesFlavor)) {  
-				System.out.println("nodesFlavor not supported!");
-				return false;  
-			}  
-			// Do not allow a drop on the drag source selections.  
-			JTree.DropLocation dl =  
-					(JTree.DropLocation)support.getDropLocation();  
-			JTree tree = (JTree)support.getComponent();  
-			int dropRow = tree.getRowForPath(dl.getPath());  
-			int[] selRows = tree.getSelectionRows();  
-			for(int i = 0; i < selRows.length; i++) {  
-				if(selRows[i] == dropRow) { 
-					System.out.println("Can't drop on the drag source selections!");
-					return false;  
-				}
-			} 
-			// Do not allow a drop on a past Iteration
-			TreePath ddest = dl.getPath();  
-			DefaultMutableTreeNode ttarget =  
-					(DefaultMutableTreeNode)ddest.getLastPathComponent();
-			if (ttarget.getUserObject().toString().contains("Iteration")) {
-				Calendar cEnd = Calendar.getInstance();
-				cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
-				cEnd.add(Calendar.DATE, 1);
-				if (cEnd.compareTo(Calendar.getInstance()) < 0) {
-					System.out.println("Can't drop on a past iteration!");
+		if (MainTabController.getController().getCurrentComponent() != null) {
+			if (MainTabController.getController().getCurrentComponent().getClass() == RequirementListPanel.class) {
+				if (((RequirementListPanel)(MainTabController.getController()
+						.getCurrentComponent())).getModel().getIsChange()) {
+					TreeView.getInstance().setStatus("Disabled drag&drop! Please save changes first.");
 					return false;
 				}
 			}
-			// Do not allow a drop on the root
-			if (ttarget.isRoot()) {
-				System.out.println("Can't drop on the root!");
+		}
+		if(!support.isDrop()) {
+			TreeView.getInstance().setStatus("Not a drop operation!");
+			return false;  
+		}  
+		support.setShowDropLocation(true);  
+		if(!support.isDataFlavorSupported(nodesFlavor)) {  
+			TreeView.getInstance().setStatus("nodesFlavor not supported!");
+			return false;  
+		}  
+		// Do not allow a drop on the drag source selections.  
+		JTree.DropLocation dl =  
+				(JTree.DropLocation)support.getDropLocation();  
+		JTree tree = (JTree)support.getComponent();  
+		int dropRow = tree.getRowForPath(dl.getPath());  
+		int[] selRows = tree.getSelectionRows();  
+		for(int i = 0; i < selRows.length; i++) {  
+			if(selRows[i] == dropRow) { 
+				TreeView.getInstance().setStatus("Can't drop on the drag source selections!");
+				return false;  
+			}
+		} 
+		// Do not allow a drop on a past Iteration
+		TreePath ddest = dl.getPath();  
+		DefaultMutableTreeNode ttarget =  
+				(DefaultMutableTreeNode)ddest.getLastPathComponent();
+		if (ttarget.getUserObject().toString().contains("Iteration")) {
+			Calendar cEnd = Calendar.getInstance();
+			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
+			cEnd.add(Calendar.DATE, 1);
+			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
+				TreeView.getInstance().setStatus("Can't drop on a past iteration!");
 				return false;
 			}
-			for(int i = 0; i < selRows.length; i++) {  
-				TreePath path2 = tree.getPathForRow(selRows[i]);  
-				DefaultMutableTreeNode aNode =  
-						(DefaultMutableTreeNode)path2.getLastPathComponent();
-				if (aNode.getUserObject() instanceof Requirement) {
-					Requirement requirement = checkFake((Requirement)aNode.getUserObject());
-					// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
-					if ((requirement.getIterationId() == 0)
-							&& (requirement.getEstimateEffort() == 0)){
-						MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
-								+ aNode.getUserObject().toString() 
-								+ " to an Iteration/Requirement");
-						return false;
-					}
-					// Do not allow a drop on the same parent
-					if (aNode.getParent().equals(ttarget)) {
-						System.out.println("Can't drop on the same parent!");
-						return false;
-					}
-					// Do not allow a drag for just children
-					//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
-					//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
-					//						return false;
-					//					}
-					//				}
+		}
+		// Do not allow a drop on the root
+		if (ttarget.isRoot()) {
+			TreeView.getInstance().setStatus("Can't drop on the root!");
+			return false;
+		}
+		for(int i = 0; i < selRows.length; i++) {  
+			TreePath path2 = tree.getPathForRow(selRows[i]);  
+			DefaultMutableTreeNode aNode =  
+					(DefaultMutableTreeNode)path2.getLastPathComponent();
+			// Do not allow a drop on itself
+			if (aNode == ttarget) {
+				TreeView.getInstance().setStatus("Can't drop on itself!");
+				return false;
+			}
+			if (aNode.getUserObject() instanceof Requirement) {
+				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
+				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
+				if ((requirement.getIterationId() == 0)
+						&& (requirement.getEstimateEffort() == 0)){
+					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
+							+ aNode.getUserObject().toString() 
+							+ " to an Iteration/Requirement");
+					return false;
+				}
+				// Do not allow a drop on the same parent
+				if (aNode.getParent().equals(ttarget)) {
+					TreeView.getInstance().setStatus("Can't drop on the same parent!");
+					return false;
+				}
+				// Do not allow a drag for just children
+				//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
+				//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
+				//						return false;
+				//					}
+				//				}
 
-					// Do not allow a drop on its children
-					if (ttarget.getUserObject() instanceof Requirement) {
-						Requirement req = (Requirement)ttarget.getUserObject();
-						if (requirement.getChildRequirementIds().contains(req.getId())) {
-							System.out.println("Requirement " + requirement.getTitle() + " "
-									+ "Can't drop on its own children!");
-							return false;
-						}
+				// Do not allow a drop on its children
+				if (ttarget.getUserObject() instanceof Requirement) {
+					Requirement req = (Requirement)ttarget.getUserObject();
+					if (requirement.getChildRequirementIds().contains(req.getId())) {
+						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
+								+ "Can't drop on its own children!");
+						return false;
 					}
-					if (ttarget.getUserObject().toString().contains("Iteration")) {
+				}
+				if (ttarget.getUserObject().toString().contains("Iteration")) {
+					if (requirement.getParentRequirementId() != -1) {
+						Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
 						if (((Iteration)ttarget.getUserObject()).getEndDate().
-								after(requirement.getIteration().getEndDate())) {
-							System.out.println("Requirement " + requirement.getTitle() + " "
+								after(parent.getIteration().getEndDate())) {
+							TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 									+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
 							return false;
 						}
 					}
 				}
-				// Do not allow a drag for an Iteration
-				else if (aNode.getUserObject() instanceof Iteration) {
-					System.out.println("Can't drag an iteration!");
-					return false;
-				}
-				// Do not allow a drag for an Deleted folder
-				else if (aNode.getUserObject().toString().contains("Deleted")) {
-					System.out.println("Can't drag the Deleted folder!");
-					return false;
-				}
-				// Do not allow a drag for the root
-				else if (aNode.isRoot()) {
-					System.out.println("Can't drag the root!");
-					return false;
-				}
 			}
-		}  
+			// Do not allow a drag for an Iteration
+			else if (aNode.getUserObject() instanceof Iteration) {
+				TreeView.getInstance().setStatus("Can't drag an iteration!");
+				return false;
+			}
+			// Do not allow a drag for an Deleted folder
+			else if (aNode.getUserObject().toString().contains("Deleted")) {
+				TreeView.getInstance().setStatus("Can't drag the Deleted folder!");
+				return false;
+			}
+			// Do not allow a drag for the root
+			else if (aNode.isRoot()) {
+				TreeView.getInstance().setStatus("Can't drag the root!");
+				return false;
+			}
+		}
+
 		// Do not allow MOVE-action drops if a non-leaf node is  
 		// selected unless all of its children are also selected.  
 		//		int action = support.getDropAction();  
@@ -411,10 +426,11 @@ class TreeTransferHandler extends TransferHandler {
 		//				(DefaultMutableTreeNode)path.getLastPathComponent();  
 		//		if(firstNode.getChildCount() > 0 &&  
 		//				target.getLevel() < firstNode.getLevel()) {  
-		//			System.out.println("Can't drop to a level less than its source level!");
+		//			TreeView.getInstance().setStatus("Can't drop to a level less than its source level!");
 		//			return false;  
 		//		}
 
+		TreeView.getInstance().clearStatus();
 		return true;  
 	}  
 

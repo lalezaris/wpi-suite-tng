@@ -102,6 +102,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
 	protected IntegerField txtEstimate;
+	protected IntegerField txtTotalEstimate;
 	protected IntegerField txtActual;
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
@@ -121,6 +122,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	private JLabel lblStatus;
 	private JLabel lblPriority;
 	private JLabel lblEstimate;
+	private JLabel lblTotalEstimate;
 	private JLabel lblActual;
 
 	/** NotesView for updating notes **/
@@ -282,6 +284,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtEstimate = new IntegerField(4);
 		txtEstimate.addFocusListener(this);
 		
+		txtTotalEstimate = new IntegerField(4);
+		txtTotalEstimate.setEnabled(false);
+		
 		txtActual = new IntegerField(4);
 		txtActual.addFocusListener(this);
 		
@@ -329,6 +334,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		lblTotalEstimate = new JLabel("Total Estimate:", LABEL_ALIGNMENT);
 		lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
 
 		setUpToolTips();
@@ -478,6 +484,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblEstimate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 2;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblTotalEstimate, cThree);
+
 
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
@@ -486,6 +500,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 2;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(txtTotalEstimate, cThree);
 
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -614,6 +635,21 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
+	 * @return the txtTotalEstimate
+	 */
+	public IntegerField getTxtTotalEstimate() {
+		return txtTotalEstimate;
+	}
+
+	/**
+	 * @param txtTotalEstimate the txtTotalEstimate to set
+	 */
+	public void setTxtTotalEstimate(int totalEstimateEffort) {
+		this.txtTotalEstimate.setText(totalEstimateEffort+"");
+
+	}
+
+	/**
 	 * Sets the up tool tips.
 	 */
 	public void setUpToolTips(){
@@ -626,6 +662,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				"This field must be greater than 0 to assign to an iteration.");
 		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
 				"This field must be greater than 0 to assign to an iteration.");
+		lblTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
+		txtTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
 		lblActual.setToolTipText("The actual effort for this requirement.");
 		txtActual.setToolTipText("The actual effort for this requirement.");
 		lblIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 

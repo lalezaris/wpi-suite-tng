@@ -44,15 +44,16 @@ public class SaveRequirementController {
 	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequestObserver requestObserver = new UpdateRequirementRequestObserver(getRequirement());
-		Request request;
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
+		if (requirement.getParentRequirementId() != requirement.getId()) {
+			final RequestObserver requestObserver = new UpdateRequirementRequestObserver(getRequirement());
+			Request request;
+			request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
 
-		String JsonRequest = requirement.toJSON();
-		request.setBody(JsonRequest);
-		request.addObserver(requestObserver);
-		request.send();
-
+			String JsonRequest = requirement.toJSON();
+			request.setBody(JsonRequest);
+			request.addObserver(requestObserver);
+			request.send();
+		}
 	}
 
 	/**

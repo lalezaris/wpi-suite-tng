@@ -56,6 +56,7 @@ public class Refresher {
 
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
+
 	private IterationListPanel iterationTable;
 
 
@@ -215,11 +216,6 @@ public class Refresher {
 		}
 	}
 	
-	
-	public RequirementListPanel getReqList(){
-		return this.table;
-	}
-	
 	/**
 	 * Get the tree model
 	 * 
@@ -228,5 +224,11 @@ public class Refresher {
 	public ReqTreeModel getTreeModel(){
 		return tree;
 	}
-	
+
+	/**
+	 * @return the table
+	 */
+	public RequirementListPanel getTable() {
+		return table;
+	}
 }

@@ -329,6 +329,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
+		System.out.println(requirements.get(row).getIteration());
 		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
 			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
 				if (col == 3) {
@@ -337,9 +338,13 @@ public class RequirementTableModel extends AbstractTableModel {
 					return false;
 			}
 		}
-		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
-				requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
+		if (requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
 			if (col == 5) {
+				return false;
+			}
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE)) {
+			if (col == 5 || col == 6) {
 				return false;
 			}
 		}
@@ -435,6 +440,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
+			System.out.println(value);
 			
 			if (((Iteration)value).equals(Iteration.getBacklog()) &&
 					requirements.get(row).getStatus() != RequirementStatus.OPEN) {
@@ -721,7 +727,6 @@ public class RequirementTableModel extends AbstractTableModel {
 				this.changedCells.remove(cell);
 			}
 		}
-		
 		this.panel.repaint();
 	
 	}

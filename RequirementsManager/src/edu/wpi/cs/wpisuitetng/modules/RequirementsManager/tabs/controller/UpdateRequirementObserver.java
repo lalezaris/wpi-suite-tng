@@ -14,7 +14,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.model.Requirement;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 

@@ -22,45 +22,35 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Task
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 
 /**
- * The Class SaveTaskController
+ * Creates a new Task.
  *
  * @author Evan Polekoff
  */
-public class SaveTaskListener implements ActionListener{
-	
+public class CreateTaskListener implements ActionListener{
+
 	int id;
 	TasksView view;
 	
 	/**
-	 * Instantiates a new save task listener.
-	 *
-	 * @param id the id
-	 * @param view the view
+	 * @param id The id of the task to create.
+	 * @param view 
 	 */
-	public SaveTaskListener(int id, TasksView view){
+	public CreateTaskListener(int id, TasksView view){
 		this.id = id;
 		this.view = view;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int position = view.doesTaskExist(id);
-		boolean changeMade = false;
-		//Grab what's in the boxes based on the spot in the array and use those as the updated values.
-		if(position != -1){
-			//Find the old task and replace it with the new one.
-			if(readyToSave(view.getTaskPanelArray().get(position))){
-				view.replaceTask(makeTask(view.getTaskPanelArray().get(position)));
-				
-				view.placeBorder(position);
-				//view.getListScrollPane().repaint();
-				//view.getListScrollPane().revalidate();
-			}
-		}
 		//New Task
-		else{//If the task does not exist, make a new one.
-			System.out.println("ERROR: This situaion should not happen!");
+			
+		if(readyToSave(view.getNewTaskPanel())){
+			view.addTask(makeTask(view.getNewTaskPanel()));
+			
+			view.placeBorder(view.getTaskPanelArray().size() -1);//Place border on this new one.
+			view.redisplay();
 		}
+		
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.

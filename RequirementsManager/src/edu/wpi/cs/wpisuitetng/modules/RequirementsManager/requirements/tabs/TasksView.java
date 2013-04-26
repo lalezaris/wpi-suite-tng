@@ -36,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateTaskListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskDropdownListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
@@ -115,12 +116,13 @@ protected RequirementView parent;
 	
 	public void redisplay() {
 		this.removeAll();
-		repaint();
-		revalidate();
-		//setChanged(false);
+
+		//Make the big two panels.
+		listScrollPane = createTasksPanels();
+		featurePanel = displayFeatures();
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				displayFeatures(), createTasksPanels());
+				featurePanel, overallPanel);
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
@@ -288,9 +290,9 @@ protected RequirementView parent;
 
 		//Make the save button create a new task.
 		if(list.size() > 0)
-			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
 		else
-			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(1, this));//No tasks, start at ID 1.
 		
 		//Default the save button and status to disabled
 		if(newTaskPanel.getTxtName().getText().equals("") || newTaskPanel.getTxtDescription().getText().equals("")){
@@ -512,5 +514,20 @@ protected RequirementView parent;
 	public TasksPanel getNewTaskPanel() {
 		return newTaskPanel;
 	}
+
+	/**
+	 * @return the featurePanel
+	 */
+	public JPanel getFeaturePanel() {
+		return featurePanel;
+	}
+
+	/**
+	 * @return the listScrollPane
+	 */
+	public JScrollPane getListScrollPane() {
+		return listScrollPane;
+	}
+	
 	
 }

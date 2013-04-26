@@ -44,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tab panel for viewing and working with tasks.
@@ -89,7 +90,8 @@ protected RequirementView parent;
 	private String contains = "";
 	
 	//Loaded data
-	String[] users = {"None", "Yet"};
+	User[] users;
+	String[] userNames = {""};
 	
 	//Permissions level
 	protected RMPermissionsLevel pLevel;
@@ -105,6 +107,16 @@ protected RequirementView parent;
 		//Set initial variables
 		list = new ArrayList<Task>();
 		originalList = new ArrayList<Task>();
+		
+		//Initialize the assignee list
+		users = CurrentUserPermissions.getProjectUsers();
+		userNames = new String[users.length + 1];
+		userNames[0] = "";
+		if(users != null){
+			for(int i=0;i<users.length;i++){
+				userNames[i+1] = users[i].getUsername();
+			}
+		}
 		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
@@ -131,6 +143,7 @@ protected RequirementView parent;
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
+		
 	}
 	
 	/**
@@ -161,7 +174,7 @@ protected RequirementView parent;
 			cTask.weighty = 0.5;
 			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		
-			tempTaskPanel = new TasksPanel(users);
+			tempTaskPanel = new TasksPanel(userNames);
 			
 			if(i < list.size()){//For the tasks that already exist, put them here.
 				
@@ -223,6 +236,8 @@ protected RequirementView parent;
 			}
 			taskPanelArray.add(tempTaskPanel);
 		}
+		
+		overallPanel.setMaximumSize(getPreferredSize());
 		
 		//put overall into a scrollpane
 		listScrollPane = new JScrollPane(overallPanel);
@@ -307,7 +322,7 @@ protected RequirementView parent;
 		cFeat.weighty = 0.5;
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 	
-		newTaskPanel = new TasksPanel(users);
+		newTaskPanel = new TasksPanel(userNames);
 
 		//Make the save button create a new task.
 		if(list.size() > 0)

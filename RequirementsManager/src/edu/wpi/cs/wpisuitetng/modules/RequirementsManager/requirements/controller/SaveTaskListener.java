@@ -45,7 +45,7 @@ public class SaveTaskListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int position = view.doesTaskExist(id);
-		boolean changeMade = false;
+		
 		//Grab what's in the boxes based on the spot in the array and use those as the updated values.
 		if(position != -1){
 			//Find the old task and replace it with the new one.

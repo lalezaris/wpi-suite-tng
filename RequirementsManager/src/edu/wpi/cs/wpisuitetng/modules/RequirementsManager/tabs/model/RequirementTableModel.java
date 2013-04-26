@@ -214,6 +214,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public void addRow(Requirement req){
 		String ass = req.getAssignee().toString();
 		ass = ass.substring(1,ass.length()-1);
+		
 		Object[] r = {
 				req.getId() ,
 				req.getTitle() ,
@@ -278,6 +279,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.data.set(i, r);
 		}	
 		this.clearChangeVisualsDisregard();
+		this.setIsChange(false);
 	}
 	
 	/**
@@ -332,7 +334,7 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
-		String changeMessage = "something. in func setValueAt";
+		String changeMessage = CellLocation.getValidTooltip();
 		if (!checkInput(value, temp, title)) {
 			return;
 		}
@@ -425,9 +427,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	public void logChangeErrors(int row){
 		//move through the given row, and log problems...
 		
-		
-		System.out.println("LOGGING ERRORS");
-		
 		int statusCol = 3; 
 		int iterationCol = 6;
 		
@@ -441,26 +440,20 @@ public class RequirementTableModel extends AbstractTableModel {
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
 		if (status == RequirementStatus.OPEN){
-			System.out.println("OPEN");
 			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
-				System.out.println("NOT BACKLOG");
-				this.setChangedCell(true, row, statusCol, false, "WHAP");
-				this.setChangedCell(true, row, iterationCol, false, "WHELP");
+				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
+				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");
 			} else{ //ALL IS WELL!!!
-				System.out.println(" BACKLOG");
-				CellLocation.setChangeValid(statusChange,row, statusCol, "asdf", this);
-				CellLocation.setChangeValid(iterChange,row,iterationCol, "asdf", this);
+				CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
+				CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
 			}
 		} else{
-			System.out.println("NOT OPEN");
 			if (iter.getId() == Iteration.getBacklog().getId()){ //ERROR!!!
-				System.out.println("BACKLOG");
-				this.setChangedCell(true, row, statusCol, false, "WHAP");
-				this.setChangedCell(true, row, iterationCol, false, "WHELP");
+				this.setChangedCell(true, row, statusCol, false, "A requirement in Iteration Backlog must be Open.");
+				this.setChangedCell(true, row, iterationCol, false, "A requirement in Iteration Backlog must be Open.");
 			} else{ //ALL IS WELL!!!
-				System.out.println("NOT BACKLOG");
-				CellLocation.setChangeValid(statusChange,row, statusCol, "asdf", this);
-				CellLocation.setChangeValid(iterChange,row,iterationCol, "asdf", this);
+				CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
+				CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
 				
 				
 				
@@ -512,6 +505,9 @@ public class RequirementTableModel extends AbstractTableModel {
 	
 	public static class CellLocation{
 		
+		public static String getValidTooltip(){
+			return "Click 'Update' to save all changes.";
+		}
 		public static void setChangeValid(CellLocation cell, int row, int col, String msg, RequirementTableModel model){
 			if (cell!=null){
 				cell.setValid(true);

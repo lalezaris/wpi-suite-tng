@@ -24,10 +24,12 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel.CellLocation;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.ReqTreeModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -189,7 +191,14 @@ public class UpdateAllRequirementsController {
 	public void updateSuccess() {
 		this.waitUpdateCount--;
 		if (this.waitUpdateCount<=0){
+			waitUpdateCount = 0;
 			this.panel.setButtonsForNoChanges();
+			ReqTreeModel tree = Refresher.getInstance().getTreeModel();
+			if (tree!=null)
+				tree.refreshTree();
+			
 		}
+		
+		
 	}
 }

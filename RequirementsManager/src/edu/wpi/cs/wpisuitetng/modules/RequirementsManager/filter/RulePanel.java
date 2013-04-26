@@ -227,7 +227,20 @@ public class RulePanel extends JPanel{
 			}
 			
 		});
+		
+		ChangeListener c = new ChangeListener(){
 
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if (test)
+					filterPanel.triggerTableUpdate();
+				
+			}
+			
+		};
+		
+		
+		this.enabledBox.addChangeListener(c);
 		andOrBox.addItemListener(l2);
 		field.addItemListener(l1);
 		compareMode.addItemListener(l2);
@@ -421,19 +434,21 @@ public class RulePanel extends JPanel{
 			backColor = new Color(208,255,208);
 		else backColor = new Color(255,208,208);
 		
-		this.enabledBox.setEnabled(true);
+//		this.enabledBox.setEnabled(true);
 		if (this.field.getSelectedItem().equals(" ")){
-			backColor = new Color(208, 208, 208);	
+			backColor = new Color(238, 238, 238);	
 			System.out.println("grey");
 			test = false;
-			this.enabledBox.setEnabled(false);
-			this.enabledBox.setSelected(false);
+//			this.enabledBox.setEnabled(false);
+//			this.enabledBox.setSelected(false);
 			test = true;
 		}
 		
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
 			this.getComponent(i).setBackground(backColor);
 		}
+		
+		
 	}
 	
 	

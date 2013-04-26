@@ -21,7 +21,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -53,12 +52,11 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
-
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;

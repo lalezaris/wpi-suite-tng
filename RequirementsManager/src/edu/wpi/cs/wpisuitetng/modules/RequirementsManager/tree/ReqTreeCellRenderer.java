@@ -14,6 +14,7 @@
  */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
@@ -109,9 +110,22 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 				setIcon(no_priority_icon);
 			}
 			
-			// Grey out the fake requirements 
+			// Color the fake requirements
 			if (req.checkFake()) {
-				setEnabled(false);
+	//			setEnabled(false);
+				setForeground(Color.magenta);
+			}
+			// Color the requirement whose iteration is different than its parent's iteration
+			Requirement[] reqs = ((ReqTreeModel)tree.getModel()).getRequirements();
+			for (int i = 0; i < reqs.length; i++) {
+				if (!(reqs[i].checkFake())) {
+					if (reqs[i].getId() == req.getParentRequirementId()) {
+						if (reqs[i].getIterationId() != req.getIterationId()) {
+							setForeground(Color.gray);
+							setText(getText() + "*");
+						}
+					}
+				}
 			}
 		} else if (node.getUserObject() instanceof Iteration) {
 			Iteration iter = (Iteration) node.getUserObject();

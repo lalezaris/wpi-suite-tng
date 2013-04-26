@@ -30,6 +30,7 @@ import javax.swing.tree.TreePath;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
@@ -172,6 +173,9 @@ class TreeTransferHandler extends TransferHandler {
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
 				Requirement req = backFromDel(checkFake(r.get(i)));
+				if (req.getStatus() == RequirementStatus.NEW) {
+					req.setStatus(RequirementStatus.INPROGRESS);
+				}
 				// Change the requirement
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
@@ -215,33 +219,33 @@ class TreeTransferHandler extends TransferHandler {
 		} else if (destObject.toString().contains("Deleted")){
 			// Show a dialog
 			int n = JOptionPane.showConfirmDialog(
-                    MainView.getInstance(), "Are you sure you want to delete it?",
-                    "Deletion Confirmation",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (n == JOptionPane.YES_OPTION) {
-            	for(int i = 0; i < nodes.length; i++) {
-    				Requirement req = backFromDel(checkFake(r.get(i)));
-    				// Change the parent of the requirement
-    				req.setParentRequirementId(-1);
-    				req.setStatus(RequirementStatus.DELETED);
-    				req.setIterationId(0);
-    				// Save the changed requirement
-    				controller = new SaveRequirementController(req);
-    				controller.save();
-    				// Save the changed parent
-    				Requirement req2 = (Requirement) destObject;
-    				req2.removeChildRequirement(req.getId());
-    				int estimated = req2.getEstimateEffort()
-    						- ((Requirement) req).getEstimateEffort();
-    				req2.setEstimateEffort(estimated);
-    				controller = new SaveRequirementController(req2);
-    				controller.save();
-    			}
-            } else if (n == JOptionPane.NO_OPTION) {
-            	System.out.print("Cancelled deletion.");
-            } else {
-            	System.out.print("Closed dialog.");
-            }
+					MainView.getInstance(), "Are you sure you want to delete it?",
+					"Deletion Confirmation",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (n == JOptionPane.YES_OPTION) {
+				for(int i = 0; i < nodes.length; i++) {
+					Requirement req = backFromDel(checkFake(r.get(i)));
+					// Change the parent of the requirement
+					req.setParentRequirementId(-1);
+					req.setStatus(RequirementStatus.DELETED);
+					req.setIterationId(0);
+					// Save the changed requirement
+					controller = new SaveRequirementController(req);
+					controller.save();
+					// Save the changed parent
+					Requirement req2 = (Requirement) destObject;
+					req2.removeChildRequirement(req.getId());
+					int estimated = req2.getEstimateEffort()
+							- ((Requirement) req).getEstimateEffort();
+					req2.setEstimateEffort(estimated);
+					controller = new SaveRequirementController(req2);
+					controller.save();
+				}
+			} else if (n == JOptionPane.NO_OPTION) {
+				System.out.print("Cancelled deletion.");
+			} else {
+				System.out.print("Closed dialog.");
+			}
 		}
 		else {
 			System.out.print("The drop destination is not recognizable!");
@@ -270,6 +274,12 @@ class TreeTransferHandler extends TransferHandler {
 		return r;
 	}
 
+	/**
+	 * Change the status of a requirement if drag it from Deleted.
+	 *
+	 * @param r the r
+	 * @return the requirement
+	 */
 	private Requirement backFromDel(Requirement r) {
 		if (r.getStatus() == RequirementStatus.DELETED) {
 			r.setStatus(RequirementStatus.OPEN);
@@ -280,96 +290,109 @@ class TreeTransferHandler extends TransferHandler {
 	/**
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
-	public boolean canImport(TransferHandler.TransferSupport support) { 
-		if(!support.isDrop()) {
-			System.out.println("Not a drop operation!");
-			return false;  
-		}  
-		support.setShowDropLocation(true);  
-		if(!support.isDataFlavorSupported(nodesFlavor)) {  
-			System.out.println("nodesFlavor not supported!");
-			return false;  
-		}  
-		// Do not allow a drop on the drag source selections.  
-		JTree.DropLocation dl =  
-				(JTree.DropLocation)support.getDropLocation();  
-		JTree tree = (JTree)support.getComponent();  
-		int dropRow = tree.getRowForPath(dl.getPath());  
-		int[] selRows = tree.getSelectionRows();  
-		for(int i = 0; i < selRows.length; i++) {  
-			if(selRows[i] == dropRow) { 
-				System.out.println("Can't drop on the drag source selections!");
+	public boolean canImport(TransferHandler.TransferSupport support) {
+		//		Refresher.getInstance().getTablePanel().Model.getIsChanges();
+		if (false) {
+			return false;
+		} else {
+			if(!support.isDrop()) {
+				System.out.println("Not a drop operation!");
 				return false;  
+			}  
+			support.setShowDropLocation(true);  
+			if(!support.isDataFlavorSupported(nodesFlavor)) {  
+				System.out.println("nodesFlavor not supported!");
+				return false;  
+			}  
+			// Do not allow a drop on the drag source selections.  
+			JTree.DropLocation dl =  
+					(JTree.DropLocation)support.getDropLocation();  
+			JTree tree = (JTree)support.getComponent();  
+			int dropRow = tree.getRowForPath(dl.getPath());  
+			int[] selRows = tree.getSelectionRows();  
+			for(int i = 0; i < selRows.length; i++) {  
+				if(selRows[i] == dropRow) { 
+					System.out.println("Can't drop on the drag source selections!");
+					return false;  
+				}
+			} 
+			// Do not allow a drop on a past Iteration
+			TreePath ddest = dl.getPath();  
+			DefaultMutableTreeNode ttarget =  
+					(DefaultMutableTreeNode)ddest.getLastPathComponent();
+			if (ttarget.getUserObject().toString().contains("Iteration")) {
+				Calendar cEnd = Calendar.getInstance();
+				cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
+				cEnd.add(Calendar.DATE, 1);
+				if (cEnd.compareTo(Calendar.getInstance()) < 0) {
+					System.out.println("Can't drop on a past iteration!");
+					return false;
+				}
 			}
-		} 
-		// Do not allow a drop on a past Iteration
-		TreePath ddest = dl.getPath();  
-		DefaultMutableTreeNode ttarget =  
-				(DefaultMutableTreeNode)ddest.getLastPathComponent();
-		if (ttarget.getUserObject().toString().contains("Iteration")) {
-			Calendar cEnd = Calendar.getInstance();
-			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
-			cEnd.add(Calendar.DATE, 1);
-			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
-				System.out.println("Can't drop on a past iteration!");
+			// Do not allow a drop on the root
+			if (ttarget.isRoot()) {
+				System.out.println("Can't drop on the root!");
 				return false;
 			}
-		}
-		// Do not allow a drop on the root
-		if (ttarget.isRoot()) {
-			System.out.println("Can't drop on the root!");
-			return false;
-		}
-		for(int i = 0; i < selRows.length; i++) {  
-			TreePath path2 = tree.getPathForRow(selRows[i]);  
-			DefaultMutableTreeNode aNode =  
-					(DefaultMutableTreeNode)path2.getLastPathComponent();
-			if (aNode.getUserObject() instanceof Requirement) {
-				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
-				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
-				if ((requirement.getIterationId() == 0)
-						&& (requirement.getEstimateEffort() == 0)){
-					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
-							+ aNode.getUserObject().toString() 
-							+ " to an Iteration/Requirement");
-					return false;
-				}
-				// Do not allow a drop on the same parent
-				if (aNode.getParent().equals(ttarget)) {
-					System.out.println("Can't drop on the same parent!");
-					return false;
-				}
-				// Do not allow a drag for just children
-				//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
-				//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
-				//						return false;
-				//					}
-				//				}
-				// Do not allow a drop on its children
-				if (ttarget.getUserObject() instanceof Requirement) {
-					Requirement req = (Requirement)ttarget.getUserObject();
-					if (requirement.getChildRequirementIds().contains(req.getId())) {
-						System.out.println("Requirement " + requirement.getTitle() + " "
-								+ "Can't drop on its own children!");
+			for(int i = 0; i < selRows.length; i++) {  
+				TreePath path2 = tree.getPathForRow(selRows[i]);  
+				DefaultMutableTreeNode aNode =  
+						(DefaultMutableTreeNode)path2.getLastPathComponent();
+				if (aNode.getUserObject() instanceof Requirement) {
+					Requirement requirement = checkFake((Requirement)aNode.getUserObject());
+					// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
+					if ((requirement.getIterationId() == 0)
+							&& (requirement.getEstimateEffort() == 0)){
+						MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
+								+ aNode.getUserObject().toString() 
+								+ " to an Iteration/Requirement");
 						return false;
 					}
-				}
+					// Do not allow a drop on the same parent
+					if (aNode.getParent().equals(ttarget)) {
+						System.out.println("Can't drop on the same parent!");
+						return false;
+					}
+					// Do not allow a drag for just children
+					//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
+					//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
+					//						return false;
+					//					}
+					//				}
 
-			}
-			// Do not allow a drag for an Iteration
-			else if (aNode.getUserObject() instanceof Iteration) {
-				System.out.println("Can't drag an iteration!");
-				return false;
-			}
-			// Do not allow a drag for an Deleted folder
-			else if (aNode.getUserObject().toString().contains("Deleted")) {
-				System.out.println("Can't drag the Deleted folder!");
-				return false;
-			}
-			// Do not allow a drag for the root
-			else if (aNode.isRoot()) {
-				System.out.println("Can't drag the root!");
-				return false;
+					// Do not allow a drop on its children
+					if (ttarget.getUserObject() instanceof Requirement) {
+						Requirement req = (Requirement)ttarget.getUserObject();
+						if (requirement.getChildRequirementIds().contains(req.getId())) {
+							System.out.println("Requirement " + requirement.getTitle() + " "
+									+ "Can't drop on its own children!");
+							return false;
+						}
+					}
+					if (ttarget.getUserObject().toString().contains("Iteration")) {
+						if (((Iteration)ttarget.getUserObject()).getEndDate().
+								after(requirement.getIteration().getEndDate())) {
+							System.out.println("Requirement " + requirement.getTitle() + " "
+									+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
+							return false;
+						}
+					}
+				}
+				// Do not allow a drag for an Iteration
+				else if (aNode.getUserObject() instanceof Iteration) {
+					System.out.println("Can't drag an iteration!");
+					return false;
+				}
+				// Do not allow a drag for an Deleted folder
+				else if (aNode.getUserObject().toString().contains("Deleted")) {
+					System.out.println("Can't drag the Deleted folder!");
+					return false;
+				}
+				// Do not allow a drag for the root
+				else if (aNode.isRoot()) {
+					System.out.println("Can't drag the root!");
+					return false;
+				}
 			}
 		}  
 		// Do not allow MOVE-action drops if a non-leaf node is  

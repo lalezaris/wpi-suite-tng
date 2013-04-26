@@ -338,9 +338,13 @@ public class RequirementTableModel extends AbstractTableModel {
 					return false;
 			}
 		}
-		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
-				requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
+		if (requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
 			if (col == 5) {
+				return false;
+			}
+		}
+		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE)) {
+			if (col == 5 || col == 6) {
 				return false;
 			}
 		}

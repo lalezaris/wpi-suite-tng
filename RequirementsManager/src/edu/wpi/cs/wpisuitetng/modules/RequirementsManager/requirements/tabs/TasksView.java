@@ -112,7 +112,10 @@ protected RequirementView parent;
 		redisplay();
 	}
 	
-	public void redisplay() {
+		/**
+		 * Redisplays the task view.
+		 */
+		public void redisplay() {
 		this.removeAll();
 		repaint();
 		revalidate();
@@ -344,8 +347,11 @@ protected RequirementView parent;
 		}
 	}
 	
-	/**Find a task based on the id you give it.
+	/**
+	 * Find a task based on the id you give it.
+	 *
 	 * @param id The id of the task you want to find.
+	 * @return the task
 	 */
 	public Task retrieveTask(int id){
 		for (int i = 0; i < list.size(); i++) {

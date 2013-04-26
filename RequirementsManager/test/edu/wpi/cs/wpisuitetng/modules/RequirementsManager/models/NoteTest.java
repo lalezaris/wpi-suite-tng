@@ -38,6 +38,9 @@ public class NoteTest {
 	Note note4;
 	ArrayList<Note> notes;
 
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp(){
 		req = new Requirement();

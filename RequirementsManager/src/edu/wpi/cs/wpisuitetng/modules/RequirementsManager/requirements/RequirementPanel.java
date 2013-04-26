@@ -615,6 +615,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Sets the up tool tips.
+	 */
 	public void setUpToolTips(){
 		txtTitle.setToolTipText("Required: A title less than 100 characters.");
 		lblReleaseNumber.setToolTipText("The release number for this requirement.");
@@ -736,6 +739,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 	}
 
+	/**
+	 * Sets the up panel.
+	 */
 	public void setUpPanel(){
 		this.revalidate();
 		layout.invalidateLayout(this);

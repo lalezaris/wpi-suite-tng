@@ -37,8 +37,9 @@ public class NewRequirementAction extends AbstractAction {
 
 	/**
 	 * Create a NewRequirementAction.
-	 * 
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param componentName the component name
 	 */
 	public NewRequirementAction(MainTabController controller,String componentName) {
 		super(componentName);

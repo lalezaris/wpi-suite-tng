@@ -63,6 +63,11 @@ public class RequirementStoreTest {
 	Project otherProject;
 	Requirement otherReq;
 	
+	/**
+	 * Inits the test.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Before
 	public void init() throws WPISuiteException{
 		
@@ -116,12 +121,20 @@ public class RequirementStoreTest {
 		*/
 	}
 	
+	/**
+	 * tests creating the a requirement store.
+	 */
 	@Test
 	public void createARequirementStore() {
 		assertNotNull(new RequirementStore(db));
 	}
 
 	
+	/**
+	 * tests making an entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void makeEntity() throws WPISuiteException {
 
@@ -146,6 +159,11 @@ public class RequirementStoreTest {
 		//manager.getEntity(defaultSession, ""+existingReq.getId());
 	}
 	
+	/**
+	 *Tests getting all requirements.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void getAllTest() throws WPISuiteException {
 	
@@ -167,6 +185,11 @@ public class RequirementStoreTest {
 	}
 	
 	
+	/**
+	 * tests deleting an entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteEntity() throws WPISuiteException{
 		
@@ -189,6 +212,11 @@ public class RequirementStoreTest {
 		
 	}
 	
+	/**
+	 * Tests deleting all requirements.
+	 * 
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteAll() throws WPISuiteException {
 		
@@ -226,6 +254,11 @@ public class RequirementStoreTest {
 	}
 	
 	
+	/**
+	 * Updates the requirement store.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void update() throws WPISuiteException{
 		Requirement here = new Requirement();

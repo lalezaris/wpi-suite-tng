@@ -85,6 +85,11 @@ public class RetrieveRequirementControllerTree<T> {
 		return caller.getID();
 	}
 	
+	/**
+	 * Run when recieved.
+	 *
+	 * @param s the string of a requirement for json
+	 */
 	public void runWhenRecieved(String s){
 		caller.runWhenRecieved(s);
 	}

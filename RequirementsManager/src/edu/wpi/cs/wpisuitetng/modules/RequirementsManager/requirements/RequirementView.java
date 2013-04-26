@@ -460,12 +460,17 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	}
 
 	/**
+	 * Gets the mode.
+	 *
 	 * @return the mode
 	 */
 	public RequirementPanel.Mode getMode() {
 		return mode;
 	}
 
+	/**
+	 * Sets the iteration combo box.
+	 */
 	public void setIterationComboBox(){
 		Iteration[] knownIterations = availableIterations;
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();

@@ -34,9 +34,12 @@ public class EditRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
 	private final Requirement requirement;
+	
 	/**
-	 * Create a EditRequirementAction
+	 * Create a EditRequirementAction.
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param requirement the requirement
 	 */
 	public EditRequirementAction(MainTabController controller, Requirement requirement) {
 		super("Edit");

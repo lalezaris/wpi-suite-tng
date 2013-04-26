@@ -32,6 +32,11 @@ public class CreateSplitListener implements SplitButtonActionListener {
 
 	private final MainTabController controller;
 	
+	/**
+	 * Instantiates a new creates the split listener.
+	 *
+	 * @param controller the controller
+	 */
 	public CreateSplitListener(MainTabController controller){
 		this.controller = controller;
 	}

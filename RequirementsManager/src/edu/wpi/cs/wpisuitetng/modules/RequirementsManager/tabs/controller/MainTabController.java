@@ -114,9 +114,10 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that displays the given requirement in the given mode.
-	 * 
+	 *
 	 * @param requirement The requirement to display
 	 * @param mode The Mode to use
+	 * @return the tab
 	 */
 	public Tab addRequirementTab(Requirement requirement, Mode mode) {
 		/*
@@ -161,7 +162,9 @@ public class MainTabController {
 
 	
 	/**
-	 * Make the Snake Tab!!!
+	 * Make the Snake Tab!!!.
+	 *
+	 * @return the tab
 	 */
 	public Tab addSnakeTab(){
 		int checkTabIndex = view.indexOfTab("Snake");
@@ -250,7 +253,8 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that shows the bar chart.
-	 * 
+	 *
+	 * @return the tab
 	 */
 	public Tab addBarChartTab() {
 		int checkTabIndex = view.indexOfTab("Statistics");
@@ -351,9 +355,10 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that displays the given iteration in the given mode.
-	 * 
+	 *
 	 * @param iteration The iteration to display
 	 * @param mode The Mode to use
+	 * @return the tab
 	 */
 	public Tab addIterationTab(Iteration iteration, IterationPanel.Mode mode) {
 		/*

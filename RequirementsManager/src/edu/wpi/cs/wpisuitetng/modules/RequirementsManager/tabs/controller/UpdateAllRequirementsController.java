@@ -143,9 +143,10 @@ public class UpdateAllRequirementsController {
 	}
 
 	/**
-	 * A function to printout all of the issues in a pop up message
-	 * 
-	 * @param issues a list of the issues 
+	 * A function to printout all of the issues in a pop up message.
+	 *
+	 * @param issues a list of the issues
+	 * @param title the title
 	 */
 	public void printIssues(List<ValidationIssue> issues, String title){
 		StringBuffer message = new StringBuffer();

@@ -35,6 +35,9 @@ public class SubDivisionListenerTest {
 	BarPieChartView view;
 	MockData db;
 	
+	/**
+	 * Inits the test.
+	 */
 	@Before
 	public void init(){
 		Network.initNetwork(new MockNetwork());
@@ -42,6 +45,9 @@ public class SubDivisionListenerTest {
 		view = new BarPieChartView();
 	}
 	
+	/**
+	 * Test sub division listener.
+	 */
 	@Test
 	public void testSubDivisionListener(){
 		

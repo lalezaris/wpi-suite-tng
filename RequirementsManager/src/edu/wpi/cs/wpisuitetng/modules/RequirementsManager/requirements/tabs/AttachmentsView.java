@@ -75,10 +75,11 @@ public class AttachmentsView extends RequirementTab{
 		
 		this.addFileButton = new JButton("Choose");
 		this.uploadFileButton = new JButton("Upload");
+		this.uploadFileButton.setVisible(false);
 		
-		this.selectLabel = new JLabel("Select New Files  ");
-		this.uploadLabel = new JLabel("Upload Files  ");
-		this.selectedLabel = new JLabel("Selected Files");
+		this.selectLabel = new JLabel("Select New File  ");
+		this.uploadLabel = new JLabel("Upload File  ");
+		this.selectedLabel = new JLabel("Selected File");
 		this.attachedLabel = new JLabel("Attached Files");
 		
 		this.mainPanel = new JPanel();
@@ -155,9 +156,9 @@ public class AttachmentsView extends RequirementTab{
 
 		ArrayList<String> attachmentNames = requirement.getAttachedFileNames();
 		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
-		System.out.println("&& about to add the attachments, size : "+attachmentNames.size());
+		System.out.println("hey look at all of the IDs : "+attachmentIDs.toString());
+		System.out.println("hey look at all of the name : "+attachmentNames.toString());
 		for(int i = 0; i < attachmentNames.size(); i++){
-			System.out.println("&& I added a flie to the pane called : "+attachmentNames.get(i));
 			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
 		}
 		this.add(this.mainPanel);
@@ -173,10 +174,10 @@ public class AttachmentsView extends RequirementTab{
 		private JButton delete;
 		private File file;
 		public SelectedPanel(File f){
+			System.out.println("made a new selectedpanel called: " +f.getPath());
 			this.file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("Remove");
-			
 			final SelectedPanel fp = this;
 			delete.setAction( new AbstractAction("X"){
 				
@@ -201,9 +202,11 @@ public class AttachmentsView extends RequirementTab{
 		public JButton download;
 		private File file;
 		public AttachedPanel(File f){
+			System.out.println("made an attachedpanel with file: "+f.getPath());
 			this.file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("delete");
+			delete.setVisible(false);
 			download = new JButton("download");
 			download.setAction(new AbstractAction("download"){
 				@Override
@@ -238,9 +241,10 @@ public class AttachmentsView extends RequirementTab{
             //didn't pick anything.
         	return;
         }
+        this.uploadFileButton.setVisible(true);
+        this.addFileButton.setVisible(false);
         File target = chooser.getSelectedFile();
         target = new File(target.getPath()+"\\"+f.getName());
-        //TODO: something with abradi to actually get stuff
         RetrieveAttachmentController attcontroller = new RetrieveAttachmentController(f.getPath(), target);
         attcontroller.fetch();
 	}
@@ -374,12 +378,14 @@ public class AttachmentsView extends RequirementTab{
 	 * @param selectedFiles
 	 */
 	public void addSelectedFiles(File[] selectedFiles) {
+		System.out.println("addSelectedFiles("+selectedFiles+") called");
 		for (int i = 0 ; i < selectedFiles.length ; i ++){
 			this.addFileToSelected(selectedFiles[i]);
 		}
+		
 	}
 		
-	/**
+	/**	
 	 * Removes an attached file
 	 * 
 	 * @param ap 
@@ -389,13 +395,17 @@ public class AttachmentsView extends RequirementTab{
 	}
 	
 	private void removeFileFromSelected(SelectedPanel sp){
+		if(selectedFiles.size() == 0){
+			this.addFileButton.setVisible(true);
+		}
 		selectedFiles.remove(sp.file);
 		selectedPanel.remove(sp);
 		selectedPanel.revalidate();
 		selectedPanel.repaint();
 	}
 	
-	private void addFileToSelected(File f){
+	public void addFileToSelected(File f){
+		this.uploadFileButton.setVisible(true);
 		selectedFiles.add(f);
 		SelectedPanel fp = new SelectedPanel(f);
 		fp.setBorder(BorderFactory.createLineBorder(Color.black));

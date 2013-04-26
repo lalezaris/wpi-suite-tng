@@ -58,7 +58,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 		
 		//serverReq.getAttachedFileId().add(newAttachment.getId());
-		ArrayList<Integer> fileId = serverReq.getAttachedFileId();
+		ArrayList<Integer> fileId = new ArrayList<Integer>();//serverReq.getAttachedFileId();
 		fileId.add(newAttachment.getId());
 		serverReq.setAttachedFileId(fileId);
 		

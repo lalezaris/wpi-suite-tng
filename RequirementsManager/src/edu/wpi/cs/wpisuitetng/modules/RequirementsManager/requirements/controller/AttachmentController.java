@@ -24,13 +24,13 @@ public class AttachmentController {
 	
 	public void addClicked(){
 		JFileChooser j = new JFileChooser();
-		j.setMultiSelectionEnabled(true);
+		j.setMultiSelectionEnabled(false);
         
         if( j.showOpenDialog(null) != JFileChooser.APPROVE_OPTION ){
             //didn't pick anything.
         	return;
-        } 
-        view.addSelectedFiles(j.getSelectedFiles());
+        }
+        this.view.addFileToSelected(j.getSelectedFile());
 	}
 	
 	public void uploadClicked(){

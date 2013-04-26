@@ -823,13 +823,13 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileId: the attachedFileId to set
 	 */
 	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
-		if (this.attachedFileIdStr == null){
+		if(this.attachedFileIdStr == null || this.attachedFileIdStr == "null") {
 			this.attachedFileIdStr = "";
-			System.out.println("setting the file ids to null");
 		}
 		for(Integer s : attachedFileIds){
 			System.out.println("setting the file ids to " + s);
 			this.attachedFileIdStr += s + ":";
 		}
+		System.out.println("final attachedfileidstr thingy : "+ this.attachedFileIdStr);
 	}
 }

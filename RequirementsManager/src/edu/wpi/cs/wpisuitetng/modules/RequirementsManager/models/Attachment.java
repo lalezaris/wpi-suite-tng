@@ -38,6 +38,7 @@ public class Attachment extends AbstractModel{
 		//TODO actually load the contents into fileContents when this is called
 		try {
 			FileInputStream in = new FileInputStream(file);
+			System.out.println("about to save this thingy: "+file.getPath());
 			int i=0;
 			int buffer;
 			byte[] contents = new byte[(int) file.length()];

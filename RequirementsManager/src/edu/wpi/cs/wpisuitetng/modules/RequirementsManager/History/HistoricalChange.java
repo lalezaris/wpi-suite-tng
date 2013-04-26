@@ -174,7 +174,6 @@ public class HistoricalChange extends AbstractModel{
 			change += "<p> "+"Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".</p>";
 		}
 
-		//TODO: come back to this
 		//compare sub-requirements, add comments to the history log
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
 			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
@@ -184,10 +183,9 @@ public class HistoricalChange extends AbstractModel{
 		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
 			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
 				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";
-
 			}
 		}
-
+		
 		//compare assignee 
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
 			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";

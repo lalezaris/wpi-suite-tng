@@ -15,6 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -88,6 +89,8 @@ public class BarPieChartPanel extends JPanel {
 	/** The graph panel. */
 	ChartPanel graphPanel;
 	DefaultToolbarView toolbar;
+	
+	JPanel errorPanel;
 	/**
 	 * Instantiates a new bar chart panel.
 	 *
@@ -107,16 +110,22 @@ public class BarPieChartPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
 
+		JLabel noData = new JLabel("No Data Available", JLabel.TRAILING);
+		noData.setFont(new Font("Serif", Font.PLAIN, 128));
+		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
+		chartBox.setBackground(Color.WHITE);
 		characteristicBox = new JComboBox(characteristicArray);
+		characteristicBox.setBackground(Color.WHITE);
 		subDivideBox = new JComboBox(subDivisionArray);
+		subDivideBox.setBackground(Color.WHITE);
 		spinCheckbox = new JCheckBox("Spin");//The button to spin the pie chart.
 		
 		//Make Labels
 		chartLabel = new JLabel("Chart Type:", JLabel.TRAILING);
-		characteristicLabel = new JLabel("X Axis:", JLabel.TRAILING);
-		subDivideLabel = new JLabel("Sub-Divide Bars By:", JLabel.TRAILING);
+		characteristicLabel = new JLabel("Characteristics:", JLabel.TRAILING);
+		subDivideLabel = new JLabel("Sub-Divide Bars:", JLabel.TRAILING);
 
 		GridBagLayout layoutOverall = new GridBagLayout();
 		overallPanel.setLayout(layoutOverall);
@@ -133,56 +142,92 @@ public class BarPieChartPanel extends JPanel {
 		overallPanel.setLayout(layoutOverall);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
-		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.fill = GridBagConstraints.NONE;
 		cBox.gridx = 0;
 		cBox.gridy = 0;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //insets for top, left, bottom, and right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
+		boxPanel.add(chartLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.NONE;
+		cBox.gridx = 2;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
+		boxPanel.add(characteristicLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.NONE;
+		cBox.gridx = 4;
+		cBox.gridy = 0;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(10,10,5,0); //insets for top, left, bottom, and right
+		boxPanel.add(subDivideLabel, cBox);
+		
+		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cBox.fill = GridBagConstraints.HORIZONTAL;
+		cBox.gridx = 0;
+		cBox.gridy = 1;
+		cBox.weightx = 0.5;
+		cBox.weighty = 0.5;
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //insets for top, left, bottom, and right
 		boxPanel.add(chartBox, cBox);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 2;
-		cBox.gridy = 0;
+		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		boxPanel.add(characteristicBox, cBox);
 		
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 4;
-		cBox.gridy = 0;
+		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		boxPanel.add(subDivideBox, cBox);
 
 		cBox.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cBox.fill = GridBagConstraints.HORIZONTAL;
 		cBox.gridx = 6;
-		cBox.gridy = 0;
+		cBox.gridy = 1;
 		cBox.weightx = 0.5;
 		cBox.weighty = 0.5;
-		cBox.gridheight = 1;
-		cBox.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cBox.gridwidth = 2;
+		cBox.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		boxPanel.add(spinCheckbox, cBox);
 
 		//the the panels to the overall panel
 		cOverall.anchor = GridBagConstraints.FIRST_LINE_START; 
 		cOverall.gridx = 0;
 		cOverall.gridy = 0;
-		cOverall.weightx = 0.1;
-		cOverall.weighty = 0.1;
+		cOverall.weightx = 1;
+		cOverall.weighty = 1;
 		cOverall.gridwidth = 1;
-		cOverall.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		cOverall.insets = new Insets(0,0,0,0); //top,left,bottom,right
 		overallPanel.add(boxPanel, cOverall);
 
-		setChart(displayedChart, TypeOfChart.Bar, false);
+		//Make the error message for when there is no graph.
+		errorPanel = new JPanel();
+		errorPanel.add(noData);
+		
+		
+		
+		setChart(displayedChart, TypeOfChart.Bar, false, false);
 
 		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
@@ -195,8 +240,9 @@ public class BarPieChartPanel extends JPanel {
 	 * @param chartType type of chart to pass in
 	 * @param pieSpin boolean for if the pie chart should spin
 	 */
-	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin){
+	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin, boolean visible){
 		overallPanel.remove(graphPanel);
+		overallPanel.remove(errorPanel);
 		displayedChart = newChart;
 
 		graphPanel = new ChartPanel(newChart);
@@ -204,40 +250,50 @@ public class BarPieChartPanel extends JPanel {
 
 		GridBagLayout layoutGraph = new GridBagLayout();
 		graphPanel.setLayout(layoutGraph);
-
-		//Set Chart Properties
-		if(newChart != null){
-			newChart.setBackgroundPaint(Color.white);
-			if(chartType == TypeOfChart.Bar){
-				final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
-				rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-			}
-			//Pie
-			else{
-				PiePlot3D plot = (PiePlot3D) newChart.getPlot();
-				plot.setStartAngle(0);
-				plot.setForegroundAlpha(1);
-				rotator = new PieRotator(plot);
-				if(pieSpin){
-					rotator.start();
+		
+		if(visible){
+			//Set Chart Properties
+			if(newChart != null){
+				newChart.setBackgroundPaint(Color.white);
+				if(chartType == TypeOfChart.Bar){
+					final NumberAxis rangeAxis = (NumberAxis) newChart.getCategoryPlot().getRangeAxis();
+					rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+				}
+				//Pie
+				else{
+					PiePlot3D plot = (PiePlot3D) newChart.getPlot();
+					plot.setStartAngle(0);
+					plot.setForegroundAlpha(1);
+					rotator = new PieRotator(plot);
+					if(pieSpin){
+						rotator.start();
+					}
 				}
 			}
+			spinCheckbox.setEnabled(visible);
+			
+			//Add the Graph to the panel
+			cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
+			cGraph.fill = GridBagConstraints.HORIZONTAL;
+			cGraph.gridx = 0;
+			cGraph.gridy = 3;
+			cGraph.weightx = 0.5;
+			cGraph.weighty = 0.5;
+			cGraph.gridheight = 1;
+			cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
+			overallPanel.add(graphPanel,cGraph);
+			this.repaint();
+			graphPanel.updateUI();
 		}
-
-		//Add the Graph to the panel
-		cGraph.anchor = GridBagConstraints.FIRST_LINE_START;
-		cGraph.fill = GridBagConstraints.HORIZONTAL;
-		cGraph.gridx = 0;
-		cGraph.gridy = 3;
-		cGraph.weightx = 0.5;
-		cGraph.weighty = 0.5;
-		cGraph.gridheight = 1;
-		cGraph.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		overallPanel.add(graphPanel,cGraph);
+		else{
+			spinCheckbox.setEnabled(visible);
+			
+			overallPanel.add(errorPanel);
+		}
+		this.remove(overallPanel);
+		this.add(overallPanel,BorderLayout.CENTER);
 		this.repaint();
 		graphPanel.updateUI();
-
-		this.add(overallPanel,BorderLayout.CENTER);
 		this.validate();
 	}
 
@@ -248,6 +304,7 @@ public class BarPieChartPanel extends JPanel {
 	 */
 	public void setSubDivideEnable(boolean enabled){
 		subDivideBox.setVisible(enabled);
+		subDivideLabel.setVisible(enabled);
 		if(!enabled){
 			subDivideBox.setSelectedIndex(0);
 		}

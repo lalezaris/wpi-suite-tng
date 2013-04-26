@@ -16,6 +16,9 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
@@ -54,7 +57,6 @@ public class SaveTaskListener implements ActionListener{
 			}
 		}
 		else{//If the task does not exist, make a new one.
-			System.out.println("Making a new Task.");
 			position = view.getTaskPanelArray().size()-1;//Take fields from the last panel.
 			
 			if(position >= 0 && readyToSave(position)){
@@ -63,8 +65,9 @@ public class SaveTaskListener implements ActionListener{
 			}
 		}
 		//Redisplay stuff so it shows up
-		if(changeMade)//Only refresh if something was changed. Otherwise, it would kill the fields.
+		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
 			view.redisplay();
+		}
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.
@@ -77,7 +80,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check the Name field
 		if(view.getTaskPanelArray().get(position).getTxtName().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.red);
+			view.getTaskPanelArray().get(position).getTxtName().setBackground(new Color(255, 155, 157));
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.white);
@@ -86,7 +89,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check Description Field
 		if(view.getTaskPanelArray().get(position).getTxtDescription().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.red);
+			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(new Color(255, 155, 157));
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.white);
@@ -103,11 +106,12 @@ public class SaveTaskListener implements ActionListener{
 		updated.setId(id);
 		updated.setName(view.getTaskPanelArray().get(position).getTxtName().getText());
 		updated.setDescription(view.getTaskPanelArray().get(position).getTxtDescription().getText());
-		updated.setAssigneeName(view.getTaskPanelArray().get(position).getTxtAssignee().getText());
+		updated.setAssigneeName(view.getTaskPanelArray().get(position).getCmbAssignee().getSelectedItem().toString());
 		String tempEffort = view.getTaskPanelArray().get(position).getTxtEffort().getText();
 		if(!tempEffort.equals(""))
 			updated.setEffort(Integer.parseInt(tempEffort));
 		updated.setStatus((TaskStatus)view.getTaskPanelArray().get(position).getCmbStatus().getSelectedItem());	
+
 		return updated;
 	}
 	

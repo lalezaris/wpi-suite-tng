@@ -48,6 +48,9 @@ public class Refresher {
 	 * @return single instance of Refresher
 	 */
 	public static Refresher getInstance(){
+		if (instance==null){
+			instance = new Refresher(null,null,null);
+		}
 		return instance;
 	}
 
@@ -73,7 +76,8 @@ public class Refresher {
 		this.tree = tree;
 		this.table = table;
 		this.iterationTable = iterationTable;
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		if (tree!=null)
+			CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 

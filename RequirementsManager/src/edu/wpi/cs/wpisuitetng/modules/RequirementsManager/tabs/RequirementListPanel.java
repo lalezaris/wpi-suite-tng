@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -32,6 +33,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+
+import javax.swing.table.DefaultTableCellRenderer;
+
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -61,7 +65,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  */
 @SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
-	private JTable table;
+	private RequirementListTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
 	private UpdateAllRequirementsController updateController;
@@ -91,7 +95,8 @@ public class RequirementListPanel extends JPanel{
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel(this);
-		table = new JTable(model);
+		table = new RequirementListTable(this);
+		table.setModel(model);
 		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
@@ -184,8 +189,7 @@ public class RequirementListPanel extends JPanel{
 
 		
 		System.out.println("GOT TO END OF REQLISTPANEL");
-		
-		setUpStatusColumn();
+
 		setUpPriorityColumn();
 	}
 
@@ -214,6 +218,10 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).addRow(req);
 	}
 
+	public void updateRequirement(int row, Requirement req){
+		((RequirementTableModel)table.getModel()).updateRow(row, req);
+		
+	}
 
 	/**
 	 * Clears the list.
@@ -238,6 +246,7 @@ public class RequirementListPanel extends JPanel{
 		filterController.setFilteredInTable();
 	}
 
+	
 	public void filterRequirements(Requirement[] requirements){
 		this.filteredContent = requirements;
 		clearList();
@@ -257,20 +266,6 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	/**
-	 * Set the drop down menu to the status
-	 */
-	private void setUpStatusColumn() {
-		JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
-		comboBox.addItem(RequirementStatus.NEW);
-		comboBox.addItem(RequirementStatus.OPEN);
-		comboBox.addItem(RequirementStatus.INPROGRESS);
-		comboBox.addItem(RequirementStatus.COMPLETE);
-		comboBox.addItem(RequirementStatus.DELETED);
-
-		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
-	}
-
-	/**
 	 * Set the drop down menu to the priority
 	 */
 	private void setUpPriorityColumn() {
@@ -287,7 +282,7 @@ public class RequirementListPanel extends JPanel{
 	 * If the requirements have been updated, show message to user.
 	 */
 	public void showUpdateSuccessfully() {
-		updateLabel.setText("Update Successful");
+//		updateLabel.setText("Update Successfully");
 	}
 	
 	/**
@@ -373,8 +368,14 @@ public class RequirementListPanel extends JPanel{
 		
 	}
 	
+
 	public void setBackgroundRowColumn(int row, int col){
 //		table.getT(row, col).setBackground(Color.YELLOW);
 //		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
 	}
+	
+
+	
+	
+
 }

@@ -73,6 +73,9 @@ public class MainTabController {
 				MainTabController.this.onMouseClick(event);
 			}
 		});
+		
+		
+		
 	}
 
 	/**
@@ -164,7 +167,6 @@ public class MainTabController {
 		int checkTabIndex = view.indexOfTab("Snake");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			System.out.println("found tab already");
 			return null;
 		}
 		else{
@@ -196,6 +198,8 @@ public class MainTabController {
 
 			Tab tab = addTab();
 			RequirementListPanel panel = view.getTableModel();
+			panel.getTable().clearSelection();
+			panel.getTable().getSelectionModel().clearSelection();
 			panel.setUpFilter();
 			panel.setTab(tab);
 			tab.setComponent(panel);

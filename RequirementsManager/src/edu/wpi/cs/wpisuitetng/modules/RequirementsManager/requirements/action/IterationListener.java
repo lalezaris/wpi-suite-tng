@@ -32,7 +32,5 @@ public class IterationListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent iterations) {
 		JComboBox cb = (JComboBox)iterations.getSource();
-		System.out.println(cb.getSelectedItem());
-
 	}
 }

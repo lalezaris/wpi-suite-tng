@@ -13,42 +13,42 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.UpdateRequirementRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.observer.UpdateIterationRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Controller to handle the saving of a requirement
+ * Controller to handle the saving of a iteration
  * Adapted from SaveDefectController in project DefectTracker
  * 
  * @author Arica Liu
  * 
- * @version April 18, 2013
+ * @version April 24, 2013
  *
  */
-public class SaveRequirementController {
-	protected Requirement requirement;
+public class SaveIterationController {
+	protected Iteration iteration;
 
 	/**
 	 * Construct a new handler for the given view
-	 * @param r the requirement containing the request fields
+	 * @param r the iteration containing the request fields
 	 */
-	public SaveRequirementController(Requirement r) {
-		requirement = r;
+	public SaveIterationController(Iteration it) {
+		iteration = it;
 	}
 
 	/**
-	 * Save the view's Requirement model to the server (asynchronous).
+	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequestObserver requestObserver = new UpdateRequirementRequestObserver(getRequirement());
+		final RequestObserver requestObserver = new UpdateIterationRequestObserver(getIteration());
 		Request request;
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement", HttpMethod.POST);
+		request = Network.getInstance().makeRequest("iterationsmanager/iteration", HttpMethod.POST);
 
-		String JsonRequest = requirement.toJSON();
+		String JsonRequest = iteration.toJSON();
 		request.setBody(JsonRequest);
 		request.addObserver(requestObserver);
 		request.send();
@@ -56,9 +56,9 @@ public class SaveRequirementController {
 	}
 
 	/**
-	 * @return the requirement
+	 * @return the iteration
 	 */
-	public Requirement getRequirement() {
-		return requirement;
+	public Iteration getIteration() {
+		return iteration;
 	}
 }

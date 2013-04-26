@@ -89,7 +89,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		String checkTitle = tabbedPane.getTitleAt(index);
 		Component component = tabbedPane.getComponentAt(index);
 		if(index > -1) {
-			if((checkTitle.equals("Bar Chart")) || (checkTitle.equals("Iteration List"))){
+			if((checkTitle.equals("Statistics")) || (checkTitle.equals("Iteration List"))){
 				tabbedPane.remove(index);
 			} else {				
 				if(component instanceof RequirementView){

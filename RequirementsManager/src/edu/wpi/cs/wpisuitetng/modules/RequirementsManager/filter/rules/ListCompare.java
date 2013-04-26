@@ -12,7 +12,6 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +28,10 @@ public class ListCompare<T> implements Comparable{
 	List<T> list;
 	
 	/**
-	 * Constructor for ListCompare.
-	 *
-	 * @param list the list
+	 * Constructor for ListCompare
+	 * 
+	 * @param list the list to compare
+	 * 
 	 */
 	public ListCompare(List<T> list) {
 		this.list = list;

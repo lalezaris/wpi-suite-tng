@@ -72,7 +72,7 @@ public class TaskFieldsListener implements KeyListener{
 		}
 		
 		//Yellowing
-		e.getComponent().setBackground(Color.YELLOW);
+		e.getComponent().setBackground(new Color(255, 252, 132));
 		view.setChanged(true);
 	}
 	

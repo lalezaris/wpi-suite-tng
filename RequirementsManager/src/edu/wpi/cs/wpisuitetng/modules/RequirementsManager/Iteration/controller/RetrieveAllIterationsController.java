@@ -70,5 +70,13 @@ public class RetrieveAllIterationsController {
 		request.addObserver(requestObserver);
 		request.send();
 	}
+	/**
+	 * Handles errors with receiving data.
+	 * 
+	 * @param string The error message.
+	 */
+	public void errorReceivingData(String string) {
+		
+	}
 
 }

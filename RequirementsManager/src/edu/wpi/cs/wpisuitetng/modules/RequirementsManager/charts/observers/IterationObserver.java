@@ -55,7 +55,12 @@ public class IterationObserver implements RequestObserver{
 
 		GsonBuilder builder = new GsonBuilder();
 		Iteration[] iterations = builder.create().fromJson(response.getBody(), Iteration[].class);
-		view.receiveServerIterations(iterations);
+		//This returns an array of all iterations except the backlog. 
+		Iteration[] iterationsPlusBacklog = new Iteration[iterations.length + 1];//Make a new array one longer to hold the backlog.
+		iterationsPlusBacklog[0] = Iteration.getBacklog();//Add the backlog.
+		for(int i = 0; i < iterations.length; i ++)
+			iterationsPlusBacklog[i+1] = iterations[i];//Iterate over the whole list and move the stuff into the new one.
+		view.receiveServerIterations(iterationsPlusBacklog);//Pass this new array down.
 	}
 
 	/* (non-Javadoc)

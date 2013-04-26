@@ -34,11 +34,14 @@ public class RequirementTabsView extends JTabbedPane {
 	/**
 	 * Instantiates a new requirement tabs view.
 	 *
-	 * @param n the NotesView
+	 * @param nv the NotesView
 	 * @param hv the HistoryView
+	 * @param atv the AcceptanceTestsView
 	 * @param av the AssigneeView
+	 * @param dv the DependenciesView
+	 * @param tv the TasksView
 	 */
-	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, DependenciesView dv, TasksView tv) {
+	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, ParentAndChildrenView pcv, TasksView tv) {
 		//TODO get history objects from database
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
@@ -49,7 +52,7 @@ public class RequirementTabsView extends JTabbedPane {
 		addTab("Assigned To", new ImageIcon(), scrollPaneAssigneeView, "Add and modify assignees");
 		JScrollPane scrollPaneAcceptanceTestView = new JScrollPane(atv);
 		addTab("Acceptance Tests", new ImageIcon(), scrollPaneAcceptanceTestView, "Add and modify acceptance tests");
-		addTab("Dependencies", new ImageIcon(), dv, "View upstream and downstream dependencies");
+		addTab("Parent and Children", new ImageIcon(), pcv, "View parent and children requirements");
 		addTab("Tasks", new ImageIcon(), tv, "Edit and view tasks");
 	}
 }

@@ -21,6 +21,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,7 +57,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
@@ -90,6 +91,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** The parent view **/
 	protected RequirementView parent;
 	protected RequirementPanel.Mode mode;
+	
 	/*
 	 * Form elements
 	 */
@@ -138,8 +140,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	//TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
-	/** DependenciesView for viewing child requirements **/
-	private DependenciesView dependenciesView;
+	/** Parent and Requirement View for viewing parent and child requirements **/
+	private ParentAndChildrenView parentChildrenView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -147,8 +149,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
-	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
-	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is invalid", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -171,7 +173,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected GridBagLayout layoutFour;
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
-
 
 	/*
 	 * Constants used to layout the form
@@ -207,8 +208,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		//get the list of tasks from the given requirement
 		this.tasksView = new TasksView(parent);
 
-		//get the list of dependencies from the given requirement
-		this.dependenciesView = new DependenciesView(parent);
+		//get the parent and the list of children from the given requirement
+		this.parentChildrenView = new ParentAndChildrenView(parent);
 
 		// Indicate that input is enabled
 		this.inputEnabled = true;
@@ -248,7 +249,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtTitle.addFocusListener(this);
 		
-		txtReleaseNumber = new JTextField(6);
+		txtReleaseNumber = new JTextField(2);
 		txtReleaseNumber.addFocusListener(this);
 		
 		cmbIteration = new JComboBox();
@@ -290,7 +291,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
-		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView);
+		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, parentChildrenView, tasksView);
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -725,14 +726,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		inputEnabled = enabled;
 
 		txtTitle.setEnabled(enabled);
-		
-		if (this.parent.getReqModel().getRequirement().getParentRequirementId() == -1) {
-			txtReleaseNumber.setEnabled(enabled);
-		}
+		txtReleaseNumber.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
-		txtEstimate.setEnabled(enabled);
+		
+		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+			txtEstimate.setEnabled(enabled);
+		}
 	}
 
 	public void setUpPanel(){
@@ -790,10 +791,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.updateHistory(historyView.getHistoryList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
-		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
+		requirement.setSubRequirements(parentChildrenView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
-
+		requirement.updateTasks(tasksView.getTasks());
+		
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
 		}
@@ -1045,8 +1047,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * 
 	 * @return dependencies view
 	 */
-	public DependenciesView getDependenciesView(){
-		return dependenciesView;
+	public ParentAndChildrenView getDependenciesView(){
+		return parentChildrenView;
 	}
 
 	/**
@@ -1269,7 +1271,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the acceptance tests view
 	 * 
-	 * @param acceptanceTestsView: the acceptanceTestsView to set
+	 * @param acceptanceTestsView the acceptanceTestsView to set
 	 */
 	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
 		this.acceptanceTestsView = acceptanceTestsView;

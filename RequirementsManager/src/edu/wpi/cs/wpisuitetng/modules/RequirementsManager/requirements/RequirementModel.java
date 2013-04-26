@@ -233,6 +233,10 @@ public class RequirementModel {
 		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			return true;
 		}
+		
+		if(this.view.getRequirementPanel().getTasksView().isChanged()){
+			return true;
+		}
 
 		return false;
 	}
@@ -245,8 +249,6 @@ public class RequirementModel {
 	 */
 	public boolean updateBackgrounds(){
 		Requirement oldR = this.uneditedRequirement;
-		System.out.println(view.getRequirementPanel().getTxtEstimate().getText());
-		System.out.println(view.getRequirementPanel().getTxtActual().getText());
 		Requirement newR = view.getRequirementPanel().getEditedModel();
 		boolean flag = false; //gets set to true when something has changed; in order to iterate through everything
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
@@ -299,7 +301,7 @@ public class RequirementModel {
 				view.getRequirementPanel().txtDescription.setBackground(Color.WHITE);//change to white background in case of reset
 
 		//compare Statuses
-		if (oldR.getStatus() != newR.getStatus()){//if old and new are not the same
+		if (oldR.getStatus() != newR.getStatus() && view.getRequirementPanel().cmbStatus.isEnabled()){//if old and new are not the same
 			view.getRequirementPanel().cmbStatus.setBackground(Color.YELLOW);
 			flag = true;
 		}
@@ -317,19 +319,15 @@ public class RequirementModel {
 				view.getRequirementPanel().cmbPriority.setBackground(Color.WHITE);//change to white background in case of reset
 
 		//compare estimate efforts
-		System.out.println("OE: " + oldR.getEstimateEffort());
-		System.out.println("NE: " + newR.getEstimateEffort());
-		if (oldR.getEstimateEffort() != newR.getEstimateEffort()){//if old and new are not the same
+		if (oldR.getEstimateEffort() != newR.getEstimateEffort() && view.getRequirementPanel().txtEstimate.isEnabled()){//if old and new are not the same and txtEstimate is enabled
 			view.getRequirementPanel().txtEstimate.setBackground(Color.YELLOW);
 			flag = true;
 		}
 		else //no change
-			if(view.getRequirementPanel().txtEstimate.getBackground().equals(Color.YELLOW))
+			if(view.getRequirementPanel().txtEstimate.getBackground().equals(Color.YELLOW) && view.getRequirementPanel().txtEstimate.isEnabled())
 				view.getRequirementPanel().txtEstimate.setBackground(Color.WHITE);//change to white background in case of reset
 
 		//compare actual efforts
-		System.out.println("OA: " + oldR.getActualEffort());
-		System.out.println("NA: " + newR.getActualEffort());
 		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
 			view.getRequirementPanel().txtActual.setBackground(Color.YELLOW);
 			flag = true;

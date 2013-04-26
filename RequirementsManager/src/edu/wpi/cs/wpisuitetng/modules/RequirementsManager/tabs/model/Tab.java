@@ -73,7 +73,7 @@ public class Tab {
 		if (getIndex() > -1){
 			view.setTitleAt(getIndex(), title);
 			tabComponent.invalidate(); // needed to make tab shrink with smaller title
-		} else System.out.println("Blank ID. title");
+		}
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class Tab {
 	public void setToolTipText(String toolTipText) {
 		if (getIndex() > -1){
 			view.setToolTipTextAt(getIndex(), toolTipText);
-		} else System.out.println("Blank ID. Tooltip");
+		}
 	}
 
 	/**

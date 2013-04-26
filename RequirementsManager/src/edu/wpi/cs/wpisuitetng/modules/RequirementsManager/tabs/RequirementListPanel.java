@@ -120,6 +120,9 @@ public class RequirementListPanel extends JPanel{
 		deleteButton = new JButton("Delete");
 		updateLabel = new JLabel();
 
+		updateButton.setVisible(false);
+		
+		
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);
@@ -246,6 +249,7 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
+		System.out.println("ADDING REQUIREMENTS. DASH IT ALL");
 		this.content = requirements;
 		clearList();	
 		((RequirementTableModel) table.getModel()).clearRequirements();
@@ -290,10 +294,41 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	/**
+	 * This will configure the buttons so that nothing can be done while a save is in progress.
+	 * 
+	 */
+	public void setButtonsForSaving(){
+		this.updateButton.setEnabled(false);
+		this.refreshButton.setEnabled(false);
+	}
+	
+	/**
+	 * This will configure the buttons so that Update and Cancel are options
+	 * 
+	 */
+	public void setButtonsForChanges(){
+		this.updateButton.setEnabled(true);
+		this.refreshButton.setEnabled(true);
+		this.refreshButton.setVisible(true);
+		this.updateButton.setVisible(true);
+	}
+	
+	/**
+	 * This will configure the buttons so that Update and Cancel are not options
+	 * 
+	 */
+	public void setButtonsForNoChanges(){
+		this.updateButton.setEnabled(true);
+		this.refreshButton.setEnabled(true);
+		this.refreshButton.setVisible(true);
+		this.updateButton.setVisible(false);
+	}
+	
+	/**
 	 * If the requirements have been updated, show message to user.
 	 */
-	public void showUpdateSuccessfully() {
-//		updateLabel.setText("Update Successfully");
+	public void showUpdateSuccessfully(String message) {
+		updateLabel.setText(message);
 	}
 	
 	/**
@@ -372,6 +407,14 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public FilterController getFilterController() {
 		return filterController;
+	}
+
+	/**
+	 * Gets the updateButton
+	 * @return the updateButton
+	 */
+	public JButton getUpdateButton() {
+		return updateButton;
 	}
 
 	public void setUpFilter() {

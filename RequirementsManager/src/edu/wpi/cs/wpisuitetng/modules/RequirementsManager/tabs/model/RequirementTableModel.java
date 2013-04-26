@@ -55,6 +55,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	protected String[] columnNames = { "ID", "Name", "Description", "Status", "Priority", "Estimate","Iteration", "Assigned", "Parent ID"};
 	protected List<Object[]> data = new ArrayList<Object[]>();
 	protected List<Requirement> requirements = new ArrayList<Requirement>();
+	protected List<Object[]> unSavedRequirements = new ArrayList<Object[]>();
 	protected boolean isChange; 
 	protected RequirementListPanel panel;
 
@@ -109,9 +110,10 @@ public class RequirementTableModel extends AbstractTableModel {
 		    		if (tableModel.changedCells.get(i).equals(cell))
 		    		{
 		    			cell = tableModel.changedCells.get(i);
-		    			System.out.println("setting cell to"); //TODO get rid of print
 		    			break;
 		    		}
+		    	l.setToolTipText(cell.getMessage());
+		    	
 		    	if (cell.isValid())
 		    		l.setBackground(MainView.getChangedValidColor());
 		    	else l.setBackground(MainView.getChangedInvalidColor());
@@ -196,6 +198,14 @@ public class RequirementTableModel extends AbstractTableModel {
 			return "null";
 	}
 
+	public Object getUnchangedValue(int row, int col){
+		if (col < getColumnCount() && row < getRowCount() && col > -1
+				&& row > -1) {
+			return this.unSavedRequirements.get(row)[col];
+		} else
+			return "null";
+	}
+	
 	/**
 	 * Adds a row to a requirement.
 	 * 
@@ -215,8 +225,10 @@ public class RequirementTableModel extends AbstractTableModel {
 				ass,
 				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
 		};
+		
 		addRow(r);
 		requirements.add(req);
+		unSavedRequirements.add(r.clone());
 	}
 
 	public void updateRow(int row, Requirement req){
@@ -236,6 +248,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		};
 		data.set(row, r);
 		requirements.set(row, req);
+		//this.unSavedRequirements.set(row, r.clone());
 	}
 	
 	/**
@@ -245,6 +258,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void removeRow(int row){
 		data.remove(row);
+		this.unSavedRequirements.remove(row);
 	}
 
 	/**
@@ -253,6 +267,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clear(){
 		data.clear();
+		this.unSavedRequirements.clear();
 	}
 
 	/**
@@ -307,7 +322,7 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		Requirement temp = requirements.get(row);
 		String title = this.getColumnName(col);
-
+		String changeMessage = "something. in func setValueAt";
 		if (!checkInput(value, temp, title)) {
 			return;
 		}
@@ -316,73 +331,197 @@ public class RequirementTableModel extends AbstractTableModel {
 
 			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
 			if(!((String)value).equals(requirements.get(row).getTitle())){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
 			if(!((String)value).equals(requirements.get(row).getDescription())){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
+			
+			
+			boolean isValid = true;
+			boolean isChange = false;
+			
+			//if(!((RequirementStatus)value).equals(this.getChangedValue(row, col))){
 			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
-				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				isChange = true;
+
 			}
+			
+			
+			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setStatus((RequirementStatus)value);
 		}
 		if (title.equals("Priority")) {
 			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
 				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
 			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
 				//panel.setBackgroundRowColumn(row, col);
-				this.setChangedCell(row, col, true);
+				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}	
 		if (title.equals("Iteration")) {
+			
+			boolean isValid = true;
+			boolean isChange = false;
+			
+			//if(!((Iteration)value).equals(this.getChangedValue(row, col))){
 			if(((Iteration)value).compareTo(requirements.get(row).getIteration()) != 0){
-				//panel.setBackgroundRowColumn(row,col);
-				this.setChangedCell(row, col, true);
+				
+				
+				isChange = true;
 			}
+			
+			
+			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
+			requirements.get(row).setIterationId(((Iteration)value).getId());
 		}
 
+		
+		
 		Object[] element = data.get(row);
 		element[col] = value;
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
 		//isChange = true;
 		panel.hideUpdateSuccessfully();
-
+		this.logChangeErrors(row);
 		if (DEBUG) {
 			printDebugData();
 		}
 	}
 
-	public class CellLocation{
+	
+	public void logChangeErrors(int row){
+		//move through the given row, and log problems...
+		
+		
+		System.out.println("LOGGING ERRORS");
+		
+		int statusCol = 3; 
+		int iterationCol = 6;
+		
+		//check for bugs, or check for good things!
+		/* Rule One
+		 * A status of open MUST mean that the iteration is backlog
+		 */
+		RequirementStatus status = (RequirementStatus)this.getChangedValue(row, statusCol);
+		Iteration iter = (Iteration)this.getChangedValue(row, iterationCol);
+		
+		CellLocation statusChange = this.lookUpChange(row, statusCol);
+		CellLocation iterChange = this.lookUpChange(row, iterationCol);
+		if (status == RequirementStatus.OPEN){
+			System.out.println("OPEN");
+			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
+				System.out.println("NOT BACKLOG");
+				this.setChangedCell(true, row, statusCol, false, "WHAP");
+				this.setChangedCell(true, row, iterationCol, false, "WHELP");
+			} else{ //ALL IS WELL!!!
+				System.out.println(" BACKLOG");
+				CellLocation.setChangeValid(statusChange,row, statusCol, "asdf", this);
+				CellLocation.setChangeValid(iterChange,row,iterationCol, "asdf", this);
+			}
+		} else{
+			System.out.println("NOT OPEN");
+			if (iter.getId() == Iteration.getBacklog().getId()){ //ERROR!!!
+				System.out.println("BACKLOG");
+				this.setChangedCell(true, row, statusCol, false, "WHAP");
+				this.setChangedCell(true, row, iterationCol, false, "WHELP");
+			} else{ //ALL IS WELL!!!
+				System.out.println("NOT BACKLOG");
+				CellLocation.setChangeValid(statusChange,row, statusCol, "asdf", this);
+				CellLocation.setChangeValid(iterChange,row,iterationCol, "asdf", this);
+				
+				
+				
+				
+			}
+		}
+		
+
+	}
+	
+	
+	/**
+	 * Find the change by row and column.
+	 * 
+	 * @param row
+	 * @param col
+	 * @return The change. If no change is found, then null is returned
+	 */
+	public CellLocation lookUpChange(int row, int col){
+		for (int i = 0 ; i < this.changedCells.size(); i ++){
+			CellLocation cell = this.changedCells.get(i);
+			if (cell.getRow() == row && cell.getCol() == col)
+				return cell;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get the object of change at a table location. If the cell has NOT been changed, then
+	 * this will return the value in the Requirement that is represented in that location.
+	 * 
+	 * @param row
+	 * @param col
+	 * @return
+	 */
+	public Object getChangedValue(int row, int col){
+		CellLocation change = this.lookUpChange(row, col);
+		if (change!=null){
+			return this.getValueAt(row, col);
+		} else{
+			if (row > -1 && row < this.unSavedRequirements.size()
+				&& col > -1 && col < this.unSavedRequirements.get(row).length){
+				return this.unSavedRequirements.get(row)[col];
+			}
+			return "null";
+		}
+			
+	}
+	
+	public static class CellLocation{
+		
+		public static void setChangeValid(CellLocation cell, int row, int col, String msg, RequirementTableModel model){
+			if (cell!=null){
+				cell.setValid(true);
+				cell.setMessage(msg);
+				model.panel.repaint();
+			} else{
+				//model.setChangedCell(true, row, col, true, msg);
+			}
+		}
+		
 		private int row, col;
 		private boolean isValid;
+		private String message;
+		
 		
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
 			this.isValid = false;
+			this.message = "";
 		}
 		
 		
@@ -394,6 +533,27 @@ public class RequirementTableModel extends AbstractTableModel {
 		public boolean isValid() {
 			return isValid;
 		}
+
+		
+		/**
+		 * Gets the message
+		 * @return the message
+		 */
+		public String getMessage() {
+			return message;
+		}
+
+
+
+		/**
+		 * Sets the message
+		 * @param message: sets the message 
+		 */
+		public void setMessage(String message) {
+			this.message = message;
+		}
+
+
 
 		/**
 		 * Sets the isValid
@@ -438,11 +598,38 @@ public class RequirementTableModel extends AbstractTableModel {
 	
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
 	
-	private void setChangedCell(int row, int col, boolean valid){
-		this.isChange = true;
+	/**
+	 * Log a change on the table. 
+	 * 
+	 * @param isChange. If false, then if there was a change here before, it is deleted. if true,
+	 * then it overwrites the old change.
+	 * @param row. Row location of change
+	 * @param col. Column location of change
+	 * @param valid. If false, then the change is red and prevents the row from saving. If true,
+	 * then the row is green, and saving is allowed.
+	 * @param message. A tooltip message to display on the change. Note, if isChange = false, then 
+	 * the message will be auto-default to an empty string.
+	 */
+	private void setChangedCell(boolean isChanged, int row, int col, boolean valid, String message){
 		CellLocation cell = new CellLocation(row, col);
-		cell.setValid(valid);
-		this.changedCells.add(cell);
+		if (isChanged){
+			this.isChange = true;
+			this.panel.setButtonsForChanges(); //There are no changes, so give the user the option to update their changes
+			cell.setValid(valid);
+			cell.setMessage(message);
+			if (this.changedCells.contains(cell))
+				this.changedCells.remove(cell);
+			this.changedCells.add(cell);
+		} else{
+			System.out.println("no change");
+			if (this.changedCells.contains(cell)){
+				System.out.println("remove change");
+				this.changedCells.remove(cell);
+			}
+		}
+		
+		this.panel.repaint();
+	
 	}
 	
 	
@@ -547,6 +734,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clearRequirements() {
 		requirements.clear();
+		unSavedRequirements.clear();
 	}
 
 	/**
@@ -556,6 +744,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public List<Requirement> getRequirements() {
 		return requirements;
+	}
+	
+	public List<Object[]> getUnsavedRequirements(){
+		return this.unSavedRequirements;
 	}
 
 	public boolean getIsChange() {

@@ -60,11 +60,11 @@ public class UpdateAllRequirementAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		controller.update();
-		try {
-			Thread.sleep(500); 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		refreshController.refreshData();
+//		try {
+//			Thread.sleep(500); 
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		refreshController.refreshData();
 	}
 }

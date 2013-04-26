@@ -47,6 +47,8 @@ public class UpdateAllRequirementsController {
 	protected RequirementValidator reqVal;
 	protected List<ValidationIssue> issues;
 
+	protected int waitUpdateCount;
+	
 	/**
 	 * Instantiates a new update all requirements controller.
 	 *
@@ -55,6 +57,7 @@ public class UpdateAllRequirementsController {
 	public UpdateAllRequirementsController(RequirementListPanel panel){
 		this.panel = panel;
 		issues = new ArrayList<ValidationIssue>();
+		this.waitUpdateCount = 0;
 	}
 
 	/**
@@ -68,6 +71,7 @@ public class UpdateAllRequirementsController {
 		List<Requirement> reqs = new ArrayList<Requirement>();
 		List<Integer> reqsRow = new ArrayList<Integer>();
 		List<CellLocation> cells = table.getChangedLocations();
+		
 		
 		
 		//ADD ROWS WITH VALID CHANGE CELLS TO LIST OF REQUIREMENTS TO BE SAVED
@@ -105,8 +109,8 @@ public class UpdateAllRequirementsController {
 			}
 		}
 		
+		
 		for (int i = 0 ; i < reqs.size(); i ++){
-			System.out.println("update req :" + reqs.get(i).getId() + " with iteration " + reqs.get(i).getIteration());
 			saveRequirement(reqs.get(i));
 			
 			int row = 0;
@@ -129,9 +133,15 @@ public class UpdateAllRequirementsController {
 		//panel.getTable().updateUI();
 		//((RequirementTableModel) panel.getTable().getModel()).clear();
 		//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
-		this.panel.getModel().setIsChange(false);
-
-		this.panel.getFilterController().getPanel().triggerTableUpdate();
+		
+		
+		if (issues.size() == 0){ //THERE WERE NO ISSUES. SO STUFF ACTUALLY SAVED
+			this.panel.getModel().setIsChange(false);
+			this.panel.getFilterController().getPanel().triggerTableUpdate();
+			this.panel.setButtonsForSaving();
+		}
+		
+	
 		//this.panel.updateUI();
 
 	}
@@ -149,6 +159,7 @@ public class UpdateAllRequirementsController {
 		request.setBody(JsonRequest);
 		request.addObserver(new UpdateRequirementObserver(this));
 		request.send();
+		this.waitUpdateCount++;
 		this.panel.getModel().setIsChange(false);
 	}
 
@@ -173,5 +184,12 @@ public class UpdateAllRequirementsController {
 
 	public RequirementListPanel getPanel() {
 		return panel;
+	}
+
+	public void updateSuccess() {
+		this.waitUpdateCount--;
+		if (this.waitUpdateCount<=0){
+			this.panel.setButtonsForNoChanges();
+		}
 	}
 }

@@ -27,6 +27,8 @@ import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
@@ -44,6 +46,7 @@ public class RequirementListTable extends JTable {
 	 * Default constructor
 	 */
 	public RequirementListTable(RequirementListPanel panel) {
+		super();
 		this.panel = panel;
 	}
 
@@ -51,7 +54,7 @@ public class RequirementListTable extends JTable {
 	 * 
 	 */
 	public RequirementListTable() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
@@ -59,7 +62,7 @@ public class RequirementListTable extends JTable {
 	 */
 	public RequirementListTable(TableModel dm) {
 		super(dm);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -68,7 +71,7 @@ public class RequirementListTable extends JTable {
 	 */
 	public RequirementListTable(TableModel dm, TableColumnModel cm) {
 		super(dm, cm);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -77,7 +80,7 @@ public class RequirementListTable extends JTable {
 	 */
 	public RequirementListTable(int numRows, int numColumns) {
 		super(numRows, numColumns);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -86,7 +89,7 @@ public class RequirementListTable extends JTable {
 	 */
 	public RequirementListTable(Vector rowData, Vector columnNames) {
 		super(rowData, columnNames);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class RequirementListTable extends JTable {
 	 */
 	public RequirementListTable(Object[][] rowData, Object[] columnNames) {
 		super(rowData, columnNames);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -106,14 +109,22 @@ public class RequirementListTable extends JTable {
 	public RequirementListTable(TableModel dm, TableColumnModel cm,
 			ListSelectionModel sm) {
 		super(dm, cm, sm);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
-		RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
+
+		//RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
 		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		iterations = checkIterations(iterations);
+
+		
+		Requirement r = null;
+		RequirementStatus s = (RequirementStatus) panel.getModel().getUnsavedRequirements().get(row)[3];
+		RequirementStatus status = s;//panel.getModel().getUnsavedRequirements().get(row).getStatus();
+		System.out.println("Status is " + status); //TODO
+
 		if (col == 3) //STATUS 
 		{
 			JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();

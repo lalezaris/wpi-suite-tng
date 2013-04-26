@@ -46,7 +46,7 @@ public class CreateTaskListener implements ActionListener{
 			
 		if(readyToSave(view.getNewTaskPanel())){
 			view.addTask(makeTask(view.getNewTaskPanel()));
-			
+			view.redisplay();
 			view.placeBorder(view.getTaskPanelArray().size() -1);//Place border on this new one.
 			view.redisplay();
 		}

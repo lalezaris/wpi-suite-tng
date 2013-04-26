@@ -64,6 +64,7 @@ protected RequirementView parent;
 	private ArrayList<Task> originalList;
 
 	private ArrayList<TasksPanel> taskPanelArray;
+	private TasksPanel newTaskPanel;
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
 
@@ -138,8 +139,8 @@ protected RequirementView parent;
 		//Clear the array so you can refill it.
 		taskPanelArray = new ArrayList<TasksPanel>();
 		
-		//Go through for all tasks in the list, + 1 for new tasks.
-		for(int i = 0; i < list.size() + 1; i ++){
+		//Go through for all tasks in the list.
+		for(int i = 0; i < list.size(); i ++){
 			//create constraint variables
 			GridBagConstraints cTask = new GridBagConstraints();
 			
@@ -163,12 +164,6 @@ protected RequirementView parent;
 				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
 				
 				placeBorder(i);
-			}
-			else{
-				if(list.size() > 0)
-					tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
-				else
-					tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
 			}
 			
 			//Default the save button and status to disabled
@@ -281,6 +276,54 @@ protected RequirementView parent;
 		containsField.addKeyListener(new TaskSearchListener(this));
 		hideBox.addActionListener(new TaskFeatureListener(this));
 				
+		
+		//Add the New Task panel (the panel that allows you to make new tasks).
+		
+		GridBagConstraints cTask = new GridBagConstraints();
+		cTask.anchor = GridBagConstraints.LINE_START; 
+		cTask.gridx = 0;
+		cTask.gridy = 2;
+		cTask.weightx = 0.5;
+		cTask.weighty = 0.5;
+		cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
+	
+		newTaskPanel = new TasksPanel(users);
+
+		//Make the save button create a new task.
+		if(list.size() > 0)
+			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+		else
+			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+		
+		//Default the save button and status to disabled
+		if(newTaskPanel.getTxtName().getText().equals("") || newTaskPanel.getTxtDescription().getText().equals("")){
+			newTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+		}
+		if(newTaskPanel.getTxtEffort().getText().equals("") || newTaskPanel.getTxtEffort().getText().equals("0")){
+			newTaskPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+		}
+		
+		
+		//Deal with permissions
+		if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
+			//Gray all of the fields.
+			newTaskPanel.getTxtName().setEditable(false);
+			newTaskPanel.getTxtDescription().setEditable(false);
+			newTaskPanel.getCmbAssignee().setEditable(false);
+			newTaskPanel.getTxtEffort().setEditable(false);
+			newTaskPanel.getCmbStatus().setEditable(false);
+			newTaskPanel.getSaveButton().setEnabled(false);
+		}
+		
+		//Add listeners to all of the fields.
+		newTaskPanel.getTxtName().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
+		newTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
+		newTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(newTaskPanel, this));
+		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
+		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
+		
+		featurePanel.add(newTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
+		
 		return featurePanel;
 	}
 	
@@ -468,4 +511,12 @@ protected RequirementView parent;
 	public boolean isChanged() {
 		return changed;
 	}
+
+	/**
+	 * @return the newTaskPanel
+	 */
+	public TasksPanel getNewTaskPanel() {
+		return newTaskPanel;
+	}
+	
 }

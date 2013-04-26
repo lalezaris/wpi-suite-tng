@@ -143,7 +143,6 @@ public class MainTabController {
 			reqViewHashMap.put(requirementId, Rview);
 			tab.setComponent(Rview);
 			Rview.requestFocus();
-			view.setSelectedIndex(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}

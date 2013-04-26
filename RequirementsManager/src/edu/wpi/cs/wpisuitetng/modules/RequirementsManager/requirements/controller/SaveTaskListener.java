@@ -66,7 +66,7 @@ public class SaveTaskListener implements ActionListener{
 		}
 		//Redisplay stuff so it shows up
 		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
-			view.redisplay();
+			view.placeBorder(position);
 		}
 	}
 	
@@ -80,7 +80,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check the Name field
 		if(view.getTaskPanelArray().get(position).getTxtName().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtName().setBackground(new Color(255, 155, 157));
+			view.getTaskPanelArray().get(position).getTxtName().setBackground(new Color(255, 155, 157));//Red
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.white);
@@ -89,7 +89,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check Description Field
 		if(view.getTaskPanelArray().get(position).getTxtDescription().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(new Color(255, 155, 157));
+			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(new Color(255, 155, 157));//Red
 		}
 		else{//Set color back
 			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.white);

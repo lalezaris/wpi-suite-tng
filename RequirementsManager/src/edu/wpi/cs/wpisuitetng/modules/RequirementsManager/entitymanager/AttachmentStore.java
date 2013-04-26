@@ -13,6 +13,7 @@ import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 public class AttachmentStore implements EntityManager<Attachment> {
 	Data db;
@@ -46,6 +47,30 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		final Attachment newAttachment = Attachment.fromJSON(content);	//still need to get fromJSON working, then this will work
 		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newAttachment.setId(Count() + 1);
+		
+		System.out.println("FILE NAME " +newAttachment.getFileName() + "ownerid " + newAttachment.getOwnerId());
+		
+		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", newAttachment.getOwnerId(), s.getProject());
+		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
+			throw new WPISuiteException("ID not found");
+		}
+		Requirement serverReq = (Requirement) oldRequirements.get(0);
+		serverReq.getAttachedFileId().add(newAttachment.getId());
+		serverReq.getAttachedFileName().add(newAttachment.getFileName());
+		
+		
+		
+		db.save(serverReq.getAttachedFileId());
+		System.out.println("this should be saved: " + serverReq.getAttachedFileId().get(0));
+		db.save(serverReq.getAttachedFileName());
+		if(!db.save(serverReq, s.getProject())) {
+			System.out.println("there was an error while updating a requirement with the new attachment");
+			throw new WPISuiteException();
+		}
+		
+//		db.save(serverReq.getAttachedFileId());
+//		db.save(serverReq.getAttachedFileName());
+		
 		if(!db.save(newAttachment, s.getProject())) {
 			throw new WPISuiteException();
 		}

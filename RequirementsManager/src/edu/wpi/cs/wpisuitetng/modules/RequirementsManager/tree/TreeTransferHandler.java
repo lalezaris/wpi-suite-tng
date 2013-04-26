@@ -30,9 +30,7 @@ import javax.swing.tree.TreePath;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
@@ -135,6 +133,7 @@ class TreeTransferHandler extends TransferHandler {
 		//				model.removeNodeFromParent(nodesToRemove[i]);  
 		//			}  
 		//		}  
+		TreeView.getInstance().clearStatus();
 	}  
 
 	/**
@@ -245,13 +244,13 @@ class TreeTransferHandler extends TransferHandler {
 					controller.save();
 				}
 			} else if (n == JOptionPane.NO_OPTION) {
-				System.out.print("Cancelled deletion.");
+				TreeView.getInstance().setStatus("Cancelled deletion.");
 			} else {
-				System.out.print("Closed dialog.");
+				TreeView.getInstance().setStatus("Closed dialog.");
 			}
 		}
 		else {
-			System.out.print("The drop destination is not recognizable!");
+			TreeView.getInstance().setStatus("The drop destination is not recognizable!");
 		}
 
 		return true;  
@@ -298,20 +297,18 @@ class TreeTransferHandler extends TransferHandler {
 			if (MainTabController.getController().getCurrentComponent().getClass() == RequirementListPanel.class) {
 				if (((RequirementListPanel)(MainTabController.getController()
 						.getCurrentComponent())).getModel().getIsChange()) {
-					System.out.println("Disabled drag&drop! Please save changes first.");
+					TreeView.getInstance().setStatus("Disabled drag&drop! Please save changes first.");
 					return false;
-				} else {
-					System.out.println("isChange is false!");
 				}
 			}
 		}
 		if(!support.isDrop()) {
-			System.out.println("Not a drop operation!");
+			TreeView.getInstance().setStatus("Not a drop operation!");
 			return false;  
 		}  
 		support.setShowDropLocation(true);  
 		if(!support.isDataFlavorSupported(nodesFlavor)) {  
-			System.out.println("nodesFlavor not supported!");
+			TreeView.getInstance().setStatus("nodesFlavor not supported!");
 			return false;  
 		}  
 		// Do not allow a drop on the drag source selections.  
@@ -322,7 +319,7 @@ class TreeTransferHandler extends TransferHandler {
 		int[] selRows = tree.getSelectionRows();  
 		for(int i = 0; i < selRows.length; i++) {  
 			if(selRows[i] == dropRow) { 
-				System.out.println("Can't drop on the drag source selections!");
+				TreeView.getInstance().setStatus("Can't drop on the drag source selections!");
 				return false;  
 			}
 		} 
@@ -335,13 +332,13 @@ class TreeTransferHandler extends TransferHandler {
 			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
 			cEnd.add(Calendar.DATE, 1);
 			if (cEnd.compareTo(Calendar.getInstance()) < 0) {
-				System.out.println("Can't drop on a past iteration!");
+				TreeView.getInstance().setStatus("Can't drop on a past iteration!");
 				return false;
 			}
 		}
 		// Do not allow a drop on the root
 		if (ttarget.isRoot()) {
-			System.out.println("Can't drop on the root!");
+			TreeView.getInstance().setStatus("Can't drop on the root!");
 			return false;
 		}
 		for(int i = 0; i < selRows.length; i++) {  
@@ -350,7 +347,7 @@ class TreeTransferHandler extends TransferHandler {
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
 			// Do not allow a drop on itself
 			if (aNode == ttarget) {
-				System.out.println("Can't drop on itself!");
+				TreeView.getInstance().setStatus("Can't drop on itself!");
 				return false;
 			}
 			if (aNode.getUserObject() instanceof Requirement) {
@@ -365,7 +362,7 @@ class TreeTransferHandler extends TransferHandler {
 				}
 				// Do not allow a drop on the same parent
 				if (aNode.getParent().equals(ttarget)) {
-					System.out.println("Can't drop on the same parent!");
+					TreeView.getInstance().setStatus("Can't drop on the same parent!");
 					return false;
 				}
 				// Do not allow a drag for just children
@@ -379,7 +376,7 @@ class TreeTransferHandler extends TransferHandler {
 				if (ttarget.getUserObject() instanceof Requirement) {
 					Requirement req = (Requirement)ttarget.getUserObject();
 					if (requirement.getChildRequirementIds().contains(req.getId())) {
-						System.out.println("Requirement " + requirement.getTitle() + " "
+						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 								+ "Can't drop on its own children!");
 						return false;
 					}
@@ -387,7 +384,7 @@ class TreeTransferHandler extends TransferHandler {
 				if (ttarget.getUserObject().toString().contains("Iteration")) {
 					if (((Iteration)ttarget.getUserObject()).getEndDate().
 							after(requirement.getIteration().getEndDate())) {
-						System.out.println("Requirement " + requirement.getTitle() + " "
+						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 								+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
 						return false;
 					}
@@ -395,17 +392,17 @@ class TreeTransferHandler extends TransferHandler {
 			}
 			// Do not allow a drag for an Iteration
 			else if (aNode.getUserObject() instanceof Iteration) {
-				System.out.println("Can't drag an iteration!");
+				TreeView.getInstance().setStatus("Can't drag an iteration!");
 				return false;
 			}
 			// Do not allow a drag for an Deleted folder
 			else if (aNode.getUserObject().toString().contains("Deleted")) {
-				System.out.println("Can't drag the Deleted folder!");
+				TreeView.getInstance().setStatus("Can't drag the Deleted folder!");
 				return false;
 			}
 			// Do not allow a drag for the root
 			else if (aNode.isRoot()) {
-				System.out.println("Can't drag the root!");
+				TreeView.getInstance().setStatus("Can't drag the root!");
 				return false;
 			}
 		}
@@ -426,10 +423,11 @@ class TreeTransferHandler extends TransferHandler {
 		//				(DefaultMutableTreeNode)path.getLastPathComponent();  
 		//		if(firstNode.getChildCount() > 0 &&  
 		//				target.getLevel() < firstNode.getLevel()) {  
-		//			System.out.println("Can't drop to a level less than its source level!");
+		//			TreeView.getInstance().setStatus("Can't drop to a level less than its source level!");
 		//			return false;  
 		//		}
-
+		
+		TreeView.getInstance().clearStatus();
 		return true;  
 	}  
 

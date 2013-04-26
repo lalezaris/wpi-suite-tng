@@ -15,6 +15,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -59,7 +61,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
-	JLabel label;
+	JTextArea status;
 
 	private static TreeView instance;
 
@@ -74,16 +76,6 @@ public class TreeView extends JPanel {
 		JLabel titleLabel = new JLabel(
 				"<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
-
-		// Creates refresh button located at the bottom of the screen
-		// TODO eventually get rid of this so it refreshes automatically
-		refreshButton = new JButton("Refresh Tree");
-		refreshButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshTree();
-			}
-		});
-		//		this.add(refreshButton, BorderLayout.SOUTH);
 
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig()
 				.getProjectName());
@@ -106,9 +98,11 @@ public class TreeView extends JPanel {
 					if (req.checkFake()) {
 						return "Requirement " + req.getTitle() + " is in Iteration " 
 								+ req.getIteration().getIterationName();
-					}  else	if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
+					}  else	if (req.getParentRequirementId() != -1) {
+						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
 						return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
 								+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+						}
 					} else
 						return "Requirement " + req.getTitle();
 				}
@@ -156,40 +150,44 @@ public class TreeView extends JPanel {
 	}
 
 	/** Sets the text displayed at the bottom of TreeView. */
-	void setLabel(String newText) {
-		label.setText(newText);
+	void setStatus(String newText) {
+		if (!(status.getText() == newText)) {
+			status.setText(newText);
+		}
 	}
 
 	/** Clear the text displayed at the bottom of TreeView. */
-	void clearLabel() {
-		label.setText("");
+	void clearStatus() {
+		status.setText("");
 	}
 
 	/**
 	 * Sets up the bottom of TreeView.
 	 */
 	void setUpBottom() {
-		// Create new constraint variables
-		GridBagConstraints c = new GridBagConstraints();
-
 		// Construct all of the components for the form
 		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
 
-		// Initiate the status label
-		label = new JLabel("Test", JLabel.CENTER);
+		// Creates the status label
+		status = new JTextArea("");
+		Dimension d = status.getPreferredSize();  
+		status.setPreferredSize(new Dimension(d.width,d.height+30)); 
+		status.setEditable(false);
+		status.setLineWrap(true);
+		status.setWrapStyleWord(true);
 
-		c.anchor = GridBagConstraints.LINE_START; 
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
-		c.gridwidth = 1;
-		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
-		panel.add(label, c);
-		
-		c.gridx = 0;
-		c.gridy = 1;
-		panel.add(refreshButton, c);
+		// Creates refresh button located at the bottom of the screen
+		// TODO eventually get rid of this so it refreshes automatically
+		refreshButton = new JButton("Refresh Tree");
+		refreshButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshTree();
+			}
+		});
+
+		panel.add(status, BorderLayout.CENTER);
+		panel.add(refreshButton, BorderLayout.SOUTH);
 
 		this.add(panel, BorderLayout.SOUTH);
 	}
@@ -352,6 +350,7 @@ public class TreeView extends JPanel {
 	 */
 	public void refreshTree() {
 		treeModel.refreshTree();
+		clearStatus();
 	}
 
 	public Requirement lookUpRequirement(int id) {

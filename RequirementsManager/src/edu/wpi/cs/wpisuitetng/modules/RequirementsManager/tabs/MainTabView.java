@@ -14,13 +14,20 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Component;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.ClosableTabComponent;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTab;
 
 /**
@@ -129,4 +136,26 @@ public class MainTabView extends JTabbedPane {
 		//TODO: improve functionality for making sure toolbar knows if component changes
 
 	}
+	
+	@Override
+	public void setSelectedIndex(int index){
+		if(this.getSelectedComponent() instanceof RequirementListPanel){
+			RequirementListPanel panel = (RequirementListPanel)this.getSelectedComponent();
+			if(((RequirementTableModel) panel.getTable().getModel()).getIsChange()){
+				if(!(this.getComponentAt(index) instanceof RequirementListPanel)){
+					int buttons = JOptionPane.showConfirmDialog(
+							null,
+							"Are you sure you want to leave? Your changes will not be saved.",
+							"Warning",
+							JOptionPane.YES_NO_OPTION);
+					if (buttons == JOptionPane.YES_OPTION) {
+						super.setSelectedIndex(index);
+					}
+				}
+			} else
+				super.setSelectedIndex(index);
+		} else 
+			super.setSelectedIndex(index);
+	}
+	
 }

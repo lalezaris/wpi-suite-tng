@@ -55,6 +55,9 @@ public class NoteTest {
 		notes.add(note3);
 	}
 
+	/**
+	 * Test add note.
+	 */
 	@Test
 	public void testAddNote(){
 		System.out.println("adding note 1");
@@ -66,6 +69,9 @@ public class NoteTest {
 		assertEquals(req.getNotes(), notes);
 	}
 
+	/**
+	 * Test array lists.
+	 */
 	@Test
 	public void testArrayLists(){
 		assertEquals(notes.get(0), note1);
@@ -73,6 +79,9 @@ public class NoteTest {
 		assertEquals(notes.get(2), note3);
 	}
 
+	/**
+	 * Test note constructor.
+	 */
 	@Test
 	public void testNoteConstructor(){
 		Note n = new Note("contents","name");
@@ -81,12 +90,18 @@ public class NoteTest {
 		assertTrue(java.lang.Math.abs((new Date().getTime()) - (n.getCreationDate()).getTime()) < 100);
 	}
 	
+	/**
+	 * Test blank note.
+	 */
 	@Test
 	public void testBlankNote(){
 		assertEquals(note4.getBody(), "");
 		assertEquals(note4.getCreator(), "[USER UNKNOWN]");
 	}
 	
+	/**
+	 * Test setters.
+	 */
 	@Test
 	public void testSetters(){
 		Date testCreationDate = new Date();

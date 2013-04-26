@@ -37,7 +37,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 	/**
 	 * Constructs a new UpdateIterationRequestObserver.
 	 * 
-	 * @param view	The IterationView that will be affected by any updates
+	 * @param it The iteration that will be affected by any updates
 	 */
 	public UpdateIterationRequestObserver(Iteration it) {
 		this.iteration = it;

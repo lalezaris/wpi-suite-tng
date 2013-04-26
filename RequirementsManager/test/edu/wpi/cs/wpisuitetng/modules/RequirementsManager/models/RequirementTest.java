@@ -194,6 +194,9 @@ public class RequirementTest {
 		assertEquals(r5.countNotes(), 2);
 	}
 	
+	/**
+	 * Tests more setters.
+	 */
 	@Test
 	public void testMoreSetters(){
 		r5.setTitle("This has to be a title string!");
@@ -213,6 +216,9 @@ public class RequirementTest {
 		
 	}
 	
+	/**
+	 * Test enums for requirement priority and types.
+	 */
 	@Test
 	public void testEnums(){
 		assertEquals(RequirementPriority.BLANK,RequirementPriority.valueFromString(""));

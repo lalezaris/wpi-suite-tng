@@ -427,6 +427,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	public void logChangeErrors(int row){
 		//move through the given row, and log problems...
 		
+		int titleCol = 1;
+		int descCol = 2;
 		int statusCol = 3; 
 		int iterationCol = 6;
 		
@@ -454,14 +456,31 @@ public class RequirementTableModel extends AbstractTableModel {
 			} else{ //ALL IS WELL!!!
 				CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
 				CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
-				
-				
-				
-				
 			}
 		}
 		
-
+		
+		/* Rule Two
+		 * Title can never be blank
+		 */
+		String title = (String)this.getChangedValue(row, titleCol);
+		CellLocation titleChange = this.lookUpChange(row, titleCol);
+		if (title == null || title.equals("")){ // PROBLEMO
+			this.setChangedCell(true, row, titleCol, false, "Title cannot be blank");
+		} else CellLocation.setChangeValid(titleChange, row, titleCol, CellLocation.getValidTooltip(), this);
+		
+		
+		/* Rule Three
+		 * Description can never be blank
+		 */
+		String description = (String)this.getChangedValue(row, descCol);
+		CellLocation descriptionChange = this.lookUpChange(row, descCol);
+		if (description == null || description.equals("")){ // PROBLEMO
+			this.setChangedCell(true, row, descCol, false, "Description cannot be blank");
+		} else CellLocation.setChangeValid(descriptionChange, row, descCol, CellLocation.getValidTooltip(), this);
+		
+		
+		
 	}
 	
 	

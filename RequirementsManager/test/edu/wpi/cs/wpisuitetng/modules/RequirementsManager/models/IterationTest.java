@@ -45,6 +45,9 @@ public class IterationTest {
 	Requirement r1, r2, r2copy, r3, r4;
 	
 	
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp(){
 		startDate = new Date(2013, 3, 25, 3, 30, 20);
@@ -58,6 +61,9 @@ public class IterationTest {
 		itstatus3 = CLOSED;
 	}
 	
+	/**
+	 * Test iteration constructor.
+	 */
 	@Test
 	public void testConstructor() {
 		assertEquals(iteration1.getIterationName(), "1");
@@ -67,6 +73,9 @@ public class IterationTest {
 		assertEquals(iteration1.getStatus(), itstatus1);
 	}
 	
+	/**
+	 * Test add requirement to an iteration.
+	 */
 	@Test
 	public void testAddRequirement(){
 		iteration1.addRequirement(12);
@@ -79,6 +88,9 @@ public class IterationTest {
 		assertEquals(iteration1.getRequirements(), newList);
 	}
 	
+	/**
+	 * Test remove requirement from an iteration.
+	 */
 	@Test
 	public void testRemoveRequirement(){
 		iteration1.addRequirement(12);
@@ -93,16 +105,25 @@ public class IterationTest {
 		assertEquals(iteration1.getRequirements(), newList);
 	}
 	
+	/**
+	 * Test getting backlog.
+	 */
 	@Test
 	public void testGetBacklog(){
 		assertEquals(iteration1.getBacklog().getIterationName(), "Backlog");
 	}
 	
+	/**
+	 * Test get iteration by id.
+	 */
 	@Test
 	public void testGetIterationById(){
 		assertEquals("1", iteration1.getIterationName());
 	}
 	
+	/**
+	 * Test date setters.
+	 */
 	@Test
 	public void testDateSetters(){
 		Date endDate1 = new Date();
@@ -113,28 +134,43 @@ public class IterationTest {
 		assertEquals(startDate1, iteration1.getStartDate());
 	}
 	
+	/**
+	 * Test id setters.
+	 */
 	@Test
 	public void testIDs(){
 		iteration1.setId(42);
 		assertEquals(iteration1.getId(), 42);
 	}
 	
+	/**
+	 * Test getting statuses.
+	 */
 	@Test
 	public void testStatuses(){
 		iteration1.setStatus(itstatus3);
 		assertEquals(itstatus3, iteration1.getStatus());
 	}
 	
+	/**
+	 * Test placeholder functions.
+	 */
 	@Test
 	public void testPlaceholderFunctions(){
 		assertEquals(iteration1.identify(iteration1), null);
 	}
 	
+	/**
+	 * Test to string.
+	 */
 	@Test
 	public void testToString(){
 		assertEquals("Iteration " + iteration1.getIterationName(), "Iteration 1");
 	}
 	
+	/**
+	 * Test equals.
+	 */
 	@Test
 	public void testEquals(){
 		assertTrue(iteration1.equals(iteration1));
@@ -142,6 +178,9 @@ public class IterationTest {
 		assertTrue(iteration1.equals(new Iteration("1", startDate, endDate)));
 	}
 	
+	/**
+	 * Test change dates.
+	 */
 	@Test
 	public void testChangeDates(){
 		Date d = new Date();

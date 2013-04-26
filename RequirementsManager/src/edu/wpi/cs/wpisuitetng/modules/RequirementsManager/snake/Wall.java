@@ -21,6 +21,12 @@ public class Wall {
 	
 	public Spot spot;
 	public int score;
+	
+	/**
+	 * Instantiates a new wall.
+	 *
+	 * @param spot the spot
+	 */
 	public Wall(Spot spot) {
 		all.add(this);
 		this.spot = spot;

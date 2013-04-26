@@ -79,6 +79,8 @@ public class RetrieveAllRequirementsController {
 	/**
 	 * This method is called by the {@link RetrieveAllRequirementsRequestObserver} when an
 	 * error occurs retrieving the Requirements from the server.
+	 *
+	 * @param error the error message
 	 */
 	public void errorReceivingData(String error) { }
 }

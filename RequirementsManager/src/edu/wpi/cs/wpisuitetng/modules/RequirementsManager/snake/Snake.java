@@ -30,10 +30,20 @@ public class Snake {
 	int turnsToGrow;
 	Controller controller;
 	
+	/**
+	 * Instantiates a new snake.
+	 *
+	 * @param start the start
+	 */
 	public Snake(Spot start) {
 		reset(start);
 	}
 	
+	/**
+	 * Reset.
+	 *
+	 * @param start the start
+	 */
 	public void reset(Spot start){
 		spots = new ArrayList<Spot>();
 		
@@ -54,6 +64,9 @@ public class Snake {
 		return spots.get(spots.size()-1);
 	}
 	
+	/**
+	 * Move.
+	 */
 	public void move(){
 		Spot head = this.getHead();
 		if (this.direction == LEFT){

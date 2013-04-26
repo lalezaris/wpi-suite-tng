@@ -39,6 +39,9 @@ public class RequirementPanelViewTest {
 	RequirementView reqView;
 	Requirement req;
 	
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp() {
 
@@ -51,7 +54,9 @@ public class RequirementPanelViewTest {
 		//view = new RequirementPanel(reqView,RequirementPanel.Mode.CREATE);
 	}
 	
-	//test that the save button is enabled/disabled properly
+	/**
+	 * Test that the save button is enabled/disabled properly
+	 */
 	@Test
 	public void testSaveButtonEnable(){
 		assertEquals(false, reqView.getRequirementPanel().getSaveRequirementBottom().isEnabled());
@@ -64,7 +69,9 @@ public class RequirementPanelViewTest {
 
 	}
 	
-	//test that changing the status enables the Iteration field
+	/**
+	 * Test that changing the status enables the Iteration field
+	 */
 	@Test
 	public void testChangeStatus(){
 
@@ -75,7 +82,10 @@ public class RequirementPanelViewTest {
 
 	}
 	
-	//test that the view is indeed populating the fields with the given requirement's information
+	/**
+	 * test that the view is indeed populating the fields with the given requirement's information
+	 *
+	 */
 	@Test 
 	public void testGettingRequirement(){
 		Requirement newReq = new Requirement("newReq", "a desc");
@@ -85,7 +95,10 @@ public class RequirementPanelViewTest {
 		assertEquals("a desc", newReqView.getRequirementPanel().getTxtDescription().getText());
 	}
 	
-	//test that the proper things are disabled according to the current user's permission level
+	/**
+	 * test that the proper things are disabled according to the current user's permission level
+	 *
+	 */
 	@Test
 	public void testPermissions(){
 		Requirement req2 = new Requirement();

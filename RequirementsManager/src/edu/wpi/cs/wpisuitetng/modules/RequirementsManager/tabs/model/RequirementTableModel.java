@@ -20,7 +20,11 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import java.util.HashMap;
+
 import java.util.Date;
+
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -69,6 +73,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
+	/**
+	 * Instantiates a new requirement table model.
+	 *
+	 * @param panel the panel
+	 */
 	public RequirementTableModel(RequirementListPanel panel) {
 		this.panel = panel;
 		this.isChange = false;
@@ -233,6 +242,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		unSavedRequirements.add(r.clone());
 	}
 
+	/**
+	 * Update row.
+	 *
+	 * @param row the new row
+	 * @param req the requirement to update
+	 */
 	public void updateRow(int row, Requirement req){
 		System.out.println("UPDATING ROW " + row);
 		String ass = req.getAssignee().toString();
@@ -571,6 +586,13 @@ public class RequirementTableModel extends AbstractTableModel {
 		private String message;
 		
 		
+		
+		/**
+		 * Instantiates a new cell location.
+		 *
+		 * @param row the row
+		 * @param col the col
+		 */
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
@@ -646,9 +668,33 @@ public class RequirementTableModel extends AbstractTableModel {
 		public int hashCode(){
 			return (1*this.row) + (3*this.col);
 		}
+		public void setRow(int i) {
+			this.row = i;
+			
+		}
+		
+		
+		public void updatePostion(List<Object[]> data, ArrayList<Object[]> oldData){
+			//figure out where I was in the old requirement.
+			int oldRow = this.row;
+			int reqID = (Integer)oldData.get(oldRow)[0];
+			int newRow = oldRow;
+			//figure out what row the reqID is in now...
+			for (int i = 0 ; i < data.size(); i ++){
+				int testReqID = (Integer)data.get(i)[0];
+				if (testReqID == reqID){
+					newRow = i;
+				}
+			}
+			
+			this.row = newRow;
+			
+		}
 		
 		
 	}
+	
+	private HashMap<Integer, CellLocation> cellDifferenceTable = new HashMap<Integer, CellLocation>();
 	
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
 	
@@ -685,8 +731,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.panel.repaint();
 	
 	}
-	
-	
+		
 	/**
 	 * Display a reckless disregard for colors while clearing colors. Just Get rid of ALL the colors!
 	 * 
@@ -813,18 +858,24 @@ public class RequirementTableModel extends AbstractTableModel {
 		isChange = value;
 	}
 
-	/** Sorts the table in ascending order bases on the column given. If it was already 
+	/**
+	 * Sorts the table in ascending order bases on the column given. If it was already
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
 	 * It will also append a suffix to the header of the column being sorted indicating
 	 * the order of the sort.
-	 * 
-	 *  @param col the column by which the table is sorted.
+	 *
+	 * @param col the column by which the table is sorted.
+	 * @param cm the TableColumnModel to use
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void sortTable(final int col, TableColumnModel cm){
 		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
 			return;
 		}
+		
+		//IF changes, disable sorts
+		if (panel != null && panel.getTable().isEditing())
+			return;
 
 		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
 		final boolean wasJustAscending = currentHeader.equals(columnNames[col]+ASCENDING_SUFFIX);//true if the header is the original
@@ -852,9 +903,27 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 		}
 
+		this.cellDifferenceTable.clear();
+		
+		for(int i = 0 ; i < this.changedCells.size() ; i ++){
+			int r = this.changedCells.get(i).getRow();
+			Integer reqId = (Integer)this.data.get(r)[0];
+			this.cellDifferenceTable.put(reqId, this.changedCells.get(i));
+		}
+		
+		//Sort data
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-
+	
+		for (int i = 0 ; i < this.data.size(); i ++){
+			if (this.cellDifferenceTable.get(this.data.get(i)[0])!=null){
+				this.cellDifferenceTable.get(this.data.get(i)[0]).setRow(i);
+			}
+		}
+		
+		if(panel != null)
+			panel.repaint();
+		
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){
 				dataArray[j][8] = "";

@@ -33,19 +33,25 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 /**
  * Insert Description Here
  *
- * @author Chris
+ * @author Chris Hanna
  *
  * @version Apr 14, 2013
  *
  */
 public class filterTest {
 
+	/**
+	 * Sets up the tests.
+	 */
 	@Before
 	public void setUp(){
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
 	}
 	
+	/**
+	 * Tests the filters.
+	 */
 	@Test
 	public void test() {
 		System.out.println("running test");
@@ -101,6 +107,9 @@ public class filterTest {
 	}
 
 	
+	/**
+	 * Tests the filter panel.
+	 */
 	@Test
 	public void panel(){
 		

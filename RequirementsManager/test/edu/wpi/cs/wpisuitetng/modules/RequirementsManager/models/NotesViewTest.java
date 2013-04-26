@@ -39,6 +39,9 @@ public class NotesViewTest {
 	NotesView nv;
 	Requirement req1;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		Network.initNetwork(new MockNetwork());
@@ -57,7 +60,9 @@ public class NotesViewTest {
 		nv.getSaveButton().addActionListener(new AddNoteController(nv));
 	}
 	
-	//Test the list functionalities
+	/**
+	 * Test list functionalities.
+	 */
 	@Test
 	public void TestList(){
 		ArrayList<Note> n = req1.getNotes();
@@ -69,8 +74,9 @@ public class NotesViewTest {
 		nv.setNotesList(nv.getNotesList());//to update the text field
 	}
 	
-	
-	//Test the things that happen when the AddNote Button is pressed
+	/**
+	*Test the things that happen when the AddNote Button is pressed
+	*/
 	@Test
 	public void TestButton(){
 		nv.getTextArea().setText("another Note!");

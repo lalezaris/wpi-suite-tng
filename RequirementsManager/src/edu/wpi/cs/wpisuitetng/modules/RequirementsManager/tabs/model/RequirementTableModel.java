@@ -331,10 +331,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		System.out.println(requirements.get(row).getIteration());
 		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
-			Requirement temp = requirements.get(row);
-			Iteration temp2 = temp.getIteration();
-			Date temp3 = temp2.getEndDate();
-			Date temp4 = new Date();
 			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
 				if (col == 3) {
 					return true;
@@ -727,7 +723,6 @@ public class RequirementTableModel extends AbstractTableModel {
 				this.changedCells.remove(cell);
 			}
 		}
-		
 		this.panel.repaint();
 	
 	}

@@ -314,7 +314,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
+		System.out.println(requirements.get(row).getIteration());
 		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
+			Requirement temp = requirements.get(row);
+			Iteration temp2 = temp.getIteration();
+			Date temp3 = temp2.getEndDate();
+			Date temp4 = new Date();
 			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
 				if (col == 3) {
 					return true;
@@ -420,6 +425,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
+			System.out.println(value);
 			
 			if (((Iteration)value).equals(Iteration.getBacklog()) &&
 					requirements.get(row).getStatus() != RequirementStatus.OPEN) {

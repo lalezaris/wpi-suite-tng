@@ -21,6 +21,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
@@ -113,8 +114,9 @@ public class UpdateAllRequirementsController {
 		
 		
 		for (int i = 0 ; i < reqs.size(); i ++){
+			Iteration temp = reqs.get(i).getIteration();
 			saveRequirement(reqs.get(i));
-			
+			reqs.get(i).setIteration(temp);
 			int row = 0;
 			for (int c = 0 ; c < cells.size(); c ++){
 				if (table.getRequirements().get(cells.get(c).getRow())!= null 
@@ -122,7 +124,6 @@ public class UpdateAllRequirementsController {
 					row = cells.get(c).getRow();
 				}
 			}
-			
 			table.updateRow(row, reqs.get(i));
 		}
 		panel.updateUI();

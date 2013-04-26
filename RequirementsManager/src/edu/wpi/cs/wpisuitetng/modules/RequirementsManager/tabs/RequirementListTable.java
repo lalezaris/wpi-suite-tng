@@ -185,7 +185,7 @@ public class RequirementListTable extends JTable {
 	private Iteration[] checkIterations(Iteration[] iterations) {
 		Date currentDate = new Date();
 		for (int i = 0; i < iterations.length; i++) {
-			if (iterations[i].getStartDate().before(currentDate) && iterations[i].getEndDate().after(currentDate)) {
+			if (iterations[i].getEndDate().after(currentDate)) {
 				iterations[i].setInList(true);
 			}
 		}

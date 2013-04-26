@@ -57,6 +57,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
+	JLabel label;
 
 	private static TreeView instance;
 
@@ -80,7 +81,6 @@ public class TreeView extends JPanel {
 				refreshTree();
 			}
 		});
-
 		this.add(refreshButton, BorderLayout.SOUTH);
 
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig()
@@ -88,7 +88,7 @@ public class TreeView extends JPanel {
 		treeModel = new ReqTreeModel(root);
 
 		tree = new JTree(treeModel) {
-			
+
 			/* (non-Javadoc)
 			 * @see javax.swing.JTree#getToolTipText(java.awt.event.MouseEvent)
 			 */
@@ -104,6 +104,9 @@ public class TreeView extends JPanel {
 					if (req.checkFake()) {
 						return "Requirement " + req.getTitle() + " is in Iteration " 
 								+ req.getIteration().getIterationName();
+					}  else	if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
+						return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
+					+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
 					} else
 						return "Requirement " + req.getTitle();
 				}
@@ -146,7 +149,21 @@ public class TreeView extends JPanel {
 
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
+
+		// Initiate the status label
+//		label = new JLabel("", JLabel.CENTER);
+//		this.add(label, BorderLayout.PAGE_END);
 	}
+	
+	/** Sets the text displayed at the bottom of TreeView. */
+    void setLabel(String newText) {
+        label.setText(newText);
+    }
+    
+    /** Clear the text displayed at the bottom of TreeView. */
+    void clearLabel() {
+        label.setText("");
+    }
 
 	/**
 	 * Expand the entire tree.
@@ -307,5 +324,18 @@ public class TreeView extends JPanel {
 	 */
 	public void refreshTree() {
 		treeModel.refreshTree();
+	}
+	
+	public Requirement lookUpRequirement(int id) {
+		Requirement[] reqs = treeModel.getRequirements(); 
+		for (int i = 0; i < reqs.length; i++) {
+			if (!(reqs[i].checkFake())) {
+				if (reqs[i].getId() == id) {
+					return reqs[i];
+				}
+			}
+		}
+		System.out.println("Cannot find the requirement in lookUpRequirement()!");
+		return null;
 	}
 }

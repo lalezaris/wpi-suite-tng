@@ -161,12 +161,14 @@ public class IterationTableModel extends AbstractTableModel {
 		return Integer.parseInt( getValueAt(row, 0).toString() );
 	}
 
-	/** Sorts the table in ascending order bases on the column given. If it was already 
+	/**
+	 * Sorts the table in ascending order bases on the column given. If it was already
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
 	 * It will also append a suffix to the header of the column being sorted indicating
 	 * the order of the sort.
-	 * 
-	 *  @param col the column by which the table is sorted.
+	 *
+	 * @param col the column by which the table is sorted.
+	 * @param cm the TableColumModel
 	 */
 	public void sortTable(final int col, TableColumnModel cm){
 		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order

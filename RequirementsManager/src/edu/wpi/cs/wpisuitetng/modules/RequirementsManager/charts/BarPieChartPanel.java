@@ -235,10 +235,11 @@ public class BarPieChartPanel extends JPanel {
 
 	/**
 	 * Set the chart to be what you pass in.
-	 * 
+	 *
 	 * @param newChart The chart you are overwriting with.
 	 * @param chartType type of chart to pass in
 	 * @param pieSpin boolean for if the pie chart should spin
+	 * @param visible boolean for if the pie chart is visible
 	 */
 	public void setChart(JFreeChart newChart, TypeOfChart chartType, boolean pieSpin, boolean visible){
 		overallPanel.remove(graphPanel);

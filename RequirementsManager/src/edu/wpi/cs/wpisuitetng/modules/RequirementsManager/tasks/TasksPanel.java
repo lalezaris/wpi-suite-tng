@@ -82,6 +82,11 @@ public class TasksPanel extends JPanel {
 	protected static final int VERTICAL_PADDING = 15;
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 	
+	/**
+	 * Instantiates a new tasks panel.
+	 *
+	 * @param users the users
+	 */
 	public TasksPanel(String[] users) {
 		//Use a grid bag layout manager
 		this.layout = new BorderLayout();
@@ -106,7 +111,7 @@ public class TasksPanel extends JPanel {
 		//make fields
 		txtName = new JTextField(12);
 		
-		txtDescription = new JTextArea(10, 35);
+		txtDescription = new JTextArea(10, 20);
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 		

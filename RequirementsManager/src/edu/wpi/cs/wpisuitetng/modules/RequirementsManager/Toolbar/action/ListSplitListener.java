@@ -30,6 +30,11 @@ public class ListSplitListener implements SplitButtonActionListener {
 
 	private final MainTabController controller;
 	
+	/**
+	 * Instantiates a new list split listener.
+	 *
+	 * @param controller the controller
+	 */
 	public ListSplitListener(MainTabController controller){
 		this.controller = controller;
 	}

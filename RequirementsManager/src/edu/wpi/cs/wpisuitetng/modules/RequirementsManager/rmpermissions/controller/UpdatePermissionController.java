@@ -37,6 +37,11 @@ public class UpdatePermissionController extends AbstractAction {
 	protected UserPermissionPanel panel;
 	DefaultListModel originalNoneListModel, originalUpdateListModel, originalAdminListModel;
 
+	/**
+	 * Instantiates a new update permission controller.
+	 *
+	 * @param panel the panel
+	 */
 	public UpdatePermissionController(UserPermissionPanel panel){
 		this.noneUsers = panel.getNoneUsers();
 		this.updateUsers = panel.getUpdateUsers();

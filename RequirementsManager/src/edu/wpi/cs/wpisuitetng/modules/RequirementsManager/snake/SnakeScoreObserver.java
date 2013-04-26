@@ -22,10 +22,21 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class SnakeScoreObserver implements RequestObserver {
 
 	SnakeScoreController controller;
+	
+	/**
+	 * This method is called when information about an SnakeScore
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param controller the controller
+	 */
 	public SnakeScoreObserver(SnakeScoreController controller){
 		this.controller = controller;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Request request = (Request) iReq;
@@ -38,12 +49,18 @@ public class SnakeScoreObserver implements RequestObserver {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub

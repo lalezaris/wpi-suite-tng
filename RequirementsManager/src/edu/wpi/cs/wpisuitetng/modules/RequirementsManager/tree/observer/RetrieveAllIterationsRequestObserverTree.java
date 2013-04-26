@@ -29,6 +29,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveAllIterationsRequestObserverTree implements RequestObserver{
 	RetrieveAllIterationsControllerTree r;
+	
+	/**
+	 * Instantiates a new retrieve all iterations request observer tree.
+	 *
+	 * @param r the RetrieveAllIterationsControllerTree
+	 */
 	public RetrieveAllIterationsRequestObserverTree(RetrieveAllIterationsControllerTree r){
 		this.r = r;
 	}

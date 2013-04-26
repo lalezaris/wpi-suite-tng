@@ -35,6 +35,9 @@ public class ChartTypeListenerTest {
 	BarPieChartView view;
 	MockData db;
 	
+	/**
+	 * Inits the test.
+	 */
 	@Before
 	public void init(){
 		Network.initNetwork(new MockNetwork());
@@ -42,6 +45,9 @@ public class ChartTypeListenerTest {
 		view = new BarPieChartView();
 	}
 	
+	/**
+	 * Test chart listener.
+	 */
 	@Test
 	public void testChartListener(){
 		

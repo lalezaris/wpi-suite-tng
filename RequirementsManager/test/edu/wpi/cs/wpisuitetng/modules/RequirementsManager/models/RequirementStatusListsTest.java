@@ -34,7 +34,7 @@ public class RequirementStatusListsTest {
 	RequirementStatus statusDeleted = RequirementStatus.DELETED;
 
 	/**
-	 * @throws java.lang.Exception
+	 * Sets up the tests.
 	 */
 	@Before
 	public void setUp(){

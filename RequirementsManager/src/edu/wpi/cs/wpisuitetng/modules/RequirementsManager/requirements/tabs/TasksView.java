@@ -36,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateTaskListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.SaveTaskListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskDropdownListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskFeatureListener;
@@ -43,6 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Tab panel for viewing and working with tasks.
@@ -65,15 +67,19 @@ protected RequirementView parent;
 
 	private ArrayList<TasksPanel> taskPanelArray;
 	private TasksPanel newTaskPanel;
+	private JPanel tempPanel;
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
 
 	private JScrollPane listScrollPane;
+	private JScrollPane featScrollPane;
+	
 	private JSplitPane splitPane;
 	private TasksPanel tempTaskPanel;
 	
 	private GridBagLayout layoutTasks;
 	private GridBagLayout layoutDisplay;
+	private GridBagLayout layoutDisplayTwo;
 	
 	private JTextField containsField;
 	private JCheckBox hideBox;
@@ -84,7 +90,8 @@ protected RequirementView parent;
 	private String contains = "";
 	
 	//Loaded data
-	String[] users = {"None", "Yet"};
+	User[] users;
+	String[] userNames = {""};
 	
 	//Permissions level
 	protected RMPermissionsLevel pLevel;
@@ -101,6 +108,16 @@ protected RequirementView parent;
 		list = new ArrayList<Task>();
 		originalList = new ArrayList<Task>();
 		
+		//Initialize the assignee list
+		users = CurrentUserPermissions.getProjectUsers();
+		userNames = new String[users.length + 1];
+		userNames[0] = "";
+		if(users != null){
+			for(int i=0;i<users.length;i++){
+				userNames[i+1] = users[i].getUsername();
+			}
+		}
+		
 		//Get permissions
 		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		
@@ -113,15 +130,20 @@ protected RequirementView parent;
 		redisplay();
 	}
 	
-	public void redisplay() {
+		/**
+		 * Redisplays the task view.
+		 */
+		public void redisplay() {
 		this.removeAll();
-		repaint();
-		revalidate();
-		//setChanged(false);
+
+		//Make the big two panels.
+		listScrollPane = createTasksPanels();
+		featScrollPane = displayFeatures();
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				displayFeatures(), createTasksPanels());
+				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
+		
 	}
 	
 	/**
@@ -132,6 +154,9 @@ protected RequirementView parent;
 		
 		//construct panels
 		overallPanel = new JPanel();
+		
+		layoutTasks = new GridBagLayout();
+		overallPanel.setLayout(layoutTasks);
 		
 		//Clear the array so you can refill it.
 		taskPanelArray = new ArrayList<TasksPanel>();
@@ -149,7 +174,7 @@ protected RequirementView parent;
 			cTask.weighty = 0.5;
 			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		
-			tempTaskPanel = new TasksPanel(users);
+			tempTaskPanel = new TasksPanel(userNames);
 			
 			if(i < list.size()){//For the tasks that already exist, put them here.
 				
@@ -207,12 +232,12 @@ protected RequirementView parent;
 			
 			
 			if(canDisplay){
-				layoutTasks = new GridBagLayout();
-				overallPanel.setLayout(layoutTasks);
 				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
 			}
 			taskPanelArray.add(tempTaskPanel);
 		}
+		
+		overallPanel.setMaximumSize(getPreferredSize());
 		
 		//put overall into a scrollpane
 		listScrollPane = new JScrollPane(overallPanel);
@@ -224,15 +249,19 @@ protected RequirementView parent;
 	 * @return 
 	 * 
 	 */
-	private JPanel displayFeatures(){
+	private JScrollPane displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
+		GridBagConstraints cTemp = new GridBagConstraints();
 		
 		//panels
 		featurePanel = new JPanel();
+		tempPanel = new JPanel();
 		
 		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
+		containsField.setMinimumSize(getPreferredSize());
+		containsField.setMaximumSize(getPreferredSize());
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 		
 		//Set boxes
@@ -243,31 +272,31 @@ protected RequirementView parent;
 		
 		//individual panel -------------------
 		layoutDisplay = new GridBagLayout();
-		featurePanel.setLayout(layoutDisplay);
+		tempPanel.setLayout(layoutDisplay);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 0;
-		cFeat.gridy = 0;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(containsLabel, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 0;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		tempPanel.add(containsLabel, cTemp);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 1;
-		cFeat.gridy = 0;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(containsField, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 1;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(0,10,5,0); //top,left,bottom,right
+		tempPanel.add(containsField, cTemp);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 0;
-		cFeat.gridy = 1;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(hideBox, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 2;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		tempPanel.add(hideBox, cTemp);
 		
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
@@ -275,22 +304,31 @@ protected RequirementView parent;
 				
 		
 		//Add the New Task panel (the panel that allows you to make new tasks).
+		layoutDisplayTwo = new GridBagLayout();
+		featurePanel.setLayout(layoutDisplayTwo);
 		
-		GridBagConstraints cTask = new GridBagConstraints();
-		cTask.anchor = GridBagConstraints.LINE_START; 
-		cTask.gridx = 0;
-		cTask.gridy = 2;
-		cTask.weightx = 0.5;
-		cTask.weighty = 0.5;
-		cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cFeat.anchor = GridBagConstraints.LINE_START;
+		cFeat.gridx = 0;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
+		featurePanel.add(tempPanel, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.LINE_START; 
+		cFeat.gridx = 0;
+		cFeat.gridy = 1;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 	
-		newTaskPanel = new TasksPanel(users);
+		newTaskPanel = new TasksPanel(userNames);
 
 		//Make the save button create a new task.
 		if(list.size() > 0)
-			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
+			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
 		else
-			newTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(1, this));//No tasks, start at ID 1.
+			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(1, this));//No tasks, start at ID 1.
 		
 		//Default the save button and status to disabled
 		if(newTaskPanel.getTxtName().getText().equals("") || newTaskPanel.getTxtDescription().getText().equals("")){
@@ -319,9 +357,11 @@ protected RequirementView parent;
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 		
-		featurePanel.add(newTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
+		//newTaskPanel.setMinimumSize(getPreferredSize());
+		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
 		
-		return featurePanel;
+		featScrollPane = new JScrollPane(featurePanel);
+		return featScrollPane;
 	}
 	
 	
@@ -390,8 +430,11 @@ protected RequirementView parent;
 		}
 	}
 	
-	/**Find a task based on the id you give it.
+	/**
+	 * Find a task based on the id you give it.
+	 *
 	 * @param id The id of the task you want to find.
+	 * @return the task
 	 */
 	public Task retrieveTask(int id){
 		for (int i = 0; i < list.size(); i++) {
@@ -512,5 +555,20 @@ protected RequirementView parent;
 	public TasksPanel getNewTaskPanel() {
 		return newTaskPanel;
 	}
+
+	/**
+	 * @return the featurePanel
+	 */
+	public JPanel getFeaturePanel() {
+		return featurePanel;
+	}
+
+	/**
+	 * @return the listScrollPane
+	 */
+	public JScrollPane getListScrollPane() {
+		return listScrollPane;
+	}
+	
 	
 }

@@ -767,12 +767,18 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileName
 	 */
 	public ArrayList<String> getAttachedFileNames() {
+		System.out.println("in get attachedfilenames we gots: "+this.attachedFileNameStr);
 		if(this.attachedFileNameStr == null){
 			return new ArrayList<String>();
 		}
 		String[] s = this.attachedFileNameStr.split(":");
 		ArrayList<String> ret = new ArrayList<String>();
+		boolean nul = false;
 		for(String str : s){
+			if(!nul && str.contains("null")){
+				nul = true;
+				str = str.substring(4);
+			}
 			ret.add(str);
 		}
 		return ret;
@@ -785,6 +791,7 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileName: the attachedFileName to set
 	 */
 	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
+		System.out.println("yo here are the attachedfilenames: "+attachedFileNames);
 		if (this.attachedFileNameStr != null){
 			this.attachedFileNameStr = "";
 		}

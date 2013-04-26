@@ -158,7 +158,7 @@ public class AttachmentsView extends RequirementTab{
 		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
 		System.out.println("hey look at all of the IDs : "+attachmentIDs.toString());
 		System.out.println("hey look at all of the name : "+attachmentNames.toString());
-		for(int i = 0; i < attachmentNames.size(); i++){
+		for(int i = 0; i < attachmentIDs.size(); i++){
 			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
 		}
 		this.add(this.mainPanel);

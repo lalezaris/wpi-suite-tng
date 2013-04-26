@@ -33,7 +33,12 @@ public class SaveTaskListener implements ActionListener{
 	int id;
 	TasksView view;
 	
-	//Constructor
+	/**
+	 * Instantiates a new save task listener.
+	 *
+	 * @param id the id
+	 * @param view the view
+	 */
 	public SaveTaskListener(int id, TasksView view){
 		this.id = id;
 		this.view = view;

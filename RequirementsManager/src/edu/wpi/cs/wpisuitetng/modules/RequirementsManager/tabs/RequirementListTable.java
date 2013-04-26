@@ -36,7 +36,9 @@ public class RequirementListTable extends JTable {
 	RequirementListPanel panel;
 	
 	/**
-	 * Default constructor
+	 * Default constructor.
+	 *
+	 * @param panel the panel
 	 */
 	public RequirementListTable(RequirementListPanel panel) {
 		this.panel = panel;

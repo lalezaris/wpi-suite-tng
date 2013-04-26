@@ -33,8 +33,9 @@ public class SaveIterationController {
 	protected Iteration iteration;
 
 	/**
-	 * Construct a new handler for the given view
-	 * @param r the iteration containing the request fields
+	 * Construct a new handler for the given view.
+	 *
+	 * @param it the iteration to save
 	 */
 	public SaveIterationController(Iteration it) {
 		iteration = it;

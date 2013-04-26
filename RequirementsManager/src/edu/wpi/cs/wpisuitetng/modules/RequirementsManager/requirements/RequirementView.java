@@ -461,15 +461,38 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.disableFields(new JComponent[]{mainPanel.getDeleteRequirementBottom()});
 			mainPanel.getDeleteRequirementBottom().setToolTipText("Cannot delete this requirement as it has children.");
 		} 
+		
+		Calendar cStart = Calendar.getInstance();
+		cStart.setTime(Iteration.getIterationById(reqModel.getUneditedRequirement().getIterationId()).getStartDate());
+		Calendar cEnd = Calendar.getInstance();
+		cEnd.setTime(Iteration.getIterationById(reqModel.getUneditedRequirement().getIterationId()).getEndDate());
+		cEnd.add(Calendar.DATE, 1);
+		Calendar cNow = Calendar.getInstance();
+		if (cEnd.compareTo(cNow) < 0 && reqModel.getUneditedRequirement().getIterationId() != Iteration.getBacklog().getId()){
+			mainPanel.disableFields(new JComponent[]{mainPanel.getCmbPriority(),mainPanel.getCmbType(),mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getCmbIteration(),mainPanel.getNotesView().getSaveButton(),mainPanel.getNotesView().getTextArea(),
+					mainPanel.getAssigneeView().getBtnAdd(), mainPanel.getAssigneeView().getBtnRemove(),mainPanel.getAcceptanceTestsView().getListDisplay()});
+			mainPanel.changeBackground(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber(),mainPanel.getNotesView().getTextArea()});
+			mainPanel.makeTextBlack(new JTextComponent[]{mainPanel.getTxtDescription(),mainPanel.getTxtEstimate(),mainPanel.getTxtActual(),mainPanel.getTxtCreator(),/*txtAssignee,*/
+					mainPanel.getTxtTitle(),mainPanel.getTxtReleaseNumber()});
+			mainPanel.makeStuffNotVisible(new JComponent[]{mainPanel.getCreateChildRequirement()});
+		}
+		
 	}
 
 	/**
+	 * Gets the mode.
+	 *
 	 * @return the mode
 	 */
 	public RequirementPanel.Mode getMode() {
 		return mode;
 	}
 
+	/**
+	 * Sets the iteration combo box.
+	 */
 	public void setIterationComboBox(){
 		Iteration[] knownIterations = availableIterations;
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();

@@ -157,7 +157,7 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Instantiates a fake requirement. ONLY to be used for tree view.
 	 *
-	 * @param Requirement r the Requirement to be forked from
+	 * @param r the Requirement to be forked from
 	 */
 	public Requirement(Requirement r){
 		this();
@@ -253,7 +253,9 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Removes a child requirement ID from the list of children
+	 * Removes a child requirement ID from the list of children.
+	 *
+	 * @param id the id of the child requirement to remove
 	 */
 	public void removeChildRequirement(int id) {
 		for (int num = 0; num < childIDs.size(); num++) {

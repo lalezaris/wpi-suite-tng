@@ -24,6 +24,11 @@ public class Food {
 	public int score;
 	public Color color;
 	
+	/**
+	 * Instantiates a new food.
+	 *
+	 * @param spot the spot
+	 */
 	public Food(Spot spot) {
 		all.add(this);
 		this.spot = spot;

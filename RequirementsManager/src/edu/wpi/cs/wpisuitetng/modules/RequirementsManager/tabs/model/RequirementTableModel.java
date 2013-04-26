@@ -66,6 +66,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
+	/**
+	 * Instantiates a new requirement table model.
+	 *
+	 * @param panel the panel
+	 */
 	public RequirementTableModel(RequirementListPanel panel) {
 		this.panel = panel;
 		this.isChange = false;
@@ -215,6 +220,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		requirements.add(req);
 	}
 
+	/**
+	 * Update row.
+	 *
+	 * @param row the new row
+	 * @param req the requirement to update
+	 */
 	public void updateRow(int row, Requirement req){
 		System.out.println("UPDATING ROW " + row);
 		String ass = req.getAssignee().toString();
@@ -367,6 +378,13 @@ public class RequirementTableModel extends AbstractTableModel {
 
 	public class CellLocation{
 		private int row, col;
+		
+		/**
+		 * Instantiates a new cell location.
+		 *
+		 * @param row the row
+		 * @param col the col
+		 */
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
@@ -405,6 +423,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.changedCells.add(new CellLocation(row, col));
 	}
 	
+	/**
+	 * Clear change visuals.
+	 */
 	public void clearChangeVisuals(){
 		this.changedCells.clear();
 	}
@@ -488,12 +509,14 @@ public class RequirementTableModel extends AbstractTableModel {
 		isChange = value;
 	}
 
-	/** Sorts the table in ascending order bases on the column given. If it was already 
+	/**
+	 * Sorts the table in ascending order bases on the column given. If it was already
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
 	 * It will also append a suffix to the header of the column being sorted indicating
 	 * the order of the sort.
-	 * 
-	 *  @param col the column by which the table is sorted.
+	 *
+	 * @param col the column by which the table is sorted.
+	 * @param cm the TableColumnModel to use
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void sortTable(final int col, TableColumnModel cm){

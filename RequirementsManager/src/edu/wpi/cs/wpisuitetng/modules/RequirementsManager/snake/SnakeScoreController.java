@@ -21,10 +21,21 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class SnakeScoreController {
 
 	Controller controller;
+	
+	/**
+	 * Instantiates a new snake score controller.
+	 *
+	 * @param controller the controller
+	 */
 	public SnakeScoreController(Controller controller){
 		this.controller = controller;
 	}
 	
+	/**
+	 * Gets the high score.
+	 *
+	 * @param model the model
+	 */
 	public void getHighScore(SnakeModel model){
 		Request request;
 		
@@ -37,6 +48,11 @@ public class SnakeScoreController {
 		request.send();
 	}
 	
+	/**
+	 * Got high score.
+	 *
+	 * @param models the models
+	 */
 	public void gotHighScore(SnakeModel models) {
 		
 		if (models!=null){

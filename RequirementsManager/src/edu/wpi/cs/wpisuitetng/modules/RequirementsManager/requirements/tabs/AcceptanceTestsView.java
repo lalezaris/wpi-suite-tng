@@ -466,6 +466,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		lblTitleError.setVisible(false);
 	}
 
+	/**
+	 * Clear status cmb.
+	 */
 	public void clearStatusCmb(){
 		cmbStatus.setSelectedIndex(0);
 	}
@@ -724,8 +727,11 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();
 	}
+	
 	/**
-	 * toggle enable of title field
+	 * toggle enable of title field.
+	 *
+	 * @param b determines if the title is enabled.
 	 */
 	public void toggleTitleEnabled(boolean b) {
 		txtTitle.setEnabled(b);
@@ -734,7 +740,8 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 
 	/**
 	 * check to see if title is enabled or not
-	 * if false, then in edit mode
+	 *
+	 * @return true, if is title enabled. If false, then in edit mode.
 	 */
 	public boolean isTitleEnabled() {
 		return txtTitleFlag;

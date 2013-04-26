@@ -21,10 +21,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -213,25 +213,35 @@ class TreeTransferHandler extends TransferHandler {
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Deleted")){
-			//			MainView.getInstance().showErrorMessage("Cannot drag to Deleted");
-			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = backFromDel(checkFake(r.get(i)));
-				// Change the parent of the requirement
-				req.setParentRequirementId(-1);
-				req.setStatus(RequirementStatus.DELETED);
-				req.setIterationId(0);
-				// Save the changed requirement
-				controller = new SaveRequirementController(req);
-				controller.save();
-				// Save the changed parent
-				Requirement req2 = (Requirement) destObject;
-				req2.removeChildRequirement(req.getId());
-				int estimated = req2.getEstimateEffort()
-						- ((Requirement) req).getEstimateEffort();
-				req2.setEstimateEffort(estimated);
-				controller = new SaveRequirementController(req2);
-				controller.save();
-			}
+			// Show a dialog
+			int n = JOptionPane.showConfirmDialog(
+                    MainView.getInstance(), "Are you sure you want to delete it?",
+                    "Deletion Confirmation",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (n == JOptionPane.YES_OPTION) {
+            	for(int i = 0; i < nodes.length; i++) {
+    				Requirement req = backFromDel(checkFake(r.get(i)));
+    				// Change the parent of the requirement
+    				req.setParentRequirementId(-1);
+    				req.setStatus(RequirementStatus.DELETED);
+    				req.setIterationId(0);
+    				// Save the changed requirement
+    				controller = new SaveRequirementController(req);
+    				controller.save();
+    				// Save the changed parent
+    				Requirement req2 = (Requirement) destObject;
+    				req2.removeChildRequirement(req.getId());
+    				int estimated = req2.getEstimateEffort()
+    						- ((Requirement) req).getEstimateEffort();
+    				req2.setEstimateEffort(estimated);
+    				controller = new SaveRequirementController(req2);
+    				controller.save();
+    			}
+            } else if (n == JOptionPane.NO_OPTION) {
+            	System.out.print("Cancelled deletion.");
+            } else {
+            	System.out.print("Closed dialog.");
+            }
 		}
 		else {
 			System.out.print("The drop destination is not recognizable!");
@@ -340,7 +350,7 @@ class TreeTransferHandler extends TransferHandler {
 					Requirement req = (Requirement)ttarget.getUserObject();
 					if (requirement.getChildRequirementIds().contains(req.getId())) {
 						System.out.println("Requirement " + requirement.getTitle() + " "
-					+ "Can't drop on its own children!");
+								+ "Can't drop on its own children!");
 						return false;
 					}
 				}
@@ -370,17 +380,17 @@ class TreeTransferHandler extends TransferHandler {
 		//		}  
 		// Do not allow a non-leaf node to be copied to a level  
 		// which is less than its source level.  
-//		TreePath dest = dl.getPath();  
-//		DefaultMutableTreeNode target =  
-//				(DefaultMutableTreeNode)dest.getLastPathComponent();  
-//		TreePath path = tree.getPathForRow(selRows[0]);  
-//		DefaultMutableTreeNode firstNode =  
-//				(DefaultMutableTreeNode)path.getLastPathComponent();  
-//		if(firstNode.getChildCount() > 0 &&  
-//				target.getLevel() < firstNode.getLevel()) {  
-//			System.out.println("Can't drop to a level less than its source level!");
-//			return false;  
-//		}
+		//		TreePath dest = dl.getPath();  
+		//		DefaultMutableTreeNode target =  
+		//				(DefaultMutableTreeNode)dest.getLastPathComponent();  
+		//		TreePath path = tree.getPathForRow(selRows[0]);  
+		//		DefaultMutableTreeNode firstNode =  
+		//				(DefaultMutableTreeNode)path.getLastPathComponent();  
+		//		if(firstNode.getChildCount() > 0 &&  
+		//				target.getLevel() < firstNode.getLevel()) {  
+		//			System.out.println("Can't drop to a level less than its source level!");
+		//			return false;  
+		//		}
 
 		return true;  
 	}  

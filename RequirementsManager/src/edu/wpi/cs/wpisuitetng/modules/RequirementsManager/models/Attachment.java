@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.commons.codec.binary.Base64;
@@ -38,9 +39,11 @@ public class Attachment extends AbstractModel{
 		try {
 			FileInputStream in = new FileInputStream(file);
 			int i=0;
-			byte[] contents = new byte[(int) file.length() +1];
+			int buffer;
+			byte[] contents = new byte[(int) file.length()];
 			
-			while((contents[i++] = (byte) in.read())!=-1);
+			while((buffer = (byte) in.read())!=-1)if(buffer!=-1)contents[i++]=(byte) buffer;
+			
 			in.close();//new String(Base64.encodeBase64
 			this.setFileContents(Base64.encodeBase64String(contents));
 			//this.fileContents = new String(Base64.encodeBase64(contents));
@@ -52,6 +55,32 @@ public class Attachment extends AbstractModel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveFile(File file){
+		//TODO actually load the contents into fileContents when this is called
+				try {
+					File OF = file;//new File(file.getName());
+					System.out.println(OF.getPath() + " whatever the fuch you wantd hit the stlk " + OF.getName());
+					FileOutputStream out = new FileOutputStream(OF);
+					int i=0;
+					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
+					
+					while(i < contents.length){
+						System.out.print(contents[i++]);
+					}
+					out.write(contents, 0, contents.length);
+					out.close();//new String(Base64.encodeBase64
+//					this.setFileContents(Base64.encodeBase64String(contents));
+					//this.fileContents = new String(Base64.encodeBase64(contents));
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	}
 
 	@Override

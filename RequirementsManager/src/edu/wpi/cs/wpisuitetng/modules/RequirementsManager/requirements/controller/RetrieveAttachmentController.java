@@ -12,13 +12,16 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
+import java.io.File;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAttachmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 /**
- * Insert Description Here
+ * 
  *
  * @author "Sam Abradi"
  *
@@ -26,17 +29,25 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  *
  */
 public class RetrieveAttachmentController {
-	private 
+	private File file;
+	String s;
 	
-	RetrieveAttachmentController(){
-		
+	public RetrieveAttachmentController(String path,File f){
+		file = f;
+		s = path;
 	}
-	
+
 	public void fetch(){
-//		Request request;
-//		request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + selectedRequirement, HttpMethod.GET);
-//		request.addObserver(new RetrieveRequirementRequestObserver(this));
-//		request.send();
+		int attachmentId = Integer.parseInt(s.substring(0,s.indexOf('\\')));
+		
+		
+		Request request;
+		request = Network.getInstance().makeRequest("attachmentcontroller/attachment/" + attachmentId, HttpMethod.GET);
+		request.addObserver(new RetrieveAttachmentRequestObserver(this));
+		request.send();
+	}
+	public File getFile(){
+		return file;
 	}
 
 }

@@ -36,6 +36,7 @@ import javax.swing.border.BevelBorder;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAttachmentController;
 
 /**
  * The Class to hold AssigneeView.
@@ -238,8 +239,10 @@ public class AttachmentsView extends RequirementTab{
         	return;
         }
         File target = chooser.getSelectedFile();
-        target = new File(target.getPath()+f.getName());
+        target = new File(target.getPath()+"\\"+f.getName());
         //TODO: something with abradi to actually get stuff
+        RetrieveAttachmentController attcontroller = new RetrieveAttachmentController(f.getPath(), target);
+        attcontroller.fetch();
 	}
 	
 	/**
@@ -297,16 +300,6 @@ public class AttachmentsView extends RequirementTab{
 		this.attachedPanel.removeAll();
 	}
 	
-	
-	/**
-	 * Set the attached files
-	 * 
-	 * @param files
-	 */
-	public void setAttachedFiles(File[] files){
-		this.clearAttachedFiles();
-		this.addAttachedFiles(files);
-	}
 	
 	/**
 	 * Append some attached files

@@ -767,6 +767,9 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileName
 	 */
 	public ArrayList<String> getAttachedFileNames() {
+		if(this.attachedFileNameStr == null){
+			return new ArrayList<String>();
+		}
 		String[] s = this.attachedFileNameStr.split(":");
 		ArrayList<String> ret = new ArrayList<String>();
 		for(String str : s){
@@ -798,11 +801,19 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileId
 	 */
 	public ArrayList<Integer> getAttachedFileId() {
-		String[] ids= this.attachedFileNameStr.split(":");
+		if(this.attachedFileIdStr == null){
+			System.out.println("returning empty list in getAttachedFileId");
+			return new ArrayList<Integer>();
+			
+		}
+		String[] ids= this.attachedFileIdStr.split(":");
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 		for(String i : ids){
-			ret.add(Integer.parseInt(i));
+			if(i!=null && !i.equals("")){
+				ret.add(Integer.parseInt(i));
+			}
 		}
+		System.out.println("returning not empty list in getAttachedFileId");
 		return ret;
 	}
 
@@ -812,10 +823,12 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileId: the attachedFileId to set
 	 */
 	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
-		if (this.attachedFileIdStr != null){
+		if (this.attachedFileIdStr == null){
 			this.attachedFileIdStr = "";
+			System.out.println("setting the file ids to null");
 		}
 		for(Integer s : attachedFileIds){
+			System.out.println("setting the file ids to " + s);
 			this.attachedFileIdStr += s + ":";
 		}
 	}

@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -55,14 +56,22 @@ public class AttachmentStore implements EntityManager<Attachment> {
 			throw new WPISuiteException("ID not found");
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
-		serverReq.getAttachedFileId().add(newAttachment.getId());
-		serverReq.getAttachedFileNames().add(newAttachment.getFileName());
+		
+		//serverReq.getAttachedFileId().add(newAttachment.getId());
+		ArrayList<Integer> fileId = serverReq.getAttachedFileId();
+		fileId.add(newAttachment.getId());
+		serverReq.setAttachedFileId(fileId);
+		
+		
+		//serverReq.getAttachedFileNames().add(newAttachment.getFileName());
+		ArrayList<String> fileNames = serverReq.getAttachedFileNames();
+		fileNames.add(newAttachment.getFileName());
+		serverReq.setAttachedFileName(fileNames);
 		
 		
 		
-		db.save(serverReq.getAttachedFileId());
-		System.out.println("this should be saved: " + serverReq.getAttachedFileId().get(0));
-		db.save(serverReq.getAttachedFileNames());
+		//db.save(serverReq.getAttachedFileId());
+		//db.save(serverReq.getAttachedFileNames());
 		if(!db.save(serverReq, s.getProject())) {
 			System.out.println("there was an error while updating a requirement with the new attachment");
 			throw new WPISuiteException();

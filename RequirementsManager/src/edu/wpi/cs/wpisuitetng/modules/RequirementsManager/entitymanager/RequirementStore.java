@@ -99,7 +99,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 			}
 		}
 
-		System.out.println("making new requiremnt with attachment"+newRequirement.getAttachedFileId().get(0));
 		return newRequirement;
 	}
 

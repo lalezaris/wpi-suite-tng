@@ -117,7 +117,6 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 			Iteration iter = (Iteration) node.getUserObject();
 			Calendar cStart = Calendar.getInstance();
 			cStart.setTime(iter.getStartDate());
-//			cStart.add(Calendar.DATE, 1);
 			Calendar cEnd = Calendar.getInstance();
 			cEnd.setTime(iter.getEndDate());
 			cEnd.add(Calendar.DATE, 1);

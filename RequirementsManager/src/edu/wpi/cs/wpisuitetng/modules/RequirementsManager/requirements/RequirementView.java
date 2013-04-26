@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -175,6 +176,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		int estimate = 0, actual = 0;
 		try{
 			estimate = Integer.parseInt(mainPanel.getTxtEstimate().getText());
+			mainPanel.getLblEstimateError().setVisible(false);
 		}
 		catch (NumberFormatException e){
 			mainPanel.getLblEstimateError().setVisible(true);  
@@ -182,6 +184,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 		try{
 			actual = Integer.parseInt(mainPanel.getTxtActual().getText());
+			mainPanel.getLblActualError().setVisible(false);
 		}
 		catch (NumberFormatException e){
 			mainPanel.getLblActualError().setVisible(true);
@@ -198,7 +201,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			if(estimate == -1 || mainPanel.getTxtEstimate().getText().trim().equals("0")){
 				mainPanel.getLblEstimateError().setVisible(true);
 				return 7;
-			}
+			} else 
+				mainPanel.getLblEstimateError().setVisible(false);
 		}
 
 
@@ -471,19 +475,26 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
 
 		for (int i = 0; i < knownIterations.length ;i++){
+			Calendar cStart = Calendar.getInstance();
+			cStart.setTime(knownIterations[i].getStartDate());
+			Calendar cEnd = Calendar.getInstance();
+			cEnd.setTime(knownIterations[i].getEndDate());
+			cEnd.add(Calendar.DATE, 1);
 			if (parentRequirement != null) {
 				if (parentRequirement.getIterationId() == Iteration.getBacklog().getId()) {
-					if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+					if (cEnd.compareTo(Calendar.getInstance()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
 						knownIts.add(knownIterations[i]);
 					}
 				} else {
-					if ((knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 &&
-							knownIterations[i].getEndDate().compareTo(new Date()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
+					Calendar cTwoEnd = Calendar.getInstance();
+					cTwoEnd.setTime(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate());
+					if ((cEnd.compareTo(cTwoEnd) <= 0 &&
+							cEnd.compareTo(Calendar.getInstance()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
 						knownIts.add(knownIterations[i]);
 					}
 				} 
 			} else {
-				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+				if (cEnd.compareTo(Calendar.getInstance()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
 					knownIts.add(knownIterations[i]);
 				}
 			}

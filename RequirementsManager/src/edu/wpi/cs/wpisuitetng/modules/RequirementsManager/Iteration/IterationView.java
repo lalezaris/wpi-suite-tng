@@ -106,6 +106,10 @@ public class IterationView extends JPanel {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
+		if(mode == Mode.CREATE){
+			mainPanel.getTxtEstimate().setVisible(false);
+			mainPanel.getLblEstimate().setVisible(false);
+		}
 		if(iteration.compareTo(Iteration.getBacklog()) == 0){
 			mainPanel.getBtnSaveIteration().setEnabled(false);
 			mainPanel.getBtnSaveIteration().setVisible(false);

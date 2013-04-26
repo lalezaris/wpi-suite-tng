@@ -41,6 +41,9 @@ public class BarPieChartViewTest {
 	Plot plot;
 	MockData db;
 	
+	/**
+	 * Inits the test.
+	 */
 	@Before
 	public void init(){
 		//Default chart fields.
@@ -56,6 +59,9 @@ public class BarPieChartViewTest {
 		panel = view.getMainPanel();
 	}
 	
+	/**
+	 * Test repaint chart status.
+	 */
 	@Test
 	public void testRepaintChartStatus(){
 		//Click on Status in the dropdown
@@ -80,6 +86,9 @@ public class BarPieChartViewTest {
 		//assertEquals(((PiePlot)plot).getDataset(), view.getStatusPieDataset());
 	}
 	
+	/**
+	 * Test repaint chart assignee.
+	 */
 	@Test
 	public void testRepaintChartAssignee(){
 		//Click on Assignee in the dropdown
@@ -103,6 +112,9 @@ public class BarPieChartViewTest {
 		//assertEquals(((PiePlot)plot).getDataset(), view.getStatusPieDataset());
 	}
 	
+	/**
+	 * Test repaint chart iteration.
+	 */
 	@Test
 	public void testRepaintChartIteration(){
 		//Click on Assignee in the dropdown

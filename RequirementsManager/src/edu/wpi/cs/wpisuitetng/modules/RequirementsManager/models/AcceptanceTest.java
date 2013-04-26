@@ -46,6 +46,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * Instantiates a new acceptance test.
 	 *
 	 * @param title the title
+	 * @param status the status
 	 * @param body the body
 	 */
 	public AcceptanceTest(String title, String status, String body){
@@ -118,7 +119,9 @@ public class AcceptanceTest extends AbstractModel{
 	}
 	
 	/**
-	 * get index of status
+	 * get index of status.
+	 *
+	 * @return the status index
 	 */
 	public int getStatusIndex(){
 		if (this.status.compareTo("Passed") == 0)

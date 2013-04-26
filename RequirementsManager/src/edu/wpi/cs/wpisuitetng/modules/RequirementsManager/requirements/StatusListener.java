@@ -38,6 +38,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 public class StatusListener implements ActionListener{
 
 	RequirementView parent;
+	
+	/**
+	 * Instantiates a new status listener.
+	 *
+	 * @param parent the parent
+	 */
 	public StatusListener(RequirementView parent){
 		this.parent = parent;
 	}

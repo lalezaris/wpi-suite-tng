@@ -31,6 +31,13 @@ public class Controller {
 	boolean gameRunning = true;
 	protected Timer moveTimer;
 	
+	/**
+	 * Instantiates a new controller.
+	 *
+	 * @param panel the panel
+	 * @param snake the snake
+	 * @param game the game
+	 */
 	public Controller(SnakePanel panel, Snake snake, GamePanel game) {
 		this.panel = panel;
 		this.snake = snake;
@@ -70,6 +77,9 @@ public class Controller {
 		sc.getHighScore(m);
 	}
 	
+	/**
+	 * Reset.
+	 */
 	public void reset(){
 		lastSave = true;
 		
@@ -85,6 +95,13 @@ public class Controller {
 		spawnFood(null);
 	}
 	
+	/**
+	 * Gets the rand.
+	 *
+	 * @param min the min
+	 * @param max the max
+	 * @return the rand
+	 */
 	public int getRand(int min, int max){
 		
 		int diff = max-min;
@@ -95,12 +112,22 @@ public class Controller {
 		return answer;
 	}
 	
+	/**
+	 * Eat food.
+	 *
+	 * @param eat the eat
+	 */
 	public void eatFood(Food eat){
 		score += eat.score;
 		game.scoreBody.setText(""+score);
 		spawnFood(eat);
 	}
 	
+	/**
+	 * Spawn food.
+	 *
+	 * @param old the old
+	 */
 	public void spawnFood(Food old){
 		if (old!=null){
 			Food fresh = new Food(new Spot(getRand(2,xMax-1), getRand(2,yMax-1)));
@@ -155,6 +182,11 @@ public class Controller {
 		
 		Snake snake;
 		
+		/**
+		 * Instantiates a new key input.
+		 *
+		 * @param snake the snake
+		 */
 		public KeyInput(Snake snake){
 			this.snake = snake;
 		}
@@ -202,6 +234,13 @@ public class Controller {
 
 		Snake snake;
 		SnakePanel panel;
+		
+		/**
+		 * Instantiates a new move task.
+		 *
+		 * @param snake the snake
+		 * @param panel the panel
+		 */
 		public MoveTask(Snake snake, SnakePanel panel){
 			this.snake = snake;
 			this.panel = panel;

@@ -36,6 +36,12 @@ public class RequirementModel {
 	private RequirementView view;
 	protected boolean dirtyEstimate;
 
+	/**
+	 * Instantiates a new requirement model.
+	 *
+	 * @param requirement the requirement
+	 * @param view the view
+	 */
 	public RequirementModel(Requirement requirement, RequirementView view){
 		this.requirement = requirement;
 		this.uneditedRequirement = requirement;
@@ -45,7 +51,8 @@ public class RequirementModel {
 
 	/**
 	 * Updates the panel.
-	 * @param editMode
+	 *
+	 * @param editMode The mode to use.
 	 */
 	protected void setUpPanel(Mode editMode){
 		RequirementPanel panel = view.getRequirementPanel();
@@ -103,9 +110,10 @@ public class RequirementModel {
 	}
 
 	/**
-	 * Updates the model and the fields in the panel
-	 * @param req
-	 * @param editMode
+	 * Updates the model and the fields in the panel.
+	 *
+	 * @param req the requirement to update
+	 * @param editMode the new mode to use
 	 */
 	public void update(Requirement req, Mode editMode){
 		requirement.setId(req.getId());
@@ -459,18 +467,18 @@ public class RequirementModel {
 
 
 	/**
-	 * Sets requirement
-	 * 
-	 * @param req
+	 * Sets requirement.
+	 *
+	 * @param req the new requirement
 	 */
 	public void setRequirement(Requirement req) {
 		this.requirement = req;
 	}
 
 	/**
-	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate
-	 * 
-	 * @param estimateEffort
+	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate.
+	 *
+	 * @param estimateEffort the new txt estimate of unedited requirement
 	 */
 	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
 		this.uneditedRequirement.setEstimateEffort(estimateEffort);
@@ -478,8 +486,7 @@ public class RequirementModel {
 
 
 	/**
-	 * Sets dirty estimate to true
-	 * 
+	 * Sets dirty estimate to true.
 	 */
 	public void setEstimateDirty() {
 		dirtyEstimate = true;

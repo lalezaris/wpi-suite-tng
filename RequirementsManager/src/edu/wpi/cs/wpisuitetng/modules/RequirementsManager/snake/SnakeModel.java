@@ -22,6 +22,12 @@ public class SnakeModel extends AbstractModel{
 	int score, id;
 	String name;
 	
+	/**
+	 * Instantiates a new snake model.
+	 *
+	 * @param score the score
+	 * @param name the name
+	 */
 	public SnakeModel(int score, String name){
 		this.score = score;
 		this.name = name;
@@ -102,11 +108,23 @@ public class SnakeModel extends AbstractModel{
 		this.id = i;
 	}
 
+	/**
+	 * From json.
+	 *
+	 * @param json the json
+	 * @return the snake model
+	 */
 	public static SnakeModel fromJSON(String json) {
 		GsonBuilder builder = new GsonBuilder();
 		addGsonDependencies(builder);
 		return builder.create().fromJson(json, SnakeModel.class);
 	}
+	
+	/**
+	 * Adds the gson dependencies.
+	 *
+	 * @param builder the builder
+	 */
 	public static void addGsonDependencies(GsonBuilder builder) {
 	}
 	

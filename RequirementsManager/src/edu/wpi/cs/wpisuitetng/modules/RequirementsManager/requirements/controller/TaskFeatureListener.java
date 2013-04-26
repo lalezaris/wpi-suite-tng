@@ -27,10 +27,18 @@ public class TaskFeatureListener implements ActionListener{
 
 	TasksView view;
 	
+	/**
+	 * Instantiates a new task feature listener.
+	 *
+	 * @param view the parent view
+	 */
 	public TaskFeatureListener(TasksView view){
 		this.view = view;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Hide Done or Accepted

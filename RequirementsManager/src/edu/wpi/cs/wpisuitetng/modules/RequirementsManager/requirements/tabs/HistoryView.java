@@ -80,6 +80,9 @@ public class HistoryView extends JPanel {
 		//redisplay();
 	}
 
+	/**
+	 * Redisplays the history view.
+	 */
 	protected void redisplay(){
 
 		listModel = new DefaultListModel<HistoricalChange>();

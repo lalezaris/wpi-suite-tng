@@ -52,6 +52,11 @@ public class UserPermissionStoreTest {
 	String mockSsid;
 	User admin, user;
 	
+	/**
+	 * Inits the test
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Before
 	public void init() throws WPISuiteException{
 		
@@ -90,12 +95,20 @@ public class UserPermissionStoreTest {
 
 	}
 	
+	/**
+	 * Tests creating a permissions store.
+	 */
 	@Test
 	public void createAPermissionsStore() {
 		assertNotNull(new RequirementStore(db));
 	}
 
 	
+	/**
+	 * Test make and get entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void testMakeandGetEntity() throws WPISuiteException {
 
@@ -117,6 +130,11 @@ public class UserPermissionStoreTest {
 		assertEquals("username1", up[0].getUsername());
 	}
 	
+	/**
+	 * Tests getting all user permissions.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void getAllTest() throws WPISuiteException {
 			
@@ -137,6 +155,11 @@ public class UserPermissionStoreTest {
 	}
 	
 	
+	/**
+	 * Tests deleting an entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteEntity() throws WPISuiteException{
 		
@@ -152,6 +175,11 @@ public class UserPermissionStoreTest {
 		
 	}
 	
+	/**
+	 * Tests deleting all.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteAll() throws WPISuiteException {
 		
@@ -189,6 +217,11 @@ public class UserPermissionStoreTest {
 	}
 	
 	
+	/**
+	 * Updates the user permission store.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void update() throws WPISuiteException{
 		UserPermission here = new UserPermission();

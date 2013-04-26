@@ -38,6 +38,9 @@ public class IterationPanelTest {
 	Iteration iteration1, iteration2, iteration3, iteration4, iteration5; 
 	Iteration[] iterationsArray;
 		
+	/**
+	 * Setup.
+	 */
 	@Before 
 	public void setup(){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

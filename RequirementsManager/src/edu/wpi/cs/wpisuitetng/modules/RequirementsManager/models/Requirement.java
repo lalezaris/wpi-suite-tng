@@ -157,7 +157,7 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Instantiates a fake requirement. ONLY to be used for tree view.
 	 *
-	 * @param Requirement r the Requirement to be forked from
+	 * @param r the Requirement to be forked from
 	 */
 	public Requirement(Requirement r){
 		this();
@@ -211,18 +211,17 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Add an existing Task to this Requirement.
 	 *
-	 * @param t the Task
+	 * @param t the task to add
 	 */
 	public void addTask(Task t){
 		tasks.add(t);
 	}
 	
 	/**
-	 * Gets the Tasks.
+	 * Updates the tasks in this requirement.
+	 * Replaces the current Task list with the given one
 	 *
-	 * replaces the current Task list with the given one
-	 * 
-	 * @param t the array list of Tasks
+	 * @param t the updated task list
 	 */
 	public void updateTasks(ArrayList<Task> t){
 		this.tasks = t;
@@ -254,7 +253,9 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Removes a child requirement ID from the list of children
+	 * Removes a child requirement ID from the list of children.
+	 *
+	 * @param id the id of the child requirement to remove
 	 */
 	public void removeChildRequirement(int id) {
 		for (int num = 0; num < childIDs.size(); num++) {

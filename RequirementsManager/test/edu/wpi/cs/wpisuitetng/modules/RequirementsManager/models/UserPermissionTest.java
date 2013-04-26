@@ -31,6 +31,9 @@ public class UserPermissionTest {
 
 	UserPermission uPerm1, uPerm2, uPerm3;
 	
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp(){
 		uPerm1 = new UserPermission("username1", RMPermissionsLevel.NONE);
@@ -38,6 +41,9 @@ public class UserPermissionTest {
 		uPerm3 = new UserPermission("username3", RMPermissionsLevel.ADMIN);
 	}
 
+	/**
+	 * Test constructor.
+	 */
 	@Test
 	public void testConstructor() {
 		assertEquals(uPerm1.getUsername(),"username1");
@@ -48,6 +54,9 @@ public class UserPermissionTest {
 		assertEquals(uPerm3.getPermissions(),RMPermissionsLevel.ADMIN);
 	}
 	
+	/**
+	 * Test change permissions level.
+	 */
 	@Test
 	public void testChangePermissionsLevel(){
 		uPerm1.setPermissions(RMPermissionsLevel.UPDATE);

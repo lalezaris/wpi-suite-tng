@@ -76,6 +76,8 @@ public class RetrieveAllIterationsControllerTree {
 	/**
 	 * This method is called by the {@link RetrieveAllIterationsRequestObserverTree} when an
 	 * error occurs retrieving the Iterations from the server.
+	 *
+	 * @param error the error
 	 */
 	public void errorReceivingData(String error) { 
 	}

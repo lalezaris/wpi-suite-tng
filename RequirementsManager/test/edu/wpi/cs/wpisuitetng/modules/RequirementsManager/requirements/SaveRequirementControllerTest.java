@@ -31,6 +31,9 @@ public class SaveRequirementControllerTest {
 	SaveRequirementController controller;
 	RequirementView view;
 	
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp(){
 		Network.initNetwork(new MockNetwork());
@@ -40,11 +43,17 @@ public class SaveRequirementControllerTest {
 		controller = new SaveRequirementController(view);
 	}
 	
+	/**
+	 * Fix jenkins.
+	 */
 	@Test
 	public void fixJenkins(){
 		assertEquals("Jenkins", "Jenkins");
 	}
 
+	/**
+	 * Constructor sets view field correctly.
+	 */
 	@Test
 	public void constructorSetsViewFieldCorrectly() {
 		assertEquals(view, controller.getView());

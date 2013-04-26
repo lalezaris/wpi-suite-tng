@@ -245,6 +245,12 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).addRow(req);
 	}
 
+	/**
+	 * Update requirement.
+	 *
+	 * @param row the row
+	 * @param req the req
+	 */
 	public void updateRequirement(int row, Requirement req){
 		((RequirementTableModel)table.getModel()).updateRow(row, req);
 		
@@ -276,6 +282,11 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	
+	/**
+	 * Filter requirements.
+	 *
+	 * @param requirements the requirements
+	 */
 	public void filterRequirements(Requirement[] requirements){
 		this.filteredContent = requirements;
 		clearList();
@@ -435,20 +446,4 @@ public class RequirementListPanel extends JPanel{
 	public JButton getUpdateButton() {
 		return updateButton;
 	}
-
-	public void setUpFilter() {
-	//	filterController.sendServerRequests();
-		
-	}
-	
-
-	public void setBackgroundRowColumn(int row, int col){
-//		table.getT(row, col).setBackground(Color.YELLOW);
-//		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
-	}
-	
-
-	
-	
-
 }

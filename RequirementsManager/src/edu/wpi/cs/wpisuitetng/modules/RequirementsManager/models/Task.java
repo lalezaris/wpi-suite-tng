@@ -39,6 +39,16 @@ public class Task extends AbstractModel{
 
 	//make a dummy task for db4o
 	public Task(){}
+	
+	/**
+	 * Instantiates a new task.
+	 *
+	 * @param name the name
+	 * @param description the description
+	 * @param assigneeName the assignee name
+	 * @param effort the effort
+	 * @param id the id
+	 */
 	public Task(String name, String description, String assigneeName, int effort, int id){
 		this.id = id;
 		this.name = name;

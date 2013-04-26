@@ -73,6 +73,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	public static final String DESCENDING_SUFFIX = "\u2191";//the character displayed at the end of a header
 	//if the column has been sorted in descending order(up arrow)
 
+	/**
+	 * Instantiates a new requirement table model.
+	 *
+	 * @param panel the panel
+	 */
 	public RequirementTableModel(RequirementListPanel panel) {
 		this.panel = panel;
 		this.isChange = false;
@@ -237,6 +242,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		unSavedRequirements.add(r.clone());
 	}
 
+	/**
+	 * Update row.
+	 *
+	 * @param row the new row
+	 * @param req the requirement to update
+	 */
 	public void updateRow(int row, Requirement req){
 		System.out.println("UPDATING ROW " + row);
 		String ass = req.getAssignee().toString();
@@ -569,6 +580,13 @@ public class RequirementTableModel extends AbstractTableModel {
 		private String message;
 		
 		
+		
+		/**
+		 * Instantiates a new cell location.
+		 *
+		 * @param row the row
+		 * @param col the col
+		 */
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
@@ -707,8 +725,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.panel.repaint();
 	
 	}
-	
-	
+		
 	/**
 	 * Display a reckless disregard for colors while clearing colors. Just Get rid of ALL the colors!
 	 * 
@@ -835,12 +852,14 @@ public class RequirementTableModel extends AbstractTableModel {
 		isChange = value;
 	}
 
-	/** Sorts the table in ascending order bases on the column given. If it was already 
+	/**
+	 * Sorts the table in ascending order bases on the column given. If it was already
 	 * sorted in ascending order, it will be sorted in descending order (and vice versa).
 	 * It will also append a suffix to the header of the column being sorted indicating
 	 * the order of the sort.
-	 * 
-	 *  @param col the column by which the table is sorted.
+	 *
+	 * @param col the column by which the table is sorted.
+	 * @param cm the TableColumnModel to use
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void sortTable(final int col, TableColumnModel cm){
@@ -849,7 +868,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		//IF changes, disable sorts
-		if (panel.getTable().isEditing())
+		if (panel != null && panel.getTable().isEditing())
 			return;
 
 		String currentHeader = cm.getColumn(col).getHeaderValue().toString();
@@ -896,7 +915,8 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 		}
 		
-		this.panel.repaint();
+		if(panel != null)
+			panel.repaint();
 		
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){

@@ -42,6 +42,9 @@ public class ModelMapperTest {
 	Requirement a;
 	Requirement b;
 	
+	/**
+	 * Sets up the model mapper test.
+	 */
 	@Before
 	public void setUp() {
 		mapper = new ModelMapper();
@@ -50,6 +53,9 @@ public class ModelMapperTest {
 		b = new Requirement(2, "b", "b", null);
 	}
 
+	/**
+	 * Test requirement mapping.
+	 */
 	@Test
 	public void testRequirementMapping() {
 		mapper.map(a, b);
@@ -59,12 +65,18 @@ public class ModelMapperTest {
 		assertSame(user.getUsername(), b.getCreator());
 	}
 	
+	/**
+	 * Test broken mapping.
+	 */
 	@Test(expected=RuntimeException.class)
 	public void testBrokenMapping() {
 		mapper.getBlacklist().remove("permission");
 		mapper.map(a, b);
 	}
 	
+	/**
+	 * Test type mismatch.
+	 */
 	@Test
 	public void testTypeMismatch() {
 		mapper.map(user, a); // no shared fields, nothing happens, no exception
@@ -74,6 +86,9 @@ public class ModelMapperTest {
 		List<String> receivedNames = new ArrayList<String>();
 	}
 	
+	/**
+	 * Test callback.
+	 */
 	@Test
 	public void testCallback() {
 		TestMapCallback callback = new TestMapCallback() {

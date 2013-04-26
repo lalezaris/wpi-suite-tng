@@ -34,13 +34,12 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+// TODO: Auto-generated Javadoc
 /**
- * Panel for filters
+ * Panel for filters.
  *
  * @author Chris Hanna
- *
  * @version Apr 14, 2013
- *
  */
 @SuppressWarnings("serial")
 public class FilterPanel extends JPanel{
@@ -57,9 +56,11 @@ public class FilterPanel extends JPanel{
 	private final JLabel filterDesc;
 	private int ruleCount = 0, ruleInc = 0;
 	private JLabel dingus = new JLabel(" ");
+	
 	/**
-	 * Create a filter panel and add all the components
-	 * 
+	 * Create a filter panel and add all the components.
+	 *
+	 * @param view the parent filter controller view
 	 */
 
 	@SuppressWarnings("unused")
@@ -267,10 +268,20 @@ public class FilterPanel extends JPanel{
 
 	}
 
+	/**
+	 * Sets the width.
+	 *
+	 * @param width the new width
+	 */
 	public void setWidth(int width){
 		scrollPane.setPreferredSize(new Dimension(width+40, 150));
 	}
 
+	/**
+	 * Removes the fields.
+	 *
+	 * @param remove the remove
+	 */
 	public void removeFields(String[] remove){
 		removeFields = remove;
 	}
@@ -324,6 +335,9 @@ public class FilterPanel extends JPanel{
 		showSnakeHuh();
 	}
 
+	/**
+	 * Show snake huh.
+	 */
 	private void showSnakeHuh(){
 		boolean show = false;
 		if (this.getRules().size() == 1)
@@ -334,8 +348,7 @@ public class FilterPanel extends JPanel{
 	}
 	
 	/**
-	 * Update the table with the rules
-	 * 
+	 * Update the table with the rules.
 	 */
 	public void triggerTableUpdate(){
 		setFilterDescText();
@@ -344,8 +357,7 @@ public class FilterPanel extends JPanel{
 	}
 	
 	/**
-	 * update the label to tell the user how many filters are enabled
-	 * 
+	 * update the label to tell the user how many filters are enabled.
 	 */
 	private void setFilterDescText(){
 		int ruleCount = 0;
@@ -377,8 +389,7 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Of all the rule panels in the filter panel, delete the ones that are selected
-	 * 
+	 * Of all the rule panels in the filter panel, delete the ones that are selected.
 	 */
 	public void deleteSelected(){
 		
@@ -410,8 +421,7 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Of all the rule panels in the filter panel, enable the ones that are selected
-	 * 
+	 * Of all the rule panels in the filter panel, enable the ones that are selected.
 	 */
 	public void enableSelected(){
 		for (int i = 0 ; i < rules.size(); i ++)
@@ -424,7 +434,8 @@ public class FilterPanel extends JPanel{
 
 
 	/**
-	 * Gets the removeFields
+	 * Gets the removeFields.
+	 *
 	 * @return the removeFields
 	 */
 	public String[] getRemoveFields() {
@@ -432,8 +443,7 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Of all the rule panels in the filter panel, disable the ones that are selected
-	 * 
+	 * Of all the rule panels in the filter panel, disable the ones that are selected.
 	 */
 	public void disableSelected(){
 		for (int i = 0 ; i < rules.size() ; i ++)
@@ -445,8 +455,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Sets iterations to filter
-	 * 
+	 * Sets iterations to filter.
+	 *
 	 * @param iterations the users to filter
 	 */
 	public void setIterations(Iteration[] iterations){
@@ -456,8 +466,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Sets users to filter
-	 * 
+	 * Sets users to filter.
+	 *
 	 * @param users the users to filter
 	 */
 	public void setUsers(User[] users){
@@ -467,7 +477,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the applyButton
+	 * Gets the applyButton.
+	 *
 	 * @return the applyButton
 	 */
 	public JButton getApplyButton() {
@@ -477,7 +488,8 @@ public class FilterPanel extends JPanel{
 
 
 	/**
-	 * Gets the removeButton
+	 * Gets the removeButton.
+	 *
 	 * @return the removeButton
 	 */
 	public JButton getRemoveButton() {
@@ -485,7 +497,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the addButton
+	 * Gets the addButton.
+	 *
 	 * @return the addButton
 	 */
 	public JButton getAddButton() {
@@ -493,7 +506,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the showButton
+	 * Gets the showButton.
+	 *
 	 * @return the showButton
 	 */
 	public JButton getShowButton() {
@@ -501,7 +515,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the enableButton
+	 * Gets the enableButton.
+	 *
 	 * @return the enableButton
 	 */
 	public JButton getEnableButton() {
@@ -509,7 +524,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the disableButton
+	 * Gets the disableButton.
+	 *
 	 * @return the disableButton
 	 */
 	public JButton getDisableButton() {
@@ -517,7 +533,8 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the rule
+	 * Gets the rule.
+	 *
 	 * @return the rule
 	 */
 	public List<RulePanel> getRules() {
@@ -525,13 +542,19 @@ public class FilterPanel extends JPanel{
 	}
 
 	/**
-	 * Gets the view
+	 * Gets the view.
+	 *
 	 * @return the view
 	 */
 	public FilterController getView() {
 		return view;
 	}
 
+	/**
+	 * Gets the snake button.
+	 *
+	 * @return the snake button
+	 */
 	public AbstractButton getSnakeButton() {
 		return snakeButton;
 	}

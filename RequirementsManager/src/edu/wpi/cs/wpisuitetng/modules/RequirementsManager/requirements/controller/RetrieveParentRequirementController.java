@@ -30,10 +30,18 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class RetrieveParentRequirementController {
 	RequirementView view;
 
+	/**
+	 * Instantiates a new retrieve parent requirement controller.
+	 *
+	 * @param view the view
+	 */
 	public RetrieveParentRequirementController(RequirementView view){
 		this.view = view;
 	}
 
+	/**
+	 * Retrieve parent.
+	 */
 	public void retrieveParent() {
 		final RequestObserver requestObserver = new RetrieveParentRequirementObserver(view);
 		Request request;

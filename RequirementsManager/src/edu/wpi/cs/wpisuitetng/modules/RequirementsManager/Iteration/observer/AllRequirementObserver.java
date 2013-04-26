@@ -39,7 +39,7 @@ public class AllRequirementObserver implements RequestObserver{
 	 * which was previously requested using an asynchronous
 	 * interface becomes available.
 	 *
-	 * @param panel the panel
+	 * @param panel the parent panel
 	 */
 	public AllRequirementObserver(IterationPanel panel){
 		this.panel = panel;

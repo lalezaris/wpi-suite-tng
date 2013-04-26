@@ -33,7 +33,12 @@ public class SaveTaskListener implements ActionListener{
 	int id;
 	TasksView view;
 	
-	//Constructor
+	/**
+	 * Instantiates a new save task listener.
+	 *
+	 * @param id the id
+	 * @param view the view
+	 */
 	public SaveTaskListener(int id, TasksView view){
 		this.id = id;
 		this.view = view;
@@ -62,17 +67,6 @@ public class SaveTaskListener implements ActionListener{
 		//Redisplay stuff so it shows up
 		if(changeMade){//Only refresh if something was changed. Otherwise, it would kill the fields.
 			view.redisplay();
-				Border compound = BorderFactory.createCompoundBorder(
-						BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
-				Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
-				//Make it yellow
-				compound = BorderFactory.createCompoundBorder(
-						yellowline, compound);
-				//Add a 3rd line
-				compound = BorderFactory.createCompoundBorder(
-						yellowline, compound);
-				//Draw the border on the panel that was edited.
-				view.getTaskPanelArray().get(position).setBorder(compound);
 		}
 	}
 	
@@ -112,11 +106,12 @@ public class SaveTaskListener implements ActionListener{
 		updated.setId(id);
 		updated.setName(view.getTaskPanelArray().get(position).getTxtName().getText());
 		updated.setDescription(view.getTaskPanelArray().get(position).getTxtDescription().getText());
-		updated.setAssigneeName(view.getTaskPanelArray().get(position).getTxtAssignee().getText());
+		updated.setAssigneeName(view.getTaskPanelArray().get(position).getCmbAssignee().getSelectedItem().toString());
 		String tempEffort = view.getTaskPanelArray().get(position).getTxtEffort().getText();
 		if(!tempEffort.equals(""))
 			updated.setEffort(Integer.parseInt(tempEffort));
 		updated.setStatus((TaskStatus)view.getTaskPanelArray().get(position).getCmbStatus().getSelectedItem());	
+
 		return updated;
 	}
 	

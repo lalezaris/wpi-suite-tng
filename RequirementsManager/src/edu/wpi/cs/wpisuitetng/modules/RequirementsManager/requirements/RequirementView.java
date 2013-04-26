@@ -472,10 +472,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		for (int i = 0; i < knownIterations.length ;i++){
 			if (parentRequirement != null) {
-				if ((knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 &&
-						knownIterations[i].getEndDate().compareTo(new Date()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
-					knownIts.add(knownIterations[i]);
-				}
+				if (parentRequirement.getIterationId() == Iteration.getBacklog().getId()) {
+					if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
+						knownIts.add(knownIterations[i]);
+					}
+				} else {
+					if ((knownIterations[i].getEndDate().compareTo(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate()) <= 0 &&
+							knownIterations[i].getEndDate().compareTo(new Date()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
+						knownIts.add(knownIterations[i]);
+					}
+				} 
 			} else {
 				if (knownIterations[i].getEndDate().compareTo(new Date()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
 					knownIts.add(knownIterations[i]);
@@ -486,12 +492,13 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		if (!(knownIts.contains(Iteration.getBacklog()))) {
 			knownIts.add(Iteration.getBacklog());
 		}
-		knownIterations = new Iteration[knownIts.size()];
-		for (int i = 0; i < knownIterations.length; i++){
-			knownIterations[i] = knownIts.get(i);
+		
+		Iteration[] foundIterations = new Iteration[knownIts.size()];
+		for (int i = 0; i < foundIterations.length; i++){
+			foundIterations[i] = knownIts.get(i);
 		}
 
-		mainPanel.setIterations(knownIterations);
+		mainPanel.setIterations(foundIterations);
 
 		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
 

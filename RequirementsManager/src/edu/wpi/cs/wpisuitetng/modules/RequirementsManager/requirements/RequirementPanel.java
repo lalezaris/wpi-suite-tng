@@ -826,6 +826,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueFromString((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
+		requirement.setTotalEstimateEffort(getValue(txtTotalEstimate));
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(parent.getReqModel().getRequirement().getCreationDate());
 

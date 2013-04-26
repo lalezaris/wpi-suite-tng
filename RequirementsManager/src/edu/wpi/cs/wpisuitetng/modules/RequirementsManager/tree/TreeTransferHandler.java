@@ -202,9 +202,9 @@ class TreeTransferHandler extends TransferHandler {
 				controller.save();
 				// Save the changed parent
 				Requirement req2 = (Requirement) destObject;
-				int estimated = req2.getEstimateEffort()
-						+ ((Requirement) req).getEstimateEffort();
-				req2.setEstimateEffort(estimated);
+//				int estimated = req2.getEstimateEffort()
+//						+ ((Requirement) req).getEstimateEffort();
+//				req2.setEstimateEffort(estimated);
 				req2.addChildRequirement(req.getId());
 				controller = new SaveRequirementController(req2);
 				controller.save();
@@ -237,9 +237,9 @@ class TreeTransferHandler extends TransferHandler {
 					// Save the changed parent
 					Requirement req2 = (Requirement) destObject;
 					req2.removeChildRequirement(req.getId());
-					int estimated = req2.getEstimateEffort()
-							- ((Requirement) req).getEstimateEffort();
-					req2.setEstimateEffort(estimated);
+//					int estimated = req2.getEstimateEffort()
+//							- ((Requirement) req).getEstimateEffort();
+//					req2.setEstimateEffort(estimated);
 					controller = new SaveRequirementController(req2);
 					controller.save();
 				}

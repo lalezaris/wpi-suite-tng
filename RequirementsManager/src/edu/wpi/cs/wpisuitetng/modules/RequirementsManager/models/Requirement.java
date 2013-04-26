@@ -785,9 +785,9 @@ public class Requirement extends AbstractModel{
 	 * @return the totalEstimateEffort
 	 */
 	public int getTotalEstimateEffort() {
-		if(totalEstimateEffort != 0)
+		//if(totalEstimateEffort != 0)
 			return totalEstimateEffort;
-		else return getEstimateEffort();
+	//	else return getEstimateEffort();
 	}
 
 	/**

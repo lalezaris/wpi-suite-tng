@@ -15,6 +15,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
@@ -81,7 +83,7 @@ public class TreeView extends JPanel {
 				refreshTree();
 			}
 		});
-		this.add(refreshButton, BorderLayout.SOUTH);
+		//		this.add(refreshButton, BorderLayout.SOUTH);
 
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig()
 				.getProjectName());
@@ -106,7 +108,7 @@ public class TreeView extends JPanel {
 								+ req.getIteration().getIterationName();
 					}  else	if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
 						return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
-					+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+								+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
 					} else
 						return "Requirement " + req.getTitle();
 				}
@@ -150,21 +152,47 @@ public class TreeView extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
 
-		// Initiate the status label
-//		label = new JLabel("", JLabel.CENTER);
-//		this.add(label, BorderLayout.PAGE_END);
+		setUpBottom();
 	}
-	
-	/** Sets the text displayed at the bottom of TreeView. */
-    void setLabel(String newText) {
-        label.setText(newText);
-    }
-    
-    /** Clear the text displayed at the bottom of TreeView. */
-    void clearLabel() {
-        label.setText("");
-    }
 
+	/** Sets the text displayed at the bottom of TreeView. */
+	void setLabel(String newText) {
+		label.setText(newText);
+	}
+
+	/** Clear the text displayed at the bottom of TreeView. */
+	void clearLabel() {
+		label.setText("");
+	}
+
+	/**
+	 * Sets up the bottom of TreeView.
+	 */
+	void setUpBottom() {
+		// Create new constraint variables
+		GridBagConstraints c = new GridBagConstraints();
+
+		// Construct all of the components for the form
+		JPanel panel = new JPanel();
+
+		// Initiate the status label
+		label = new JLabel("Test", JLabel.CENTER);
+
+		c.anchor = GridBagConstraints.LINE_START; 
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0.5;
+		c.weighty = 0.5;
+		c.gridwidth = 1;
+		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
+		panel.add(label, c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		panel.add(refreshButton, c);
+
+		this.add(panel, BorderLayout.SOUTH);
+	}
 	/**
 	 * Expand the entire tree.
 	 */
@@ -325,7 +353,7 @@ public class TreeView extends JPanel {
 	public void refreshTree() {
 		treeModel.refreshTree();
 	}
-	
+
 	public Requirement lookUpRequirement(int id) {
 		Requirement[] reqs = treeModel.getRequirements(); 
 		for (int i = 0; i < reqs.length; i++) {

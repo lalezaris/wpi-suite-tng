@@ -129,6 +129,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	
 	protected JLabel lblStartDate;
 	protected JLabel lblEndDate;
+	protected JLabel lblEstimate;
 
 	/**
 	 * Construct a IterationPanel for creating or editing a given Iteration.
@@ -183,7 +184,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		JLabel lblIterationNumber = new JLabel("", LABEL_ALIGNMENT);
 		lblStartDate = new JLabel("Start Date:", LABEL_ALIGNMENT);
 		lblEndDate = new JLabel("End Date:", LABEL_ALIGNMENT);
-		JLabel lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
 
 		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
 		//Use a GridGagLayout manager
@@ -794,6 +795,13 @@ public class IterationPanel extends JPanel implements FocusListener {
 	 */
 	public JLabel getLblEndDate() {
 		return lblEndDate;
+	}
+
+	/**
+	 * @return the lblEstimate
+	 */
+	public JLabel getLblEstimate() {
+		return lblEstimate;
 	}
 	
 	

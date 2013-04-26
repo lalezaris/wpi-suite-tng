@@ -131,9 +131,7 @@ protected RequirementView parent;
 	 * @return scroll pane
 	 */
 	private JScrollPane createTasksPanels() {
-		//create constraint variables
-		GridBagConstraints cTask = new GridBagConstraints();
-		GridBagConstraints cScrolling = new GridBagConstraints();
+		
 		//construct panels
 		overallPanel = new JPanel();
 		
@@ -142,6 +140,9 @@ protected RequirementView parent;
 		
 		//Go through for all tasks in the list, + 1 for new tasks.
 		for(int i = 0; i < list.size() + 1; i ++){
+			//create constraint variables
+			GridBagConstraints cTask = new GridBagConstraints();
+			
 			//Constraints
 			cTask.anchor = GridBagConstraints.LINE_START; 
 			cTask.gridx = 0;
@@ -161,29 +162,7 @@ protected RequirementView parent;
 				tempTaskPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
 				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
 				
-				//If something was changed, put the border on
-				if(list.get(i).getName().equals(originalList.get(i).getName()) &&
-						list.get(i).getDescription().equals(originalList.get(i).getDescription()) &&
-						list.get(i).getAssigneeName().equals(originalList.get(i).getAssigneeName()) &&
-						list.get(i).getEffort() == originalList.get(i).getEffort() &&
-						list.get(i).getStatus().equals(originalList.get(i).getStatus())){
-					//Remove the border
-					tempTaskPanel.setBorder(null);
-				}
-				//Set the border to show it is different.
-				else{
-					Border compound = BorderFactory.createCompoundBorder(
-							BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
-					Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
-					//Make it yellow
-					compound = BorderFactory.createCompoundBorder(
-							yellowline, compound);
-					//Add a 3rd line
-					compound = BorderFactory.createCompoundBorder(
-							yellowline, compound);
-					//Draw the border on the panel that was edited.
-					tempTaskPanel.setBorder(compound);
-				}
+				placeBorder(i);
 			}
 			else{
 				if(list.size() > 0)
@@ -246,15 +225,6 @@ protected RequirementView parent;
 		//put overall into a scrollpane
 		listScrollPane = new JScrollPane(overallPanel);
 		
-		cScrolling.anchor = GridBagConstraints.LINE_START;
-		cScrolling.gridx = 0;
-		cScrolling.gridy = 0;
-		cScrolling.weightx = 0.5;
-		cScrolling.weighty = 0.5;
-		cScrolling.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		
-		//this.add(listScrollPane, cScrolling);
-		
 		return listScrollPane;
 	}
 	
@@ -312,6 +282,39 @@ protected RequirementView parent;
 		hideBox.addActionListener(new TaskFeatureListener(this));
 				
 		return featurePanel;
+	}
+	
+	
+	/**Place the border if this is edited.
+	 * @param position The task to add it to.
+	 */
+	public void placeBorder(int position){
+		
+		//If something was changed, put the border on
+		if(position < originalList.size() && 
+				list.get(position).getName().equals(originalList.get(position).getName()) &&
+				list.get(position).getDescription().equals(originalList.get(position).getDescription()) &&
+				list.get(position).getAssigneeName().equals(originalList.get(position).getAssigneeName()) &&
+				list.get(position).getEffort() == originalList.get(position).getEffort() &&
+				list.get(position).getStatus().equals(originalList.get(position).getStatus())){
+				//Remove the border
+				tempTaskPanel.setBorder(null);
+		}
+		//Set the border to show it is different.
+		else{
+			Border compound = BorderFactory.createCompoundBorder(
+					BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
+			Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
+			//Make it yellow
+			compound = BorderFactory.createCompoundBorder(
+					yellowline, compound);
+			//Add a 3rd line
+			compound = BorderFactory.createCompoundBorder(
+					yellowline, compound);
+			//Draw the border on the panel that was edited.
+			tempTaskPanel.setBorder(compound);
+		}
+		
 	}
 	
 	/**Add a task from the View.

@@ -66,15 +66,19 @@ protected RequirementView parent;
 
 	private ArrayList<TasksPanel> taskPanelArray;
 	private TasksPanel newTaskPanel;
+	private JPanel tempPanel;
 	private JPanel featurePanel;
 	private JPanel overallPanel;//One panel to hold them all.
 
 	private JScrollPane listScrollPane;
+	private JScrollPane featScrollPane;
+	
 	private JSplitPane splitPane;
 	private TasksPanel tempTaskPanel;
 	
 	private GridBagLayout layoutTasks;
 	private GridBagLayout layoutDisplay;
+	private GridBagLayout layoutDisplayTwo;
 	
 	private JTextField containsField;
 	private JCheckBox hideBox;
@@ -122,10 +126,10 @@ protected RequirementView parent;
 
 		//Make the big two panels.
 		listScrollPane = createTasksPanels();
-		featurePanel = displayFeatures();
+		featScrollPane = displayFeatures();
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				featurePanel, overallPanel);
+				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
@@ -137,6 +141,9 @@ protected RequirementView parent;
 		
 		//construct panels
 		overallPanel = new JPanel();
+		
+		layoutTasks = new GridBagLayout();
+		overallPanel.setLayout(layoutTasks);
 		
 		//Clear the array so you can refill it.
 		taskPanelArray = new ArrayList<TasksPanel>();
@@ -212,8 +219,6 @@ protected RequirementView parent;
 			
 			
 			if(canDisplay){
-				layoutTasks = new GridBagLayout();
-				overallPanel.setLayout(layoutTasks);
 				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
 			}
 			taskPanelArray.add(tempTaskPanel);
@@ -229,15 +234,19 @@ protected RequirementView parent;
 	 * @return 
 	 * 
 	 */
-	private JPanel displayFeatures(){
+	private JScrollPane displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
+		GridBagConstraints cTemp = new GridBagConstraints();
 		
 		//panels
 		featurePanel = new JPanel();
+		tempPanel = new JPanel();
 		
 		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
+		containsField.setMinimumSize(getPreferredSize());
+		containsField.setMaximumSize(getPreferredSize());
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 		
 		//Set boxes
@@ -248,31 +257,31 @@ protected RequirementView parent;
 		
 		//individual panel -------------------
 		layoutDisplay = new GridBagLayout();
-		featurePanel.setLayout(layoutDisplay);
+		tempPanel.setLayout(layoutDisplay);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 0;
-		cFeat.gridy = 0;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(containsLabel, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 0;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		tempPanel.add(containsLabel, cTemp);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 1;
-		cFeat.gridy = 0;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(containsField, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 1;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(0,10,5,0); //top,left,bottom,right
+		tempPanel.add(containsField, cTemp);
 		
-		cFeat.anchor = GridBagConstraints.LINE_START; 
-		cFeat.gridx = 0;
-		cFeat.gridy = 1;
-		cFeat.weightx = 0.5;
-		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,10,5,0); //top,left,bottom,right
-		featurePanel.add(hideBox, cFeat);
+		cTemp.anchor = GridBagConstraints.LINE_START; 
+		cTemp.gridx = 0;
+		cTemp.gridy = 2;
+		cTemp.weightx = 0.5;
+		cTemp.weighty = 0.5;
+		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		tempPanel.add(hideBox, cTemp);
 		
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
@@ -280,14 +289,23 @@ protected RequirementView parent;
 				
 		
 		//Add the New Task panel (the panel that allows you to make new tasks).
+		layoutDisplayTwo = new GridBagLayout();
+		featurePanel.setLayout(layoutDisplayTwo);
 		
-		GridBagConstraints cTask = new GridBagConstraints();
-		cTask.anchor = GridBagConstraints.LINE_START; 
-		cTask.gridx = 0;
-		cTask.gridy = 2;
-		cTask.weightx = 0.5;
-		cTask.weighty = 0.5;
-		cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cFeat.anchor = GridBagConstraints.LINE_START;
+		cFeat.gridx = 0;
+		cFeat.gridy = 0;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
+		featurePanel.add(tempPanel, cFeat);
+		
+		cFeat.anchor = GridBagConstraints.LINE_START; 
+		cFeat.gridx = 0;
+		cFeat.gridy = 1;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 	
 		newTaskPanel = new TasksPanel(users);
 
@@ -324,9 +342,11 @@ protected RequirementView parent;
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 		
-		featurePanel.add(newTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
+		//newTaskPanel.setMinimumSize(getPreferredSize());
+		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
 		
-		return featurePanel;
+		featScrollPane = new JScrollPane(featurePanel);
+		return featScrollPane;
 	}
 	
 	

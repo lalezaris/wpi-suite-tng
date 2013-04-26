@@ -270,6 +270,16 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.unSavedRequirements.clear();
 	}
 
+	
+	public void cancelChanges(){
+		for (int i = 0 ; i < this.getRowCount(); i ++)
+		{
+			Object[] r = (this.unSavedRequirements.get(i)).clone();
+			this.data.set(i, r);
+		}	
+		this.clearChangeVisualsDisregard();
+	}
+	
 	/**
 	 * Gets row ID.
 	 * 
@@ -639,6 +649,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clearChangeVisualsDisregard(){
 		this.changedCells.clear();
+		this.panel.repaint();
 	}
 	
 	/**

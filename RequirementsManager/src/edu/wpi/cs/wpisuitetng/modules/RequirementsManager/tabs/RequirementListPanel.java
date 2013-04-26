@@ -76,7 +76,7 @@ public class RequirementListPanel extends JPanel{
 	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
 
-	private JButton refreshButton, updateButton, deleteButton;
+	private JButton refreshButton, updateButton, deleteButton, cancelButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
 
@@ -119,8 +119,21 @@ public class RequirementListPanel extends JPanel{
 		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
 		updateLabel = new JLabel();
-
+		
+		cancelButton = new JButton("Cancel");
+		
 		updateButton.setVisible(false);
+		cancelButton.setVisible(false);
+		
+		cancelButton.setAction(new AbstractAction("Cancel"){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("CANCEL");
+				model.cancelChanges();
+			}
+			
+		});
 		
 		
 		GridBagConstraints c = new GridBagConstraints();	
@@ -142,6 +155,7 @@ public class RequirementListPanel extends JPanel{
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(updateButton);
+		buttonPanel.add(cancelButton);
 		buttonPanel.add(updateLabel);
 
 		c.anchor = GridBagConstraints.LINE_START; 
@@ -300,6 +314,7 @@ public class RequirementListPanel extends JPanel{
 	public void setButtonsForSaving(){
 		this.updateButton.setEnabled(false);
 		this.refreshButton.setEnabled(false);
+		this.cancelButton.setEnabled(false);
 	}
 	
 	/**
@@ -309,8 +324,10 @@ public class RequirementListPanel extends JPanel{
 	public void setButtonsForChanges(){
 		this.updateButton.setEnabled(true);
 		this.refreshButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
 		this.refreshButton.setVisible(true);
 		this.updateButton.setVisible(true);
+		this.cancelButton.setVisible(true);
 	}
 	
 	/**
@@ -319,9 +336,11 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public void setButtonsForNoChanges(){
 		this.updateButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
 		this.refreshButton.setEnabled(true);
 		this.refreshButton.setVisible(true);
 		this.updateButton.setVisible(false);
+		this.cancelButton.setVisible(false);
 	}
 	
 	/**

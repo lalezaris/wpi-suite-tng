@@ -15,6 +15,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
@@ -28,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -57,7 +61,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
-	JLabel label;
+	JTextArea status;
 
 	private static TreeView instance;
 
@@ -72,16 +76,6 @@ public class TreeView extends JPanel {
 		JLabel titleLabel = new JLabel(
 				"<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
-
-		// Creates refresh button located at the bottom of the screen
-		// TODO eventually get rid of this so it refreshes automatically
-		refreshButton = new JButton("Refresh Tree");
-		refreshButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshTree();
-			}
-		});
-		this.add(refreshButton, BorderLayout.SOUTH);
 
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig()
 				.getProjectName());
@@ -104,9 +98,11 @@ public class TreeView extends JPanel {
 					if (req.checkFake()) {
 						return "Requirement " + req.getTitle() + " is in Iteration " 
 								+ req.getIteration().getIterationName();
-					}  else	if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
+					}  else	if (req.getParentRequirementId() != -1) {
+						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
 						return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
-					+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+								+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+						}
 					} else
 						return "Requirement " + req.getTitle();
 				}
@@ -150,21 +146,51 @@ public class TreeView extends JPanel {
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
 
-		// Initiate the status label
-//		label = new JLabel("", JLabel.CENTER);
-//		this.add(label, BorderLayout.PAGE_END);
+		setUpBottom();
 	}
-	
-	/** Sets the text displayed at the bottom of TreeView. */
-    void setLabel(String newText) {
-        label.setText(newText);
-    }
-    
-    /** Clear the text displayed at the bottom of TreeView. */
-    void clearLabel() {
-        label.setText("");
-    }
 
+	/** Sets the text displayed at the bottom of TreeView. */
+	void setStatus(String newText) {
+		if (!(status.getText() == newText)) {
+			status.setText(newText);
+		}
+	}
+
+	/** Clear the text displayed at the bottom of TreeView. */
+	void clearStatus() {
+		status.setText("");
+	}
+
+	/**
+	 * Sets up the bottom of TreeView.
+	 */
+	void setUpBottom() {
+		// Construct all of the components for the form
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+
+		// Creates the status label
+		status = new JTextArea("");
+		Dimension d = status.getPreferredSize();  
+		status.setPreferredSize(new Dimension(d.width,d.height+30)); 
+		status.setEditable(false);
+		status.setLineWrap(true);
+		status.setWrapStyleWord(true);
+
+		// Creates refresh button located at the bottom of the screen
+		// TODO eventually get rid of this so it refreshes automatically
+		refreshButton = new JButton("Refresh Tree");
+		refreshButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshTree();
+			}
+		});
+
+		panel.add(status, BorderLayout.CENTER);
+		panel.add(refreshButton, BorderLayout.SOUTH);
+
+		this.add(panel, BorderLayout.SOUTH);
+	}
 	/**
 	 * Expand the entire tree.
 	 */
@@ -324,8 +350,9 @@ public class TreeView extends JPanel {
 	 */
 	public void refreshTree() {
 		treeModel.refreshTree();
+		clearStatus();
 	}
-	
+
 	public Requirement lookUpRequirement(int id) {
 		Requirement[] reqs = treeModel.getRequirements(); 
 		for (int i = 0; i < reqs.length; i++) {

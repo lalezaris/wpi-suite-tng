@@ -73,9 +73,6 @@ public class MainTabController {
 				MainTabController.this.onMouseClick(event);
 			}
 		});
-		
-		
-		
 	}
 
 	/**
@@ -159,7 +156,7 @@ public class MainTabController {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 
-	
+
 	/**
 	 * Make the Snake Tab!!!.
 	 *
@@ -182,8 +179,8 @@ public class MainTabController {
 			return tab;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Adds a tab that displays the list of all requirements.
 	 * 
@@ -444,5 +441,18 @@ public class MainTabController {
 			view.requestFocus();
 			return tab;
 		}
+	}
+
+	/**
+	 * Gets the current component.
+	 *
+	 * @return the current component
+	 */
+	public Component getCurrentComponent() {
+		if (this.view.getSelectedComponent() != null) {
+			return this.view.getSelectedComponent();
+		}
+
+		return null;
 	}
 }

@@ -20,7 +20,11 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
 import java.util.HashMap;
+
+import java.util.Date;
+
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -314,6 +318,14 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
+		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
+			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
+				if (col == 3) {
+					return true;
+				} else
+					return false;
+			}
+		}
 		if (requirements.get(row).getStatus().equals(RequirementStatus.COMPLETE) ||
 				requirements.get(row).getStatus().equals(RequirementStatus.INPROGRESS)) {
 			if (col == 5) {
@@ -377,6 +389,10 @@ public class RequirementTableModel extends AbstractTableModel {
 			
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setStatus((RequirementStatus)value);
+			if (((RequirementStatus)value).equals(RequirementStatus.OPEN) &&
+					requirements.get(row).getIteration() != Iteration.getBacklog()) {
+				setValueAt(Iteration.getBacklog(), row, 6);
+			}
 		}
 		if (title.equals("Priority")) {
 			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
@@ -408,6 +424,16 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
+			
+			if (((Iteration)value).equals(Iteration.getBacklog()) &&
+					requirements.get(row).getStatus() != RequirementStatus.OPEN) {
+				setValueAt(RequirementStatus.OPEN, row, 3);
+			}
+			
+			if (((Iteration)value) != Iteration.getBacklog() &&
+					requirements.get(row).getStatus() != RequirementStatus.INPROGRESS) {
+				setValueAt(RequirementStatus.INPROGRESS, row, 3);
+			}
 		}
 
 		

@@ -15,10 +15,12 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -242,6 +244,8 @@ public class TasksPanel extends JPanel {
 		cOverall.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		overallPanel.add(fieldPanel, cOverall);
 		
+		overallPanel.setMinimumSize(new Dimension((int)overallPanel.getPreferredSize().getWidth() + 2, (int)overallPanel.getPreferredSize().getHeight()));
+		overallPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		//add to this panel
 		this.add(overallPanel,BorderLayout.CENTER);
 	}

@@ -173,25 +173,49 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 
-		System.out.println("Requirement Title: " + req.getTitle());
+		System.out.println("\n\n\n\n\n--Requirement Title: " + req.getTitle());
 		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
+		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
 		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
-		
+		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n");
 		
 		HChange.updateChangeFromDiff(serverReq,req, this);
-		//HChange.updateChangeFromDiff(req,serverReq, this);//switcharooo, didn't work, switched back
+		System.out.println("\n\n\n\n--HChange is now: " + HChange.getChange());
+		
+		System.out.println("Requirement Title: " + req.getTitle());
+		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
+		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
+		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
+		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n");
 		
 		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 
 		serverReq.setIterationId(req.getIterationId());
-
+		
+		
+		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
 		if (!HChange.getChange().equals("")){
+			System.out.println("-----------> History Item Added! " + HChange.getChange());
 			serverReq.addHistoricalChange(HChange);
 		}
+		//TUSHAR's fix v
+//		HChange.setChange(req.getHistory().get(req.getHistory().size()-1).getChange());
+//		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
+//		if (!HChange.getChange().equals("")){
+//			System.out.println("-----------> History Item Added! " + HChange.getChange());
+//			serverReq.addHistoricalChange(HChange);
+//		}
+		
+		System.out.println("--Requirement Title: " + req.getTitle());
+		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
+		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
+		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
+		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n\n\n\n\n");
 
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());
+		
 
 		//update Acceptance Tests List
 		serverReq.updateAcceptanceTests(req.getAcceptanceTests());

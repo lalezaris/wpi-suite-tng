@@ -155,8 +155,8 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							change.updateChangeFromDiff(uneditedParent, uneditedParentWithChild, null);
 							//uneditedParentWithChild.getHistory().add(change);
 							uneditedParentWithChild.addHistoricalChange(change);
-							System.out.println("new history message: " + uneditedParentWithChild.getHistory().get(uneditedParentWithChild.getHistory().size() - 1).getChange());
-							System.out.println("new history size: " + uneditedParentWithChild.getHistory().size() + "END\n\n\n\n");
+							//System.out.println("new history message: " + uneditedParentWithChild.getHistory().get(uneditedParentWithChild.getHistory().size() - 1).getChange());
+							//System.out.println("new history size: " + uneditedParentWithChild.getHistory().size() + "END\n\n\n\n");
 							uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
 
 							parentView.getReqModel().setRequirement(uneditedParentWithChild);

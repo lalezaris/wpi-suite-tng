@@ -222,6 +222,8 @@ public class HistoricalChange extends AbstractModel{
 		if (taskDifference != 0){//if old and new are not the same
 			change += "<p> "+ taskDifference+ " tasks added.</p>";
 		}
+		
+		System.out.println("FINAL new history message: " + change);
 	}
 
 	/**
@@ -291,7 +293,12 @@ public class HistoricalChange extends AbstractModel{
 	 * @return change
 	 */
 	public String getChange(){
-		return change;
+		System.out.println("change is: " + this.change);
+		return this.change;
+	}
+	
+	public void setChange(String c){
+		this.change = c;
 	}
 
 	/**

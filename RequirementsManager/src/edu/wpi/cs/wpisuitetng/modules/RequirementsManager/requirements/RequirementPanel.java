@@ -1008,20 +1008,20 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-//			try{
-//				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
-//					enabled = false;
-//				}
-//				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-//					enabled = true;
-//				}
-//				else{
-//					enabled = false;
-//				}
-//			}
-//			catch(NumberFormatException exception){
-//				enabled = false;
-//			}
+			try{
+				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
+					enabled = false;
+				}
+				else if(Integer.parseInt(txtEstimate.getText()) > 0){
+					enabled = true;
+				}
+				else{
+					enabled = false;
+				}
+			}
+			catch(NumberFormatException exception){
+				enabled = false;
+			}
 
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);

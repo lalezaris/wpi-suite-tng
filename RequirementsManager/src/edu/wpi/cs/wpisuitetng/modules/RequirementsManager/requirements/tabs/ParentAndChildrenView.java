@@ -34,7 +34,7 @@ import javax.swing.UIManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
- * The Class to hold DependenciesView.
+ * The Class to hold ParentAndChildrenView.
  *
  * @author Tushar Narayan
  *

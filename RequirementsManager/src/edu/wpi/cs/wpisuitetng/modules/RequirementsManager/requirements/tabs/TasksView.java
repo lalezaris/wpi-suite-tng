@@ -369,7 +369,7 @@ public class TasksView extends RequirementTab{
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 
-		//newTaskPanel.setMinimumSize(getPreferredSize());
+		//newTaskPanel.setMinimumSize(getPreferredSize()); 
 		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
 
 		featScrollPane = new JScrollPane(featurePanel);

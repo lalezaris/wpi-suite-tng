@@ -75,6 +75,8 @@ public class TasksPanel extends JPanel {
 	//Array of users to display.
 	String[] users;
 	
+	protected boolean canDisplay = true;
+	
 	/*
 	 * Constants used to layout the form
 	 */
@@ -289,4 +291,19 @@ public class TasksPanel extends JPanel {
 	public JComboBox<TaskStatus> getCmbStatus() {
 		return cmbStatus;
 	}
+
+	/**
+	 * @return the canDisplay
+	 */
+	public boolean isCanDisplay() {
+		return canDisplay;
+	}
+
+	/**
+	 * @param canDisplay the canDisplay to set
+	 */
+	public void setCanDisplay(boolean canDisplay) {
+		this.canDisplay = canDisplay;
+	}
+	
 }

@@ -49,7 +49,8 @@ public class TaskFeatureListener implements ActionListener{
 			view.setHidden(false);
 		}
 		
-		view.redisplay();
+		//Refresh all the ones on the right.
+		view.redisplayRight();
 		
 	}
 	

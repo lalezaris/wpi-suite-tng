@@ -62,10 +62,10 @@ public class TasksView extends JPanel {
 
 	protected RequirementView parent;
 
-	private ArrayList<Task> list;
+	private ArrayList<Task> list;//Assume that every task in list (i.e, list[i]) will always line up with its matching panel (i.e, taskPanelArray[i])
 	private ArrayList<Task> originalList;
 
-	private ArrayList<TasksPanel> taskPanelArray;
+	private ArrayList<TasksPanel> taskPanelArray;//Assume that every task in list (i.e, list[i]) will always line up with its matching panel (i.e, taskPanelArray[i])
 	private TasksPanel newTaskPanel;
 	private JPanel tempPanel;
 	private JPanel featurePanel;
@@ -75,7 +75,6 @@ public class TasksView extends JPanel {
 	private JScrollPane featScrollPane;
 
 	private JSplitPane splitPane;
-	private TasksPanel tempTaskPanel;
 
 	private GridBagLayout layoutTasks;
 	private GridBagLayout layoutDisplay;
@@ -107,6 +106,7 @@ public class TasksView extends JPanel {
 		//Set initial variables
 		list = new ArrayList<Task>();
 		originalList = new ArrayList<Task>();
+		taskPanelArray = new ArrayList<TasksPanel>();
 
 		//Initialize the assignee list
 		users = CurrentUserPermissions.getProjectUsers();
@@ -126,7 +126,7 @@ public class TasksView extends JPanel {
 		//Use a grid bag layout manager
 		this.layout = new BorderLayout();
 		this.setLayout(layout);
-
+		
 		redisplay();
 	}
 
@@ -137,7 +137,7 @@ public class TasksView extends JPanel {
 		this.removeAll();
 
 		//Make the big two panels.
-		listScrollPane = createTasksPanels();
+		listScrollPane = displayTasksPanels();
 		featScrollPane = displayFeatures();
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
@@ -145,27 +145,76 @@ public class TasksView extends JPanel {
 		this.add(splitPane,BorderLayout.CENTER);
 
 	}
-
-	/**
-	 * Create the task panels to display.
-	 * @return scroll pane
+	
+	/**Redisplay and repaint the task panels.
+	 * 
 	 */
-	private JScrollPane createTasksPanels() {
+	public void redisplayRight(){
+		listScrollPane = displayTasksPanels();
+		listScrollPane.repaint();
+	}
+	
+	/**Create task panels out of the tasks.
+	 * @param newTask The task to make the panel out of.
+	 * @return The resulting TaskPanel
+	 */
+	private TasksPanel createTaskPanel(Task newTask){
+		//Temporary panel to do work on before adding
+		TasksPanel tempTaskPanel = new TasksPanel(userNames);
+		
 
+		tempTaskPanel.getTxtName().setText(newTask.getName());
+		tempTaskPanel.getTxtDescription().setText(newTask.getDescription());
+		tempTaskPanel.getCmbAssignee().setSelectedItem(newTask.getAssigneeName());
+		tempTaskPanel.getTxtEffort().setText(Integer.toString(newTask.getEffort()));
+		tempTaskPanel.getCmbStatus().setSelectedItem(newTask.getStatus());
+		tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(newTask.getId(), this));
+		
+		//Default the save button and status to disabled
+		if(tempTaskPanel.getTxtName().getText().equals("") || tempTaskPanel.getTxtDescription().getText().equals("")){
+			tempTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+		}
+		if(tempTaskPanel.getTxtEffort().getText().equals("") || tempTaskPanel.getTxtEffort().getText().equals("0")){
+			tempTaskPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+		}
+
+
+		//Deal with permissions
+		if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
+			//Gray all of the fields.
+			tempTaskPanel.getTxtName().setEditable(false);
+			tempTaskPanel.getTxtDescription().setEditable(false);
+			tempTaskPanel.getCmbAssignee().setEditable(false);
+			tempTaskPanel.getTxtEffort().setEditable(false);
+			tempTaskPanel.getCmbStatus().setEditable(false);
+			tempTaskPanel.getSaveButton().setEnabled(false);
+		}
+
+		//Add listeners to all of the fields.
+		tempTaskPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+		tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+		tempTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
+		tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
+		tempTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
+		
+		return tempTaskPanel;
+	}
+	
+	/**Display the task panels if they are meant to be displayed.
+	 * @return The pane holding all of the task panels.
+	 */
+	private JScrollPane displayTasksPanels(){
 		//construct panels
 		overallPanel = new JPanel();
 
 		layoutTasks = new GridBagLayout();
 		overallPanel.setLayout(layoutTasks);
+		
+		//create constraint variables
+		GridBagConstraints cTask = new GridBagConstraints();
 
-		//Clear the array so you can refill it.
-		taskPanelArray = new ArrayList<TasksPanel>();
-
-		//Go through for all tasks in the list.
-		for(int i = 0; i < list.size(); i ++){
-			//create constraint variables
-			GridBagConstraints cTask = new GridBagConstraints();
-
+		//Put them in the panel to display
+		for(int i = 0; i < taskPanelArray.size(); i ++){
 			//Constraints
 			cTask.anchor = GridBagConstraints.LINE_START; 
 			cTask.gridx = 0;
@@ -173,70 +222,21 @@ public class TasksView extends JPanel {
 			cTask.weightx = 0.5;
 			cTask.weighty = 0.5;
 			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
-
-			tempTaskPanel = new TasksPanel(userNames);
-
-			if(i < list.size()){//For the tasks that already exist, put them here.
-
-				tempTaskPanel.getTxtName().setText(list.get(i).getName());
-				tempTaskPanel.getTxtDescription().setText(list.get(i).getDescription());
-				tempTaskPanel.getCmbAssignee().setSelectedItem(list.get(i).getAssigneeName());
-				tempTaskPanel.getTxtEffort().setText(Integer.toString(list.get(i).getEffort()));
-				tempTaskPanel.getCmbStatus().setSelectedItem(list.get(i).getStatus());
-				tempTaskPanel.getSaveButton().addActionListener(new SaveTaskListener(list.get(i).getId(), this));
-
-				placeBorder(i);
+			
+			//Hide Closed and Accepted
+			if(hidden && (list.get(i).getStatus() == TaskStatus.ACCEPTED || list.get(i).getStatus() == TaskStatus.CLOSED)){
+				taskPanelArray.get(i).setCanDisplay(false);
 			}
-
-			//Default the save button and status to disabled
-			if(tempTaskPanel.getTxtName().getText().equals("") || tempTaskPanel.getTxtDescription().getText().equals("")){
-				tempTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
+			//Hide non-matching names
+			if(!contains.equals("") && !list.get(i).getName().contains(contains)){
+				taskPanelArray.get(i).setCanDisplay(false);
 			}
-			if(tempTaskPanel.getTxtEffort().getText().equals("") || tempTaskPanel.getTxtEffort().getText().equals("0")){
-				tempTaskPanel.getCmbStatus().setEnabled(false);//Disable the status if the effort is not set.
+	
+			if(taskPanelArray.get(i).isCanDisplay()){
+				overallPanel.add(taskPanelArray.get(i), cTask);//Put each one in the overallPanel to display them all at once.
 			}
-
-
-			//Deal with permissions
-			if(pLevel == RMPermissionsLevel.NONE || pLevel == RMPermissionsLevel.UPDATE){
-				//Gray all of the fields.
-				tempTaskPanel.getTxtName().setEditable(false);
-				tempTaskPanel.getTxtDescription().setEditable(false);
-				tempTaskPanel.getCmbAssignee().setEditable(false);
-				tempTaskPanel.getTxtEffort().setEditable(false);
-				tempTaskPanel.getCmbStatus().setEditable(false);
-				tempTaskPanel.getSaveButton().setEnabled(false);
-			}
-
-			//Add listeners to all of the fields.
-			tempTaskPanel.getTxtName().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
-			tempTaskPanel.getTxtDescription().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
-			tempTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
-			tempTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(tempTaskPanel, this));
-			tempTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(tempTaskPanel, this));
-
-
-			//Put it in the array and panel.
-			boolean canDisplay = true;
-
-			if(i != list.size()){//Always display the last panel, since it is how new tasks are added.
-				//Hide Closed and Accepted
-				if(hidden && (list.get(i).getStatus() == TaskStatus.ACCEPTED || list.get(i).getStatus() == TaskStatus.CLOSED)){
-					canDisplay = false;
-				}
-				//Hide non-matching names
-				if(!contains.equals("") && !list.get(i).getName().contains(contains)){
-					canDisplay = false;
-				}
-			}
-
-
-			if(canDisplay){
-				overallPanel.add(tempTaskPanel, cTask);//Put each one in the overallPanel to display them all at once.
-			}
-			taskPanelArray.add(tempTaskPanel);
 		}
-
+		
 		overallPanel.setMaximumSize(getPreferredSize());
 
 		//put overall into a scrollpane
@@ -378,21 +378,12 @@ public class TasksView extends JPanel {
 				list.get(position).getEffort() == originalList.get(position).getEffort() &&
 				list.get(position).getStatus().equals(originalList.get(position).getStatus())){
 			//Remove the border
-			tempTaskPanel.setBorder(null);
+			taskPanelArray.get(position).setBorder(null);
 		}
 		//Set the border to show it is different.
 		else{
-			Border compound = BorderFactory.createCompoundBorder(
-					BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder());
-			Border yellowline = BorderFactory.createLineBorder(new Color(255, 252, 132));
-			//Make it yellow
-			compound = BorderFactory.createCompoundBorder(
-					yellowline, compound);
-			//Add a 3rd line
-			compound = BorderFactory.createCompoundBorder(
-					yellowline, compound);
 			//Draw the border on the panel that was edited.
-			tempTaskPanel.setBorder(compound);
+			taskPanelArray.get(position).setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
 		}
 
 	}
@@ -407,6 +398,7 @@ public class TasksView extends JPanel {
 			hasTask = true;
 		if (!hasTask){
 			list.add(t);
+			taskPanelArray.add(createTaskPanel(t));
 		}else{
 			System.out.println("ERROR: Task " + list.get(testLocation).getName() + " already exists! (ID: " + t.getId() + ")");
 		}

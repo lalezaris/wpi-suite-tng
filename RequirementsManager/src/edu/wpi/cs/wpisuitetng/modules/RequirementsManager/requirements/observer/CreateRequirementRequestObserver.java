@@ -85,7 +85,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						view.setUp(requirement, Mode.EDIT, CurrentUserPermissions.getCurrentUserPermission());
+//						view.setUp(requirement, Mode.EDIT, CurrentUserPermissions.getCurrentUserPermission());
 
 
 						view.setEditModeDescriptors(requirement);
@@ -102,13 +102,16 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							 * and doesn't require the parent Requirement to be explicitly
 							 * saved again by the user if they don't want to
 							 */
-							Requirement uneditedParent = parentView.getReqModel().getRequirement();
+//							Requirement uneditedParent = parentView.getReqModel().getRequirement();
+							Requirement uneditedParent = parentView.getReqModel().getUneditedRequirement();
+							System.out.println("uneditedParent: " + uneditedParent.toJSON());
 							Requirement uneditedParentWithChild = uneditedParent;
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
 							//uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
 
-							parentView.getReqModel().setRequirement(uneditedParentWithChild);
-
+							parentView.getReqModel().setUneditedRequirement(uneditedParentWithChild);
+//							parentView.getReqModel().getUneditedRequirement().setIterationId(uneditedParent.getIterationId());
+							System.out.println("new Requirement in view : " + parentView.getReqModel().getUneditedRequirement().toJSON());
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);

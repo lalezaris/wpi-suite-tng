@@ -160,6 +160,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
+		if(reqModel.getUneditedRequirement().getStatus().compareTo(RequirementStatus.NEW) == 0){
+			mainPanel.getCmbStatus().setEnabled(false);
+		}
 	}
 
 
@@ -347,6 +350,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 
 		reqModel.update(requirement, editMode);
+		reqModel.setUpPanel(editMode);
 
 		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());

@@ -145,8 +145,9 @@ public class RequirementModel {
 
 		requirement.setParentRequirementId(requirement.getParentRequirementId());
 
-
-		setUpPanel(editMode);
+		view.getRequirementPanel().getTxtTotalEstimate().setText(  String.valueOf(requirement.getTotalEstimateEffort()));
+		view.getRequirementPanel().getDependenciesView().updateChildrenList(requirement.getChildRequirementIds());
+//		setUpPanel(editMode);
 
 	}
 
@@ -466,6 +467,7 @@ public class RequirementModel {
 	public Requirement getRequirement() {
 		return requirement;
 	}
+	
 	/**
 	 * Gets unedited requirement
 	 * 
@@ -474,7 +476,13 @@ public class RequirementModel {
 	public Requirement getUneditedRequirement() {
 		return uneditedRequirement;
 	}
-
+	
+	/**
+	 * @param uneditedRequirement: the uneditedRequirement to set
+	 */
+	public void setUneditedRequirement(Requirement uneditedRequirement) {
+		this.uneditedRequirement = uneditedRequirement;
+	}
 
 	/**
 	 * Sets requirement.

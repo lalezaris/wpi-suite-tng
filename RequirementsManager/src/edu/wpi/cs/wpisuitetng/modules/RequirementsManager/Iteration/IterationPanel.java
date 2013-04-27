@@ -18,6 +18,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,6 +43,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.LayoutFocusTraversalPolicy;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -145,6 +148,15 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
+		this.setLayout(layout);
+		
+		//Set it so the focus will not go to the tile field
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblStartDate;
+                }
+            });
 
 		// Add all components to this panel
 		addComponents();

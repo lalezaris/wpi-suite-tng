@@ -570,5 +570,5 @@ public class TasksView extends JPanel {
 		return listScrollPane;
 	}
 
-
+	
 }

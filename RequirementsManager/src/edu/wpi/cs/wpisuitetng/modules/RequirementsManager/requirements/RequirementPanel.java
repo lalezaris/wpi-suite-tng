@@ -21,6 +21,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -43,6 +45,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.LayoutFocusTraversalPolicy;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
@@ -217,6 +220,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		//Use a grid bag layout manager
 		this.layout = new BorderLayout();
 		this.setLayout(layout);
+		
+		//Set it so the focus will not go to the tile field
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblIteration;
+                }
+            });
 
 		// Add all components to this panel
 		addComponents();

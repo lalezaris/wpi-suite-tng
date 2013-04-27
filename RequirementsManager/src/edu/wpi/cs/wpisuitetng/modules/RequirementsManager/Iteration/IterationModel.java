@@ -122,7 +122,7 @@ public class IterationModel {
 	 * @return The resulting String.
 	 */
 	private String DateToString(Date aDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		String convertedDate = null;
 		convertedDate = dateFormat.format(aDate);
 
@@ -136,7 +136,7 @@ public class IterationModel {
 	 * @return The resulting Date.
 	 */
 	private Date StringToDate(String aDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		Date convertedDate = new Date();
 		try {
 			convertedDate = dateFormat.parse(aDate);

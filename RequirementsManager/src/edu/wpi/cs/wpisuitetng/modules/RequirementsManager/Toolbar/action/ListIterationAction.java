@@ -42,7 +42,6 @@ public class ListIterationAction extends AbstractAction {
 	public ListIterationAction(MainTabController controller){
 		super("Iterations");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	}
 
 	/**

@@ -44,7 +44,6 @@ public class NewRequirementAction extends AbstractAction {
 	public NewRequirementAction(MainTabController controller,String componentName) {
 		super(componentName);
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
 
 	/** 

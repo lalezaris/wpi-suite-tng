@@ -72,7 +72,7 @@ public class RetrieveParentRequirementObserver implements RequestObserver {
 					@Override
 					public void run() {
 						view.setParentRequirement(requirements[0]);
-						view.setIterationComboBox();
+						view.setIterationComboBox(false);
 					}
 				});
 			}

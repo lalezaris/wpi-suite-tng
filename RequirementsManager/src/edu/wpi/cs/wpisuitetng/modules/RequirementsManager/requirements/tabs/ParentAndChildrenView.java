@@ -99,7 +99,9 @@ public class ParentAndChildrenView extends JPanel{
 		lblChildren = new JLabel("Children: ", LABEL_ALIGNMENT);
 		lblChildren.setForeground(Color.BLACK);
 		mdlParent = new DefaultListModel();
-		mdlParent.addElement("Requirement " + parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId());
+		if(!(parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId() < 0)){
+			mdlParent.addElement("Requirement " + parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId());
+		}
 		txtParent = new JList(mdlParent);
 		txtParent.setCellRenderer(new NonSelectListCellRenderer());
 		mdlChildren = new DefaultListModel();

@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -80,6 +82,13 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
+		
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblTitleError;
+                }
+            });
 
 		this.parent = parent;
 

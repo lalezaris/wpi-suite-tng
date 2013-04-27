@@ -50,7 +50,6 @@ public class OpenHelpAction extends AbstractAction {
 	 */
 	public OpenHelpAction() {
 		super("User Guide");
-		putValue(MNEMONIC_KEY, KeyEvent.VK_H);
 	}
 
 	/**

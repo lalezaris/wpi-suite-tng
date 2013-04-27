@@ -18,6 +18,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -41,6 +43,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.LayoutFocusTraversalPolicy;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.controller.AllRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
@@ -50,6 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlacehol
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -92,6 +96,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	protected JButton btnCancelIteration;
 	protected IntegerField txtEstimate;
 	protected JFrame f = new JFrame();
+	protected JSplitPane splitPane;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -144,6 +149,15 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
+		this.setLayout(layout);
+		
+		//Set it so the focus will not go to the tile field
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblStartDate;
+                }
+            });
 
 		// Add all components to this panel
 		addComponents();
@@ -168,7 +182,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
 		txtIterationName.addFocusListener(this);
-		txtStartDate = new JLabel("");
+		txtStartDate = new JLabel("                 ");
 		txtStartDate.addFocusListener(this);
 		txtEndDate = new JLabel("");
 		txtEndDate.addFocusListener(this);
@@ -398,7 +412,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		cLeft.weighty = 0.1;
 		left.add(panelOverall,cLeft);
 		JScrollPane leftScroll = new JScrollPane(left);
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
 		splitPane.setLeftComponent(leftScroll);
 
 
@@ -473,7 +487,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	 * @return The resulting Date.
 	 */
 	public Date StringToDate(String aDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		Date convertedDate = new Date();
 		try {
 			convertedDate = dateFormat.parse(aDate);
@@ -730,34 +744,34 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		if(this.getParent().getMode() == Mode.CREATE){	
 			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
-				txtIterationName.setBackground(Color.YELLOW);
+				txtIterationName.setBackground(MainView.getChangedColor());
 			} else 
 				txtIterationName.setBackground(Color.WHITE);
 
 			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
-				txtStartDate.setBackground(Color.YELLOW);
+				txtStartDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtStartDate.setBackground(Color.WHITE);
 
 			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
-				txtEndDate.setBackground(Color.YELLOW);
+				txtEndDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtEndDate.setBackground(Color.WHITE); 
 		} else {
 			Iteration oldI = getParent().getIterationModel().getUneditedModel();
 
 			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
-				txtIterationName.setBackground(Color.YELLOW);
+				txtIterationName.setBackground(MainView.getChangedColor());
 			} else 
 				txtIterationName.setBackground(Color.WHITE);
 
 			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
-				txtStartDate.setBackground(Color.YELLOW);
+				txtStartDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtStartDate.setBackground(Color.WHITE);
 
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
-				txtEndDate.setBackground(Color.YELLOW);
+				txtEndDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtEndDate.setBackground(Color.WHITE);
 
@@ -799,8 +813,19 @@ public class IterationPanel extends JPanel implements FocusListener {
 	public JLabel getLblEstimate() {
 		return lblEstimate;
 	}
-	
-	
-	
+
+	/**
+	 * @return the splitPane
+	 */
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
+
+	/**
+	 * @return the panelOverall
+	 */
+	public JPanel getPanelOverall() {
+		return panelOverall;
+	}
 	
 }

@@ -47,7 +47,7 @@ public class UpdateAllRequirementAction extends AbstractAction {
 		this.controller = controller;
 		refreshController = new RetrieveAllRequirementsController(
 				RefresherMode.TREE);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}
 
 	/**

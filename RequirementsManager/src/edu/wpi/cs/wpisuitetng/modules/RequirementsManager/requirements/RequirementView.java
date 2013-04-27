@@ -493,7 +493,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	/**
 	 * Sets the iteration combo box.
 	 */
-	public void setIterationComboBox(){
+	public void setIterationComboBox(boolean runSetup){
 		Iteration[] knownIterations = availableIterations;
 		ArrayList<Iteration> knownIts = new ArrayList<Iteration>();
 
@@ -535,7 +535,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		mainPanel.setIterations(foundIterations);
 
-		setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
+		if(runSetup){
+			setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
+		}
 
 		mainPanel.getCmbIteration().setSelectedItem(Iteration.getIterationById(reqModel.getRequirement().getIterationId()));
 		

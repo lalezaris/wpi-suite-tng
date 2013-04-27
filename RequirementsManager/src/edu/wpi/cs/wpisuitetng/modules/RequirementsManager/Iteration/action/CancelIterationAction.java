@@ -38,7 +38,7 @@ public class CancelIterationAction extends AbstractAction {
 	public CancelIterationAction(CancelIterationController controller) {
 		super("Cancel");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
 
 	/**

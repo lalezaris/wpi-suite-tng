@@ -16,15 +16,26 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
 
+import sun.security.krb5.Config;
+
+import edu.wpi.cs.wpisuitetng.janeway.gui.widgets.KeyboardShortcut;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.ToolbarPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action.OpenHelpAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.MainTabView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
@@ -74,6 +85,9 @@ public class RequirementsManager implements IJanewayModule {
 
 		//add to the list of tabs
 		tabs.add(tab1);
+		
+		// add keyboard shortcuts to Requirements Manager
+		registerKeyboardShortcuts(tab1);
 	}
 
 	/** 
@@ -96,5 +110,119 @@ public class RequirementsManager implements IJanewayModule {
 	@Override
 	public List<JanewayTabModel> getTabs() {
 		return tabs;
+	}
+	
+	@SuppressWarnings("serial")
+	private void registerKeyboardShortcuts(JanewayTabModel tab) {
+		String osName = System.getProperty("os.name").toLowerCase();
+		
+		// control + tab: switch to right tab
+		tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control TAB"), new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabController.switchToRightTab();
+			}
+		}));
+		
+		// control + shift + tab: switch to left tab
+		tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control shift TAB"), new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tabController.switchToLeftTab();
+			}
+		}));
+		
+		// command + w for mac or control + w for windows: close the current tab
+		if (osName.contains("mac")) {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("meta W"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.closeCurrentTab();
+				}
+			}));
+		}
+		else {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control W"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.closeCurrentTab();
+				}
+			}));
+		}
+		
+			
+		// command + r for mac or control + r for windows: List Requirements
+		if (osName.contains("mac")) {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("meta R"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addListRequirementTab();
+				}
+			}));
+		}
+		else {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control R"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addListRequirementTab();
+				}
+			}));
+		}
+		
+		// command + w for mac or control + w for windows: List Iterations
+		if (osName.contains("mac")) {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("meta I"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addListIterationTab();
+				}
+			}));
+		}
+		else {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control I"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addListIterationTab();
+				}
+			}));
+		}
+		
+		// command + w for mac or control + w for windows: Statistics
+		if (osName.contains("mac")) {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("meta S"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addBarChartTab();
+				}
+			}));
+		}
+		else {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control S"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					tabController.addBarChartTab();
+				}
+			}));
+		}
+		
+		// command + w for mac or control + w for windows: Statistics
+		if (osName.contains("mac")) {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("meta H"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					OpenHelpAction oHA = new OpenHelpAction();
+					oHA.actionPerformed(null);
+				}
+			}));
+		}
+		else {
+			tab.addKeyboardShortcut(new KeyboardShortcut(KeyStroke.getKeyStroke("control H"), new AbstractAction() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					OpenHelpAction oHA = new OpenHelpAction();
+					oHA.actionPerformed(null);
+				}
+			}));
+		}
 	}
 }

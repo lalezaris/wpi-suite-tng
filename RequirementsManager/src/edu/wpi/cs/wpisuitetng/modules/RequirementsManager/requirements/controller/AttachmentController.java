@@ -34,6 +34,8 @@ public class AttachmentController {
 	public void uploadClicked(){
 		SaveAttachmentController controller = new SaveAttachmentController(view);
 		controller.save(reqID);
+		view.getUploadFileButton().setVisible(false);
+		view.getAddFileButton().setVisible(true);
 	}
 	
 }

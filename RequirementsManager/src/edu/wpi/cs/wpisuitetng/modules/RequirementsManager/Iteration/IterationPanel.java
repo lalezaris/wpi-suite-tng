@@ -92,6 +92,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	protected JButton btnCancelIteration;
 	protected IntegerField txtEstimate;
 	protected JFrame f = new JFrame();
+	protected JSplitPane splitPane;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
@@ -168,7 +169,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		txtIterationName = new JPlaceholderTextField("Enter iteration name here", 20);
 		txtIterationName.addFocusListener(this);
-		txtStartDate = new JLabel("");
+		txtStartDate = new JLabel("                 ");
 		txtStartDate.addFocusListener(this);
 		txtEndDate = new JLabel("");
 		txtEndDate.addFocusListener(this);
@@ -398,7 +399,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 		cLeft.weighty = 0.1;
 		left.add(panelOverall,cLeft);
 		JScrollPane leftScroll = new JScrollPane(left);
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
 		splitPane.setLeftComponent(leftScroll);
 
 
@@ -473,7 +474,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	 * @return The resulting Date.
 	 */
 	public Date StringToDate(String aDate) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		Date convertedDate = new Date();
 		try {
 			convertedDate = dateFormat.parse(aDate);
@@ -803,8 +804,19 @@ public class IterationPanel extends JPanel implements FocusListener {
 	public JLabel getLblEstimate() {
 		return lblEstimate;
 	}
-	
-	
-	
+
+	/**
+	 * @return the splitPane
+	 */
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
+
+	/**
+	 * @return the panelOverall
+	 */
+	public JPanel getPanelOverall() {
+		return panelOverall;
+	}
 	
 }

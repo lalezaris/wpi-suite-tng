@@ -66,6 +66,7 @@ public class RequirementModel {
 		panel.getTxtDescription().setText(requirement.getDescription());
 		panel.getTxtReleaseNumber().setText(requirement.getReleaseNumber());
 		panel.getTxtEstimate().setText( String.valueOf(requirement.getEstimateEffort()) );
+		panel.getTxtTotalEstimate().setText(  String.valueOf(requirement.getTotalEstimateEffort()));
 		panel.getTxtActual().setText( String.valueOf(requirement.getActualEffort()) );
 
 		for (int i = 0; i < panel.getCmbType().getItemCount(); i++) {
@@ -130,6 +131,7 @@ public class RequirementModel {
 		requirement.setPriority(req.getPriority());
 		
 		System.out.println("Setting estimate effort to : " + req.getEstimateEffort());
+		System.out.println("Setting total estimate effort to : " + req.getTotalEstimateEffort());
 		requirement.setEstimateEffort(req.getEstimateEffort());
 		requirement.setTotalEstimateEffort(req.getTotalEstimateEffort());
 		requirement.setActualEffort(req.getActualEffort());

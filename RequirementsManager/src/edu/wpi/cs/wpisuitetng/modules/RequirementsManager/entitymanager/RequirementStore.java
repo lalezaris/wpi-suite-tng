@@ -187,7 +187,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
 		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n");
 		
-		HChange.updateChangeFromDiff(serverReq,req, this);
+//		HChange.updateChangeFromDiff(serverReq,req, this);
+		HChange.updateChangeFromDiff(req, serverReq, this); //switcharoo!
 		System.out.println("\n\n\n\n--HChange is now: " + HChange.getChange());
 		
 		System.out.println("Requirement Title: " + req.getTitle());

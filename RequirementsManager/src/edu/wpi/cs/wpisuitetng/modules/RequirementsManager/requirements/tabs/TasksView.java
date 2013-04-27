@@ -143,8 +143,6 @@ public class TasksView extends JPanel {
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
-		
-
 	}
 	
 	/**Redisplay and repaint the task panels.
@@ -225,6 +223,8 @@ public class TasksView extends JPanel {
 			cTask.insets = new Insets(5,10,5,0); //top,left,bottom,right
 			
 			//Hide Closed and Accepted
+			taskPanelArray.get(i).setCanDisplay(true);
+			
 			if(hidden && (list.get(i).getStatus() == TaskStatus.ACCEPTED || list.get(i).getStatus() == TaskStatus.CLOSED)){
 				taskPanelArray.get(i).setCanDisplay(false);
 			}
@@ -232,12 +232,10 @@ public class TasksView extends JPanel {
 			if(!contains.equals("") && !list.get(i).getName().contains(contains)){
 				taskPanelArray.get(i).setCanDisplay(false);
 			}
-	
 			if(taskPanelArray.get(i).isCanDisplay()){
 				overallPanel.add(taskPanelArray.get(i), cTask);//Put each one in the overallPanel to display them all at once.
 			}
 		}
-		
 		overallPanel.setMaximumSize(getPreferredSize());
 
 		//put overall into a scrollpane
@@ -459,6 +457,11 @@ public class TasksView extends JPanel {
 	public void setList(ArrayList<Task> tasks) {
 		this.list = tasks;
 		makeOriginalList(tasks);//Keep track of the tasks in the list.
+		//Make the task array panel
+		taskPanelArray = new ArrayList<TasksPanel>();
+		for(int i = 0; i < list.size(); i ++){
+			taskPanelArray.add(createTaskPanel(list.get(i)));
+		}
 		redisplay();
 	}
 

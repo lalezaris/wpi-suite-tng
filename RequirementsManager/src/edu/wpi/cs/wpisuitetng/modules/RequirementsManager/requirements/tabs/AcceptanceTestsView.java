@@ -145,6 +145,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		listModel = new DefaultListModel<AcceptanceTest>();
 
 		listDisplay = new JList(listModel);
+		listDisplay.setBackground(new Color(223,223,223));
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
 
 		//add the Title text field

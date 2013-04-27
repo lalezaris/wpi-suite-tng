@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -207,8 +208,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		//		historyView = new HistoryView(model);
 		
 		this.attachmentsView = new AttachmentsView(parent);
+		
 		//Instantiate the acceptance tests
 		this.acceptanceTestsView = new AcceptanceTestsView(parent);
+		
 
 		//get the list of history from the given requirement
 		this.assigneeView = new AssigneeView(parent);
@@ -298,9 +301,30 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
-
-		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView, attachmentsView});
-
+		
+		RequirementTab forAttachments = this.attachmentsView;
+		if(mode == Mode.CREATE){
+			forAttachments = new RequirementTab(){
+				@Override
+				public String getTabTitle() {
+					return attachmentsView.getTabTitle();
+				}
+				@Override
+				public ImageIcon getImageIcon() {
+					return attachmentsView.getImageIcon();
+				}
+				@Override
+				public String getTooltipText() {
+					return attachmentsView.getTooltipText();
+				}
+			};
+			forAttachments.add(new JLabel("Cannot attach files before saving the requirement"));
+		}
+		
+		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView
+				, assigneeView, dependenciesView, tasksView, forAttachments});
+		
+		
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
 		/**Delete Button*/

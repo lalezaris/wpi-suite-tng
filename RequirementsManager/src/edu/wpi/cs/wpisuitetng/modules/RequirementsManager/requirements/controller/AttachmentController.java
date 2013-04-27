@@ -1,7 +1,5 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import java.io.File;
-
 import javax.swing.JFileChooser;
 
 

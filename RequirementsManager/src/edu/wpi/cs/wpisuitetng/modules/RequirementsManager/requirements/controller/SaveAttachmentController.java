@@ -38,17 +38,22 @@ public class SaveAttachmentController {
 
 	public void recievedData(Attachment attachment){
 		System.out.println("attachment friggin returned:" + attachment.getId());
-		RequirementView view = MainTabController.getController().getReqViewHashMap().get(attachment.getOwnerId());
+		RequirementView reqview = MainTabController.getController().getReqViewHashMap().get(attachment.getOwnerId());
 		
-		Requirement changeReq = view.getReqModel().getRequirement();
+		Requirement changeReq = reqview.getReqModel().getRequirement();
 
 
 		changeReq.getAttachedFileId().add(attachment.getId());
 		changeReq.getAttachedFileNames().add(attachment.getFileName());
 //		System.out.println("is there a thing here?"+view.getReqModel().getUneditedRequirement().getAttachedFileId().get(0));
 		
-		SaveRequirementController saveReq = new SaveRequirementController(view);
+		SaveRequirementController saveReq = new SaveRequirementController(reqview);
 	//	saveReq.save();
+		
+		
+		//tell the attachment view what the id number for this attachment is:
+		view.attachmentSaveSuccess(attachment);
+		view.repaint();
 	}
 
 }

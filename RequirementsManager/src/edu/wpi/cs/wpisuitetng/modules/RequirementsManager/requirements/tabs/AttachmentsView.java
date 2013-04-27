@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAttachmentController;
@@ -360,6 +361,7 @@ public class AttachmentsView extends RequirementTab{
 	public void clearSelectedFiles(){
 		this.selectedFiles.clear();
 		this.selectedPanel.removeAll();
+		System.out.println("just cleared all of the selected files");
 	}
 	
 	/**
@@ -446,6 +448,30 @@ public class AttachmentsView extends RequirementTab{
 		attachedPanel.add(dummy,c);
 		attachedPanel.revalidate();
 		attachedPanel.repaint();
+	}
+
+
+	/*
+	 * This will update the panel to show that the file has been saved.
+	 * It assumes that the names of the selected files are unique.
+	 */
+	public void attachmentSaveSuccess(Attachment attachment) {
+		this.addFileToAttached(
+				new File(attachment.getId()+"\\"+attachment.getFileName()));
+		File added = null;
+		for(int i=0; i<this.selectedFiles.size(); i++){
+			if(selectedFiles.get(i).getName().equals(attachment.getFileName())){
+				added = selectedFiles.remove(i);
+				break;
+			}
+		}
+		if(added != null){//shouldn't ever be null, right?
+			ArrayList<File> toAdd = (ArrayList<File>) selectedFiles.clone();
+			this.clearSelectedFiles();
+			for(File f: toAdd){
+				this.addFileToAttached(f);
+			}
+		}
 	}
 
 }

@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
@@ -559,5 +561,4 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RMPermissionsLevel getpLevel() {
 		return pLevel;
 	}
-
 }

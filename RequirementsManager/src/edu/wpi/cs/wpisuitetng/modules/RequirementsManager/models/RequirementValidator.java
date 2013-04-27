@@ -35,10 +35,22 @@ public class RequirementValidator {
 
 	private Data data;
 
+	/**
+	 * Instantiates a new requirement validator.
+	 *
+	 * @param data the data to validate
+	 */
 	public RequirementValidator(Data data){
 		this.data = data;
 	}
 	
+	/**
+	 * Validates with the given parameters.
+	 *
+	 * @param requirement the requirement
+	 * @param mode the mode
+	 * @return the list of validation issues
+	 */
 	public List<ValidationIssue> validate(Requirement requirement, RequirementPanel.Mode mode){
 		List<ValidationIssue> issues = new ArrayList<ValidationIssue>();
 		if(requirement == null){
@@ -46,7 +58,7 @@ public class RequirementValidator {
 			return issues;
 		}
 
-		if(mode == Mode.CREATE){
+		if(mode == Mode.CREATE || mode == Mode.CREATE){
 			if(requirement.getIterationId() == Iteration.getBacklog().getId()){
 				if(!requirement.getStatus().equals(RequirementStatus.NEW)){
 					issues.add(new ValidationIssue("On Create, must be NEW when in the backlog", "Status"));

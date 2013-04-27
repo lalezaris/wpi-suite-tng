@@ -9,6 +9,7 @@
  *
  * Contributors:
  *  Mike French
+ *  Tushar Narayan
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
@@ -28,7 +29,6 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * Tests for the AcceptanceTest class
  * 
  * @author Mike French
- * @edited Tushar Narayan
  * 
  * @version April 14, 2013
  *
@@ -39,6 +39,9 @@ public class AcceptanceTestTest {
 	Requirement req;
 	RequirementView rv;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		Network.initNetwork(new MockNetwork());
@@ -59,12 +62,18 @@ public class AcceptanceTestTest {
 		av.getStatusField().setEnabled(true);
 	}
 	
+	/**
+	 * Test constructors.
+	 */
 	@Test
 	public void testConstructor(){
 		assertEquals(a.getTitle(), "A Title");
 		assertEquals(a.getBody(), "bodybodybodybodybodybody");
 	}
 	
+	/**
+	 * Test changing fields.
+	 */
 	@Test
 	public void testChangeFields(){
 		a.setBody("New Body");
@@ -74,6 +83,9 @@ public class AcceptanceTestTest {
 	}
 	
 	
+	/**
+	 * Test adding and editing.
+	 */
 	@Test
 	public void testAddandEdit(){
 		av.getTitleField().setText("Test1");
@@ -84,11 +96,45 @@ public class AcceptanceTestTest {
 		assertEquals("Test1 body", av.getList().get(0).getBody());
 		assertEquals("", av.getTitleField().getText());
 		assertEquals("", av.getBodyField().getText());
+		
+		//try to add the same test again, the list of tests should not get bigger
+		av.getTitleField().setText("Test1");
+		av.getBodyField().setText("Test1 body");
+		av.getAddButton().doClick();
+		assertEquals(1, av.getListSize());
+		
 		av.getTitleField().setText("Test1");
 		av.getTitleField().getKeyListeners()[0].keyReleased(null);
-		//assertEquals(false, av.getAddButton().isEnabled());
 		av.getBodyField().setText("new text");
-		//assertEquals("new text", av.getList().get(0).getBody());
+		av.getAddButton().doClick();
+		assertEquals("new text", av.getList().get(0).getBody());
 	}
+	
+	/**
+	 * Test if not ready.
+	 */
+	@Test
+	public void testNotReady(){
+		av.getTitleField().setText("");
+		av.getBodyField().setText("");
+		assertEquals(true, av.notReady());
+		av.getTitleField().setText("text");
+		assertEquals(true, av.notReady());
+		av.getBodyField().setText("text");
+		assertEquals(false, av.notReady());
+		av.getTitleField().setText("");
+		assertEquals(true, av.notReady());
+	}
+	
+	//this test relies on the location of the mouse when clicked. not sure how to simulate that
+//	@Test
+//	public void testListDisplayMouseCLicked(){
+//		AcceptanceTest aTemp = new AcceptanceTest("title", "body");
+//		av.addTestToList(aTemp);
+//		assertEquals(true, av.getList().contains(aTemp));
+//		av.getListDisplay().getMouseListeners()[0].mouseClicked(null);
+//		//assertEquals(false, av.getTitleField().getText() == "");
+//		//assertEquals(false, av.getBodyField().getText() == "");
+//	}
 
 }

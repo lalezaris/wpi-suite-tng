@@ -29,6 +29,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 
 	private RetrieveRequirementControllerTree<T> controller;
+	
+	/**
+	 * Instantiates a new retrieve requirement observer tree.
+	 *
+	 * @param controller the controller
+	 */
 	public RetrieveRequirementObserverTree(RetrieveRequirementControllerTree<T> controller){
 		this.controller = controller;
 	}

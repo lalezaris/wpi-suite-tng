@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -61,9 +62,10 @@ public class IterationView extends JPanel {
 
 	/**
 	 * Construct a new IterationView where the user can view (and edit) a iteration.
-	 * 
-	 * @param iteration	The iteration to show.
-	 * @param tab		The Tab holding this IterationView (can be null)
+	 *
+	 * @param iteration The iteration to show.
+	 * @param edit  the viewing mode
+	 * @param tab 	The Tab holding this IterationView (can be null)
 	 */
 	public IterationView(Iteration iteration, Mode edit, Tab tab) {
 
@@ -85,7 +87,7 @@ public class IterationView extends JPanel {
 
 		// Instantiate the main create iteration panel
 		mainPanel = new IterationPanel(this);
-		
+		System.out.println("got here");
 		mainPanel.sendFilterServerRequest();
 
 		mainPanel.getBtnSaveIteration().setAction(new SaveChangesAction(new SaveIterationController(this)));
@@ -102,8 +104,29 @@ public class IterationView extends JPanel {
 			}
 		});
 
-		this.add(mainPanelScrollPane, BorderLayout.CENTER);
+		this.add(mainPanel, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
+		if(mode == Mode.CREATE){
+			mainPanel.getTxtEstimate().setVisible(false);
+			mainPanel.getLblEstimate().setVisible(false);
+		}
+		if(iteration.compareTo(Iteration.getBacklog()) == 0){
+			mainPanel.getBtnSaveIteration().setEnabled(false);
+			mainPanel.getBtnSaveIteration().setVisible(false);
+			mainPanel.getBtnCancelIteration().setEnabled(false);
+			mainPanel.getBtnCancelIteration().setVisible(false);
+			mainPanel.getTxtEndDate().setVisible(false);
+			mainPanel.getTxtStartDate().setVisible(false);
+			mainPanel.getLblStartDate().setVisible(false);
+			mainPanel.getLblEndDate().setVisible(false);
+			mainPanel.getSelectEndDate().setEnabled(false);
+			mainPanel.getSelectEndDate().setVisible(false);
+			mainPanel.getSelectStartDate().setEnabled(false);
+			mainPanel.getSelectStartDate().setVisible(false);
+			mainPanel.getTxtIterationName().setEnabled(false);
+			mainPanel.getTxtIterationName().setBackground(this.getBackground());
+			mainPanel.getTxtIterationName().setDisabledTextColor(Color.BLACK);
+		}
 	}
 
 	/**
@@ -120,12 +143,13 @@ public class IterationView extends JPanel {
 	 * Check to make sure that all the fields are correctly filled in. If multiple errors are present, it returns
 	 * the error that is lowest. So if startDate is after endDate and the iteration name is missing, this will
 	 * return 1.
-	 * 
-	 * @return	1 if field(s) are missing,
-	 * 			2 if startDate >= endDate,
-	 * 			3 if iteration name already exists,
-	 * 			4 if dates overlap,
-	 * 			0 otherwise, so no input errors
+	 *
+	 * @param iterations the iterations to check
+	 * @return 1 if field(s) are missing,
+	 * 2 if startDate >= endDate,
+	 * 3 if iteration name already exists,
+	 * 4 if dates overlap,
+	 * 0 otherwise, so no input errors
 	 */
 	public int checkRequiredFields(Iteration[] iterations){
 		mainPanel.setMultipleVisibilities(new JComponent[]{mainPanel.getLblIterationNameError(),mainPanel.getLblStartDateError(),mainPanel.getLblEndDateError(),

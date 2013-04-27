@@ -63,7 +63,7 @@ public class AssigneeView extends RequirementTab{
 	/**
 	 * Instantiates a new assignee view.
 	 *
-	 * @param parent the requirement view for the assignee view
+	 * @param p the requirement view for the assignee view
 	 */
 	public AssigneeView(RequirementView p){
 		this.parent = p;
@@ -349,14 +349,25 @@ public class AssigneeView extends RequirementTab{
 		}		
 	}
 	
+	/**
+	 * Sets the background colors.
+	 *
+	 * @param c the new background colors
+	 */
 	public void setBackgroundColors(Color c) {
 		allUserList.setBackground(c);
 		assignedUserList.setBackground(c);
 	}
 	
+	/**
+	 * Gets the background color.
+	 *
+	 * @return the background color
+	 */
 	public Color getBackgroundColor() {
 		return allUserList.getBackground();
 	}
+
 
 	@Override
 	public String getTabTitle() {
@@ -375,6 +386,9 @@ public class AssigneeView extends RequirementTab{
 
 	/* 
 	 * call the background color refresher
+
+	/**
+	 * Refresh all backgrounds.
 	 */
 	public void refreshAllBackgrounds() {
 		parent.getReqModel().updateBackgrounds();

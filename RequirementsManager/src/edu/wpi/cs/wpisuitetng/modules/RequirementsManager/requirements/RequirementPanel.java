@@ -53,13 +53,20 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
 
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AttachmentsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.DependenciesView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTab;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -105,6 +112,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected JComboBox cmbPriority;
 	protected JTextArea txtDescription;	
 	protected IntegerField txtEstimate;
+	protected IntegerField txtTotalEstimate;
 	protected IntegerField txtActual;
 	protected JLabel txtCreatedDate;
 	protected JLabel txtModifiedDate;
@@ -124,6 +132,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	private JLabel lblStatus;
 	private JLabel lblPriority;
 	private JLabel lblEstimate;
+	private JLabel lblTotalEstimate;
 	private JLabel lblActual;
 
 	/** NotesView for updating notes **/
@@ -147,6 +156,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** DependenciesView for viewing child requirements **/
 	private DependenciesView dependenciesView;
 
+	/** Parent and Requirement View for viewing parent and child requirements **/
+	private ParentAndChildrenView parentChildrenView;
+
+
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
 	
@@ -154,8 +167,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
 	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
-	JLabel lblEstimateError = new JLabel("ERROR: Estimate is too large", LABEL_ALIGNMENT);
-	JLabel lblActualError = new JLabel("ERROR: Actual is too large", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is invalid", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -178,7 +191,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected GridBagLayout layoutFour;
 	protected GridBagLayout layoutButtons;
 	protected GridBagLayout layoutTabs;
-
 
 	/*
 	 * Constants used to layout the form
@@ -216,8 +228,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		//get the list of tasks from the given requirement
 		this.tasksView = new TasksView(parent);
 
-		//get the list of dependencies from the given requirement
-		this.dependenciesView = new DependenciesView(parent);
+		//get the parent and the list of children from the given requirement
+		this.parentChildrenView = new ParentAndChildrenView(parent);
 
 		// Indicate that input is enabled
 		this.inputEnabled = true;
@@ -257,7 +269,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtTitle.addFocusListener(this);
 		
-		txtReleaseNumber = new JTextField(6);
+		txtReleaseNumber = new JTextField(2);
 		txtReleaseNumber.addFocusListener(this);
 		
 		cmbIteration = new JComboBox();
@@ -292,6 +304,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtEstimate = new IntegerField(4);
 		txtEstimate.addFocusListener(this);
 		
+		txtTotalEstimate = new IntegerField(4);
+		txtTotalEstimate.setEnabled(false);
+		
 		txtActual = new IntegerField(4);
 		txtActual.addFocusListener(this);
 		
@@ -299,7 +314,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 
+
 		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView, assigneeView, dependenciesView, tasksView, attachmentsView});
+
+//		RTabsView = new RequirementTabsView(notesView, historyView, acceptanceTestsView, assigneeView, parentChildrenView, tasksView);
+
 
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
@@ -339,6 +358,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblStatus = new JLabel("Status:", LABEL_ALIGNMENT);
 		lblPriority = new JLabel("Priority:", LABEL_ALIGNMENT);
 		lblEstimate = new JLabel("Estimate:", LABEL_ALIGNMENT);
+		lblTotalEstimate = new JLabel("Total Estimate:", LABEL_ALIGNMENT);
 		lblActual = new JLabel("Actual:", LABEL_ALIGNMENT);
 
 		setUpToolTips();
@@ -488,6 +508,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblEstimate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 0;
+		cThree.gridy = 2;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(lblTotalEstimate, cThree);
+
 
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
@@ -496,6 +524,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
+		
+		cThree.weightx = 0.5;
+		cThree.weighty = 0.5;
+		cThree.gridx = 1;
+		cThree.gridy = 2;
+		cThree.anchor = GridBagConstraints.LINE_START;
+		panelThree.add(txtTotalEstimate, cThree);
 
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -623,6 +658,24 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 
+	/**
+	 * @return the txtTotalEstimate
+	 */
+	public IntegerField getTxtTotalEstimate() {
+		return txtTotalEstimate;
+	}
+
+	/**
+	 * @param txtTotalEstimate the txtTotalEstimate to set
+	 */
+	public void setTxtTotalEstimate(int totalEstimateEffort) {
+		this.txtTotalEstimate.setText(totalEstimateEffort+"");
+
+	}
+
+	/**
+	 * Sets the up tool tips.
+	 */
 	public void setUpToolTips(){
 		txtTitle.setToolTipText("Required: A title less than 100 characters.");
 		lblReleaseNumber.setToolTipText("The release number for this requirement.");
@@ -633,6 +686,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				"This field must be greater than 0 to assign to an iteration.");
 		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
 				"This field must be greater than 0 to assign to an iteration.");
+		lblTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
+		txtTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
 		lblActual.setToolTipText("The actual effort for this requirement.");
 		txtActual.setToolTipText("The actual effort for this requirement.");
 		lblIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
@@ -744,6 +799,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 	}
 
+	/**
+	 * Sets the up panel.
+	 */
 	public void setUpPanel(){
 		this.revalidate();
 		layout.invalidateLayout(this);
@@ -792,6 +850,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
 		requirement.setPriority(RequirementPriority.valueFromString((String) cmbPriority.getSelectedItem()));
 		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
+		requirement.setTotalEstimateEffort(getValue(txtTotalEstimate));
 		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
 		requirement.setCreationDate(parent.getReqModel().getRequirement().getCreationDate());
 
@@ -800,7 +859,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.updateAttachments(attachmentsView.getAttachmentsList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
-		requirement.setSubRequirements(dependenciesView.getChildrenRequirementsList());
+		requirement.setSubRequirements(parentChildrenView.getChildrenRequirementsList());
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 		requirement.updateTasks(tasksView.getTasks());
@@ -1056,8 +1115,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * 
 	 * @return dependencies view
 	 */
-	public DependenciesView getDependenciesView(){
-		return dependenciesView;
+	public ParentAndChildrenView getDependenciesView(){
+		return parentChildrenView;
 	}
 
 	/**
@@ -1280,7 +1339,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the acceptance tests view
 	 * 
-	 * @param acceptanceTestsView: the acceptanceTestsView to set
+	 * @param acceptanceTestsView the acceptanceTestsView to set
 	 */
 	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
 		this.acceptanceTestsView = acceptanceTestsView;

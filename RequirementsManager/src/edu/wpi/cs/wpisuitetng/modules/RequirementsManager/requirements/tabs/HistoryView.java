@@ -81,6 +81,9 @@ public class HistoryView extends RequirementTab {
 		//redisplay();
 	}
 
+	/**
+	 * Redisplays the history view.
+	 */
 	protected void redisplay(){
 
 		listModel = new DefaultListModel<HistoricalChange>();

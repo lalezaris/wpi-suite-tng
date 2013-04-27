@@ -17,11 +17,13 @@ import java.awt.Component;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.ClosableTabComponent;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 
 /**
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
@@ -128,5 +130,27 @@ public class MainTabView extends JTabbedPane {
 		fireStateChanged(); 
 		//TODO: improve functionality for making sure toolbar knows if component changes
 
+	}
+	
+	@Override
+	public void setSelectedIndex(int index){
+		if(this.getSelectedComponent() instanceof RequirementListPanel){
+			RequirementListPanel panel = (RequirementListPanel)this.getSelectedComponent();
+			if(((RequirementTableModel) panel.getTable().getModel()).getIsChange()){
+				if(!(this.getComponentAt(index) instanceof RequirementListPanel)){
+					int buttons = JOptionPane.showConfirmDialog(
+							null,
+							"Are you sure you want to leave? Your changes will not be saved.",
+							"Warning",
+							JOptionPane.YES_NO_OPTION);
+					if (buttons == JOptionPane.YES_OPTION) {
+						panel.getModel().cancelChanges();
+						super.setSelectedIndex(index);
+					}
+				}
+			} else
+				super.setSelectedIndex(index);
+		} else 
+			super.setSelectedIndex(index);
 	}
 }

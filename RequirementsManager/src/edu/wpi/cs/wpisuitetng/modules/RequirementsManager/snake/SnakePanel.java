@@ -64,6 +64,11 @@ public class SnakePanel extends JPanel{
 		this.add(messagePanel);
 	}
 	
+	/**
+	 * Sets the game over.
+	 *
+	 * @param gameOver the new game over
+	 */
 	public void setGameOver(boolean gameOver){
 		
 		this.messagePanel.setVisible(gameOver);
@@ -140,13 +145,24 @@ public class SnakePanel extends JPanel{
 		g.drawRect(1 + (x*gridSize), 1 + (y*gridSize), gridSize, gridSize);
 	}
 	
+	/**
+	 * Draw food.
+	 *
+	 * @param g the g
+	 */
 	public void drawFood(Graphics g){
-		g.setColor(foodColor);
-		for (int i = 0 ; i < Food.all.size(); i ++)
-			drawChunk(g, Food.all.get(i).spot.x, Food.all.get(i).spot.y, foodColor);
+		for (int i = 0 ; i < Food.all.size(); i ++){
+			g.setColor(Food.all.get(i).getColor());
+			drawChunk(g, Food.all.get(i).spot.x, Food.all.get(i).spot.y, Food.all.get(i).getColor());
 			//g.fillRect(1 + (Food.all.get(i).spot.x*gridSize), 1 + (Food.all.get(i).spot.y*gridSize), gridSize, gridSize);
+		}
 	}
 	
+	/**
+	 * Draw wall.
+	 *
+	 * @param g the g
+	 */
 	public void drawWall(Graphics g){
 		for (int i = 0 ; i < Wall.all.size(); i ++)
 			drawChunk(g, Wall.all.get(i).spot.x, Wall.all.get(i).spot.y, wallColor);

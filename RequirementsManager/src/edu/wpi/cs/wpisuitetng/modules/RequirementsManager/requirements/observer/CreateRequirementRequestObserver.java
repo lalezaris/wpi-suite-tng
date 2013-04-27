@@ -100,7 +100,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							Requirement uneditedParent = parentView.getReqModel().getRequirement();
 							Requirement uneditedParentWithChild = uneditedParent;
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
-							uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
+							//uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
 
 							parentView.getReqModel().setRequirement(uneditedParentWithChild);
 

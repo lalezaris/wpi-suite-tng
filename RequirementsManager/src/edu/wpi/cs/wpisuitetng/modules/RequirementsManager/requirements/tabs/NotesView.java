@@ -283,14 +283,27 @@ public class NotesView extends RequirementTab implements FocusListener {
 		return this.txtNotesSaved;
 	}
 	
+	/**
+	 * Sets the txt notes background color.
+	 *
+	 * @param c the new txt notes background color
+	 */
 	public void setTxtNotesBackgroundColor(Color c) {
 		this.txtNotes.setBackground(c);
 	}
 	
+	/**
+	 * Sets the txt notes saved background color.
+	 *
+	 * @param c the new txt notes saved background color
+	 */
 	public void setTxtNotesSavedBackgroundColor(Color c) {
 		this.txtNotesSaved.setBackground(c);
 	}
 
+	/**
+	 * Refresh backgrounds.
+	 */
 	public void refreshBackgrounds() {
 		this.parent.getReqModel().updateBackgrounds();
 	}

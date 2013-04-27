@@ -64,6 +64,9 @@ public class HistoryLogTest {
 	ArrayList<Note> notes1 = new ArrayList<Note>();
 	ArrayList<Note> notes2 = new ArrayList<Note>();
 	
+	/**
+	 * Sets up the tests.
+	 */
 	@Before
 	public void setUp(){
 		req1 = new Requirement(1,"title1", "a desc", "Derpy");
@@ -95,6 +98,9 @@ public class HistoryLogTest {
 		notes2.add(new Note("A Note", "Derpy"));
 	}
 	
+	/**
+	 * Tests generating HistoricalChnage based on differences.
+	 */
 	@Test
 	public void testReqUpdateChangeFromDiff(){
 		/*
@@ -197,6 +203,9 @@ public class HistoryLogTest {
 						changeEverything.getChange());
 	}
 	
+	/**
+	 * Test multiple sub requirements updating.
+	 */
 	@Test
 	public void testMultipleSubReqsUpdate(){
 		//Create a TON of children.
@@ -232,6 +241,9 @@ public class HistoryLogTest {
 		assertEquals("<p> Title changed from ParentTitle5 to ParentTitle6.</p><p> Sub Requirement 60 removed</p><p> Sub Requirement 80 added</p><p> Sub Requirement 81 added</p><p> Sub Requirement 82 added</p><p> Sub Requirement 83 added</p><p> Sub Requirement 84 added</p><p> Sub Requirement 85 added</p><p> Sub Requirement 86 added</p><p> Sub Requirement 87 added</p><p> Sub Requirement 88 added</p><p> Sub Requirement 89 added</p><p> Sub Requirement 90 added</p><p> Sub Requirement 91 added</p><p> Sub Requirement 92 added</p><p> Sub Requirement 93 added</p><p> Sub Requirement 94 added</p><p> Sub Requirement 95 added</p><p> Sub Requirement 96 added</p><p> Sub Requirement 97 added</p><p> Sub Requirement 98 added</p><p> Sub Requirement 99 added</p>", RemoveOne.getChange());
 	}
 	
+	/**
+	 * Test getters.
+	 */
 	@Test
 	public void testGetters(){
 		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));	
@@ -239,6 +251,9 @@ public class HistoryLogTest {
 		assertEquals(aChange.getId(), 47);
 	}
 	
+	/**
+	 * Test to string.
+	 */
 	@Test
 	public void testToString(){
 		HistoricalChange aChange = new HistoricalChange(new Date(), 47, 2, new User("TwilightSparkle", "", "", 2));

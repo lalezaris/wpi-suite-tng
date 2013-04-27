@@ -31,11 +31,17 @@ public class Controller {
 	boolean gameRunning = true;
 	protected Timer moveTimer;
 	
+	/**
+	 * Instantiates a new controller.
+	 *
+	 * @param panel the panel
+	 * @param snake the snake
+	 * @param game the game
+	 */
 	public Controller(SnakePanel panel, Snake snake, GamePanel game) {
 		this.panel = panel;
 		this.snake = snake;
 		this.game = game;
-		System.out.println("outout");
 		this.panel.addKeyListener(new KeyInput(this.snake));
 		panel.setSpots(snake.getSpots());
 		
@@ -71,7 +77,12 @@ public class Controller {
 		sc.getHighScore(m);
 	}
 	
+	/**
+	 * Reset.
+	 */
 	public void reset(){
+		lastSave = true;
+		
 		panel.setGameOver(false);
 		score = 0;
 		game.scoreBody.setText(""+score);
@@ -84,6 +95,13 @@ public class Controller {
 		spawnFood(null);
 	}
 	
+	/**
+	 * Gets the rand.
+	 *
+	 * @param min the min
+	 * @param max the max
+	 * @return the rand
+	 */
 	public int getRand(int min, int max){
 		
 		int diff = max-min;
@@ -94,34 +112,62 @@ public class Controller {
 		return answer;
 	}
 	
+	/**
+	 * Eat food.
+	 *
+	 * @param eat the eat
+	 */
 	public void eatFood(Food eat){
 		score += eat.score;
 		game.scoreBody.setText(""+score);
 		spawnFood(eat);
 	}
 	
+	/**
+	 * Spawn food.
+	 *
+	 * @param old the old
+	 */
 	public void spawnFood(Food old){
 		if (old!=null){
 			Food fresh = new Food(new Spot(getRand(2,xMax-1), getRand(2,yMax-1)));
 			
-			if (score > 5)
+			if (score > 5){
 				fresh.score++;
-			if (score > 15)
+				fresh.setColor(Color.BLUE);
+			}
+			if (score > 15){
 				fresh.score++;
-			if (score > 25)
+				fresh.setColor(Color.CYAN);
+			}
+			if (score > 25){
 				fresh.score++;
-			if (score > 40)
+				fresh.setColor(Color.GREEN);
+			}
+			if (score > 40){
 				fresh.score++;
-			if (score > 55)
+				fresh.setColor(Color.MAGENTA);
+			}
+			if (score > 55){
 				fresh.score++;
-			if (score > 75)
+				fresh.setColor(Color.ORANGE);
+			}
+			if (score > 75){
 				fresh.score++;
-			if (score > 100)
+				fresh.setColor(Color.PINK);
+			}
+			if (score > 100){
 				fresh.score++;
-			if (score > 150)
+				fresh.setColor(Color.RED);
+			}
+			if (score > 150){
 				fresh.score++;
-			if (score > 200)
+				fresh.setColor(Color.YELLOW);
+			}
+			if (score > 200){
 				fresh.score++;
+				fresh.setColor(new Color(152, 60, 255));
+			}
 			for (int i = 0 ; i < snake.spots.size(); i ++)
 				if (snake.spots.get(i).equals(fresh.spot)){
 					eatFood(fresh);
@@ -136,6 +182,11 @@ public class Controller {
 		
 		Snake snake;
 		
+		/**
+		 * Instantiates a new key input.
+		 *
+		 * @param snake the snake
+		 */
 		public KeyInput(Snake snake){
 			this.snake = snake;
 		}
@@ -145,17 +196,26 @@ public class Controller {
 			//38 = up
 			//39 = right
 			//40 = down
-			//System.out.println(e.getKeyChar());
+			//(e.getKeyChar());
 			
 			if (e.getKeyChar() == ' '){
-				reset(); 
+				if(!gameRunning)
+					reset(); 
 			} else if (e.getKeyCode() >= Snake.LEFT && e.getKeyCode() <= Snake.DOWN){
 				boolean isPlayerDumb = (snake.direction == Snake.LEFT && e.getKeyCode() == Snake.RIGHT)
 						|| (snake.direction == Snake.RIGHT && e.getKeyCode() == Snake.LEFT)
 						|| (snake.direction == Snake.UP && e.getKeyCode() == Snake.DOWN)
 						|| (snake.direction == Snake.DOWN && e.getKeyCode() == Snake.UP);
-				if (!isPlayerDumb)
-					snake.setDirection(e.getKeyCode());
+				if (!isPlayerDumb){
+					if(!snake.isHasMoved()){
+						if(snake.getNextDirection() == 0)
+							snake.setNextDirection(e.getKeyCode());
+					}
+					else{
+						snake.setDirection(e.getKeyCode());
+					}
+					snake.setHasMoved(false);
+				}
 			}
 		}
 	}
@@ -174,6 +234,13 @@ public class Controller {
 
 		Snake snake;
 		SnakePanel panel;
+		
+		/**
+		 * Instantiates a new move task.
+		 *
+		 * @param snake the snake
+		 * @param panel the panel
+		 */
 		public MoveTask(Snake snake, SnakePanel panel){
 			this.snake = snake;
 			this.panel = panel;
@@ -200,12 +267,16 @@ public class Controller {
 		return gameRunning;
 	}
 
+	
+	private boolean lastSave = true;
 	/**
 	 * @param gameRunning the gameRunning to set
 	 */
 	public void setGameRunning(boolean gameRunning) {
-		if (!gameRunning)
+		if (!gameRunning && lastSave){
+			lastSave = false;
 			updateHighScore(score, ConfigManager.getConfig().getUserName());
+		}
 		this.gameRunning = gameRunning;
 		this.panel.setGameOver(!gameRunning);
 	}

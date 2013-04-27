@@ -70,13 +70,13 @@ public class RetrieveAllIterationsController {
 		request.addObserver(requestObserver);
 		request.send();
 	}
-
-	/*
-	 * TODO: proper implementation
+	/**
+	 * Handles errors with receiving data.
 	 * 
-	 * @param string
+	 * @param string The error message.
 	 */
 	public void errorReceivingData(String string) {
-
+		
 	}
+
 }

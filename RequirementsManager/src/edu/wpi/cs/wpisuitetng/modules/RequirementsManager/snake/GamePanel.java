@@ -116,6 +116,7 @@ public class GamePanel extends JPanel{
                             /* Finally get to remove the handler. */
                             //me.getApparent().removeLocationSelectionListener(me.GUID(), me);
                         	me.controller.moveTimer.cancel();
+                        	
                         }
 
 						@Override

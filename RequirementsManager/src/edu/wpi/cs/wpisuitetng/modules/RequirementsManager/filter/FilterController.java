@@ -42,9 +42,11 @@ public class FilterController{
 	protected RequirementListPanel listPanel;
 	protected RetrieveAllIterationsController iterationController;
 	protected RetrieveAllUsersController userController;
+	
 	/**
 	 * Create a new controller. Set up the buttons of the panel
-	 * 
+	 *
+	 * @param listPanel the parent list panel
 	 */
 	public FilterController(RequirementListPanel listPanel) {
 

@@ -629,7 +629,7 @@ public class Requirement extends AbstractModel{
 			this.iteration.removeRequirement(this.getId());
 		}
 		this.iteration = iteration;
-		this.iterationId = this.iteration.getId();
+		this.iterationId = iteration.getId();
 
 		this.iteration.addRequirement(this.getId());
 
@@ -807,7 +807,6 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileName
 	 */
 	public ArrayList<String> getAttachedFileNames() {
-		System.out.println("in get attachedfilenames we gots: "+this.attachedFileNameStr);
 		if(this.attachedFileNameStr == null){
 			return new ArrayList<String>();
 		}
@@ -831,7 +830,6 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileName: the attachedFileName to set
 	 */
 	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
-		System.out.println("yo here are the attachedfilenames: "+attachedFileNames);
 		if (this.attachedFileNameStr != null){
 			this.attachedFileNameStr = "";
 		}
@@ -860,7 +858,6 @@ public class Requirement extends AbstractModel{
 				ret.add(Integer.parseInt(i));
 			}
 		}
-		System.out.println("returning not empty list in getAttachedFileId");
 		return ret;
 	}
 
@@ -877,7 +874,6 @@ public class Requirement extends AbstractModel{
 			System.out.println("setting the file ids to " + s);
 			this.attachedFileIdStr += s + ":";
 		}
-		System.out.println("final attachedfileidstr thingy : "+ this.attachedFileIdStr);
 	}
 	/**
 	 * @return the totalEstimateEffort

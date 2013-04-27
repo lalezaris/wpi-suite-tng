@@ -32,10 +32,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class EditIterationsAction extends AbstractAction {
 	private final MainTabController controller;
 	private final Iteration iteration;
+	
 	/**
 	 * Create a EditIterationAction.
-	 * 
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param iteration the iteration
 	 */
 	public EditIterationsAction(MainTabController controller, Iteration iteration) {
 		super("Edit");

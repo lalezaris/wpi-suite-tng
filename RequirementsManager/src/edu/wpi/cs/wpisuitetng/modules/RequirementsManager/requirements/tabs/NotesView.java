@@ -22,6 +22,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends JPanel implements FocusListener {
+public class NotesView extends RequirementTab implements FocusListener {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -103,6 +104,7 @@ public class NotesView extends JPanel implements FocusListener {
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
+		txtNotesSaved.setBackground(new Color(223,223,223));
 		JLabel lblNotes = new JLabel("Enter Note:", LABEL_ALIGNMENT);
 		JLabel lblNotesSaved = new JLabel("Saved Notes:", LABEL_ALIGNMENT);
 
@@ -282,14 +284,27 @@ public class NotesView extends JPanel implements FocusListener {
 		return this.txtNotesSaved;
 	}
 	
+	/**
+	 * Sets the txt notes background color.
+	 *
+	 * @param c the new txt notes background color
+	 */
 	public void setTxtNotesBackgroundColor(Color c) {
 		this.txtNotes.setBackground(c);
 	}
 	
+	/**
+	 * Sets the txt notes saved background color.
+	 *
+	 * @param c the new txt notes saved background color
+	 */
 	public void setTxtNotesSavedBackgroundColor(Color c) {
 		this.txtNotesSaved.setBackground(c);
 	}
 
+	/**
+	 * Refresh backgrounds.
+	 */
 	public void refreshBackgrounds() {
 		this.parent.getReqModel().updateBackgrounds();
 	}
@@ -307,5 +322,20 @@ public class NotesView extends JPanel implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();		
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Notes";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify notes";
 	}
 }

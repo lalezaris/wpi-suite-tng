@@ -21,7 +21,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -64,6 +66,12 @@ public class Requirement extends AbstractModel{
 	private ArrayList<HistoricalChange> history;
 	private ArrayList<AcceptanceTest> acceptanceTests;
 	private ArrayList<Task> tasks;
+	
+	private ArrayList<String> attachedFileName;
+	private String attachedFileNameStr;
+	private ArrayList<Integer> attachedFileId;
+	private String attachedFileIdStr;
+	private int totalEstimateEffort;
 
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -139,6 +147,7 @@ public class Requirement extends AbstractModel{
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
+		this.totalEstimateEffort = 0; //default total estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
@@ -151,13 +160,21 @@ public class Requirement extends AbstractModel{
 		this.history = new ArrayList<HistoricalChange>();
 		this.acceptanceTests = new ArrayList<AcceptanceTest>();
 		this.tasks = new ArrayList<Task>();
+		
+		this.setAttachedFileName(new ArrayList<String>());
+		this.setAttachedFileId(new ArrayList<Integer>(){
+			public boolean add(Integer i){
+				System.out.println("so i added this thing to me: "+i);
+				return super.add(i);
+			}
+		});;
 	}
 	
 	
 	/**
 	 * Instantiates a fake requirement. ONLY to be used for tree view.
 	 *
-	 * @param Requirement r the Requirement to be forked from
+	 * @param r the Requirement to be forked from
 	 */
 	public Requirement(Requirement r){
 		this();
@@ -253,7 +270,9 @@ public class Requirement extends AbstractModel{
 	}
 	
 	/**
-	 * Removes a child requirement ID from the list of children
+	 * Removes a child requirement ID from the list of children.
+	 *
+	 * @param id the id of the child requirement to remove
 	 */
 	public void removeChildRequirement(int id) {
 		for (int num = 0; num < childIDs.size(); num++) {
@@ -610,7 +629,7 @@ public class Requirement extends AbstractModel{
 			this.iteration.removeRequirement(this.getId());
 		}
 		this.iteration = iteration;
-		this.iterationId = this.iteration.getId();
+		this.iterationId = iteration.getId();
 
 		this.iteration.addRequirement(this.getId());
 
@@ -780,4 +799,100 @@ public class Requirement extends AbstractModel{
 	public void setSubRequirements(ArrayList<Integer> newList) {
 		this.childIDs = (ArrayList<Integer>) newList.clone();
 	}
+
+	public void updateAttachments(List<Object> attachmentsList) {
+		// TODO change 'Obeject' to 'Attachment'
+		// TODO actually update the attachments.....
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the attachedFileName
+	 */
+	public ArrayList<String> getAttachedFileNames() {
+		if(this.attachedFileNameStr == null){
+			return new ArrayList<String>();
+		}
+		String[] s = this.attachedFileNameStr.split(":");
+		ArrayList<String> ret = new ArrayList<String>();
+		boolean nul = false;
+		for(String str : s){
+			if(!nul && str.contains("null")){
+				nul = true;
+				str = str.substring(4);
+			}
+			ret.add(str);
+		}
+		return ret;
+		//return attachedFileName;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @param attachedFileName: the attachedFileName to set
+	 */
+	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
+		if (this.attachedFileNameStr != null){
+			this.attachedFileNameStr = "";
+		}
+		for(String s : attachedFileNames){
+			this.attachedFileNameStr += s + ":";
+		}
+	}
+	
+	
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @return the attachedFileId
+	 */
+	public ArrayList<Integer> getAttachedFileId() {
+		if(this.attachedFileIdStr == null){
+			System.out.println("returning empty list in getAttachedFileId");
+			return new ArrayList<Integer>();
+			
+		}
+		String[] ids= this.attachedFileIdStr.split(":");
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		for(String i : ids){
+			if(i!=null && !i.equals("")){
+				ret.add(Integer.parseInt(i));
+			}
+		}
+		return ret;
+	}
+
+	/**
+	 * Enter description here.
+	 * Make sure the method's name starts with get (delete this statement)
+	 * @param attachedFileId: the attachedFileId to set
+	 */
+	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
+		if(this.attachedFileIdStr == null || this.attachedFileIdStr == "null") {
+			this.attachedFileIdStr = "";
+		}
+		for(Integer s : attachedFileIds){
+			System.out.println("setting the file ids to " + s);
+			this.attachedFileIdStr += s + ":";
+		}
+	}
+	/**
+	 * @return the totalEstimateEffort
+	 */
+	public int getTotalEstimateEffort() {
+		//if(totalEstimateEffort != 0)
+			return totalEstimateEffort;
+	//	else return getEstimateEffort();
+	}
+
+	/**
+	 * @param totalEstimateEffort the totalEstimateEffort to set
+	 */
+	public void setTotalEstimateEffort(int totalEstimateEffort) {
+		this.totalEstimateEffort = totalEstimateEffort;
+	}
+
 }

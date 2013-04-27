@@ -38,14 +38,14 @@ public class ListAction extends AbstractAction {
 	private final MainTabController controller;
 
 	/**
-	 * Constructor for ListAction
-	 * 
-	 * @param controller
+	 * Constructor for ListAction.
+	 *
+	 * @param controller the controller
+	 * @param componentName the component name
 	 */
 	public ListAction(MainTabController controller,String componentName) {
 		super(componentName);
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}	
 
 	/**

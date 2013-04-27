@@ -240,6 +240,7 @@ public class FilterPanel extends JPanel{
 		this.rules.get(0).getPossibleValues().setSelectedIndex(4); //The index of the DELETED status
 		
 		this.rules.get(0).addListeners();
+		this.rules.get(0).checkForNullRule();
 		//this.rules.get(0).getPossibleValues().setSelectedIndex(1);
 		
 		

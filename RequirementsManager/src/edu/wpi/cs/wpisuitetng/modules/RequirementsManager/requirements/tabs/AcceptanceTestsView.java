@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -43,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Michael French
  */
 @SuppressWarnings({"rawtypes", "serial"})
-public class AcceptanceTestsView extends JPanel implements FocusListener {
+public class AcceptanceTestsView extends RequirementTab implements FocusListener {
 	protected GridBagLayout layout;
 
 	protected JPlaceholderTextField txtTitle;
@@ -80,6 +82,13 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
+		
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblTitleError;
+                }
+            });
 
 		this.parent = parent;
 
@@ -145,6 +154,7 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		listModel = new DefaultListModel<AcceptanceTest>();
 
 		listDisplay = new JList(listModel);
+		listDisplay.setBackground(new Color(223,223,223));
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
 
 		//add the Title text field
@@ -466,6 +476,9 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 		lblTitleError.setVisible(false);
 	}
 
+	/**
+	 * Clear status cmb.
+	 */
 	public void clearStatusCmb(){
 		cmbStatus.setSelectedIndex(0);
 	}
@@ -724,8 +737,11 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();
 	}
+	
 	/**
-	 * toggle enable of title field
+	 * toggle enable of title field.
+	 *
+	 * @param b determines if the title is enabled.
 	 */
 	public void toggleTitleEnabled(boolean b) {
 		txtTitle.setEnabled(b);
@@ -734,9 +750,26 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 
 	/**
 	 * check to see if title is enabled or not
-	 * if false, then in edit mode
+	 *
+	 * @return true, if is title enabled. If false, then in edit mode.
 	 */
 	public boolean isTitleEnabled() {
 		return txtTitleFlag;
+	}
+
+
+	@Override
+	public String getTabTitle() {
+		return "Acceptance Tests";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify acceptance tests";
 	}
 }

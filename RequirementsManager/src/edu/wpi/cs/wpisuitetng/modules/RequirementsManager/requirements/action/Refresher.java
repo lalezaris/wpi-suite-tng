@@ -56,6 +56,7 @@ public class Refresher {
 
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
+
 	private IterationListPanel iterationTable;
 
 
@@ -213,5 +214,21 @@ public class Refresher {
 				this.lastKnownIterations[i] = knownIterations.get(i);
 			}
 		}
+	}
+	
+	/**
+	 * Get the tree model
+	 * 
+	 * @return
+	 */
+	public ReqTreeModel getTreeModel(){
+		return tree;
+	}
+
+	/**
+	 * @return the table
+	 */
+	public RequirementListPanel getTable() {
+		return table;
 	}
 }

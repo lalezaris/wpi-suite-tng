@@ -38,6 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.UpdateRequirementViewController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -84,6 +85,10 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
+			
+			// update all open Requirement Views
+			UpdateRequirementViewController.updateAllOpenRequirementViews();
+			
 			// make sure the Requirement isn't null
 			if (requirement != null) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -157,7 +162,8 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							uneditedParentWithChild.addHistoricalChange(change);
 							//System.out.println("new history message: " + uneditedParentWithChild.getHistory().get(uneditedParentWithChild.getHistory().size() - 1).getChange());
 							//System.out.println("new history size: " + uneditedParentWithChild.getHistory().size() + "END\n\n\n\n");
-							uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
+							//uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
+
 
 							parentView.getReqModel().setRequirement(uneditedParentWithChild);
 

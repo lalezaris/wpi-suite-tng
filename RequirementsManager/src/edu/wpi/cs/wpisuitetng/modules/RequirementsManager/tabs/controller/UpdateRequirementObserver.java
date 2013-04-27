@@ -46,7 +46,8 @@ public class UpdateRequirementObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		controller.getPanel().showUpdateSuccessfully();
+		this.controller.updateSuccess();
+		controller.getPanel().showUpdateSuccessfully("Update Successful.");
 	}
 
 	/**
@@ -54,6 +55,7 @@ public class UpdateRequirementObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
+		System.out.println("response error: " +iReq.toString());
 	}
 
 	/**
@@ -61,5 +63,6 @@ public class UpdateRequirementObserver implements RequestObserver{
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
+		System.out.println("response fail: " +iReq.toString() + ":::" + exception.toString());
 	}
 }

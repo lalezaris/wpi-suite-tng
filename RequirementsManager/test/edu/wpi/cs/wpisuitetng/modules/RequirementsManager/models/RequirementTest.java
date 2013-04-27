@@ -51,6 +51,9 @@ public class RequirementTest {
 	RequirementStatus status1, status2, status3, status4, status5;
 	RequirementPriority priority1, priority2, priority3;
 	
+	/**
+	 * Sets up the tests.
+	 */
 	@Before
 	public void setUp(){
 		date1 = new Date();
@@ -170,6 +173,9 @@ public class RequirementTest {
 		assertEquals(15, newRequirement.getId());
 	}
 	
+	/**
+	 * Tests creating a note.
+	 */
 	@Test
 	public void testNote(){
 		Note testNote1 = new Note("New Note Body", "New User");
@@ -188,6 +194,9 @@ public class RequirementTest {
 		assertEquals(r5.countNotes(), 2);
 	}
 	
+	/**
+	 * Tests more setters.
+	 */
 	@Test
 	public void testMoreSetters(){
 		r5.setTitle("This has to be a title string!");
@@ -207,6 +216,9 @@ public class RequirementTest {
 		
 	}
 	
+	/**
+	 * Test enums for requirement priority and types.
+	 */
 	@Test
 	public void testEnums(){
 		assertEquals(RequirementPriority.BLANK,RequirementPriority.valueFromString(""));

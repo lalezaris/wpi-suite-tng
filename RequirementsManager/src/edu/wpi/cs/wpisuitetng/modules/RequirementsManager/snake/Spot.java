@@ -16,11 +16,20 @@ public class Spot {
 
 	public int x, y;
 	
+	/**
+	 * Instantiates a new spot.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public Spot(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Instantiates a new spot.
+	 */
 	public Spot(){
 		this.x = 0;
 		this.y = 0;

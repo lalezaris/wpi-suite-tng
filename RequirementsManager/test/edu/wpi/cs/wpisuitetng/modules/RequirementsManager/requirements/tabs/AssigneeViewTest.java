@@ -1,3 +1,15 @@
+/**
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Michael French
+ */
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import static org.junit.Assert.*;
@@ -12,6 +24,9 @@ public class AssigneeViewTest {
 	AssigneeView av;
 	ArrayList<String> asn;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		av = new AssigneeView(null);
@@ -19,6 +34,9 @@ public class AssigneeViewTest {
 		
 	}
 	
+	/**
+	 * Test set assignee list.
+	 */
 	@Test
 	public void testSetAssigneeList(){
 		asn.add("Jenkins");
@@ -33,6 +51,9 @@ public class AssigneeViewTest {
 		asn = new ArrayList<String>();
 	}
 	
+	/**
+	 * Test set all user list.
+	 */
 	@Test
 	public void testSetAllUserList(){
 		asn.add("Us");
@@ -46,11 +67,17 @@ public class AssigneeViewTest {
 	}
 	
 	//TODO: figure out how to test these
+	/**
+	 * Test set list.
+	 */
 	@Test
 	public void testSetList(){
 		
 	}
 	
+	/**
+	 * Update not assigned.
+	 */
 	@Test
 	public void updateNotAssigned(){}
 }

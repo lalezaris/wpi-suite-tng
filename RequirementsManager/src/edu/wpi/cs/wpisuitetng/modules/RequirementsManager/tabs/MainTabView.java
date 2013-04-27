@@ -14,21 +14,16 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Component;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.ClosableTabComponent;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DashboardTab;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 
 /**
  * This tabbed pane will appear as the main content of the Requirements Manager tab.
@@ -149,6 +144,7 @@ public class MainTabView extends JTabbedPane {
 							"Warning",
 							JOptionPane.YES_NO_OPTION);
 					if (buttons == JOptionPane.YES_OPTION) {
+						panel.getModel().cancelChanges();
 						super.setSelectedIndex(index);
 					}
 				}
@@ -157,5 +153,4 @@ public class MainTabView extends JTabbedPane {
 		} else 
 			super.setSelectedIndex(index);
 	}
-	
 }

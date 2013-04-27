@@ -44,7 +44,6 @@ public class NewIterationAction extends AbstractAction {
 	public NewIterationAction(MainTabController controller) {
 		super("Iteration");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
 	}
 
 	/** 

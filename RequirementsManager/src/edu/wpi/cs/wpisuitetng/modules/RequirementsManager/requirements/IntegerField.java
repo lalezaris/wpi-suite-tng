@@ -1,14 +1,11 @@
 /**************************************************
- * This file was developed for CS3733: Software Engineering
- * The course was taken at Worcester Polytechnic Institute.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html 
+ * This file was taken from Stack Overflow under the cc-wiki license
+ * the author can be seen belwo with the link, going to the authors profile in 
+ * Stack Overflow. Also the content was found at:
+ * http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  *
  * Contributors:
- * Tyler Stone
+ * David Buzatto, http://stackoverflow.com/users/469201/davidbuzatto
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -20,8 +17,10 @@ import javax.swing.text.PlainDocument;
 
 /**
  * A JTextField that accepts only integers.
+ * The Content of this class is from Stack Overflow.
+ * It can be found at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
  * 
- * @author Tyler Stone, acquired at http://stackoverflow.com/questions/14319064/how-to-validate-a-jtextfield-to-accept-only-interger-numbers
+ * @author David Buzatto, http://stackoverflow.com/users/469201/davidbuzatto 
  *
  * @version Mar 22, 2013
  */

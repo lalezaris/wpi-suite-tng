@@ -81,6 +81,8 @@ public class RequirementStore implements EntityManager<Requirement>{
 		HChange.updateOnCreate(newRequirement);
 		newRequirement.addHistoricalChange(HChange);
 
+		this.setTotalEstimate(newRequirement, newRequirement.getEstimateEffort(), s);
+		
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -98,7 +100,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 				throw new WPISuiteException();
 			}
 		}
-
+		
 		return newRequirement;
 	}
 
@@ -164,6 +166,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		}
 		System.out.println("\n\n\n\n\n");
 		
+		
+		this.setTotalEstimate(req, 0, s);
+		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
@@ -171,6 +176,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 
+//		System.out.println("Start of Update Req: " + req.toJSON());
+//		System.out.println("Start of Update ServerReq : " + serverReq.toJSON());
+		
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 
 		System.out.println("\n\n\n\n\n--Requirement Title: " + req.getTitle());
@@ -226,17 +234,106 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//update tasks
 		serverReq.updateTasks(req.getTasks());
 
+		
+		
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
 			throw new WPISuiteException();
 		}
 
+		
+		
+		
+		
 		//TODO modify this function to use validators and make sure not to update if no 
 		//changes have been made.
 
+		//System.out.println("making new requiremnt with attachment"+serverReq.getAttachedFileId().get(0));
 		return serverReq;
+		
 	}
 
+	/**
+	 * Update the totalEstimate of a requirement. This call is recursive, and will adjust the total
+	 * estimates of all parents of the given requirement
+	 * 
+	 * @param req. The Requirement to update
+	 * @param totalEstimateChange. The amount to change the totalEstimate by
+	 * @param s. The current session
+	 */
+	private void setTotalEstimate(Requirement req, int totalEstimateChange, Session s){
+		//get requirement from server
+		List<Model> oldRequirements = null;
+		try {
+			oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
+		} catch (WPISuiteException e) {
+			System.out.println("server side not around...");
+		}
+		//Set the serverReq to be the passed in Requirement
+		Requirement serverReq = req;
+		//If the server actually has a copy of the requirement, replace serverReq to be that.
+		if (oldRequirements!=null && oldRequirements.size() >= 1 && oldRequirements.get(0)!=null){
+			serverReq = (Requirement) oldRequirements.get(0);
+			System.out.println("Server side object found");
+		} else System.out.println("No Server side object found");
+		
+		int serverTotalEstimate = serverReq.getTotalEstimateEffort();
+		System.out.println("serverReq.getTotalEstimateEffort = " + serverReq.getTotalEstimateEffort());
+		
+		int localEstimateChange = req.getEstimateEffort() - serverReq.getEstimateEffort();
+		int passOn = -serverReq.getTotalEstimateEffort();
+		System.out.println("Passon = " + passOn);
+		System.out.println("req.getEstEffort = " + req.getEstimateEffort());
+		
+		System.out.println("serverReq.getEstEffort = " + serverReq.getEstimateEffort());
+		System.out.println("localEstimateChange = " + localEstimateChange);
+		
+		serverTotalEstimate += localEstimateChange + totalEstimateChange;
+		serverReq.setTotalEstimateEffort(serverTotalEstimate);
+		
+		serverReq.setEstimateEffort(req.getEstimateEffort());
+		
+		System.out.println("Server. Set total estimate to : " + serverTotalEstimate);
+		passOn += serverTotalEstimate;
+		System.out.println("Passon = " + passOn);
+		
+		//localEstimateChange = req.getTotalEstimateEffort() - serverReq.getTotalEstimateEffort();
+		System.out.println("localEstimateChange to pass on = " + passOn);
+		//apply the changes
+		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
+			//throw new WPISuiteException();
+			System.out.println("save failed");
+		}
+		
+		System.out.println("HELLOOOOOOOOOOOOOOOO");
+		req.setTotalEstimateEffort(serverTotalEstimate);
+		System.out.println("Tootals");
+		
+		
+		//If has parent...
+		if (serverReq.getParentRequirementId() != -1){
+			System.out.println("has parent:" + serverReq.getParentRequirementId());
+			oldRequirements = null;		
+			try {
+			oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
+			} catch (WPISuiteException e) {
+				System.out.println("Parent not around...");
+			}
+			Requirement parent = null;
+			if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
+				parent = (Requirement) oldRequirements.get(0);
+			}
+			if (parent!=null){
+				
+				setTotalEstimate(parent, passOn, s);
+			} else System.out.println("Parent not found...");
+			
+		}
+		
+		
+		
+	}
+	
 	/**
 	 * Saves the given requirement into the database.
 	 *

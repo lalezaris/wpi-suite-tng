@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.AttachmentStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.PermissionsStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.RequirementStore;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager.IterationStore;
@@ -83,6 +84,7 @@ public class ManagerLayer {
 		map.put("iterationsmanageriteration", new IterationStore(data));
 		map.put("requirementsmanagerpermissions", new PermissionsStore(data));
 		map.put("requirementsmanagersnake",  new SnakeStore(data));
+		map.put("attachmentcontrollerattachment",  new AttachmentStore(data));
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);

@@ -14,19 +14,27 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
- * The Class to hold DependenciesView.
+ * The Class to hold ParentAndChildrenView.
  *
  * @author Tushar Narayan
  *
@@ -34,12 +42,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings("serial")
-public class ParentAndChildrenView extends JPanel{
+public class ParentAndChildrenView extends RequirementTab{
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
 
-	protected JTextArea txtDependencies;
+	protected JLabel lblParent;
+	protected JLabel lblChildren;
+	protected JList txtParent;
+	protected JList txtChildren;
+	protected DefaultListModel mdlChildren;
+	protected DefaultListModel mdlParent;
 
 	/** The ArrayList of Child Requirement IDs (aka downstream dependencies)**/
 	protected ArrayList<Integer> childRequirementIDs;
@@ -55,7 +68,7 @@ public class ParentAndChildrenView extends JPanel{
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
 	protected RequirementView parentRequirementView;
-
+	
 	/**
 	 * Instantiates a new dependencies view.
 	 *
@@ -66,7 +79,7 @@ public class ParentAndChildrenView extends JPanel{
 		this.parentID = 0;
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
-		layout.columnWeights = new double[]{.2, .8};
+//		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
 		this.parentRequirementView = parent;
 		// Add all components to this panel
@@ -81,49 +94,123 @@ public class ParentAndChildrenView extends JPanel{
 	protected void addComponents() {
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
-
+		
+		lblParent = new JLabel("Parent: ", LABEL_ALIGNMENT);
+		lblParent.setForeground(Color.BLACK);
+		lblChildren = new JLabel("Children: ", LABEL_ALIGNMENT);
+		lblChildren.setForeground(Color.BLACK);
+		mdlParent = new DefaultListModel();
+		if(!(parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId() < 0)){
+			mdlParent.addElement("Requirement " + parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId());
+		}
+		txtParent = new JList(mdlParent);
+		txtParent.setCellRenderer(new NonSelectListCellRenderer());
+		mdlChildren = new DefaultListModel();
+		childRequirementIDs = parentRequirementView.getReqModel().getUneditedRequirement().getChildRequirementIds();
+		String req = "";
+		for(int i = 0; i < childRequirementIDs.size(); i++){
+			req = "Requirement " + childRequirementIDs.get(i);
+			mdlChildren.addElement(req);
+			req = "";
+		}
+		txtChildren = new JList(mdlChildren);
+		txtChildren.setCellRenderer(new NonSelectListCellRenderer()); 
+		JPanel panelOne = new JPanel();
+		panelOne.setLayout(new GridBagLayout());
+		GridBagConstraints cOne = new GridBagConstraints();
+		JPanel panelTwo = new JPanel();
+		panelTwo.setLayout(new GridBagLayout());
+		GridBagConstraints cTwo = new GridBagConstraints();
 		//TODO: Set borders if we decide to do this across sub-tabs
 
 		/* begin panel styling */
-		txtDependencies = new JTextArea(4, 40);
-		txtDependencies.setLineWrap(true);
-		JScrollPane scrollPaneDependencies = new JScrollPane(txtDependencies);
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.BOTH;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START;
+		cTwo.insets = new Insets(10,10,5,0); //top,left,bottom,right
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridx = 0;
+		cTwo.gridy = 0;
+		cTwo.gridwidth = 1;
+		panelTwo.add(lblParent,cTwo);
+		
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START;
+		cTwo.insets = new Insets(10,10,5,0); //top,left,bottom,right
+		cTwo.weightx = 0.5;
+		cTwo.weighty = 0.5;
+		cTwo.gridx = 1;
+		cTwo.gridy = 0;
+		cTwo.gridwidth = 1;
+//		txtParent.setForeground(Color.BLACK);
+//		txtParent.setEnabled(false);
+//		txtParent.setOpaque(true);
+		panelTwo.add(txtParent,cTwo);
+		
+		cOne.anchor = GridBagConstraints.FIRST_LINE_START;
+		cOne.insets = new Insets(20,10,5,0); //top,left,bottom,right
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridx = 0;
+		cOne.gridy = 1;
+		cOne.gridwidth = 1;
+		panelOne.add(lblChildren,cOne);
+		
+		cOne.anchor = GridBagConstraints.FIRST_LINE_START;
+		cOne.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cOne.weightx = 0.5;
+		cOne.weighty = 0.5;
+		cOne.gridx = 0;
+		cOne.gridy = 2;
+		cOne.gridwidth = 1;
+//		txtChildren.setForeground(txtParent.getForeground());
+//		txtChildren.setEnabled(false);
+//		txtChildren.setForeground(txtParent.getForeground());
+//		txtChildren.setOpaque(true);
+		panelOne.add(txtChildren,cOne);
+		
+		JPanel panelOverall = new JPanel();
+		panelOverall.setLayout(new GridBagLayout());
+		GridBagConstraints cOverall = new GridBagConstraints();
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 0;
+		cOverall.gridwidth = 1;
+		panelOverall.add(panelTwo,cOverall);
+		
+		cOverall.anchor = GridBagConstraints.FIRST_LINE_START;
+		cOverall.weightx = 0.5;
+		cOverall.weighty = 0.5;
+		cOverall.gridx = 0;
+		cOverall.gridy = 1;
+		cOverall.gridwidth = 1;
+		panelOverall.add(panelOne,cOverall);
+		
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 0.1;
+		c.weighty = 0.1;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 2;
-		txtDependencies.setText(dependenciesListToString());
-		txtDependencies.setEnabled(false);
-		txtDependencies.setDisabledTextColor(Color.BLACK);
-		this.add(scrollPaneDependencies, c);
+		c.gridwidth = 1;
+		this.add(panelOverall,c);
+		
 		/* end panel styling */
 
 	}
 
 	/**
-	 * Set the children textbox with the children list.
+	 * @return the txtParent
 	 */
-	public void setTxtDependenciesSaved() {
-		txtDependencies.setText(dependenciesListToString());
+	public JList getTxtParent() {
+		return txtParent;
 	}
 
 	/**
-	 * Initialize the dependencies textarea.
+	 * @param txtParent: the txtParent to set
 	 */
-	public void setTxtDependencies(){
-		txtDependencies.setText("");
-	}
-
-	/**
-	 * Gets the dependencies string.
-	 *
-	 * @return txtDependencies in string format
-	 */
-	public String getDependenciesString(){
-		return txtDependencies.getText().trim();
+	public void setTxtParent(JList txtParent) {
+		this.txtParent = txtParent;
 	}
 
 	/**
@@ -143,14 +230,12 @@ public class ParentAndChildrenView extends JPanel{
 	public int getParentRequirement(){
 		return parentID;
 	}
-
+	
 	/**
-	 * Sets the dependencies list.
-	 *
+	 * @param childRequirementIDs: the childRequirementIDs to set
 	 */
-	public void setDependenciesList(){
-		if (txtDependencies!=null)
-			txtDependencies.setText(dependenciesListToString());
+	public void setChildRequirementIDs(ArrayList<Integer> childRequirementIDs) {
+		this.childRequirementIDs = childRequirementIDs;
 	}
 
 	/**
@@ -178,4 +263,29 @@ public class ParentAndChildrenView extends JPanel{
 		return list;
 	}
 
+	@Override
+	public String getTabTitle() {
+		return "Parent and Children";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "View parent and children requirements";
+	}
+
+}
+
+class NonSelectListCellRenderer extends DefaultListCellRenderer{
+	
+	public Component getListCellRendererComponent(JList list, Object value, int index,
+    boolean isSelected, boolean cellHasFocus) {
+		super.getListCellRendererComponent(list, value, index, false, false); // always set is selected to false and has focus to false, so nothing can be selected
+
+		return this;
+	}
 }

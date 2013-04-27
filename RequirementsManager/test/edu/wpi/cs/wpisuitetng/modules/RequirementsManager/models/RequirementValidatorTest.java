@@ -38,6 +38,9 @@ public class RequirementValidatorTest {
 	List<ValidationIssue> issues;
 	Data data;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		req = new Requirement();
@@ -45,6 +48,9 @@ public class RequirementValidatorTest {
 		List<ValidationIssue> issues = new ArrayList<ValidationIssue>();
 	}
 	
+	/**
+	 * Test invalid titles and descriptions.
+	 */
 	@Test
 	public void testInValidTitleAndDescription(){
 		//requirement with too short of title and no description (invalid)
@@ -74,6 +80,9 @@ public class RequirementValidatorTest {
 		assertEquals(2,issues.size());
 	}
 	
+	/**
+	 * Test various title description combos.
+	 */
 	@Test
 	public void testVariousTitleDescriptionCombos(){
 		//requirement with too short of title and no description (invalid)
@@ -109,6 +118,9 @@ public class RequirementValidatorTest {
 		assertEquals(0,issues.size());
 	}
 	
+	/**
+	 * Test valid iteration backlog.
+	 */
 	@Test
 	public void testValidIterationBacklog(){
 		//requirement in the backlog with a estimate of 0 and status of NEW in the create mode(valid)
@@ -125,6 +137,9 @@ public class RequirementValidatorTest {
 		assertEquals(0,issues.size()); //should be 0 as a valid requirement
 	}
 	
+	/**
+	 * Test invalid requirement backlog.
+	 */
 	@Test
 	public void testInValidRequirementBacklog(){
 		//requirement in the backlog with a estimate of 0 and status of OPEN in the create mode (invalid)
@@ -141,6 +156,9 @@ public class RequirementValidatorTest {
 		assertEquals(1,issues.size()); //should be 1 saying cannot be in Open in the backlog on create
 	}
 	
+	/**
+	 * Test edit conditions.
+	 */
 	@Test
 	public void testEditConditions(){
 		//requirement in the backlog with a estimate of 0 and status of OPEN in the edit mode (valid)
@@ -157,6 +175,9 @@ public class RequirementValidatorTest {
 		assertEquals(0,issues.size()); //should be 0 as corect values should be set
 	}
 	
+	/**
+	 * Test invalid estimate.
+	 */
 	@Test
 	public void testInvalidEstimate(){
 		//requirement in the backlog with a estimate of 0 and status of OPEN in the edit mode (valid)
@@ -181,6 +202,9 @@ public class RequirementValidatorTest {
 			assertEquals(1,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
 	}
 	
+	/**
+	 * Test invalid status in backlog.
+	 */
 	@Test
 	public void testInvalidStatusInBacklog(){
 		//requirement in the backlog with a estimate of 0 and status of OPEN in the edit mode (valid)
@@ -197,6 +221,9 @@ public class RequirementValidatorTest {
 		assertEquals(1,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
 	}
 	
+	/**
+	 * Test invalid status in iteration.
+	 */
 	@Test
 	public void testInvalidStatusInIteration(){
 		//requirement in the backlog with a estimate of 0 and status of OPEN in the edit mode (valid)
@@ -213,6 +240,9 @@ public class RequirementValidatorTest {
 		assertEquals(2, issues.size()); //should be 2 as estimate cannot be 0 & status should be in progress when assigned to a iteration
 	}
 	
+	/**
+	 * Test null requirement.
+	 */
 	@Test
 	public void testNullRequirement(){
 		try {
@@ -223,6 +253,9 @@ public class RequirementValidatorTest {
 		assertEquals(1,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
 	}
 	
+	/**
+	 * Test valid creation.
+	 */
 	@Test
 	public void testValidCreation(){
 		req.setTitle("Req 1"); //set a valid title
@@ -239,6 +272,9 @@ public class RequirementValidatorTest {
 		assertEquals(0,issues.size()); //should be 1 as estimate cannot be 0 when assigned to a iteration
 	}
 	
+	/**
+	 * Test invalid status.
+	 */
 	@Test
 	public void testInvalidStatus(){
 		req.setTitle("Req 1"); //set a valid title

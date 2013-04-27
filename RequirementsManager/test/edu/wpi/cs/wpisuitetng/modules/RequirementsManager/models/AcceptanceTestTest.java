@@ -39,6 +39,9 @@ public class AcceptanceTestTest {
 	Requirement req;
 	RequirementView rv;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		Network.initNetwork(new MockNetwork());
@@ -59,12 +62,18 @@ public class AcceptanceTestTest {
 		av.getStatusField().setEnabled(true);
 	}
 	
+	/**
+	 * Test constructors.
+	 */
 	@Test
 	public void testConstructor(){
 		assertEquals(a.getTitle(), "A Title");
 		assertEquals(a.getBody(), "bodybodybodybodybodybody");
 	}
 	
+	/**
+	 * Test changing fields.
+	 */
 	@Test
 	public void testChangeFields(){
 		a.setBody("New Body");
@@ -74,6 +83,9 @@ public class AcceptanceTestTest {
 	}
 	
 	
+	/**
+	 * Test adding and editing.
+	 */
 	@Test
 	public void testAddandEdit(){
 		av.getTitleField().setText("Test1");
@@ -98,6 +110,9 @@ public class AcceptanceTestTest {
 		assertEquals("new text", av.getList().get(0).getBody());
 	}
 	
+	/**
+	 * Test if not ready.
+	 */
 	@Test
 	public void testNotReady(){
 		av.getTitleField().setText("");

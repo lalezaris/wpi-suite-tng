@@ -29,7 +29,12 @@ public class TaskDropdownListener implements ActionListener{
 	TasksView view;
 	TasksPanel panel;
 	
-	//Constructor
+	/**
+	 * Instantiates a new task dropdown listener.
+	 *
+	 * @param panel the panel
+	 * @param view the view
+	 */
 	public TaskDropdownListener(TasksPanel panel, TasksView view){
 		this.panel = panel;
 		this.view = view;

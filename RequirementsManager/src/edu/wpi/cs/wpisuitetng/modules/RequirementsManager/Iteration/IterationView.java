@@ -106,6 +106,12 @@ public class IterationView extends JPanel {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 		iterationModel.updateModel(iteration, edit);
+		if(mode == Mode.CREATE){
+			mainPanel.getTxtEstimate().setVisible(false);
+			mainPanel.getLblEstimate().setVisible(false);
+			//Set the divider location to account for the moving of the buttons with the date format
+			mainPanel.getSplitPane().setDividerLocation(mainPanel.getSplitPane().getPreferredSize().width + 6);
+		}
 		if(iteration.compareTo(Iteration.getBacklog()) == 0){
 			mainPanel.getBtnSaveIteration().setEnabled(false);
 			mainPanel.getBtnSaveIteration().setVisible(false);
@@ -123,6 +129,7 @@ public class IterationView extends JPanel {
 			mainPanel.getTxtIterationName().setBackground(this.getBackground());
 			mainPanel.getTxtIterationName().setDisabledTextColor(Color.BLACK);
 		}
+		
 	}
 
 	/**

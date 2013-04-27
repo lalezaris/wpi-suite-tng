@@ -103,8 +103,6 @@ public class GamePanel extends JPanel{
 		this.controller = new Controller(playPanel, snake, this);
 		this.snake.setController(controller);
 		
-		
-		
 		final GamePanel me = this;
         me.addHierarchyListener(new HierarchyListener() {
             @Override
@@ -179,6 +177,9 @@ public class GamePanel extends JPanel{
 		containingTab.setIcon(new ImageIcon());
 		containingTab.setTitle("Snake");
 		containingTab.setToolTipText("play an awesome game of snake");
+	}
+	public Tab getTab() {
+		return containingTab;
 	}
 
 }

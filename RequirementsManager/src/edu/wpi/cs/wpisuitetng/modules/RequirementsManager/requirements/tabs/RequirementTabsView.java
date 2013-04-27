@@ -41,18 +41,27 @@ public class RequirementTabsView extends JTabbedPane {
 	 * @param pcv the ParentAndChildrenView
 	 * @param tv the TasksView
 	 */
-	public RequirementTabsView(NotesView nv, HistoryView hv, AcceptanceTestsView atv, AssigneeView av, ParentAndChildrenView pcv, TasksView tv) {
-		//TODO get history objects from database
+	public RequirementTabsView(RequirementTab[] tabs){
+		
 		setTabPlacement(TOP);
 		setTabLayoutPolicy(SCROLL_TAB_LAYOUT);
 		setBorder(BorderFactory.createEmptyBorder(5, 3, 3, 3));
-		addTab("Notes", new ImageIcon(), nv, "Add notes");
+		int i =0;
+		for(RequirementTab t: tabs){
+			
+			if(t == null){
+				System.out.println("#"+i+" was friggin null");
+			}
+			i++;
+			addTab(t.getTabTitle(), t.getImageIcon(), t, t.getTooltipText());
+		}
+/*
+		addTab("Notes", new ImageIcon(), nv, "Add and modify notes");
 		addTab("History", new ImageIcon(), hv, "View history of changes");
 		JScrollPane scrollPaneAssigneeView = new JScrollPane(av);
 		addTab("Assigned To", new ImageIcon(), scrollPaneAssigneeView, "Add and modify assignees");
 		JScrollPane scrollPaneAcceptanceTestView = new JScrollPane(atv);
 		addTab("Acceptance Tests", new ImageIcon(), scrollPaneAcceptanceTestView, "Add and modify acceptance tests");
-		addTab("Parent and Children", new ImageIcon(), pcv, "View parent and children requirements");
-		addTab("Tasks", new ImageIcon(), tv, "Edit and view tasks");
+*/
 	}
 }

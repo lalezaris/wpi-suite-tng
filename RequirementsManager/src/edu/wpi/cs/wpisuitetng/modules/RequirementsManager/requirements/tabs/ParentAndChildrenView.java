@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ import javax.swing.UIManager;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
 /**
- * The Class to hold DependenciesView.
+ * The Class to hold ParentAndChildrenView.
  *
  * @author Tushar Narayan
  *
@@ -41,7 +42,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  *
  */
 @SuppressWarnings("serial")
-public class ParentAndChildrenView extends JPanel{
+public class ParentAndChildrenView extends RequirementTab{
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -267,6 +268,21 @@ public class ParentAndChildrenView extends JPanel{
 		}
 		txtChildren.removeAll();
 		txtChildren.setModel(newChildren);
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Parent and Children";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "View parent and children requirements";
 	}
 
 }

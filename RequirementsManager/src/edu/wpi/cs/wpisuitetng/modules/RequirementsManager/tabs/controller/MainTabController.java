@@ -56,9 +56,9 @@ public class MainTabController {
 
 	MainTabView view;
 	HashMap<Integer, RequirementView> reqViewHashMap;
+
+
 	ArrayList<RequirementView> reqViewList;
-	
-	
 	private static MainTabController staticView;
 
 	/**
@@ -184,6 +184,7 @@ public class MainTabController {
 			GamePanel panel = new GamePanel();
 			panel.setTab(tab);
 			tab.setComponent(panel);
+			view.setSelectedIndex(panel.getTab().getThisIndex());
 			panel.requestFocus();
 			return tab;
 		}

@@ -51,10 +51,8 @@ public class SaveTaskListener implements ActionListener{
 			//Find the old task and replace it with the new one.
 			if(readyToSave(view.getTaskPanelArray().get(position))){
 				view.replaceTask(makeTask(view.getTaskPanelArray().get(position)));
-				
+				view.getTaskPanelArray().get(position).repaint();
 				view.placeBorder(position);
-				//view.getListScrollPane().repaint();
-				//view.getListScrollPane().revalidate();
 			}
 		}
 		//New Task

@@ -45,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Michael French
  */
 @SuppressWarnings({"rawtypes", "serial"})
-public class AcceptanceTestsView extends JPanel implements FocusListener {
+public class AcceptanceTestsView extends RequirementTab implements FocusListener {
 	protected GridBagLayout layout;
 
 	protected JPlaceholderTextField txtTitle;
@@ -755,5 +755,21 @@ public class AcceptanceTestsView extends JPanel implements FocusListener {
 	 */
 	public boolean isTitleEnabled() {
 		return txtTitleFlag;
+	}
+
+
+	@Override
+	public String getTabTitle() {
+		return "Acceptance Tests";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify acceptance tests";
 	}
 }

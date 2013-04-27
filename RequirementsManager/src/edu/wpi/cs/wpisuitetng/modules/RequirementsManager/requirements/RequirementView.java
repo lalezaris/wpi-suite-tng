@@ -16,6 +16,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
+import java.util.List;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.IToolbarGroupProvider;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.AcceptanceTest;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementStatusLists;
@@ -45,6 +48,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.De
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AttachmentController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CancelRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.CreateChildRequirementController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.DeleteRequirementController;
@@ -138,6 +142,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getNotesView().getSaveButton().addActionListener(new AddNoteController(mainPanel.getNotesView()));
 		mainPanel.getAssigneeView().getBtnAdd().addActionListener(new AddAssigneeController(mainPanel.getAssigneeView()));
 		mainPanel.getAssigneeView().getBtnRemove().addActionListener(new RemoveAssigneeController(mainPanel.getAssigneeView()));
+
+		
+		AttachmentController attachmentController = new AttachmentController( mainPanel.getAttachmentsView() , reqModel.getUneditedRequirement().getId());
 
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);
@@ -355,6 +362,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAssigneeView().setLists();
+		mainPanel.getAttachmentsView().setAttachmentsList(new ArrayList<Object>());
+		//TODO change the 'Object' to 'Attachment'
 
 		//Set the list of acceptance tests in the views.
 		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
@@ -610,5 +619,4 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RMPermissionsLevel getpLevel() {
 		return pLevel;
 	}
-
 }

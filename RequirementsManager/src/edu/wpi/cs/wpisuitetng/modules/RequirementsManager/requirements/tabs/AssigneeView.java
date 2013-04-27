@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -44,7 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 @SuppressWarnings("serial")
-public class AssigneeView extends JPanel {
+public class AssigneeView extends RequirementTab{
 
 	private ArrayList<String> allUserAL;
 	private ArrayList<String> assignedUserAL;
@@ -367,6 +368,20 @@ public class AssigneeView extends JPanel {
 		return allUserList.getBackground();
 	}
 
+	@Override
+	public String getTabTitle() {
+		return "Assigned To";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify assignees";
+	}
 
 	/**
 	 * Refresh all backgrounds.
@@ -374,5 +389,4 @@ public class AssigneeView extends JPanel {
 	public void refreshAllBackgrounds() {
 		parent.getReqModel().updateBackgrounds();
 	}
-	
 }

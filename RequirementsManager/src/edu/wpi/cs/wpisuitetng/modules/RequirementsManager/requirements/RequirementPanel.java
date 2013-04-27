@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -48,11 +49,14 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermiss
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementType;
+
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AttachmentsView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AcceptanceTestsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AssigneeView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.HistoryView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.NotesView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.ParentAndChildrenView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
@@ -135,21 +139,20 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	// TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
+	/** Attachments view for adding files to a requirement*/
+	private AttachmentsView attachmentsView;
+
 	/** Parent and Requirement View for viewing parent and child requirements **/
 	private ParentAndChildrenView parentChildrenView;
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
-
-	/** Error labels */
-	JLabel lblTitleError = new JLabel("ERROR: Must have a title",
-			LABEL_ALIGNMENT);
-	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description",
-			LABEL_ALIGNMENT);
-	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid",
-			LABEL_ALIGNMENT);
-	JLabel lblActualError = new JLabel("ERROR: Actual is invalid",
-			LABEL_ALIGNMENT);
+	
+	/**Error labels*/
+	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
+	JLabel lblDescriptionError = new JLabel("ERROR: Must have a description", LABEL_ALIGNMENT);
+	JLabel lblEstimateError = new JLabel("ERROR: Estimate is invalid", LABEL_ALIGNMENT);
+	JLabel lblActualError = new JLabel("ERROR: Actual is invalid", LABEL_ALIGNMENT);
 
 	/** The layout manager for this panel */
 	protected BorderLayout layout;
@@ -201,9 +204,12 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		// get the list of history from the given requirement
 		this.historyView = new HistoryView(parent);
-
-		// Instantiate the acceptance tests
+		
+		this.attachmentsView = new AttachmentsView(parent);
+		
+		//Instantiate the acceptance tests
 		this.acceptanceTestsView = new AcceptanceTestsView(parent);
+		
 
 		// get the list of history from the given requirement
 		this.assigneeView = new AssigneeView(parent);
@@ -306,12 +312,30 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
-
-		RTabsView = new RequirementTabsView(notesView, historyView,
-				acceptanceTestsView, assigneeView, parentChildrenView,
-				tasksView);
-
-		/** Save Button */
+		
+		RequirementTab forAttachments = this.attachmentsView;
+		if(mode == Mode.CREATE){
+			forAttachments = new RequirementTab(){
+				@Override
+				public String getTabTitle() {
+					return attachmentsView.getTabTitle();
+				}
+				@Override
+				public ImageIcon getImageIcon() {
+					return attachmentsView.getImageIcon();
+				}
+				@Override
+				public String getTooltipText() {
+					return attachmentsView.getTooltipText();
+				}
+			};
+			forAttachments.add(new JLabel("Cannot attach files before saving the requirement"));
+		}
+		
+		RTabsView = new RequirementTabsView(new RequirementTab[]{notesView, historyView, acceptanceTestsView
+				, assigneeView, tasksView, forAttachments, parentChildrenView});
+		
+		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
 		/** Delete Button */
 		deleteRequirementButton = new JButton("Delete");
@@ -887,6 +911,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(historyView.getHistoryList());
+		requirement.updateAttachments(attachmentsView.getAttachmentsList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
 		requirement.setSubRequirements(parentChildrenView
@@ -1465,9 +1490,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	public AttachmentsView getAttachmentsView() {
+		return attachmentsView;
+	}
+	/* (non-Javadoc)
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
 	 */
 	@Override
@@ -1484,6 +1510,5 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.getParent().getReqModel().updateBackgrounds();
-
 	}
 }

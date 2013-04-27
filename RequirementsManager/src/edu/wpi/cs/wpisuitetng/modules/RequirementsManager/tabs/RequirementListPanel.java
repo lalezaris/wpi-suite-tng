@@ -269,7 +269,6 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
-		System.out.println("ADDING REQUIREMENTS. DASH IT ALL");
 		this.content = requirements;
 		clearList();	
 		((RequirementTableModel) table.getModel()).clearRequirements();

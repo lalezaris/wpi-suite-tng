@@ -22,6 +22,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
  * @version Mar 27, 2013
  */
 @SuppressWarnings("serial")
-public class NotesView extends JPanel implements FocusListener {
+public class NotesView extends RequirementTab implements FocusListener {
 
 	/** The layout manager for this panel */
 	protected GridBagLayout layout;
@@ -321,5 +322,20 @@ public class NotesView extends JPanel implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();		
+	}
+
+	@Override
+	public String getTabTitle() {
+		return "Notes";
+	}
+
+	@Override
+	public ImageIcon getImageIcon() {
+		return new ImageIcon();
+	}
+
+	@Override
+	public String getTooltipText() {
+		return "Add and modify notes";
 	}
 }

@@ -48,11 +48,15 @@ public class Refresher {
 	 * @return single instance of Refresher
 	 */
 	public static Refresher getInstance(){
+		if (instance==null){
+			instance = new Refresher(null,null,null);
+		}
 		return instance;
 	}
 
 	private ReqTreeModel tree;
 	private RequirementListPanel table;
+
 	private IterationListPanel iterationTable;
 
 
@@ -73,7 +77,8 @@ public class Refresher {
 		this.tree = tree;
 		this.table = table;
 		this.iterationTable = iterationTable;
-		CurrentUserPermissions.updateCurrentUserPermissions();
+		if (tree!=null)
+			CurrentUserPermissions.updateCurrentUserPermissions();
 	}
 
 
@@ -209,5 +214,21 @@ public class Refresher {
 				this.lastKnownIterations[i] = knownIterations.get(i);
 			}
 		}
+	}
+	
+	/**
+	 * Get the tree model
+	 * 
+	 * @return
+	 */
+	public ReqTreeModel getTreeModel(){
+		return tree;
+	}
+
+	/**
+	 * @return the table
+	 */
+	public RequirementListPanel getTable() {
+		return table;
 	}
 }

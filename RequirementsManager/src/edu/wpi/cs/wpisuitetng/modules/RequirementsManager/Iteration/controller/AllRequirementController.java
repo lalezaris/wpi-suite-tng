@@ -29,10 +29,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AllRequirementController {
 
 	IterationPanel panel;
+	
 	/**
 	 * Construct an AllRequirementController.
-	 * 
-	 * @param view An IterationPanel
+	 *
+	 * @param panel the panel
 	 */
 	public AllRequirementController(IterationPanel panel){
 		this.panel = panel;

@@ -16,13 +16,16 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,6 +35,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+
+import javax.swing.table.DefaultTableCellRenderer;
+
 
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
@@ -61,7 +67,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
  */
 @SuppressWarnings({"unused", "serial"})
 public class RequirementListPanel extends JPanel{
-	private JTable table;
+	private RequirementListTable table;
 	private JScrollPane scrollPane;
 	private RetrieveAllRequirementsController retrieveController;
 	private UpdateAllRequirementsController updateController;
@@ -70,7 +76,7 @@ public class RequirementListPanel extends JPanel{
 	private RequirementTableModel model;
 	final JScrollPane mainPanelScrollPane;
 
-	private JButton refreshButton, updateButton, deleteButton;
+	private JButton refreshButton, updateButton, deleteButton, cancelButton;
 	private final MainTabController tabController;
 	private Tab containingTab;
 
@@ -91,7 +97,8 @@ public class RequirementListPanel extends JPanel{
 		panel = new JPanel();		
 		retrieveController = new RetrieveAllRequirementsController(RefresherMode.TABLE);
 		model = new RequirementTableModel(this);
-		table = new JTable(model);
+		table = new RequirementListTable(this);
+		table.setModel(model);
 		table.setBackground(Color.WHITE);
 		table.addMouseListener(new RetrieveRequirementController(this));	
 		table.getTableHeader().addMouseListener(new RequirementTableSortAction(new RequirementTableSortController(table)));
@@ -99,12 +106,36 @@ public class RequirementListPanel extends JPanel{
 		scrollPane = new JScrollPane(table);
 		refreshButton = new JButton("Refresh");
 		refreshButton.setAction(new RefreshAction(retrieveController));
+		
+		refreshButton.addActionListener(new AbstractAction(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((RequirementTableModel) table.getModel()).clearChangeVisualsDisregard();
+			}
+		});
+		
 		updateButton = new JButton("Update");
 		updateController = new UpdateAllRequirementsController(this);
 		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
 		updateLabel = new JLabel();
-
+		
+		cancelButton = new JButton("Cancel");
+		
+		updateButton.setVisible(false);
+		cancelButton.setVisible(false);
+		
+		cancelButton.setAction(new AbstractAction("Cancel"){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("CANCEL");
+				model.cancelChanges();
+			}
+			
+		});
+		
+		
 		GridBagConstraints c = new GridBagConstraints();	
 		layout = new GridBagLayout();	
 		panel.setLayout(layout);
@@ -124,6 +155,7 @@ public class RequirementListPanel extends JPanel{
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);
 		buttonPanel.add(updateButton);
+		buttonPanel.add(cancelButton);
 		buttonPanel.add(updateLabel);
 
 		c.anchor = GridBagConstraints.LINE_START; 
@@ -184,9 +216,8 @@ public class RequirementListPanel extends JPanel{
 
 		
 		System.out.println("GOT TO END OF REQLISTPANEL");
-		
-		setUpStatusColumn();
-		setUpPriorityColumn();
+
+		//setUpPriorityColumn();
 	}
 
 	/**
@@ -214,6 +245,16 @@ public class RequirementListPanel extends JPanel{
 		((RequirementTableModel)table.getModel()).addRow(req);
 	}
 
+	/**
+	 * Update requirement.
+	 *
+	 * @param row the row
+	 * @param req the req
+	 */
+	public void updateRequirement(int row, Requirement req){
+		((RequirementTableModel)table.getModel()).updateRow(row, req);
+		
+	}
 
 	/**
 	 * Clears the list.
@@ -228,16 +269,24 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
+		System.out.println("ADDING REQUIREMENTS. DASH IT ALL");
 		this.content = requirements;
 		clearList();	
 		((RequirementTableModel) table.getModel()).clearRequirements();
 		for (int i = requirements.length -1; i > -1; i --){
 			addRequirement(requirements[i]);
 		}
+		
 		table.updateUI();
 		filterController.setFilteredInTable();
 	}
 
+	
+	/**
+	 * Filter requirements.
+	 *
+	 * @param requirements the requirements
+	 */
 	public void filterRequirements(Requirement[] requirements){
 		this.filteredContent = requirements;
 		clearList();
@@ -257,20 +306,6 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	/**
-	 * Set the drop down menu to the status
-	 */
-	private void setUpStatusColumn() {
-		JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
-		comboBox.addItem(RequirementStatus.NEW);
-		comboBox.addItem(RequirementStatus.OPEN);
-		comboBox.addItem(RequirementStatus.INPROGRESS);
-		comboBox.addItem(RequirementStatus.COMPLETE);
-		comboBox.addItem(RequirementStatus.DELETED);
-
-		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
-	}
-
-	/**
 	 * Set the drop down menu to the priority
 	 */
 	private void setUpPriorityColumn() {
@@ -284,17 +319,53 @@ public class RequirementListPanel extends JPanel{
 	}
 	
 	/**
+	 * This will configure the buttons so that nothing can be done while a save is in progress.
+	 * 
+	 */
+	public void setButtonsForSaving(){
+		this.updateButton.setEnabled(false);
+		this.refreshButton.setEnabled(false);
+		this.cancelButton.setEnabled(false);
+	}
+	
+	/**
+	 * This will configure the buttons so that Update and Cancel are options
+	 * 
+	 */
+	public void setButtonsForChanges(){
+		this.updateButton.setEnabled(true);
+		this.refreshButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
+		this.refreshButton.setVisible(true);
+		this.updateButton.setVisible(true);
+		this.cancelButton.setVisible(true);
+	}
+	
+	/**
+	 * This will configure the buttons so that Update and Cancel are not options
+	 * 
+	 */
+	public void setButtonsForNoChanges(){
+		this.updateButton.setEnabled(true);
+		this.cancelButton.setEnabled(true);
+		this.refreshButton.setEnabled(true);
+		this.refreshButton.setVisible(true);
+		this.updateButton.setVisible(false);
+		this.cancelButton.setVisible(false);
+	}
+	
+	/**
 	 * If the requirements have been updated, show message to user.
 	 */
-	public void showUpdateSuccessfully() {
-		updateLabel.setText("Update Successful");
+	public void showUpdateSuccessfully(String message) {
+		updateLabel.setText(message);
 	}
 	
 	/**
 	 * Hide the message of update successfully.
 	 */
 	public void hideUpdateSuccessfully() {
-		updateLabel.setText(null);
+		updateLabel.setText("Press the Update button to save changes");
 	}
 
 	/**
@@ -368,13 +439,11 @@ public class RequirementListPanel extends JPanel{
 		return filterController;
 	}
 
-	public void setUpFilter() {
-	//	filterController.sendServerRequests();
-		
-	}
-	
-	public void setBackgroundRowColumn(int row, int col){
-//		table.getT(row, col).setBackground(Color.YELLOW);
-//		table.getCellRenderer(row, col).getTableCellRendererComponent(table, null, true, false, row, col).setBackground(Color.YELLOW);
+	/**
+	 * Gets the updateButton
+	 * @return the updateButton
+	 */
+	public JButton getUpdateButton() {
+		return updateButton;
 	}
 }

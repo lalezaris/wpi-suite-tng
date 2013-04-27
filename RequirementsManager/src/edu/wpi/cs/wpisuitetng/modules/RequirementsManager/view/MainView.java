@@ -16,6 +16,7 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JOptionPane;
@@ -41,6 +42,34 @@ public class MainView extends JPanel {
 	MainTabView view;
 	private static MainView instance;
 
+	private static Color changedColor = new Color(255,255,150);
+	private static Color changedValidColor = new Color(150,255,150);
+	private static Color changedInvalidColor = new Color(255,150,150);
+	
+	
+	
+	
+	/**
+	 * Gets the changedColor
+	 * @return the changedColor
+	 */
+	public static Color getChangedColor() {
+		return changedColor;
+	}
+	/**
+	 * Gets the changedValidColor
+	 * @return the changedValidColor
+	 */
+	public static Color getChangedValidColor() {
+		return changedValidColor;
+	}
+	/**
+	 * Gets the changedInvalidColor
+	 * @return the changedInvalidColor
+	 */
+	public static Color getChangedInvalidColor() {
+		return changedInvalidColor;
+	}
 	/**
 	 * Constructs the Main View Panel.
 	 *

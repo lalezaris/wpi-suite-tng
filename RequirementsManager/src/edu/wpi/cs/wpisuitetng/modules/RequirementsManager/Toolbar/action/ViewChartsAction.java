@@ -51,6 +51,5 @@ public class ViewChartsAction extends AbstractAction {
 	public ViewChartsAction(MainTabController controller) {
 		super("Statistics");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_N);
 	}
 }

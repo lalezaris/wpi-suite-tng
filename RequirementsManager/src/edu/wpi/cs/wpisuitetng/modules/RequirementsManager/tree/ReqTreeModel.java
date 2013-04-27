@@ -121,9 +121,23 @@ public class ReqTreeModel extends DefaultTreeModel {
 				int parentID = leafReq.getParentRequirementId(); // get parent id
 				for (int z = 0; z < nodes.size(); z++) { // iterate through all reqs
 					Requirement potentialParent = (Requirement) nodes.get(z).getUserObject();
+					if (potentialParent.getId() == parentID) {					
+						if (potentialParent.getIterationId() == leafReq.getIterationId()) {
+							// If they are in the same iteration, do hierarchy
+							nodes.get(z).add(nodes.get(r));
+						} else {
+							// If not, fake a node to be greyed out
+							nodes.get(z).add(new DefaultMutableTreeNode(new Requirement(leafReq)));
+							// Find the iteration node and add it
+							int reqIterationID = leafReq.getIterationId();
+							for (int x = 0; x < iterations.length; x++) {
+								Iteration potentialIteration = (Iteration) iterationNodes.get(x).getUserObject();
 
-					if (potentialParent.getId() == parentID) {
-						nodes.get(z).add(nodes.get(r));
+								if (potentialIteration.getId() == reqIterationID) {
+									iterationNodes.get(x).add(nodes.get(r));
+								}
+							}
+						}
 					}
 				}
 			} else {
@@ -167,7 +181,7 @@ public class ReqTreeModel extends DefaultTreeModel {
 		this.iterations = iterations;
 		this.fillTree(null);
 	}
-	
+
 	/**
 	 * @return the requirements
 	 */

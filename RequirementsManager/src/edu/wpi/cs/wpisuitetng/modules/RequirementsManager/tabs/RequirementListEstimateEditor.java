@@ -145,11 +145,13 @@ public class RequirementListEstimateEditor extends DefaultCellEditor {
 		return super.stopCellEditing();
 	}
 
-	/** 
-	 * Lets the user know that the text they entered is 
+	/**
+	 * Lets the user know that the text they entered is
 	 * bad. Returns true if the user elects to revert to
-	 * the last good value.  Otherwise, returns false, 
+	 * the last good value.  Otherwise, returns false,
 	 * indicating that the user wants to continue editing.
+	 *
+	 * @return true, if successful
 	 */
 	protected boolean userSaysRevert() {
 		Toolkit.getDefaultToolkit().beep();

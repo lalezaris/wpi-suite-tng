@@ -55,6 +55,11 @@ public class IterationStoreTest {
 	Project otherProject;
 	Iteration otherIt;
 	
+	/**
+	 * Inits the test.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Before
 	public void init() throws WPISuiteException{
 		
@@ -95,12 +100,20 @@ public class IterationStoreTest {
 		manager.makeEntity(defaultSession, i8.toJSON());
 	}
 	
+	/**
+	 * tests creating the a iteration store.
+	 */
 	@Test
 	public void createAIterationStore() {
 		assertNotNull(new IterationStore(db));
 	}
 
 	
+	/**
+	 * tests making an entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void makeEntity() throws WPISuiteException {
 
@@ -123,6 +136,11 @@ public class IterationStoreTest {
 		//manager.getEntity(defaultSession, ""+existingReq.getId());
 	}
 	
+	/**
+	 * tests getting all iterations
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void getAllTest() throws WPISuiteException {
 	
@@ -144,6 +162,11 @@ public class IterationStoreTest {
 	}
 	
 	
+	/**
+	 * tests deleting an entity.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteEntity() throws WPISuiteException{
 		
@@ -166,6 +189,11 @@ public class IterationStoreTest {
 		
 	}
 	
+	/**
+	 * tests deleting all iterations.
+	 *
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	@Test
 	public void deleteAll() throws WPISuiteException {
 		

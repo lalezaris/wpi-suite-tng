@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addNewRequirementTab()}, default mnemonic key is N.
+ * Action for creating new requirements
  * 
  * Adapted from CreateDefectAction in the project Defect Tracker
  * @author Arica Liu
@@ -37,13 +37,13 @@ public class NewRequirementAction extends AbstractAction {
 
 	/**
 	 * Create a NewRequirementAction.
-	 * 
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param componentName the component name
 	 */
 	public NewRequirementAction(MainTabController controller,String componentName) {
 		super(componentName);
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
 
 	/** 

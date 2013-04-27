@@ -15,6 +15,9 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
@@ -28,7 +31,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
@@ -56,6 +61,7 @@ public class TreeView extends JPanel {
 	static JTree tree;
 	DefaultMutableTreeNode root;
 	ReqTreeModel treeModel;
+	JTextArea status;
 
 	private static TreeView instance;
 
@@ -71,22 +77,42 @@ public class TreeView extends JPanel {
 				"<html><bold>Requirements</bold></html>", JLabel.CENTER);
 		this.add(titleLabel, BorderLayout.PAGE_START);
 
-		// Creates refresh button located at the bottom of the screen
-		// TODO eventually get rid of this so it refreshes automatically
-		refreshButton = new JButton("Refresh Tree");
-		refreshButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshTree();
-			}
-		});
-
-		this.add(refreshButton, BorderLayout.SOUTH);
-
 		root = new DefaultMutableTreeNode(ConfigManager.getConfig()
 				.getProjectName());
 		treeModel = new ReqTreeModel(root);
 
-		tree = new JTree(treeModel);
+		tree = new JTree(treeModel) {
+
+			/* (non-Javadoc)
+			 * @see javax.swing.JTree#getToolTipText(java.awt.event.MouseEvent)
+			 */
+			@Override
+			public String getToolTipText(MouseEvent evt) {
+				if (getRowForLocation(evt.getX(), evt.getY()) == -1)
+					return null;
+				TreePath curPath = getPathForLocation(evt.getX(), evt.getY());
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode)curPath.getLastPathComponent();
+				Object obj = node.getUserObject();
+				if(obj instanceof Requirement) {
+					Requirement req = (Requirement) obj;
+					if (req.checkFake()) {
+						return "Requirement " + req.getTitle() + " is in Iteration " 
+								+ req.getIteration().getIterationName();
+					}  else	if (req.getParentRequirementId() != -1) {
+						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
+							return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
+									+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+						}
+					} else
+						return "Requirement " + req.getTitle();
+				}
+				else if(obj instanceof Iteration) {
+					return obj.toString();
+				}
+				return null;
+			}
+		};
+		ToolTipManager.sharedInstance().registerComponent(tree);
 
 		// Enable drag and drop.
 		tree.setDragEnabled(true);
@@ -100,7 +126,7 @@ public class TreeView extends JPanel {
 
 		//prevent double clicking from expanding a view.
 		tree.setToggleClickCount(0);
-		
+
 		// Updates the tree view when it is first focused
 		final TreeView tv = this;
 		tv.addHierarchyListener(new HierarchyListener() {
@@ -119,8 +145,52 @@ public class TreeView extends JPanel {
 
 		JScrollPane scrollPane = new JScrollPane(tree);
 		this.add(scrollPane, BorderLayout.CENTER);
+
+		setUpBottom();
 	}
 
+	/** Sets the text displayed at the bottom of TreeView. */
+	void setStatus(String newText) {
+		if (!(status.getText() == newText)) {
+			status.setText(newText);
+		}
+	}
+
+	/** Clear the text displayed at the bottom of TreeView. */
+	void clearStatus() {
+		status.setText("");
+	}
+
+	/**
+	 * Sets up the bottom of TreeView.
+	 */
+	void setUpBottom() {
+		// Construct all of the components for the form
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+
+		// Creates the status label
+		status = new JTextArea("");
+		Dimension d = status.getPreferredSize();  
+		status.setPreferredSize(new Dimension(d.width,d.height+30)); 
+		status.setEditable(false);
+		status.setLineWrap(true);
+		status.setWrapStyleWord(true);
+
+		// Creates refresh button located at the bottom of the screen
+		// TODO eventually get rid of this so it refreshes automatically
+		refreshButton = new JButton("Refresh Tree");
+		refreshButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshTree();
+			}
+		});
+
+		panel.add(status, BorderLayout.CENTER);
+		panel.add(refreshButton, BorderLayout.SOUTH);
+
+		this.add(panel, BorderLayout.SOUTH);
+	}
 	/**
 	 * Expand the entire tree.
 	 */
@@ -190,7 +260,6 @@ public class TreeView extends JPanel {
 											.getUserObject();
 									if (selectedObject instanceof Requirement) {
 										//tree.expandPath(path);
-										System.out.println(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
 										this.isRequirement = false;
@@ -200,7 +269,23 @@ public class TreeView extends JPanel {
 
 							});
 					controller.retrieve();
+				} else if (selRow != -1 && e.getClickCount() == 1) {
+					TreePath path = tree.getSelectionPath();
+					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
+							.getLastPathComponent();
+					Object selectedObject = selectedNode
+							.getUserObject();
+					if (selectedNode.getUserObject() instanceof Requirement) {
+						setStatus(((Requirement) selectedObject).getTitle());
+					}
 				}
+			}
+			
+			/* (non-Javadoc)
+			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e) {
+				clearStatus();
 			}
 		};
 
@@ -219,9 +304,13 @@ public class TreeView extends JPanel {
 								@Override
 								public void runWhenRecieved(String s){
 
-									Iteration iteration = Iteration.fromJSONArray(s)[0];
-									if (this.isIteration) {
-										MainTabController.getController().addEditIterationTab(iteration);
+									if(s.equals("0")){
+										MainTabController.getController().addEditIterationTab(Iteration.getBacklog());
+									}else{
+										Iteration iteration = Iteration.fromJSONArray(s)[0];
+										if (this.isIteration) {
+											MainTabController.getController().addEditIterationTab(iteration);
+										}
 									}
 								}
 
@@ -235,16 +324,26 @@ public class TreeView extends JPanel {
 											.getLastPathComponent();
 									Object selectedObject = selectedNode
 											.getUserObject();
+
 									if (selectedObject instanceof Iteration) {
+
+										if(((Iteration) selectedObject).getIterationName().equals("Backlog")){
+											return ""+ ((Iteration) selectedObject).getId();
+										}
+
+
 										tree.expandPath(path);
-										return ""+((Iteration) selectedObject).getId();
+										return ""+ ((Iteration) selectedObject).getId();
 									} else {
 										this.isIteration = false;
 										return "-1";
 									}
 								}
 							});
-					controller.retrieve();
+					if(!controller.getID().equals("0")){
+						controller.retrieve();
+					} else 
+						controller.runWhenRecieved("0");
 				}
 			}
 		};
@@ -267,5 +366,19 @@ public class TreeView extends JPanel {
 	 */
 	public void refreshTree() {
 		treeModel.refreshTree();
+		clearStatus();
+	}
+
+	public Requirement lookUpRequirement(int id) {
+		Requirement[] reqs = treeModel.getRequirements(); 
+		for (int i = 0; i < reqs.length; i++) {
+			if (!(reqs[i].checkFake())) {
+				if (reqs[i].getId() == id) {
+					return reqs[i];
+				}
+			}
+		}
+		System.out.println("Cannot find the requirement in lookUpRequirement()!");
+		return null;
 	}
 }

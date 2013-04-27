@@ -20,6 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Icon;
@@ -56,15 +57,8 @@ public class MainTabController {
 	MainTabView view;
 	HashMap<Integer, RequirementView> reqViewHashMap;
 
-	/**
-	 * 
-	 * @return the reqViewHashMap
-	 */
-	public HashMap<Integer, RequirementView> getReqViewHashMap() {
-		return reqViewHashMap;
-	}
 
-
+	ArrayList<RequirementView> reqViewList;
 	private static MainTabController staticView;
 
 	/**
@@ -74,6 +68,7 @@ public class MainTabController {
 	 */
 	public MainTabController(MainTabView view) {
 		this.reqViewHashMap = new HashMap<Integer, RequirementView>();
+		this.reqViewList = new ArrayList<RequirementView>();
 		this.view = view;
 		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
@@ -120,9 +115,10 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that displays the given requirement in the given mode.
-	 * 
+	 *
 	 * @param requirement The requirement to display
 	 * @param mode The Mode to use
+	 * @return the tab
 	 */
 	public Tab addRequirementTab(Requirement requirement, Mode mode) {
 		/*
@@ -144,11 +140,15 @@ public class MainTabController {
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
 			if(reqViewHashMap.containsKey(requirementId)){
 				reqViewHashMap.remove(requirementId);
+				reqViewList.remove(Rview);
 			}
 			reqViewHashMap.put(requirementId, Rview);
+			reqViewList.add(Rview);
+			
+			
+			
 			tab.setComponent(Rview);
 			Rview.requestFocus();
-			view.setSelectedIndex(Rview.getTab().getThisIndex());
 			return tab;
 		}
 	}
@@ -165,15 +165,16 @@ public class MainTabController {
 		return addRequirementTab(requirement, parentView, Mode.CHILD);
 	}
 
-	
+
 	/**
-	 * Make the Snake Tab!!!
+	 * Make the Snake Tab!!!.
+	 *
+	 * @return the tab
 	 */
 	public Tab addSnakeTab(){
 		int checkTabIndex = view.indexOfTab("Snake");
 		if(checkTabIndex != -1){
 			view.setSelectedIndex(checkTabIndex);
-			System.out.println("found tab already");
 			return null;
 		}
 		else{
@@ -188,8 +189,8 @@ public class MainTabController {
 			return tab;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Adds a tab that displays the list of all requirements.
 	 * 
@@ -206,7 +207,8 @@ public class MainTabController {
 
 			Tab tab = addTab();
 			RequirementListPanel panel = view.getTableModel();
-			panel.setUpFilter();
+			panel.getTable().clearSelection();
+			panel.getTable().getSelectionModel().clearSelection();
 			panel.setTab(tab);
 			tab.setComponent(panel);
 			panel.requestFocus();
@@ -237,6 +239,7 @@ public class MainTabController {
 	public Tab addEditRequirementTab(final Requirement requirement) {
 		if(requirement.getParentRequirementId() != -1 && reqViewHashMap.containsKey(requirement.getParentRequirementId())){
 			Tab newTab = addRequirementTab(requirement, Mode.EDIT);
+			if (newTab!=null)
 			((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
 			return newTab;
 		}
@@ -256,7 +259,8 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that shows the bar chart.
-	 * 
+	 *
+	 * @return the tab
 	 */
 	public Tab addBarChartTab() {
 		int checkTabIndex = view.indexOfTab("Statistics");
@@ -357,9 +361,10 @@ public class MainTabController {
 
 	/**
 	 * Adds a tab that displays the given iteration in the given mode.
-	 * 
+	 *
 	 * @param iteration The iteration to display
 	 * @param mode The Mode to use
+	 * @return the tab
 	 */
 	public Tab addIterationTab(Iteration iteration, IterationPanel.Mode mode) {
 		/*
@@ -448,4 +453,36 @@ public class MainTabController {
 			return tab;
 		}
 	}
+
+	/**
+	 * Gets the current component.
+	 *
+	 * @return the current component
+	 */
+	public Component getCurrentComponent() {
+		if (this.view.getSelectedComponent() != null) {
+			return this.view.getSelectedComponent();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets the reqViewHashMap
+	 * @return the reqViewHashMap
+	 */
+	public HashMap<Integer, RequirementView> getReqViewHashMap() {
+		return this.reqViewHashMap;
+	}
+	
+	/**
+	 * Gets the reqViewList
+	 * 
+	 * @return
+	 */
+	public ArrayList<RequirementView> getReqViewList(){
+		return this.reqViewList;
+	}
+	
+	
 }

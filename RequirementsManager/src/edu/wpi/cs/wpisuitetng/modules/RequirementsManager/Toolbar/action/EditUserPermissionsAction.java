@@ -53,7 +53,5 @@ public class EditUserPermissionsAction extends AbstractAction {
 	public EditUserPermissionsAction(MainTabController controller) {
 		super("Edit");
 		this.controller = controller;
-
-		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}
 }

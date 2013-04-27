@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addEditRequirementTab()}, default mnemonic key is E.
+ * Action for editing requirements
  * 
  * Adapted from SearchDefectsAction form the project DefectTracker
  * @author Arica Liu
@@ -34,9 +34,12 @@ public class EditRequirementAction extends AbstractAction {
 
 	private final MainTabController controller;
 	private final Requirement requirement;
+	
 	/**
-	 * Create a EditRequirementAction
+	 * Create a EditRequirementAction.
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param requirement the requirement
 	 */
 	public EditRequirementAction(MainTabController controller, Requirement requirement) {
 		super("Edit");

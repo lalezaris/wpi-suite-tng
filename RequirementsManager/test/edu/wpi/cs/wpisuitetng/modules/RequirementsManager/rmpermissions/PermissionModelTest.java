@@ -24,11 +24,17 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.model.Pe
 public class PermissionModelTest {
 	PermissionModel p;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		p = new PermissionModel();
 	}
 	
+	/**
+	 * Test add permission.
+	 */
 	@Test
 	public void testAddPermission(){
 		UserPermission up = new UserPermission();

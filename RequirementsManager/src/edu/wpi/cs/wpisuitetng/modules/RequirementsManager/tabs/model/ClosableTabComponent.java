@@ -32,6 +32,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.UserPermissionView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
  * This provides a tab component with a close button to the left of the title.
@@ -89,7 +90,7 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 		String checkTitle = tabbedPane.getTitleAt(index);
 		Component component = tabbedPane.getComponentAt(index);
 		if(index > -1) {
-			if((checkTitle.equals("Bar Chart")) || (checkTitle.equals("Iteration List"))){
+			if((checkTitle.equals("Statistics")) || (checkTitle.equals("Iteration List"))){
 				tabbedPane.remove(index);
 			} else {				
 				if(component instanceof RequirementView){
@@ -102,9 +103,13 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 								JOptionPane.YES_NO_OPTION);
 						if (buttons == JOptionPane.YES_OPTION) {
 							tabbedPane.remove(index);
+							if (MainTabController.getController().getReqViewList().contains(rView))
+								MainTabController.getController().getReqViewList().remove(rView);
 						}
 					} else {
 						tabbedPane.remove(index);
+						if (MainTabController.getController().getReqViewList().contains(rView))
+							MainTabController.getController().getReqViewList().remove(rView);
 					}
 				} else if(component instanceof IterationView){
 					IterationPanel iPanel = (IterationPanel) ((IterationView) component).getIterationPanel(); 
@@ -144,9 +149,11 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 								JOptionPane.YES_NO_OPTION);
 						if (buttons == JOptionPane.YES_OPTION) {
 							tabbedPane.remove(index);
+							((RequirementTableModel) iPanel.getModel()).clearChangeVisualsDisregard();
 						}
 					} else {
 						tabbedPane.remove(index);
+						((RequirementTableModel) iPanel.getModel()).clearChangeVisualsDisregard();
 					}
 				} else{
 					tabbedPane.remove(index);

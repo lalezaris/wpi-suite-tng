@@ -42,6 +42,9 @@ public class HistoryViewTest {
 	HistoricalChange c2;
 	HistoricalChange c3;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		Network.initNetwork(new MockNetwork());
@@ -61,6 +64,9 @@ public class HistoryViewTest {
 		hv.setHistoryList(req.getHistory());
 	}
 	
+	/**
+	 * Test if history view has historical change objects.
+	 */
 	@Test
 	public void testHasHistory(){
 		assertEquals(true, hv.getHistoryList().contains(c1));

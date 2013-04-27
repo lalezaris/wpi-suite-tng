@@ -41,8 +41,6 @@ public class CancelAcceptanceTestController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Clearing fields");
-		System.out.println("Tests in List: " + view.getListSize());
 		view.clearTitleTxt();
 		view.toggleTitleEnabled(true);
 		view.clearBodyTxt();

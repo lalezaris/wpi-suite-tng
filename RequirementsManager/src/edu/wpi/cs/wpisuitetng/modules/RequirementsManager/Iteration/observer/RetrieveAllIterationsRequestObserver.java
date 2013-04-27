@@ -32,6 +32,12 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	RetrieveAllIterationsController r;
+	
+	/**
+	 * Contructor for a new RetrieveAllIterationsRequestObserver
+	 *
+	 * @param r the RetrieveAllIterationsController associated with this request observer
+	 */
 	public RetrieveAllIterationsRequestObserver(RetrieveAllIterationsController r){
 		this.r = r;
 	}
@@ -76,7 +82,7 @@ public class RetrieveAllIterationsRequestObserver implements RequestObserver{
 	 * Required by the RequestObserver but currently does not do anything at this time.
 	 * 
 	 * @param iReq The IRequest to respond to
-	 * @parm exception The Exception that is causing the failure
+	 * @param exception The Exception that is causing the failure
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override

@@ -72,9 +72,11 @@ public class RulePanel extends JPanel{
 
 	private Iteration[] knownIterations;
 	private User[] knownUsers;
+	
 	/**
 	 * Create a blank panel for a rule.
-	 * 
+	 *
+	 * @param parent the parent filter panel
 	 */
 	@SuppressWarnings("unchecked")
 	public RulePanel(FilterPanel parent) {
@@ -127,6 +129,7 @@ public class RulePanel extends JPanel{
 
 		setUp();
 		setRuleEnabled(true);
+		checkForNullRule();
 	}
 
 	/**
@@ -150,11 +153,19 @@ public class RulePanel extends JPanel{
 			possibleValuesText.setEnabled(false);
 			possibleValuesText.setDisabledTextColor(Color.BLACK);
 		}
+		
+//		this.enabledBox.setEnabled(true);
+//		if (this.field.getSelectedItem().equals(" ")){
+//			backColor = new Color(208, 208, 208);
+//			this.enabledBox.setEnabled(false);
+//		}
 
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
 			this.getComponent(i).setBackground(backColor);
 		}
 
+		this.checkForNullRule();
+		
 	}
 
 	/**
@@ -208,27 +219,35 @@ public class RulePanel extends JPanel{
 
 
 		};
+
+
+		field.addItemListener(new ItemListener(){
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				checkForNullRule();
+			}
+			
+		});
+		
 		ChangeListener c = new ChangeListener(){
 
-			/**
-			 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-			 */
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				if (test){
+				if (test)
 					filterPanel.triggerTableUpdate();
-				}
+				
 			}
-
+			
 		};
-
-
+		
+		
+		this.enabledBox.addChangeListener(c);
 		andOrBox.addItemListener(l2);
 		field.addItemListener(l1);
 		compareMode.addItemListener(l2);
 		possibleValues.addItemListener(l2);
 		possibleValuesText.addKeyListener(k);
-		enabledBox.addChangeListener(c);
 	}
 
 	/**
@@ -345,6 +364,11 @@ public class RulePanel extends JPanel{
 		this.setAlignmentY(Component.LEFT_ALIGNMENT);
 	}
 
+	/**
+	 * Sets the user values.
+	 *
+	 * @param users the new user values
+	 */
 	@SuppressWarnings("unchecked")
 	public void setUserValues(User[] users){
 		test = false;
@@ -366,6 +390,11 @@ public class RulePanel extends JPanel{
 		test = true;
 	}
 
+	/**
+	 * Sets the iteration values.
+	 *
+	 * @param iterations the new iteration values
+	 */
 	@SuppressWarnings("unchecked")
 	public void setIterationValues(Iteration[] iterations){
 		test = false;
@@ -406,11 +435,40 @@ public class RulePanel extends JPanel{
 	}
 
 	/**
+	 * Color the panel correctly if it has not been assigned a value.
+	 * 
+	 */
+	protected void checkForNullRule(){
+		
+		Color backColor = Color.white;
+		System.out.println("checking for null rule");
+		if (this.enabled)
+			backColor = new Color(208,255,208);
+		else backColor = new Color(255,208,208);
+		
+//		this.enabledBox.setEnabled(true);
+		if (this.field.getSelectedItem().equals(" ")){
+			backColor = new Color(238, 238, 238);	
+			System.out.println("grey");
+			test = false;
+//			this.enabledBox.setEnabled(false);
+//			this.enabledBox.setSelected(false);
+			test = true;
+		}
+		
+		for (int i = 0 ; i < this.getComponentCount(); i ++){
+			this.getComponent(i).setBackground(backColor);
+		}
+		
+		
+	}
+	
+	
+	/**
 	 * Change the values of the comparison mode box so that is reflects correctly how the user can compare things
 	 * 
 	 */
 	public void updateCompareBox(){
-
 		compareMode.setVisible(true);
 		compareMode.removeAllItems();
 		RuleComparisonMode[] modes = getValidComparisonModes();
@@ -512,9 +570,9 @@ public class RulePanel extends JPanel{
 
 
 	/**
-	 * Create a new rule depending on what is shown in the panel
-	 * 
-	 * @return
+	 * Create a new rule depending on what is shown in the panel.
+	 *
+	 * @return the rule
 	 */
 	public Rule extractRule(){
 		Rule r = null;

@@ -44,7 +44,7 @@ public class IterationsRefreshAction extends AbstractAction {
 	public IterationsRefreshAction(RetrieveAllIterationsController controller){
 		super("Refresh");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
 
 	/** Action performed by controller to refresh data

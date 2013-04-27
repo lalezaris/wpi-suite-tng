@@ -77,4 +77,20 @@ public class RetrieveRequirementControllerTree<T> {
 	 */
 	public void errorRetrievingRequirement(String error) {
 	}
+	
+	/**
+	 * @return the string that would be returned when the getID function for the call is called
+	 */
+	public String getID(){
+		return caller.getID();
+	}
+	
+	/**
+	 * Run when recieved.
+	 *
+	 * @param s the string of a requirement for json
+	 */
+	public void runWhenRecieved(String s){
+		caller.runWhenRecieved(s);
+	}
 }

@@ -34,6 +34,9 @@ public class CharacteristicListenerTest {
 	BarPieChartView view;
 	MockData db;
 	
+	/**
+	 * Inits the test.
+	 */
 	@Before
 	public void init(){
 		Network.initNetwork(new MockNetwork());
@@ -41,6 +44,9 @@ public class CharacteristicListenerTest {
 		view = new BarPieChartView();
 	}
 	
+	/**
+	 * Test characteristic listener.
+	 */
 	@Test
 	public void testCharacteristicListener(){
 		

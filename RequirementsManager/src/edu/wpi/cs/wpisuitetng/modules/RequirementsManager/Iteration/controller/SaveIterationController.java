@@ -59,6 +59,11 @@ public class SaveIterationController {
 
 	} 
 
+	/**
+	 * Check iteration field.
+	 *
+	 * @param iterations the iterations
+	 */
 	public void checkIterationField(Iteration[] iterations){
 		final IterationPanel panel = (IterationPanel) view.getIterationPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE) ? new CreateIterationRequestObserver(view) : new UpdateIterationRequestObserver(view);

@@ -46,8 +46,8 @@ public class UpdateAllRequirementAction extends AbstractAction {
 		super("Update");
 		this.controller = controller;
 		refreshController = new RetrieveAllRequirementsController(
-				RefresherMode.ALL);
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+				RefresherMode.TREE);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	}
 
 	/**
@@ -60,11 +60,11 @@ public class UpdateAllRequirementAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		controller.update();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		refreshController.refreshData();
+//		try {
+//			Thread.sleep(500); 
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//		refreshController.refreshData();
 	}
 }

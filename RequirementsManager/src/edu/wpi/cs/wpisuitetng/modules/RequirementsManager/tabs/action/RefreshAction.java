@@ -43,7 +43,7 @@ public class RefreshAction extends AbstractAction {
 	public RefreshAction(RetrieveAllRequirementsController controller){
 		super("Refresh");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	}
 
 	/**
@@ -52,5 +52,6 @@ public class RefreshAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		controller.refreshData();
+		
 	}
 }

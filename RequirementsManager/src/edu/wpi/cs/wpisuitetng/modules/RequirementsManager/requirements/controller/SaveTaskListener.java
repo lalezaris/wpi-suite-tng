@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
 
 /**
  * The Class SaveTaskController
@@ -30,7 +31,12 @@ public class SaveTaskListener implements ActionListener{
 	int id;
 	TasksView view;
 	
-	//Constructor
+	/**
+	 * Instantiates a new save task listener.
+	 *
+	 * @param id the id
+	 * @param view the view
+	 */
 	public SaveTaskListener(int id, TasksView view){
 		this.id = id;
 		this.view = view;
@@ -39,51 +45,47 @@ public class SaveTaskListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int position = view.doesTaskExist(id);
-		boolean changeMade = false;
+		
 		//Grab what's in the boxes based on the spot in the array and use those as the updated values.
 		if(position != -1){
 			//Find the old task and replace it with the new one.
-			if(readyToSave(position)){
-				view.replaceTask(makeTask(position));
-				changeMade = true;//Let them know it is OK to refresh.
+			if(readyToSave(view.getTaskPanelArray().get(position))){
+				view.replaceTask(makeTask(view.getTaskPanelArray().get(position)));
+				
+				view.placeBorder(position);
+				//view.getListScrollPane().repaint();
+				//view.getListScrollPane().revalidate();
 			}
 		}
+		//New Task
 		else{//If the task does not exist, make a new one.
-			position = view.getTaskPanelArray().size()-1;//Take fields from the last panel.
-			
-			if(position >= 0 && readyToSave(position)){
-				view.addTask(makeTask(position));
-				changeMade = true;//Let them know it is OK to refresh.
-			}
+			System.out.println("ERROR: This situaion should not happen!");
 		}
-		//Redisplay stuff so it shows up
-		if(changeMade)//Only refresh if something was changed. Otherwise, it would kill the fields.
-			view.redisplay();
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.
 	 * @param position Where to look for the fields (which panel)
 	 * @return Whether you can save or not (based on Name, Description or other required fields)
 	 */
-	private boolean readyToSave(int position){
+	private boolean readyToSave(TasksPanel oldPanel){
 		boolean ready = true;
 		
 		//Check the Name field
-		if(view.getTaskPanelArray().get(position).getTxtName().getText().equals("")){
+		if(oldPanel.getTxtName().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtName().setBackground(new Color(255, 155, 157));
+			oldPanel.getTxtName().setBackground(new Color(255, 155, 157));//Red
 		}
 		else{//Set color back
-			view.getTaskPanelArray().get(position).getTxtName().setBackground(Color.white);
+			oldPanel.getTxtName().setBackground(Color.white);
 		}
 		
 		//Check Description Field
-		if(view.getTaskPanelArray().get(position).getTxtDescription().getText().equals("")){
+		if(oldPanel.getTxtDescription().getText().equals("")){
 			ready = false;
-			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(new Color(255, 155, 157));
+			oldPanel.getTxtDescription().setBackground(new Color(255, 155, 157));//Red
 		}
 		else{//Set color back
-			view.getTaskPanelArray().get(position).getTxtDescription().setBackground(Color.white);
+			oldPanel.getTxtDescription().setBackground(Color.white);
 		}
 		return ready;
 	}
@@ -92,16 +94,17 @@ public class SaveTaskListener implements ActionListener{
 	 * @param position Where to look for the fields (which panel)
 	 * @return The new task made from the fields.
 	 */
-	private Task makeTask(int position){
+	private Task makeTask(TasksPanel oldPanel){
 		Task updated = new Task();
 		updated.setId(id);
-		updated.setName(view.getTaskPanelArray().get(position).getTxtName().getText());
-		updated.setDescription(view.getTaskPanelArray().get(position).getTxtDescription().getText());
-		updated.setAssigneeName(view.getTaskPanelArray().get(position).getTxtAssignee().getText());
-		String tempEffort = view.getTaskPanelArray().get(position).getTxtEffort().getText();
+		updated.setName(oldPanel.getTxtName().getText());
+		updated.setDescription(oldPanel.getTxtDescription().getText());
+		updated.setAssigneeName(oldPanel.getCmbAssignee().getSelectedItem().toString());
+		String tempEffort = oldPanel.getTxtEffort().getText();
 		if(!tempEffort.equals(""))
 			updated.setEffort(Integer.parseInt(tempEffort));
-		updated.setStatus((TaskStatus)view.getTaskPanelArray().get(position).getCmbStatus().getSelectedItem());	
+		updated.setStatus((TaskStatus)oldPanel.getCmbStatus().getSelectedItem());	
+
 		return updated;
 	}
 	

@@ -39,7 +39,7 @@ public class AllRequirementObserver implements RequestObserver{
 	 * which was previously requested using an asynchronous
 	 * interface becomes available.
 	 *
-	 * @param view the view
+	 * @param panel the parent panel
 	 */
 	public AllRequirementObserver(IterationPanel panel){
 		this.panel = panel;
@@ -60,7 +60,8 @@ public class AllRequirementObserver implements RequestObserver{
 		}
 
 		this.panel.receiveServerRequirements(reqs);
-
+		//this.panel.getTxtEstimate().setText("" + this.panel.calculateTxtEstimate(reqs));
+		this.panel.repaint();
 	}
 
 	/**

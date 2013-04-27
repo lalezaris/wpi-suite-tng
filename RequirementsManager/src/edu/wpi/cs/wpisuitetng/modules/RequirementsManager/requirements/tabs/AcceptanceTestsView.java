@@ -14,6 +14,8 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -41,7 +43,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * The Class AcceptanceTestsView creates a panel for viewing acceptance tests.
  * 
  * @author Michael French
- * @edited Joe Spicola
  */
 @SuppressWarnings({"rawtypes", "serial"})
 public class AcceptanceTestsView extends RequirementTab implements FocusListener {
@@ -71,7 +72,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	/**
 	 * Instantiates a new acceptance tests view.
 	 *
-	 * @param rView the parent requirement view 
+	 * @param parent the parent requirement view 
 	 */
 	@SuppressWarnings("unchecked")
 	public AcceptanceTestsView(RequirementView parent){
@@ -81,6 +82,13 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
+		
+		this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+                public Component getDefaultComponent(Container cont) {
+                    return lblTitleError;
+                }
+            });
 
 		this.parent = parent;
 
@@ -146,6 +154,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		listModel = new DefaultListModel<AcceptanceTest>();
 
 		listDisplay = new JList(listModel);
+		listDisplay.setBackground(new Color(223,223,223));
 		listDisplay.setLayoutOrientation(JList.VERTICAL);
 
 		//add the Title text field
@@ -364,7 +373,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	/**
 	 * Returns weather or not both the title field and body field are filled in.
 	 *
-	 * @return true, if both title and body fields are filled in. False otherwise.
+	 * @return false, if both title and body fields are filled in. true otherwise.
 	 */
 	public boolean notReady(){
 		String t = txtTitle.getText().trim();
@@ -394,23 +403,6 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 */
 	public JTextArea getTextArea(){
 		return this.txtBody;
-	}
-
-	/**
-	 * Update mouse listener.
-	 */
-	public void updateMouseListener(){
-		MouseListener mouseListener = new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				int index = listDisplay.locationToIndex(e.getPoint());
-				txtTitle.setText(list.get(index).getTitle());
-				txtTitle.setEnabled(false);
-				txtTitleFlag = false;
-				txtBody.setText(list.get(index).getBody());
-				cmbStatus.setSelectedIndex(list.get(index).getStatusIndex());
-			}
-		};
-		listDisplay.addMouseListener(mouseListener);
 	}
 
 	/**
@@ -484,6 +476,9 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		lblTitleError.setVisible(false);
 	}
 
+	/**
+	 * Clear status cmb.
+	 */
 	public void clearStatusCmb(){
 		cmbStatus.setSelectedIndex(0);
 	}
@@ -614,7 +609,6 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 * If the title written is already in the list, disable the addTest button and enable the
 	 * editTest button. Otherwise, do the opposite.
 	 *
-	 * @see ButtonsEvent
 	 */
 	public class ButtonsListener implements KeyListener {
 
@@ -743,8 +737,11 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();
 	}
+	
 	/**
-	 * toggle enable of title field
+	 * toggle enable of title field.
+	 *
+	 * @param b determines if the title is enabled.
 	 */
 	public void toggleTitleEnabled(boolean b) {
 		txtTitle.setEnabled(b);
@@ -753,7 +750,8 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 
 	/**
 	 * check to see if title is enabled or not
-	 * if false, then in edit mode
+	 *
+	 * @return true, if is title enabled. If false, then in edit mode.
 	 */
 	public boolean isTitleEnabled() {
 		return txtTitleFlag;

@@ -12,6 +12,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Food {
@@ -21,10 +22,24 @@ public class Food {
 	
 	public Spot spot;
 	public int score;
+	public Color color;
+	
+	/**
+	 * Instantiates a new food.
+	 *
+	 * @param spot the spot
+	 */
 	public Food(Spot spot) {
 		all.add(this);
 		this.spot = spot;
 		this.score = 1;
 	}
 
+	public void setColor(Color newColor){
+		this.color = newColor;
+	}
+	
+	public Color getColor(){
+		return color;
+	}
 }

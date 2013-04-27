@@ -26,10 +26,10 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 public class RequirementStatusLists{
 
 	static String[] NewList = {"NEW"};
-	static String[] CompleteList = {"INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] DeletedList = {"DELETED", "INPROGRESS", "OPEN", "COMPLETE"};
-	static String[] OpenList = {"OPEN"};
-	static String[] InProgressList = {"INPROGRESS", "COMPLETE"};
+	static String[] CompleteList = {"OPEN", "COMPLETE"};
+	static String[] DeletedList = {"DELETED","OPEN"};
+	static String[] OpenList = {"OPEN","INPROGRESS"};
+	static String[] InProgressList = {"INPROGRESS", "COMPLETE", "OPEN"};
 
 	/**
 	 * Instantiates a new requirement status lists.

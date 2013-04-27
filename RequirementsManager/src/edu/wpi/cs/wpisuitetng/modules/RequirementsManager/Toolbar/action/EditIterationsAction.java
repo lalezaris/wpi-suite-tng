@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 /**
- * Action that calls {@link MainTabController#addEditIterationab()}, default mnemonic key is E.
+ * Actions for editing iterations
  *
  * @author Lauren Kahn
  *
@@ -32,10 +32,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 public class EditIterationsAction extends AbstractAction {
 	private final MainTabController controller;
 	private final Iteration iteration;
+	
 	/**
 	 * Create a EditIterationAction.
-	 * 
+	 *
 	 * @param controller When the action is performed, controller.addNewRequirementTab() is called
+	 * @param iteration the iteration
 	 */
 	public EditIterationsAction(MainTabController controller, Iteration iteration) {
 		super("Edit");

@@ -49,7 +49,7 @@ public class Requirement extends AbstractModel{
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
-	private int iterationId; //TODO: refactor to improve implementation
+	private int iterationId = 0; //TODO: refactor to improve implementation
 	private Iteration iteration;
 	private String description;
 	private RequirementStatus status;
@@ -71,6 +71,7 @@ public class Requirement extends AbstractModel{
 	private String attachedFileNameStr;
 	private ArrayList<Integer> attachedFileId;
 	private String attachedFileIdStr;
+	private int totalEstimateEffort;
 
 	/**
 	 * Constructs a new Requirement with title and description.
@@ -146,6 +147,7 @@ public class Requirement extends AbstractModel{
 		this.title = ""; //name is required
 		this.description = ""; //description is required
 		this.estimateEffort = 0; //default estimate set to 0
+		this.totalEstimateEffort = 0; //default total estimate set to 0
 		this.actualEffort = 0; //default actualEffort set to 0
 		this.creationDate = new Date();
 		this.lastModifiedDate = new Date();
@@ -166,6 +168,32 @@ public class Requirement extends AbstractModel{
 				return super.add(i);
 			}
 		});;
+	}
+	
+	
+	/**
+	 * Instantiates a fake requirement. ONLY to be used for tree view.
+	 *
+	 * @param r the Requirement to be forked from
+	 */
+	public Requirement(Requirement r){
+		this();
+		this.iteration = r.getIteration();
+		this.iterationId = r.getIterationId();
+		this.id = r.getId();
+		this.title = r.title;
+	}
+	
+	/**
+	 * Check if a requirement is fake.
+	 *
+	 * @return true, if fake
+	 */
+	public boolean checkFake() {
+		if (this.getDescription() == "" || this.getDescription() == null) {
+			return true;
+		}
+		else return false;
 	}
 
 	/**
@@ -200,18 +228,17 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Add an existing Task to this Requirement.
 	 *
-	 * @param a the Task
+	 * @param t the task to add
 	 */
 	public void addTask(Task t){
 		tasks.add(t);
 	}
 	
 	/**
-	 * Gets the Tasks.
+	 * Updates the tasks in this requirement.
+	 * Replaces the current Task list with the given one
 	 *
-	 * replaces the current Task list with the given one
-	 * 
-	 * @param a the array list of Tasks
+	 * @param t the updated task list
 	 */
 	public void updateTasks(ArrayList<Task> t){
 		this.tasks = t;
@@ -240,6 +267,19 @@ public class Requirement extends AbstractModel{
 	 */
 	public ArrayList<Integer> getChildRequirementIds() {
 		return childIDs;
+	}
+	
+	/**
+	 * Removes a child requirement ID from the list of children.
+	 *
+	 * @param id the id of the child requirement to remove
+	 */
+	public void removeChildRequirement(int id) {
+		for (int num = 0; num < childIDs.size(); num++) {
+			if (childIDs.get(num) == id) {
+				childIDs.remove(num);
+			}
+		}
 	}
 
 	/**
@@ -839,4 +879,20 @@ public class Requirement extends AbstractModel{
 		}
 		System.out.println("final attachedfileidstr thingy : "+ this.attachedFileIdStr);
 	}
+	/**
+	 * @return the totalEstimateEffort
+	 */
+	public int getTotalEstimateEffort() {
+		//if(totalEstimateEffort != 0)
+			return totalEstimateEffort;
+	//	else return getEstimateEffort();
+	}
+
+	/**
+	 * @param totalEstimateEffort the totalEstimateEffort to set
+	 */
+	public void setTotalEstimateEffort(int totalEstimateEffort) {
+		this.totalEstimateEffort = totalEstimateEffort;
+	}
+
 }

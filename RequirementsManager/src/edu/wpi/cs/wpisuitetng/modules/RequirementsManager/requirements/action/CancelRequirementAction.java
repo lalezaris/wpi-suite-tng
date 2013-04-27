@@ -39,7 +39,7 @@ public class CancelRequirementAction extends AbstractAction {
 	public CancelRequirementAction(CancelRequirementController controller) {
 		super("Cancel");
 		this.controller = controller;
-		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
 
 	/** 

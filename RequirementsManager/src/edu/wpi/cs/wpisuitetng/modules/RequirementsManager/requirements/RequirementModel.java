@@ -306,7 +306,7 @@ public class RequirementModel {
 
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			view.getRequirementPanel().txtDescription.setBackground(Color.YELLOW);
+			view.getRequirementPanel().txtDescription.setBackground(MainView.getChangedColor());
 			flag = true;
 		}
 		else //no change
@@ -366,7 +366,7 @@ public class RequirementModel {
 		}
 
 		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+			view.getRequirementPanel().getAv().setBackgroundColors(MainView.getChangedColor());
 			flag = true;
 		}*/
 		else

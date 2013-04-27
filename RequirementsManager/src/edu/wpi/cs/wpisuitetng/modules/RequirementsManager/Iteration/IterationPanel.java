@@ -53,6 +53,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.JPlacehol
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * Panel to display and edit the basic fields for a Iteration.
@@ -747,34 +748,34 @@ public class IterationPanel extends JPanel implements FocusListener {
 
 		if(this.getParent().getMode() == Mode.CREATE){	
 			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
-				txtIterationName.setBackground(Color.YELLOW);
+				txtIterationName.setBackground(MainView.getChangedColor());
 			} else 
 				txtIterationName.setBackground(Color.WHITE);
 
 			if(!(txtStartDate.getText().trim().equals("") || txtStartDate.getText().trim().equals(null))){
-				txtStartDate.setBackground(Color.YELLOW);
+				txtStartDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtStartDate.setBackground(Color.WHITE);
 
 			if(!(txtEndDate.getText().trim().equals("") || txtEndDate.getText().trim().equals(null))){
-				txtEndDate.setBackground(Color.YELLOW);
+				txtEndDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtEndDate.setBackground(Color.WHITE); 
 		} else {
 			Iteration oldI = getParent().getIterationModel().getUneditedModel();
 
 			if (oldI.getName().compareTo(txtIterationName.getText()) != 0){//if old and new are not the same
-				txtIterationName.setBackground(Color.YELLOW);
+				txtIterationName.setBackground(MainView.getChangedColor());
 			} else 
 				txtIterationName.setBackground(Color.WHITE);
 
 			if (oldI.getStartDate().compareTo(StringToDate(txtStartDate.getText())) != 0){//if old and new are not the same
-				txtStartDate.setBackground(Color.YELLOW);
+				txtStartDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtStartDate.setBackground(Color.WHITE);
 
 			if (oldI.getEndDate().compareTo(StringToDate(txtEndDate.getText())) != 0){//if old and new are not the same
-				txtEndDate.setBackground(Color.YELLOW);
+				txtEndDate.setBackground(MainView.getChangedColor());
 			} else 
 				txtEndDate.setBackground(Color.WHITE);
 

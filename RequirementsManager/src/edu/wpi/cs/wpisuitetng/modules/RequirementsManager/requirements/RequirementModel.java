@@ -69,6 +69,11 @@ public class RequirementModel {
 		panel.getTxtTotalEstimate().setText(  String.valueOf(requirement.getTotalEstimateEffort()));
 		panel.getTxtActual().setText( String.valueOf(requirement.getActualEffort()) );
 
+		panel.getLblTotalEstimate().setVisible(panel.getParent().getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
+		panel.getTxtTotalEstimate().setVisible(panel.getParent().getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
+
+		
+		
 		for (int i = 0; i < panel.getCmbType().getItemCount(); i++) {
 			if (requirement.getType().toString().equals(panel.getCmbType().getItemAt(i).toString())) {
 				panel.getCmbType().setSelectedIndex(i);
@@ -306,7 +311,7 @@ public class RequirementModel {
 
 		//compare Descriptions
 		if (oldR.getDescription().compareTo(newR.getDescription()) != 0){//if old and new are not the same
-			view.getRequirementPanel().txtDescription.setBackground(Color.YELLOW);
+			view.getRequirementPanel().txtDescription.setBackground(MainView.getChangedColor());
 			flag = true;
 		}
 		else //no change
@@ -366,7 +371,7 @@ public class RequirementModel {
 		}
 
 		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			view.getRequirementPanel().getAv().setBackgroundColors(Color.YELLOW);
+			view.getRequirementPanel().getAv().setBackgroundColors(MainView.getChangedColor());
 			flag = true;
 		}*/
 		else

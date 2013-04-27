@@ -20,6 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.Icon;
@@ -55,7 +56,9 @@ public class MainTabController {
 
 	MainTabView view;
 	HashMap<Integer, RequirementView> reqViewHashMap;
-
+	ArrayList<RequirementView> reqViewList;
+	
+	
 	private static MainTabController staticView;
 
 	/**
@@ -65,6 +68,7 @@ public class MainTabController {
 	 */
 	public MainTabController(MainTabView view) {
 		this.reqViewHashMap = new HashMap<Integer, RequirementView>();
+		this.reqViewList = new ArrayList<RequirementView>();
 		this.view = view;
 		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
@@ -136,8 +140,13 @@ public class MainTabController {
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
 			if(reqViewHashMap.containsKey(requirementId)){
 				reqViewHashMap.remove(requirementId);
+				reqViewList.remove(Rview);
 			}
 			reqViewHashMap.put(requirementId, Rview);
+			reqViewList.add(Rview);
+			
+			
+			
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			return tab;
@@ -229,6 +238,7 @@ public class MainTabController {
 	public Tab addEditRequirementTab(final Requirement requirement) {
 		if(requirement.getParentRequirementId() != -1 && reqViewHashMap.containsKey(requirement.getParentRequirementId())){
 			Tab newTab = addRequirementTab(requirement, Mode.EDIT);
+			if (newTab!=null)
 			((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
 			return newTab;
 		}
@@ -455,4 +465,23 @@ public class MainTabController {
 
 		return null;
 	}
+
+	/**
+	 * Gets the reqViewHashMap
+	 * @return the reqViewHashMap
+	 */
+	public HashMap<Integer, RequirementView> getReqViewHashMap() {
+		return this.reqViewHashMap;
+	}
+	
+	/**
+	 * Gets the reqViewList
+	 * 
+	 * @return
+	 */
+	public ArrayList<RequirementView> getReqViewList(){
+		return this.reqViewList;
+	}
+	
+	
 }

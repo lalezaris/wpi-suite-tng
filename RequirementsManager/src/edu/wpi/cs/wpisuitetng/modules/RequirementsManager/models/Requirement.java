@@ -796,4 +796,6 @@ public class Requirement extends AbstractModel{
 	public void setTotalEstimateEffort(int totalEstimateEffort) {
 		this.totalEstimateEffort = totalEstimateEffort;
 	}
+
+	
 }

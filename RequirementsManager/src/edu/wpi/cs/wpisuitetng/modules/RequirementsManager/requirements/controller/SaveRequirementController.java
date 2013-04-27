@@ -16,6 +16,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -29,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -84,15 +86,17 @@ public class SaveRequirementController {
 //					if((!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement()) && (view != null)){ //If the estimate is a parent, no children need to be updated, and check that the view is not null
 //						Requirement parent = view.getParentRequirement(); //the parent of the current requirement
 //						RequirementView currentView = view; //the view of the current requirement
-//						RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(currentView); //request observer for the parent of the current requirement
+						//RequestObserver parentEstimateRequestObserver = new UpdateRequirementRequestObserver(currentView); //request observer for the parent of the current requirement
 //						while(!((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().isTopLevelRequirement() && currentView != null){ //runs loop if the current requirement is not a top level requirement and that the current view is not null
 //							int totalChildEstimateEffort = parent.getTotalEstimateEffort() - currentView.getReqModel().getUneditedRequirement().getTotalEstimateEffort() + ((RequirementPanel) currentView.getRequirementPanel()).getEditedModel().getTotalEstimateEffort();//calculate the estimate: parent estimate - child's unedited estimate + child's edited estimate
 //							parent.setTotalEstimateEffort(totalChildEstimateEffort); //Set parent's estimate effort to what was calculated
 //							if(currentView.getParentView() != null){ // checks if the parent view of the current view is not null so that dynamic updating can occur
 //								currentView.getParentView().getRequirementPanel().setTxtTotalEstimate(totalChildEstimateEffort); //Sets the text estimate of the parent requirement
 //								currentView.getParentView().getRequirementPanel().getTxtTotalEstimate().setEnabled(false); //Disables the estimate field in the parent
-//							}
-//							//Sends request to update parent
+//							}Requirement theReq = view.getParentRequirement();
+//							theReq.getParentRequirementId();
+							
+							//Sends request to update parent
 //							Request estimateRequest;
 //							estimateRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
 //							String JsonRequest = parent.toJSON();
@@ -110,6 +114,14 @@ public class SaveRequirementController {
 //					}
 //				}
 
+//				HashMap<Integer, RequirementView> viewTable = MainTabController.getController().getReqViewHashMap();
+//				
+//				Requirement me = panel.getEditedModel();
+				
+				//this.view.getParentView()
+				
+				//updateViewEstimates(view);
+
 				String JsonRequest = panel.getEditedModel().toJSON();
 				request.setBody(JsonRequest);
 				request.addObserver(requestObserver);
@@ -119,6 +131,16 @@ public class SaveRequirementController {
 			}
 		}
 	}
+
+	private void updateViewEstimates(RequirementView view){
+		if (view.getParentRequirement() != null){
+			if (view.getParentView() != null){
+				int something = view.getParentView().getReqModel().getRequirement().getTotalEstimateEffort();
+				view.getParentView().getRequirementPanel().getTxtTotalEstimate().setText(""+something);
+			}
+		}
+	}
+
 
 	/**
 	 * A function to printout all of the issues in a pop up message

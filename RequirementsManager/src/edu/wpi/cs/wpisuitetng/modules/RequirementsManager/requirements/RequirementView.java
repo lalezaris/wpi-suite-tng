@@ -399,18 +399,18 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getTxtActual().setEnabled(false);
 		}
 
-		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
-			mainPanel.getTxtEstimate().setEnabled(false);
-		}
+//		if(!this.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+//			mainPanel.getTxtEstimate().setEnabled(false);
+//		}
 
 		// depending on the status and sub-requirements, disable certain components
 
-		if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
-				|| this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
-			//TODO: uncomment the next line once busy waiting issue is fixed
-			//|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
-			mainPanel.getTxtEstimate().setEnabled(false);
-		}
+//		if (this.reqModel.getRequirement().getStatus() == RequirementStatus.INPROGRESS
+//				|| this.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE){
+//			//TODO: uncomment the next line once busy waiting issue is fixed
+//			//|| childList.retrieveChildrenByID(model.getId()).size() != 0) {
+//			mainPanel.getTxtEstimate().setEnabled(false);
+//		}
 
 		setUpPermissions(pLevel);
 	}

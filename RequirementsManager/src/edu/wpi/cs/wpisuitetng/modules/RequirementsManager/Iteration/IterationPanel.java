@@ -668,13 +668,9 @@ public class IterationPanel extends JPanel implements FocusListener {
 	 */
 	public int calculateTxtEstimate(Requirement[] requirements){
 		int totalEstimate = 0;
-		int counter = 0;
 		Iteration i = getParent().getIterationModel().getUneditedModel();
-		Requirement[] parents = requirements;
 		for(Requirement parent: requirements){
-			if(parent.isTopLevelRequirement() && parent.getIterationId() == i.getId()){
-				parents[counter] = parent;
-				counter++;
+			if(parent.getIterationId() == i.getId()){
 				totalEstimate += parent.getEstimateEffort();
 			}
 		}

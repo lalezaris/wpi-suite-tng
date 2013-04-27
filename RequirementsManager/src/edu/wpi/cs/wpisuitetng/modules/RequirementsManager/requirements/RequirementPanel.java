@@ -89,7 +89,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** The parent view **/
 	protected RequirementView parent;
 	protected RequirementPanel.Mode mode;
-	
+
 	/*
 	 * Form elements
 	 */
@@ -248,16 +248,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		txtTitle = new JPlaceholderTextField("Enter Title Here", 20);
 		txtTitle.addFocusListener(this);
-		
+
 		txtReleaseNumber = new JTextField(2);
 		txtReleaseNumber.addFocusListener(this);
-		
+
 		cmbIteration = new JComboBox();
 		cmbIteration.addFocusListener(this);
 
 		txtDescription = new JTextArea(10,35);
 		txtDescription.addFocusListener(this);
-		
+
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 
@@ -283,13 +283,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		txtEstimate = new IntegerField(4);
 		txtEstimate.addFocusListener(this);
-		
+
 		txtTotalEstimate = new IntegerField(4);
 		txtTotalEstimate.setEnabled(false);
-		
+		txtTotalEstimate.setEnabled(false);
+
+
+
 		txtActual = new IntegerField(4);
 		txtActual.addFocusListener(this);
-		
+
 		txtCreatedDate = new JLabel();
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
@@ -484,13 +487,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblEstimate, cThree);
-		
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
 		cThree.gridy = 2;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblTotalEstimate, cThree);
+		lblTotalEstimate.setVisible(parent.getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
 
 
 		//cThree.fill = GridBagConstraints.HORIZONTAL;
@@ -500,13 +504,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.gridy = 1;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtEstimate, cThree);
-		
+
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
 		cThree.gridy = 2;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtTotalEstimate, cThree);
+		txtTotalEstimate.setVisible((parent.getReqModel().getRequirement().getChildRequirementIds().size() > 0));	
 
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -626,7 +631,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		leftPaneltop.add(panelOverall,cPaneTop);
 
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
-//		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		//		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
 		splitPaneLeft.setEnabled(true);
 
@@ -662,8 +667,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				"This field must be greater than 0 to assign to an iteration.");
 		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
 				"This field must be greater than 0 to assign to an iteration.");
-		lblTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
-		txtTotalEstimate.setToolTipText("An estimate for the total effort of this requirement and all its children. \r\n");
+		lblTotalEstimate.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
+		txtTotalEstimate.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
 		lblActual.setToolTipText("The actual effort for this requirement.");
 		txtActual.setToolTipText("The actual effort for this requirement.");
 		lblIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
@@ -769,10 +774,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtDescription.setEnabled(enabled);
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
-		
-		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
-			txtEstimate.setEnabled(enabled);
-		}
+
+//		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
+//			txtEstimate.setEnabled(enabled);
+//		}
 	}
 
 	/**
@@ -838,7 +843,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
 		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
 		requirement.updateTasks(tasksView.getTasks());
-		
+
 		if (!(txtCreator.getText().equals(""))) {
 			requirement.setCreator(txtCreator.getText());
 		}
@@ -992,20 +997,20 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-			try{
-				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
-					enabled = false;
-				}
-				else if(Integer.parseInt(txtEstimate.getText()) > 0){
-					enabled = true;
-				}
-				else{
-					enabled = false;
-				}
-			}
-			catch(NumberFormatException exception){
-				enabled = false;
-			}
+//			try{
+//				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
+//					enabled = false;
+//				}
+//				else if(Integer.parseInt(txtEstimate.getText()) > 0){
+//					enabled = true;
+//				}
+//				else{
+//					enabled = false;
+//				}
+//			}
+//			catch(NumberFormatException exception){
+//				enabled = false;
+//			}
 
 			cmbIteration.setEnabled(enabled);
 			cmbIteration.setBackground(Color.WHITE);
@@ -1052,8 +1057,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 			Boolean enabled = false;
 
 			try{
-				if((txtTitle.getText().equals("") || txtEstimate.getText() == null) || 
-						(txtDescription.getText().equals("") || txtDescription.getText() == null)){
+				if((txtTitle.getText().equals("") || /**txtEstimate.getText() == null) || */
+						(txtDescription.getText().equals("") || txtDescription.getText() == null))){
 					enabled = false;
 				}
 				else{
@@ -1339,6 +1344,17 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
+	 * Gets the lblTotalEstimate
+	 * @return the lblTotalEstimate
+	 */
+	public JLabel getLblTotalEstimate() {
+		return lblTotalEstimate;
+	}
+
+
+
+
+	/**
 	 * Gets the lbl actual error
 	 * 
 	 * @return the lblActualError
@@ -1385,7 +1401,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	@Override
 	public void focusGained(FocusEvent e) {
 		this.getParent().getReqModel().updateBackgrounds();
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -1394,6 +1410,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.getParent().getReqModel().updateBackgrounds();
-		
+
 	}
 }

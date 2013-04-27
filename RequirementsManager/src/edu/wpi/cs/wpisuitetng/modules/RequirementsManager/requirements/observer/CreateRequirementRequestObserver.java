@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.UpdateRequirementViewController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -75,6 +76,10 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 			// parse the Requirement from the body
 			final Requirement requirement = Requirement.fromJSON(response.getBody());
 			Refresher.getInstance().refreshRequirementsFromServer(RefresherMode.ALL);
+			
+			// update all open Requirement Views
+			UpdateRequirementViewController.updateAllOpenRequirementViews();
+			
 			// make sure the Requirement isn't null
 			if (requirement != null) {
 				SwingUtilities.invokeLater(new Runnable() {

@@ -161,8 +161,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
 
-		this.setTotalEstimate(req, 0, s);
 		
+		
+		this.setTotalEstimate(req, 0, s);
 		
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
@@ -219,6 +220,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		//changes have been made.
 
 		return serverReq;
+		
 	}
 
 	/**

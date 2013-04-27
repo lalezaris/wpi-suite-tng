@@ -48,7 +48,7 @@ public class SaveAttachmentController {
 //		System.out.println("is there a thing here?"+view.getReqModel().getUneditedRequirement().getAttachedFileId().get(0));
 		
 		SaveRequirementController saveReq = new SaveRequirementController(view);
-		saveReq.save();
+	//	saveReq.save();
 	}
 
 }

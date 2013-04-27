@@ -72,7 +72,7 @@ public class TasksView extends JPanel {
 	private JPanel overallPanel;//One panel to hold them all.
 
 	private JScrollPane listScrollPane;
-	private JScrollPane featScrollPane;
+	private JPanel featScrollPane;
 
 	private JSplitPane splitPane;
 
@@ -143,6 +143,7 @@ public class TasksView extends JPanel {
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
 		this.add(splitPane,BorderLayout.CENTER);
+		
 
 	}
 	
@@ -249,7 +250,7 @@ public class TasksView extends JPanel {
 	 * @return 
 	 * 
 	 */
-	private JScrollPane displayFeatures(){
+	private JPanel displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
 		GridBagConstraints cTemp = new GridBagConstraints();
@@ -360,8 +361,8 @@ public class TasksView extends JPanel {
 		//newTaskPanel.setMinimumSize(getPreferredSize());
 		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
 
-		featScrollPane = new JScrollPane(featurePanel);
-		return featScrollPane;
+		//featScrollPane = new JScrollPane(featurePanel);
+		return featurePanel;
 	}
 
 

@@ -14,11 +14,13 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -26,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 
@@ -98,6 +101,7 @@ public class ParentAndChildrenView extends JPanel{
 		mdlParent = new DefaultListModel();
 		mdlParent.addElement("Requirement " + parentRequirementView.getReqModel().getUneditedRequirement().getParentRequirementId());
 		txtParent = new JList(mdlParent);
+		txtParent.setCellRenderer(new NonSelectListCellRenderer());
 		mdlChildren = new DefaultListModel();
 		childRequirementIDs = parentRequirementView.getReqModel().getUneditedRequirement().getChildRequirementIds();
 		String req = "";
@@ -107,7 +111,7 @@ public class ParentAndChildrenView extends JPanel{
 			req = "";
 		}
 		txtChildren = new JList(mdlChildren);
-		
+		txtChildren.setCellRenderer(new NonSelectListCellRenderer()); 
 		JPanel panelOne = new JPanel();
 		panelOne.setLayout(new GridBagLayout());
 		GridBagConstraints cOne = new GridBagConstraints();
@@ -133,8 +137,9 @@ public class ParentAndChildrenView extends JPanel{
 		cTwo.gridx = 1;
 		cTwo.gridy = 0;
 		cTwo.gridwidth = 1;
-		txtParent.setForeground(Color.BLACK);
-		txtParent.enableInputMethods(false);
+//		txtParent.setForeground(Color.BLACK);
+//		txtParent.setEnabled(false);
+//		txtParent.setOpaque(true);
 		panelTwo.add(txtParent,cTwo);
 		
 		cOne.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -153,10 +158,10 @@ public class ParentAndChildrenView extends JPanel{
 		cOne.gridx = 0;
 		cOne.gridy = 2;
 		cOne.gridwidth = 1;
-		txtChildren.setForeground(txtParent.getForeground());
-//		txtChildren.setBackground(this.getBackground());
+//		txtChildren.setForeground(txtParent.getForeground());
 //		txtChildren.setEnabled(false);
-		txtChildren.enableInputMethods(false);
+//		txtChildren.setForeground(txtParent.getForeground());
+//		txtChildren.setOpaque(true);
 		panelOne.add(txtChildren,cOne);
 		
 		JPanel panelOverall = new JPanel();
@@ -255,4 +260,14 @@ public class ParentAndChildrenView extends JPanel{
 		return list;
 	}
 
+}
+
+class NonSelectListCellRenderer extends DefaultListCellRenderer{
+	
+	public Component getListCellRendererComponent(JList list, Object value, int index,
+    boolean isSelected, boolean cellHasFocus) {
+		super.getListCellRendererComponent(list, value, index, false, false); // always set is selected to false and has focus to false, so nothing can be selected
+
+		return this;
+	}
 }

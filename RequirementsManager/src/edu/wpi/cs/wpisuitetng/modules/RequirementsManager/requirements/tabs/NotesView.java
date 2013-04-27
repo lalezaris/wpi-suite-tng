@@ -103,6 +103,7 @@ public class NotesView extends JPanel implements FocusListener {
 		txtNotes.setLineWrap(true);
 		txtNotesSaved = new JTextArea(4, 40);
 		txtNotesSaved.setLineWrap(true);
+		txtNotesSaved.setBackground(new Color(223,223,223));
 		JLabel lblNotes = new JLabel("Enter Note:", LABEL_ALIGNMENT);
 		JLabel lblNotesSaved = new JLabel("Saved Notes:", LABEL_ALIGNMENT);
 

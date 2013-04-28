@@ -55,7 +55,7 @@ public class RequirementListPanelTest {
 	public void buttonPanelTest() {
 		JPanel buttonPanel = panel.getButtonPanel();
 		assertTrue(buttonPanel.isVisible());
-		assertEquals(4, buttonPanel.getComponentCount());
+		assertEquals(5, buttonPanel.getComponentCount());
 	}
 	
 	@Test

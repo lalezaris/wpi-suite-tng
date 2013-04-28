@@ -323,7 +323,7 @@ public class RulePanel extends JPanel{
 				this.add(possibleValues, constraint);
 		}
 		else if (editType == RuleEditableType.NUMBER){
-			possibleValuesText.setText("0");
+			
 
 			removeAllListeners();
 			possibleValuesText.addKeyListener(new KeyAdapter(){
@@ -334,6 +334,8 @@ public class RulePanel extends JPanel{
 					}
 				}
 			});
+			possibleValuesText.setText("0");
+			possibleValuesText.repaint();
 			//}
 			if (possibleValuesTextIndex ==-1)
 				this.add(possibleValuesText, constraint);

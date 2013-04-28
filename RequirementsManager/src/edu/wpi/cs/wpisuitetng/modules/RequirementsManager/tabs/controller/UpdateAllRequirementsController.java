@@ -51,7 +51,7 @@ public class UpdateAllRequirementsController {
 	protected List<ValidationIssue> issues;
 
 	protected int waitUpdateCount;
-	
+
 	/**
 	 * Instantiates a new update all requirements controller.
 	 *
@@ -69,82 +69,86 @@ public class UpdateAllRequirementsController {
 	public void update(){
 		RequirementTableModel table = (RequirementTableModel)panel.getTable().getModel();
 
-
-		
 		List<Requirement> reqs = new ArrayList<Requirement>();
 		List<Integer> reqsRow = new ArrayList<Integer>();
 		List<CellLocation> cells = table.getChangedLocations();
-		
-		
-		
-		//ADD ROWS WITH VALID CHANGE CELLS TO LIST OF REQUIREMENTS TO BE SAVED
-		for (int i = 0 ; i < cells.size() ; i ++){
-			if (table.getRequirements().get(cells.get(i).getRow())!= null){
-				Requirement r = table.getRequirements().get(cells.get(i).getRow());
-				try {
-					issues = reqVal.validate(r, RequirementPanel.Mode.EDIT);
-				} catch (NullPointerException e) {
-					System.out.println("The " + (i + 1) + "th requirement is legal");
-				}
-				if(issues.size() > 0){
-					printIssues(issues, r.getTitle());
-				}
-				if (r != null && issues.size() == 0){
-					if (!reqs.contains(r)){
-						reqs.add(r);
-						//reqsRow.add(cells.get(i).getRow());
-					}
-				}
-			}
-		}
 
-		//REMOVE ROWS FROM FUTURE SAVE THAT CONTAIN AN INVALID CELL CHANGE
-		for (int i = 0 ; i <cells.size(); i ++){
-			if (table.getRequirements().get(cells.get(i).getRow())!= null){
-				Requirement r = table.getRequirements().get(cells.get(i).getRow());
-				if (reqs.contains(r)){
-					if (!cells.get(i).isValid()){
-						reqs.remove(r);
+		boolean allValid = true;
+		for (int i = 0 ; i < cells.size(); i ++)
+			if (!cells.get(i).isValid()){
+				allValid = false;
+				break;
+			}
+		if (allValid){
+			//ADD ROWS WITH VALID CHANGE CELLS TO LIST OF REQUIREMENTS TO BE SAVED
+			for (int i = 0 ; i < cells.size() ; i ++){
+				if (table.getRequirements().get(cells.get(i).getRow())!= null){
+					Requirement r = table.getRequirements().get(cells.get(i).getRow());
+					try {
+						issues = reqVal.validate(r, RequirementPanel.Mode.EDIT);
+					} catch (NullPointerException e) {
+						System.out.println("The " + (i + 1) + "th requirement is legal");
+					}
+					if(issues.size() > 0){
+						printIssues(issues, r.getTitle());
+					}
+					if (r != null && issues.size() == 0){
+						if (!reqs.contains(r)){
+							reqs.add(r);
+							//reqsRow.add(cells.get(i).getRow());
+						}
 					}
 				}
-			} else{
-				//reqsRow.add(cells.get(i).getRow());
 			}
-		}
-		
-		
-		for (int i = 0 ; i < reqs.size(); i ++){
-			Iteration temp = reqs.get(i).getIteration();
-			saveRequirement(reqs.get(i));
-			reqs.get(i).setIteration(temp);
-			int row = 0;
-			for (int c = 0 ; c < cells.size(); c ++){
-				if (table.getRequirements().get(cells.get(c).getRow())!= null 
-						&& reqs.get(i).equals(table.getRequirements().get(cells.get(c).getRow()))){
-					row = cells.get(c).getRow();
+
+			//REMOVE ROWS FROM FUTURE SAVE THAT CONTAIN AN INVALID CELL CHANGE
+			for (int i = 0 ; i <cells.size(); i ++){
+				if (table.getRequirements().get(cells.get(i).getRow())!= null){
+					Requirement r = table.getRequirements().get(cells.get(i).getRow());
+					if (reqs.contains(r)){
+						if (!cells.get(i).isValid()){
+							reqs.remove(r);
+						}
+					}
+				} else{
+					//reqsRow.add(cells.get(i).getRow());
 				}
 			}
-			table.updateRow(row, reqs.get(i));
-		}
-		panel.updateUI();
-		//Requirement[] reqArray = new Requirement[reqs.size()];
-		//for (int i = 0 ; i < reqArray.length; i ++)
+
+
+			for (int i = 0 ; i < reqs.size(); i ++){
+				Iteration temp = reqs.get(i).getIteration();
+				saveRequirement(reqs.get(i));
+				reqs.get(i).setIteration(temp);
+				int row = 0;
+				for (int c = 0 ; c < cells.size(); c ++){
+					if (table.getRequirements().get(cells.get(c).getRow())!= null 
+							&& reqs.get(i).equals(table.getRequirements().get(cells.get(c).getRow()))){
+						row = cells.get(c).getRow();
+					}
+				}
+				table.updateRow(row, reqs.get(i));
+			}
+			panel.updateUI();
+			//Requirement[] reqArray = new Requirement[reqs.size()];
+			//for (int i = 0 ; i < reqArray.length; i ++)
 			//reqArray[i] = reqs.get(i);
-		//panel.addRequirements(reqArray);
-		
-		((RequirementTableModel) panel.getTable().getModel()).clearChangeVisuals();
-		//panel.getTable().updateUI();
-		//((RequirementTableModel) panel.getTable().getModel()).clear();
-		//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
-		
-		
-		if (issues.size() == 0){ //THERE WERE NO ISSUES. SO STUFF ACTUALLY SAVED
-			panel.getModel().setIsChange(false);
-			panel.getFilterController().getPanel().triggerTableUpdate();
-			panel.setButtonsForSaving();
+			//panel.addRequirements(reqArray);
+
+			((RequirementTableModel) panel.getTable().getModel()).clearChangeVisuals();
+			//panel.getTable().updateUI();
+			//((RequirementTableModel) panel.getTable().getModel()).clear();
+			//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
+
+
+			if (issues.size() == 0){ //THERE WERE NO ISSUES. SO STUFF ACTUALLY SAVED
+				panel.getModel().setIsChange(false);
+
+				panel.getFilterController().getPanel().triggerTableUpdate();
+				panel.setButtonsForSaving();
+			}
+
 		}
-		
-	
 		//this.panel.updateUI();
 
 	}
@@ -197,13 +201,14 @@ public class UpdateAllRequirementsController {
 		waitUpdateCount--;
 		if (waitUpdateCount<=0){
 			waitUpdateCount = 0;
+			panel.showUpdateSuccessfully("Update Successful.");
 			panel.setButtonsForNoChanges();
 			ReqTreeModel tree = Refresher.getInstance().getTreeModel();
 			if (tree!=null)
 				tree.refreshTree();
-			
+			panel.getFilterController().setEditable(!panel.getModel().getIsChange());
 		}
-		
-		
+
+
 	}
 }

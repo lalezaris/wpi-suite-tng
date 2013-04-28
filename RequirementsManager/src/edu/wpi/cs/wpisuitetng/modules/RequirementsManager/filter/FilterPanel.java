@@ -53,7 +53,7 @@ public class FilterPanel extends JPanel{
 
 	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
-	private final JLabel filterDesc;
+	private final JLabel filterDesc, filterErrDesc;
 	private int ruleCount = 0, ruleInc = 0;
 	private JLabel dingus = new JLabel(" ");
 	
@@ -92,7 +92,9 @@ public class FilterPanel extends JPanel{
 		ruleHolderPanel.setLayout(pLayout);
 
 		filterDesc = new JLabel("No filters enabled");
-
+		filterErrDesc = new JLabel("You must save or discard changes to edit filters.");
+		filterErrDesc.setVisible(false);
+		
 		JPanel buttonPanel = new JPanel();
 		GridBagLayout bLayout = new GridBagLayout();
 		buttonPanel.setLayout(bLayout);
@@ -165,7 +167,9 @@ public class FilterPanel extends JPanel{
 		
 		alwaysOnPanel.add(showButton);
 		alwaysOnPanel.add(filterDesc);
-
+		alwaysOnPanel.add(filterErrDesc);
+		
+		
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -346,6 +350,32 @@ public class FilterPanel extends JPanel{
 				if (this.getRules().get(0).getPossibleValuesText().getText().equals("snake"))
 					show = true;
 		snakeButton.setVisible( show);
+	}
+	
+	
+	/**
+	 * Make the panel be editable or not.
+	 * 
+	 * @param editable. The desired state
+	 */
+	public void setEditable(boolean editable){
+		
+		this.filterDesc.setVisible(editable);
+		this.filterErrDesc.setVisible(!editable);
+		
+		this.addButton.setEnabled(editable);
+		this.removeButton.setEnabled(editable);
+		this.disableButton.setEnabled(editable);
+		this.enableButton.setEnabled(editable);
+		for (int i = 0 ; i < rules.size() ; i ++){
+			rules.get(i).test = false;
+			rules.get(i).getEnabledBox().setEnabled(editable);
+			rules.get(i).getField().setEnabled(editable);
+			rules.get(i).getCompareMode().setEnabled(editable);
+			rules.get(i).getPossibleValues().setEnabled(editable);
+			rules.get(i).getPossibleValuesText().setEnabled(editable);
+			rules.get(i).test = true;
+		}
 	}
 	
 	/**

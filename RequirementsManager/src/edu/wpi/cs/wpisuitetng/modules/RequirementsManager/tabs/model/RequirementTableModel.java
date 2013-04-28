@@ -314,9 +314,17 @@ public class RequirementTableModel extends AbstractTableModel {
 		{
 			Object[] r = (unSavedRequirements.get(i)).clone();
 			data.set(i, r);
+			requirements.get(i).setTitle( (String) r[1]); //name
+			requirements.get(i).setDescription( (String) r[2]); //description
+			requirements.get(i).setStatus( (RequirementStatus) r[3]); //status
+			requirements.get(i).setPriority( (RequirementPriority) r[4]); //priority
+			requirements.get(i).setEstimateEffort( (Integer) r[5]); //estimate
+			requirements.get(i).setIteration( (Iteration) r[6]); //iteration
 		}	
 		this.clearChangeVisualsDisregard();
-		this.setIsChange(false);
+		this.isChange = false;
+		this.panel.setButtonsForNoChanges();
+		this.panel.getFilterController().setEditable(!this.getIsChange());
 	}
 	
 	/**
@@ -486,6 +494,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		//isChange = true;
 		panel.hideUpdateSuccessfully();
 		this.logChangeErrors(row);
+		
+		this.panel.getFilterController().setEditable(!this.getIsChange());
+		this.panel.setButtonsForChanges();
 		if (DEBUG) {
 			printDebugData();
 		}
@@ -514,7 +525,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
-		if (status == RequirementStatus.OPEN){
+		if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
 			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
 				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
 				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");

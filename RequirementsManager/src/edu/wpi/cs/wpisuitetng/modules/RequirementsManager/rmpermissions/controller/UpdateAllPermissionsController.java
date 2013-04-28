@@ -51,9 +51,9 @@ public class UpdateAllPermissionsController extends AbstractAction {
 	 */
 	public UpdateAllPermissionsController(UserPermissionPanel panel, PermissionModel permModel){
 		this.panel = panel;
-		this.noneUsers = panel.getNoneUsers();
-		this.updateUsers = panel.getUpdateUsers();
-		this.adminUsers = panel.getAdminUsers();
+		noneUsers = panel.getNoneUsers();
+		updateUsers = panel.getUpdateUsers();
+		adminUsers = panel.getAdminUsers();
 		this.permModel = permModel;
 	}
 
@@ -101,19 +101,19 @@ public class UpdateAllPermissionsController extends AbstractAction {
 		//This loop goes through the selected names, and all the permissions
 		//and if there is a match, it updates that permission to LEVEL (an input to this function)
 		//and saves the permission
-		for (int i = 0 ; i < this.permModel.getPermissions().length ; i ++){
+		for (int i = 0 ; i < permModel.getPermissions().length ; i ++){
 			for (int j = 0 ; j < selected.size() ; j ++){
-				if ( ((String)selected.get(j)).equals(this.permModel.getPermissions()[i].getUsername()) && this.permModel.getPermissions()[i].getPermissions() != level){
+				if ( ((String)selected.get(j)).equals(permModel.getPermissions()[i].getUsername()) && permModel.getPermissions()[i].getPermissions() != level){
 
 					String me = ConfigManager.getConfig().getUserName();
 					Date now = new Date();
 
-					String m = "[" + DateFormat.getDateTimeInstance().format(now) + "] CHANGE: " + me + " changed " + this.permModel.getPermissions()[i].getUsername() + 
-							" status from " + this.permModel.getPermissions()[i].getPermissions() + " to " + level ;
-					this.permModel.getPermissions()[i].setMessage(m);
+					String m = "[" + DateFormat.getDateTimeInstance().format(now) + "] CHANGE: " + me + " changed " + permModel.getPermissions()[i].getUsername() + 
+							" status from " + permModel.getPermissions()[i].getPermissions() + " to " + level ;
+					permModel.getPermissions()[i].setMessage(m);
 
-					this.permModel.getPermissions()[i].setPermissions(level);
-					controller.save(this.permModel.getPermissions()[i], PermissionSaveMode.UPDATE);					
+					permModel.getPermissions()[i].setPermissions(level);
+					controller.save(permModel.getPermissions()[i], PermissionSaveMode.UPDATE);					
 				}	
 			}
 		}

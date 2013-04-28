@@ -50,7 +50,7 @@ public class Note {
 	public Note(String body, String creator) {
 		this.body = body;
 		this.creator = creator;
-		this.creationDate = new Date();
+		creationDate = new Date();
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class RequirementModel {
 	 */
 	public RequirementModel(Requirement requirement, RequirementView view){
 		this.requirement = requirement;
-		this.uneditedRequirement = requirement;
+		uneditedRequirement = requirement;
 		this.view = view;
 	}
 
@@ -162,7 +162,7 @@ public class RequirementModel {
 	 * @return true if changes has been made otherwise false
 	 */
 	public boolean isThereChanges(){
-		Requirement oldR = this.uneditedRequirement;
+		Requirement oldR = uneditedRequirement;
 		Requirement newR = view.getRequirementPanel().getEditedModel();
 
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
@@ -212,14 +212,14 @@ public class RequirementModel {
 			return true;
 		}
 
-		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+		if (!view.getRequirementPanel().getNotesView().getNoteString().equals("") && !view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
 			return true;
 		}
 
 		if (oldR.getNotes().size() != newR.getNotes().size()){//if old and new are not the same
 			return true;
 		}		
-		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
+		if (view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			return true;
 		}
 
@@ -245,19 +245,19 @@ public class RequirementModel {
 			return true;
 		}
 
-		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getBodyField().getText().trim().equals(null)){
 			return true;
 		}
 
-		if(!this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !this.view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
+		if(!view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals("") && !view.getRequirementPanel().getAcceptanceTestsView().getTitleField().getText().equals(null)){
 			return true;
 		}
 
-		if(oldR.getAcceptanceTests().size() != this.view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
+		if(oldR.getAcceptanceTests().size() != view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			return true;
 		}
 		
-		if(this.view.getRequirementPanel().getTasksView().isChanged()){
+		if(view.getRequirementPanel().getTasksView().isChanged()){
 			return true;
 		}
 
@@ -271,7 +271,7 @@ public class RequirementModel {
 	 * @return true if changes has been made otherwise false
 	 */
 	public boolean updateBackgrounds(){
-		Requirement oldR = this.uneditedRequirement;
+		Requirement oldR = uneditedRequirement;
 		Requirement newR = view.getRequirementPanel().getEditedModel();
 		boolean flag = false; //gets set to true when something has changed; in order to iterate through everything
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
@@ -360,17 +360,17 @@ public class RequirementModel {
 				view.getRequirementPanel().txtActual.setBackground(Color.WHITE);//change to white background in case of reset
 
 		//set notes field to yellow
-		if (!this.view.getRequirementPanel().getNotesView().getNoteString().equals("") && !this.view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
+		if (!view.getRequirementPanel().getNotesView().getNoteString().equals("") && !view.getRequirementPanel().getNotesView().getNoteString().equals(null) ){//if old and new are not the same
 			view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(MainView.getChangedColor());
 			flag = true;
 		}
 		else
-			if(this.view.getRequirementPanel().getNotesView().getTextArea().getBackground().equals(MainView.getChangedColor()))
+			if(view.getRequirementPanel().getNotesView().getTextArea().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getNotesView().setTxtNotesBackgroundColor(Color.WHITE);
 
 
 		//set Assigneeview to yellow
-		if (this.view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
+		if (view.getRequirementPanel().getAssigneeView().isButtonPressed()){//if old and new are not the same
 			view.getRequirementPanel().getAssigneeView().setBackgroundColors(MainView.getChangedColor());
 			flag = true;
 		}
@@ -380,7 +380,7 @@ public class RequirementModel {
 			flag = true;
 		}*/
 		else
-			if(this.view.getRequirementPanel().getAssigneeView().getBackgroundColor().equals(MainView.getChangedColor()))
+			if(view.getRequirementPanel().getAssigneeView().getBackgroundColor().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.WHITE);
 		/*
 		//TODO: come back to this
@@ -494,7 +494,7 @@ public class RequirementModel {
 	 * @param req the new requirement
 	 */
 	public void setRequirement(Requirement req) {
-		this.requirement = req;
+		requirement = req;
 	}
 
 	/**

@@ -301,12 +301,12 @@ public class HistoricalChange extends AbstractModel{
 	 * @return change
 	 */
 	public String getChange(){
-		System.out.println("change is: " + this.change);
-		return this.change;
+		System.out.println("change is: " + change);
+		return change;
 	}
 	
 	public void setChange(String c){
-		this.change = c;
+		change = c;
 	}
 
 	/**

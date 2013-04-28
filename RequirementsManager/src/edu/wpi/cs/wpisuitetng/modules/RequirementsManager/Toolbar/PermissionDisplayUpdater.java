@@ -31,7 +31,7 @@ public class PermissionDisplayUpdater implements IOnPermissionUpdate{
 	 * @param t A ToobarPanel
 	 */
 	public PermissionDisplayUpdater(ToolbarPanel t){
-		this.TBpanel = t;
+		TBpanel = t;
 	}
 
 	/**

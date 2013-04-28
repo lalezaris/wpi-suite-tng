@@ -45,8 +45,8 @@ public class Controller {
 		this.panel.addKeyListener(new KeyInput(this.snake));
 		panel.setSpots(snake.getSpots());
 		
-		this.xMax = 31;//panel.getWidth() / panel.gridSize;
-		this.yMax = 27;//panel.getHeight() / panel.gridSize;
+		xMax = 31;//panel.getWidth() / panel.gridSize;
+		yMax = 27;//panel.getHeight() / panel.gridSize;
 		
 		
 		for (int x = 0; x <= xMax; x ++){
@@ -278,7 +278,7 @@ public class Controller {
 			updateHighScore(score, ConfigManager.getConfig().getUserName());
 		}
 		this.gameRunning = gameRunning;
-		this.panel.setGameOver(!gameRunning);
+		panel.setGameOver(!gameRunning);
 	}
 
 	/**

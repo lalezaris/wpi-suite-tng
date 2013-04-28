@@ -77,7 +77,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	@SuppressWarnings("unchecked")
 	public AcceptanceTestsView(RequirementView parent){
 		list = new ArrayList();
-		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 		layout.columnWeights = new double[]{.2, .8};
@@ -402,7 +402,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 * @return the text area
 	 */
 	public JTextArea getTextArea(){
-		return this.txtBody;
+		return txtBody;
 	}
 
 	/**
@@ -516,7 +516,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 * @return the list
 	 */
 	public ArrayList<AcceptanceTest> getList(){
-		return this.list;
+		return list;
 	}
 
 	/**
@@ -719,7 +719,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 * Refreshes the background
 	 */
 	public void refreshBackgrounds() {
-		this.parent.getReqModel().updateBackgrounds();
+		parent.getReqModel().updateBackgrounds();
 	}
 	/**
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)

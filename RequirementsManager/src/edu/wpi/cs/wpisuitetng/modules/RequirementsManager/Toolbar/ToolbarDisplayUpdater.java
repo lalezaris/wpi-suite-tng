@@ -33,7 +33,7 @@ public class ToolbarDisplayUpdater implements IOnPermissionUpdate{
 	 * @param t A ToolbarPanel
 	 */
 	public ToolbarDisplayUpdater(ToolbarPanel t){
-		this.TBpanel = t;
+		TBpanel = t;
 	}
 
 	/**

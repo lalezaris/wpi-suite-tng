@@ -45,7 +45,7 @@ public class ReqTreeNode extends DefaultMutableTreeNode {
 	 * @return the name of the requirement within the node
 	 */
 	public String getName(){
-		return this.req.getTitle();
+		return req.getTitle();
 	}
 
 	/**

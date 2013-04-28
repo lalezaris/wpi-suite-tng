@@ -30,6 +30,6 @@ public class Wall {
 	public Wall(Spot spot) {
 		all.add(this);
 		this.spot = spot;
-		this.score = 1;
+		score = 1;
 	}
 }

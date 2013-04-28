@@ -48,8 +48,8 @@ public class Snake {
 		spots = new ArrayList<Spot>();
 		
 		spots.add(start);
-		this.direction = Snake.RIGHT;		
-		this.turnsToGrow = 2;
+		direction = Snake.RIGHT;		
+		turnsToGrow = 2;
 	}
 
 	public void setController(Controller controller){
@@ -69,14 +69,14 @@ public class Snake {
 	 */
 	public void move(){
 		Spot head = this.getHead();
-		if (this.direction == LEFT){
-			this.spots.add(new Spot(head.x - 1, head.y));
-		} else if (this.direction == UP){
-			this.spots.add(new Spot(head.x, head.y - 1));
-		} else if (this.direction == RIGHT){
-			this.spots.add(new Spot(head.x + 1, head.y));
-		} else if (this.direction == DOWN){
-			this.spots.add(new Spot(head.x, head.y + 1));
+		if (direction == LEFT){
+			spots.add(new Spot(head.x - 1, head.y));
+		} else if (direction == UP){
+			spots.add(new Spot(head.x, head.y - 1));
+		} else if (direction == RIGHT){
+			spots.add(new Spot(head.x + 1, head.y));
+		} else if (direction == DOWN){
+			spots.add(new Spot(head.x, head.y + 1));
 		}
 		
 		if(nextDirection == 0){
@@ -91,7 +91,7 @@ public class Snake {
 		ArrayList<Food> eatenFood = new ArrayList<Food>();
 		for (int i = 0 ; i < Food.all.size(); i ++){
 			if (head.equals(Food.all.get(i).spot)){
-				this.turnsToGrow += Food.all.get(i).score;
+				turnsToGrow += Food.all.get(i).score;
 				controller.eatFood(Food.all.get(i));
 				eatenFood.add(Food.all.get(i));
 				
@@ -119,12 +119,12 @@ public class Snake {
 		}
 		
 		
-		if (this.turnsToGrow <= 0){
-			this.spots.remove(0);
+		if (turnsToGrow <= 0){
+			spots.remove(0);
 		}
-		this.turnsToGrow --;
-		if (this.turnsToGrow <= 0)
-			this.turnsToGrow = 0;
+		turnsToGrow --;
+		if (turnsToGrow <= 0)
+			turnsToGrow = 0;
 	}
 	
 	/**

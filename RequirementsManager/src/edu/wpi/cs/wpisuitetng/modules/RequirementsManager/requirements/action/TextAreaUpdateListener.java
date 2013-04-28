@@ -55,7 +55,7 @@ public class TextAreaUpdateListener implements ItemListener {
 	public TextAreaUpdateListener(RequirementPanel panel, JTextArea component) {
 		this.panel = panel;
 		this.component = component;
-		this.defaultBorder = component.getBorder();
+		defaultBorder = component.getBorder();
 	}
 
 	/** 

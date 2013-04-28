@@ -164,7 +164,7 @@ public class AttachmentsView extends RequirementTab{
 		
 	}
 
-	/*
+	/**
 	 * A panel for each selected file.
 	 */
 	private class SelectedPanel extends JPanel{
@@ -172,6 +172,12 @@ public class AttachmentsView extends RequirementTab{
 		private JLabel text;
 		private JButton delete;
 		private File file;
+		
+		/**
+		 * The panel in which files to be uploaded are displayed.
+		 *
+		 * @param f the file to be displayed.
+		 */
 		public SelectedPanel(File f){
 			System.out.println("made a new selectedpanel called: " +f.getPath());
 			this.file = f;
@@ -200,6 +206,12 @@ public class AttachmentsView extends RequirementTab{
 		private JButton delete;
 		public JButton download;
 		private File file;
+		
+		/**
+		 * The panel for files that are attached.
+		 *
+		 * @param f the file that is attached.
+		 */
 		public AttachedPanel(File f){
 			System.out.println("made an attachedpanel with file: "+f.getPath());
 			this.file = f;
@@ -230,7 +242,9 @@ public class AttachmentsView extends RequirementTab{
 	}
 	
 	/**
-	 * download the file to the user's computer
+	 * download the file to the user's computer.
+	 *
+	 * @param f the file to download.
 	 */
 	public void downloadFile(File f){
 		JFileChooser chooser = new JFileChooser();
@@ -287,6 +301,11 @@ public class AttachmentsView extends RequirementTab{
 		return null;
 	}
 	
+	/**
+	 * Sets the attachments list.
+	 *
+	 * @param l the new attachments list
+	 */
 	public void setAttachmentsList(List<Object> l) {
 		// TODO actually save the attachments list
 		// TODO change 'Object' to 'Attachment'
@@ -314,6 +333,11 @@ public class AttachmentsView extends RequirementTab{
 	
 	//returns the current file to upload
 	//the "current" file should be set whenever the upload action is taken
+	/**
+	 * Gets the file.
+	 *
+	 * @return the file
+	 */
 	public File getFile(){
 
 		//If you want ALL of the files, use this.selectedFiles, which is an arrayList.
@@ -327,9 +351,9 @@ public class AttachmentsView extends RequirementTab{
 	}
 
 	/**
-	 * Get all of the files from the selected panel
-	 * 
-	 * @return
+	 * Get all of the files from the selected panel.
+	 *
+	 * @return all selected files
 	 */
 	public File[] getAllSelectedFiles(){
 		File[] allFiles = new File[selectedFiles.size()];
@@ -339,9 +363,9 @@ public class AttachmentsView extends RequirementTab{
 	}
 
 	/**
-	 * Get all the files from the attached panel
-	 * 
-	 * @return
+	 * Get all the files from the attached panel.
+	 *
+	 * @return all attached files
 	 */
 	public File[] getAllAttachedFiles(){
 		File[] allFiles = new File[attachedFiles.size()];
@@ -402,6 +426,11 @@ public class AttachmentsView extends RequirementTab{
 		selectedPanel.repaint();
 	}
 	
+	/**
+	 * Adds the file to selected.
+	 *
+	 * @param f the file to add
+	 */
 	public void addFileToSelected(File f){
 		this.uploadFileButton.setVisible(true);
 		selectedFiles.add(f);
@@ -447,9 +476,11 @@ public class AttachmentsView extends RequirementTab{
 	}
 
 
-	/*
+	/**
 	 * This will update the panel to show that the file has been saved.
 	 * It assumes that the names of the selected files are unique.
+	 *
+	 * @param attachment the attachment
 	 */
 	public void attachmentSaveSuccess(Attachment attachment) {
 		this.addFileToAttached(

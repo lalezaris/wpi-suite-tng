@@ -51,6 +51,9 @@ public class IterationTableModelTest {
 	
 	Requirement r1, r2, r2copy, r3, r4;
 
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp(){
 		it1 = new IterationTableModel();
@@ -84,6 +87,9 @@ public class IterationTableModelTest {
 		itcm.addColumn(tc4);
 	}
 
+	/**
+	 * Test if data and header fields get initialized.
+	 */
 	@Test
 	public void dataAndHeaderFieldsInitialized() {
 		assertTrue(it1.columnNames != null);
@@ -92,6 +98,9 @@ public class IterationTableModelTest {
 		assertEquals(2, it1.data.size());
 	}
 
+	/**
+	 * Test if data can be inserted.
+	 */
 	@Test
 	public void dataCanBeinserted() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy");
@@ -104,12 +113,18 @@ public class IterationTableModelTest {
 		assertEquals("null", it1.getValueAt(5, 0));
 	}
 	
+	/**
+	 * Test if data can be cleared.
+	 */
 	@Test
 	public void dataCanBeCleared() {
 		it1.clear();
 		assertEquals(0, it1.getRowCount());
 	}
 	
+	/**
+	 * Test if cells cannot be edited.
+	 */
 	@Test
 	public void cellsCannotBeEdited() {		
 		for (int i = 0; i < it1.getRowCount(); i++) {
@@ -120,6 +135,9 @@ public class IterationTableModelTest {
 	}
 	
 
+	/**
+	 * Test sort table by ascending.
+	 */
 	@Test
 	public void testSortedAscending(){
 		it1.sortTable(0, itcm);//sort by ID
@@ -127,6 +145,9 @@ public class IterationTableModelTest {
 		assertEquals(it1.getValueAt(1, 1) ,"2");
 	}
 	
+	/**
+	 * Test sort table by descending.
+	 */
 	@Test
 	public void testSortedDescending(){
 		it1.sortTable(1,itcm);//sort by name
@@ -135,12 +156,18 @@ public class IterationTableModelTest {
 		assertEquals(it1.getValueAt(1, 1) ,"1");
 	}
 	
+	/**
+	 * Test sort header by ascending.
+	 */
 	@Test
 	public void testHeaderAscending(){
 		it1.sortTable(2,itcm);
 		assertEquals("Start Date"+RequirementTableModel.ASCENDING_SUFFIX , itcm.getColumn(2).getHeaderValue().toString());
 	}
 	
+	/**
+	 * Test sort header by descending.
+	 */
 	@Test
 	public void testHeaderDescending(){
 		it1.sortTable(2,itcm);
@@ -148,6 +175,9 @@ public class IterationTableModelTest {
 		assertEquals("Start Date"+RequirementTableModel.DESCENDING_SUFFIX , itcm.getColumn(2).getHeaderValue().toString());
 	}
 	
+	/**
+	 * Test reseting the table headers.
+	 */
 	@Test
 	public void testHeaderResets(){
 		it1.sortTable(2,itcm);

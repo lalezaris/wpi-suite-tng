@@ -513,6 +513,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 	/**
 	 * Sets the iteration combo box.
+	 *
+	 * @param runSetup run set up or not.
 	 */
 	public void setIterationComboBox(boolean runSetup){
 		Iteration[] knownIterations = availableIterations;

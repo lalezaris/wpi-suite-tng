@@ -33,6 +33,9 @@ public class UserPermissionPanelTest {
 
 	private UserPermissionPanel panel;
 		
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup() {
 		
@@ -51,6 +54,9 @@ public class UserPermissionPanelTest {
 		panel.getBtnUpdate().addActionListener(new UpdatePermissionController(panel));
 	}
 	
+	/**
+	 * Can move update and admin user to none user.
+	 */
 	@Test
 	public void canMoveUpdateAndAdminUserToNoneUser() {
 		assertEquals(3, panel.lstNoneUsers.getModel().getSize());
@@ -70,6 +76,9 @@ public class UserPermissionPanelTest {
 		assertEquals("7", firstItemAdmin);
 	}
 	
+	/**
+	 * Test if you can move none and admin users to update privileges.
+	 */
 	@Test
 	public void canMoveNoneAndAdminUserToUpdateUser() {
 		assertEquals(3, panel.lstNoneUsers.getModel().getSize());
@@ -89,6 +98,9 @@ public class UserPermissionPanelTest {
 		assertEquals("7", firstItemAdmin);
 	}
 	
+	/**
+	 * Test if you can move none and update users to admin privileges.
+	 */
 	@Test
 	public void canMoveNoneAndUpdateUserToAdminUser() {
 		assertEquals(3, panel.lstNoneUsers.getModel().getSize());

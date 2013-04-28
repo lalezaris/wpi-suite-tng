@@ -34,6 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.RefresherMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.UpdateRequirementViewController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -74,6 +75,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
+		TreeView.getInstance().refreshTree();
 
 		if (response.getStatusCode() == 201) {
 			BarPieChartView.update();

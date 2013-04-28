@@ -45,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CancelRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.CreateChildRequirementAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.DeleteRequirementAction;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.SaveChangesAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddAssigneeController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.AddNoteController;
@@ -153,7 +154,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
 		iterationsController.retrieve();
-
+		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
 		mainPanelScrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -529,7 +530,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			if (parentRequirement != null) {
 				if (parentRequirement.getIterationId() == Iteration.getBacklog().getId()) {
 					if (cEnd.compareTo(Calendar.getInstance()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
-						knownIts.add(knownIterations[i]);
+						if (!(knownIts.contains(knownIterations[i]))) {
+							knownIts.add(knownIterations[i]);
+						}
 					}
 				} else {
 					Calendar cTwoEnd = Calendar.getInstance();
@@ -538,12 +541,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 					if ((cEnd.compareTo(cTwoEnd) <= 0 &&
 							cEnd.compareTo(Calendar.getInstance()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
-						knownIts.add(knownIterations[i]);
+						if (!(knownIts.contains(knownIterations[i]))) {
+							knownIts.add(knownIterations[i]);
+						}
 					}
 				} 
 			} else {
 				if (cEnd.compareTo(Calendar.getInstance()) >= 0 || knownIterations[i] == Iteration.getBacklog() || knownIterations[i].getId() == getReqModel().getRequirement().getIteration().getId()){
-					knownIts.add(knownIterations[i]);
+					if (!(knownIts.contains(knownIterations[i]))) {
+						knownIts.add(knownIterations[i]);
+					}
 				}
 			}
 		}
@@ -559,12 +566,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		mainPanel.setIterations(foundIterations);
 
-		if(runSetup){
-			setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
-		}
-
-		mainPanel.getCmbIteration().setSelectedItem(Iteration.getIterationById(reqModel.getRequirement().getIterationId()));
-		
 		mainPanel.getCmbStatus().addActionListener(new StatusListener(this));
 
 		//if either a parent or a child requirement is being created, do not allow the user to create (further) children
@@ -583,7 +584,10 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getSplitPaneLeft().setDividerSize(0);
 		mainPanel.getSplitPaneLeft().setResizeWeight(1);
 		mainPanel.getSplitPane().setDividerLocation(mainPanel.getTxtDescription().getWidth()+50);
-
+		
+		if(runSetup){
+			setUp(this.reqModel.getRequirement(), mode, CurrentUserPermissions.getCurrentUserPermission());
+		}
 	}
 
 	/**

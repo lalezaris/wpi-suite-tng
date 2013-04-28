@@ -14,10 +14,12 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -108,7 +110,7 @@ public class AttachmentsView extends RequirementTab{
 		attachedButtonPanel.setLayout(new GridBagLayout());
 		
 		c.weightx = .5;
-		c.weighty = .5;
+		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		selectedButtonPanel.add(selectLabel,c);
 		
@@ -118,20 +120,20 @@ public class AttachmentsView extends RequirementTab{
 		
 		c.gridx = 0;
 		c.gridy = 1;
-
 		selectedButtonPanel.add(selectedLabel, c);
 		
 		c.gridx = 0;
 		c.gridy = 0;
-
 		mainPanel.add(selectedButtonPanel, c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
+		c.fill = GridBagConstraints.BOTH;
 		mainPanel.add(selectedScrollPane, c);
 		
 		c.gridx = 0;
 		c.gridy = 0;
+		c.fill = GridBagConstraints.NONE;
 		attachedButtonPanel.add(uploadLabel,c);
 		c.gridx = 1;
 		c.gridy = 0;
@@ -153,6 +155,8 @@ public class AttachmentsView extends RequirementTab{
 		
 		c.gridy = 3;
 		c.gridx = 0;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
 		mainPanel.add(attachedScrollPane, c);
 
 		ArrayList<String> attachmentNames = requirement.getAttachedFileNames();
@@ -160,8 +164,8 @@ public class AttachmentsView extends RequirementTab{
 		for(int i = 0; i < attachmentIDs.size(); i++){
 			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
 		}
+		this.setLayout(new GridLayout(1,1));
 		this.add(mainPanel);
-		
 	}
 
 	/**

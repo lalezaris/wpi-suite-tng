@@ -197,7 +197,7 @@ public class AttachmentsView extends RequirementTab{
 		}	
 	}
 	
-	/*
+	/**
 	 * Panel for attached files.
 	 */
 	private class AttachedPanel extends JPanel{

@@ -32,6 +32,9 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.DummyTab;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.Tab;
 
+/**
+ * The Class GamePanel.
+ */
 public class GamePanel extends JPanel{
 
 	
@@ -44,6 +47,9 @@ public class GamePanel extends JPanel{
 	JLabel highScore, highScoreBody;
 
 	
+	/**
+	 * Instantiates a new game panel.
+	 */
 	public GamePanel() {
 		Dimension size = new Dimension(500,500);
 		this.setPreferredSize(new Dimension(500,500));
@@ -178,6 +184,12 @@ public class GamePanel extends JPanel{
 		containingTab.setTitle("Snake");
 		containingTab.setToolTipText("play an awesome game of snake");
 	}
+	
+	/**
+	 * Gets the tab.
+	 *
+	 * @return the tab
+	 */
 	public Tab getTab() {
 		return containingTab;
 	}

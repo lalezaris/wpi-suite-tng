@@ -14,6 +14,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import java.util.ArrayList;
 
+/**
+ * The Class Snake.
+ */
 public class Snake {
 
 	public static int LEFT = 37;
@@ -52,14 +55,29 @@ public class Snake {
 		turnsToGrow = 2;
 	}
 
+	/**
+	 * Sets the controller.
+	 *
+	 * @param controller the new controller
+	 */
 	public void setController(Controller controller){
 		this.controller = controller;
 	}
 	
+	/**
+	 * Sets the direction.
+	 *
+	 * @param direction the new direction
+	 */
 	public void setDirection(int direction){
 		this.direction = direction;
 	}
 	
+	/**
+	 * Gets the head.
+	 *
+	 * @return the head
+	 */
 	public Spot getHead(){
 		return spots.get(spots.size()-1);
 	}
@@ -128,24 +146,46 @@ public class Snake {
 	}
 	
 	/**
+	 * Gets the spots.
+	 *
 	 * @return the spots
 	 */
 	public ArrayList<Spot> getSpots() {
 		return spots;
 	}
 	
+	/**
+	 * Sets the checks for moved.
+	 *
+	 * @param value the new checks for moved
+	 */
 	public void setHasMoved(boolean value){
 		hasMoved = value;
 	}
 	
+	/**
+	 * Checks if is checks for moved.
+	 *
+	 * @return true, if is checks for moved
+	 */
 	public boolean isHasMoved(){
 		return hasMoved;
 	}
 	
+	/**
+	 * Sets the next direction.
+	 *
+	 * @param nextDirection the new next direction
+	 */
 	public void setNextDirection(int nextDirection){
 		this.nextDirection = nextDirection;
 	}
 	
+	/**
+	 * Gets the next direction.
+	 *
+	 * @return the next direction
+	 */
 	public int getNextDirection(){
 		return nextDirection;
 	}

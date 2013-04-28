@@ -292,6 +292,9 @@ public class ParentAndChildrenView extends RequirementTab{
 
 }
 
+/**
+ * The Class NonSelectListCellRenderer.
+ */
 class NonSelectListCellRenderer extends DefaultListCellRenderer{
 	
 	public Component getListCellRendererComponent(JList list, Object value, int index,

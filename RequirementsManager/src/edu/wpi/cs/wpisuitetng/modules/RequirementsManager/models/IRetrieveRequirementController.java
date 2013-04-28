@@ -14,10 +14,10 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 /**
- * Interface for retrieve requirement controllers
- * 
- * @author Chris Hanna
+ * Interface for retrieve requirement controllers.
  *
+ * @author Chris Hanna
+ * @param <T> generic type
  */
 public interface IRetrieveRequirementController<T> {
 	/**

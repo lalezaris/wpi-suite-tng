@@ -20,6 +20,9 @@ import java.util.TimerTask;
 
 import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
+/**
+ * The Class Controller.
+ */
 public class Controller {
 
 	private int xMax = 0, yMax = 0;
@@ -71,6 +74,12 @@ public class Controller {
 		
 	}
 
+	/**
+	 * Update high score.
+	 *
+	 * @param score the score
+	 * @param name the name
+	 */
 	private void updateHighScore(int score, String name){
 		SnakeScoreController sc = new SnakeScoreController(this);
 		SnakeModel m = new SnakeModel(score,name);
@@ -178,6 +187,9 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * The Class KeyInput.
+	 */
 	class KeyInput extends KeyAdapter{
 		
 		Snake snake;
@@ -190,6 +202,10 @@ public class Controller {
 		public KeyInput(Snake snake){
 			this.snake = snake;
 		}
+		
+		/* (non-Javadoc)
+		 * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
+		 */
 		@Override
 		public void keyPressed(KeyEvent e){
 			//37 = left
@@ -220,8 +236,14 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * The Class NewFoodTask.
+	 */
 	class NewFoodTask extends TimerTask{
 
+		/* (non-Javadoc)
+		 * @see java.util.TimerTask#run()
+		 */
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
@@ -230,6 +252,9 @@ public class Controller {
 		
 	}
 	
+	/**
+	 * The Class MoveTask.
+	 */
 	class MoveTask extends TimerTask{
 
 		Snake snake;
@@ -247,6 +272,9 @@ public class Controller {
 			
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.util.TimerTask#run()
+		 */
 		@Override
 		public void run() {
 			if (gameRunning){
@@ -261,6 +289,8 @@ public class Controller {
 	
 	
 	/**
+	 * Checks if is game running.
+	 *
 	 * @return the gameRunning
 	 */
 	public boolean isGameRunning() {
@@ -269,7 +299,10 @@ public class Controller {
 
 	
 	private boolean lastSave = true;
+	
 	/**
+	 * Sets the game running.
+	 *
 	 * @param gameRunning the gameRunning to set
 	 */
 	public void setGameRunning(boolean gameRunning) {
@@ -282,6 +315,8 @@ public class Controller {
 	}
 
 	/**
+	 * Gets the x max.
+	 *
 	 * @return the xMax
 	 */
 	public int getXMax() {
@@ -289,6 +324,8 @@ public class Controller {
 	}
 
 	/**
+	 * Gets the y max.
+	 *
 	 * @return the yMax
 	 */
 	public int getYMax() {

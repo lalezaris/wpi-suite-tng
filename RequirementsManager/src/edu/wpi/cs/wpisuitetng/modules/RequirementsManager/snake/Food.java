@@ -15,6 +15,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 import java.awt.Color;
 import java.util.ArrayList;
 
+/**
+ * The Class Food.
+ */
 public class Food {
 
 	public static ArrayList<Food> all = new ArrayList<Food>();
@@ -35,10 +38,20 @@ public class Food {
 		score = 1;
 	}
 
+	/**
+	 * Sets the color.
+	 *
+	 * @param newColor the new color
+	 */
 	public void setColor(Color newColor){
 		color = newColor;
 	}
 	
+	/**
+	 * Gets the color.
+	 *
+	 * @return the color
+	 */
 	public Color getColor(){
 		return color;
 	}

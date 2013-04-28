@@ -28,6 +28,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * The Class SnakePanel.
+ */
 public class SnakePanel extends JPanel{
 
 	int gridSize = 15;
@@ -38,6 +41,9 @@ public class SnakePanel extends JPanel{
 	JPanel messagePanel;
 	JLabel gameOver, resetText, helpText;
 	
+	/**
+	 * Instantiates a new snake panel.
+	 */
 	public SnakePanel() {
 		spots = new ArrayList<Spot>();
 		this.setFocusable(true);
@@ -76,6 +82,8 @@ public class SnakePanel extends JPanel{
 	}
 	
 	/**
+	 * Gets the spots.
+	 *
 	 * @return the spots
 	 */
 	public ArrayList<Spot> getSpots() {
@@ -85,6 +93,8 @@ public class SnakePanel extends JPanel{
 
 
 	/**
+	 * Sets the spots.
+	 *
 	 * @param spots the spots to set
 	 */
 	public void setSpots(ArrayList<Spot> spots) {
@@ -95,6 +105,8 @@ public class SnakePanel extends JPanel{
 
 
 	/**
+	 * Sets the snake color.
+	 *
 	 * @param snakeColor the snakeColor to set
 	 */
 	public void setSnakeColor(Color snakeColor) {
@@ -104,6 +116,8 @@ public class SnakePanel extends JPanel{
 
 
 	/**
+	 * Sets the food color.
+	 *
 	 * @param foodColor the foodColor to set
 	 */
 	public void setFoodColor(Color foodColor) {
@@ -113,6 +127,8 @@ public class SnakePanel extends JPanel{
 
 
 	/**
+	 * Sets the wall color.
+	 *
 	 * @param wallColor the wallColor to set
 	 */
 	public void setWallColor(Color wallColor) {
@@ -121,6 +137,9 @@ public class SnakePanel extends JPanel{
 
 
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	@Override
 	public void paint(Graphics g){
 		
@@ -138,6 +157,14 @@ public class SnakePanel extends JPanel{
 
 	}
 	
+	/**
+	 * Draw chunk.
+	 *
+	 * @param g the g
+	 * @param x the x
+	 * @param y the y
+	 * @param c the c
+	 */
 	private void drawChunk(Graphics g, int x, int y, Color c){
 		g.setColor(c);
 		g.fillRect(1 + (x*gridSize), 1 + (y*gridSize), gridSize, gridSize);
@@ -169,6 +196,11 @@ public class SnakePanel extends JPanel{
 
 	}
 	
+	/**
+	 * Draw grid.
+	 *
+	 * @param g the g
+	 */
 	private void drawGrid(Graphics g){
 		Color lightGray = new Color(200,200,200);
 		g.setColor(lightGray);

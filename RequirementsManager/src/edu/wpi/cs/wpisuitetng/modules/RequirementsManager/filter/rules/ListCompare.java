@@ -14,13 +14,13 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import java.util.List;
 
+// TODO: Auto-generated Javadoc
 /**
- * Compares objects for filters
+ * Compares objects for filters.
  *
+ * @param <T> the type of objects in the list.
  * @author Chris Hanna
- *
  * @version Apr 17, 2013
- *
  */
 @SuppressWarnings("rawtypes")
 public class ListCompare<T> implements Comparable{
@@ -28,18 +28,17 @@ public class ListCompare<T> implements Comparable{
 	List<T> list;
 	
 	/**
-	 * Constructor for ListCompare
-	 * 
+	 * Constructor for ListCompare.
+	 *
 	 * @param list the list to compare
-	 * 
 	 */
 	public ListCompare(List<T> list) {
 		this.list = list;
 	}
 
 	/**
-	 * Size of the list
-	 * 
+	 * Size of the list.
+	 *
 	 * @return the size of the list
 	 */
 	public int size(){
@@ -47,6 +46,10 @@ public class ListCompare<T> implements Comparable{
 	}
 
 	/**
+	 * Compare to.
+	 *
+	 * @param o the o
+	 * @return the int
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override

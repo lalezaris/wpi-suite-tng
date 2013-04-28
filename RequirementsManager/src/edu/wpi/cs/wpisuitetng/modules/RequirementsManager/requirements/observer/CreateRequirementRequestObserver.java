@@ -50,6 +50,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * An Observer for a Request to create a Requirement.
+ * 
+ * @author Tyler Stone
  */
 public class CreateRequirementRequestObserver implements RequestObserver {
 

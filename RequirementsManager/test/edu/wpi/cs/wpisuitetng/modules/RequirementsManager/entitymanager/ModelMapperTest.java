@@ -28,11 +28,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * 
- * @author Tianyu Li
- * 
- * @version Apr 2, 2013
+ * The Class ModelMapperTest.
  *
+ * @author Tianyu Li
+ * @version Apr 2, 2013
  */
 public class ModelMapperTest {
 
@@ -82,6 +81,9 @@ public class ModelMapperTest {
 		mapper.map(user, a); // no shared fields, nothing happens, no exception
 	}
 	
+	/**
+	 * The Class TestMapCallback.
+	 */
 	public abstract class TestMapCallback implements MapCallback{
 		List<String> receivedNames = new ArrayList<String>();
 	}

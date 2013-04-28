@@ -131,7 +131,6 @@ public class RequirementListPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("CANCEL");
 				model.cancelChanges();
 			}
 			
@@ -216,10 +215,6 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
-		
-		System.out.println("GOT TO END OF REQLISTPANEL");
-
-		//setUpPriorityColumn();
 	}
 
 	/**
@@ -479,7 +474,6 @@ public class RequirementListPanel extends JPanel{
 				fresh[j] = content[j];
 				for (int i = 0 ; i < getModel().getUnsavedRequirements().size() ; i ++){
 					if (fresh[j].getId() == (Integer)getModel().getUnsavedRequirements().get(i)[0]){
-						System.out.println("Swap");
 						fresh[j].setTitle((String)getModel().getUnsavedRequirements().get(i)[1]); //name
 						fresh[j].setDescription((String)getModel().getUnsavedRequirements().get(i)[2]); //desc
 						fresh[j].setStatus((RequirementStatus)getModel().getUnsavedRequirements().get(i)[3]); //status

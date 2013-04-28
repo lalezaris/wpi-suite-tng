@@ -41,7 +41,6 @@ public class SaveTaskListener implements ActionListener{
 		this.id = id;
 		this.view = view;
 	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int position = view.doesTaskExist(id);

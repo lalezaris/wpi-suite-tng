@@ -134,9 +134,6 @@ public class RequirementModel {
 		requirement.setLastModifiedDate(req.getLastModifiedDate());
 		requirement.setStatus(req.getStatus());
 		requirement.setPriority(req.getPriority());
-		
-		System.out.println("Setting estimate effort to : " + req.getEstimateEffort());
-		System.out.println("Setting total estimate effort to : " + req.getTotalEstimateEffort());
 		requirement.setEstimateEffort(req.getEstimateEffort());
 		requirement.setTotalEstimateEffort(req.getTotalEstimateEffort());
 		requirement.setActualEffort(req.getActualEffort());

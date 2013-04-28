@@ -240,8 +240,6 @@ public class AttachmentsView extends RequirementTab{
             //didn't pick anything.
         	return;
         }
-        this.uploadFileButton.setVisible(true);
-        this.addFileButton.setVisible(false);
         File target = chooser.getSelectedFile();
         target = new File(target.getPath()+"\\"+f.getName());
         RetrieveAttachmentController attcontroller = new RetrieveAttachmentController(f.getPath(), target);

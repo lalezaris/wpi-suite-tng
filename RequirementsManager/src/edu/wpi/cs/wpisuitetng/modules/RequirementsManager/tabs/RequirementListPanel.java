@@ -24,6 +24,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.HierarchyListener;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultCellEditor;
@@ -42,6 +43,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import edu.wpi.cs.wpisuitetng.janeway.gui.container.toolbar.ToolbarGroupView;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.FilterController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
@@ -288,6 +290,10 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public void filterRequirements(Requirement[] requirements){
 		this.filteredContent = requirements;
+		
+
+
+		
 		clearList();
 		RequirementTableModel model = ((RequirementTableModel) table.getModel());
 		model.clearRequirements();
@@ -403,6 +409,8 @@ public class RequirementListPanel extends JPanel{
 		return content;
 	}
 
+
+	
 	/**
 	 * Gets the filteredContent
 	 * @return the filteredContent
@@ -444,5 +452,59 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public JButton getUpdateButton() {
 		return updateButton;
+	}
+
+	/**
+	 * @return the buttonPanel
+	 */
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+
+	public Requirement[] getOriginalContent(){
+		Requirement[] fresh;
+		if (content != null){
+			fresh = new Requirement[content.length];
+			for (int j = 0 ; j < fresh.length; j ++)
+			{
+				fresh[j] = content[j];
+				for (int i = 0 ; i < getModel().getUnsavedRequirements().size() ; i ++){
+					if (fresh[j].getId() == (Integer)getModel().getUnsavedRequirements().get(i)[0]){
+						System.out.println("Swap");
+						fresh[j].setTitle((String)getModel().getUnsavedRequirements().get(i)[1]); //name
+						fresh[j].setDescription((String)getModel().getUnsavedRequirements().get(i)[2]); //desc
+						fresh[j].setStatus((RequirementStatus)getModel().getUnsavedRequirements().get(i)[3]); //status
+						fresh[j].setPriority((RequirementPriority)getModel().getUnsavedRequirements().get(i)[4]); //priority
+						fresh[j].setEstimateEffort((Integer)getModel().getUnsavedRequirements().get(i)[5]); // estimate
+						
+						fresh[j].setIteration((Iteration)getModel().getUnsavedRequirements().get(i)[6]);//iteration
+					}
+				}
+			} 
+		}
+		else {
+			fresh = new Requirement[0];
+		}
+		return fresh;
+	}
+	
+	public Requirement[] getFreshContent() {
+		Requirement[] fresh;
+		if (content != null){
+			fresh = new Requirement[content.length];
+			for (int j = 0 ; j < fresh.length; j ++)
+			{
+				fresh[j] = content[j];
+				for (int i = 0 ; i < getModel().getRequirements().size() ; i ++){
+					if (fresh[j].getId() == getModel().getRequirements().get(i).getId()){
+						fresh[j] = getModel().getRequirements().get(i);
+					}
+				}
+			} 
+		}
+		else {
+			fresh = new Requirement[0];
+		}
+		return fresh;
 	}
 }

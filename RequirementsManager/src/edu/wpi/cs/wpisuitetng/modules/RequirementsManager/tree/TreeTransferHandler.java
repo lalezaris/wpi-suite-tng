@@ -185,11 +185,6 @@ class TreeTransferHandler extends TransferHandler {
 				}
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
-				
-				if (req.getParentRequirementId() != -1){
-					((Requirement)destObject).setTotalEstimateEffort(((Requirement)destObject).getTotalEstimateEffort() - req.getTotalEstimateEffort());
-				}
-				
 				controller = new SaveRequirementController(req);
 				controller.save();
 				System.out.println("Saved req " + req.getTitle());
@@ -209,22 +204,20 @@ class TreeTransferHandler extends TransferHandler {
 				if (TreeView.getInstance().lookUpRequirement(req.getParentRequirementId()) != null) {
 					Requirement oldParent = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
 					oldParent.removeChildRequirement(req.getId());
+					oldParent.setTotalEstimateEffort(oldParent.getTotalEstimateEffort() - req.getTotalEstimateEffort());
 					controller = new SaveRequirementController(oldParent);
 					controller.save();
 				}
-				// Change the parent of the requirement
+				// Change the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
-				
-				Requirement req2 = (Requirement) destObject;
-
-				if (req.getParentRequirementId() != -1){
-					((Requirement)destObject).setTotalEstimateEffort(((Requirement)destObject).getTotalEstimateEffort() - req.getTotalEstimateEffort());
-				}
-				req2.setTotalEstimateEffort(req.getTotalEstimateEffort() + req2.getTotalEstimateEffort());
-				
-				
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
+				controller.save();
+				// Save the new parent
+				Requirement req2 = TreeView.getInstance().lookUpRequirement(((Requirement)destObject).getId());
+				req2.setTotalEstimateEffort(req2.getTotalEstimateEffort() + req.getTotalEstimateEffort());
+				req2.addChildRequirement(req.getId());
+				controller = new SaveRequirementController(req2);
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Backlog")){
@@ -232,22 +225,17 @@ class TreeTransferHandler extends TransferHandler {
 				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the requirement
 				req.setIterationId(0);
-				
-				if (req.getParentRequirementId() != -1){
-					((Requirement)destObject).setTotalEstimateEffort(((Requirement)destObject).getTotalEstimateEffort() - req.getTotalEstimateEffort());
-				}
-				
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
 				// Change the old iteration
-//				if (lookUpIteration(req.getIterationId()) != null) {
-//					Iteration it = lookUpIteration(req.getIterationId());
-//					it.removeRequirement(req.getId());
-//					// Save the changed iteration
-//					itcontroller = new SaveIterationController(it);
-//					itcontroller.save();
-//				}
+				//				if (lookUpIteration(req.getIterationId()) != null) {
+				//					Iteration it = lookUpIteration(req.getIterationId());
+				//					it.removeRequirement(req.getId());
+				//					// Save the changed iteration
+				//					itcontroller = new SaveIterationController(it);
+				//					itcontroller.save();
+				//				}
 			}
 		} else if (destObject.toString().contains("Deleted")){
 			// Show a dialog
@@ -274,13 +262,13 @@ class TreeTransferHandler extends TransferHandler {
 					controller = new SaveRequirementController(req);
 					controller.save();
 					// Change the old iteration
-//					if (lookUpIteration(req.getIterationId()) != null) {
-//						Iteration it = lookUpIteration(req.getIterationId());
-//						it.removeRequirement(req.getId());
-//						// Save the changed iteration
-//						itcontroller = new SaveIterationController(it);
-//						itcontroller.save();
-//					}
+					//					if (lookUpIteration(req.getIterationId()) != null) {
+					//						Iteration it = lookUpIteration(req.getIterationId());
+					//						it.removeRequirement(req.getId());
+					//						// Save the changed iteration
+					//						itcontroller = new SaveIterationController(it);
+					//						itcontroller.save();
+					//					}
 				}
 			} else if (n == JOptionPane.NO_OPTION) {
 				TreeView.getInstance().setStatus("Cancelled deletion.");

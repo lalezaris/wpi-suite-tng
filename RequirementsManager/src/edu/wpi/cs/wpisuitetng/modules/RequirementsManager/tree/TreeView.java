@@ -16,8 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
@@ -100,8 +98,11 @@ public class TreeView extends JPanel {
 								+ req.getIteration().getIterationName();
 					}  else	if (req.getParentRequirementId() != -1) {
 						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
-							return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
-									+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+							String msg = "Requirement " + req.getTitle() + "'s parent is in ";
+							if (lookUpRequirement(req.getParentRequirementId()).getIteration().toString().contains("Backlog")) {
+								msg += "Backlog";
+							} else msg += lookUpRequirement(req.getParentRequirementId()).getIteration().toString();
+							return msg;
 						}
 					} else
 						return "Requirement " + req.getTitle();
@@ -155,7 +156,7 @@ public class TreeView extends JPanel {
 	 * @param newText the new status
 	 */
 	void setStatus(String newText) {
-		if (!(status.getText() == newText)) {
+		if (status.getText() != newText) {
 			status.setText(newText);
 		}
 	}
@@ -277,14 +278,12 @@ public class TreeView extends JPanel {
 					TreePath path = tree.getSelectionPath();
 					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
 							.getLastPathComponent();
-					Object selectedObject = selectedNode
-							.getUserObject();
 					if (selectedNode.getUserObject() instanceof Requirement) {
-						setStatus(((Requirement) selectedObject).getTitle());
+						setStatus(tree.getToolTipText(e));
 					}
 				}
 			}
-			
+
 			/* (non-Javadoc)
 			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 			 */
@@ -388,7 +387,6 @@ public class TreeView extends JPanel {
 				}
 			}
 		}
-		System.out.println("Cannot find the requirement in lookUpRequirement()!");
 		return null;
 	}
 }

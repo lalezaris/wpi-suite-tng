@@ -84,7 +84,7 @@ public class ManagerLayer {
 		map.put("iterationsmanageriteration", new IterationStore(data));
 		map.put("requirementsmanagerpermissions", new PermissionsStore(data));
 		map.put("requirementsmanagersnake",  new SnakeStore(data));
-		map.put("attachmentcontrollerattachment",  new AttachmentStore(data));
+		map.put("requirementsmanagerattachment",  new AttachmentStore(data));
 		//add just your module to this list
 		String[] fullModuleList = {"core","defecttracker","postboard"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);

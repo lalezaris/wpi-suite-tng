@@ -23,10 +23,7 @@ import java.awt.event.FocusListener;
 
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -34,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
@@ -78,7 +74,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 	private JPanel overallPanel;//One panel to hold them all.
 
 	private JScrollPane listScrollPane;
-	private JPanel featScrollPane;
+	private JScrollPane featScrollPane;
 
 	private JSplitPane splitPane;
 
@@ -150,6 +146,8 @@ public class TasksView extends RequirementTab implements FocusListener{
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
+		
+		splitPane.getComponent(0).setMinimumSize(splitPane.getComponent(0).getPreferredSize());
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
@@ -250,7 +248,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 	 * @return 
 	 * 
 	 */
-	private JPanel displayFeatures(){
+	private JScrollPane displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
 		GridBagConstraints cTemp = new GridBagConstraints();
@@ -326,7 +324,8 @@ public class TasksView extends RequirementTab implements FocusListener{
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 
 		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
-		return featurePanel;
+		featScrollPane = new JScrollPane(featurePanel); 
+		return featScrollPane;
 	}
 	
 	/**Create the New Task panel on the left side (so we can create new tasks).
@@ -606,7 +605,6 @@ public class TasksView extends RequirementTab implements FocusListener{
 	@Override
 	public void focusGained(FocusEvent e) {
 		this.refreshBackgrounds();
-		
 	}
 
 	/* (non-Javadoc)
@@ -615,7 +613,6 @@ public class TasksView extends RequirementTab implements FocusListener{
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();
-		
 	}
 
 }

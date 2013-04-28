@@ -13,7 +13,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

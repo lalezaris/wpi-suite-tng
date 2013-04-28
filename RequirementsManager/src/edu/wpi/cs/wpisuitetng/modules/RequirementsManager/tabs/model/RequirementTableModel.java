@@ -268,7 +268,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req the requirement to update
 	 */
 	public void updateRow(int row, Requirement req){
-		System.out.println("UPDATING ROW " + row);
 		String ass = req.getAssignee().toString();
 		ass = ass.substring(1,ass.length()-1);
 		Object[] r = {
@@ -351,7 +350,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
-		System.out.println(requirements.get(row).getIteration());
 		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
 			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
 				if (col == 3) {
@@ -467,7 +465,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
-			System.out.println(value);
 			
 			if (((Iteration)value).equals(Iteration.getBacklog()) &&
 					requirements.get(row).getStatus() != RequirementStatus.OPEN) {
@@ -793,9 +790,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				changedCells.remove(cell);
 			changedCells.add(cell);
 		} else{
-			System.out.println("no change");
 			if (changedCells.contains(cell)){
-				System.out.println("remove change");
 				changedCells.remove(cell);
 			}
 		}

@@ -1032,6 +1032,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
+			} 
+			
+			if((parent.getReqModel().getUneditedRequirement().getStatus() == RequirementStatus.COMPLETE) && (cmbStatus.getSelectedItem().equals("OPEN"))){
+				enabled = true;
 			}
 
 			// Add statuses that are necessary to the dropdown list.

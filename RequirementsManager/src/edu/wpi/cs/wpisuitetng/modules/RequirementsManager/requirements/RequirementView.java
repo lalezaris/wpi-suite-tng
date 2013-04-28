@@ -538,7 +538,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					Calendar cTwoEnd = Calendar.getInstance();
 					cTwoEnd.setTime(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate());
 					cTwoEnd.add(Calendar.DATE, 1);
-
 					if ((cEnd.compareTo(cTwoEnd) <= 0 &&
 							cEnd.compareTo(Calendar.getInstance()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
 						if (!(knownIts.contains(knownIterations[i]))) {

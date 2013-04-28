@@ -67,6 +67,10 @@ public class DeleteRequirementController {
 			final Requirement parent = view.getParentRequirement();
 			parent.removeChildRequirement(delRequirement.getId());
 			
+			if (delRequirement.getStatus() == RequirementStatus.COMPLETE) {
+				parent.removeCompletedChild();
+			}
+			
 			parent.setEstimateEffort(parent.getEstimateEffort() - delRequirement.getEstimateEffort());
 			
 			Request parentRequest;
@@ -94,7 +98,7 @@ public class DeleteRequirementController {
 					request.addObserver(requestObserver);
 					request.send();
 					//close tab
-					this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+					view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
 				}
 			} catch (Exception e){
 			}

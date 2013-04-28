@@ -75,13 +75,13 @@ public class ParentAndChildrenView extends RequirementTab{
 	 * @param parent the parent RequirementView
 	 */
 	public ParentAndChildrenView(RequirementView parent){
-		this.childRequirementIDs = new ArrayList<Integer>();
-		this.parentID = 0;
+		childRequirementIDs = new ArrayList<Integer>();
+		parentID = 0;
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
 //		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
-		this.parentRequirementView = parent;
+		parentRequirementView = parent;
 		// Add all components to this panel
 		this.addComponents();
 	}
@@ -241,9 +241,9 @@ public class ParentAndChildrenView extends RequirementTab{
 	 */
 	public String dependenciesListToString(){
 		String list = "";
-		if(this.parentRequirementView != null){
-			this.childRequirementIDs = parentRequirementView.getReqModel().getRequirement().getChildRequirementIds();
-			this.parentID = parentRequirementView.getReqModel().getRequirement().getParentRequirementId();
+		if(parentRequirementView != null){
+			childRequirementIDs = parentRequirementView.getReqModel().getRequirement().getChildRequirementIds();
+			parentID = parentRequirementView.getReqModel().getRequirement().getParentRequirementId();
 		}
 		if(parentID == -1) list += "No parent requirement.\n\n";
 		else list += "Parent requirement: Requirement #" + parentID + "\n\n";

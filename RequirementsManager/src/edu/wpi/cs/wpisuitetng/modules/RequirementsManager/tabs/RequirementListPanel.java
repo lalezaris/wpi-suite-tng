@@ -271,7 +271,7 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements requirements to add
 	 */
 	public void addRequirements(Requirement[] requirements) {
-		this.content = requirements;
+		content = requirements;
 		clearList();	
 		((RequirementTableModel) table.getModel()).clearRequirements();
 		for (int i = requirements.length -1; i > -1; i --){
@@ -289,7 +289,7 @@ public class RequirementListPanel extends JPanel{
 	 * @param requirements the requirements
 	 */
 	public void filterRequirements(Requirement[] requirements){
-		this.filteredContent = requirements;
+		filteredContent = requirements;
 		
 
 
@@ -328,9 +328,9 @@ public class RequirementListPanel extends JPanel{
 	 * 
 	 */
 	public void setButtonsForSaving(){
-		this.updateButton.setEnabled(false);
-		this.refreshButton.setEnabled(false);
-		this.cancelButton.setEnabled(false);
+		updateButton.setEnabled(false);
+		refreshButton.setEnabled(false);
+		cancelButton.setEnabled(false);
 	}
 	
 	/**
@@ -338,12 +338,12 @@ public class RequirementListPanel extends JPanel{
 	 * 
 	 */
 	public void setButtonsForChanges(){
-		this.updateButton.setEnabled(true);
-		this.refreshButton.setEnabled(true);
-		this.cancelButton.setEnabled(true);
-		this.refreshButton.setVisible(true);
-		this.updateButton.setVisible(true);
-		this.cancelButton.setVisible(true);
+		updateButton.setEnabled(true);
+		refreshButton.setEnabled(true);
+		cancelButton.setEnabled(true);
+		refreshButton.setVisible(true);
+		updateButton.setVisible(true);
+		cancelButton.setVisible(true);
 	}
 	
 	/**
@@ -351,12 +351,12 @@ public class RequirementListPanel extends JPanel{
 	 * 
 	 */
 	public void setButtonsForNoChanges(){
-		this.updateButton.setEnabled(true);
-		this.cancelButton.setEnabled(true);
-		this.refreshButton.setEnabled(true);
-		this.refreshButton.setVisible(true);
-		this.updateButton.setVisible(false);
-		this.cancelButton.setVisible(false);
+		updateButton.setEnabled(true);
+		cancelButton.setEnabled(true);
+		refreshButton.setEnabled(true);
+		refreshButton.setVisible(true);
+		updateButton.setVisible(false);
+		cancelButton.setVisible(false);
 	}
 	
 	/**

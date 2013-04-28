@@ -41,7 +41,7 @@ public class RemoveAssigneeController implements ActionListener {
 	 * @param assigneeView
 	 */
 	public RemoveAssigneeController(AssigneeView assigneeView) {
-		this.view = assigneeView;
+		view = assigneeView;
 
 	}
 
@@ -50,11 +50,11 @@ public class RemoveAssigneeController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.allUserAL = view.getAllUserAL();
-		this.assignedUserAL = view.getAssignedUserAL();
-		this.selectedUsers = new ArrayList<String> (view.getAssignedUserList().getSelectedValuesList());
-		if(this.selectedUsers.size() != 0){
-			this.selectedUsersIndex = view.getAssignedUserList().getSelectedIndices();
+		allUserAL = view.getAllUserAL();
+		assignedUserAL = view.getAssignedUserAL();
+		selectedUsers = new ArrayList<String> (view.getAssignedUserList().getSelectedValuesList());
+		if(selectedUsers.size() != 0){
+			selectedUsersIndex = view.getAssignedUserList().getSelectedIndices();
 
 			/**
 			 * Iterates through loop backward, in order to remove elements from allusers without messing

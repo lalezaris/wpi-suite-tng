@@ -67,8 +67,8 @@ public class MainTabController {
 	 * @param view Create a controller that controls this MainTabView
 	 */
 	public MainTabController(MainTabView view) {
-		this.reqViewHashMap = new HashMap<Integer, RequirementView>();
-		this.reqViewList = new ArrayList<RequirementView>();
+		reqViewHashMap = new HashMap<Integer, RequirementView>();
+		reqViewList = new ArrayList<RequirementView>();
 		this.view = view;
 		staticView = this;
 		this.view.addMouseListener(new MouseAdapter() {
@@ -460,8 +460,8 @@ public class MainTabController {
 	 * @return the current component
 	 */
 	public Component getCurrentComponent() {
-		if (this.view.getSelectedComponent() != null) {
-			return this.view.getSelectedComponent();
+		if (view.getSelectedComponent() != null) {
+			return view.getSelectedComponent();
 		}
 
 		return null;
@@ -472,7 +472,7 @@ public class MainTabController {
 	 * @return the reqViewHashMap
 	 */
 	public HashMap<Integer, RequirementView> getReqViewHashMap() {
-		return this.reqViewHashMap;
+		return reqViewHashMap;
 	}
 	
 	/**
@@ -481,7 +481,7 @@ public class MainTabController {
 	 * @return
 	 */
 	public ArrayList<RequirementView> getReqViewList(){
-		return this.reqViewList;
+		return reqViewList;
 	}
 	
 	

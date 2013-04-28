@@ -200,31 +200,31 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		this.mode = mode;
 
 		// get the list of notes from the given requirement
-		this.notesView = new NotesView(parent);
+		notesView = new NotesView(parent);
 
 		// get the list of history from the given requirement
-		this.historyView = new HistoryView(parent);
+		historyView = new HistoryView(parent);
 		
-		this.attachmentsView = new AttachmentsView(parent);
+		attachmentsView = new AttachmentsView(parent);
 		
 		//Instantiate the acceptance tests
-		this.acceptanceTestsView = new AcceptanceTestsView(parent);
+		acceptanceTestsView = new AcceptanceTestsView(parent);
 		
 
 		// get the list of history from the given requirement
-		this.assigneeView = new AssigneeView(parent);
+		assigneeView = new AssigneeView(parent);
 
 		// get the list of tasks from the given requirement
-		this.tasksView = new TasksView(parent);
+		tasksView = new TasksView(parent);
 
 		// get the parent and the list of children from the given requirement
-		this.parentChildrenView = new ParentAndChildrenView(parent);
+		parentChildrenView = new ParentAndChildrenView(parent);
 
 		// Indicate that input is enabled
-		this.inputEnabled = true;
+		inputEnabled = true;
 
 		// Use a grid bag layout manager
-		this.layout = new BorderLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
 
 		// Set it so the focus will not go to the tile field
@@ -313,7 +313,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtModifiedDate = new JLabel("");
 		txtCreator = new JTextField(12);
 		
-		RequirementTab forAttachments = this.attachmentsView;
+		RequirementTab forAttachments = attachmentsView;
 		if(mode == Mode.CREATE){
 			forAttachments = new RequirementTab(){
 				@Override
@@ -698,7 +698,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * @param totalEstimateEffort the new txt total estimate
 	 */
 	public void setTxtTotalEstimate(int totalEstimateEffort) {
-		this.txtTotalEstimate.setText(totalEstimateEffort + "");
+		txtTotalEstimate.setText(totalEstimateEffort + "");
 
 	}
 
@@ -1322,7 +1322,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 *            the estimate effort to set the txt estimate to
 	 */
 	public void setTxtEstimate(int estimateEffort) {
-		this.txtEstimate.setText(estimateEffort + "");
+		txtEstimate.setText(estimateEffort + "");
 
 	}
 
@@ -1488,10 +1488,10 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations) {
-		this.knownIterations = iterations;
-		this.cmbIteration.removeAllItems();
+		knownIterations = iterations;
+		cmbIteration.removeAllItems();
 		for (int i = 0; i < iterations.length; i++)
-			this.cmbIteration.addItem(iterations[i]);
+			cmbIteration.addItem(iterations[i]);
 
 	}
 

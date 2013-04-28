@@ -56,7 +56,7 @@ public class MainTabView extends JTabbedPane {
 	 * @param controller the controller
 	 */
 	public void createTableModel(MainTabController controller){
-		this.table = new RequirementListPanel(controller);
+		table = new RequirementListPanel(controller);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class MainTabView extends JTabbedPane {
 	 * @param controller the controller
 	 */
 	public void createIterationTableModel(MainTabController controller){
-		this.iterationtable = new IterationListPanel(controller);
+		iterationtable = new IterationListPanel(controller);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class MainTabView extends JTabbedPane {
 	 * @return the table model
 	 */
 	public RequirementListPanel getTableModel(){
-		return this.table;
+		return table;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class MainTabView extends JTabbedPane {
 	 * @return the iteration table model
 	 */
 	public IterationListPanel getIterationTableModel(){
-		return this.iterationtable;
+		return iterationtable;
 	}
 
 	/** 

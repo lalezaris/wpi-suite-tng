@@ -44,7 +44,7 @@ public class UpdateRequirementRequestObserver implements RequestObserver {
 	 * @param r the requirement to update
 	 */
 	public UpdateRequirementRequestObserver(Requirement r) {
-		this.requirement = r;
+		requirement = r;
 	}
 
 	/**

@@ -49,7 +49,7 @@ public class RequirementListTable extends JTable {
 	 * @param panel the panel
 	 */
 	public RequirementListTable(RequirementListPanel panel) {
-		super();
+//		super();
 		this.panel = panel;
 	}
 
@@ -57,7 +57,7 @@ public class RequirementListTable extends JTable {
 	 * 
 	 */
 	public RequirementListTable() {
-		super();
+//		super();
 	}
 
 	/**
@@ -121,10 +121,16 @@ public class RequirementListTable extends JTable {
 		//RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
 		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		Object parent = panel.getModel().getUnsavedRequirements().get(row)[8];
-		if(parent instanceof String){
-			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), -1);
+		Object estimate = getValueAt(row,5);
+		String esti = "0";
+		if(estimate instanceof Integer){
+			esti = Integer.toString((Integer)estimate);
 		} else
-			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), (Integer) parent);
+			esti = (String)estimate;
+		if(parent instanceof String){
+			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), -1, esti);
+		} else
+			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), (Integer) parent, esti);
 
 		
 		Requirement r = null;
@@ -189,7 +195,7 @@ public class RequirementListTable extends JTable {
 	 * @param iterations the iterations before check
 	 * @return iterations after check
 	 */
-	private Iteration[] checkIterations(Iteration[] iterations, Iteration reqIteration, Integer parentId) {
+	private Iteration[] checkIterations(Iteration[] iterations, Iteration reqIteration, Integer parentId, String esti) {
 //		Date currentDate = new Date();
 //		for (int i = 0; i < iterations.length; i++) {
 //			if (iterations[i].getEndDate().after(currentDate)) {
@@ -197,46 +203,50 @@ public class RequirementListTable extends JTable {
 //			}
 //		}
 //		return iterations;
-		Calendar cStart = Calendar.getInstance();
-		Calendar cEnd = Calendar.getInstance();
-		int parentRequirement = -1; 
-		int id = parentId;
-		if(!(id < 0)){
-			for(int j = 0; j < this.getRowCount(); j++){
-				if(id == (Integer) this.getValueAt(j, 0)){
-					parentRequirement = j;
-					break;
+		if(!esti.equals("0")){
+			Calendar cStart = Calendar.getInstance();
+			Calendar cEnd = Calendar.getInstance();
+			int parentRequirement = -1; 
+			int id = parentId;
+			if(!(id < 0)){
+				for(int j = 0; j < this.getRowCount(); j++){
+					if(id == (Integer) this.getValueAt(j, 0)){
+						parentRequirement = j;
+						break;
+					}
+						
 				}
-					
 			}
-		}
-		for (int i = 0; i < iterations.length ;i++){
-			cStart = Calendar.getInstance();
-			cStart.setTime(iterations[i].getStartDate());
-			cEnd = Calendar.getInstance();
-			cEnd.setTime(iterations[i].getEndDate());
-			cEnd.add(Calendar.DATE, 1);
-			if (!(parentRequirement < 0)) {
-				if (((Iteration) panel.getModel().getUnsavedRequirements().get(parentRequirement)[6]).getId() == Iteration.getBacklog().getId()) {
+			for (int i = 0; i < iterations.length ;i++){
+				cStart = Calendar.getInstance();
+				cStart.setTime(iterations[i].getStartDate());
+				cEnd = Calendar.getInstance();
+				cEnd.setTime(iterations[i].getEndDate());
+				cEnd.add(Calendar.DATE, 1);
+				if (!(parentRequirement < 0)) {
+					if (((Iteration) panel.getModel().getUnsavedRequirements().get(parentRequirement)[6]).getId() == Iteration.getBacklog().getId()) {
+						if (cEnd.compareTo(Calendar.getInstance()) >= 0 || iterations[i] == Iteration.getBacklog() || iterations[i].getId() == reqIteration.getId()){
+							iterations[i].setInList(true);
+						}
+					} else {
+						Calendar cTwoEnd = Calendar.getInstance();
+						cTwoEnd.setTime(((Iteration) panel.getModel().getUnsavedRequirements().get(parentRequirement)[6]).getEndDate());
+						cTwoEnd.add(Calendar.DATE, 1);
+						if ((cEnd.compareTo(cTwoEnd) <= 0 &&
+								cEnd.compareTo(Calendar.getInstance()) >= 0) || iterations[i] == Iteration.getBacklog()) {
+							iterations[i].setInList(true);
+						}
+					} 
+				} else {
 					if (cEnd.compareTo(Calendar.getInstance()) >= 0 || iterations[i] == Iteration.getBacklog() || iterations[i].getId() == reqIteration.getId()){
 						iterations[i].setInList(true);
 					}
-				} else {
-					Calendar cTwoEnd = Calendar.getInstance();
-					cTwoEnd.setTime(((Iteration) panel.getModel().getUnsavedRequirements().get(parentRequirement)[6]).getEndDate());
-					cTwoEnd.add(Calendar.DATE, 1);
-					if ((cEnd.compareTo(cTwoEnd) <= 0 &&
-							cEnd.compareTo(Calendar.getInstance()) >= 0) || iterations[i] == Iteration.getBacklog()) {
-						iterations[i].setInList(true);
-					}
-				} 
-			} else {
-				if (cEnd.compareTo(Calendar.getInstance()) >= 0 || iterations[i] == Iteration.getBacklog() || iterations[i].getId() == reqIteration.getId()){
-					iterations[i].setInList(true);
 				}
 			}
+			return iterations;
 		}
-		return iterations;
+		Iteration[] iter = {Iteration.getBacklog()};
+		return iter;
 	}
 
 }

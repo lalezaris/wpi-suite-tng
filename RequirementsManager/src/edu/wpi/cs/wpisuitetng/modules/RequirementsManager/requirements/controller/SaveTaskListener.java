@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * The Class SaveTaskController
@@ -59,6 +60,7 @@ public class SaveTaskListener implements ActionListener{
 		else{//If the task does not exist, make a new one.
 			System.out.println("ERROR: This situaion should not happen!");
 		}
+		//view.revalidate();
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.
@@ -71,7 +73,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check the Name field
 		if(oldPanel.getTxtName().getText().equals("")){
 			ready = false;
-			oldPanel.getTxtName().setBackground(new Color(255, 155, 157));//Red
+			oldPanel.getTxtName().setBackground(MainView.getChangedInvalidColor());//Red
 		}
 		else{//Set color back
 			oldPanel.getTxtName().setBackground(Color.white);
@@ -80,7 +82,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check Description Field
 		if(oldPanel.getTxtDescription().getText().equals("")){
 			ready = false;
-			oldPanel.getTxtDescription().setBackground(new Color(255, 155, 157));//Red
+			oldPanel.getTxtDescription().setBackground(MainView.getChangedInvalidColor());//Red
 		}
 		else{//Set color back
 			oldPanel.getTxtDescription().setBackground(Color.white);

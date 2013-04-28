@@ -41,7 +41,7 @@ public class HistoryViewCellRenderer extends DefaultListCellRenderer {
 	 */
 	public HistoryViewCellRenderer(int w){
 
-		this.width = w;
+		width = w;
 	}
 
 	/**

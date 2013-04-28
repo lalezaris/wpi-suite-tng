@@ -66,7 +66,7 @@ public class RetrieveAllRequirementsController {
 	public void receivedData(Requirement[] Requirements) {	
 		if (Requirements.length > 0) {
 			// save the data
-			this.data = Requirements;
+			data = Requirements;
 			for (int i = 0 ; i < Requirements.length; i ++){
 				Requirements[i].setIteration(Iteration.getIterationById(Requirements[i].getIterationId()));
 			}

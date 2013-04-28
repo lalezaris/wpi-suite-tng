@@ -55,7 +55,7 @@ public class Task extends AbstractModel{
 		this.description = description;
 		this.assigneeName = assigneeName;
 		this.effort = effort;
-		this.status = TaskStatus.BLANK;
+		status = TaskStatus.BLANK;
 	}
 
 
@@ -112,7 +112,7 @@ public class Task extends AbstractModel{
 	 * @param i the id
 	 */
 	public void setId(int i) {
-		this.id = i;
+		id = i;
 
 	}
 

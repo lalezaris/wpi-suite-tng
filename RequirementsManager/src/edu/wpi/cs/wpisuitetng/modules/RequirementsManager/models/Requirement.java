@@ -82,13 +82,13 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(String title, String description){
 		this();
-		this.iteration = Iteration.getBacklog(); 
+		iteration = Iteration.getBacklog(); 
 		this.title = title;
 		this.description = description;
-		this.notes = new ArrayList<Note>();
-		this.history = new ArrayList<HistoricalChange>();
-		this.acceptanceTests = new ArrayList<AcceptanceTest>();
-		this.tasks = new ArrayList<Task>();
+		notes = new ArrayList<Note>();
+		history = new ArrayList<HistoricalChange>();
+		acceptanceTests = new ArrayList<AcceptanceTest>();
+		tasks = new ArrayList<Task>();
 	}
 
 	/**
@@ -101,15 +101,15 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername){
 		this();
-		this.iteration = Iteration.getBacklog(); //should be backlog
+		iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.creatorUsername = creatorUsername;
-		this.notes = new ArrayList<Note>();
-		this.history = new ArrayList<HistoricalChange>();
-		this.acceptanceTests = new ArrayList<AcceptanceTest>();
-		this.tasks = new ArrayList<Task>();
+		notes = new ArrayList<Note>();
+		history = new ArrayList<HistoricalChange>();
+		acceptanceTests = new ArrayList<AcceptanceTest>();
+		tasks = new ArrayList<Task>();
 	}
 
 	/**
@@ -123,15 +123,15 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(int id, String title, String description, String creatorUsername, ArrayList<Note> notes){
 		this();
-		this.iteration = Iteration.getBacklog(); //should be backlog
+		iteration = Iteration.getBacklog(); //should be backlog
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.creatorUsername = creatorUsername;
 		this.notes = notes;
-		this.history = new ArrayList<HistoricalChange>();
-		this.acceptanceTests = new ArrayList<AcceptanceTest>();
-		this.tasks = new ArrayList<Task>();
+		history = new ArrayList<HistoricalChange>();
+		acceptanceTests = new ArrayList<AcceptanceTest>();
+		tasks = new ArrayList<Task>();
 	}
 
 	/**
@@ -139,28 +139,28 @@ public class Requirement extends AbstractModel{
 	 * 
 	 */
 	public Requirement(){
-		this.releaseNumber = "";
-		this.iteration = Iteration.getBacklog(); //should be backlog
-		this.iterationId = 0;
-		this.type = RequirementType.BLANK;		
-		this.status = RequirementStatus.NEW; //default status is New
-		this.priority = RequirementPriority.MEDIUM; //default priority is medium
-		this.title = ""; //name is required
-		this.description = ""; //description is required
-		this.estimateEffort = 0; //default estimate set to 0
-		this.totalEstimateEffort = 0; //default total estimate set to 0
-		this.actualEffort = 0; //default actualEffort set to 0
-		this.creationDate = new Date();
-		this.lastModifiedDate = new Date();
-		this.parentRequirementId = -1; //-1 parent requirement id means no parent
-		this.id = -1; //default id is -1
-		this.creatorUsername = "";
-		this.assignee = new ArrayList<String>();
-		this.notes = new ArrayList<Note>();
-		this.childIDs = new ArrayList<Integer>();
-		this.history = new ArrayList<HistoricalChange>();
-		this.acceptanceTests = new ArrayList<AcceptanceTest>();
-		this.tasks = new ArrayList<Task>();
+		releaseNumber = "";
+		iteration = Iteration.getBacklog(); //should be backlog
+		iterationId = 0;
+		type = RequirementType.BLANK;		
+		status = RequirementStatus.NEW; //default status is New
+		priority = RequirementPriority.MEDIUM; //default priority is medium
+		title = ""; //name is required
+		description = ""; //description is required
+		estimateEffort = 0; //default estimate set to 0
+		totalEstimateEffort = 0; //default total estimate set to 0
+		actualEffort = 0; //default actualEffort set to 0
+		creationDate = new Date();
+		lastModifiedDate = new Date();
+		parentRequirementId = -1; //-1 parent requirement id means no parent
+		id = -1; //default id is -1
+		creatorUsername = "";
+		assignee = new ArrayList<String>();
+		notes = new ArrayList<Note>();
+		childIDs = new ArrayList<Integer>();
+		history = new ArrayList<HistoricalChange>();
+		acceptanceTests = new ArrayList<AcceptanceTest>();
+		tasks = new ArrayList<Task>();
 		
 		this.setAttachedFileName(new ArrayList<String>());
 		this.setAttachedFileId(new ArrayList<Integer>(){
@@ -169,7 +169,7 @@ public class Requirement extends AbstractModel{
 				return super.add(i);
 			}
 		});;
-		this.childrenCompleted = 0;
+		childrenCompleted = 0;
 	}
 	
 	
@@ -180,10 +180,10 @@ public class Requirement extends AbstractModel{
 	 */
 	public Requirement(Requirement r){
 		this();
-		this.iteration = r.getIteration();
-		this.iterationId = r.getIterationId();
-		this.id = r.getId();
-		this.title = r.title;
+		iteration = r.getIteration();
+		iterationId = r.getIterationId();
+		id = r.getId();
+		title = r.title;
 	}
 	
 	/**
@@ -215,7 +215,7 @@ public class Requirement extends AbstractModel{
 	 * @param a the array list of acceptance tests
 	 */
 	public void updateAcceptanceTests(ArrayList<AcceptanceTest> a){
-		this.acceptanceTests = a;
+		acceptanceTests = a;
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class Requirement extends AbstractModel{
 	 * @return the list of acceptance tests in this requirement
 	 */
 	public ArrayList<AcceptanceTest> getAcceptanceTests(){
-		return this.acceptanceTests;
+		return acceptanceTests;
 	}
 
 	/**
@@ -243,14 +243,14 @@ public class Requirement extends AbstractModel{
 	 * @param t the updated task list
 	 */
 	public void updateTasks(ArrayList<Task> t){
-		this.tasks = t;
+		tasks = t;
 	}
 	
 	/**
 	 * @return the list of Tasks in this requirement
 	 */
 	public ArrayList<Task> getTasks(){
-		return this.tasks;
+		return tasks;
 	}
 	
 	/**
@@ -329,7 +329,7 @@ public class Requirement extends AbstractModel{
 	 * @param n The list of notes to be replaced with
 	 */
 	public void updateNotes(ArrayList<Note> n){
-		this.notes = n;
+		notes = n;
 	}
 
 	/**
@@ -339,7 +339,7 @@ public class Requirement extends AbstractModel{
 	 * @param h The list of HistroricalChange to replace with
 	 */
 	public void updateHistory(ArrayList<HistoricalChange> h){
-		this.history = h;
+		history = h;
 	}
 
 	/**
@@ -631,7 +631,7 @@ public class Requirement extends AbstractModel{
 			this.iteration.removeRequirement(this.getId());
 		}
 		this.iteration = iteration;
-		this.iterationId = iteration.getId();
+		iterationId = iteration.getId();
 
 		this.iteration.addRequirement(this.getId());
 
@@ -652,11 +652,11 @@ public class Requirement extends AbstractModel{
 	 * @return the iteration id
 	 */
 	public int getIterationId(){
-		return this.iterationId;
+		return iterationId;
 	}
 	
 	public void setChildIDs(ArrayList<Integer> c){
-		this.childIDs = c;
+		childIDs = c;
 	}
 
 	/**
@@ -665,7 +665,7 @@ public class Requirement extends AbstractModel{
 	 * @param id the new iteration id
 	 */
 	public void setIterationId(int id){
-		this.iterationId = id;
+		iterationId = id;
 	}
 
 	/**
@@ -691,7 +691,7 @@ public class Requirement extends AbstractModel{
 	@Override
 	public String toJSON() {
 
-		this.iteration = null; //TODO: less hacking
+		iteration = null; //TODO: less hacking
 
 		String json;
 		Gson gson = new Gson();
@@ -769,12 +769,12 @@ public class Requirement extends AbstractModel{
 	@Override
 	public boolean equals(Object requirement){
 		if(		requirement instanceof Requirement &&
-				this.title.equals(((Requirement)requirement).getTitle())&&
-				this.releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
-				this.iterationId == ((Requirement)requirement).iterationId &&
-				this.description.equals(((Requirement)requirement).getDescription()) &&
-				this.creationDate.equals(((Requirement)requirement).creationDate) && 
-				this.id == ((Requirement)requirement).id)	
+				title.equals(((Requirement)requirement).getTitle())&&
+				releaseNumber.equals(((Requirement)requirement).getReleaseNumber()) &&
+				iterationId == ((Requirement)requirement).iterationId &&
+				description.equals(((Requirement)requirement).getDescription()) &&
+				creationDate.equals(((Requirement)requirement).creationDate) && 
+				id == ((Requirement)requirement).id)	
 		{
 			return true;
 		}
@@ -799,7 +799,7 @@ public class Requirement extends AbstractModel{
 	 */
 	@SuppressWarnings("unchecked")
 	public void setSubRequirements(ArrayList<Integer> newList) {
-		this.childIDs = (ArrayList<Integer>) newList.clone();
+		childIDs = (ArrayList<Integer>) newList.clone();
 	}
 
 	/**
@@ -818,10 +818,10 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileName
 	 */
 	public ArrayList<String> getAttachedFileNames() {
-		if(this.attachedFileNameStr == null){
+		if(attachedFileNameStr == null){
 			return new ArrayList<String>();
 		}
-		String[] s = this.attachedFileNameStr.split(":");
+		String[] s = attachedFileNameStr.split(":");
 		ArrayList<String> ret = new ArrayList<String>();
 		boolean nul = false;
 		for(String str : s){
@@ -842,11 +842,11 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileNames the attachedFileName to set
 	 */
 	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
-		if (this.attachedFileNameStr != null){
-			this.attachedFileNameStr = "";
+		if (attachedFileNameStr != null){
+			attachedFileNameStr = "";
 		}
 		for(String s : attachedFileNames){
-			this.attachedFileNameStr += s + ":";
+			attachedFileNameStr += s + ":";
 		}
 	}
 	
@@ -858,12 +858,12 @@ public class Requirement extends AbstractModel{
 	 * @return the attachedFileId
 	 */
 	public ArrayList<Integer> getAttachedFileId() {
-		if(this.attachedFileIdStr == null){
+		if(attachedFileIdStr == null){
 			System.out.println("returning empty list in getAttachedFileId");
 			return new ArrayList<Integer>();
 			
 		}
-		String[] ids= this.attachedFileIdStr.split(":");
+		String[] ids= attachedFileIdStr.split(":");
 		ArrayList<Integer> ret = new ArrayList<Integer>();
 		for(String i : ids){
 			if(i!=null && !i.equals("")){
@@ -880,12 +880,12 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileIds the attachedFileId to set
 	 */
 	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
-		if(this.attachedFileIdStr == null || this.attachedFileIdStr == "null") {
-			this.attachedFileIdStr = "";
+		if(attachedFileIdStr == null || attachedFileIdStr == "null") {
+			attachedFileIdStr = "";
 		}
 		for(Integer s : attachedFileIds){
 			System.out.println("setting the file ids to " + s);
-			this.attachedFileIdStr += s + ":";
+			attachedFileIdStr += s + ":";
 		}
 	}
 	/**

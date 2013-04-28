@@ -85,8 +85,8 @@ public class SetUpPermissionsPanelController {
 	 * @param users the users
 	 */
 	public void recieveServerUsers(User[] users){
-		this.model.setUsers(users);
-		this.model.setGotUsers(true);
+		model.setUsers(users);
+		model.setGotUsers(true);
 		setUpPanel();
 	}
 
@@ -97,8 +97,8 @@ public class SetUpPermissionsPanelController {
 	 * @param perms the perms
 	 */
 	public void receiveServerPermissions(UserPermission[] perms){
-		this.model.setPermissions(perms);
-		this.model.setGotPermissions(true);
+		model.setPermissions(perms);
+		model.setGotPermissions(true);
 		setUpPanel();
 	}
 
@@ -108,24 +108,24 @@ public class SetUpPermissionsPanelController {
 	@SuppressWarnings("unchecked")
 	private void setUpPanel(){
 
-		if (this.model.isGotPermissions() && this.model.isGotUsers()){
+		if (model.isGotPermissions() && model.isGotUsers()){
 			List<String> none = new ArrayList<String>();
 			List<String> admin = new ArrayList<String>();
 			List<String> update = new ArrayList<String>();
 
-			SavePermissionsController controller = new SavePermissionsController(this.panel);
-			for (int i = 0 ; i < this.model.getUsers().length ; i ++){
+			SavePermissionsController controller = new SavePermissionsController(panel);
+			for (int i = 0 ; i < model.getUsers().length ; i ++){
 				boolean hasPermission = false;
-				for (int j = 0 ; j < this.model.getPermissions().length ; j ++){
-					if (this.model.getUsers()[i].getUsername().equals(this.model.getPermissions()[j].getUsername())){
+				for (int j = 0 ; j < model.getPermissions().length ; j ++){
+					if (model.getUsers()[i].getUsername().equals(model.getPermissions()[j].getUsername())){
 						hasPermission = true;
 
-						switch (this.model.getPermissions()[j].getPermissions()){
-						case ADMIN: admin.add(this.model.getUsers()[i].getUsername());
+						switch (model.getPermissions()[j].getPermissions()){
+						case ADMIN: admin.add(model.getUsers()[i].getUsername());
 						break;
-						case UPDATE: update.add(this.model.getUsers()[i].getUsername());
+						case UPDATE: update.add(model.getUsers()[i].getUsername());
 						break;
-						case NONE: none.add(this.model.getUsers()[i].getUsername());
+						case NONE: none.add(model.getUsers()[i].getUsername());
 						break;
 						}
 
@@ -134,28 +134,28 @@ public class SetUpPermissionsPanelController {
 				}
 
 				if (!hasPermission){
-					if (this.model.getUsers()[i].getRole() == Role.ADMIN){
-						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.ADMIN)
+					if (model.getUsers()[i].getRole() == Role.ADMIN){
+						controller.save(new UserPermission(model.getUsers()[i].getUsername(),RMPermissionsLevel.ADMIN)
 						, PermissionSaveMode.NEW);
-						admin.add(this.model.getUsers()[i].getUsername());
+						admin.add(model.getUsers()[i].getUsername());
 					} else {
-						controller.save(new UserPermission(this.model.getUsers()[i].getUsername(),RMPermissionsLevel.NONE)
+						controller.save(new UserPermission(model.getUsers()[i].getUsername(),RMPermissionsLevel.NONE)
 						, PermissionSaveMode.NEW);
-						none.add(this.model.getUsers()[i].getUsername());
+						none.add(model.getUsers()[i].getUsername());
 					}
 				}
 			}
 
-			this.panel.setNoneUsersList( panel.getView().getNewModel(none) );
-			this.panel.setUpdateUsersList( panel.getView().getNewModel(update) );
-			this.panel.setAdminUsersList( panel.getView().getNewModel(admin));
+			panel.setNoneUsersList( panel.getView().getNewModel(none) );
+			panel.setUpdateUsersList( panel.getView().getNewModel(update) );
+			panel.setAdminUsersList( panel.getView().getNewModel(admin));
 
-			this.panel.getNoneUsers().setModel(this.panel.getNoneUsersList());
-			this.panel.getUpdateUsers().setModel(this.panel.getUpdateUsersList());
-			this.panel.getAdminUsers().setModel(this.panel.getAdminUsersList());
+			panel.getNoneUsers().setModel(panel.getNoneUsersList());
+			panel.getUpdateUsers().setModel(panel.getUpdateUsersList());
+			panel.getAdminUsers().setModel(panel.getAdminUsersList());
 		}
 
-		if (this.model.isGotPermissions() || this.model.isGotUsers()){
+		if (model.isGotPermissions() || model.isGotUsers()){
 			CurrentUserPermissions.updateCurrentUserPermissions();
 		}
 	}

@@ -40,7 +40,7 @@ public class UpdateIterationRequestObserver implements RequestObserver {
 	 * @param it The iteration that will be affected by any updates
 	 */
 	public UpdateIterationRequestObserver(Iteration it) {
-		this.iteration = it;
+		iteration = it;
 	}
 	
 	/**

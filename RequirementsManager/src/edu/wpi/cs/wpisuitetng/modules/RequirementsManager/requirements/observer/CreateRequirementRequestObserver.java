@@ -177,6 +177,12 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							//now to save the uneditedParentWithChild to database
 //=======
 							parentView.getReqModel().setUneditedRequirement(uneditedParentWithChild);
+							
+							for (int i = 0; i < parentView.getRequirementPanel().getCmbStatus().getItemCount(); i++) {
+								if (parentView.getRequirementPanel().getCmbStatus().getItemAt(i) == "COMPLETE") {
+									parentView.getRequirementPanel().getCmbStatus().removeItemAt(i);
+								}
+							}
 //							parentView.getReqModel().getUneditedRequirement().setIterationId(uneditedParent.getIterationId());
 							System.out.println("new Requirement in view : " + parentView.getReqModel().getUneditedRequirement().toJSON());
 							//now to save the uneditedPanelWithChild to database

@@ -77,5 +77,4 @@ public class TaskFieldsListener implements KeyListener{
 			view.setChanged(true);
 		}
 	}
-	
 }

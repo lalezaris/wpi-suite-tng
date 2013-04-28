@@ -17,6 +17,9 @@ import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
+/**
+ * The Class SnakeModel.
+ */
 public class SnakeModel extends AbstractModel{
 
 	int score, id;
@@ -33,6 +36,10 @@ public class SnakeModel extends AbstractModel{
 		this.name = name;
 		id = 1;
 	}
+	
+	/**
+	 * Instantiates a new snake model.
+	 */
 	public SnakeModel(){
 		score = 0;
 		name = "unknown";
@@ -41,7 +48,8 @@ public class SnakeModel extends AbstractModel{
 	
 	
 	/**
-	 * Gets the score
+	 * Gets the score.
+	 *
 	 * @return the score
 	 */
 	public int getScore() {
@@ -51,8 +59,9 @@ public class SnakeModel extends AbstractModel{
 
 
 	/**
-	 * Sets the score
-	 * @param score sets the score 
+	 * Sets the score.
+	 *
+	 * @param score sets the score
 	 */
 	public void setScore(int score) {
 		this.score = score;
@@ -61,7 +70,8 @@ public class SnakeModel extends AbstractModel{
 
 
 	/**
-	 * Gets the name
+	 * Gets the name.
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -71,8 +81,9 @@ public class SnakeModel extends AbstractModel{
 
 
 	/**
-	 * Sets the name
-	 * @param name sets the name 
+	 * Sets the name.
+	 *
+	 * @param name sets the name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -80,16 +91,25 @@ public class SnakeModel extends AbstractModel{
 
 	
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		String json;
@@ -99,11 +119,19 @@ public class SnakeModel extends AbstractModel{
 		return json;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		return null;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param i the new id
+	 */
 	public void setId(int i) {
 		id = i;
 	}
@@ -129,6 +157,11 @@ public class SnakeModel extends AbstractModel{
 	}
 	
 	
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Object getId() {
 		return id;
 	}

@@ -686,6 +686,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
+	 * Gets the txt total estimate.
+	 *
 	 * @return the txtTotalEstimate
 	 */
 	public IntegerField getTxtTotalEstimate() {
@@ -943,6 +945,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
+	 * Gets the panel buttons.
+	 *
 	 * @return the panelButtons
 	 */
 	public JPanel getPanelButtons() {
@@ -957,10 +961,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * the component's <code>addIterationListener<code> method. When
 	 * the iteration event occurs, that object's appropriate
 	 * method is invoked.
-	 * 
+	 *
+	 * @see IterationEvent
+	 * @author Chris Hanna
 	 */
 	public class IterationListener implements ActionListener {
+		
 		/**
+		 * Action performed.
+		 *
+		 * @param iterations the iterations
 		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 		 */
 
@@ -1066,7 +1076,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * the component's <code>addEstimateListener<code> method. When
 	 * the estimate event occurs, that object's appropriate
 	 * method is invoked.
-	 * 
+	 *
+	 * @author Chris Hanna
 	 */
 	public class EstimateListener implements KeyListener {
 
@@ -1080,6 +1091,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key typed.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1087,6 +1101,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key pressed.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1094,6 +1111,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key released.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1125,7 +1145,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	 * object created with that class is registered with a component using the
 	 * component's addSaveListener method. When the save event occurs, that
 	 * object's appropriate method is invoked.
-	 * 
+	 *
+	 * @author Chris Hanna
 	 */
 	public class SaveListener implements KeyListener {
 
@@ -1139,6 +1160,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key typed.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1146,6 +1170,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key pressed.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1153,6 +1180,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 
 		/**
+		 * Key released.
+		 *
+		 * @param e the e
 		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 		 */
 		@Override
@@ -1196,8 +1226,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets dependencies view
-	 * 
+	 * Gets dependencies view.
+	 *
 	 * @return dependencies view
 	 */
 	public ParentAndChildrenView getDependenciesView() {
@@ -1230,8 +1260,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the save requirement bottom
-	 * 
+	 * Gets the save requirement bottom.
+	 *
 	 * @return the saveRequirementButton
 	 */
 	public JButton getSaveRequirementBottom() {
@@ -1239,8 +1269,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the cancel requirement button on the bottom
-	 * 
+	 * Gets the cancel requirement button on the bottom.
+	 *
 	 * @return the cancelRequirementButton
 	 */
 	public JButton getCancelRequirementBottom() {
@@ -1248,8 +1278,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the delete requirement button on the bottom
-	 * 
+	 * Gets the delete requirement button on the bottom.
+	 *
 	 * @return the deleteRequirementButton
 	 */
 	public JButton getDeleteRequirementBottom() {
@@ -1257,8 +1287,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the create child requirement button
-	 * 
+	 * Gets the create child requirement button.
+	 *
 	 * @return the createChildRequirementButton
 	 */
 	public JButton getCreateChildRequirement() {
@@ -1266,8 +1296,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the cmb iteration
-	 * 
+	 * Gets the cmb iteration.
+	 *
 	 * @return the cmbIteration
 	 */
 	public JComboBox getCmbIteration() {
@@ -1275,8 +1305,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the cmb type
-	 * 
+	 * Gets the cmb type.
+	 *
 	 * @return the cmbType
 	 */
 	public JComboBox getCmbType() {
@@ -1284,8 +1314,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the cmb status
-	 * 
+	 * Gets the cmb status.
+	 *
 	 * @return the cmbStatus
 	 */
 	public JComboBox getCmbStatus() {
@@ -1293,8 +1323,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the cmb priority
-	 * 
+	 * Gets the cmb priority.
+	 *
 	 * @return the cmbPriority
 	 */
 	public JComboBox getCmbPriority() {
@@ -1302,8 +1332,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt title
-	 * 
+	 * Gets the txt title.
+	 *
 	 * @return the txtTitle
 	 */
 	public JPlaceholderTextField getTxtTitle() {
@@ -1311,8 +1341,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt estimate
-	 * 
+	 * Gets the txt estimate.
+	 *
 	 * @return the txtEstimate
 	 */
 	public IntegerField getTxtEstimate() {
@@ -1320,10 +1350,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Sets the txt estimate
-	 * 
-	 * @param estimateEffort
-	 *            the estimate effort to set the txt estimate to
+	 * Sets the txt estimate.
+	 *
+	 * @param estimateEffort the estimate effort to set the txt estimate to
 	 */
 	public void setTxtEstimate(int estimateEffort) {
 		txtEstimate.setText(estimateEffort + "");
@@ -1331,8 +1360,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt modified date
-	 * 
+	 * Gets the txt modified date.
+	 *
 	 * @return the txtModifiedDate
 	 */
 	public JLabel getTxtModifiedDate() {
@@ -1340,8 +1369,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the lbl title error
-	 * 
+	 * Gets the lbl title error.
+	 *
 	 * @return the lblTitleError
 	 */
 	public JLabel getLblTitleError() {
@@ -1349,8 +1378,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the lbl description error
-	 * 
+	 * Gets the lbl description error.
+	 *
 	 * @return the lblDescriptionError
 	 */
 	public JLabel getLblDescriptionError() {
@@ -1358,8 +1387,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt description
-	 * 
+	 * Gets the txt description.
+	 *
 	 * @return the txtDescription
 	 */
 	public JTextArea getTxtDescription() {
@@ -1367,8 +1396,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt release number
-	 * 
+	 * Gets the txt release number.
+	 *
 	 * @return the txtReleaseNumber
 	 */
 	public JTextField getTxtReleaseNumber() {
@@ -1376,8 +1405,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt created date
-	 * 
+	 * Gets the txt created date.
+	 *
 	 * @return the txtCreatedDate
 	 */
 	public JLabel getTxtCreatedDate() {
@@ -1385,8 +1414,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the txt creator
-	 * 
+	 * Gets the txt creator.
+	 *
 	 * @return the txtCreator
 	 */
 	public JTextField getTxtCreator() {
@@ -1394,8 +1423,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets known iterations
-	 * 
+	 * Gets known iterations.
+	 *
 	 * @return the knownIterations
 	 */
 	public Iteration[] getKnownIterations() {
@@ -1403,8 +1432,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the history view
-	 * 
+	 * Gets the history view.
+	 *
 	 * @return the historyView
 	 */
 	public HistoryView getHistoryView() {
@@ -1412,8 +1441,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the acceptance tests view
-	 * 
+	 * Gets the acceptance tests view.
+	 *
 	 * @return the acceptanceTestsView
 	 */
 	public AcceptanceTestsView getAcceptanceTestsView() {
@@ -1421,18 +1450,17 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Sets the acceptance tests view
-	 * 
-	 * @param acceptanceTestsView
-	 *            the acceptanceTestsView to set
+	 * Sets the acceptance tests view.
+	 *
+	 * @param acceptanceTestsView the acceptanceTestsView to set
 	 */
 	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
 		this.acceptanceTestsView = acceptanceTestsView;
 	}
 
 	/**
-	 * Gets the txt Actual
-	 * 
+	 * Gets the txt Actual.
+	 *
 	 * @return the txtActual
 	 */
 	public IntegerField getTxtActual() {
@@ -1440,8 +1468,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the lbl estimate error
-	 * 
+	 * Gets the lbl estimate error.
+	 *
 	 * @return the lblEstimateError
 	 */
 	public JLabel getLblEstimateError() {
@@ -1449,8 +1477,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the lblTotalEstimate
-	 * 
+	 * Gets the lblTotalEstimate.
+	 *
 	 * @return the lblTotalEstimate
 	 */
 	public JLabel getLblTotalEstimate() {
@@ -1458,8 +1486,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the lbl actual error
-	 * 
+	 * Gets the lbl actual error.
+	 *
 	 * @return the lblActualError
 	 */
 	public JLabel getLblActualError() {
@@ -1467,8 +1495,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the split pane
-	 * 
+	 * Gets the split pane.
+	 *
 	 * @return the splitPane
 	 */
 	public JSplitPane getSplitPane() {
@@ -1476,8 +1504,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Gets the split pane left
-	 * 
+	 * Gets the split pane left.
+	 *
 	 * @return the splitPaneLeft
 	 */
 	public JSplitPane getSplitPaneLeft() {
@@ -1485,10 +1513,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Sets the iterations
-	 * 
-	 * @param iterations
-	 *            the iterations to set
+	 * Sets the iterations.
+	 *
+	 * @param iterations the iterations to set
 	 */
 	@SuppressWarnings("unchecked")
 	public void setIterations(Iteration[] iterations) {
@@ -1499,6 +1526,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	}
 
+	/**
+	 * Gets the attachments view.
+	 *
+	 * @return the attachments view
+	 */
 	public AttachmentsView getAttachmentsView() {
 		return attachmentsView;
 	}

@@ -15,6 +15,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
 
+/**
+ * The Class RequirementManagerTest.
+ */
 public class RequirementManagerTest {
 
 	RequirementsManager rm;

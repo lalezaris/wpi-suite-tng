@@ -12,14 +12,6 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
-/**
- * The request observer for a create request to the server.
- *
- * @author Arica Liu
- *
- * @version April 9th, 2013
- *
- */
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -34,6 +26,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * An Observer for a Request to create a Requirement.
+ * 
+ * @author Arica Liu
+ *
+ * @version April 9th, 2013
  */
 public class CreateIterationRequestObserver implements RequestObserver {
 

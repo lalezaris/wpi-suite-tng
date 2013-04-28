@@ -57,6 +57,7 @@ public class ModelMapper {
 	
 	/**
 	 * Callback to pass to {@link ModelMapper#map(Model, Model, MapCallback)}
+	 * @author Andrew Hurle
 	 */
 	public interface MapCallback {
 		/**

@@ -19,6 +19,10 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+/**
+ * An asynchronous update interface for receiving notifications
+ * about SnakeScore information as the SnakeScore is constructed.
+ */
 public class SnakeScoreObserver implements RequestObserver {
 
 	SnakeScoreController controller;

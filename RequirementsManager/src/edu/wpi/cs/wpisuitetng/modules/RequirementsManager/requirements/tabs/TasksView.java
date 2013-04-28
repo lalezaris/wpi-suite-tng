@@ -151,17 +151,6 @@ public class TasksView extends RequirementTab{
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
-	/**Redisplay and repaint the task panels.
-	 * 
-	 */
-	public void redisplayRight(){
-		listScrollPane = displayTasksPanels();
-		splitPane.getComponent(1).revalidate();
-
-		splitPane.getComponent(1).repaint();
-		//listScrollPane.repaint();
-		//listScrollPane.revalidate();
-	}
 	
 	/**Create task panels out of the tasks.
 	 * @param newTask The task to make the panel out of.

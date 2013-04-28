@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * Listen on the dropdowns in the task (Assignee, Status)
@@ -44,11 +45,11 @@ public class TaskDropdownListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(!panel.equals(view.getNewTaskPanel())){
 			if(e.getSource().equals(panel.getCmbStatus())){
-				panel.getCmbStatus().setBackground(new Color(255, 252, 132));
+				panel.getCmbStatus().setBackground(MainView.getChangedColor());
 			}
 			
 			if(e.getSource().equals(panel.getCmbAssignee())){
-				panel.getCmbAssignee().setBackground(new Color(255, 252, 132));
+				panel.getCmbAssignee().setBackground(MainView.getChangedColor());
 			}
 		}
 	}

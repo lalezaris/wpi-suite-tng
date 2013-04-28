@@ -20,6 +20,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.TaskStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * The Class SaveTaskController
@@ -72,7 +73,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check the Name field
 		if(oldPanel.getTxtName().getText().equals("")){
 			ready = false;
-			oldPanel.getTxtName().setBackground(new Color(255, 155, 157));//Red
+			oldPanel.getTxtName().setBackground(MainView.getChangedInvalidColor());//Red
 		}
 		else{//Set color back
 			oldPanel.getTxtName().setBackground(Color.white);
@@ -81,7 +82,7 @@ public class SaveTaskListener implements ActionListener{
 		//Check Description Field
 		if(oldPanel.getTxtDescription().getText().equals("")){
 			ready = false;
-			oldPanel.getTxtDescription().setBackground(new Color(255, 155, 157));//Red
+			oldPanel.getTxtDescription().setBackground(MainView.getChangedInvalidColor());//Red
 		}
 		else{//Set color back
 			oldPanel.getTxtDescription().setBackground(Color.white);

@@ -208,6 +208,13 @@ public class RequirementTableModel extends AbstractTableModel {
 			return "null";
 	}
 
+	/**
+	 * Gets the unchanged value.
+	 *
+	 * @param row the row
+	 * @param col the col
+	 * @return the unchanged value
+	 */
 	public Object getUnchangedValue(int row, int col){
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
@@ -288,6 +295,9 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	
+	/**
+	 * Cancel changes.
+	 */
 	public void cancelChanges(){
 		for (int i = 0 ; i < this.getRowCount(); i ++)
 		{
@@ -468,6 +478,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	
+	/**
+	 * Log change errors.
+	 *
+	 * @param row the row to check
+	 */
 	public void logChangeErrors(int row){
 		//move through the given row, and log problems...
 		
@@ -547,10 +562,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	/**
 	 * Get the object of change at a table location. If the cell has NOT been changed, then
 	 * this will return the value in the Requirement that is represented in that location.
-	 * 
-	 * @param row
-	 * @param col
-	 * @return
+	 *
+	 * @param row the row
+	 * @param col the column
+	 * @return the changed value
 	 */
 	public Object getChangedValue(int row, int col){
 		CellLocation change = this.lookUpChange(row, col);
@@ -568,9 +583,24 @@ public class RequirementTableModel extends AbstractTableModel {
 	
 	public static class CellLocation{
 		
+		/**
+		 * Gets the valid default tooltip string.
+		 *
+		 * @return a default valid tooltip string.
+		 */
 		public static String getValidTooltip(){
 			return "Click 'Update' to save all changes.";
 		}
+		
+		/**
+		 * Sets the the cell to be valid and updates its tooltip.
+		 *
+		 * @param cell the cell to set valid.
+		 * @param row the row the cell is in.
+		 * @param col the column the cell is in.
+		 * @param msg the message to display in the tooltip.
+		 * @param model the working table model
+		 */
 		public static void setChangeValid(CellLocation cell, int row, int col, String msg, RequirementTableModel model){
 			if (cell!=null){
 				cell.setValid(true);
@@ -674,6 +704,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		
 		
+		/**
+		 * Updates the position of the requirement in the table model
+		 *
+		 * @param data the data
+		 * @param oldData the old data
+		 */
 		public void updatePostion(List<Object[]> data, ArrayList<Object[]> oldData){
 			//figure out where I was in the old requirement.
 			int oldRow = this.row;

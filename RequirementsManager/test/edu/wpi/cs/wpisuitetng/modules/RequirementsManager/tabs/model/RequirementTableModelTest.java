@@ -41,6 +41,9 @@ public class RequirementTableModelTest {
 	RequirementTableModel rtm1;
 	DefaultTableColumnModel dtcm;
 
+	/**
+	 * Set up the tests.
+	 */
 	@Before
 	public void setUp(){
 		
@@ -81,6 +84,9 @@ public class RequirementTableModelTest {
 		dtcm.addColumn(tc4);
 	}
 
+	/**
+	 * Test if data and header fields get initialized.
+	 */
 	@Test
 	public void dataAndHeaderFieldsInitialized() {
 		assertTrue(rtm1.columnNames != null);
@@ -89,6 +95,9 @@ public class RequirementTableModelTest {
 		assertEquals(4, rtm1.data.size());
 	}
 
+	/**
+	 * Test if data can be inserted.
+	 */
 	@Test
 	public void dataCanBeinserted() {
 		Refresher.getInstance();
@@ -106,6 +115,9 @@ public class RequirementTableModelTest {
 		assertEquals("null", rtm1.getValueAt(5, 0));
 	}
 
+	/**
+	 * Test if data can be removed.
+	 */
 	@Test
 	public void dataCanBeRemoved() {
 		rtm1.removeRow(0);
@@ -115,12 +127,18 @@ public class RequirementTableModelTest {
 		assertEquals(2, rtm1.getRowCount());
 	}
 	
+	/**
+	 * Test if data can be cleared.
+	 */
 	@Test
 	public void dataCanBeCleared() {
 		rtm1.clear();
 		//assertEquals(0, rtm1.getRowCount());
 	}
 	
+	/**
+	 * Test that cells cannot be edited.
+	 */
 	@Test
 	public void cellsCannotBeEdited() {		
 		for (int i = 0; i < rtm1.getRowCount(); i++) {
@@ -130,6 +148,9 @@ public class RequirementTableModelTest {
 		}
 	}
 	
+	/**
+	 * Test sorting in ascending order.
+	 */
 	@Test
 	public void testSortedAscending(){
 		rtm1.sortTable(0, dtcm);//sort by ID
@@ -139,6 +160,9 @@ public class RequirementTableModelTest {
 		assertEquals(rtm1.getValueAt(3, 1) ,"req4");
 	}
 	
+	/**
+	 * Test sorting in descending order.
+	 */
 	@Test
 	public void testSortedDescending(){
 		rtm1.sortTable(1,dtcm);//sort by name
@@ -149,12 +173,18 @@ public class RequirementTableModelTest {
 		assertEquals(rtm1.getValueAt(3, 1) ,"req1");
 	}
 	
+	/**
+	 * Test sorting header in ascending order.
+	 */
 	@Test
 	public void testHeaderAscending(){
 		rtm1.sortTable(2,dtcm);
 		assertEquals("Description"+RequirementTableModel.ASCENDING_SUFFIX , dtcm.getColumn(2).getHeaderValue().toString());
 	}
 	
+	/**
+	 * Test sorting header in descending order.
+	 */
 	@Test
 	public void testHeaderDescending(){
 		rtm1.sortTable(2,dtcm);
@@ -162,6 +192,9 @@ public class RequirementTableModelTest {
 		assertEquals("Description"+RequirementTableModel.DESCENDING_SUFFIX , dtcm.getColumn(2).getHeaderValue().toString());
 	}
 	
+	/**
+	 * Test reseting the table headers.
+	 */
 	@Test
 	public void testHeaderResets(){
 		rtm1.sortTable(2,dtcm);

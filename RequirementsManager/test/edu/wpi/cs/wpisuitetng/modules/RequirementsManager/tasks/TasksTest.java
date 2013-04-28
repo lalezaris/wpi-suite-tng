@@ -28,6 +28,9 @@ public class TasksTest {
 	Task t2;
 	Task t3;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		t = new Task("rage", "do something with derp", "herp", 99, 9001);
@@ -36,6 +39,9 @@ public class TasksTest {
 		t1 = new Task("a", "a", "a", 0, 0);
 	}
 	
+	/**
+	 * Test the constructor.
+	 */
 	@Test
 	public void TestConstructor(){
 		assertEquals("rage", t.getName());
@@ -45,12 +51,18 @@ public class TasksTest {
 		assertEquals(9001, t.getId());
 	}
 	
+	/**
+	 * Test adding tasks to requirement.
+	 */
 	@Test
 	public void testAddingTasksToRequirement(){
 		req.addTask(t1);
 		assertEquals(true, req.getTasks().contains(t1));
 	}
 	
+	/**
+	 * Test changing fields in task.
+	 */
 	@Test
 	public void testChangingFieldsInTask(){
 		t.setName("rage quit");
@@ -61,6 +73,9 @@ public class TasksTest {
 		assertEquals("still herp", t.getAssigneeName());
 	}
 	
+	/**
+	 * Test the task class under the tasks view.
+	 */
 	@Test
 	public void testTasksViewTasks(){
 		tv.addTask(t);

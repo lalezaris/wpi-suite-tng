@@ -149,7 +149,11 @@ public class TreeView extends JPanel {
 		setUpBottom();
 	}
 
-	/** Sets the text displayed at the bottom of TreeView. */
+	/**
+	 * Sets the text displayed at the bottom of TreeView.
+	 *
+	 * @param newText the new status
+	 */
 	void setStatus(String newText) {
 		if (!(status.getText() == newText)) {
 			status.setText(newText);
@@ -369,6 +373,12 @@ public class TreeView extends JPanel {
 		clearStatus();
 	}
 
+	/**
+	 * Look up requirement by id.
+	 *
+	 * @param id the id to search for.
+	 * @return the requirement
+	 */
 	public Requirement lookUpRequirement(int id) {
 		Requirement[] reqs = treeModel.getRequirements(); 
 		for (int i = 0; i < reqs.length; i++) {

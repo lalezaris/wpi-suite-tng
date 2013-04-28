@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -42,7 +43,8 @@ public class Attachment extends AbstractModel{
 			int buffer;
 			byte[] contents = new byte[(int) file.length()];
 			
-			while((buffer = (byte) in.read())!=-1)if(buffer!=-1)contents[i++]=(byte) buffer;
+			//while((buffer = (byte) in.read())!=-1)if(buffer!=-1)contents[i++]=(byte) buffer;
+			contents = readFile(file);
 			
 			in.close();//new String(Base64.encodeBase64
 			this.setFileContents(Base64.encodeBase64String(contents));
@@ -56,6 +58,22 @@ public class Attachment extends AbstractModel{
 			e.printStackTrace();
 		}
 	}
+	public byte[] readFile(File file) throws IOException {
+        final InputStream inStream = new FileInputStream(file);
+        int offset = 0;
+        int numRead = 0;
+        int length = (int)file.length();
+        byte[] retVal = new byte[length];
+
+        while ((numRead = inStream.read(retVal, offset, length)) > 0) {
+                System.out.println("NumRead: " + numRead);
+                offset += numRead;
+                length -= numRead;
+        }
+        inStream.close();
+
+        return retVal;
+}
 	
 	public void saveFile(File file){
 		//TODO actually load the contents into fileContents when this is called
@@ -64,7 +82,7 @@ public class Attachment extends AbstractModel{
 					FileOutputStream out = new FileOutputStream(OF);
 					int i=0;
 					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
-				
+
 					out.write(contents, 0, contents.length);
 					out.close();//new String(Base64.encodeBase64
 //					this.setFileContents(Base64.encodeBase64String(contents));

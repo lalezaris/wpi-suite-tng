@@ -17,7 +17,6 @@ import java.awt.event.KeyListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 
-// TODO: Auto-generated Javadoc
 /**
  * Listen for strings to search for.
  *

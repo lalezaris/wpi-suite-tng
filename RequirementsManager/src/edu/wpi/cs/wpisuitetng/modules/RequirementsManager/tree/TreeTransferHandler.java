@@ -25,11 +25,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
@@ -174,11 +176,13 @@ class TreeTransferHandler extends TransferHandler {
 		}
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = backFromDel(checkFake(r.get(i)));
+				System.out.println("in the for loop");
+				Requirement req = checkFake(r.get(i));
+				System.out.println(req.getTitle());
+				// Change the requirement
 				if (req.getStatus() == RequirementStatus.NEW) {
 					req.setStatus(RequirementStatus.INPROGRESS);
 				}
-				// Change the requirement
 				req.setIteration((Iteration)destObject);
 				// Save the changed requirement
 				
@@ -188,6 +192,7 @@ class TreeTransferHandler extends TransferHandler {
 				
 				controller = new SaveRequirementController(req);
 				controller.save();
+				System.out.println("Saved req " + req.getTitle());
 				// Change the iteration
 				Iteration it = (Iteration)destObject;
 				if (!(it.getRequirements().contains(req))) {
@@ -199,7 +204,14 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject instanceof Requirement) {
 			for(int i = 0; i < nodes.length; i++) {
-				Requirement req = backFromDel(checkFake(r.get(i)));
+				Requirement req = checkFake(r.get(i));
+				// Remove the child from its original parent
+				if (TreeView.getInstance().lookUpRequirement(req.getParentRequirementId()) != null) {
+					Requirement oldParent = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
+					oldParent.removeChildRequirement(req.getId());
+					controller = new SaveRequirementController(oldParent);
+					controller.save();
+				}
 				// Change the parent of the requirement
 				req.setParentRequirementId(((Requirement)destObject).getId());
 				
@@ -213,11 +225,6 @@ class TreeTransferHandler extends TransferHandler {
 				
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
-				controller.save();
-				// Save the changed parent
-				
-				req2.addChildRequirement(req.getId());
-				controller = new SaveRequirementController(req2);
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Backlog")){
@@ -233,6 +240,14 @@ class TreeTransferHandler extends TransferHandler {
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
+				// Change the old iteration
+//				if (lookUpIteration(req.getIterationId()) != null) {
+//					Iteration it = lookUpIteration(req.getIterationId());
+//					it.removeRequirement(req.getId());
+//					// Save the changed iteration
+//					itcontroller = new SaveIterationController(it);
+//					itcontroller.save();
+//				}
 			}
 		} else if (destObject.toString().contains("Deleted")){
 			// Show a dialog
@@ -242,33 +257,30 @@ class TreeTransferHandler extends TransferHandler {
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (n == JOptionPane.YES_OPTION) {
 				for(int i = 0; i < nodes.length; i++) {
-					Requirement req = backFromDel(checkFake(r.get(i)));
-					// Change the parent of the requirement
+					Requirement req = checkFake(r.get(i));
+					// Save the changed parent
+					if (req.getParentRequirementId() != -1){
+						Requirement req2 = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
+						req2.setTotalEstimateEffort(req2.getTotalEstimateEffort() - req.getTotalEstimateEffort());
+						req2.removeChildRequirement(req.getId());
+						controller = new SaveRequirementController(req2);
+						controller.save();
+					}
+					// Change the requirement
 					req.setParentRequirementId(-1);
 					req.setStatus(RequirementStatus.DELETED);
 					req.setIterationId(0);
-					
-					Requirement req2 = (Requirement) destObject;
-					
-					if (req.getParentRequirementId() != -1){
-						((Requirement)destObject).setTotalEstimateEffort(((Requirement)destObject).getTotalEstimateEffort() - req.getTotalEstimateEffort());
-					}
-					req2.setTotalEstimateEffort(req.getTotalEstimateEffort() + req2.getTotalEstimateEffort());
-					
-					
 					// Save the changed requirement
 					controller = new SaveRequirementController(req);
 					controller.save();
-					// Save the changed parent
-					
-					req2.removeChildRequirement(req.getId());
-//					int estimated = req2.getEstimateEffort()
-//							- ((Requirement) req).getEstimateEffort();
-//					req2.setEstimateEffort(estimated);
-					
-					
-					controller = new SaveRequirementController(req2);
-					controller.save();
+					// Change the old iteration
+//					if (lookUpIteration(req.getIterationId()) != null) {
+//						Iteration it = lookUpIteration(req.getIterationId());
+//						it.removeRequirement(req.getId());
+//						// Save the changed iteration
+//						itcontroller = new SaveIterationController(it);
+//						itcontroller.save();
+//					}
 				}
 			} else if (n == JOptionPane.NO_OPTION) {
 				TreeView.getInstance().setStatus("Cancelled deletion.");
@@ -351,9 +363,16 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} 
 		// Do not allow a drop on a past Iteration
-		TreePath ddest = dl.getPath();  
-		DefaultMutableTreeNode ttarget =  
-				(DefaultMutableTreeNode)ddest.getLastPathComponent();
+		TreePath ddest = dl.getPath();
+		DefaultMutableTreeNode ttarget = null;
+		if (ddest.getLastPathComponent() != null) {
+			ttarget =  
+					(DefaultMutableTreeNode)ddest.getLastPathComponent();
+		}
+		else {
+			TreeView.getInstance().setStatus("The target is null!");
+			return false;
+		}
 		if (ttarget.getUserObject().toString().contains("Iteration")) {
 			Calendar cEnd = Calendar.getInstance();
 			cEnd.setTime(((Iteration)ttarget.getUserObject()).getEndDate());
@@ -373,10 +392,10 @@ class TreeTransferHandler extends TransferHandler {
 			DefaultMutableTreeNode aNode =  
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
 			// Do not allow a drop on itself
-			if (aNode == ttarget) {
-				TreeView.getInstance().setStatus("Can't drop on itself!");
-				return false;
-			}
+			//			if (aNode == ttarget) {
+			//				TreeView.getInstance().setStatus("Can't drop on itself!");
+			//				return false;
+			//			}
 			if (aNode.getUserObject() instanceof Requirement) {
 				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
 				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
@@ -388,9 +407,14 @@ class TreeTransferHandler extends TransferHandler {
 					return false;
 				}
 				// Do not allow a drop on the same parent
-				if (aNode.getParent().equals(ttarget)) {
-					TreeView.getInstance().setStatus("Can't drop on the same parent!");
-					return false;
+				TreeNode parentNode = aNode;
+				while (parentNode.getParent() != null) {
+					if (parentNode.getParent().equals(ttarget)) {
+						TreeView.getInstance().setStatus("Can't drop on the its parent!");
+						return false;
+					} else {
+						parentNode = parentNode.getParent();
+					}
 				}
 				// Do not allow a drag for just children
 				//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
@@ -399,23 +423,48 @@ class TreeTransferHandler extends TransferHandler {
 				//					}
 				//				}
 
-				// Do not allow a drop on its children
+
 				if (ttarget.getUserObject() instanceof Requirement) {
-					Requirement req = (Requirement)ttarget.getUserObject();
+					if (requirement.getStatus() == RequirementStatus.DELETED) {
+						TreeView.getInstance().setStatus("Cannot assign it to a requirement while it is in the Deleted folder!");
+						return false;
+					}
+					// Do not allow a drop on its children
+					Requirement req = checkFake((Requirement)ttarget.getUserObject());
 					if (requirement.getChildRequirementIds().contains(req.getId())) {
 						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
-								+ "Can't drop on its own children!");
+								+ ": Can't drop on its own children!");
+						return false;
+					}
+					// Do not allow a drop on its parent
+					if (req.getChildRequirementIds().contains(requirement.getId())) {
+						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
+								+ ": Already a child of the target!");
+						return false;
+					}
+					// Do not allow a drop on itself
+					if (req.getId() == requirement.getId()) {
+						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
+								+ ": Cannot drop on itself!");
 						return false;
 					}
 				}
 				if (ttarget.getUserObject().toString().contains("Iteration")) {
+					if (requirement.getStatus() == RequirementStatus.DELETED) {
+						TreeView.getInstance().setStatus("Cannot drag from Deleted to an Iteration!");
+						return false;
+					}
 					if (requirement.getParentRequirementId() != -1) {
-						Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
-						if (((Iteration)ttarget.getUserObject()).getEndDate().
-								after(parent.getIteration().getEndDate())) {
-							TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
-									+ "Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
-							return false;
+						if (TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId()) != null) {
+							Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
+							if (parent.getIterationId() != 0) {
+								if (((Iteration)ttarget.getUserObject()).getEndDate().
+										after(parent.getIteration().getEndDate())) {
+									TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
+											+ ": Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
+									return false;
+								}
+							}
 						}
 					}
 				}

@@ -48,11 +48,11 @@ public class CreateChildRequirementController{
 	 */
 	public void viewChild() {
 		this.childRequirement = new Requirement();
-		childRequirement.setIterationId(Iteration.getBacklog().getId());
+//		childRequirement.setIterationId(Iteration.getBacklog().getId()); //not good/not needed, messes with the status combo box When a iteration is made the iteration is set to backlog
 		childRequirement.setReleaseNumber(view.getReqModel().getRequirement().getReleaseNumber());
 		//TODO: Do we need types of requirements? If yes, child inherits that from parent as well.
 		childRequirement.setStatus(RequirementStatus.NEW);
-		childRequirement.setParentRequirementId(view.getReqModel().getRequirement().getId());
+		childRequirement.setParentRequirementId(view.getReqModel().getUneditedRequirement().getId());
 		showRequirement(childRequirement);
 	} 
 
@@ -63,7 +63,8 @@ public class CreateChildRequirementController{
 	 */
 	public void showRequirement(Requirement childRequirement) {
 		// Make a new requirement view to display the requirement that was received
-		childRequirement.setIteration(Iteration.getIterationById(childRequirement.getIterationId()));
+//		childRequirement.setIteration(Iteration.getIterationById(childRequirement.getIterationId()));
+		childRequirement.setIteration(Iteration.getBacklog());
 		MainTabController.getController().addChildRequirementTab(childRequirement, view);
 	}
 }

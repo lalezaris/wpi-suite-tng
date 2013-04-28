@@ -39,9 +39,9 @@ public class UpdateRequirementViewController {
 	
 	public static void updateAllOpenRequirementViews(){
 
-		System.out.print("Printing View Req Names");
+		System.out.println("Printing View Req Names");
 		for (int i = 0 ; i < MainTabController.getController().getReqViewList().size() ;i ++){
-			System.out.println("VIEW REQ NAME:" + MainTabController.getController().getReqViewList().get(i).getReqModel().getRequirement().getTitle());
+			System.out.println("VIEW REQ NAME: " + MainTabController.getController().getReqViewList().get(i).getReqModel().getRequirement().getTitle());
 			UpdateRequirementViewController controller = new UpdateRequirementViewController(MainTabController.getController().getReqViewList().get(i));
 			controller.retrieve();
 		}

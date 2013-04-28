@@ -94,7 +94,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						view.setUp(requirement, Mode.EDIT, CurrentUserPermissions.getCurrentUserPermission());
+//						view.setUp(requirement, Mode.EDIT, CurrentUserPermissions.getCurrentUserPermission());
 
 
 						view.setEditModeDescriptors(requirement);
@@ -111,6 +111,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							 * and doesn't require the parent Requirement to be explicitly
 							 * saved again by the user if they don't want to
 							 */
+//<<<<<<< HEAD
 							Requirement uneditedParent = parentView.getReqModel().getRequirement();
 							
 							Requirement uneditedParentWithChild = new Requirement(
@@ -149,6 +150,12 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							System.out.println("\n\n\n\nold history size: " + uneditedParentWithChild.getHistory().size());
 							System.out.println("uneditedParent child size: " + uneditedParent.getChildRequirementIds().size());
 							System.out.println("old child size: " + uneditedParentWithChild.getChildRequirementIds().size());
+//=======
+////							Requirement uneditedParent = parentView.getReqModel().getRequirement();
+//							Requirement uneditedParent = parentView.getReqModel().getUneditedRequirement();
+//							System.out.println("uneditedParent: " + uneditedParent.toJSON());
+//							Requirement uneditedParentWithChild = uneditedParent;
+//>>>>>>> origin/team1-dev
 							uneditedParentWithChild.addChildRequirement(requirement.getId());
 							System.out.println("new child size: " + uneditedParentWithChild.getChildRequirementIds().size());
 							System.out.println("uneditedParent child size AFTER CHILD ADD : " + uneditedParent.getChildRequirementIds().size());
@@ -164,10 +171,17 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							//System.out.println("new history size: " + uneditedParentWithChild.getHistory().size() + "END\n\n\n\n");
 							//uneditedParentWithChild.setEstimateEffort(uneditedParent.getEstimateEffort()+requirement.getEstimateEffort());
 
+//<<<<<<< HEAD
 
-							parentView.getReqModel().setRequirement(uneditedParentWithChild);
+							//parentView.getReqModel().setRequirement(uneditedParentWithChild);
 
 							//now to save the uneditedParentWithChild to database
+//=======
+							parentView.getReqModel().setUneditedRequirement(uneditedParentWithChild);
+//							parentView.getReqModel().getUneditedRequirement().setIterationId(uneditedParent.getIterationId());
+							System.out.println("new Requirement in view : " + parentView.getReqModel().getUneditedRequirement().toJSON());
+							//now to save the uneditedPanelWithChild to database
+//>>>>>>> origin/team1-dev
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);
 							Request request;

@@ -139,7 +139,7 @@ public class RequirementPanelViewTest {
 		assertEquals(true, adminView.getRequirementPanel().txtReleaseNumber.isEnabled());
 		assertEquals(false, adminView.getRequirementPanel().cmbIteration.isEnabled());
 		assertEquals(true, adminView.getRequirementPanel().cmbPriority.isEnabled());
-		assertEquals(true, adminView.getRequirementPanel().cmbStatus.isEnabled());
+		assertEquals(false, adminView.getRequirementPanel().cmbStatus.isEnabled());
 		assertEquals(true, adminView.getRequirementPanel().cmbType.isEnabled());
 		
 		

@@ -167,6 +167,9 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		this.add(mainPanel, BorderLayout.CENTER);
 		controller = new SaveRequirementController(this);
+		if(reqModel.getUneditedRequirement().getStatus().compareTo(RequirementStatus.NEW) == 0){
+			mainPanel.getCmbStatus().setEnabled(false);
+		}
 	}
 
 
@@ -345,15 +348,24 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
-
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
+		
+		
 		mainPanel.getCmbStatus().removeAllItems();
 		for (int i = 0; i < requirementStatusValues.length; i++) {
 			requirementStatusValues[i] = RequirementStatusLists.getList(this.getReqModel().getRequirement())[i];
-			mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+			
+			if (requirementStatusValues[i].equals("COMPLETE")) {
+				if (requirement.canBeCompleted() == true) {
+					mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+				}
+			} else {
+				mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+			}
 		}
 
 		reqModel.update(requirement, editMode);
+		reqModel.setUpPanel(editMode);
 
 		mainPanel.getHistoryView().setHistoryList(this.getReqModel().getRequirement().getHistory());
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
@@ -521,6 +533,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					Calendar cTwoEnd = Calendar.getInstance();
 					cTwoEnd.setTime(Iteration.getIterationById(parentRequirement.getIterationId()).getEndDate());
 					cTwoEnd.add(Calendar.DATE, 1);
+
 					if ((cEnd.compareTo(cTwoEnd) <= 0 &&
 							cEnd.compareTo(Calendar.getInstance()) >= 0) || knownIterations[i] == Iteration.getBacklog()) {
 						knownIts.add(knownIterations[i]);

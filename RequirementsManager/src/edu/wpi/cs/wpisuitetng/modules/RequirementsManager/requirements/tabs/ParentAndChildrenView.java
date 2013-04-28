@@ -106,15 +106,10 @@ public class ParentAndChildrenView extends RequirementTab{
 		txtParent = new JList(mdlParent);
 		txtParent.setCellRenderer(new NonSelectListCellRenderer());
 		mdlChildren = new DefaultListModel();
-		childRequirementIDs = parentRequirementView.getReqModel().getUneditedRequirement().getChildRequirementIds();
-		String req = "";
-		for(int i = 0; i < childRequirementIDs.size(); i++){
-			req = "Requirement " + childRequirementIDs.get(i);
-			mdlChildren.addElement(req);
-			req = "";
-		}
-		txtChildren = new JList(mdlChildren);
+		txtChildren = new JList();
 		txtChildren.setCellRenderer(new NonSelectListCellRenderer()); 
+		childRequirementIDs = parentRequirementView.getReqModel().getUneditedRequirement().getChildRequirementIds();
+		updateChildrenList(childRequirementIDs);
 		JPanel panelOne = new JPanel();
 		panelOne.setLayout(new GridBagLayout());
 		GridBagConstraints cOne = new GridBagConstraints();
@@ -261,6 +256,18 @@ public class ParentAndChildrenView extends RequirementTab{
 		else
 			list += "No child requirements.\n\n";
 		return list;
+	}
+	
+	public void updateChildrenList(ArrayList<Integer> children){
+		DefaultListModel newChildren = new DefaultListModel();
+		String c = "";
+		for(int i = 0; i < children.size(); i++){
+			c = "Requirement " + children.get(i);
+			newChildren.addElement(c);
+			c = "";
+		}
+		txtChildren.removeAll();
+		txtChildren.setModel(newChildren);
 	}
 
 	@Override

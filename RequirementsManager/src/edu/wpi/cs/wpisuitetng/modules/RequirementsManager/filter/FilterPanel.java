@@ -352,6 +352,7 @@ public class FilterPanel extends JPanel{
 	 * Update the table with the rules.
 	 */
 	public void triggerTableUpdate(){
+		
 		setFilterDescText();
 		view.setFilteredInTable();
 		showSnakeHuh();

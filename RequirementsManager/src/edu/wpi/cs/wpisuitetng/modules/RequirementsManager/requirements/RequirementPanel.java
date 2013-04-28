@@ -1,21 +1,14 @@
 /**************************************************
- * This file was developed for CS3733: Software Engineering
- * The course was taken at Worcester Polytechnic Institute.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html 
- *
- * Contributors:
- *  Chris Dunkers
- *  Joe Spicola
- *  Evan Polekoff
- *  Ned Shelton
- *  Sam Lalezari
- *  Tushar Narayan
- *  Chris Hanna
- *  Lauren Kahn
+ * This file was developed for CS3733: Software Engineering The course was taken
+ * at Worcester Polytechnic Institute.
+ * 
+ * All rights reserved. This program and the accompanying materials are made
+ * available under the terms of the Eclipse Public License v1.0 which
+ * accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Chris Dunkers Joe Spicola Evan Polekoff Ned Shelton Sam
+ * Lalezari Tushar Narayan Chris Hanna Lauren Kahn
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
@@ -67,11 +60,12 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.Requ
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.RequirementTabsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
+
 /**
- * Panel to display and edit the basic fields for a requirement.
- * Adapted from DefectPanel in project DefectTracker.
- *
- * @author Chris Dunkers 
+ * Panel to display and edit the basic fields for a requirement. Adapted from
+ * DefectPanel in project DefectTracker.
+ * 
+ * @author Chris Dunkers
  * @author Joe Spicola
  * @author Ned Shelton
  * @author Michael Perrone
@@ -79,18 +73,16 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observer
  * @author Chris Hanna (refactored on 04/13)
  * 
  * @version Mar 17, 2013
- *
+ * 
  */
-@SuppressWarnings({"serial","rawtypes"})
+@SuppressWarnings({ "serial", "rawtypes" })
 public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * The Enum Mode.
 	 */
 	public enum Mode {
-		CREATE,
-		EDIT, 
-		CHILD;
+		CREATE, EDIT, CHILD;
 	}
 
 	/** The parent view **/
@@ -100,14 +92,14 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/*
 	 * Form elements
 	 */
-	protected JPlaceholderTextField txtTitle; //JPlaceholderTextField
+	protected JPlaceholderTextField txtTitle; // JPlaceholderTextField
 	protected JTextField txtReleaseNumber;
-	protected JComboBox cmbIteration;	
+	protected JComboBox cmbIteration;
 	protected Iteration[] knownIterations;
 	protected JComboBox cmbType;
 	protected JComboBox cmbStatus;
 	protected JComboBox cmbPriority;
-	protected JTextArea txtDescription;	
+	protected JTextArea txtDescription;
 	protected IntegerField txtEstimate;
 	protected IntegerField txtTotalEstimate;
 	protected IntegerField txtActual;
@@ -133,7 +125,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	private JLabel lblActual;
 
 	/** NotesView for updating notes **/
-	private NotesView notesView; 
+	private NotesView notesView;
 
 	/** HistoryView for updating history **/
 	private HistoryView historyView;
@@ -144,7 +136,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** TasksView for updating tasks **/
 	private TasksView tasksView;
 
-	//TODO finish implementing assigneeView
+	// TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
 	/** Attachments view for adding files to a requirement*/
@@ -155,7 +147,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/** A flag indicating if input is enabled on the form */
 	protected boolean inputEnabled;
-	
 	
 	/**Error labels*/
 	JLabel lblTitleError = new JLabel("ERROR: Must have a title", LABEL_ALIGNMENT);
@@ -175,8 +166,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected JPanel panelButtons;
 	protected JPanel panelTabs;
 
-	/** The layout managers for  
-	 *  other panels */
+	/**
+	 * The layout managers for other panels
+	 */
 	protected GridBagLayout layoutOverall;
 	protected GridBagLayout layoutOne;
 	protected GridBagLayout layoutTwo;
@@ -193,10 +185,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	protected static final int LABEL_ALIGNMENT = JLabel.TRAILING;
 
 	/**
-	 * Constructs a RequirementPanel for creating or editing a given Requirement.
-	 *
-	 * @param parent The parent of the requirement
-	 * @param mode the mode
+	 * Constructs a RequirementPanel for creating or editing a given
+	 * Requirement.
+	 * 
+	 * @param parent
+	 *            The parent of the requirement
+	 * @param mode
+	 *            the mode
 	 */
 	public RequirementPanel(RequirementView parent, Mode mode) {
 
@@ -204,12 +199,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		this.mode = mode;
 
-		//get the list of notes from the given requirement
+		// get the list of notes from the given requirement
 		this.notesView = new NotesView(parent);
 
-		//get the list of history from the given requirement
+		// get the list of history from the given requirement
 		this.historyView = new HistoryView(parent);
-		//		historyView = new HistoryView(model);
 		
 		this.attachmentsView = new AttachmentsView(parent);
 		
@@ -217,44 +211,41 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		this.acceptanceTestsView = new AcceptanceTestsView(parent);
 		
 
-		//get the list of history from the given requirement
+		// get the list of history from the given requirement
 		this.assigneeView = new AssigneeView(parent);
 
-		//get the list of tasks from the given requirement
+		// get the list of tasks from the given requirement
 		this.tasksView = new TasksView(parent);
 
-		//get the parent and the list of children from the given requirement
+		// get the parent and the list of children from the given requirement
 		this.parentChildrenView = new ParentAndChildrenView(parent);
 
 		// Indicate that input is enabled
 		this.inputEnabled = true;
 
-		//Use a grid bag layout manager
+		// Use a grid bag layout manager
 		this.layout = new BorderLayout();
 		this.setLayout(layout);
-		
-		//Set it so the focus will not go to the tile field
+
+		// Set it so the focus will not go to the tile field
 		this.setFocusCycleRoot(true);
-        this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
-                public Component getDefaultComponent(Container cont) {
-                    return lblIteration;
-                }
-            });
+		this.setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
+			public Component getDefaultComponent(Container cont) {
+				return lblIteration;
+			}
+		});
 
 		// Add all components to this panel
 		addComponents();
 	}
 
-
-
-
 	/**
-	 * Adds the components to the panel and places constraints on them
-	 * for the GridBagLayout manager.
+	 * Adds the components to the panel and places constraints on them for the
+	 * GridBagLayout manager.
 	 */
 	@SuppressWarnings({ "unchecked" })
 	protected void addComponents() {
-		//create a new constrain variable
+		// create a new constrain variable
 		GridBagConstraints cOverall = new GridBagConstraints();
 		GridBagConstraints cOne = new GridBagConstraints();
 		GridBagConstraints cTwo = new GridBagConstraints();
@@ -278,22 +269,26 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cmbIteration = new JComboBox();
 		cmbIteration.addFocusListener(this);
 
-		txtDescription = new JTextArea(10,35);
+		txtDescription = new JTextArea(10, 35);
 		txtDescription.addFocusListener(this);
 
 		txtDescription.setLineWrap(true);
 		txtDescription.setWrapStyleWord(true);
 
-		String[] requirementStatusValues =new String[RequirementStatus.values().length];
+		String[] requirementStatusValues = new String[RequirementStatus
+				.values().length];
 		for (int i = 0; i < requirementStatusValues.length; i++) {
-			requirementStatusValues[i] = RequirementStatus.values()[i].toString();
+			requirementStatusValues[i] = RequirementStatus.values()[i]
+					.toString();
 		}
 		cmbStatus = new JComboBox(requirementStatusValues);
 		cmbStatus.addFocusListener(this);
 
-		String[] requirementPriorityValues = new String[RequirementPriority.values().length];
+		String[] requirementPriorityValues = new String[RequirementPriority
+				.values().length];
 		for (int i = 0; i < RequirementPriority.values().length; i++) {
-			requirementPriorityValues[i] = RequirementPriority.values()[i].toString();
+			requirementPriorityValues[i] = RequirementPriority.values()[i]
+					.toString();
 		}
 		cmbPriority = new JComboBox(requirementPriorityValues);
 		cmbPriority.addFocusListener(this);
@@ -310,8 +305,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTotalEstimate = new IntegerField(4);
 		txtTotalEstimate.setEnabled(false);
 		txtTotalEstimate.setEnabled(false);
-
-
 
 		txtActual = new IntegerField(4);
 		txtActual.addFocusListener(this);
@@ -344,28 +337,29 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		
 		/**Save Button*/
 		saveRequirementButton = new JButton("Save");
-		/**Delete Button*/
+		/** Delete Button */
 		deleteRequirementButton = new JButton("Delete");
-		/**Cancel Button*/
+		/** Cancel Button */
 		cancelRequirementButton = new JButton("Cancel");
 
 		createChildRequirementButton = new JButton("Add Child Requirement");
 
-		//make sit so that all combo boxes will have black text when disabled for easier readability
-		UIManager.put( "ComboBox.disabledForeground", Color.BLACK );
+		// make sit so that all combo boxes will have black text when disabled
+		// for easier readability
+		UIManager.put("ComboBox.disabledForeground", Color.BLACK);
 
-		/**Iteration Listener*/
+		/** Iteration Listener */
 		cmbIteration.addActionListener(new IterationListener());
 
-		/**Estimate Listener*/
+		/** Estimate Listener */
 		txtEstimate.addKeyListener(new EstimateListener());
 
-		/**Title and Description Listener*/
+		/** Title and Description Listener */
 		txtTitle.addKeyListener(new SaveListener());
 		txtDescription.addKeyListener(new SaveListener());
 
-		/**Status Listener*/
-		//cmbStatus.addActionListener(new StatusListener());
+		/** Status Listener */
+		// cmbStatus.addActionListener(new StatusListener());
 
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
@@ -385,22 +379,23 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		setUpToolTips();
 
-		//Panel One - panel at the top --------------------------------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel One - panel at the top
+		// --------------------------------------------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutOne = new GridBagLayout();
-		panelOne.setLayout(layoutOne);	
+		panelOne.setLayout(layoutOne);
 
-		layoutOne.columnWeights = new double[]{.2, .8};
-		cOne.anchor = GridBagConstraints.LINE_START; 
+		layoutOne.columnWeights = new double[] { .2, .8 };
+		cOne.anchor = GridBagConstraints.LINE_START;
 		cOne.gridx = 0;
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
 		cOne.weighty = 0.5;
 		cOne.gridwidth = 2;
-		cOne.insets = new Insets(10,10,5,0); //top,left,bottom,right
+		cOne.insets = new Insets(10, 10, 5, 0); // top,left,bottom,right
 		panelOne.add(txtTitle, cOne);
 
-		cOne.insets = new Insets(5,0,0,0);
+		cOne.insets = new Insets(5, 0, 0, 0);
 		cOne.gridx = 2;
 		cOne.gridy = 0;
 		cOne.weightx = 0.5;
@@ -410,7 +405,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblTitleError.setForeground(Color.RED);
 		panelOne.add(lblTitleError, cOne);
 
-		cOne.insets = new Insets(5,10,10,0); //top,left,bottom,right
+		cOne.insets = new Insets(5, 10, 10, 0); // top,left,bottom,right
 		cOne.gridx = 0;
 		cOne.gridy = 1;
 		cOne.weightx = 0.5;
@@ -454,21 +449,22 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cmbType.setBackground(Color.WHITE);
 		panelOne.add(cmbType, cOne);
 
-		//Panel Two - panel below panel one ------------------------------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel Two - panel below panel one
+		// ------------------------------------------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutTwo = new GridBagLayout();
 		panelTwo.setLayout(layoutTwo);
 
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.insets = new Insets(10, 10, 5, 0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START;
 		cTwo.gridx = 0;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
 		cTwo.weighty = 0.5;
 		panelTwo.add(lblDescription, cTwo);
 
-		cTwo.insets = new Insets(10,10,5,0);
-		cTwo.anchor = GridBagConstraints.FIRST_LINE_START; 
+		cTwo.insets = new Insets(10, 10, 5, 0);
+		cTwo.anchor = GridBagConstraints.FIRST_LINE_START;
 		cTwo.gridx = 1;
 		cTwo.gridy = 0;
 		cTwo.weightx = 0.5;
@@ -478,8 +474,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		panelTwo.add(lblDescriptionError, cTwo);
 
 		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);
-		cTwo.anchor = GridBagConstraints.LAST_LINE_START; 
-		cTwo.insets = new Insets(0,10,10,0);
+		cTwo.anchor = GridBagConstraints.LAST_LINE_START;
+		cTwo.insets = new Insets(0, 10, 10, 0);
 		cTwo.gridx = 0;
 		cTwo.gridy = 1;
 		cTwo.weightx = 0.5;
@@ -487,12 +483,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cTwo.gridwidth = 2;
 		panelTwo.add(scrollPaneDescription, cTwo);
 
-		//Panel Three - panel below panel one -------------------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel Three - panel below panel one
+		// -------------------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutThree = new GridBagLayout();
 		panelThree.setLayout(layoutThree);
 
-		cThree.insets = new Insets(10,10,10,0);
+		cThree.insets = new Insets(10, 10, 10, 0);
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
@@ -534,13 +531,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 0;
-		cThree.gridy = 2;
+		cThree.gridy = 3;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(lblTotalEstimate, cThree);
-		lblTotalEstimate.setVisible(parent.getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
+		lblTotalEstimate.setVisible(parent.getReqModel().getRequirement()
+				.getChildRequirementIds().size() > 0);
 
-
-		//cThree.fill = GridBagConstraints.HORIZONTAL;
+		// cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -551,10 +548,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
-		cThree.gridy = 2;
+		cThree.gridy = 3;
 		cThree.anchor = GridBagConstraints.LINE_START;
 		panelThree.add(txtTotalEstimate, cThree);
-		txtTotalEstimate.setVisible((parent.getReqModel().getRequirement().getChildRequirementIds().size() > 0));	
+		txtTotalEstimate.setVisible((parent.getReqModel().getRequirement()
+				.getChildRequirementIds().size() > 0));
 
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
@@ -587,8 +585,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblEstimateError.setForeground(Color.RED);
 		panelThree.add(lblEstimateError, cThree);
 
-		//Panel Buttons - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel Buttons - panel holding all other panels
+		// --------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutButtons = new GridBagLayout();
 		panelButtons.setLayout(layoutButtons);
 
@@ -612,8 +611,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cButtons.gridy = 6;
 		panelButtons.add(cancelRequirementButton, cButtons);
 
-		//Panel Tabs - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel Tabs - panel holding all other panels
+		// --------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutTabs = new GridBagLayout();
 		panelTabs.setLayout(layoutTabs);
 
@@ -625,12 +625,12 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cOverall.anchor = GridBagConstraints.LINE_START;
 		panelTabs.add(RTabsView, cOverall);
 
-
-		//Panel Overall - panel holding all other panels --------------------------------------------------------------------------
-		//Use a grid bag layout manager
+		// Panel Overall - panel holding all other panels
+		// --------------------------------------------------------------------------
+		// Use a grid bag layout manager
 		layoutOverall = new GridBagLayout();
 		panelOverall.setLayout(layoutOverall);
-		//Overall Panel
+		// Overall Panel
 		cOverall.weightx = 0.5;
 		cOverall.weighty = 0.5;
 		cOverall.gridx = 0;
@@ -661,7 +661,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cOverall.anchor = GridBagConstraints.CENTER;
 		panelOverall.add(createChildRequirementButton, cOverall);
 
-		// add to this Panel -----------------------------------------------------------------------------------------------------------------
+		// add to this Panel
+		// -----------------------------------------------------------------------------------------------------------------
 		JPanel leftPaneltop = new JPanel();
 		leftPaneltop.setLayout(new GridBagLayout());
 		GridBagConstraints cPaneTop = new GridBagConstraints();
@@ -671,14 +672,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cPaneTop.weighty = 0.1;
 		cPaneTop.gridx = 0;
 		cPaneTop.gridy = 0;
-		leftPaneltop.add(panelOverall,cPaneTop);
+		leftPaneltop.add(panelOverall, cPaneTop);
 
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
-		//		JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
-		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT, scrollPaneLeft, panelButtons);
+		// JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
+		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+				scrollPaneLeft, panelButtons);
 		splitPaneLeft.setEnabled(true);
 
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft, panelTabs);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPaneLeft,
+				panelTabs);
 		this.add(splitPane, BorderLayout.CENTER);
 	}
 
@@ -690,34 +693,45 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * @param txtTotalEstimate the txtTotalEstimate to set
+	 * @param txtTotalEstimate
+	 *            the txtTotalEstimate to set
 	 */
 	public void setTxtTotalEstimate(int totalEstimateEffort) {
-		this.txtTotalEstimate.setText(totalEstimateEffort+"");
+		this.txtTotalEstimate.setText(totalEstimateEffort + "");
 
 	}
 
 	/**
 	 * Sets the up tool tips.
 	 */
-	public void setUpToolTips(){
+	public void setUpToolTips() {
 		txtTitle.setToolTipText("Required: A title less than 100 characters.");
-		lblReleaseNumber.setToolTipText("The release number for this requirement.");
-		txtReleaseNumber.setToolTipText("The release number for this requirement.");
-		lblDescription.setToolTipText("Required: A description for this requirement.");
-		txtDescription.setToolTipText("Required: A description for this requirement.");
-		lblEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
-				"This field must be greater than 0 to assign to an iteration.");
-		txtEstimate.setToolTipText("An estimate for the effort of this requirement. \r\n" +
-				"This field must be greater than 0 to assign to an iteration.");
-		lblTotalEstimate.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
-		txtTotalEstimate.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
+		lblReleaseNumber
+				.setToolTipText("The release number for this requirement.");
+		txtReleaseNumber
+				.setToolTipText("The release number for this requirement.");
+		lblDescription
+				.setToolTipText("Required: A description for this requirement.");
+		txtDescription
+				.setToolTipText("Required: A description for this requirement.");
+		lblEstimate
+				.setToolTipText("An estimate for the effort of this requirement. \r\n"
+						+ "This field must be greater than 0 to assign to an iteration.");
+		txtEstimate
+				.setToolTipText("An estimate for the effort of this requirement. \r\n"
+						+ "This field must be greater than 0 to assign to an iteration.");
+		lblTotalEstimate
+				.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
+		txtTotalEstimate
+				.setToolTipText("A total estimate for the total effort of this requirement and all its children. \r\n");
 		lblActual.setToolTipText("The actual effort for this requirement.");
 		txtActual.setToolTipText("The actual effort for this requirement.");
-		lblIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
-				"This field cannot be filled in until a estimate is entered.");
-		cmbIteration.setToolTipText("The iteration this requirement is assigned to \r\n" + 
-				"This field cannot be filled in until a estimate is entered.");
+		lblIteration
+				.setToolTipText("The iteration this requirement is assigned to \r\n"
+						+ "This field cannot be filled in until a estimate is entered.");
+		cmbIteration
+				.setToolTipText("The iteration this requirement is assigned to \r\n"
+						+ "This field cannot be filled in until a estimate is entered.");
 		lblPriority.setToolTipText("The priority of this requirement.");
 		cmbPriority.setToolTipText("The priority of this requirement.");
 		lblStatus.setToolTipText("The status of the requirement.");
@@ -728,8 +742,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Sets the delete button enabled.
-	 *
-	 * @param enabled a boolean indicating whether or not to Enabled
+	 * 
+	 * @param enabled
+	 *            a boolean indicating whether or not to Enabled
 	 */
 	public void setDeleteEnabled(boolean enabled) {
 		deleteRequirementButton.setEnabled(enabled);
@@ -737,12 +752,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Disable stuff.
-	 *
-	 * @param components the components to be disabled
+	 * 
+	 * @param components
+	 *            the components to be disabled
 	 */
-	protected void disableFields(JComponent[] components){
-		for(JComponent com:components){
-			if (com!=null)
+	protected void disableFields(JComponent[] components) {
+		for (JComponent com : components) {
+			if (com != null)
 				com.setEnabled(false);
 		}
 	}
@@ -750,47 +766,51 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Enables components for editing purposes.
 	 * 
-	 * @param components to be enabled
+	 * @param components
+	 *            to be enabled
 	 */
-	protected void enableFields(JComponent[] components){
-		for(JComponent com:components){
-			if (com!=null)
+	protected void enableFields(JComponent[] components) {
+		for (JComponent com : components) {
+			if (com != null)
 				com.setEnabled(true);
 		}
 	}
 
 	/**
 	 * Change background.
-	 *
-	 * @param components the components
+	 * 
+	 * @param components
+	 *            the components
 	 */
-	protected void changeBackground(JTextComponent[] components){
-		for(JComponent com:components){
-			if (com!=null)
+	protected void changeBackground(JTextComponent[] components) {
+		for (JComponent com : components) {
+			if (com != null)
 				com.setBackground(this.getBackground());
 		}
 	}
 
 	/**
 	 * Make text black.
-	 *
-	 * @param components the components
+	 * 
+	 * @param components
+	 *            the components
 	 */
-	protected void makeTextBlack(JTextComponent[] components){
-		for(JTextComponent com:components){
-			if (com!=null)
+	protected void makeTextBlack(JTextComponent[] components) {
+		for (JTextComponent com : components) {
+			if (com != null)
 				com.setDisabledTextColor(Color.BLACK);
 		}
 	}
 
 	/**
 	 * Make stuff not visible.
-	 *
-	 * @param components the components
+	 * 
+	 * @param components
+	 *            the components
 	 */
-	protected void makeStuffNotVisible(JComponent[] components){
-		for(JComponent com:components){
-			if (com!=null)
+	protected void makeStuffNotVisible(JComponent[] components) {
+		for (JComponent com : components) {
+			if (com != null)
 				com.setVisible(false);
 		}
 	}
@@ -806,8 +826,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Sets if the input is enabled.
-	 *
-	 * @param enabled shows if input is enabled
+	 * 
+	 * @param enabled
+	 *            shows if input is enabled
 	 */
 	protected void setInputEnabled(boolean enabled) {
 		inputEnabled = enabled;
@@ -818,15 +839,17 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
 
-//		if (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty()) {
-//			txtEstimate.setEnabled(enabled);
-//		}
+		// if
+		// (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty())
+		// {
+		// txtEstimate.setEnabled(enabled);
+		// }
 	}
 
 	/**
 	 * Sets the up panel.
 	 */
-	public void setUpPanel(){
+	public void setUpPanel() {
 		this.revalidate();
 		layout.invalidateLayout(this);
 		layout.layoutContainer(this);
@@ -835,57 +858,72 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Checks to see if it is an empty string.
-	 * Returns -1 if the string is less than 0 or blank;
-	 * returns the integer value otherwise.
-	 *
-	 * @param intf the IntergerField in question
+	 * Checks to see if it is an empty string. Returns -1 if the string is less
+	 * than 0 or blank; returns the integer value otherwise.
+	 * 
+	 * @param intf
+	 *            the IntergerField in question
 	 * @return the integer that is either -1 or the integer value of the string
 	 */
-	protected int getValue(IntegerField intf){
-		if(intf.getText().equals(null) || intf.getText().equals("")){
+	protected int getValue(IntegerField intf) {
+		if (intf.getText().equals(null) || intf.getText().equals("")) {
 			return 0;
 		} else {
 			int newValue = 0;
-			try{
+			try {
 				newValue = Integer.parseInt(intf.getText().trim());
-			}
-			catch (NumberFormatException e){
+			} catch (NumberFormatException e) {
 				newValue = 0;
 			}
 			return newValue;
-		}		
+		}
 	}
 
 	/**
 	 * Returns the model object represented by this view's fields.
 	 * 
 	 * TODO: Do some basic input verification
+	 * 
 	 * @return the model represented by this view
 	 */
 	public Requirement getEditedModel() {
 		Requirement requirement = new Requirement();
 		requirement.setId(parent.getReqModel().getRequirement().getId());
-		requirement.setType(RequirementType.valueFromString((String) cmbType.getSelectedItem()));
+		requirement.setType(RequirementType.valueFromString((String) cmbType
+				.getSelectedItem()));
 		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
-		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
+		
+		if (!(cmbIteration.getSelectedItem() == null)) {
+			requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
+		}
+		
 		requirement.setDescription(txtDescription.getText().trim());
-		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus.getSelectedItem()));
-		requirement.setPriority(RequirementPriority.valueFromString((String) cmbPriority.getSelectedItem()));
-		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if the field was left blank
+		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus
+				.getSelectedItem()));
+		requirement.setPriority(RequirementPriority
+				.valueFromString((String) cmbPriority.getSelectedItem()));
+		requirement.setEstimateEffort(getValue(txtEstimate)); // return -1 if
+																// the field was
+																// left blank
 		requirement.setTotalEstimateEffort(getValue(txtTotalEstimate));
-		requirement.setActualEffort(getValue(txtActual)); // return -1 if the field was left blank
-		requirement.setCreationDate(parent.getReqModel().getRequirement().getCreationDate());
+		requirement.setActualEffort(getValue(txtActual)); // return -1 if the
+															// field was left
+															// blank
+		requirement.setCreationDate(parent.getReqModel().getRequirement()
+				.getCreationDate());
 
 		requirement.updateNotes(notesView.getNotesList());
 		requirement.updateHistory(historyView.getHistoryList());
 		requirement.updateAttachments(attachmentsView.getAttachmentsList());
 		requirement.updateAcceptanceTests(acceptanceTestsView.getList());
 		requirement.setAssignee(assigneeView.getAssignedUserAL());
-		requirement.setSubRequirements(parentChildrenView.getChildrenRequirementsList());
-		requirement.setParentRequirementId(parent.getReqModel().getRequirement().getParentRequirementId());
-		requirement.setSubRequirements(parent.getReqModel().getRequirement().getChildRequirementIds());
+		requirement.setSubRequirements(parentChildrenView
+				.getChildrenRequirementsList());
+		requirement.setParentRequirementId(parent.getReqModel()
+				.getRequirement().getParentRequirementId());
+		requirement.setSubRequirements(parent.getReqModel().getRequirement()
+				.getChildRequirementIds());
 		requirement.updateTasks(tasksView.getTasks());
 
 		if (!(txtCreator.getText().equals(""))) {
@@ -896,15 +934,12 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Gets the edits the mode.
-	 *
+	 * 
 	 * @return the edits the mode
 	 */
 	public Mode getEditMode() {
 		return parent.getMode();
 	}
-
-
-
 
 	/**
 	 * @return the panelButtons
@@ -913,16 +948,15 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return panelButtons;
 	}
 
-	//TODO: class exists in action package, refactor
+	// TODO: class exists in action package, refactor
 	/**
-	 * The listener interface for receiving iteration events.
-	 * The class that is interested in processing a iteration
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addIterationListener<code> method. When
+	 * The listener interface for receiving iteration events. The class that is
+	 * interested in processing a iteration event implements this interface, and
+	 * the object created with that class is registered with a component using
+	 * the component's <code>addIterationListener<code> method. When
 	 * the iteration event occurs, that object's appropriate
 	 * method is invoked.
-	 *
+	 * 
 	 */
 	public class IterationListener implements ActionListener {
 		/**
@@ -931,71 +965,86 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		@Override
 		public void actionPerformed(ActionEvent iterations) {
-			JComboBox cb = (JComboBox)iterations.getSource();
+			JComboBox cb = (JComboBox) iterations.getSource();
 
 			changeStatus(cb);
 		}
 
 		/**
 		 * Change the status of a requirement.
-		 *
-		 * @param cb the JComboBox which contains the list of status
+		 * 
+		 * @param cb
+		 *            the JComboBox which contains the list of status
 		 */
 		@SuppressWarnings("unchecked")
-		public void changeStatus(JComboBox cb){
-			int i; //For loop counter, also used directly below the for loop.
+		public void changeStatus(JComboBox cb) {
+			int i; // For loop counter, also used directly below the for loop.
 			Boolean enabled = true;
 			Boolean runThatForLoop = false;
 			Boolean listHasStatus = false;
 			RequirementStatus setTo = RequirementStatus.OPEN;
-			//Change the status back to whatever it was when the backlog is reselected (They changed their mind).
-			if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() == Iteration.getBacklog()){
+			// Change the status back to whatever it was when the backlog is
+			// reselected (They changed their mind).
+			if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent
+					.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW)
+					&& cb.getSelectedItem() == Iteration.getBacklog()) {
 				setTo = parent.getReqModel().getRequirement().getStatus();
 				enabled = false;
 				runThatForLoop = true;
 			}
-			//Change the status to In Progress automatically when the req is assigned to an iteration.
-			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW) && cb.getSelectedItem() != Iteration.getBacklog()){
+			// Change the status to In Progress automatically when the req is
+			// assigned to an iteration.
+			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.OPEN || parent
+					.getReqModel().getRequirement().getStatus() == RequirementStatus.NEW)
+					&& cb.getSelectedItem() != Iteration.getBacklog()) {
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = false;
 				runThatForLoop = true;
 			}
-			//Change the status to Open automatically when the backlog is selected.
-			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() == Iteration.getBacklog()){
+			// Change the status to Open automatically when the backlog is
+			// selected.
+			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS)
+					&& cb.getSelectedItem() == Iteration.getBacklog()) {
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
 			}
-			//Set the status back to In Progress when they reassigned it to an iteration (but let them change the status).
-			else if((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS) && cb.getSelectedItem() != Iteration.getBacklog()){
+			// Set the status back to In Progress when they reassigned it to an
+			// iteration (but let them change the status).
+			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.INPROGRESS)
+					&& cb.getSelectedItem() != Iteration.getBacklog()) {
 				setTo = RequirementStatus.INPROGRESS;
 				enabled = true;
 				runThatForLoop = true;
-			}
-			else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE) && cb.getSelectedItem() == Iteration.getBacklog()){
+			} else if ((parent.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE)
+					&& cb.getSelectedItem() == Iteration.getBacklog()) {
 				setTo = RequirementStatus.OPEN;
 				enabled = false;
 				runThatForLoop = true;
 			}
 
-			//Add statuses that are necessary to the dropdown list.
-			if(runThatForLoop){
+			// Add statuses that are necessary to the dropdown list.
+			if (runThatForLoop) {
 				for (i = 0; i < cmbStatus.getItemCount(); i++) {
-					if (setTo == RequirementStatus.valueOf((String) cmbStatus.getItemAt(i))) {
+					if (setTo == RequirementStatus.valueOf((String) cmbStatus
+							.getItemAt(i))) {
 						cmbStatus.setSelectedIndex(i);
 						listHasStatus = true;
 					}
 				}
 
-				if(!listHasStatus){
+				if (!listHasStatus) {
 					cmbStatus.addItem(setTo.toString());
-					cmbStatus.setSelectedIndex(i);//The element is added to the end of the cmbStatus, so its spot is i.
+					cmbStatus.setSelectedIndex(i);// The element is added to the
+													// end of the cmbStatus, so
+													// its spot is i.
 				}
 			}
 			runThatForLoop = false;
 
-			RMPermissionsLevel pLevel = CurrentUserPermissions.getCurrentUserPermission();
-			if (pLevel == RMPermissionsLevel.ADMIN){
+			RMPermissionsLevel pLevel = CurrentUserPermissions
+					.getCurrentUserPermission();
+			if (pLevel == RMPermissionsLevel.ADMIN) {
 				cmbStatus.setBackground(Color.WHITE);
 				cmbStatus.setEnabled(enabled);
 			}
@@ -1003,37 +1052,41 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	}
 
-	//A Key Listener on the Estimate to grey out the Iteration drop down until there is a value in the estimate.
+	// A Key Listener on the Estimate to grey out the Iteration drop down until
+	// there is a value in the estimate.
 	/**
-	 * The listener interface for receiving estimate events.
-	 * The class that is interested in processing a estimate
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's <code>addEstimateListener<code> method. When
+	 * The listener interface for receiving estimate events. The class that is
+	 * interested in processing a estimate event implements this interface, and
+	 * the object created with that class is registered with a component using
+	 * the component's <code>addEstimateListener<code> method. When
 	 * the estimate event occurs, that object's appropriate
 	 * method is invoked.
-	 *
+	 * 
 	 */
 	public class EstimateListener implements KeyListener {
 
 		/**
 		 * Action performed.
-		 *
-		 * @param estimate the estimate
+		 * 
+		 * @param estimate
+		 *            the estimate
 		 */
-		public void actionPerformed(ActionEvent estimate) {}
+		public void actionPerformed(ActionEvent estimate) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
-		public void keyTyped(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
 		@Override
-		public void keyPressed(KeyEvent e) {}
+		public void keyPressed(KeyEvent e) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
@@ -1041,18 +1094,16 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
-			try{
-				if(txtEstimate.getText().equals("") || txtEstimate.getText() == null){
+			try {
+				if (txtEstimate.getText().equals("")
+						|| txtEstimate.getText() == null) {
 					enabled = false;
-				}
-				else if(Integer.parseInt(txtEstimate.getText()) > 0){
+				} else if (Integer.parseInt(txtEstimate.getText()) > 0) {
 					enabled = true;
-				}
-				else{
+				} else {
 					enabled = false;
 				}
-			}
-			catch(NumberFormatException exception){
+			} catch (NumberFormatException exception) {
 				enabled = false;
 			}
 
@@ -1061,37 +1112,40 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		}
 	}
 
-	//A Key Listener on the Title and Description to grey out the save button until there is text in them.
+	// A Key Listener on the Title and Description to grey out the save button
+	// until there is text in them.
 	/**
-	 * The listener interface for receiving save events.
-	 * The class that is interested in processing a save
-	 * event implements this interface, and the object created
-	 * with that class is registered with a component using the
-	 * component's addSaveListener method. When
-	 * the save event occurs, that object's appropriate
-	 * method is invoked.
-	 *
+	 * The listener interface for receiving save events. The class that is
+	 * interested in processing a save event implements this interface, and the
+	 * object created with that class is registered with a component using the
+	 * component's addSaveListener method. When the save event occurs, that
+	 * object's appropriate method is invoked.
+	 * 
 	 */
 	public class SaveListener implements KeyListener {
 
 		/**
 		 * Action performed.
-		 *
-		 * @param estimate the estimate
+		 * 
+		 * @param estimate
+		 *            the estimate
 		 */
-		public void actionPerformed(ActionEvent estimate) {}
+		public void actionPerformed(ActionEvent estimate) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
 		 */
 		@Override
-		public void keyTyped(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 		 */
 		@Override
-		public void keyPressed(KeyEvent e) {}
+		public void keyPressed(KeyEvent e) {
+		}
 
 		/**
 		 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
@@ -1100,16 +1154,18 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		public void keyReleased(KeyEvent e) {
 			Boolean enabled = false;
 
-			try{
-				if((txtTitle.getText().equals("") || /**txtEstimate.getText() == null) || */
-						(txtDescription.getText().equals("") || txtDescription.getText() == null))){
+			try {
+				if ((txtTitle.getText().equals("") || /**
+				 * txtEstimate.getText() ==
+				 * null) ||
+				 */
+				(txtDescription.getText().equals("") || txtDescription
+						.getText() == null))) {
 					enabled = false;
-				}
-				else{
+				} else {
 					enabled = true;
 				}
-			}
-			catch(NumberFormatException exception){
+			} catch (NumberFormatException exception) {
 				enabled = false;
 			}
 			saveRequirementButton.setEnabled(enabled);
@@ -1118,12 +1174,13 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Gets the notes view.
-	 *
+	 * 
 	 * @return the notesView
 	 */
 	public NotesView getNotesView() {
 		return notesView;
 	}
+
 	/**
 	 * Get the AssigneeView.
 	 * 
@@ -1133,13 +1190,12 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return assigneeView;
 	}
 
-
 	/**
 	 * Gets dependencies view
 	 * 
 	 * @return dependencies view
 	 */
-	public ParentAndChildrenView getDependenciesView(){
+	public ParentAndChildrenView getDependenciesView() {
 		return parentChildrenView;
 	}
 
@@ -1155,14 +1211,15 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Get all elements in the model.
 	 * 
-	 * @param model The model to get elements from
+	 * @param model
+	 *            The model to get elements from
 	 * @return A list of elements
 	 */
 	@SuppressWarnings("unused")
-	private List<String> getAllElementsInModel(DefaultListModel model){
+	private List<String> getAllElementsInModel(DefaultListModel model) {
 		List<String> modelElements = new ArrayList<String>();
-		for(int i = 0; i < model.getSize(); i++){
-			modelElements.add((String)model.getElementAt(i));
+		for (int i = 0; i < model.getSize(); i++) {
+			modelElements.add((String) model.getElementAt(i));
 		}
 		return modelElements;
 	}
@@ -1202,7 +1259,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	public JButton getCreateChildRequirement() {
 		return createChildRequirementButton;
 	}
-
 
 	/**
 	 * Gets the cmb iteration
@@ -1261,10 +1317,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the txt estimate
 	 * 
-	 * @param estimateEffort the estimate effort to set the txt estimate to
+	 * @param estimateEffort
+	 *            the estimate effort to set the txt estimate to
 	 */
 	public void setTxtEstimate(int estimateEffort) {
-		this.txtEstimate.setText(estimateEffort+"");
+		this.txtEstimate.setText(estimateEffort + "");
 
 	}
 
@@ -1276,7 +1333,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	public JLabel getTxtModifiedDate() {
 		return txtModifiedDate;
 	}
-
 
 	/**
 	 * Gets the lbl title error
@@ -1341,7 +1397,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return knownIterations;
 	}
 
-
 	/**
 	 * Gets the history view
 	 * 
@@ -1363,7 +1418,8 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the acceptance tests view
 	 * 
-	 * @param acceptanceTestsView the acceptanceTestsView to set
+	 * @param acceptanceTestsView
+	 *            the acceptanceTestsView to set
 	 */
 	public void setAcceptanceTestsView(AcceptanceTestsView acceptanceTestsView) {
 		this.acceptanceTestsView = acceptanceTestsView;
@@ -1389,14 +1445,12 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Gets the lblTotalEstimate
+	 * 
 	 * @return the lblTotalEstimate
 	 */
 	public JLabel getLblTotalEstimate() {
 		return lblTotalEstimate;
 	}
-
-
-
 
 	/**
 	 * Gets the lbl actual error
@@ -1428,19 +1482,17 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/**
 	 * Sets the iterations
 	 * 
-	 * @param iterations the iterations to set
+	 * @param iterations
+	 *            the iterations to set
 	 */
 	@SuppressWarnings("unchecked")
-	public void setIterations(Iteration[] iterations){
+	public void setIterations(Iteration[] iterations) {
 		this.knownIterations = iterations;
 		this.cmbIteration.removeAllItems();
-		for (int i = 0 ; i < iterations.length; i ++)
+		for (int i = 0; i < iterations.length; i++)
 			this.cmbIteration.addItem(iterations[i]);
 
 	}
-
-
-
 
 	public AttachmentsView getAttachmentsView() {
 		return attachmentsView;
@@ -1454,7 +1506,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
 	 */
 	@Override

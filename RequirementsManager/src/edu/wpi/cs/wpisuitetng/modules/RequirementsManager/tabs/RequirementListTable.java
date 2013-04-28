@@ -122,9 +122,9 @@ public class RequirementListTable extends JTable {
 		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		Object parent = panel.getModel().getUnsavedRequirements().get(row)[8];
 		if(parent instanceof String){
-			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, col), -1);
+			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), -1);
 		} else
-			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, col), (Integer) parent);
+			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), (Integer) parent);
 
 		
 		Requirement r = null;

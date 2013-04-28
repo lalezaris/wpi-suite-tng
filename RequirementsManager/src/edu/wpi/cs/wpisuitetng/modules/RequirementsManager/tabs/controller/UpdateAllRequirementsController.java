@@ -190,6 +190,9 @@ public class UpdateAllRequirementsController {
 		return panel;
 	}
 
+	/**
+	 * Update success.
+	 */
 	public void updateSuccess() {
 		this.waitUpdateCount--;
 		if (this.waitUpdateCount<=0){

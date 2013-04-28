@@ -798,6 +798,11 @@ public class Requirement extends AbstractModel{
 		this.childIDs = (ArrayList<Integer>) newList.clone();
 	}
 
+	/**
+	 * Update attachments.
+	 *
+	 * @param attachmentsList the updated attachments list
+	 */
 	public void updateAttachments(List<Object> attachmentsList) {
 		// TODO change 'Obeject' to 'Attachment'
 		// TODO actually update the attachments.....
@@ -829,7 +834,8 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Enter description here.
 	 * Make sure the method's name starts with get (delete this statement)
-	 * @param attachedFileName: the attachedFileName to set
+	 * 
+	 * @param attachedFileNames the attachedFileName to set
 	 */
 	public void setAttachedFileName(ArrayList<String> attachedFileNames) {
 		if (this.attachedFileNameStr != null){
@@ -866,7 +872,8 @@ public class Requirement extends AbstractModel{
 	/**
 	 * Enter description here.
 	 * Make sure the method's name starts with get (delete this statement)
-	 * @param attachedFileId: the attachedFileId to set
+	 * 
+	 * @param attachedFileIds the attachedFileId to set
 	 */
 	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
 		if(this.attachedFileIdStr == null || this.attachedFileIdStr == "null") {

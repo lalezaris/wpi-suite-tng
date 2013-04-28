@@ -258,6 +258,11 @@ public class ParentAndChildrenView extends RequirementTab{
 		return list;
 	}
 	
+	/**
+	 * Update the children list.
+	 *
+	 * @param children the updated children
+	 */
 	public void updateChildrenList(ArrayList<Integer> children){
 		DefaultListModel newChildren = new DefaultListModel();
 		String c = "";

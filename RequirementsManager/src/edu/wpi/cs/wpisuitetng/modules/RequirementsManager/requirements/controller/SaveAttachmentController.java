@@ -24,7 +24,7 @@ public class SaveAttachmentController {
 	public void save(int reqId){
 		final RequestObserver requestObserver =  new SaveAttachmentRequestObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("attachmentcontroller/attachment", HttpMethod.PUT);//note, have not actually registered that in the core yet
+		request = Network.getInstance().makeRequest("requirementsmanager/attachment", HttpMethod.PUT);//note, have not actually registered that in the core yet
 		
 		Attachment attachment = new Attachment(view.getFile(),reqId);
 		attachment.loadFile(view.getFile());

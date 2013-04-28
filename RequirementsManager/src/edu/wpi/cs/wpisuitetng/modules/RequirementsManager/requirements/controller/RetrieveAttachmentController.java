@@ -42,7 +42,7 @@ public class RetrieveAttachmentController {
 		
 		
 		Request request;
-		request = Network.getInstance().makeRequest("attachmentcontroller/attachment/" + attachmentId, HttpMethod.GET);
+		request = Network.getInstance().makeRequest("requirementsmanager/attachment/" + attachmentId, HttpMethod.GET);
 		request.addObserver(new RetrieveAttachmentRequestObserver(this));
 		request.send();
 	}

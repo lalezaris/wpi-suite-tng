@@ -242,11 +242,61 @@ public class RequirementStore implements EntityManager<Requirement>{
 		}
 		//Set the serverReq to be the passed in Requirement
 		Requirement serverReq = req;
+		boolean foundServerReq = false;
 		//If the server actually has a copy of the requirement, replace serverReq to be that.
 		if (oldRequirements!=null && oldRequirements.size() >= 1 && oldRequirements.get(0)!=null){
 			serverReq = (Requirement) oldRequirements.get(0);
+			foundServerReq = true;
 			System.out.println("Server side object found");
 		} else System.out.println("No Server side object found");
+		
+		if (foundServerReq && serverReq.getParentRequirementId() != req.getParentRequirementId()){
+			//The parent has changed, which means add the total estimate to the new parent, and take it away from the old parent.
+			//notify parent
+			//If has parent...
+			if (req.getParentRequirementId() != -1){
+				System.out.println("has parent:" + req.getParentRequirementId());
+				oldRequirements = null;		
+				try {
+				oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
+				} catch (WPISuiteException e) {
+					System.out.println("Parent not around...");
+				}
+				Requirement parent = null;
+				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
+					parent = (Requirement) oldRequirements.get(0);
+				}
+				if (parent!=null){
+					
+					setTotalEstimate(parent, req.getTotalEstimateEffort(), s);
+				} else System.out.println("Parent not found...");
+				
+			}
+			
+			//notify old parent
+			//If has parent...
+			if (serverReq.getParentRequirementId() != -1){
+				System.out.println("has parent:" + serverReq.getParentRequirementId());
+				oldRequirements = null;		
+				try {
+				oldRequirements = db.retrieve(Requirement.class, "id", serverReq.getParentRequirementId(), s.getProject());
+				} catch (WPISuiteException e) {
+					System.out.println("Parent not around...");
+				}
+				Requirement parent = null;
+				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
+					parent = (Requirement) oldRequirements.get(0);
+				}
+				if (parent!=null){
+					
+					setTotalEstimate(parent, -req.getTotalEstimateEffort(), s);
+				} else System.out.println("Parent not found...");
+				
+			}
+			
+			return;
+		}
+		
 		
 		int serverTotalEstimate = serverReq.getTotalEstimateEffort();
 		System.out.println("serverReq.getTotalEstimateEffort = " + serverReq.getTotalEstimateEffort());

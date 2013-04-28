@@ -15,6 +15,8 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import static org.junit.Assert.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Before;
@@ -33,19 +35,23 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  */
 public class IterationListPanelTest {
 	IterationListPanel panel;
-	@SuppressWarnings("deprecation")
-	Date date1 = new Date(2013, 4, 1, 0, 0, 0);
-	@SuppressWarnings("deprecation")
-	Date date2 = new Date(2013, 4, 3, 0, 0, 0);
-	@SuppressWarnings("deprecation")
-	Date date3 = new Date(2013, 4, 5, 0, 0, 0);
-	@SuppressWarnings("deprecation")
-	Date date4 = new Date(2013, 4, 7, 0, 0, 0);
+	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+	Date date1, date2, date3, date4;
 	
 	@Before
 	public void setUp() {
 		Network.initNetwork(new MockNetwork());
 		Network.getInstance().setDefaultNetworkConfiguration(new NetworkConfiguration("http://wpisuitetng"));
+		
+		try {
+			date1 = dateFormat.parse("01-04-2013");
+			date2 = dateFormat.parse("02-04-2013");
+			date3 = dateFormat.parse("03-04-2013");
+			date4 = dateFormat.parse("04-04-2013");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		
 		panel = new IterationListPanel(MainTabController.getController());
 		Iteration ite1 = new Iteration("Iteration1", date1, date2);
 		Iteration ite2 = new Iteration("Iteration2", date3, date4);

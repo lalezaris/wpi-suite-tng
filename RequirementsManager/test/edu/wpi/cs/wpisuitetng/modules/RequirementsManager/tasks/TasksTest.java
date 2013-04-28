@@ -78,8 +78,23 @@ public class TasksTest {
 		assertEquals(-1, tv.doesTaskExist(9));
 	}
 	
+	/**
+	 * test the TaskPanel to make sure everything is grey-ed out because of the NONE permission
+	 */
 	@Test
-	public void testTasksViewTasksPanel(){
-		
+	public void testTasksViewPermission(){
+//		tempTaskPanel.getTxtName().setEditable(false);
+//		tempTaskPanel.getTxtDescription().setEditable(false);
+//		tempTaskPanel.getCmbAssignee().setEditable(false);
+//		tempTaskPanel.getTxtEffort().setEditable(false);
+//		tempTaskPanel.getCmbStatus().setEditable(false);
+//		tempTaskPanel.getSaveButton().setEnabled(false);
+		tv.addTask(t);
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtName().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtDescription().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getCmbAssignee().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtEffort().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getCmbStatus().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getSaveButton().isEnabled());
 	}
 }

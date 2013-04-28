@@ -46,7 +46,7 @@ public class SaveTaskListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int position = view.doesTaskExist(id);
-		
+		System.out.println("Got here in the test");
 		//Grab what's in the boxes based on the spot in the array and use those as the updated values.
 		if(position != -1){
 			//Find the old task and replace it with the new one.
@@ -60,7 +60,6 @@ public class SaveTaskListener implements ActionListener{
 		else{//If the task does not exist, make a new one.
 			System.out.println("ERROR: This situaion should not happen!");
 		}
-		//view.revalidate();
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.

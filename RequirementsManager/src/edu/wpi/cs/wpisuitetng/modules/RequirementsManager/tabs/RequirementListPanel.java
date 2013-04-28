@@ -454,6 +454,13 @@ public class RequirementListPanel extends JPanel{
 		return updateButton;
 	}
 
+	/**
+	 * @return the buttonPanel
+	 */
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+
 	public Requirement[] getOriginalContent(){
 		Requirement[] fresh;
 		if (content != null){
@@ -500,5 +507,4 @@ public class RequirementListPanel extends JPanel{
 		}
 		return fresh;
 	}
-
 }

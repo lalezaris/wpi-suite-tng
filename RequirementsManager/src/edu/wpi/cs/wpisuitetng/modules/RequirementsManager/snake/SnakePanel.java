@@ -71,7 +71,7 @@ public class SnakePanel extends JPanel{
 	 */
 	public void setGameOver(boolean gameOver){
 		
-		this.messagePanel.setVisible(gameOver);
+		messagePanel.setVisible(gameOver);
 		
 	}
 	
@@ -172,11 +172,11 @@ public class SnakePanel extends JPanel{
 	private void drawGrid(Graphics g){
 		Color lightGray = new Color(200,200,200);
 		g.setColor(lightGray);
-		for (int x = 1; x < this.getWidth(); x += this.gridSize){
+		for (int x = 1; x < this.getWidth(); x += gridSize){
 			g.drawLine(x, 0, x, this.getHeight());
 		}
 		
-		for (int y = 1 ; y < this.getHeight(); y += this.gridSize){
+		for (int y = 1 ; y < this.getHeight(); y += gridSize){
 			g.drawLine(0,y,this.getWidth(),y);
 		}
 		

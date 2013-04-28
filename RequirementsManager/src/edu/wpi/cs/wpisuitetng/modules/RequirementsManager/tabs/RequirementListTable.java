@@ -49,7 +49,7 @@ public class RequirementListTable extends JTable {
 	 * @param panel the panel
 	 */
 	public RequirementListTable(RequirementListPanel panel) {
-		super();
+//		super();
 		this.panel = panel;
 	}
 
@@ -57,7 +57,7 @@ public class RequirementListTable extends JTable {
 	 * 
 	 */
 	public RequirementListTable() {
-		super();
+//		super();
 	}
 
 	/**

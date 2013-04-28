@@ -94,7 +94,7 @@ public class DeleteRequirementController {
 					request.addObserver(requestObserver);
 					request.send();
 					//close tab
-					this.view.getTab().getView().removeTabAt(this.view.getTab().getThisIndex());
+					view.getTab().getView().removeTabAt(view.getTab().getThisIndex());
 				}
 			} catch (Exception e){
 			}

@@ -80,7 +80,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public RequirementTableModel(RequirementListPanel panel) {
 		this.panel = panel;
-		this.isChange = false;
+		isChange = false;
 	}
 	/**
 	 * Gets column count
@@ -218,7 +218,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public Object getUnchangedValue(int row, int col){
 		if (col < getColumnCount() && row < getRowCount() && col > -1
 				&& row > -1) {
-			return this.unSavedRequirements.get(row)[col];
+			return unSavedRequirements.get(row)[col];
 		} else
 			return "null";
 	}
@@ -282,7 +282,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void removeRow(int row){
 		data.remove(row);
-		this.unSavedRequirements.remove(row);
+		unSavedRequirements.remove(row);
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void clear(){
 		data.clear();
-		this.unSavedRequirements.clear();
+		unSavedRequirements.clear();
 	}
 
 	
@@ -301,8 +301,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	public void cancelChanges(){
 		for (int i = 0 ; i < this.getRowCount(); i ++)
 		{
-			Object[] r = (this.unSavedRequirements.get(i)).clone();
-			this.data.set(i, r);
+			Object[] r = (unSavedRequirements.get(i)).clone();
+			data.set(i, r);
 		}	
 		this.clearChangeVisualsDisregard();
 		this.setIsChange(false);
@@ -500,7 +500,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
-		if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
+		if (status == RequirementStatus.OPEN){
 			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
 				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
 				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");
@@ -551,8 +551,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @return The change. If no change is found, then null is returned
 	 */
 	public CellLocation lookUpChange(int row, int col){
-		for (int i = 0 ; i < this.changedCells.size(); i ++){
-			CellLocation cell = this.changedCells.get(i);
+		for (int i = 0 ; i < changedCells.size(); i ++){
+			CellLocation cell = changedCells.get(i);
 			if (cell.getRow() == row && cell.getCol() == col)
 				return cell;
 		}
@@ -572,9 +572,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (change!=null){
 			return this.getValueAt(row, col);
 		} else{
-			if (row > -1 && row < this.unSavedRequirements.size()
-				&& col > -1 && col < this.unSavedRequirements.get(row).length){
-				return this.unSavedRequirements.get(row)[col];
+			if (row > -1 && row < unSavedRequirements.size()
+				&& col > -1 && col < unSavedRequirements.get(row).length){
+				return unSavedRequirements.get(row)[col];
 			}
 			return "null";
 		}
@@ -626,8 +626,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		public CellLocation(int row, int col){
 			this.row = row;
 			this.col = col;
-			this.isValid = false;
-			this.message = "";
+			isValid = false;
+			message = "";
 		}
 		
 		
@@ -688,18 +688,18 @@ public class RequirementTableModel extends AbstractTableModel {
 		public boolean equals(Object obj){
 			if (obj instanceof CellLocation){
 				CellLocation other = (CellLocation)obj;
-				return (other.row == this.row
-						&& other.col == this.col);
+				return (other.row == row
+						&& other.col == col);
 			}
 			return false;
 		}
 		
 		@Override
 		public int hashCode(){
-			return (1*this.row) + (3*this.col);
+			return (1*row) + (3*col);
 		}
 		public void setRow(int i) {
-			this.row = i;
+			row = i;
 			
 		}
 		
@@ -712,7 +712,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		 */
 		public void updatePostion(List<Object[]> data, ArrayList<Object[]> oldData){
 			//figure out where I was in the old requirement.
-			int oldRow = this.row;
+			int oldRow = row;
 			int reqID = (Integer)oldData.get(oldRow)[0];
 			int newRow = oldRow;
 			//figure out what row the reqID is in now...
@@ -723,7 +723,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				}
 			}
 			
-			this.row = newRow;
+			row = newRow;
 			
 		}
 		
@@ -749,21 +749,21 @@ public class RequirementTableModel extends AbstractTableModel {
 	private void setChangedCell(boolean isChanged, int row, int col, boolean valid, String message){
 		CellLocation cell = new CellLocation(row, col);
 		if (isChanged){
-			this.isChange = true;
-			this.panel.setButtonsForChanges(); //There are no changes, so give the user the option to update their changes
+			isChange = true;
+			panel.setButtonsForChanges(); //There are no changes, so give the user the option to update their changes
 			cell.setValid(valid);
 			cell.setMessage(message);
-			if (this.changedCells.contains(cell))
-				this.changedCells.remove(cell);
-			this.changedCells.add(cell);
+			if (changedCells.contains(cell))
+				changedCells.remove(cell);
+			changedCells.add(cell);
 		} else{
 			System.out.println("no change");
-			if (this.changedCells.contains(cell)){
+			if (changedCells.contains(cell)){
 				System.out.println("remove change");
-				this.changedCells.remove(cell);
+				changedCells.remove(cell);
 			}
 		}
-		this.panel.repaint();
+		panel.repaint();
 	
 	}
 		
@@ -772,8 +772,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * 
 	 */
 	public void clearChangeVisualsDisregard(){
-		this.changedCells.clear();
-		this.panel.repaint();
+		changedCells.clear();
+		panel.repaint();
 	}
 	
 	/**
@@ -784,17 +784,17 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		ArrayList<CellLocation> remove = new ArrayList<CellLocation>();
 		ArrayList<CellLocation> all = new ArrayList<CellLocation>();
-		for (int i = 0 ; i < this.changedCells.size(); i ++)
-			all.add(this.changedCells.get(i));
+		for (int i = 0 ; i < changedCells.size(); i ++)
+			all.add(changedCells.get(i));
 		
-		for (int i = 0 ; i < this.changedCells.size(); i ++){
+		for (int i = 0 ; i < changedCells.size(); i ++){
 			if (!changedCells.get(i).isValid()){
 				if (!remove.contains(changedCells.get(i))){
-					remove.add(this.changedCells.get(i));
-					for (int j = 0 ; j < this.changedCells.size(); j ++){
-						if (this.changedCells.get(j).getRow() == this.changedCells.get(i).getRow()){
-							if (!remove.contains(this.changedCells.get(j)))
-								remove.add(this.changedCells.get(j));
+					remove.add(changedCells.get(i));
+					for (int j = 0 ; j < changedCells.size(); j ++){
+						if (changedCells.get(j).getRow() == changedCells.get(i).getRow()){
+							if (!remove.contains(changedCells.get(j)))
+								remove.add(changedCells.get(j));
 						}
 					}
 				}
@@ -803,14 +803,14 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		for (int i = 0 ; i < all.size(); i ++){
 			if (!remove.contains(all.get(i)))
-				this.changedCells.remove(all.get(i));
+				changedCells.remove(all.get(i));
 		}
 		
 		
 	}
 	
 	public ArrayList<CellLocation> getChangedLocations(){
-		return this.changedCells;
+		return changedCells;
 	}
 	/**
 	 * Method to check if the input value is legal
@@ -882,7 +882,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 	
 	public List<Object[]> getUnsavedRequirements(){
-		return this.unSavedRequirements;
+		return unSavedRequirements;
 	}
 
 	public boolean getIsChange() {
@@ -938,21 +938,21 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 		}
 
-		this.cellDifferenceTable.clear();
+		cellDifferenceTable.clear();
 		
-		for(int i = 0 ; i < this.changedCells.size() ; i ++){
-			int r = this.changedCells.get(i).getRow();
-			Integer reqId = (Integer)this.data.get(r)[0];
-			this.cellDifferenceTable.put(reqId, this.changedCells.get(i));
+		for(int i = 0 ; i < changedCells.size() ; i ++){
+			int r = changedCells.get(i).getRow();
+			Integer reqId = (Integer)data.get(r)[0];
+			cellDifferenceTable.put(reqId, changedCells.get(i));
 		}
 		
 		//Sort data
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
 	
-		for (int i = 0 ; i < this.data.size(); i ++){
-			if (this.cellDifferenceTable.get(this.data.get(i)[0])!=null){
-				this.cellDifferenceTable.get(this.data.get(i)[0]).setRow(i);
+		for (int i = 0 ; i < data.size(); i ++){
+			if (cellDifferenceTable.get(data.get(i)[0])!=null){
+				cellDifferenceTable.get(data.get(i)[0]).setRow(i);
 			}
 		}
 		

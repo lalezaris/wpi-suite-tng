@@ -53,7 +53,7 @@ public class UsersObserver implements RequestObserver{
 
 		GsonBuilder builder = new GsonBuilder();
 		User[] users = builder.create().fromJson(response.getBody(), User[].class);
-		this.controller.recieveServerUsers(users);
+		controller.recieveServerUsers(users);
 	}
 
 	/**

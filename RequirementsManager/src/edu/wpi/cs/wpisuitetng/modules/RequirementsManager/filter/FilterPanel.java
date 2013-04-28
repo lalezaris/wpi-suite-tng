@@ -233,14 +233,14 @@ public class FilterPanel extends JPanel{
 
 		this.addRule();
 		
-		this.rules.get(0).getField().setSelectedIndex(1);
-		this.rules.get(0).updateCompareBox();
-		this.rules.get(0).getCompareMode().setSelectedIndex(1);
-		this.rules.get(0).updatePossibleValues();
-		this.rules.get(0).getPossibleValues().setSelectedIndex(4); //The index of the DELETED status
+		rules.get(0).getField().setSelectedIndex(1);
+		rules.get(0).updateCompareBox();
+		rules.get(0).getCompareMode().setSelectedIndex(1);
+		rules.get(0).updatePossibleValues();
+		rules.get(0).getPossibleValues().setSelectedIndex(4); //The index of the DELETED status
 		
-		this.rules.get(0).addListeners();
-		this.rules.get(0).checkForNullRule();
+		rules.get(0).addListeners();
+		rules.get(0).checkForNullRule();
 		//this.rules.get(0).getPossibleValues().setSelectedIndex(1);
 		
 		

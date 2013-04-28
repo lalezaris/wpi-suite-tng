@@ -93,7 +93,7 @@ public class TasksPanel extends JPanel {
 	 */
 	public TasksPanel(String[] users) {
 		//Use a grid bag layout manager
-		this.layout = new BorderLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
 		
 		//Set variables

@@ -93,8 +93,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 		count = 0;
 		id = 0;
 
-		this.iterations = Refresher.getInstance().getInstantIterations();
-		this.root.removeAllChildren();
+		iterations = Refresher.getInstance().getInstantIterations();
+		root.removeAllChildren();
 
 		this.reload();
 

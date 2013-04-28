@@ -122,12 +122,12 @@ public class TasksView extends RequirementTab{
 		}
 
 		//Get permissions
-		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		pLevel = CurrentUserPermissions.getCurrentUserPermission();
 
 		this.parent = parent;
 
 		//Use a grid bag layout manager
-		this.layout = new BorderLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
 
 		//Create some Feature stuff
@@ -470,7 +470,7 @@ public class TasksView extends RequirementTab{
 	 * @param task the list of tasks
 	 */
 	public void setList(ArrayList<Task> tasks) {
-		this.list = tasks;
+		list = tasks;
 		makeOriginalList(tasks);//Keep track of the tasks in the list.
 		//Make the task array panel
 		taskPanelArray = new ArrayList<TasksPanel>();

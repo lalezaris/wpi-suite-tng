@@ -54,9 +54,9 @@ public class RetrieveRequirementControllerTree<T> {
 
 		String id = caller.getID();
 		Request request;
-		request = Network.getInstance().makeRequest(this.address + id, HttpMethod.GET);
+		request = Network.getInstance().makeRequest(address + id, HttpMethod.GET);
 		request.addObserver(new RetrieveRequirementObserverTree<T>(this));
-		request.addObserver(this.observer);
+		request.addObserver(observer);
 		request.send();
 	}
 

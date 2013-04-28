@@ -34,10 +34,10 @@ public class PermissionModel {
 	 * Instantiates a new permission model.
 	 */
 	public PermissionModel(){
-		this.gotUsers = false;
-		this.gotPermissions = false;
-		this.permissions = new UserPermission[0];
-		this.users = new User[0];
+		gotUsers = false;
+		gotPermissions = false;
+		permissions = new UserPermission[0];
+		users = new User[0];
 	}
 
 	/**

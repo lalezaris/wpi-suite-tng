@@ -46,7 +46,7 @@ public class UpdateRequirementObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		this.controller.updateSuccess();
+		controller.updateSuccess();
 		controller.getPanel().showUpdateSuccessfully("Update Successful.");
 	}
 

@@ -67,7 +67,7 @@ public class IterationModel {
 	 * @param mode The new editMode.
 	 */
 	protected void updateModel(Iteration iteration, Mode mode) {
-		((IterationPanel) this.iterationView.getIterationPanel()).setEditMode(mode);
+		((IterationPanel) iterationView.getIterationPanel()).setEditMode(mode);
 
 		editedModel.setIterationName(iteration.getIterationName());
 		editedModel.setStartDate(iteration.getStartDate());

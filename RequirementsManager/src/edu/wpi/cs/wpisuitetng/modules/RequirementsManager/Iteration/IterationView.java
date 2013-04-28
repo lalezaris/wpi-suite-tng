@@ -69,7 +69,7 @@ public class IterationView extends JPanel {
 	 */
 	public IterationView(Iteration iteration, Mode edit, Tab tab) {
 
-		this.mode = edit;
+		mode = edit;
 		iterationModel = new IterationModel(iteration, this); // have to get the iteration we want, or create a new iteration if in the Create Mode
 
 		containingTab = tab;
@@ -182,7 +182,7 @@ public class IterationView extends JPanel {
 		Iteration[] array = iterations;
 		String idName = mainPanel.getTxtIterationName().getText();
 		for (int i = 0; i < array.length; i++) {
-			if (this.iterationModel.getUneditedModel().getId() != array[i].getId()) {
+			if (iterationModel.getUneditedModel().getId() != array[i].getId()) {
 				if(idName.equals(array[i].getIterationName())) {//duplicate iteration name found
 					mainPanel.getLblIterationNameExistsError().setVisible(true);
 					return 3;
@@ -265,7 +265,7 @@ public class IterationView extends JPanel {
 	 * @return the mode of the iteration panel
 	 */
 	public IterationPanel.Mode getMode(){
-		return this.mode;
+		return mode;
 	}
 
 }

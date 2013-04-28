@@ -78,7 +78,7 @@ public class MainView extends JPanel {
 	public MainView(MainTabView mainTabView) {
 		instance = this;
 		JSplitPane splitPane;
-		this.view = mainTabView;
+		view = mainTabView;
 		this.setLayout(new BorderLayout());
 
 		// Set up the split panels

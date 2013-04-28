@@ -198,7 +198,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @param aln arraylist of notes
 	 */
 	public void setNotesList(ArrayList<Note> aln){
-		this.notes = aln;
+		notes = aln;
 		if (txtNotesSaved!=null)
 			txtNotesSaved.setText(notesListToString());
 	}
@@ -263,7 +263,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @return returns the button which will save a note when fired
 	 */
 	public JButton getSaveButton(){
-		return this.addNote;
+		return addNote;
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @return returns the text area which is used to write the note
 	 */
 	public JTextArea getTextArea(){
-		return this.txtNotes;
+		return txtNotes;
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @return returns the text area for displaying the saved notes
 	 */
 	public JTextArea getSavedTextArea(){
-		return this.txtNotesSaved;
+		return txtNotesSaved;
 	}
 	
 	/**
@@ -290,7 +290,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @param c the new txt notes background color
 	 */
 	public void setTxtNotesBackgroundColor(Color c) {
-		this.txtNotes.setBackground(c);
+		txtNotes.setBackground(c);
 	}
 	
 	/**
@@ -299,14 +299,14 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @param c the new txt notes saved background color
 	 */
 	public void setTxtNotesSavedBackgroundColor(Color c) {
-		this.txtNotesSaved.setBackground(c);
+		txtNotesSaved.setBackground(c);
 	}
 
 	/**
 	 * Refresh backgrounds.
 	 */
 	public void refreshBackgrounds() {
-		this.parent.getReqModel().updateBackgrounds();
+		parent.getReqModel().updateBackgrounds();
 	}
 	/* (non-Javadoc)
 	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)

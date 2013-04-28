@@ -43,13 +43,13 @@ public class UpdatePermissionController extends AbstractAction {
 	 * @param panel the panel
 	 */
 	public UpdatePermissionController(UserPermissionPanel panel){
-		this.noneUsers = panel.getNoneUsers();
-		this.updateUsers = panel.getUpdateUsers();
-		this.adminUsers = panel.getAdminUsers();
+		noneUsers = panel.getNoneUsers();
+		updateUsers = panel.getUpdateUsers();
+		adminUsers = panel.getAdminUsers();
 		this.panel = panel;
-		this.originalNoneListModel = (DefaultListModel) noneUsers.getModel();
-		this.originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
-		this.originalAdminListModel = (DefaultListModel) adminUsers.getModel();
+		originalNoneListModel = (DefaultListModel) noneUsers.getModel();
+		originalUpdateListModel = (DefaultListModel) updateUsers.getModel();
+		originalAdminListModel = (DefaultListModel) adminUsers.getModel();
 	}  
 
 	/** 
@@ -100,13 +100,13 @@ public class UpdatePermissionController extends AbstractAction {
 		//Assign the new model			
 		updateUsers.setModel(newUpdateModel);
 		if(!this.getAllElementsInModel(originalNoneListModel).containsAll(this.getAllElementsInModel(newNoneModel))){
-			this.panel.setHasChanged(true);
+			panel.setHasChanged(true);
 		}
 		if(!this.getAllElementsInModel(originalUpdateListModel).containsAll(this.getAllElementsInModel(newUpdateModel))){
-			this.panel.setHasChanged(true);
+			panel.setHasChanged(true);
 		}
 		if(!this.getAllElementsInModel(originalAdminListModel).containsAll(this.getAllElementsInModel(newAdminModel))){
-			this.panel.setHasChanged(true);
+			panel.setHasChanged(true);
 		}
 	}
 

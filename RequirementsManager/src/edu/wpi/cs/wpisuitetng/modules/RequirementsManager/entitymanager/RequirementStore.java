@@ -82,7 +82,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		newRequirement.addHistoricalChange(HChange);
 
 		this.setTotalEstimate(newRequirement, newRequirement.getEstimateEffort(), s);
-		
+
 		if(!db.save(newRequirement, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -100,7 +100,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 				throw new WPISuiteException();
 			}
 		}
-		
+
 		return newRequirement;
 	}
 
@@ -160,15 +160,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		//get requirement user wants to update
 		Requirement req = Requirement.fromJSON(content);
-		System.out.println("\n\n\n\n\n");
-		for (int i= 0; i < req.getHistory().size(); i++){
-			System.out.println(req.getHistory().get(i).getChange());
-		}
-		System.out.println("\n\n\n\n\n");
-		
-		
-		this.setTotalEstimate(req, 0, s);
-		
+
 		//get requirement from server
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
@@ -176,82 +168,50 @@ public class RequirementStore implements EntityManager<Requirement>{
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 
-//		System.out.println("Start of Update Req: " + req.toJSON());
-//		System.out.println("Start of Update ServerReq : " + serverReq.toJSON());
-		
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 
-		System.out.println("\n\n\n\n\n--Requirement Title: " + req.getTitle());
-		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
-		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
-		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
-		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n");
-		
-//		HChange.updateChangeFromDiff(serverReq,req, this);
-		HChange.updateChangeFromDiff(req, serverReq, this); //switcharoo!
+		HChange.updateChangeFromDiff(serverReq,req, this);
 		System.out.println("\n\n\n\n--HChange is now: " + HChange.getChange());
-		
-		System.out.println("Requirement Title: " + req.getTitle());
-		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
-		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
-		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
-		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n");
-		
+		this.setTotalEstimate(req, 0, s);
+
 		// copy values to old requirement and fill in our changeset appropriately
 		updateMapper.map(req, serverReq);
 
 		serverReq.setIterationId(req.getIterationId());
-		
-		
-		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
+
 		if (!HChange.getChange().equals("")){
-			System.out.println("-----------> History Item Added! " + HChange.getChange());
 			serverReq.addHistoricalChange(HChange);
 		}
 		//TUSHAR's fix v
-//		HChange.setChange(req.getHistory().get(req.getHistory().size()-1).getChange());
-//		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
-//		if (!HChange.getChange().equals("")){
-//			System.out.println("-----------> History Item Added! " + HChange.getChange());
-//			serverReq.addHistoricalChange(HChange);
-//		}
-		
-		System.out.println("--Requirement Title: " + req.getTitle());
-		System.out.println("Req Child ID Size: " + req.getChildRequirementIds().size());
-		System.out.println("Req Most Recent History: " + req.getHistory().get(req.getHistory().size()-1));
-		System.out.println("Server Req Child ID Size: " + serverReq.getChildRequirementIds().size());
-		System.out.println("Server Req Most Recent History: " + serverReq.getHistory().get(serverReq.getHistory().size()-1) + "--\n\n\n\n\n");
+		//		HChange.setChange(req.getHistory().get(req.getHistory().size()-1).getChange());
+		//		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
+		//		if (!HChange.getChange().equals("")){
+		//			System.out.println("-----------> History Item Added! " + HChange.getChange());
+		//			serverReq.addHistoricalChange(HChange);
+		//		}
 
 		//update the Notes List
-		serverReq.updateNotes(req.getNotes());
-		
+		serverReq.updateNotes(req.getNotes());	
 
 		//update Acceptance Tests List
 		serverReq.updateAcceptanceTests(req.getAcceptanceTests());
 
 		//update child requirements
 		serverReq.setSubRequirements(req.getChildRequirementIds());
-		
+
 		//update tasks
 		serverReq.updateTasks(req.getTasks());
 
-		
-		
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
 			throw new WPISuiteException();
 		}
 
-		
-		
-		
-		
 		//TODO modify this function to use validators and make sure not to update if no 
 		//changes have been made.
 
 		//System.out.println("making new requiremnt with attachment"+serverReq.getAttachedFileId().get(0));
-		return serverReq;
-		
+		return serverReq;		
 	}
 
 	/**
@@ -279,16 +239,15 @@ public class RequirementStore implements EntityManager<Requirement>{
 			foundServerReq = true;
 			System.out.println("Server side object found");
 		} else System.out.println("No Server side object found");
-		
+
 		if (foundServerReq && serverReq.getParentRequirementId() != req.getParentRequirementId()){
 			//The parent has changed, which means add the total estimate to the new parent, and take it away from the old parent.
 			//notify parent
 			//If has parent...
 			if (req.getParentRequirementId() != -1){
-				System.out.println("has parent:" + req.getParentRequirementId());
 				oldRequirements = null;		
 				try {
-				oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
+					oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
 					System.out.println("Parent not around...");
 				}
@@ -297,19 +256,19 @@ public class RequirementStore implements EntityManager<Requirement>{
 					parent = (Requirement) oldRequirements.get(0);
 				}
 				if (parent!=null){
-					
+
 					setTotalEstimate(parent, req.getTotalEstimateEffort(), s);
 				} else System.out.println("Parent not found...");
-				
+
 			}
-			
+
 			//notify old parent
 			//If has parent...
 			if (serverReq.getParentRequirementId() != -1){
 				System.out.println("has parent:" + serverReq.getParentRequirementId());
 				oldRequirements = null;		
 				try {
-				oldRequirements = db.retrieve(Requirement.class, "id", serverReq.getParentRequirementId(), s.getProject());
+					oldRequirements = db.retrieve(Requirement.class, "id", serverReq.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
 					System.out.println("Parent not around...");
 				}
@@ -318,55 +277,45 @@ public class RequirementStore implements EntityManager<Requirement>{
 					parent = (Requirement) oldRequirements.get(0);
 				}
 				if (parent!=null){
-					
+
 					setTotalEstimate(parent, -req.getTotalEstimateEffort(), s);
 				} else System.out.println("Parent not found...");
-				
+
 			}
-			
+
 			return;
 		}
-		
-		
+
+
 		int serverTotalEstimate = serverReq.getTotalEstimateEffort();
 		System.out.println("serverReq.getTotalEstimateEffort = " + serverReq.getTotalEstimateEffort());
-		
+
 		int localEstimateChange = req.getEstimateEffort() - serverReq.getEstimateEffort();
 		int passOn = -serverReq.getTotalEstimateEffort();
-		System.out.println("Passon = " + passOn);
-		System.out.println("req.getEstEffort = " + req.getEstimateEffort());
-		
-		System.out.println("serverReq.getEstEffort = " + serverReq.getEstimateEffort());
-		System.out.println("localEstimateChange = " + localEstimateChange);
-		
+
 		serverTotalEstimate += localEstimateChange + totalEstimateChange;
 		serverReq.setTotalEstimateEffort(serverTotalEstimate);
-		
+
 		serverReq.setEstimateEffort(req.getEstimateEffort());
-		
+
 		System.out.println("Server. Set total estimate to : " + serverTotalEstimate);
 		passOn += serverTotalEstimate;
 		System.out.println("Passon = " + passOn);
-		
-		//localEstimateChange = req.getTotalEstimateEffort() - serverReq.getTotalEstimateEffort();
-		System.out.println("localEstimateChange to pass on = " + passOn);
+
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
 			//throw new WPISuiteException();
 			System.out.println("save failed");
 		}
-		
-		System.out.println("HELLOOOOOOOOOOOOOOOO");
+
 		req.setTotalEstimateEffort(serverTotalEstimate);
-		System.out.println("Tootals");
-		
-		
+
 		//If has parent...
 		if (serverReq.getParentRequirementId() != -1){
 			System.out.println("has parent:" + serverReq.getParentRequirementId());
 			oldRequirements = null;		
 			try {
-			oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
+				oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 			} catch (WPISuiteException e) {
 				System.out.println("Parent not around...");
 			}
@@ -375,16 +324,13 @@ public class RequirementStore implements EntityManager<Requirement>{
 				parent = (Requirement) oldRequirements.get(0);
 			}
 			if (parent!=null){
-				
+
 				setTotalEstimate(parent, passOn, s);
 			} else System.out.println("Parent not found...");
-			
+
 		}
-		
-		
-		
 	}
-	
+
 	/**
 	 * Saves the given requirement into the database.
 	 *

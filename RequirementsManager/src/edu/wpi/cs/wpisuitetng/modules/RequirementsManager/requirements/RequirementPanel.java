@@ -693,8 +693,9 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * @param txtTotalEstimate
-	 *            the txtTotalEstimate to set
+	 * Sets the total estimate.
+	 *
+	 * @param totalEstimateEffort the new txt total estimate
 	 */
 	public void setTxtTotalEstimate(int totalEstimateEffort) {
 		this.txtTotalEstimate.setText(totalEstimateEffort + "");

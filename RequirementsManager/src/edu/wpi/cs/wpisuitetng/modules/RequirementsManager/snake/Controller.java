@@ -295,6 +295,9 @@ public class Controller {
 		return yMax;
 	}
 
+	/**
+	 * End.
+	 */
 	public void end() {
 		
 		moveTimer.cancel();

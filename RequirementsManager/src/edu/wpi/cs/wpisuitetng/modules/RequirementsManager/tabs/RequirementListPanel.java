@@ -361,6 +361,8 @@ public class RequirementListPanel extends JPanel{
 	
 	/**
 	 * If the requirements have been updated, show message to user.
+	 *
+	 * @param message the message to display.
 	 */
 	public void showUpdateSuccessfully(String message) {
 		updateLabel.setText(message);
@@ -454,6 +456,20 @@ public class RequirementListPanel extends JPanel{
 		return updateButton;
 	}
 
+	 /**
+ 	 * Gets the button panel.
+ 	 *
+ 	 * @return the buttonPanel
+ 	 */
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+	
+	/**
+	 * Gets the original, unsaved content of a requirement.
+	 *
+	 * @return the original requirement content
+	 */
 	public Requirement[] getOriginalContent(){
 		Requirement[] fresh;
 		if (content != null){
@@ -481,6 +497,11 @@ public class RequirementListPanel extends JPanel{
 		return fresh;
 	}
 	
+	/**
+	 * Gets the fresh, updated content for a requirement.
+	 *
+	 * @return the fresh, updated content for a requirement.
+	 */
 	public Requirement[] getFreshContent() {
 		Requirement[] fresh;
 		if (content != null){
@@ -500,5 +521,4 @@ public class RequirementListPanel extends JPanel{
 		}
 		return fresh;
 	}
-
 }

@@ -28,6 +28,9 @@ public class TasksTest {
 	Task t2;
 	Task t3;
 	
+	/**
+	 * Setup.
+	 */
 	@Before
 	public void setup(){
 		t = new Task("rage", "do something with derp", "herp", 99, 9001);
@@ -36,6 +39,9 @@ public class TasksTest {
 		t1 = new Task("a", "a", "a", 0, 0);
 	}
 	
+	/**
+	 * Test the constructor.
+	 */
 	@Test
 	public void TestConstructor(){
 		assertEquals("rage", t.getName());
@@ -45,12 +51,18 @@ public class TasksTest {
 		assertEquals(9001, t.getId());
 	}
 	
+	/**
+	 * Test adding tasks to requirement.
+	 */
 	@Test
 	public void testAddingTasksToRequirement(){
 		req.addTask(t1);
 		assertEquals(true, req.getTasks().contains(t1));
 	}
 	
+	/**
+	 * Test changing fields in task.
+	 */
 	@Test
 	public void testChangingFieldsInTask(){
 		t.setName("rage quit");
@@ -61,6 +73,9 @@ public class TasksTest {
 		assertEquals("still herp", t.getAssigneeName());
 	}
 	
+	/**
+	 * Test the task class under the tasks view.
+	 */
 	@Test
 	public void testTasksViewTasks(){
 		tv.addTask(t);
@@ -78,8 +93,23 @@ public class TasksTest {
 		assertEquals(-1, tv.doesTaskExist(9));
 	}
 	
+	/**
+	 * test the TaskPanel to make sure everything is grey-ed out because of the NONE permission
+	 */
 	@Test
-	public void testTasksViewTasksPanel(){
-		
+	public void testTasksViewPermission(){
+//		tempTaskPanel.getTxtName().setEditable(false);
+//		tempTaskPanel.getTxtDescription().setEditable(false);
+//		tempTaskPanel.getCmbAssignee().setEditable(false);
+//		tempTaskPanel.getTxtEffort().setEditable(false);
+//		tempTaskPanel.getCmbStatus().setEditable(false);
+//		tempTaskPanel.getSaveButton().setEnabled(false);
+		tv.addTask(t);
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtName().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtDescription().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getCmbAssignee().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getTxtEffort().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getCmbStatus().isEditable());
+		assertEquals(false, tv.getTaskPanelArray().get(0).getSaveButton().isEnabled());
 	}
 }

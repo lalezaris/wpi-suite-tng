@@ -132,16 +132,34 @@ public class SaveRequirementController {
 					if (currentView.getRequirementPanel().getEditedModel().getStatus() == RequirementStatus.COMPLETE 
 							&& currentView.getReqModel().getRequirement().getStatus() != RequirementStatus.COMPLETE) {
 						saveFlag = true;
-						System.out.println("add child to completed children");
 						parent.addCompletedChild();
 						
 						if (!(currentView.getParentView() == null)) {
 							currentView.getParentView().getReqModel().getRequirement().addCompletedChild();
+							
+							if (currentView.getParentView().getReqModel().getRequirement().canBeCompleted() == true) {
+								RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
+								parentPanel.getCmbStatus().addItem("COMPLETE");
+							}
 						}
 					} else if (currentView.getRequirementPanel().getEditedModel().getStatus() != RequirementStatus.COMPLETE
 							&& currentView.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE) {
 						saveFlag = true;
 						parent.removeCompletedChild();
+						
+						if (currentView.getParentView().getReqModel().getRequirement().canBeCompleted() == false) {
+							RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
+							int delete = -1;
+							for (int i = 0; i < parentPanel.getCmbStatus().getItemCount(); i++) {
+								if (parentPanel.getCmbStatus().getItemAt(i) == "COMPLETE") {
+									delete = i;
+								}
+							}
+							
+							if (delete != -1) {
+								parentPanel.getCmbStatus().removeItemAt(delete);
+							}
+						}
 					}
 
 					RequestObserver parentRequestObserver = new UpdateRequirementRequestObserver(currentView); //request observer for the parent of the current requirement

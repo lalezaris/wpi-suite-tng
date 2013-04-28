@@ -217,4 +217,11 @@ public class IterationTableModel extends AbstractTableModel {
 		currentHeader = cm.getColumn(col).getHeaderValue().toString();
 		cm.getColumn(col).setHeaderValue(wasJustAscending ? currentHeader+DESCENDING_SUFFIX : currentHeader+ASCENDING_SUFFIX );
 	}
+
+	/**
+	 * @return the data
+	 */
+	public ArrayList<Object[]> getData() {
+		return data;
+	}
 }

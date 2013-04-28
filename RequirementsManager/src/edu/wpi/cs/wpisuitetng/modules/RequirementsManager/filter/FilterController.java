@@ -12,6 +12,8 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter;
 
+import java.util.List;
+
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.AddAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.DisableAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.button.EnableAction;
@@ -24,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleTarge
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.model.RequirementTableModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -89,7 +92,11 @@ public class FilterController{
 	 */
 	public Requirement[] setFilteredInTable(){
 
-		Requirement[] all = listPanel.getContent();
+		listPanel.getModel().cancelChanges();
+		Requirement[] all = listPanel.getOriginalContent();
+		
+
+		
 		Requirement[] filtered = null;
 
 		boolean sentIterationsRequest = false;
@@ -119,6 +126,7 @@ public class FilterController{
 			e.printStackTrace();
 		}
 		listPanel.filterRequirements(filtered);
+		
 		return filtered;
 	}
 

@@ -31,7 +31,6 @@ import javax.swing.tree.TreePath;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
@@ -43,14 +42,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
  * Adapted from: https://code.google.com/p/rnp-videoplayer/source/browse/trunk/src/jtree/DnD/TreeDragAndDrop.java?r=15
  * 
  * @author Arica Liu
- * @version April 21, 2013
+ * @version April 28, 2013
  * 
  */
 class TreeTransferHandler extends TransferHandler {  
 	private static final long serialVersionUID = 8302056184464863258L;
 	DataFlavor nodesFlavor;  
-	DataFlavor[] flavors = new DataFlavor[1];  
-	DefaultMutableTreeNode[] nodesToRemove;
+	DataFlavor[] flavors = new DataFlavor[1];
 	SaveRequirementController controller;
 	SaveIterationController itcontroller;
 	Requirement[] reqs;
@@ -79,21 +77,16 @@ class TreeTransferHandler extends TransferHandler {
 		reqs = ((ReqTreeModel)tree.getModel()).getRequirements(); // Get a list of all requirements
 		TreePath[] paths = tree.getSelectionPaths();  
 		if(paths != null) {  
-			// Make up a node array of copies for transfer and  
-			// another for/of the nodes that will be removed in  
-			// exportDone after a successful drop.  
+			// Make up a node array of copies for transfer 
 			List<DefaultMutableTreeNode> copies =  
-					new ArrayList<DefaultMutableTreeNode>();  
-			List<DefaultMutableTreeNode> toRemove =  
-					new ArrayList<DefaultMutableTreeNode>();  
+					new ArrayList<DefaultMutableTreeNode>();
 			for(int i = 0; i < paths.length; i++) {  
 				DefaultMutableTreeNode next =  
 						(DefaultMutableTreeNode)paths[i].getLastPathComponent();  
 					copies.add(copy(next));  
 			}  
 			DefaultMutableTreeNode[] nodes =  
-					copies.toArray(new DefaultMutableTreeNode[copies.size()]);  
-			nodesToRemove =  toRemove.toArray(new DefaultMutableTreeNode[toRemove.size()]);  
+					copies.toArray(new DefaultMutableTreeNode[copies.size()]);   
 			return new NodesTransferable(nodes);  
 		}  
 		return null;  
@@ -112,15 +105,7 @@ class TreeTransferHandler extends TransferHandler {
 	/**
 	 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent, java.awt.datatransfer.Transferable, int)
 	 */
-	protected void exportDone(JComponent source, Transferable data, int action) {  
-		//		if((action & MOVE) == MOVE) {  
-		//			JTree tree = (JTree)source;  
-		//			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();  
-		//			// Remove nodes saved in nodesToRemove in createTransferable.  
-		//			for(int i = 0; i < nodesToRemove.length; i++) {  
-		//				model.removeNodeFromParent(nodesToRemove[i]);  
-		//			}  
-		//		}  
+	protected void exportDone(JComponent source, Transferable data, int action) {   
 		TreeView.getInstance().clearStatus();
 	}  
 
@@ -162,9 +147,7 @@ class TreeTransferHandler extends TransferHandler {
 		}
 		if (destObject.toString().startsWith("Iteration")) {
 			for(int i = 0; i < nodes.length; i++) {
-				System.out.println("in the for loop");
 				Requirement req = checkFake(r.get(i));
-				System.out.println(req.getTitle());
 				// Change the requirement
 				if (req.getStatus() == RequirementStatus.NEW) {
 					req.setStatus(RequirementStatus.INPROGRESS);
@@ -173,7 +156,6 @@ class TreeTransferHandler extends TransferHandler {
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
-				System.out.println("Saved req " + req.getTitle());
 				// Change the iteration
 				Iteration it = (Iteration)destObject;
 				if (!(it.getRequirements().contains(req))) {
@@ -214,14 +196,6 @@ class TreeTransferHandler extends TransferHandler {
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();
-				// Change the old iteration
-				//				if (lookUpIteration(req.getIterationId()) != null) {
-				//					Iteration it = lookUpIteration(req.getIterationId());
-				//					it.removeRequirement(req.getId());
-				//					// Save the changed iteration
-				//					itcontroller = new SaveIterationController(it);
-				//					itcontroller.save();
-				//				}
 			}
 		} else if (destObject.toString().contains("Deleted")){
 			// Show a dialog
@@ -247,14 +221,6 @@ class TreeTransferHandler extends TransferHandler {
 					// Save the changed requirement
 					controller = new SaveRequirementController(req);
 					controller.save();
-					// Change the old iteration
-					//					if (lookUpIteration(req.getIterationId()) != null) {
-					//						Iteration it = lookUpIteration(req.getIterationId());
-					//						it.removeRequirement(req.getId());
-					//						// Save the changed iteration
-					//						itcontroller = new SaveIterationController(it);
-					//						itcontroller.save();
-					//					}
 				}
 			} else if (n == JOptionPane.NO_OPTION) {
 				TreeView.getInstance().setStatus("Cancelled deletion.");
@@ -365,11 +331,6 @@ class TreeTransferHandler extends TransferHandler {
 			TreePath path2 = tree.getPathForRow(selRows[i]);  
 			DefaultMutableTreeNode aNode =  
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
-			// Do not allow a drop on itself
-			//			if (aNode == ttarget) {
-			//				TreeView.getInstance().setStatus("Can't drop on itself!");
-			//				return false;
-			//			}
 			if (aNode.getUserObject() instanceof Requirement) {
 				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
 				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
@@ -390,14 +351,6 @@ class TreeTransferHandler extends TransferHandler {
 						parentNode = parentNode.getParent();
 					}
 				}
-				// Do not allow a drag for just children
-				//				if (((Requirement)aNode.getUserObject()).getParentRequirementId() != -1) {
-				//					if (!(requirementSelected(selRows, tree, ((DefaultMutableTreeNode)aNode.getParent())))) {
-				//						return false;
-				//					}
-				//				}
-
-
 				if (ttarget.getUserObject() instanceof Requirement) {
 					if (requirement.getStatus() == RequirementStatus.DELETED) {
 						TreeView.getInstance().setStatus("Cannot assign it to a requirement while it is in the Deleted folder!");
@@ -466,76 +419,10 @@ class TreeTransferHandler extends TransferHandler {
 		//		if(action == MOVE) {  
 		//			return haveCompleteNode(tree);  
 		//		}  
-		// Do not allow a non-leaf node to be copied to a level  
-		// which is less than its source level.  
-		//		TreePath dest = dl.getPath();  
-		//		DefaultMutableTreeNode target =  
-		//				(DefaultMutableTreeNode)dest.getLastPathComponent();  
-		//		TreePath path = tree.getPathForRow(selRows[0]);  
-		//		DefaultMutableTreeNode firstNode =  
-		//				(DefaultMutableTreeNode)path.getLastPathComponent();  
-		//		if(firstNode.getChildCount() > 0 &&  
-		//				target.getLevel() < firstNode.getLevel()) {  
-		//			TreeView.getInstance().setStatus("Can't drop to a level less than its source level!");
-		//			return false;  
-		//		}
 
 		TreeView.getInstance().clearStatus();
 		return true;  
 	}  
-
-	/**
-	 * Check if a tree node is selected.
-	 *
-	 * @param selRows the selected rows
-	 * @param tree the tree
-	 * @param aNode the node
-	 * @return true, if selected
-	 */
-	private boolean requirementSelected (int[] selRows, JTree tree, DefaultMutableTreeNode aNode) {
-		for(int i = 0; i < selRows.length; i++) {  
-			TreePath path = tree.getPathForRow(selRows[i]);  
-			DefaultMutableTreeNode treeNode =  
-					(DefaultMutableTreeNode)path.getLastPathComponent();
-			if ((treeNode.getUserObject() instanceof Requirement)
-					&& (treeNode.equals(aNode)))
-			{
-				return true;
-			}
-		}  
-		return false;
-	}
-
-	/**
-	 * Check whether the user have selected all the nodes under a parent.
-	 *
-	 * @param tree the tree
-	 * @return true, if successful
-	 */
-	private boolean haveCompleteNode(JTree tree) {  
-		int[] selRows = tree.getSelectionRows();  
-		TreePath path = tree.getPathForRow(selRows[0]);  
-		DefaultMutableTreeNode first =  
-				(DefaultMutableTreeNode)path.getLastPathComponent();  
-		int childCount = first.getChildCount();  
-		// first has children and no children are selected.  
-		if(childCount > 0 && selRows.length == 1)  
-			return false;  
-		// first may have children.  
-		for(int i = 1; i < selRows.length; i++) {  
-			path = tree.getPathForRow(selRows[i]);  
-			DefaultMutableTreeNode next =  
-					(DefaultMutableTreeNode)path.getLastPathComponent();  
-			if(first.isNodeChild(next)) {  
-				// Found a child of first.  
-				if(childCount > selRows.length-1) {  
-					// Not all children of first are selected.  
-					return false;  
-				}  
-			}  
-		}  
-		return true;  
-	} 
 
 	/**
 	 * @see java.lang.Object#toString()

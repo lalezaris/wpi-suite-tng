@@ -89,6 +89,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	private boolean inputEnabled;
 	private RequirementView parentView; //add to default constructor
 	private RMPermissionsLevel pLevel;
+	private RetrieveAllIterationsController iterationsController;
 	/**
 	 * Constructs a new RequirementView where the user can view (and edit) a requirement.
 	 * 
@@ -147,13 +148,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		
 		AttachmentController attachmentController = new AttachmentController( mainPanel.getAttachmentsView() , reqModel.getUneditedRequirement().getId());
 
+		iterationsController = new RetrieveAllIterationsController(this);
 		if (reqModel.getRequirement().getParentRequirementId() != -1) {
 			RetrieveParentRequirementController recieveParentController = new RetrieveParentRequirementController(this);
 			recieveParentController.retrieveParent();
-		}
-
-		RetrieveAllIterationsController iterationsController = new RetrieveAllIterationsController(this);
-		iterationsController.retrieve();
+		} else 
+			iterationsController.retrieve();
 		
 		this.setLayout(new BorderLayout());
 		mainPanelScrollPane = new JScrollPane(mainPanel);
@@ -351,13 +351,15 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public void setUp(Requirement requirement, Mode editMode, RMPermissionsLevel pLevel) {
 		String[] requirementStatusValues = RequirementStatusLists.getList(this.getReqModel().getRequirement());
 		
-		
 		mainPanel.getCmbStatus().removeAllItems();
 		for (int i = 0; i < requirementStatusValues.length; i++) {
 			requirementStatusValues[i] = RequirementStatusLists.getList(this.getReqModel().getRequirement())[i];
-			
-			if (requirementStatusValues[i].equals("COMPLETE")) {
-				if (requirement.canBeCompleted() == true) {
+			if(!requirement.getStatus().equals(RequirementStatus.COMPLETE)){
+				if (requirementStatusValues[i].equals("COMPLETE")) {
+					if (requirement.canBeCompleted() == true) {
+						mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+					}
+				} else {
 					mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
 				}
 			} else {
@@ -633,4 +635,16 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 	public RMPermissionsLevel getpLevel() {
 		return pLevel;
 	}
+
+
+	/**
+	 * Gets the controller to retrieve all iterations
+	 * 
+	 * @return the iterationsController
+	 */
+	public RetrieveAllIterationsController getIterationsController() {
+		return iterationsController;
+	}
+	
+	
 }

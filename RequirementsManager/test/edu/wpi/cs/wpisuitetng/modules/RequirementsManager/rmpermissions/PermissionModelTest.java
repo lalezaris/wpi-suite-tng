@@ -21,6 +21,9 @@ import org.junit.*;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.UserPermission;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.model.PermissionModel;
 
+/**
+ * The Class PermissionModelTest.
+ */
 public class PermissionModelTest {
 	PermissionModel p;
 	

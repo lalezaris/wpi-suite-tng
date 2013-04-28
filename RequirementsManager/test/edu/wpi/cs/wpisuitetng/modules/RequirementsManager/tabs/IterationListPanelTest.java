@@ -36,6 +36,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 public class IterationListPanelTest {
 	IterationListPanel panel;
 	SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+	SimpleDateFormat tableDateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 	Date date1, date2, date3, date4;
 	
 	@Before
@@ -68,7 +69,7 @@ public class IterationListPanelTest {
 	public void addIterationsTest() {
 		assertEquals(2, ((IterationTableModel)panel.getTable().getModel()).getData().size());
 		assertEquals("Iteration1", ((IterationTableModel)panel.getTable().getModel()).getData().get(1)[1]);
-		assertEquals(date1, ((IterationTableModel)panel.getTable().getModel()).getData().get(1)[2]);
-		assertEquals(date2, ((IterationTableModel)panel.getTable().getModel()).getData().get(1)[3]);
+		assertEquals(tableDateFormat.format(date1), ((IterationTableModel)panel.getTable().getModel()).getData().get(1)[2]);
+		assertEquals(tableDateFormat.format(date2), ((IterationTableModel)panel.getTable().getModel()).getData().get(1)[3]);
 	}
 }

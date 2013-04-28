@@ -14,6 +14,9 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
 import java.util.ArrayList;
 
+/**
+ * The Class Wall.
+ */
 public class Wall {
 
 	public static ArrayList<Wall> all = new ArrayList<Wall>();

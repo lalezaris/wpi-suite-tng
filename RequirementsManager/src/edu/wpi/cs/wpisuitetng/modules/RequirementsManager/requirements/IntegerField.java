@@ -50,7 +50,9 @@ public class IntegerField extends JTextField {
 	}
 
 	/**
-	 * The Class UpperCaseDocument.
+	 * The Class UpperCaseDocument.'
+	 * 
+	 * @author David Buzatto, http://stackoverflow.com/users/469201/davidbuzatto 
 	 */
 	static class UpperCaseDocument extends PlainDocument {
 		/**

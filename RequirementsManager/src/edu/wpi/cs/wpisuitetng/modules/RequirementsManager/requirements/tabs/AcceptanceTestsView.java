@@ -604,11 +604,12 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	public JButton getAddButton(){
 		return saveTest;
 	}
-	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 	/**
+	 * A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 	 * If the title written is already in the list, disable the addTest button and enable the
 	 * editTest button. Otherwise, do the opposite.
-	 *
+	 * 
+	 * @author Michael French
 	 */
 	public class ButtonsListener implements KeyListener {
 

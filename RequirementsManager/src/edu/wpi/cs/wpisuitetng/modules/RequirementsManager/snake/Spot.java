@@ -12,6 +12,9 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
+/**
+ * The Class Spot.
+ */
 public class Spot {
 
 	public int x, y;
@@ -35,6 +38,9 @@ public class Spot {
 		y = 0;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj){
 		

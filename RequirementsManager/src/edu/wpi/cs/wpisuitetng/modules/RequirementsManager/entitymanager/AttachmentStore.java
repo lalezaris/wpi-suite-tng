@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -12,9 +13,11 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.History.HistoricalChange;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class AttachmentStore implements EntityManager<Attachment> {
 	Data db;
@@ -69,6 +72,9 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		serverReq.setAttachedFileName(fileNames);
 		
 		
+		HistoricalChange HChange = new HistoricalChange(new Date(), Count() + 2, serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
+		HChange.setChange("<p>added file: " + newAttachment.getFileName() + "</p>");
+		serverReq.addHistoricalChange(HChange);
 		
 		//db.save(serverReq.getAttachedFileId());
 		//db.save(serverReq.getAttachedFileNames());

@@ -12,6 +12,7 @@
  * 				 Lauren Kahn
  * 				 Tyler Stone
  * 				 Chris Hanna
+ *               Arica Liu
  **************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
@@ -39,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
  * The Model for the Requirement Tree.
  * 
  * @author Sam Lalezari
- * @version Mar 19, 2013
+ * @version Mar 28, 2013
  * 
  */
 @SuppressWarnings({ "serial" })

@@ -49,7 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.Retrie
  * @author Sam Lalezari
  * @author Arica Liu
  * 
- * @version April 21th, 2013
+ * @version April 28th, 2013
  * 
  */
 @SuppressWarnings("serial")
@@ -98,18 +98,14 @@ public class TreeView extends JPanel {
 								+ req.getIteration().getIterationName();
 					}  else	if (req.getParentRequirementId() != -1) {
 						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
-							String msg = "Requirement " + req.getTitle() + "'s parent is in ";
-							if (lookUpRequirement(req.getParentRequirementId()).getIteration().toString().contains("Backlog")) {
-								msg += "Backlog";
-							} else msg += lookUpRequirement(req.getParentRequirementId()).getIteration().toString();
-							return msg;
+							return "Requirement " + req.getTitle() + "'s parent is in " 
+						+ lookUpRequirement(req.getParentRequirementId()).getIteration().toString();
 						}
 					} else
 						return "Requirement " + req.getTitle();
 				}
-				else if(obj instanceof Iteration) {
+				else
 					return obj.toString();
-				}
 				return null;
 			}
 		};
@@ -275,12 +271,7 @@ public class TreeView extends JPanel {
 							});
 					controller.retrieve();
 				} else if (selRow != -1 && e.getClickCount() == 1) {
-					TreePath path = tree.getSelectionPath();
-					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
-							.getLastPathComponent();
-					if (selectedNode.getUserObject() instanceof Requirement) {
-						setStatus(tree.getToolTipText(e));
-					}
+					setStatus(tree.getToolTipText(e));
 				}
 			}
 
@@ -348,6 +339,13 @@ public class TreeView extends JPanel {
 					} else 
 						controller.runWhenRecieved("0");
 				}
+			}
+
+			/* (non-Javadoc)
+			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e) {
+				clearStatus();
 			}
 		};
 

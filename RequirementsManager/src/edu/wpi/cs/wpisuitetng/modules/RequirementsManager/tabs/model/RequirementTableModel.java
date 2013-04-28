@@ -500,7 +500,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
-		if (status == RequirementStatus.OPEN){
+		if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
 			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
 				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
 				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");

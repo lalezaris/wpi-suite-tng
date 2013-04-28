@@ -171,7 +171,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 		HistoricalChange HChange = new HistoricalChange(new Date(), req.getId(), serverReq.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));
 
 		HChange.updateChangeFromDiff(serverReq,req, this);
-		System.out.println("\n\n\n\n--HChange is now: " + HChange.getChange());
 		this.setTotalEstimate(req, 0, s);
 
 		// copy values to old requirement and fill in our changeset appropriately
@@ -182,14 +181,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		if (!HChange.getChange().equals("")){
 			serverReq.addHistoricalChange(HChange);
 		}
-		//TUSHAR's fix v
-		//		HChange.setChange(req.getHistory().get(req.getHistory().size()-1).getChange());
-		//		System.out.println("--HChange is now: " + HChange.getChange() + ", attempting to add it so serverReq");
-		//		if (!HChange.getChange().equals("")){
-		//			System.out.println("-----------> History Item Added! " + HChange.getChange());
-		//			serverReq.addHistoricalChange(HChange);
-		//		}
-
+		
 		//update the Notes List
 		serverReq.updateNotes(req.getNotes());	
 
@@ -207,10 +199,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new WPISuiteException();
 		}
 
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
-
-		//System.out.println("making new requiremnt with attachment"+serverReq.getAttachedFileId().get(0));
 		return serverReq;		
 	}
 

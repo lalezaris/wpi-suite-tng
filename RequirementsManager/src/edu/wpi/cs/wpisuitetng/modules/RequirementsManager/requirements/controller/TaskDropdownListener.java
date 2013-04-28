@@ -42,6 +42,7 @@ public class TaskDropdownListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(!panel.equals(view.getNewTaskPanel())){
 			if(e.getSource().equals(panel.getCmbStatus())){
 				panel.getCmbStatus().setBackground(new Color(255, 252, 132));
 			}
@@ -49,7 +50,7 @@ public class TaskDropdownListener implements ActionListener{
 			if(e.getSource().equals(panel.getCmbAssignee())){
 				panel.getCmbAssignee().setBackground(new Color(255, 252, 132));
 			}
-		
+		}
 	}
 	
 }

@@ -126,6 +126,21 @@ public class AcceptanceTestTest {
 		assertEquals(true, av.notReady());
 	}
 	
+	/**
+	 * Test the Cancel Button
+	 */
+	@Test 
+	public void testCancel(){
+		av.getTitleField().setText("lol");
+		av.toggleTitleEnabled(false);
+		av.getBodyField().setText("lol");
+		av.getCancelButton().doClick();
+		assertEquals("", av.getTitleTxt());
+		assertEquals(true, av.getTitleField().isEnabled());
+		assertEquals("", av.getBodyTxt());
+		
+	}
+	
 	//this test relies on the location of the mouse when clicked. not sure how to simulate that
 //	@Test
 //	public void testListDisplayMouseCLicked(){

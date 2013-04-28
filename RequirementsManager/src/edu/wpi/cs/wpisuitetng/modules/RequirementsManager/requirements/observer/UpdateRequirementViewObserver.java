@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.UpdateRequirementViewController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -42,6 +43,8 @@ public class UpdateRequirementViewObserver implements RequestObserver{
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
+		
+		TreeView.getInstance().refreshTree();
 
 		Requirement[] requirements = Requirement.fromJSONArray(response.getBody());
 		if (requirements.length > 0 && requirements[0] != null) {

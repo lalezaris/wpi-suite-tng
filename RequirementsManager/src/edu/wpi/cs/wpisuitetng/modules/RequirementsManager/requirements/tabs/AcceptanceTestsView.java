@@ -706,6 +706,13 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	public void setTxtBodyBackground(Color c) {
 		txtBody.setBackground(c);
 	}
+	
+	/**
+	 * gets the cancelButton
+	 */
+	public JButton getCancelButton(){
+		return cancelTest;
+	}
 
 	/**
 	 * Sets cmb status background color

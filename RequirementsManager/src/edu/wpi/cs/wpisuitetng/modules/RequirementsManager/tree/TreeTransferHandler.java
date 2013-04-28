@@ -357,13 +357,17 @@ class TreeTransferHandler extends TransferHandler {
 						return false;
 					}
 					// Do not allow a drop on its children
-					Requirement req = checkFake((Requirement)ttarget.getUserObject());
-					if (requirement.getChildRequirementIds().contains(req.getId())) {
-						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
-								+ ": Can't drop on its own children!");
-						return false;
+					TreeNode childNode = ttarget;
+					while (childNode.getParent() != null) {
+						if (childNode.getParent().equals(aNode)) {
+							TreeView.getInstance().setStatus("Can't drop on the its children!");
+							return false;
+						} else {
+							childNode = childNode.getParent();
+						}
 					}
 					// Do not allow a drop on its parent
+					Requirement req = checkFake((Requirement)ttarget.getUserObject());
 					if (req.getChildRequirementIds().contains(requirement.getId())) {
 						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 								+ ": Already a child of the target!");

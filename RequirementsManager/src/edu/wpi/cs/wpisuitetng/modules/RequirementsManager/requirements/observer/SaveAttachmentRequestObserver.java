@@ -49,8 +49,7 @@ public class SaveAttachmentRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method hub
-		System.out.println("ERROREOOREOORERROREOOREERRERROREOORERROREOORERROREOOREOOERROREOOREOOERROREERROREOOREOOR");
+		System.out.println("Error on:");
 		System.out.println(iReq.getBody());
 	}
 

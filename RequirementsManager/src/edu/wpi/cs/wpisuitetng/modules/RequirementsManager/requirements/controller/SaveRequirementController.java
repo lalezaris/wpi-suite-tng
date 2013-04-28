@@ -177,7 +177,6 @@ public class SaveRequirementController {
 					Request parentRequest;
 					parentRequest = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.POST : HttpMethod.POST);
 					String JsonRequest = parent.toJSON();
-					System.out.println(JsonRequest);
 					parentRequest.setBody(JsonRequest);
 					parentRequest.addObserver(parentRequestObserver);
 					parentRequest.send();
@@ -187,7 +186,6 @@ public class SaveRequirementController {
 
 		String JsonRequest = panel.getEditedModel().toJSON();
 		request.setBody(JsonRequest);
-		System.out.println(JsonRequest);
 		request.addObserver(requestObserver);
 		request.send();
 		if(issues.size() == 0){

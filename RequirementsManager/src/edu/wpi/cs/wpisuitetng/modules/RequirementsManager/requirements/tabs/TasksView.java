@@ -129,8 +129,8 @@ public class TasksView extends RequirementTab{
 		//Use a grid bag layout manager
 		layout = new BorderLayout();
 		this.setLayout(layout);
-		
-		//Create some stuff in the feature panel
+
+		//Create some Feature stuff
 		createNewTaskPanel();
 		
 		redisplay();
@@ -349,7 +349,7 @@ public class TasksView extends RequirementTab{
 			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
 		else
 			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(1, this));//No tasks, start at ID 1.
-
+		
 		//Default the save button and status to disabled
 		if(newTaskPanel.getTxtName().getText().equals("") || newTaskPanel.getTxtDescription().getText().equals("")){
 			newTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
@@ -477,6 +477,7 @@ public class TasksView extends RequirementTab{
 		for(int i = 0; i < list.size(); i ++){
 			taskPanelArray.add(createTaskPanel(list.get(i)));
 		}
+		createNewTaskPanel();
 		redisplay();
 	}
 

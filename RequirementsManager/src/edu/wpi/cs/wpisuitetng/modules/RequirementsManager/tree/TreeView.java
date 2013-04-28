@@ -149,7 +149,11 @@ public class TreeView extends JPanel {
 		setUpBottom();
 	}
 
-	/** Sets the text displayed at the bottom of TreeView. */
+	/**
+	 * Sets the text displayed at the bottom of TreeView.
+	 *
+	 * @param newText the new status
+	 */
 	void setStatus(String newText) {
 		if (!(status.getText() == newText)) {
 			status.setText(newText);
@@ -239,7 +243,7 @@ public class TreeView extends JPanel {
 								@Override
 								public void runWhenRecieved(String s){
 									Requirement r = Requirement.fromJSONArray(s)[0];
-									if (this.isRequirement) {
+									if (isRequirement) {
 										r.setIteration(Iteration
 												.getIterationById(r
 														.getIterationId()));
@@ -262,7 +266,7 @@ public class TreeView extends JPanel {
 										//tree.expandPath(path);
 										return ""+((Requirement) selectedObject).getId();
 									} else {
-										this.isRequirement = false;
+										isRequirement = false;
 										return "-1";
 									}
 								}
@@ -308,7 +312,7 @@ public class TreeView extends JPanel {
 										MainTabController.getController().addEditIterationTab(Iteration.getBacklog());
 									}else{
 										Iteration iteration = Iteration.fromJSONArray(s)[0];
-										if (this.isIteration) {
+										if (isIteration) {
 											MainTabController.getController().addEditIterationTab(iteration);
 										}
 									}
@@ -335,7 +339,7 @@ public class TreeView extends JPanel {
 										tree.expandPath(path);
 										return ""+ ((Iteration) selectedObject).getId();
 									} else {
-										this.isIteration = false;
+										isIteration = false;
 										return "-1";
 									}
 								}
@@ -369,6 +373,12 @@ public class TreeView extends JPanel {
 		clearStatus();
 	}
 
+	/**
+	 * Look up requirement by id.
+	 *
+	 * @param id the id to search for.
+	 * @return the requirement
+	 */
 	public Requirement lookUpRequirement(int id) {
 		Requirement[] reqs = treeModel.getRequirements(); 
 		for (int i = 0; i < reqs.length; i++) {

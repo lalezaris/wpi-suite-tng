@@ -57,7 +57,7 @@ public class TextUpdateListener implements KeyListener {
 	public TextUpdateListener(RequirementPanel panel, JTextComponent component) {
 		this.panel = panel;
 		this.component = component;
-		this.defaultBorder = component.getBorder();
+		defaultBorder = component.getBorder();
 	}
 
 	/** 

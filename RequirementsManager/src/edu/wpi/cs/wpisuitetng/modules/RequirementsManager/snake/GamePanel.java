@@ -100,8 +100,8 @@ public class GamePanel extends JPanel{
 		
 		snake = new Snake(new Spot(5,5));
 		
-		this.controller = new Controller(playPanel, snake, this);
-		this.snake.setController(controller);
+		controller = new Controller(playPanel, snake, this);
+		snake.setController(controller);
 		
 		final GamePanel me = this;
         me.addHierarchyListener(new HierarchyListener() {

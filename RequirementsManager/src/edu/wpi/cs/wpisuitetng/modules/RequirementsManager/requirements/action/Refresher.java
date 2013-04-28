@@ -134,8 +134,8 @@ public class Refresher {
 	 */
 	public void refreshRequirementsFromServer(RefresherMode mode)
 	{
-		this.reqController = new RetrieveAllRequirementsController(mode);
-		this.reqController.refreshData();
+		reqController = new RetrieveAllRequirementsController(mode);
+		reqController.refreshData();
 	}
 
 	/**
@@ -145,8 +145,8 @@ public class Refresher {
 	 */
 	public void refreshIterationsFromServer(IterationView view)
 	{
-		this.iterationController = new RetrieveAllIterationsController(view);
-		this.iterationController.refreshData();
+		iterationController = new RetrieveAllIterationsController(view);
+		iterationController.refreshData();
 	}
 
 	/**
@@ -156,13 +156,13 @@ public class Refresher {
 	 */
 	public Iteration[] getInstantIterations() 
 	{
-		if (this.lastKnownIterations == null){
+		if (lastKnownIterations == null){
 			Iteration[] failedResponse = new Iteration[1];
 			failedResponse[0] = Iteration.getBacklog();
 			return failedResponse;
 		}
 		else
-			return this.lastKnownIterations;
+			return lastKnownIterations;
 	}
 
 	/**
@@ -208,10 +208,10 @@ public class Refresher {
 				knownIterations.add(iterations[i]);
 			}
 
-			this.lastKnownIterations = new Iteration[knownIterations.size()];
+			lastKnownIterations = new Iteration[knownIterations.size()];
 			for (int i = 0 ; i < knownIterations.size() ; i ++)
 			{
-				this.lastKnownIterations[i] = knownIterations.get(i);
+				lastKnownIterations[i] = knownIterations.get(i);
 			}
 		}
 	}

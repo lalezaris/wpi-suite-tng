@@ -34,12 +34,7 @@ public class RequirementTabsView extends JTabbedPane {
 	/**
 	 * Instantiates a new requirement tabs view.
 	 *
-	 * @param nv the NotesView
-	 * @param hv the HistoryView
-	 * @param atv the AcceptanceTestsView
-	 * @param av the AssigneeView
-	 * @param pcv the ParentAndChildrenView
-	 * @param tv the TasksView
+	 * @param tabs the tabs
 	 */
 	public RequirementTabsView(RequirementTab[] tabs){
 		

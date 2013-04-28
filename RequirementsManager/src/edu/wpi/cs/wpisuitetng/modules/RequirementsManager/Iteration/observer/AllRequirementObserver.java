@@ -59,9 +59,9 @@ public class AllRequirementObserver implements RequestObserver{
 			reqs[i].setIteration(Iteration.getIterationById(reqs[i].getIterationId()));
 		}
 
-		this.panel.receiveServerRequirements(reqs);
-		this.panel.getTxtEstimate().setText("" + this.panel.calculateTxtEstimate(reqs));
-		this.panel.repaint();
+		panel.receiveServerRequirements(reqs);
+		panel.getTxtEstimate().setText("" + panel.calculateTxtEstimate(reqs));
+		panel.repaint();
 	}
 
 	/**

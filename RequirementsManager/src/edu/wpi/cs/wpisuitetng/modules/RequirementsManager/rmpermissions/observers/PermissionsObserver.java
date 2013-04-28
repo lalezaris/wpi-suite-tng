@@ -53,7 +53,7 @@ public class PermissionsObserver implements RequestObserver{
 		GsonBuilder builder = new GsonBuilder();
 		UserPermission[] all = builder.create().fromJson(response.getBody(), UserPermission[].class);		
 
-		this.controller.receiveServerPermissions(all);
+		controller.receiveServerPermissions(all);
 
 	}
 

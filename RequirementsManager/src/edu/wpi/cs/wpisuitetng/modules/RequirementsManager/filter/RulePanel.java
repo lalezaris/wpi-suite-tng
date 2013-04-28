@@ -242,7 +242,7 @@ public class RulePanel extends JPanel{
 		};
 		
 		
-		this.enabledBox.addChangeListener(c);
+		enabledBox.addChangeListener(c);
 		andOrBox.addItemListener(l2);
 		field.addItemListener(l1);
 		compareMode.addItemListener(l2);
@@ -442,12 +442,12 @@ public class RulePanel extends JPanel{
 		
 		Color backColor = Color.white;
 		System.out.println("checking for null rule");
-		if (this.enabled)
+		if (enabled)
 			backColor = new Color(208,255,208);
 		else backColor = new Color(255,208,208);
 		
 //		this.enabledBox.setEnabled(true);
-		if (this.field.getSelectedItem().equals(" ")){
+		if (field.getSelectedItem().equals(" ")){
 			backColor = new Color(238, 238, 238);	
 			System.out.println("grey");
 			test = false;

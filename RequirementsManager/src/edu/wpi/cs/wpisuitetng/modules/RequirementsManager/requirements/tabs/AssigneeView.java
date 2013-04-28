@@ -66,7 +66,7 @@ public class AssigneeView extends RequirementTab{
 	 * @param p the requirement view for the assignee view
 	 */
 	public AssigneeView(RequirementView p){
-		this.parent = p;
+		parent = p;
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT);
 		flowLayout.setAlignOnBaseline(true);
 		this.setLayout(flowLayout);
@@ -186,7 +186,7 @@ public class AssigneeView extends RequirementTab{
 	 * @return The button that adds users from a requirement
 	 */
 	public JButton getBtnAdd(){
-		return this.btnAdd;
+		return btnAdd;
 	}
 
 	/**
@@ -195,7 +195,7 @@ public class AssigneeView extends RequirementTab{
 	 * @return button that removes users from a requirement
 	 */
 	public JButton getBtnRemove(){
-		return this.btnRemove;
+		return btnRemove;
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class AssigneeView extends RequirementTab{
 	 * @param assignee the assignee to add to the list
 	 */
 	public void setAssigneeList(ArrayList<String> assignee) {
-		this.assignedUserAL = assignee;
+		assignedUserAL = assignee;
 		Collections.sort(assignedUserAL);
 
 		assignedUserLM.clear();
@@ -219,7 +219,7 @@ public class AssigneeView extends RequirementTab{
 	 * @param all the new all users list
 	 */
 	public void setAllList(ArrayList<String> all) {
-		this.allUserAL = all;
+		allUserAL = all;
 		Collections.sort(allUserAL);
 
 		allUserLM.clear();
@@ -252,7 +252,7 @@ public class AssigneeView extends RequirementTab{
 	 * @param users all users who are not assigned to the requirement
 	 */
 	public void setAllUserList(ArrayList<String> users){
-		this.allUserAL = users;
+		allUserAL = users;
 
 	}
 

@@ -56,11 +56,11 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param endDate The end date of the iteration
 	 */
 	public Iteration(String iterationNumber, Date startDate, Date endDate){
-		this.iterationName = iterationNumber;
+		iterationName = iterationNumber;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.requirements = new ArrayList<Integer>();
-		this.status = NEW;
+		requirements = new ArrayList<Integer>();
+		status = NEW;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @return iterationNumber
 	 */
 	public String getIterationName() {
-		return this.iterationName;
+		return iterationName;
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param iterationNumber The iterationNumber to set
 	 */
 	public void setIterationName(String iterationNumber) {
-		this.iterationName = iterationNumber;
+		iterationName = iterationNumber;
 	}
 
 	/**
@@ -185,8 +185,8 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param requirement The ID of the requirement to be added
 	 */
 	public void addRequirement(Integer requirement){
-		if (!this.requirements.contains(requirement)){
-			this.requirements.add(requirement);
+		if (!requirements.contains(requirement)){
+			requirements.add(requirement);
 		}
 	}
 
@@ -196,7 +196,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @param requirement The ID of the requirement to be unassigns
 	 */
 	public void removeRequirement(Integer requirement) {
-		this.requirements.remove(requirement);
+		requirements.remove(requirement);
 	}
 
 	/**
@@ -265,7 +265,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 */
 	@Override
 	public String toString() {
-		if (this.iterationName.equals(Iteration.getBacklog().iterationName))
+		if (iterationName.equals(Iteration.getBacklog().iterationName))
 			return this.getIterationName();
 		else
 			return "Iteration " + this.getIterationName();
@@ -296,7 +296,7 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @return The ID of this iteration.
 	 */
 	public int getId(){
-		return this.id;
+		return id;
 	}
 
 	/**
@@ -307,12 +307,12 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	 * @return True if the Iterations are equal, false else
 	 */
 	public boolean equals(Iteration i){
-		if(this.startDate == null)
+		if(startDate == null)
 			return false;
 		if(i.startDate == null)
 			return false;
-		return this.endDate.equals(i.endDate) && this.id == i.id && this.startDate.equals(i.startDate) 
-				&& this.iterationName.equals(i.iterationName) && this.status == i.status;
+		return endDate.equals(i.endDate) && id == i.id && startDate.equals(i.startDate) 
+				&& iterationName.equals(i.iterationName) && status == i.status;
 	}
 
 	/** Convert a Json string to an Iteration.
@@ -352,14 +352,14 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	@Override
 	public int compareTo(Iteration o) {
 		try {
-		if(this.startDate == null)
+		if(startDate == null)
 			return 1;
 		if(o.startDate == null)
 			return -1;
-		if(this.startDate.compareTo(o.startDate) == 0)
-			return this.endDate.compareTo(o.endDate);
+		if(startDate.compareTo(o.startDate) == 0)
+			return endDate.compareTo(o.endDate);
 		else 
-			return (this.startDate.compareTo(o.startDate));
+			return (startDate.compareTo(o.startDate));
 		} catch (NullPointerException e) {
 			return 1;
 		}

@@ -31,12 +31,12 @@ public class SnakeModel extends AbstractModel{
 	public SnakeModel(int score, String name){
 		this.score = score;
 		this.name = name;
-		this.id = 1;
+		id = 1;
 	}
 	public SnakeModel(){
-		this.score = 0;
-		this.name = "unknown";
-		this.id = 1;
+		score = 0;
+		name = "unknown";
+		id = 1;
 	}
 	
 	
@@ -105,7 +105,7 @@ public class SnakeModel extends AbstractModel{
 	}
 
 	public void setId(int i) {
-		this.id = i;
+		id = i;
 	}
 
 	/**

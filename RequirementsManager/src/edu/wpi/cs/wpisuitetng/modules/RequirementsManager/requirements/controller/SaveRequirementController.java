@@ -26,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementVali
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
@@ -132,16 +133,42 @@ public class SaveRequirementController {
 					if (currentView.getRequirementPanel().getEditedModel().getStatus() == RequirementStatus.COMPLETE 
 							&& currentView.getReqModel().getRequirement().getStatus() != RequirementStatus.COMPLETE) {
 						saveFlag = true;
-						System.out.println("add child to completed children");
 						parent.addCompletedChild();
 						
 						if (!(currentView.getParentView() == null)) {
 							currentView.getParentView().getReqModel().getRequirement().addCompletedChild();
+							
+							if (!(currentView.getParentView() == null)) {
+								if (parent.canBeCompleted() == true) {
+									RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
+									
+									if (parent.getStatus() == RequirementStatus.INPROGRESS) {
+										parentPanel.getCmbStatus().addItem("COMPLETE");
+									}
+								}
+							}
 						}
 					} else if (currentView.getRequirementPanel().getEditedModel().getStatus() != RequirementStatus.COMPLETE
 							&& currentView.getReqModel().getRequirement().getStatus() == RequirementStatus.COMPLETE) {
 						saveFlag = true;
 						parent.removeCompletedChild();
+						
+						if (!(currentView.getParentView() == null)) {
+							if (parent.canBeCompleted() == false) {
+								RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
+								int delete = -1;
+								
+								for (int i = 0; i < parentPanel.getCmbStatus().getItemCount(); i++) {
+									if (parentPanel.getCmbStatus().getItemAt(i) == "COMPLETE") {
+										delete = i;
+									}
+								}
+
+								if (delete != -1) {
+									parentPanel.getCmbStatus().removeItemAt(delete);
+								}
+							}
+						}
 					}
 
 					RequestObserver parentRequestObserver = new UpdateRequirementRequestObserver(currentView); //request observer for the parent of the current requirement
@@ -163,8 +190,10 @@ public class SaveRequirementController {
 		System.out.println(JsonRequest);
 		request.addObserver(requestObserver);
 		request.send();
+		if(issues.size() == 0){
 		//close tab
 		view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
+		}
 	}
 
 

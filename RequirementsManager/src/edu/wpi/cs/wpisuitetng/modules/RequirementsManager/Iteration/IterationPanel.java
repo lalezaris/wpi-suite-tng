@@ -505,7 +505,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	public boolean isThereChanges(){
 
 		if(this.getParent().getMode() == Mode.CREATE){	
-			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+			if (!(txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
 				return true;
 			}
 
@@ -743,7 +743,7 @@ public class IterationPanel extends JPanel implements FocusListener {
 	public boolean updateBackgrounds(){
 
 		if(this.getParent().getMode() == Mode.CREATE){	
-			if (!(this.txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
+			if (!(txtIterationName.getText().trim().equals("") || txtIterationName.getText().trim().equals(null))){//if old and new are not the same
 				txtIterationName.setBackground(MainView.getChangedColor());
 			} else 
 				txtIterationName.setBackground(Color.WHITE);

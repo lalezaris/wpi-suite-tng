@@ -45,7 +45,7 @@ public class SnakeScoreObserver implements RequestObserver {
 		GsonBuilder builder = new GsonBuilder();
 		SnakeModel model = builder.create().fromJson(response.getBody(), SnakeModel.class);
 		//this.panel.setAllusers(users);
-		this.controller.gotHighScore(model);
+		controller.gotHighScore(model);
 
 	}
 

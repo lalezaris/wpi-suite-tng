@@ -50,7 +50,8 @@ public class TaskFeatureListener implements ActionListener{
 		}
 		
 		//Refresh all the ones on the right.
-		view.redisplayRight();
+		view.redisplay();
+		view.revalidate();
 		
 	}
 	

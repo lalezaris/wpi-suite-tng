@@ -101,7 +101,23 @@ public class HistoricalChange extends AbstractModel{
 			change += "added: " + req.getAssignee() + ".</p>";
 		}
 
-		//TODO: check if an acceptance test was added at the time of creation.
+		if (req.getAcceptanceTests().size() != 0){//if acceptance test(s) was(were) added at the time of creation
+			change += "<p> ";
+			if(req.getAcceptanceTests().size() == 1)
+				change += "Acceptance Test ";
+			else
+				change += "Acceptance Tests ";
+			change += "added: " + req.getAcceptanceTests() + ".</p>";
+		}
+		
+		if (req.getTasks().size() != 0){//if task(s) was(were) added at the time of creation
+			change += "<p> ";
+			if(req.getTasks().size() == 1)
+				change += "Task ";
+			else
+				change += "Tasks ";
+			change += "added: " + req.getTasks() + ".</p>";
+		}
 	}
 
 	/**
@@ -115,7 +131,7 @@ public class HistoricalChange extends AbstractModel{
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		int acceptanceTestDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
 		int taskDifference = (newR.getTasks().size() - oldR.getTasks().size());
-		
+
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same
 			change += "<p> "+"Title changed from " + oldR.getTitle() + " to " + newR.getTitle() + ".</p>";
@@ -173,7 +189,7 @@ public class HistoricalChange extends AbstractModel{
 		if (oldR.getActualEffort() != newR.getActualEffort()){//if old and new are not the same
 			change += "<p> "+"Actual Effort changed from " + oldR.getActualEffort() + " to " + newR.getActualEffort() + ".</p>";
 		}	
-		
+
 		System.out.println("old history message: " + change);
 		System.out.println("oldR IDs: " + oldR.getChildRequirementIds().size());
 		System.out.println("newR IDs: " + newR.getChildRequirementIds().size());
@@ -188,9 +204,9 @@ public class HistoricalChange extends AbstractModel{
 				change += "<p> "+"Sub Requirement " + newR.getChildRequirementIds().get(i) + " added</p>";
 			}
 		}
-		
+
 		System.out.println("new history message: " + change);
-		
+
 		//compare assignee 
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
 			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
@@ -217,12 +233,12 @@ public class HistoricalChange extends AbstractModel{
 				change += "<p> Acceptance Test " + oldR.getAcceptanceTests().get(i).getTitle() + " was updated";
 			}
 		}
-		
+
 		//compare Task list size
 		if (taskDifference != 0){//if old and new are not the same
 			change += "<p> "+ taskDifference+ " tasks added.</p>";
 		}
-		
+
 		System.out.println("FINAL new history message: " + change);
 	}
 
@@ -296,7 +312,7 @@ public class HistoricalChange extends AbstractModel{
 		System.out.println("change is: " + change);
 		return change;
 	}
-	
+
 	public void setChange(String c){
 		change = c;
 	}

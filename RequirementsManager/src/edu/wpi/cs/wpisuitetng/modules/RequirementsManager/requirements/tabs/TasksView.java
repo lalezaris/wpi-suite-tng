@@ -130,6 +130,9 @@ public class TasksView extends RequirementTab{
 		this.layout = new BorderLayout();
 		this.setLayout(layout);
 		
+		//Create some stuff in the feature panel
+		createNewTaskPanel();
+		
 		redisplay();
 	}
 
@@ -153,7 +156,11 @@ public class TasksView extends RequirementTab{
 	 */
 	public void redisplayRight(){
 		listScrollPane = displayTasksPanels();
-		listScrollPane.repaint();
+		splitPane.getComponent(1).revalidate();
+
+		splitPane.getComponent(1).repaint();
+		//listScrollPane.repaint();
+		//listScrollPane.revalidate();
 	}
 	
 	/**Create task panels out of the tasks.
@@ -235,6 +242,7 @@ public class TasksView extends RequirementTab{
 			if(!contains.equals("") && !list.get(i).getName().contains(contains)){
 				taskPanelArray.get(i).setCanDisplay(false);
 			}
+			//Add the ones that can display.
 			if(taskPanelArray.get(i).isCanDisplay()){
 				overallPanel.add(taskPanelArray.get(i), cTask);//Put each one in the overallPanel to display them all at once.
 			}
@@ -260,7 +268,7 @@ public class TasksView extends RequirementTab{
 		featurePanel = new JPanel();
 		tempPanel = new JPanel();
 
-		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
+		JLabel containsLabel = new JLabel("Filter by names containing: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
 		containsField.setMinimumSize(getPreferredSize());
 		containsField.setMaximumSize(getPreferredSize());
@@ -299,6 +307,8 @@ public class TasksView extends RequirementTab{
 		cTemp.weighty = 0.5;
 		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		tempPanel.add(hideBox, cTemp);
+		
+		tempPanel.setMinimumSize(getPreferredSize());
 
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
@@ -324,8 +334,16 @@ public class TasksView extends RequirementTab{
 		cFeat.weighty = 0.5;
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 
+		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
+		return featurePanel;
+	}
+	
+	/**Create the New Task panel on the left side (so we can create new tasks).
+	 * 
+	 */
+	public void createNewTaskPanel(){
 		newTaskPanel = new TasksPanel(userNames);
-
+		
 		//Make the save button create a new task.
 		if(list.size() > 0)
 			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
@@ -358,12 +376,6 @@ public class TasksView extends RequirementTab{
 		newTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
-
-		//newTaskPanel.setMinimumSize(getPreferredSize());
-		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
-
-		//featScrollPane = new JScrollPane(featurePanel);
-		return featurePanel;
 	}
 
 

@@ -59,6 +59,7 @@ public class SaveTaskListener implements ActionListener{
 		else{//If the task does not exist, make a new one.
 			System.out.println("ERROR: This situaion should not happen!");
 		}
+		//view.revalidate();
 	}
 	
 	/**Make a check of the fields to see if it is ok to save. Some fields are required.

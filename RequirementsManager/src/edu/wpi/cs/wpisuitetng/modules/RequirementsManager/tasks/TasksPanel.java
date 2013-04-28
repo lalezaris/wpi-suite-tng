@@ -246,7 +246,7 @@ public class TasksPanel extends JPanel {
 		cOverall.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		overallPanel.add(fieldPanel, cOverall);
 		
-		overallPanel.setMinimumSize(new Dimension((int)overallPanel.getPreferredSize().getWidth() + 2, (int)overallPanel.getPreferredSize().getHeight()));
+		overallPanel.setMinimumSize(new Dimension((int)overallPanel.getPreferredSize().getWidth() + 2, (int)overallPanel.getPreferredSize().getHeight() + 2));
 		overallPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		//add to this panel
 		this.add(overallPanel,BorderLayout.CENTER);

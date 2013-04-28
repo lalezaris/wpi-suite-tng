@@ -56,7 +56,9 @@ public class TaskSearchListener implements KeyListener{
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-		view.redisplayRight();
+		view.setContains(view.getContainsField().getText());
+		view.redisplay();
+		view.revalidate();
 		view.getContainsField().requestFocusInWindow();//Keep typing in the same field.
 	}
 	

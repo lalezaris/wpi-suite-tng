@@ -146,6 +146,10 @@ public class RequirementModel {
 		requirement.setParentRequirementId(requirement.getParentRequirementId());
 
 		view.getRequirementPanel().getTxtTotalEstimate().setText(  String.valueOf(requirement.getTotalEstimateEffort()));
+		if(req.getChildRequirementIds().size() > 0){
+			view.getRequirementPanel().getLblTotalEstimate().setVisible(true);
+			view.getRequirementPanel().getTxtTotalEstimate().setVisible(true);
+		}
 		view.getRequirementPanel().getDependenciesView().updateChildrenList(requirement.getChildRequirementIds());
 //		setUpPanel(editMode);
 

@@ -73,8 +73,10 @@ public class TaskFieldsListener implements KeyListener{
 		
 		//Yellowing
 		if(!panel.equals(view.getNewTaskPanel())){
-			e.getComponent().setBackground(new Color(255, 252, 132));
-			view.setChanged(true);
+			if(!e.getComponent().equals(panel.getCmbAssignee()) && !e.getComponent().equals(panel.getCmbStatus())){
+				e.getComponent().setBackground(new Color(255, 252, 132));
+				view.setChanged(true);
+			}
 		}
 	}
 }

@@ -86,24 +86,10 @@ class TreeTransferHandler extends TransferHandler {
 					new ArrayList<DefaultMutableTreeNode>();  
 			List<DefaultMutableTreeNode> toRemove =  
 					new ArrayList<DefaultMutableTreeNode>();  
-			DefaultMutableTreeNode node =  
-					(DefaultMutableTreeNode)paths[0].getLastPathComponent();  
-			DefaultMutableTreeNode copy = copy(node);  
-			copies.add(copy);  
-			toRemove.add(node);  
-			for(int i = 1; i < paths.length; i++) {  
+			for(int i = 0; i < paths.length; i++) {  
 				DefaultMutableTreeNode next =  
 						(DefaultMutableTreeNode)paths[i].getLastPathComponent();  
-				// Do not allow higher level nodes to be added to list.  
-				if(next.getLevel() < node.getLevel()) {  
-					break;  
-				} else if(next.getLevel() > node.getLevel()) {  // child node  
-					copy.add(copy(next));  
-					// node already contains child  
-				} else {                                        // sibling  
 					copies.add(copy(next));  
-					toRemove.add(next);  
-				}  
 			}  
 			DefaultMutableTreeNode[] nodes =  
 					copies.toArray(new DefaultMutableTreeNode[copies.size()]);  

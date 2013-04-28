@@ -31,13 +31,13 @@ public class SaveAttachmentController {
 		
 		String JsonRequest = attachment.toJSON();
 		request.setBody(JsonRequest);
-		System.out.println("Sending REQ to server:" +JsonRequest );
+		//System.out.println("Sending REQ to server:" +JsonRequest );
 		request.addObserver(requestObserver);
 		request.send();
 	}
 
 	public void recievedData(Attachment attachment){
-		System.out.println("attachment friggin returned:" + attachment.getId());
+		//System.out.println("attachment friggin returned:" + attachment.getId());
 		RequirementView reqview = MainTabController.getController().getReqViewHashMap().get(attachment.getOwnerId());
 		
 		Requirement changeReq = reqview.getReqModel().getRequirement();

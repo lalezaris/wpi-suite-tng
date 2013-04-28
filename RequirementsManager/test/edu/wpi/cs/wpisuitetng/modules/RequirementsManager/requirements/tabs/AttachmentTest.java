@@ -16,10 +16,13 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 public class AttachmentTest {
 	Attachment a = null;
 	Attachment b = null;
-	byte[] barray = {62,62,62,62,62,62,62,62,62,62,62,62};//{126,52,89,0,111,122,126,52,89,0,111,122,126,52,89,0,111,122,126,52,89,0,111,122,126,52,89,0,111,122,126,52,89,0,111,122};
+	byte[] barray = new byte[4096];
 	FileOutputStream out = null;
 	@Before
 	public void setup(){
+		for(int i = 0; i<4096; i++){
+			barray[i]=(byte) i;
+		}	
 		a=new Attachment();
 		b=new Attachment(new File(""),3);
 		try {
@@ -59,8 +62,8 @@ public class AttachmentTest {
 		assertEquals(testAttachment.getFileContents(),Base64.encodeBase64String(barray));
 		System.out.println(Base64.encodeBase64String(barray));
 		//assertEquals(Base64.decodeBase64("Pj4+Pj4+Pj4+Pj4+"),barray);
-		//assertEquals(Base64.decodeBase64(Base64.encodeBase64String(barray)), barray);
-		//assertEquals(Base64.decodeBase64(testAttachment.getFileContents()), fileRead);
+		assertArrayEquals(Base64.decodeBase64(Base64.encodeBase64String(barray)), barray);
+		assertArrayEquals(Base64.decodeBase64(testAttachment.getFileContents()), fileRead);
 	}
 	
 	@Test

@@ -179,7 +179,6 @@ public class AttachmentsView extends RequirementTab{
 		 * @param f the file to be displayed.
 		 */
 		public SelectedPanel(File f){
-			System.out.println("made a new selectedpanel called: " +f.getPath());
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("Remove");
@@ -213,7 +212,6 @@ public class AttachmentsView extends RequirementTab{
 		 * @param f the file that is attached.
 		 */
 		public AttachedPanel(File f){
-			System.out.println("made an attachedpanel with file: "+f.getPath());
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("delete");
@@ -381,7 +379,6 @@ public class AttachmentsView extends RequirementTab{
 	public void clearSelectedFiles(){
 		selectedFiles.clear();
 		selectedPanel.removeAll();
-		System.out.println("just cleared all of the selected files");
 	}
 	
 	/**
@@ -400,7 +397,6 @@ public class AttachmentsView extends RequirementTab{
 	 * @param selectedFiles
 	 */
 	public void addSelectedFiles(File[] selectedFiles) {
-		System.out.println("addSelectedFiles("+selectedFiles+") called");
 		for (int i = 0 ; i < selectedFiles.length ; i ++){
 			this.addFileToSelected(selectedFiles[i]);
 		}

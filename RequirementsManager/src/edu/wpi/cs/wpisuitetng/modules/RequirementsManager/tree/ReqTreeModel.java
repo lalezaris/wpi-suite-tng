@@ -161,7 +161,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 				deleted.add(new DefaultMutableTreeNode(requirements[r]));
 		}
 		root.add(deleted);
-		TreeView.expandAll();
+		if (reqs != null){
+			TreeView.expandAll();
+		}
 	}
 
 	/**

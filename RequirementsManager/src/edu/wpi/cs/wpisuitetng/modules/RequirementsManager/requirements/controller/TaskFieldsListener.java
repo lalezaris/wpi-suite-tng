@@ -19,6 +19,7 @@ import java.awt.event.KeyListener;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.TasksView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * The class that listens on all of the fields and validates the task based on what is in them.
@@ -72,8 +73,11 @@ public class TaskFieldsListener implements KeyListener{
 		}
 		
 		//Yellowing
-		e.getComponent().setBackground(new Color(255, 252, 132));
-		view.setChanged(true);
+		if(!panel.equals(view.getNewTaskPanel())){
+			if(!e.getComponent().equals(panel.getCmbAssignee()) && !e.getComponent().equals(panel.getCmbStatus())){
+				e.getComponent().setBackground(MainView.getChangedColor());
+				view.setChanged(true);
+			}
+		}
 	}
-	
 }

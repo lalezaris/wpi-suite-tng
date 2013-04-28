@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 @SuppressWarnings("serial")
-public class TasksView extends RequirementTab{
+public class TasksView extends RequirementTab implements FocusListener{
 	/*layout manager for this panel*/
 	protected BorderLayout layout;
 
@@ -365,6 +367,12 @@ public class TasksView extends RequirementTab{
 		newTaskPanel.getCmbAssignee().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
+
+		newTaskPanel.getTxtName().addFocusListener(this);
+		newTaskPanel.getTxtDescription().addFocusListener(this);
+		newTaskPanel.getCmbAssignee().addFocusListener(this);
+		newTaskPanel.getTxtEffort().addFocusListener(this);
+		newTaskPanel.getCmbStatus().addFocusListener(this);
 	}
 
 
@@ -584,4 +592,30 @@ public class TasksView extends RequirementTab{
 	public JScrollPane getListScrollPane() {
 		return listScrollPane;
 	}
+	
+	/**
+	 * Refresh backgrounds.
+	 */
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();
+		
+	}
+
 }

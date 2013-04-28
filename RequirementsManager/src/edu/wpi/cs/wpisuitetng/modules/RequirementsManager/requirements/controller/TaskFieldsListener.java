@@ -80,5 +80,4 @@ public class TaskFieldsListener implements KeyListener{
 			}
 		}
 	}
-	
 }

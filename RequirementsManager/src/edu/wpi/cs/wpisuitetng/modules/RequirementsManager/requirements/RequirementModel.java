@@ -459,6 +459,49 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getListDisplay().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(MainView.getChangedColor());
+		
+		
+		//Tasks
+		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getText().equals("") && !view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getText().equals(null)) {
+			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().setBackground(MainView.getChangedColor());
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getBackground().equals(MainView.getChangedColor()))
+				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().setBackground(Color.WHITE);
+		
+		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().getText().equals("") && !view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().equals(null)) {
+			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().setBackground(MainView.getChangedColor());
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().getBackground().equals(MainView.getChangedColor()))
+				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().setBackground(Color.WHITE);
+		
+		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().getSelectedItem().equals("")) {
+			view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().setBackground(MainView.getChangedColor());
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().getBackground().equals(MainView.getChangedColor()))
+				view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().setBackground(Color.WHITE);
+		
+		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().getText().equals("0")) {
+			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().setBackground(MainView.getChangedColor());
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().getBackground().equals(MainView.getChangedColor()))
+				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().setBackground(Color.WHITE);
+		
+		if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().getSelectedIndex() != 0) {
+			view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().setBackground(MainView.getChangedColor());
+			flag = true;
+		}
+		else
+			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().getBackground().equals(MainView.getChangedColor()))
+				view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().setBackground(Color.WHITE);
+
 
 		return flag;
 	}

@@ -67,6 +67,10 @@ public class DeleteRequirementController {
 			final Requirement parent = view.getParentRequirement();
 			parent.removeChildRequirement(delRequirement.getId());
 			
+			if (delRequirement.getStatus() == RequirementStatus.COMPLETE) {
+				parent.removeCompletedChild();
+			}
+			
 			parent.setEstimateEffort(parent.getEstimateEffort() - delRequirement.getEstimateEffort());
 			
 			Request parentRequest;

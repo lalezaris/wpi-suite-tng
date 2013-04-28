@@ -445,4 +445,11 @@ public class RequirementListPanel extends JPanel{
 	public JButton getUpdateButton() {
 		return updateButton;
 	}
+
+	/**
+	 * @return the buttonPanel
+	 */
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
 }

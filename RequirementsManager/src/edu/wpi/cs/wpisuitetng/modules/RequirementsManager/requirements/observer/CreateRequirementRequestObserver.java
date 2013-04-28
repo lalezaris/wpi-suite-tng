@@ -112,7 +112,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 							 * saved again by the user if they don't want to
 							 */
 //<<<<<<< HEAD
-							Requirement uneditedParent = parentView.getReqModel().getRequirement();
+							Requirement uneditedParent = parentView.getReqModel().getUneditedRequirement();
 							
 							Requirement uneditedParentWithChild = new Requirement(
 									uneditedParent.getId(), 
@@ -173,7 +173,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 
 //<<<<<<< HEAD
 
-							//parentView.getReqModel().setRequirement(uneditedParentWithChild);
 
 							//now to save the uneditedParentWithChild to database
 //=======

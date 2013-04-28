@@ -85,7 +85,7 @@ public class HistoricalChange extends AbstractModel{
 		change += "<p>" + "Requirement was created." + "</p>";
 
 		if (req.getNotes().size() != 0){//if a note was added at the time of creation
-			change += "<p> "+ req.getNotes().size();
+			change += "<p> " + req.getNotes().size();
 			if(req.getNotes().size() == 1)
 				change += " note added.</p>";
 			else
@@ -93,30 +93,27 @@ public class HistoricalChange extends AbstractModel{
 		}
 
 		if (req.getAssignee().size() != 0){//if assignee(s) was(were) added at the time of creation
-			change += "<p> ";
+			change += "<p> " + req.getAssignee().size();
 			if(req.getAssignee().size() == 1)
-				change += "Assignee ";
+				change += " assignee added.</p>";
 			else
-				change += "Assignees ";
-			change += "added: " + req.getAssignee() + ".</p>";
+				change += " assignees added.</p>";
 		}
 
 		if (req.getAcceptanceTests().size() != 0){//if acceptance test(s) was(were) added at the time of creation
-			change += "<p> ";
+			change += "<p> " + req.getAcceptanceTests().size();
 			if(req.getAcceptanceTests().size() == 1)
-				change += "Acceptance Test ";
+				change += " acceptance test added.</p>";
 			else
-				change += "Acceptance Tests ";
-			change += "added: " + req.getAcceptanceTests() + ".</p>";
+				change += " acceptance tests added.</p>";
 		}
 		
 		if (req.getTasks().size() != 0){//if task(s) was(were) added at the time of creation
-			change += "<p> ";
+			change += "<p> " + req.getTasks().size();
 			if(req.getTasks().size() == 1)
-				change += "Task ";
+				change += " task added.</p>";
 			else
-				change += "Tasks ";
-			change += "added: " + req.getTasks() + ".</p>";
+				change += " tasks added.</p>";
 		}
 		
 		//Attachments cannot be added on creation of requirement
@@ -226,7 +223,10 @@ public class HistoricalChange extends AbstractModel{
 
 		//compare assignee 
 		if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			change += "<p> "+"Assignee changed from " + oldR.getAssignee() + " to " + newR.getAssignee() + ".</p>";
+			change += "<p> "+"Assignee changed from ";
+			change += (oldR.getAssignee() == null)? "NONE" : oldR.getAssignee();
+			change += " to ";
+			change += (newR.getAssignee() == null)? "NONE" : newR.getAssignee() + ".</p>";
 		}
 
 		//compare notes lists
@@ -240,7 +240,10 @@ public class HistoricalChange extends AbstractModel{
 
 		//compare Acceptance Test list size
 		if (acceptanceTestDifference != 0){//if old and new are not the same
-			change += "<p> "+ acceptanceTestDifference+ " Acceptance Tests added.</p>";
+			if(acceptanceTestDifference == 1)
+				change += "<p> "+ acceptanceTestDifference+ " Acceptance Test added.</p>";
+			else
+				change += "<p> "+ acceptanceTestDifference+ " Acceptance Tests added.</p>";
 		}
 
 		//compare Acceptance Test list contents
@@ -253,7 +256,10 @@ public class HistoricalChange extends AbstractModel{
 
 		//compare Task list size
 		if (taskDifference != 0){//if old and new are not the same
-			change += "<p> "+ taskDifference+ " tasks added.</p>";
+			if(taskDifference == 1)
+				change += "<p> "+ taskDifference+ " task added.</p>";
+			else
+				change += "<p> "+ taskDifference+ " tasks added.</p>";
 		}
 	}
 

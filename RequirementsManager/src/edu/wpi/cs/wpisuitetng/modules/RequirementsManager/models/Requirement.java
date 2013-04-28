@@ -50,7 +50,7 @@ public class Requirement extends AbstractModel{
 	private RequirementType type;
 	private String releaseNumber;
 	private int iterationId = 0; //TODO: refactor to improve implementation
-	private Iteration iteration;
+	private Iteration iteration; 
 	private String description;
 	private RequirementStatus status;
 	private RequirementPriority priority;
@@ -653,6 +653,10 @@ public class Requirement extends AbstractModel{
 	 */
 	public int getIterationId(){
 		return this.iterationId;
+	}
+	
+	public void setChildIDs(ArrayList<Integer> c){
+		this.childIDs = c;
 	}
 
 	/**

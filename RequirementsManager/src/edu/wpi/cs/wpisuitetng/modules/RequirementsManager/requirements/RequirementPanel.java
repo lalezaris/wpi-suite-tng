@@ -893,7 +893,11 @@ public class RequirementPanel extends JPanel implements FocusListener {
 				.getSelectedItem()));
 		requirement.setTitle(txtTitle.getText().trim());
 		requirement.setReleaseNumber(txtReleaseNumber.getText());
-		requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
+		
+		if (!(cmbIteration.getSelectedItem() == null)) {
+			requirement.setIteration((Iteration) cmbIteration.getSelectedItem());
+		}
+		
 		requirement.setDescription(txtDescription.getText().trim());
 		requirement.setStatus(RequirementStatus.valueOf((String) cmbStatus
 				.getSelectedItem()));

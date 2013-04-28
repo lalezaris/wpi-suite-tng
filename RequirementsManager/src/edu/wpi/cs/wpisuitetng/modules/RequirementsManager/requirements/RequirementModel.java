@@ -142,7 +142,7 @@ public class RequirementModel {
 		requirement.setActualEffort(req.getActualEffort());
 		requirement.updateNotes(req.getNotes());
 		requirement.updateHistory(req.getHistory());
-
+		requirement.setCompletedChildren(req.getCompletedChildren());
 		requirement.setParentRequirementId(requirement.getParentRequirementId());
 
 		view.getRequirementPanel().getTxtTotalEstimate().setText(  String.valueOf(requirement.getTotalEstimateEffort()));

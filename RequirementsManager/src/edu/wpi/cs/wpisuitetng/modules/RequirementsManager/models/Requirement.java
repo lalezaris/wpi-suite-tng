@@ -60,6 +60,7 @@ public class Requirement extends AbstractModel{
 	private int parentRequirementId;
 	private int id;
 	private String creatorUsername;
+	private int childrenCompleted;
 	private ArrayList<String> assignee; //putting this in to keep track of user
 	private ArrayList<Note> notes; //the list of notes on this requirement
 	private ArrayList<Integer> childIDs;
@@ -168,6 +169,7 @@ public class Requirement extends AbstractModel{
 				return super.add(i);
 			}
 		});;
+		this.childrenCompleted = 0;
 	}
 	
 	
@@ -890,5 +892,40 @@ public class Requirement extends AbstractModel{
 	public void setTotalEstimateEffort(int totalEstimateEffort) {
 		this.totalEstimateEffort = totalEstimateEffort;
 	}
-
+	
+	/**
+	 * @return true if the requirement can be complete
+	 */
+	public boolean canBeCompleted() {
+		System.out.println("children completed: " + childrenCompleted);
+		System.out.println("children: " + childIDs.size());
+		if (childrenCompleted == childIDs.size()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Increase the completedChildren counter by one
+	 */
+	public void addCompletedChild() {
+		childrenCompleted++;
+		System.out.println("ADDED ANOTHER COMPLETED CHILD: " + childrenCompleted);
+	}
+	
+	/**
+	 * Decrease the completedChildren counter by one
+	 */
+	public void removeCompletedChild() {
+		childrenCompleted--;
+	}
+	
+	public int getCompletedChildren() {
+		return childrenCompleted;
+	}
+	
+	public void setCompletedChildren(int childrenCompleted) {
+		this.childrenCompleted = childrenCompleted;
+	}
 }

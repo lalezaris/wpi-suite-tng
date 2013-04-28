@@ -34,13 +34,13 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 public class IterationListPanelTest {
 	IterationListPanel panel;
 	@SuppressWarnings("deprecation")
-	Date date1 = new Date(2013, 4, 1);
+	Date date1 = new Date(2013, 4, 1, 0, 0, 0);
 	@SuppressWarnings("deprecation")
-	Date date2 = new Date(2013, 4, 3);
+	Date date2 = new Date(2013, 4, 3, 0, 0, 0);
 	@SuppressWarnings("deprecation")
-	Date date3 = new Date(2013, 4, 5);
+	Date date3 = new Date(2013, 4, 5, 0, 0, 0);
 	@SuppressWarnings("deprecation")
-	Date date4 = new Date(2013, 4, 7);
+	Date date4 = new Date(2013, 4, 7, 0, 0, 0);
 	
 	@Before
 	public void setUp() {

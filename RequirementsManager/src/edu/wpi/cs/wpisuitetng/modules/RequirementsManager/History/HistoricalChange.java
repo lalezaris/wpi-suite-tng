@@ -115,14 +115,6 @@ public class HistoricalChange extends AbstractModel{
 		int notesDifference = (newR.getNotes().size() - oldR.getNotes().size());
 		int acceptanceTestDifference = (newR.getAcceptanceTests().size() - oldR.getAcceptanceTests().size());
 		int taskDifference = (newR.getTasks().size() - oldR.getTasks().size());
-
-		//compare History. If oldR's latest history item is different from newR's, add that history text to this one
-		
-		if (oldR.getHistory().size() > 0 &&
-				newR.getHistory().size() > 0 &&
-				oldR.getHistory().get(oldR.getHistory().size() - 1).getChange().compareTo(newR.getHistory().get(newR.getHistory().size() - 1).getChange()) != 0){
-			change += oldR.getHistory().get(oldR.getHistory().size() - 1).getChange();
-		}
 		
 		//compare titles
 		if (oldR.getTitle().compareTo(newR.getTitle()) != 0){//if old and new are not the same

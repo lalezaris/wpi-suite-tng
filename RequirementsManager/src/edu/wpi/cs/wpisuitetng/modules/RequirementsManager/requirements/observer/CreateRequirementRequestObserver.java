@@ -150,7 +150,6 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 									parentView.getRequirementPanel().getCmbStatus().removeItemAt(i);
 								}
 							}
-							System.out.println("new Requirement in view : " + parentView.getReqModel().getUneditedRequirement().toJSON());
 							//now to save the uneditedPanelWithChild to database
 							String JsonRequest = uneditedParentWithChild.toJSON();
 							final RequestObserver requestObserver = new UpdateRequirementRequestObserver(parentView);

@@ -79,11 +79,10 @@ public class Attachment extends AbstractModel{
 		//TODO actually load the contents into fileContents when this is called
 				try {
 					File OF = file;//new File(file.getName());
-					System.out.println(OF.getPath() + " whatever the fuch you wantd hit the stlk " + OF.getName());
 					FileOutputStream out = new FileOutputStream(OF);
 					int i=0;
 					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
-					
+
 					out.write(contents, 0, contents.length);
 					out.close();//new String(Base64.encodeBase64
 //					this.setFileContents(Base64.encodeBase64String(contents));

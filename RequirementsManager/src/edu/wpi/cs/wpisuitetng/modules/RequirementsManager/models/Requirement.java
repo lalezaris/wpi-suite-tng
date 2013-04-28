@@ -165,7 +165,6 @@ public class Requirement extends AbstractModel{
 		this.setAttachedFileName(new ArrayList<String>());
 		this.setAttachedFileId(new ArrayList<Integer>(){
 			public boolean add(Integer i){
-				System.out.println("so i added this thing to me: "+i);
 				return super.add(i);
 			}
 		});;
@@ -859,7 +858,6 @@ public class Requirement extends AbstractModel{
 	 */
 	public ArrayList<Integer> getAttachedFileId() {
 		if(attachedFileIdStr == null){
-			System.out.println("returning empty list in getAttachedFileId");
 			return new ArrayList<Integer>();
 			
 		}
@@ -884,7 +882,6 @@ public class Requirement extends AbstractModel{
 			attachedFileIdStr = "";
 		}
 		for(Integer s : attachedFileIds){
-			System.out.println("setting the file ids to " + s);
 			attachedFileIdStr += s + ":";
 		}
 	}
@@ -908,8 +905,6 @@ public class Requirement extends AbstractModel{
 	 * @return true if the requirement can be complete
 	 */
 	public boolean canBeCompleted() {
-		System.out.println("children completed: " + childrenCompleted);
-		System.out.println("children: " + childIDs.size());
 		if (childrenCompleted == childIDs.size()) {
 			return true;
 		} else {
@@ -922,7 +917,6 @@ public class Requirement extends AbstractModel{
 	 */
 	public void addCompletedChild() {
 		childrenCompleted++;
-		System.out.println("ADDED ANOTHER COMPLETED CHILD: " + childrenCompleted);
 	}
 	
 	/**

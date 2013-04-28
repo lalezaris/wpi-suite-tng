@@ -456,8 +456,17 @@ public class RequirementListPanel extends JPanel{
 		return updateButton;
 	}
 
+	 /**
+ 	 * Gets the button panel.
+ 	 *
+ 	 * @return the buttonPanel
+ 	 */
+	public JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+	
 	/**
-	 * Gets the original, unsaved content of a requirement..
+	 * Gets the original, unsaved content of a requirement.
 	 *
 	 * @return the original requirement content
 	 */
@@ -512,5 +521,4 @@ public class RequirementListPanel extends JPanel{
 		}
 		return fresh;
 	}
-
 }

@@ -109,12 +109,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 			default:
 				setIcon(no_priority_icon);
 			}
-			
-			// Color the fake requirements
-			if (req.checkFake()) {
-	//			setEnabled(false);
-				setForeground(Color.magenta);
-			}
+
 			// Color the requirement whose iteration is different than its parent's iteration
 			Requirement[] reqs = ((ReqTreeModel)tree.getModel()).getRequirements();
 			for (int i = 0; i < reqs.length; i++) {
@@ -122,8 +117,18 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 					if (reqs[i].getId() == req.getParentRequirementId()) {
 						if (reqs[i].getIterationId() != req.getIterationId()) {
 							setForeground(Color.gray);
-							setText(getText() + "*");
+							setText("*" + getText());
 						}
+					}
+				}
+			}
+
+			// Color the fake requirements
+			if (req.checkFake()) {
+				setForeground(Color.magenta);
+				if (req.getTitle().charAt(0) != '*') {
+					if (getText().charAt(0) == '*') {
+						setText(getText().substring(1));
 					}
 				}
 			}
@@ -134,7 +139,7 @@ public class ReqTreeCellRenderer extends DefaultTreeCellRenderer {
 			Calendar cEnd = Calendar.getInstance();
 			cEnd.setTime(iter.getEndDate());
 			cEnd.add(Calendar.DATE, 1);
-			
+
 			if (iter.getName().equals("Backlog")) {
 				setIcon(default_folder);
 			} else {

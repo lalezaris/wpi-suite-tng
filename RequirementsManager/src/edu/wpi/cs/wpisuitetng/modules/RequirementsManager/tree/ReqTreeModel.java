@@ -16,8 +16,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -113,7 +115,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 				nodes.add(new DefaultMutableTreeNode(requirements[r]));
 			}
 		}
-
+		
+		List<Integer> added = new ArrayList<Integer>();
 		for (int r = 0; r < nodes.size(); r++) { // iterate through every requirement
 			Requirement leafReq = (Requirement) nodes.get(r).getUserObject();
 
@@ -126,15 +129,26 @@ public class ReqTreeModel extends DefaultTreeModel {
 							// If they are in the same iteration, do hierarchy
 							nodes.get(z).add(nodes.get(r));
 						} else {
-							// If not, fake a node to be greyed out
-							nodes.get(z).add(new DefaultMutableTreeNode(new Requirement(leafReq)));
+							// If not, fake a node to be colored
+							DefaultMutableTreeNode fakeNode = new DefaultMutableTreeNode(new Requirement(leafReq));
+							for (int x = 0; x < requirements.length; x++) {
+								if (leafReq.getChildRequirementIds().contains(requirements[x].getId())) {
+									if (requirements[x].getIterationId() == leafReq.getIterationId()) {
+									} else {
+										fakeNode.add(new DefaultMutableTreeNode(requirements[x]));
+										added.add(requirements[x].getId());
+									}
+								}
+							}
+							nodes.get(z).add(fakeNode);
 							// Find the iteration node and add it
 							int reqIterationID = leafReq.getIterationId();
 							for (int x = 0; x < iterations.length; x++) {
 								Iteration potentialIteration = (Iteration) iterationNodes.get(x).getUserObject();
 
 								if (potentialIteration.getId() == reqIterationID) {
-									iterationNodes.get(x).add(nodes.get(r));
+									if (!(added.contains(leafReq.getId())))
+										iterationNodes.get(x).add(nodes.get(r));
 								}
 							}
 						}

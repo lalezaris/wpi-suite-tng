@@ -67,9 +67,9 @@ public class RetrieveAllIterationsControllerTree {
 		if (Iterations.length > 0) {
 			// save the data
 
-			this.data = Iterations;
+			data = Iterations;
 			Refresher.getInstance().setLastKnownIterations(Iterations);
-			this.view.addIterations(Refresher.getInstance().getInstantIterations());
+			view.addIterations(Refresher.getInstance().getInstantIterations());
 		}
 	}
 

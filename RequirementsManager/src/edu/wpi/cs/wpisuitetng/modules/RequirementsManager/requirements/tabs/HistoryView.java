@@ -70,7 +70,7 @@ public class HistoryView extends RequirementTab {
 	 * @param history
 	 */
 	public void setHistoryList(ArrayList<HistoricalChange> history) {
-		this.historyAL = history;
+		historyAL = history;
 		for(int i = 0; i <historyAL.size(); i++){
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
@@ -88,7 +88,7 @@ public class HistoryView extends RequirementTab {
 
 		listModel = new DefaultListModel<HistoricalChange>();
 
-		for(int i = 0; i <this.historyAL.size(); i++){
+		for(int i = 0; i <historyAL.size(); i++){
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
@@ -113,7 +113,7 @@ public class HistoryView extends RequirementTab {
 	 * @return list of history
 	 */
 	public ArrayList<HistoricalChange> getHistoryList() {
-		return this.historyAL;
+		return historyAL;
 	}
 
 	@Override

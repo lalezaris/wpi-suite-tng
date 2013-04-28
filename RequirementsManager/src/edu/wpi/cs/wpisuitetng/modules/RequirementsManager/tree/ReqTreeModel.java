@@ -93,8 +93,8 @@ public class ReqTreeModel extends DefaultTreeModel {
 		count = 0;
 		id = 0;
 
-		this.iterations = Refresher.getInstance().getInstantIterations();
-		this.root.removeAllChildren();
+		iterations = Refresher.getInstance().getInstantIterations();
+		root.removeAllChildren();
 
 		this.reload();
 
@@ -161,7 +161,9 @@ public class ReqTreeModel extends DefaultTreeModel {
 				deleted.add(new DefaultMutableTreeNode(requirements[r]));
 		}
 		root.add(deleted);
-		TreeView.expandAll();
+		if (reqs != null){
+			TreeView.expandAll();
+		}
 	}
 
 	/**

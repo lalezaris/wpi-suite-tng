@@ -18,6 +18,8 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 @SuppressWarnings("serial")
-public class TasksView extends RequirementTab{
+public class TasksView extends RequirementTab implements FocusListener{
 	/*layout manager for this panel*/
 	protected BorderLayout layout;
 
@@ -122,13 +124,16 @@ public class TasksView extends RequirementTab{
 		}
 
 		//Get permissions
-		this.pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		pLevel = CurrentUserPermissions.getCurrentUserPermission();
 
 		this.parent = parent;
 
 		//Use a grid bag layout manager
-		this.layout = new BorderLayout();
+		layout = new BorderLayout();
 		this.setLayout(layout);
+
+		//Create some Feature stuff
+		createNewTaskPanel();
 		
 		redisplay();
 	}
@@ -148,13 +153,6 @@ public class TasksView extends RequirementTab{
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
-	/**Redisplay and repaint the task panels.
-	 * 
-	 */
-	public void redisplayRight(){
-		listScrollPane = displayTasksPanels();
-		listScrollPane.repaint();
-	}
 	
 	/**Create task panels out of the tasks.
 	 * @param newTask The task to make the panel out of.
@@ -235,6 +233,7 @@ public class TasksView extends RequirementTab{
 			if(!contains.equals("") && !list.get(i).getName().contains(contains)){
 				taskPanelArray.get(i).setCanDisplay(false);
 			}
+			//Add the ones that can display.
 			if(taskPanelArray.get(i).isCanDisplay()){
 				overallPanel.add(taskPanelArray.get(i), cTask);//Put each one in the overallPanel to display them all at once.
 			}
@@ -260,7 +259,7 @@ public class TasksView extends RequirementTab{
 		featurePanel = new JPanel();
 		tempPanel = new JPanel();
 
-		JLabel containsLabel = new JLabel("Search for tasks whose names contain: ", JLabel.TRAILING);
+		JLabel containsLabel = new JLabel("Filter by names containing: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
 		containsField.setMinimumSize(getPreferredSize());
 		containsField.setMaximumSize(getPreferredSize());
@@ -299,6 +298,8 @@ public class TasksView extends RequirementTab{
 		cTemp.weighty = 0.5;
 		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
 		tempPanel.add(hideBox, cTemp);
+		
+		tempPanel.setMinimumSize(getPreferredSize());
 
 		//Add listeners to the features
 		containsField.addKeyListener(new TaskSearchListener(this));
@@ -324,14 +325,22 @@ public class TasksView extends RequirementTab{
 		cFeat.weighty = 0.5;
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 
+		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
+		return featurePanel;
+	}
+	
+	/**Create the New Task panel on the left side (so we can create new tasks).
+	 * 
+	 */
+	public void createNewTaskPanel(){
 		newTaskPanel = new TasksPanel(userNames);
-
+		
 		//Make the save button create a new task.
 		if(list.size() > 0)
 			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(list.get(list.size()-1).getId()+1, this));//Make the id 1 higher
 		else
 			newTaskPanel.getSaveButton().addActionListener(new CreateTaskListener(1, this));//No tasks, start at ID 1.
-
+		
 		//Default the save button and status to disabled
 		if(newTaskPanel.getTxtName().getText().equals("") || newTaskPanel.getTxtDescription().getText().equals("")){
 			newTaskPanel.getSaveButton().setEnabled(false);//Disable the save if the name is blank.
@@ -359,11 +368,11 @@ public class TasksView extends RequirementTab{
 		newTaskPanel.getTxtEffort().addKeyListener(new TaskFieldsListener(newTaskPanel, this));
 		newTaskPanel.getCmbStatus().addActionListener(new TaskDropdownListener(newTaskPanel, this));
 
-		//newTaskPanel.setMinimumSize(getPreferredSize());
-		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
-
-		//featScrollPane = new JScrollPane(featurePanel);
-		return featurePanel;
+		newTaskPanel.getTxtName().addFocusListener(this);
+		newTaskPanel.getTxtDescription().addFocusListener(this);
+		newTaskPanel.getCmbAssignee().addFocusListener(this);
+		newTaskPanel.getTxtEffort().addFocusListener(this);
+		newTaskPanel.getCmbStatus().addFocusListener(this);
 	}
 
 
@@ -458,13 +467,14 @@ public class TasksView extends RequirementTab{
 	 * @param task the list of tasks
 	 */
 	public void setList(ArrayList<Task> tasks) {
-		this.list = tasks;
+		list = tasks;
 		makeOriginalList(tasks);//Keep track of the tasks in the list.
 		//Make the task array panel
 		taskPanelArray = new ArrayList<TasksPanel>();
 		for(int i = 0; i < list.size(); i ++){
 			taskPanelArray.add(createTaskPanel(list.get(i)));
 		}
+		createNewTaskPanel();
 		redisplay();
 	}
 
@@ -582,4 +592,30 @@ public class TasksView extends RequirementTab{
 	public JScrollPane getListScrollPane() {
 		return listScrollPane;
 	}
+	
+	/**
+	 * Refresh backgrounds.
+	 */
+	public void refreshBackgrounds() {
+		this.parent.getReqModel().updateBackgrounds();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusGained(FocusEvent e) {
+		this.refreshBackgrounds();
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	@Override
+	public void focusLost(FocusEvent e) {
+		this.refreshBackgrounds();
+		
+	}
+
 }

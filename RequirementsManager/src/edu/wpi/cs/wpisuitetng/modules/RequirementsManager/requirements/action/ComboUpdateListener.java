@@ -59,7 +59,7 @@ public class ComboUpdateListener implements ItemListener {
 	public ComboUpdateListener(RequirementPanel panel, JComboBox component) {
 		this.panel = panel;
 		this.component = component;
-		this.defaultBorder = component.getBorder();
+		defaultBorder = component.getBorder();
 	}
 
 	/** 

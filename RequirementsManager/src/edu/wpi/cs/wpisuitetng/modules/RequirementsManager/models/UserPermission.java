@@ -42,7 +42,7 @@ public class UserPermission extends AbstractModel {
 	public UserPermission(String username, RMPermissionsLevel permissions) {
 		this.username = username;
 		this.permissions = permissions;
-		this.id = -1;
+		id = -1;
 	}	
 
 	/**
@@ -50,9 +50,9 @@ public class UserPermission extends AbstractModel {
 	 * 
 	 */
 	public UserPermission() {
-		this.username = "";
-		this.permissions = RMPermissionsLevel.NONE;
-		this.id = -1;
+		username = "";
+		permissions = RMPermissionsLevel.NONE;
+		id = -1;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class UserPermission extends AbstractModel {
 	 * @return id
 	 */
 	public int getId(){
-		return this.id;
+		return id;
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class UserPermission extends AbstractModel {
 	 * @return the message
 	 */
 	public String getMessage(){
-		return this.message;
+		return message;
 	}
 
 	/**

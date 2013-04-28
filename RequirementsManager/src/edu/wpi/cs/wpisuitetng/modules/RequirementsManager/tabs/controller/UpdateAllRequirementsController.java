@@ -60,7 +60,7 @@ public class UpdateAllRequirementsController {
 	public UpdateAllRequirementsController(RequirementListPanel panel){
 		this.panel = panel;
 		issues = new ArrayList<ValidationIssue>();
-		this.waitUpdateCount = 0;
+		waitUpdateCount = 0;
 	}
 
 	/**
@@ -139,9 +139,9 @@ public class UpdateAllRequirementsController {
 		
 		
 		if (issues.size() == 0){ //THERE WERE NO ISSUES. SO STUFF ACTUALLY SAVED
-			this.panel.getModel().setIsChange(false);
-			this.panel.getFilterController().getPanel().triggerTableUpdate();
-			this.panel.setButtonsForSaving();
+			panel.getModel().setIsChange(false);
+			panel.getFilterController().getPanel().triggerTableUpdate();
+			panel.setButtonsForSaving();
 		}
 		
 	
@@ -162,8 +162,8 @@ public class UpdateAllRequirementsController {
 		request.setBody(JsonRequest);
 		request.addObserver(new UpdateRequirementObserver(this));
 		request.send();
-		this.waitUpdateCount++;
-		this.panel.getModel().setIsChange(false);
+		waitUpdateCount++;
+		panel.getModel().setIsChange(false);
 	}
 
 	/**
@@ -194,10 +194,10 @@ public class UpdateAllRequirementsController {
 	 * Update success.
 	 */
 	public void updateSuccess() {
-		this.waitUpdateCount--;
-		if (this.waitUpdateCount<=0){
+		waitUpdateCount--;
+		if (waitUpdateCount<=0){
 			waitUpdateCount = 0;
-			this.panel.setButtonsForNoChanges();
+			panel.setButtonsForNoChanges();
 			ReqTreeModel tree = Refresher.getInstance().getTreeModel();
 			if (tree!=null)
 				tree.refreshTree();

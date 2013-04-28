@@ -39,7 +39,7 @@ public class AcceptanceTest extends AbstractModel{
 	public AcceptanceTest(String title, String body){
 		this.title = title;
 		this.body = body;
-		this.status = "";
+		status = "";
 	}
 	
 	/**
@@ -59,9 +59,9 @@ public class AcceptanceTest extends AbstractModel{
 	 * Instantiates a new acceptance test.
 	 */
 	public AcceptanceTest(){
-		this.title = "";
-		this.body = "";
-		this.status = "";
+		title = "";
+		body = "";
+		status = "";
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * @return the title
 	 */
 	public String getTitle(){
-		return this.title;
+		return title;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * @param t the new title
 	 */
 	public void setTitle(String t){
-		this.title = t;
+		title = t;
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * @return the body
 	 */
 	public String getBody(){
-		return  this.body;
+		return  body;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class AcceptanceTest extends AbstractModel{
 	 * @param b the new body
 	 */
 	public void setBody(String b){
-		this.body = b;
+		body = b;
 	}
 
 	/**
@@ -106,15 +106,15 @@ public class AcceptanceTest extends AbstractModel{
 	 * @return the status
 	 */
 	public String getStatus(){
-		if ((this.status.compareTo("") == 0) || (this.status.compareTo("Blank") == 0))
+		if ((status.compareTo("") == 0) || (status.compareTo("Blank") == 0))
 			return "";
-		if(this.status.compareTo("Passed") == 0)
+		if(status.compareTo("Passed") == 0)
 			return "Passed";
-		if(this.status.compareTo("Failed") == 0)
+		if(status.compareTo("Failed") == 0)
 			return "Failed";
 		//otherwise
-		this.status = "";
-		return this.status;
+		status = "";
+		return status;
 		
 	}
 	
@@ -124,9 +124,9 @@ public class AcceptanceTest extends AbstractModel{
 	 * @return the status index
 	 */
 	public int getStatusIndex(){
-		if (this.status.compareTo("Passed") == 0)
+		if (status.compareTo("Passed") == 0)
 			return 1;
-		if (this.status.compareTo("Failed") == 0)
+		if (status.compareTo("Failed") == 0)
 			return 2;
 		return 0;	}
 
@@ -137,7 +137,7 @@ public class AcceptanceTest extends AbstractModel{
 	 */
 	public void setStatus(String s){
 		if (s.compareTo("") == 0 || s.compareTo("Passed") == 0 || s.compareTo("Failed") == 0){
-			this.status = s;
+			status = s;
 		}
 	}
 
@@ -198,10 +198,10 @@ public class AcceptanceTest extends AbstractModel{
 	}
 
 	public String toString(){
-		if (this.status.compareTo("") == 0 || this.status.compareTo("Blank") == 0){
+		if (status.compareTo("") == 0 || status.compareTo("Blank") == 0){
 			return " >" + this.getTitle();
 		}else{
-			return " >" + this.getTitle() + " (" + this.status + ")";
+			return " >" + this.getTitle() + " (" + status + ")";
 		}
 	}
 

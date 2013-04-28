@@ -64,7 +64,7 @@ public class JPlaceholderTextField extends JTextField {
 	 */
 	public JPlaceholderTextField(String text, int columns) {
 		super(text, columns);
-		this.placeholderText = text;
+		placeholderText = text;
 		this.setForeground(Color.gray);
 
 		// Listen for gain focus and lose focus to remove/add

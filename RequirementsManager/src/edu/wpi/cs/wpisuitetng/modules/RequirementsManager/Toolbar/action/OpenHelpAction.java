@@ -18,8 +18,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.AbstractAction;
+
+import edu.wpi.cs.wpisuitetng.janeway.config.ConfigManager;
 
 /**
  * Action to open the User Guide webpage.
@@ -37,11 +40,15 @@ public class OpenHelpAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try {
-			openWebpage(new URI("https://github.com/cmdunkers/wpi-suite-tng/wiki/User-Guide-to-Requirements-Manager"));
-		} catch (URISyntaxException e1) {
-			e1.printStackTrace();
-		}
+			URL url = ConfigManager.getConfig().getCoreUrl();
+			System.out.println("URL: " + url.toString());
+			String urlString = url.toString();
+			urlString = urlString.substring(0, urlString.length() - 3) + "UserManual.pdf";
+			try {
+				openWebpage(new URI(urlString));
+			} catch (URISyntaxException e1) {
+				e1.printStackTrace();
+			}
 	}
 
 	/**

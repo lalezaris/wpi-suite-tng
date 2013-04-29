@@ -40,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAttachmentController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * The Class to hold AssigneeView.
@@ -200,6 +201,7 @@ public class AttachmentsView extends RequirementTab{
 				}
 				
 			});
+			this.setBackground(MainView.getChangedColor());
 			this.add(delete);
 			this.add(text);	
 		}	

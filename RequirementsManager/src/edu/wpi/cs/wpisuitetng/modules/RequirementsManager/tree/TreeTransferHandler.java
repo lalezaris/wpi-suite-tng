@@ -152,7 +152,7 @@ class TreeTransferHandler extends TransferHandler {
 			for(int i = 0; i < nodes.length; i++) {
 				Requirement req = checkFake(r.get(i));
 				// Change the requirement
-				if (req.getStatus() == RequirementStatus.NEW) {
+				if (req.getStatus() == RequirementStatus.NEW || req.getStatus() == RequirementStatus.OPEN) {
 					req.setStatus(RequirementStatus.INPROGRESS);
 				}
 				req.setIteration((Iteration)destObject);
@@ -196,6 +196,7 @@ class TreeTransferHandler extends TransferHandler {
 				Requirement req = backFromDel(checkFake(r.get(i)));
 				// Change the requirement
 				req.setIterationId(0);
+				req.setStatus(RequirementStatus.OPEN);
 				// Save the changed requirement
 				controller = new SaveRequirementController(req);
 				controller.save();

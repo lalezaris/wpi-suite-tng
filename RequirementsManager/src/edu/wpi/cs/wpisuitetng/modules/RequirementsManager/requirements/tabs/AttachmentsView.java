@@ -79,7 +79,7 @@ public class AttachmentsView extends RequirementTab{
 		
 		addFileButton = new JButton("Choose");
 		uploadFileButton = new JButton("Upload");
-		uploadFileButton.setVisible(false);
+		uploadFileButton.setEnabled(false);
 		
 		selectLabel = new JLabel("Select New File  ");
 		uploadLabel = new JLabel("Upload File  ");
@@ -424,11 +424,12 @@ public class AttachmentsView extends RequirementTab{
 	}
 	
 	private void removeFileFromSelected(SelectedPanel sp){
-		if(selectedFiles.size() == 0){
-			addFileButton.setVisible(true);
-		}
 		selectedFiles.remove(sp.file);
 		selectedPanel.remove(sp);
+		if(selectedFiles.size() == 0){
+			addFileButton.setEnabled(true);
+			uploadFileButton.setVisible(false);
+		}
 		selectedPanel.revalidate();
 		selectedPanel.repaint();
 	}

@@ -46,6 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -393,7 +394,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 		//Set the border to show it is different.
 		else{
 			//Draw the border on the panel that was edited.
-			taskPanelArray.get(position).setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
+			taskPanelArray.get(position).setBorder(BorderFactory.createLineBorder(MainView.getChangedColor(), 5));
 		}
 
 	}

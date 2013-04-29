@@ -14,10 +14,12 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -38,6 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAttachmentController;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * The Class to hold AssigneeView.
@@ -76,7 +79,7 @@ public class AttachmentsView extends RequirementTab{
 		
 		addFileButton = new JButton("Choose");
 		uploadFileButton = new JButton("Upload");
-		uploadFileButton.setVisible(false);
+		uploadFileButton.setEnabled(false);
 		
 		selectLabel = new JLabel("Select New File  ");
 		uploadLabel = new JLabel("Upload File  ");
@@ -108,7 +111,7 @@ public class AttachmentsView extends RequirementTab{
 		attachedButtonPanel.setLayout(new GridBagLayout());
 		
 		c.weightx = .5;
-		c.weighty = .5;
+		c.weighty = 0;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		selectedButtonPanel.add(selectLabel,c);
 		
@@ -118,20 +121,20 @@ public class AttachmentsView extends RequirementTab{
 		
 		c.gridx = 0;
 		c.gridy = 1;
-
 		selectedButtonPanel.add(selectedLabel, c);
 		
 		c.gridx = 0;
 		c.gridy = 0;
-
 		mainPanel.add(selectedButtonPanel, c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
+		c.fill = GridBagConstraints.BOTH;
 		mainPanel.add(selectedScrollPane, c);
 		
 		c.gridx = 0;
 		c.gridy = 0;
+		c.fill = GridBagConstraints.NONE;
 		attachedButtonPanel.add(uploadLabel,c);
 		c.gridx = 1;
 		c.gridy = 0;
@@ -153,15 +156,22 @@ public class AttachmentsView extends RequirementTab{
 		
 		c.gridy = 3;
 		c.gridx = 0;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
 		mainPanel.add(attachedScrollPane, c);
 
 		ArrayList<String> attachmentNames = requirement.getAttachedFileNames();
 		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
-		for(int i = 0; i < attachmentIDs.size(); i++){
+		System.out.println("attachmentIDs : "+attachmentIDs);
+		System.out.println("attachmentNames : "+attachmentNames);
+		
+//		attachmentIDs = Attachment.trimList(attachmentIDs);
+		
+		for(int i = 0; i < attachmentIDs.size() && i<attachmentNames.size(); i++){
 			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
 		}
+		this.setLayout(new GridLayout(1,1));
 		this.add(mainPanel);
-		
 	}
 
 	/**
@@ -179,7 +189,6 @@ public class AttachmentsView extends RequirementTab{
 		 * @param f the file to be displayed.
 		 */
 		public SelectedPanel(File f){
-			System.out.println("made a new selectedpanel called: " +f.getPath());
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("Remove");
@@ -192,12 +201,13 @@ public class AttachmentsView extends RequirementTab{
 				}
 				
 			});
+			this.setBackground(MainView.getChangedColor());
 			this.add(delete);
 			this.add(text);	
 		}	
 	}
 	
-	/*
+	/**
 	 * Panel for attached files.
 	 */
 	private class AttachedPanel extends JPanel{
@@ -213,7 +223,6 @@ public class AttachmentsView extends RequirementTab{
 		 * @param f the file that is attached.
 		 */
 		public AttachedPanel(File f){
-			System.out.println("made an attachedpanel with file: "+f.getPath());
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("delete");
@@ -381,7 +390,6 @@ public class AttachmentsView extends RequirementTab{
 	public void clearSelectedFiles(){
 		selectedFiles.clear();
 		selectedPanel.removeAll();
-		System.out.println("just cleared all of the selected files");
 	}
 	
 	/**
@@ -400,7 +408,6 @@ public class AttachmentsView extends RequirementTab{
 	 * @param selectedFiles
 	 */
 	public void addSelectedFiles(File[] selectedFiles) {
-		System.out.println("addSelectedFiles("+selectedFiles+") called");
 		for (int i = 0 ; i < selectedFiles.length ; i ++){
 			this.addFileToSelected(selectedFiles[i]);
 		}
@@ -417,11 +424,12 @@ public class AttachmentsView extends RequirementTab{
 	}
 	
 	private void removeFileFromSelected(SelectedPanel sp){
-		if(selectedFiles.size() == 0){
-			addFileButton.setVisible(true);
-		}
 		selectedFiles.remove(sp.file);
 		selectedPanel.remove(sp);
+		if(selectedFiles.size() == 0){
+			addFileButton.setEnabled(true);
+			uploadFileButton.setVisible(false);
+		}
 		selectedPanel.revalidate();
 		selectedPanel.repaint();
 	}

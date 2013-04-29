@@ -85,8 +85,8 @@ public class RequirementListPanel extends JPanel{
 	private FilterController filterController;
 	/*TODO eventually, refactor this out into a model*/
 	private Requirement[] content, filteredContent;
-	private JLabel updateLabel;
-
+	private JLabel updateLabel, updateLabelError;
+	
 
 	/**
 	 * Instantiates a new requirement list panel.
@@ -113,6 +113,7 @@ public class RequirementListPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((RequirementTableModel) table.getModel()).clearChangeVisualsDisregard();
+				setButtonsForNoChanges();
 			}
 		});
 		
@@ -121,7 +122,9 @@ public class RequirementListPanel extends JPanel{
 		updateButton.setAction(new UpdateAllRequirementAction(updateController));
 		deleteButton = new JButton("Delete");
 		updateLabel = new JLabel();
-		
+		updateLabelError = new JLabel("Errors exist in the table below.");
+		updateLabelError.setForeground(Color.red);
+		updateLabelError.setVisible(false);
 		cancelButton = new JButton("Cancel");
 		
 		updateButton.setVisible(false);
@@ -131,7 +134,6 @@ public class RequirementListPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("CANCEL");
 				model.cancelChanges();
 			}
 			
@@ -159,6 +161,7 @@ public class RequirementListPanel extends JPanel{
 		buttonPanel.add(updateButton);
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(updateLabel);
+		buttonPanel.add(updateLabelError);
 
 		c.anchor = GridBagConstraints.LINE_START; 
 		c.fill = GridBagConstraints.NONE;
@@ -216,10 +219,6 @@ public class RequirementListPanel extends JPanel{
 		});
 		table.setDefaultEditor(Integer.class, new RequirementListEstimateEditor(0, 100));
 
-		
-		System.out.println("GOT TO END OF REQLISTPANEL");
-
-		//setUpPriorityColumn();
 	}
 
 	/**
@@ -331,6 +330,8 @@ public class RequirementListPanel extends JPanel{
 		updateButton.setEnabled(false);
 		refreshButton.setEnabled(false);
 		cancelButton.setEnabled(false);
+		updateLabelError.setVisible(false);
+		updateLabel.setText("Saving changes, please wait...");
 	}
 	
 	/**
@@ -344,6 +345,25 @@ public class RequirementListPanel extends JPanel{
 		refreshButton.setVisible(true);
 		updateButton.setVisible(true);
 		cancelButton.setVisible(true);
+		
+		boolean invalidChanges = false;
+		for (int i = 0 ; i < getModel().getChangedLocations().size(); i ++)
+			if (!getModel().getChangedLocations().get(i).isValid()){
+				invalidChanges = true;
+				
+				break;
+			}
+		updateLabelError.setVisible(invalidChanges);
+		
+		if (invalidChanges){
+			updateButton.setEnabled(false);
+			updateButton.setVisible(false);
+			this.updateLabel.setText("Click cancel to discard changes.");
+		} else this.updateLabel.setText("Click update or cancel to save or discard changes.");
+		
+		if (getModel().getChangedLocations().size() == 0)
+			this.updateLabel.setText("");
+		
 	}
 	
 	/**
@@ -357,6 +377,9 @@ public class RequirementListPanel extends JPanel{
 		refreshButton.setVisible(true);
 		updateButton.setVisible(false);
 		cancelButton.setVisible(false);
+		updateLabelError.setVisible(false);
+		this.updateLabel.setText("");
+		hideUpdateSuccessfully();
 	}
 	
 	/**
@@ -372,7 +395,7 @@ public class RequirementListPanel extends JPanel{
 	 * Hide the message of update successfully.
 	 */
 	public void hideUpdateSuccessfully() {
-		updateLabel.setText("Press the Update button to save changes");
+		//updateLabel.setText("Press the Update button to save changes");
 	}
 
 	/**
@@ -413,6 +436,14 @@ public class RequirementListPanel extends JPanel{
 
 
 	
+	/**
+	 * Sets the content
+	 * @param content: sets the content 
+	 */
+	public void setContent(Requirement[] content) {
+		this.content = content;
+	}
+
 	/**
 	 * Gets the filteredContent
 	 * @return the filteredContent
@@ -465,60 +496,4 @@ public class RequirementListPanel extends JPanel{
 		return buttonPanel;
 	}
 	
-	/**
-	 * Gets the original, unsaved content of a requirement.
-	 *
-	 * @return the original requirement content
-	 */
-	public Requirement[] getOriginalContent(){
-		Requirement[] fresh;
-		if (content != null){
-			fresh = new Requirement[content.length];
-			for (int j = 0 ; j < fresh.length; j ++)
-			{
-				fresh[j] = content[j];
-				for (int i = 0 ; i < getModel().getUnsavedRequirements().size() ; i ++){
-					if (fresh[j].getId() == (Integer)getModel().getUnsavedRequirements().get(i)[0]){
-						System.out.println("Swap");
-						fresh[j].setTitle((String)getModel().getUnsavedRequirements().get(i)[1]); //name
-						fresh[j].setDescription((String)getModel().getUnsavedRequirements().get(i)[2]); //desc
-						fresh[j].setStatus((RequirementStatus)getModel().getUnsavedRequirements().get(i)[3]); //status
-						fresh[j].setPriority((RequirementPriority)getModel().getUnsavedRequirements().get(i)[4]); //priority
-						fresh[j].setEstimateEffort((Integer)getModel().getUnsavedRequirements().get(i)[5]); // estimate
-						
-						fresh[j].setIteration((Iteration)getModel().getUnsavedRequirements().get(i)[6]);//iteration
-					}
-				}
-			} 
-		}
-		else {
-			fresh = new Requirement[0];
-		}
-		return fresh;
-	}
-	
-	/**
-	 * Gets the fresh, updated content for a requirement.
-	 *
-	 * @return the fresh, updated content for a requirement.
-	 */
-	public Requirement[] getFreshContent() {
-		Requirement[] fresh;
-		if (content != null){
-			fresh = new Requirement[content.length];
-			for (int j = 0 ; j < fresh.length; j ++)
-			{
-				fresh[j] = content[j];
-				for (int i = 0 ; i < getModel().getRequirements().size() ; i ++){
-					if (fresh[j].getId() == getModel().getRequirements().get(i).getId()){
-						fresh[j] = getModel().getRequirements().get(i);
-					}
-				}
-			} 
-		}
-		else {
-			fresh = new Requirement[0];
-		}
-		return fresh;
-	}
 }

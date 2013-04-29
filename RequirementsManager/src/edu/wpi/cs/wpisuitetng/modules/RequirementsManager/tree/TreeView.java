@@ -16,8 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyEvent;
@@ -51,7 +49,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.Retrie
  * @author Sam Lalezari
  * @author Arica Liu
  * 
- * @version April 21th, 2013
+ * @version April 28th, 2013
  * 
  */
 @SuppressWarnings("serial")
@@ -100,15 +98,14 @@ public class TreeView extends JPanel {
 								+ req.getIteration().getIterationName();
 					}  else	if (req.getParentRequirementId() != -1) {
 						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
-							return "Requirement " + req.getTitle() + "'s parent is in Iteration " 
-									+ Integer.toString(lookUpRequirement(req.getParentRequirementId()).getIterationId());
+							return "Requirement " + req.getTitle() + "'s parent is in " 
+						+ lookUpRequirement(req.getParentRequirementId()).getIteration().toString();
 						}
 					} else
 						return "Requirement " + req.getTitle();
 				}
-				else if(obj instanceof Iteration) {
+				else
 					return obj.toString();
-				}
 				return null;
 			}
 		};
@@ -155,7 +152,7 @@ public class TreeView extends JPanel {
 	 * @param newText the new status
 	 */
 	void setStatus(String newText) {
-		if (!(status.getText() == newText)) {
+		if (status.getText() != newText) {
 			status.setText(newText);
 		}
 	}
@@ -274,17 +271,10 @@ public class TreeView extends JPanel {
 							});
 					controller.retrieve();
 				} else if (selRow != -1 && e.getClickCount() == 1) {
-					TreePath path = tree.getSelectionPath();
-					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path
-							.getLastPathComponent();
-					Object selectedObject = selectedNode
-							.getUserObject();
-					if (selectedNode.getUserObject() instanceof Requirement) {
-						setStatus(((Requirement) selectedObject).getTitle());
-					}
+					setStatus(tree.getToolTipText(e));
 				}
 			}
-			
+
 			/* (non-Javadoc)
 			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 			 */
@@ -350,6 +340,13 @@ public class TreeView extends JPanel {
 						controller.runWhenRecieved("0");
 				}
 			}
+
+			/* (non-Javadoc)
+			 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
+			 */
+			public void mouseReleased(MouseEvent e) {
+				clearStatus();
+			}
 		};
 
 		tree.addMouseListener(requirementml);
@@ -380,15 +377,6 @@ public class TreeView extends JPanel {
 	 * @return the requirement
 	 */
 	public Requirement lookUpRequirement(int id) {
-		Requirement[] reqs = treeModel.getRequirements(); 
-		for (int i = 0; i < reqs.length; i++) {
-			if (!(reqs[i].checkFake())) {
-				if (reqs[i].getId() == id) {
-					return reqs[i];
-				}
-			}
-		}
-		System.out.println("Cannot find the requirement in lookUpRequirement()!");
-		return null;
+		return treeModel.lookUpRequirement(id);
 	}
 }

@@ -14,7 +14,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,10 +22,7 @@ import java.awt.event.FocusListener;
 
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -34,7 +30,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Task;
@@ -50,6 +45,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.TaskSearchListener;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tasks.TasksPanel;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
@@ -78,7 +74,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 	private JPanel overallPanel;//One panel to hold them all.
 
 	private JScrollPane listScrollPane;
-	private JPanel featScrollPane;
+	private JScrollPane featScrollPane;
 
 	private JSplitPane splitPane;
 
@@ -88,7 +84,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 
 	private JTextField containsField;
 	private JCheckBox hideBox;
-
+	
 	//State Variables
 	private boolean changed;
 	private boolean hidden;
@@ -150,6 +146,8 @@ public class TasksView extends RequirementTab implements FocusListener{
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				featScrollPane, listScrollPane);
+		
+		splitPane.getComponent(0).setMinimumSize(splitPane.getComponent(0).getPreferredSize());
 		this.add(splitPane,BorderLayout.CENTER);
 	}
 	
@@ -250,7 +248,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 	 * @return 
 	 * 
 	 */
-	private JPanel displayFeatures(){
+	private JScrollPane displayFeatures(){
 		//constraints
 		GridBagConstraints cFeat = new GridBagConstraints();
 		GridBagConstraints cTemp = new GridBagConstraints();
@@ -258,11 +256,12 @@ public class TasksView extends RequirementTab implements FocusListener{
 		//panels
 		featurePanel = new JPanel();
 		tempPanel = new JPanel();
-
+		JLabel createLabel = new JLabel("Create a new Task: ", JLabel.TRAILING);
 		JLabel containsLabel = new JLabel("Filter by names containing: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
 		containsField.setMinimumSize(getPreferredSize());
 		containsField.setMaximumSize(getPreferredSize());
+		containsField.setToolTipText("This search is case-sensitive");
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 
 		//Set boxes
@@ -296,7 +295,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 		cTemp.gridy = 2;
 		cTemp.weightx = 0.5;
 		cTemp.weighty = 0.5;
-		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cTemp.insets = new Insets(5,8,5,0); //top,left,bottom,right
 		tempPanel.add(hideBox, cTemp);
 		
 		tempPanel.setMinimumSize(getPreferredSize());
@@ -317,16 +316,25 @@ public class TasksView extends RequirementTab implements FocusListener{
 		cFeat.weighty = 0.5;
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 		featurePanel.add(tempPanel, cFeat);
-
-		cFeat.anchor = GridBagConstraints.LINE_START; 
+		
+		cFeat.anchor = GridBagConstraints.LINE_START;
 		cFeat.gridx = 0;
 		cFeat.gridy = 1;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
+		cFeat.insets = new Insets(5,5,0,0); //top,left,bottom,right
+		featurePanel.add(createLabel, cFeat);
 
+		cFeat.anchor = GridBagConstraints.LINE_START; 
+		cFeat.gridx = 0;
+		cFeat.gridy = 2;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,5,5,0); //top,left,bottom,right
 		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
-		return featurePanel;
+		
+		featScrollPane = new JScrollPane(featurePanel); 
+		return featScrollPane;
 	}
 	
 	/**Create the New Task panel on the left side (so we can create new tasks).
@@ -394,7 +402,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 		//Set the border to show it is different.
 		else{
 			//Draw the border on the panel that was edited.
-			taskPanelArray.get(position).setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
+			taskPanelArray.get(position).setBorder(BorderFactory.createLineBorder(MainView.getChangedColor(), 5));
 		}
 
 	}
@@ -606,7 +614,6 @@ public class TasksView extends RequirementTab implements FocusListener{
 	@Override
 	public void focusGained(FocusEvent e) {
 		this.refreshBackgrounds();
-		
 	}
 
 	/* (non-Javadoc)
@@ -615,7 +622,6 @@ public class TasksView extends RequirementTab implements FocusListener{
 	@Override
 	public void focusLost(FocusEvent e) {
 		this.refreshBackgrounds();
-		
 	}
 
 }

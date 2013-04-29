@@ -144,9 +144,9 @@ public class MainTabController {
 			}
 			reqViewHashMap.put(requirementId, Rview);
 			reqViewList.add(Rview);
-			
-			
-			
+
+
+
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			return tab;
@@ -240,12 +240,29 @@ public class MainTabController {
 		if(requirement.getParentRequirementId() != -1 && reqViewHashMap.containsKey(requirement.getParentRequirementId())){
 			Tab newTab = addRequirementTab(requirement, Mode.EDIT);
 			if (newTab!=null)
-			((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
+				((RequirementView) newTab.getComponent()).setParentView(reqViewHashMap.get(requirement.getParentRequirementId()));
 			return newTab;
 		}
 		else{
 			return addRequirementTab(requirement, Mode.EDIT);
 		}
+	}
+
+	/**
+	 * Check edit requirement tab.
+	 *
+	 * @param requirement the requirement
+	 * @return true, if successful
+	 */
+	public boolean checkEditRequirementTab(final Requirement requirement) {
+		if(reqViewHashMap.containsKey(requirement.getId())) {
+			if (getReqViewList().contains(reqViewHashMap.get(requirement.getId()))) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -474,7 +491,7 @@ public class MainTabController {
 	public HashMap<Integer, RequirementView> getReqViewHashMap() {
 		return reqViewHashMap;
 	}
-	
+
 	/**
 	 * Gets the reqViewList
 	 * 
@@ -483,6 +500,6 @@ public class MainTabController {
 	public ArrayList<RequirementView> getReqViewList(){
 		return reqViewList;
 	}
-	
-	
+
+
 }

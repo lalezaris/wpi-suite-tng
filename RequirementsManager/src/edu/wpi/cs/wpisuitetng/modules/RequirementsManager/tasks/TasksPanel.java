@@ -165,7 +165,7 @@ public class TasksPanel extends JPanel {
 		cFields.gridy = 1;
 		cFields.weightx = 0.5;
 		cFields.weighty = 0.5;
-		cFields.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cFields.insets = new Insets(5,10,5,5); //top,left,bottom,right
 		fieldPanel.add(lblDescription, cFields);
 		
 		JScrollPane scrollPaneDescription = new JScrollPane(txtDescription);

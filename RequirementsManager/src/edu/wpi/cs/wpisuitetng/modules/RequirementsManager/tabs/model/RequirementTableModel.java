@@ -82,8 +82,11 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.panel = panel;
 		isChange = false;
 	}
+	
 	/**
-	 * Gets column count
+	 * Gets column count.
+	 *
+	 * @return the column count
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
 	@Override
@@ -92,7 +95,9 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	/**
-	 * Gets row count
+	 * Gets row count.
+	 *
+	 * @return the row count
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
 	@Override
@@ -103,8 +108,15 @@ public class RequirementTableModel extends AbstractTableModel {
 	
 	
 	
+	/**
+	 * The Class ChangedCellRenderer.
+	 */
 	public class ChangedCellRenderer extends DefaultTableCellRenderer {
-		  @Override
+		  
+  		/* (non-Javadoc)
+  		 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+  		 */
+  		@Override
 		  public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
 
 		    //Cells are by default rendered as a JLabel.
@@ -171,11 +183,10 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	/**
-	 * Gets column name
-	 * 
+	 * Gets column name.
+	 *
 	 * @param col column to get the name of
-	 * 
-	 * 
+	 * @return the column name
 	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 	 */
 	public String getColumnName(int col) {
@@ -192,7 +203,8 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	/**
-	 * Gets the value at a row and column
+	 * Gets the value at a row and column.
+	 *
 	 * @param row row to get value at
 	 * @param col column to get value at
 	 * @return Object value of the object that the method is getting
@@ -256,7 +268,6 @@ public class RequirementTableModel extends AbstractTableModel {
 	 * @param req the requirement to update
 	 */
 	public void updateRow(int row, Requirement req){
-		System.out.println("UPDATING ROW " + row);
 		String ass = req.getAssignee().toString();
 		ass = ass.substring(1,ass.length()-1);
 		Object[] r = {
@@ -303,9 +314,17 @@ public class RequirementTableModel extends AbstractTableModel {
 		{
 			Object[] r = (unSavedRequirements.get(i)).clone();
 			data.set(i, r);
+			requirements.get(i).setTitle( (String) r[1]); //name
+			requirements.get(i).setDescription( (String) r[2]); //description
+			requirements.get(i).setStatus( (RequirementStatus) r[3]); //status
+			requirements.get(i).setPriority( (RequirementPriority) r[4]); //priority
+			requirements.get(i).setEstimateEffort( (Integer) r[5]); //estimate
+			requirements.get(i).setIteration( (Iteration) r[6]); //iteration
 		}	
 		this.clearChangeVisualsDisregard();
-		this.setIsChange(false);
+		this.isChange = false;
+		this.panel.setButtonsForNoChanges();
+		this.panel.getFilterController().setEditable(!this.getIsChange());
 	}
 	
 	/**
@@ -339,7 +358,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (col > 6) { //Assigned, and Parent should not be editable
 			return false;
 		}
-		System.out.println(requirements.get(row).getIteration());
 		if (requirements.get(row).getIteration() != Iteration.getBacklog()) {
 			if (requirements.get(row).getIteration().getEndDate().before(new Date())) {
 				if (col == 3) {
@@ -367,6 +385,11 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 
 	/**
+	 * Sets the value at.
+	 *
+	 * @param value the value
+	 * @param row the row
+	 * @param col the col
 	 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object value, int row, int col) {
@@ -450,7 +473,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
-			System.out.println(value);
 			
 			if (((Iteration)value).equals(Iteration.getBacklog()) &&
 					requirements.get(row).getStatus() != RequirementStatus.OPEN) {
@@ -472,6 +494,9 @@ public class RequirementTableModel extends AbstractTableModel {
 		//isChange = true;
 		panel.hideUpdateSuccessfully();
 		this.logChangeErrors(row);
+		
+		this.panel.getFilterController().setEditable(!this.getIsChange());
+		this.panel.setButtonsForChanges();
 		if (DEBUG) {
 			printDebugData();
 		}
@@ -500,7 +525,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
-		if (status == RequirementStatus.OPEN){
+		if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
 			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
 				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
 				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");
@@ -545,9 +570,9 @@ public class RequirementTableModel extends AbstractTableModel {
 	
 	/**
 	 * Find the change by row and column.
-	 * 
-	 * @param row
-	 * @param col
+	 *
+	 * @param row the row
+	 * @param col the col
 	 * @return The change. If no change is found, then null is returned
 	 */
 	public CellLocation lookUpChange(int row, int col){
@@ -581,6 +606,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			
 	}
 	
+	/**
+	 * The Class CellLocation.
+	 */
 	public static class CellLocation{
 		
 		/**
@@ -633,7 +661,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		
 		/**
-		 * Gets the isValid
+		 * Gets the isValid.
+		 *
 		 * @return the isValid
 		 */
 		public boolean isValid() {
@@ -642,7 +671,8 @@ public class RequirementTableModel extends AbstractTableModel {
 
 		
 		/**
-		 * Gets the message
+		 * Gets the message.
+		 *
 		 * @return the message
 		 */
 		public String getMessage() {
@@ -652,8 +682,9 @@ public class RequirementTableModel extends AbstractTableModel {
 
 
 		/**
-		 * Sets the message
-		 * @param message: sets the message 
+		 * Sets the message.
+		 *
+		 * @param message the new message
 		 */
 		public void setMessage(String message) {
 			this.message = message;
@@ -662,28 +693,35 @@ public class RequirementTableModel extends AbstractTableModel {
 
 
 		/**
-		 * Sets the isValid
-		 * @param isValid: sets the isValid 
+		 * Sets the isValid.
+		 *
+		 * @param isValid the new valid
 		 */
 		public void setValid(boolean isValid) {
 			this.isValid = isValid;
 		}
 
 		/**
-		 * Gets the row
+		 * Gets the row.
+		 *
 		 * @return the row
 		 */
 		public int getRow() {
 			return row;
 		}
+		
 		/**
-		 * Gets the col
+		 * Gets the col.
+		 *
 		 * @return the col
 		 */
 		public int getCol() {
 			return col;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
 		@Override
 		public boolean equals(Object obj){
 			if (obj instanceof CellLocation){
@@ -694,10 +732,19 @@ public class RequirementTableModel extends AbstractTableModel {
 			return false;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
 		@Override
 		public int hashCode(){
 			return (1*row) + (3*col);
 		}
+		
+		/**
+		 * Sets the row.
+		 *
+		 * @param i the new row
+		 */
 		public void setRow(int i) {
 			row = i;
 			
@@ -705,7 +752,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		
 		/**
-		 * Updates the position of the requirement in the table model
+		 * Updates the position of the requirement in the table model.
 		 *
 		 * @param data the data
 		 * @param oldData the old data
@@ -735,16 +782,13 @@ public class RequirementTableModel extends AbstractTableModel {
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
 	
 	/**
-	 * Log a change on the table. 
-	 * 
-	 * @param isChange. If false, then if there was a change here before, it is deleted. if true,
-	 * then it overwrites the old change.
-	 * @param row. Row location of change
-	 * @param col. Column location of change
-	 * @param valid. If false, then the change is red and prevents the row from saving. If true,
-	 * then the row is green, and saving is allowed.
-	 * @param message. A tooltip message to display on the change. Note, if isChange = false, then 
-	 * the message will be auto-default to an empty string.
+	 * Log a change on the table.
+	 *
+	 * @param isChanged the is changed
+	 * @param row the row
+	 * @param col the col
+	 * @param valid the valid
+	 * @param message the message
 	 */
 	private void setChangedCell(boolean isChanged, int row, int col, boolean valid, String message){
 		CellLocation cell = new CellLocation(row, col);
@@ -757,9 +801,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				changedCells.remove(cell);
 			changedCells.add(cell);
 		} else{
-			System.out.println("no change");
 			if (changedCells.contains(cell)){
-				System.out.println("remove change");
 				changedCells.remove(cell);
 			}
 		}
@@ -777,8 +819,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	}
 	
 	/**
-	 * Clear the change colors that are green!
-	 * 
+	 * Clear the change colors that are green!.
 	 */
 	public void clearChangeVisuals(){
 		
@@ -809,12 +850,18 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 	}
 	
+	/**
+	 * Gets the changed locations.
+	 *
+	 * @return the changed locations
+	 */
 	public ArrayList<CellLocation> getChangedLocations(){
 		return changedCells;
 	}
+	
 	/**
-	 * Method to check if the input value is legal
-	 * 
+	 * Method to check if the input value is legal.
+	 *
 	 * @param value the input value
 	 * @param req the edited requirement
 	 * @param title the edited part of requirement
@@ -881,14 +928,29 @@ public class RequirementTableModel extends AbstractTableModel {
 		return requirements;
 	}
 	
+	/**
+	 * Gets the unsaved requirements.
+	 *
+	 * @return the unsaved requirements
+	 */
 	public List<Object[]> getUnsavedRequirements(){
 		return unSavedRequirements;
 	}
 
+	/**
+	 * Gets the checks if is change.
+	 *
+	 * @return the checks if is change
+	 */
 	public boolean getIsChange() {
 		return isChange;
 	}
 
+	/**
+	 * Sets the checks if is change.
+	 *
+	 * @param value the new checks if is change
+	 */
 	public void setIsChange(boolean value) {
 		isChange = value;
 	}

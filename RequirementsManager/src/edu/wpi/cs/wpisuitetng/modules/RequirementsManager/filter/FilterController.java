@@ -45,7 +45,7 @@ public class FilterController{
 	protected RequirementListPanel listPanel;
 	protected RetrieveAllIterationsController iterationController;
 	protected RetrieveAllUsersController userController;
-	
+
 	/**
 	 * Create a new controller. Set up the buttons of the panel
 	 *
@@ -71,7 +71,7 @@ public class FilterController{
 
 		iterationController.retrieve();
 		userController.retrieve();
-		
+
 	}
 	public FilterPanel getPanel() {
 		return panel;
@@ -86,48 +86,59 @@ public class FilterController{
 	}
 
 	/**
+	 * set if the filters are editable
+	 * 
+	 * @param editable. The desired state.
+	 */
+	public void setEditable(boolean editable){
+		this.panel.setEditable(editable);
+	}
+
+	/**
 	 * Filter the requirements table. 
 	 * 
 	 * @return The filtered the requirements
 	 */
 	public Requirement[] setFilteredInTable(){
 
-		listPanel.getModel().cancelChanges();
-		Requirement[] all = listPanel.getOriginalContent();
-		
+		if (!listPanel.getModel().getIsChange()){
 
-		
-		Requirement[] filtered = null;
+			Requirement[] all = listPanel.getContent();
 
-		boolean sentIterationsRequest = false;
-		for (int i = 0 ; i < panel.getRules().size(); i ++){
-			if ( !sentIterationsRequest &&
-					((String)panel.getRules().get(i).getField().getSelectedItem()).equals("iteration")){
-				sentIterationsRequest = true;
-				iterationController.retrieve();
-				break;
+
+
+			Requirement[] filtered = null;
+
+			boolean sentIterationsRequest = false;
+			for (int i = 0 ; i < panel.getRules().size(); i ++){
+				if ( !sentIterationsRequest &&
+						((String)panel.getRules().get(i).getField().getSelectedItem()).equals("iteration")){
+					sentIterationsRequest = true;
+					iterationController.retrieve();
+					break;
+				}
 			}
-		}
 
-		boolean sentUsersRequest = false;
-		for (int i = 0 ; i < panel.getRules().size(); i ++){
-			if ( !sentUsersRequest &&
-					((String)panel.getRules().get(i).getField().getSelectedItem()).equals("user")){
-				sentUsersRequest = true;
-				userController.retrieve();
-				break;
+			boolean sentUsersRequest = false;
+			for (int i = 0 ; i < panel.getRules().size(); i ++){
+				if ( !sentUsersRequest &&
+						((String)panel.getRules().get(i).getField().getSelectedItem()).equals("user")){
+					sentUsersRequest = true;
+					userController.retrieve();
+					break;
+				}
 			}
-		}
 
-		getModel().setModelFromPanel(panel);
-		try {
-			filtered = getModel().getFilter().getFilteredObjects(all);
-		} catch (RuleTargetException e) {
-			e.printStackTrace();
-		}
-		listPanel.filterRequirements(filtered);
-		
-		return filtered;
+			getModel().setModelFromPanel(panel);
+			try {
+				filtered = getModel().getFilter().getFilteredObjects(all);
+			} catch (RuleTargetException e) {
+				e.printStackTrace();
+			}
+			listPanel.filterRequirements(filtered);
+
+			return filtered;}
+		else return null;
 	}
 
 	/**
@@ -158,4 +169,5 @@ public class FilterController{
 	public RequirementListPanel getListPanel(){
 		return listPanel;
 	}
+
 }

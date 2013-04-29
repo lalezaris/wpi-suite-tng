@@ -66,6 +66,7 @@ public class AddAssigneeController implements ActionListener {
 			view.setAssigneeList(assignedUserAL);
 			view.updateNotAssigned();
 			view.setButtonPressed(true);
+			view.refreshAllBackgrounds();
 		}
 	}
 

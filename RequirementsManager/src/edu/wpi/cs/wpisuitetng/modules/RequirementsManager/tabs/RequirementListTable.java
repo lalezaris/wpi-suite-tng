@@ -136,8 +136,6 @@ public class RequirementListTable extends JTable {
 		Requirement r = null;
 		RequirementStatus s = (RequirementStatus) panel.getModel().getUnsavedRequirements().get(row)[3];
 		RequirementStatus status = s;//panel.getModel().getUnsavedRequirements().get(row).getStatus();
-		System.out.println("Status is " + status); //TODO
-
 		if (col == 3) //STATUS 
 		{
 			JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();

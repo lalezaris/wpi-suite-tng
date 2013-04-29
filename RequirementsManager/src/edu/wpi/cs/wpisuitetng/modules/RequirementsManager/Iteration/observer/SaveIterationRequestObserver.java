@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
-import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -47,6 +47,7 @@ public class SaveIterationRequestObserver implements RequestObserver {
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		Refresher.getInstance().refreshIterationsFromServer(null);
+		TreeView.getInstance().refreshTree();
 		always();
 	}
 

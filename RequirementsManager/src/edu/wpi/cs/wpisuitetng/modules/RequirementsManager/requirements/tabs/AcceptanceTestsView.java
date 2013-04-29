@@ -289,6 +289,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		overall.gridy = 0;
 		overall.gridwidth = 1;
 		panelOverall.add(Ptop, overall);
+		
 		overall.gridy = 1;
 		panelOverall.add(Pbot, overall);
 
@@ -298,6 +299,8 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		all.weighty = 0.5;
 		all.gridx = 0;
 		all.gridy = 0;
+		
+		panelOverall.setMinimumSize(getPreferredSize());
 		this.add(panelOverall, all);
 
 
@@ -604,11 +607,12 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	public JButton getAddButton(){
 		return saveTest;
 	}
-	//A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 	/**
+	 * A Key Listener on the Title Field to enable/disable the addTest and editTest buttons when applicable
 	 * If the title written is already in the list, disable the addTest button and enable the
 	 * editTest button. Otherwise, do the opposite.
-	 *
+	 * 
+	 * @author Michael French
 	 */
 	public class ButtonsListener implements KeyListener {
 
@@ -704,6 +708,13 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 	 */
 	public void setTxtBodyBackground(Color c) {
 		txtBody.setBackground(c);
+	}
+	
+	/**
+	 * gets the cancelButton
+	 */
+	public JButton getCancelButton(){
+		return cancelTest;
 	}
 
 	/**

@@ -28,14 +28,16 @@ public class AttachmentController {
             //didn't pick anything.
         	return;
         }
+        this.view.getAddFileButton().setEnabled(false);
+        this.view.getUploadFileButton().setEnabled(true);
         this.view.addFileToSelected(j.getSelectedFile());
 	}
 	
 	public void uploadClicked(){
 		SaveAttachmentController controller = new SaveAttachmentController(view);
 		controller.save(reqID);
-		view.getUploadFileButton().setVisible(false);
-		view.getAddFileButton().setVisible(true);
+		view.getUploadFileButton().setEnabled(false);
+		view.getAddFileButton().setEnabled(true);
 	}
 	
 }

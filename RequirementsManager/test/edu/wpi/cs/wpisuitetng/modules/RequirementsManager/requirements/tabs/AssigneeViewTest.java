@@ -20,6 +20,9 @@ import org.junit.*;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 
+/**
+ * The Class AssigneeViewTest.
+ */
 public class AssigneeViewTest {
 	AssigneeView av;
 	ArrayList<String> asn;

@@ -19,12 +19,21 @@ import javax.swing.AbstractAction;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 
 
+/**
+ * The Class SnakeAction.
+ */
 public class SnakeAction extends AbstractAction{
 
+	/**
+	 * Instantiates a new snake action.
+	 */
 	public SnakeAction() {
 		super("Om Nom Nom");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		MainTabController.getController().addSnakeTab();

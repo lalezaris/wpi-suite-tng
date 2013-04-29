@@ -12,14 +12,6 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.observer;
 
-/**
- * The request observer for a create request to the server.
- *
- * @author Arica Liu
- *
- * @version April 9th, 2013
- *
- */
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -27,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Iteration.IterationVie
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Refresher;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.TreeView;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -34,6 +27,10 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * An Observer for a Request to create a Requirement.
+ * 
+ * @author Arica Liu
+ *
+ * @version April 9th, 2013
  */
 public class CreateIterationRequestObserver implements RequestObserver {
 
@@ -58,6 +55,7 @@ public class CreateIterationRequestObserver implements RequestObserver {
 
 		// get the response from the request
 		ResponseModel response = request.getResponse();
+		TreeView.getInstance().refreshTree();
 		BarPieChartView.update();
 		if (response.getStatusCode() == 201) {
 			// parse the Iteration from the body

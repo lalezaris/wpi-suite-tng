@@ -66,7 +66,6 @@ public class RequirementPanelViewTest {
 		reqView.getRequirementPanel().txtDescription.getKeyListeners()[0].keyReleased(null);
 		reqView.getRequirementPanel().txtTitle.getKeyListeners()[0].keyReleased(null);
 		assertEquals(true, reqView.getRequirementPanel().getSaveRequirementBottom().isEnabled());
-
 	}
 	
 	/**

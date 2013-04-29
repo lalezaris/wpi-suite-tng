@@ -387,5 +387,4 @@ public class Iteration extends AbstractModel implements Comparable<Iteration> {
 	public String getName() {
 		return iterationName;
 	}
-
 }

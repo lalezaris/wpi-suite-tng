@@ -73,7 +73,6 @@ public class RetrieveAllRequirementsController {
 
 			Refresher.getInstance().refreshRequirements(Requirements, refreshMode);
 		}
-
 	}
 
 	/**

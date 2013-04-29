@@ -30,7 +30,9 @@ import javax.swing.tree.TreePath;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RMPermissionsLevel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
@@ -52,6 +54,7 @@ class TreeTransferHandler extends TransferHandler {
 	SaveRequirementController controller;
 	SaveIterationController itcontroller;
 	Requirement[] reqs;
+	RMPermissionsLevel pLevel;
 
 	/**
 	 * Instantiates a new TreeTransferHandler.
@@ -272,6 +275,11 @@ class TreeTransferHandler extends TransferHandler {
 	 * @see javax.swing.TransferHandler#canImport(javax.swing.TransferHandler.TransferSupport)
 	 */
 	public boolean canImport(TransferHandler.TransferSupport support) {
+		pLevel = CurrentUserPermissions.getCurrentUserPermission();
+		if (pLevel == RMPermissionsLevel.NONE) {
+			TreeView.getInstance().setStatus("Can't do drag and drop as a None user!");
+			return false;
+		}
 		if (MainTabController.getController().getCurrentComponent() != null) {
 			if (MainTabController.getController().getCurrentComponent().getClass() == RequirementListPanel.class) {
 				if (((RequirementListPanel)(MainTabController.getController()

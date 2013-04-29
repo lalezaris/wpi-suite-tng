@@ -196,7 +196,6 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 */
 	public void addIterations(Iteration[] iterations) {
 		this.iterations = iterations;
-		this.fillTree(null);
 	}
 
 	/**

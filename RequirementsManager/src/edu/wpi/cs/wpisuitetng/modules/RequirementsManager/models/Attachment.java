@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -220,6 +221,16 @@ public class Attachment extends AbstractModel{
 	 */
 	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
+	}
+	public static ArrayList<Integer> trimList (ArrayList<Integer> in){
+
+		for(int i = 0; i<in.size()-1; i++){
+			if(in.get(i) == in.get(i+1)){
+				in.remove(i+1);
+				i--;
+			}
+		}
+		return in;
 	}
 
 }

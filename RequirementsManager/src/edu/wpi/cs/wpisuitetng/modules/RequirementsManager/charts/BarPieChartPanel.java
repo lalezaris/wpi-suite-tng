@@ -110,8 +110,8 @@ public class BarPieChartPanel extends JPanel {
 	@SuppressWarnings("unchecked")
 	private void addComponents(){
 
-		JLabel noData = new JLabel("No Data Available", JLabel.TRAILING);
-		noData.setFont(new Font("Serif", Font.PLAIN, 128));
+		JLabel noData = new JLabel("No data currently available", JLabel.TRAILING);
+		noData.setFont(new Font("Serif", Font.PLAIN, 64));
 		
 		//Make ComboBoxes
 		chartBox = new JComboBox(chartTypeArray);
@@ -225,8 +225,6 @@ public class BarPieChartPanel extends JPanel {
 		errorPanel = new JPanel();
 		errorPanel.add(noData);
 		
-		
-		
 		setChart(displayedChart, TypeOfChart.Bar, false, false);
 
 		this.add(overallPanel,BorderLayout.CENTER);
@@ -289,7 +287,15 @@ public class BarPieChartPanel extends JPanel {
 		else{
 			spinCheckbox.setEnabled(visible);
 			
-			overallPanel.add(errorPanel);
+			GridBagConstraints cBox = new GridBagConstraints();
+			cBox.anchor = GridBagConstraints.LINE_START; 
+			cBox.gridx = 0;
+			cBox.gridy = 0;
+			cBox.weightx = .5;
+			cBox.weighty = .5;
+			cBox.gridwidth = 1;
+			cBox.insets = new Insets(0,0,0,0);
+			overallPanel.add(errorPanel,cBox);
 		}
 		this.remove(overallPanel);
 		this.add(overallPanel,BorderLayout.CENTER);

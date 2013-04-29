@@ -304,7 +304,7 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 		txtTotalEstimate = new IntegerField(4);
 		txtTotalEstimate.setEnabled(false);
-		txtTotalEstimate.setEnabled(false);
+		txtTotalEstimate.setDisabledTextColor(Color.BLACK);
 
 		txtActual = new IntegerField(4);
 		txtActual.addFocusListener(this);

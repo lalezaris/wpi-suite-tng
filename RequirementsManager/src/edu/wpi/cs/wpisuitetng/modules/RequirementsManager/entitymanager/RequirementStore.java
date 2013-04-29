@@ -209,14 +209,15 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 * @param req. The Requirement to update
 	 * @param totalEstimateChange. The amount to change the totalEstimate by
 	 * @param s. The current session
+	 * @throws WPISuiteException 
 	 */
-	private void setTotalEstimate(Requirement req, int totalEstimateChange, Session s){
+	private void setTotalEstimate(Requirement req, int totalEstimateChange, Session s) throws WPISuiteException{
 		//get requirement from server
 		List<Model> oldRequirements = null;
 		try {
 			oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		} catch (WPISuiteException e) {
-			System.out.println("server side not around...");
+			System.out.println("Server side not around.");
 		}
 		//Set the serverReq to be the passed in Requirement
 		Requirement serverReq = req;
@@ -225,19 +226,16 @@ public class RequirementStore implements EntityManager<Requirement>{
 		if (oldRequirements!=null && oldRequirements.size() >= 1 && oldRequirements.get(0)!=null){
 			serverReq = (Requirement) oldRequirements.get(0);
 			foundServerReq = true;
-			System.out.println("Server side object found");
-		} else System.out.println("No Server side object found");
+		} 
 
 		if (foundServerReq && serverReq.getParentRequirementId() != req.getParentRequirementId()){
 			//The parent has changed, which means add the total estimate to the new parent, and take it away from the old parent.
-			//notify parent
-			//If has parent...
 			if (req.getParentRequirementId() != -1){
 				oldRequirements = null;		
 				try {
 					oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
-					System.out.println("Parent not around...");
+					System.out.println("No Parent");
 				}
 				Requirement parent = null;
 				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
@@ -246,19 +244,18 @@ public class RequirementStore implements EntityManager<Requirement>{
 				if (parent!=null){
 
 					setTotalEstimate(parent, req.getTotalEstimateEffort(), s);
-				} else System.out.println("Parent not found...");
+				} else System.out.println("No Parent");
 
 			}
 
 			//notify old parent
 			//If has parent...
 			if (serverReq.getParentRequirementId() != -1){
-				System.out.println("has parent:" + serverReq.getParentRequirementId());
 				oldRequirements = null;		
 				try {
 					oldRequirements = db.retrieve(Requirement.class, "id", serverReq.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
-					System.out.println("Parent not around...");
+					System.out.println("No Parent");
 				}
 				Requirement parent = null;
 				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
@@ -267,7 +264,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 				if (parent!=null){
 
 					setTotalEstimate(parent, -req.getTotalEstimateEffort(), s);
-				} else System.out.println("Parent not found...");
+				} else System.out.println("No Parent");
 
 			}
 
@@ -276,7 +273,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 
 		int serverTotalEstimate = serverReq.getTotalEstimateEffort();
-		System.out.println("serverReq.getTotalEstimateEffort = " + serverReq.getTotalEstimateEffort());
 
 		int localEstimateChange = req.getEstimateEffort() - serverReq.getEstimateEffort();
 		int passOn = -serverReq.getTotalEstimateEffort();
@@ -286,35 +282,30 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		serverReq.setEstimateEffort(req.getEstimateEffort());
 
-		System.out.println("Server. Set total estimate to : " + serverTotalEstimate);
 		passOn += serverTotalEstimate;
-		System.out.println("Passon = " + passOn);
 
 		//apply the changes
 		if(!db.save(serverReq, s.getProject()) || !db.save(serverReq.getHistory())) {
-			//throw new WPISuiteException();
-			System.out.println("save failed");
+			throw new WPISuiteException();
 		}
 
 		req.setTotalEstimateEffort(serverTotalEstimate);
 
 		//If has parent...
 		if (serverReq.getParentRequirementId() != -1){
-			System.out.println("has parent:" + serverReq.getParentRequirementId());
 			oldRequirements = null;		
 			try {
 				oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 			} catch (WPISuiteException e) {
-				System.out.println("Parent not around...");
+				System.out.println("No Parent");
 			}
 			Requirement parent = null;
 			if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
 				parent = (Requirement) oldRequirements.get(0);
 			}
 			if (parent!=null){
-
 				setTotalEstimate(parent, passOn, s);
-			} else System.out.println("Parent not found...");
+			} else System.out.println("No Parent");
 
 		}
 	}
@@ -391,7 +382,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 	 */
 	@Override
 	public int Count() {
-		// TODO: there must be a faster way to do this with db4o
 		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new Requirement("foo", "foo")).size();
 	}

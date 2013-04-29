@@ -134,8 +134,14 @@ public class ReqTreeModel extends DefaultTreeModel {
 							DefaultMutableTreeNode fakeNode = new DefaultMutableTreeNode(new Requirement(leafReq));
 							for (int x = 0; x < requirements.length; x++) {
 								if (leafReq.getChildRequirementIds().contains(requirements[x].getId())) {
+									int pID = leafReq.getParentRequirementId();
+									Requirement grandParent = leafReq;
+									while (pID != -1) {
+										grandParent = lookUpRequirement(pID);
+										pID = grandParent.getParentRequirementId();
+									}
 									if (requirements[x].getIterationId() == leafReq.getIterationId()) {
-									} else {
+									} else if (grandParent.getIterationId() == leafReq.getIterationId()) {
 										fakeNode.add(new DefaultMutableTreeNode(requirements[x]));
 										added.add(requirements[x].getId());
 									}
@@ -203,5 +209,23 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 */
 	public Requirement[] getRequirements() {
 		return requirements;
+	}
+	
+	/**
+	 * Look up requirement by id.
+	 *
+	 * @param id the id to search for.
+	 * @return the requirement
+	 */
+	public Requirement lookUpRequirement(int id) {
+		Requirement[] reqs = requirements; 
+		for (int i = 0; i < reqs.length; i++) {
+			if (!(reqs[i].checkFake())) {
+				if (reqs[i].getId() == id) {
+					return reqs[i];
+				}
+			}
+		}
+		return null;
 	}
 }

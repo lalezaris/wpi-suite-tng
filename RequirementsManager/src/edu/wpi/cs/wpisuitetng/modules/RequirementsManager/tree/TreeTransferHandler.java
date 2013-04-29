@@ -341,10 +341,16 @@ class TreeTransferHandler extends TransferHandler {
 					(DefaultMutableTreeNode)path2.getLastPathComponent();
 			if (aNode.getUserObject() instanceof Requirement) {
 				Requirement requirement = checkFake((Requirement)aNode.getUserObject());
+				// Do not allow a drag if the requirement is open
+				if (MainTabController.getController().checkEditRequirementTab(requirement)) {
+					TreeView.getInstance().setStatus("Requirement " + aNode.toString()
+							+ ": Please close the tab before drag the requirement!");
+					return false;
+				}
 				// Do not allow a drag from Backlog to an Iteration if the estimated effort is 0
 				if ((requirement.getIterationId() == 0)
 						&& (requirement.getEstimateEffort() == 0)){
-					MainView.getInstance().showErrorMessage("The Estimated Effort needs to be filled before you assign Requirement " 
+					TreeView.getInstance().setStatus("The Estimated Effort needs to be filled before you assign Requirement " 
 							+ aNode.getUserObject().toString() 
 							+ " to an Iteration/Requirement");
 					return false;
@@ -353,7 +359,7 @@ class TreeTransferHandler extends TransferHandler {
 				TreeNode parentNode = aNode;
 				while (parentNode.getParent() != null) {
 					if (parentNode.getParent().equals(ttarget)) {
-						TreeView.getInstance().setStatus("Can't drop on the its parent!");
+						TreeView.getInstance().setStatus("Can't drop on its parent!");
 						return false;
 					} else {
 						parentNode = parentNode.getParent();

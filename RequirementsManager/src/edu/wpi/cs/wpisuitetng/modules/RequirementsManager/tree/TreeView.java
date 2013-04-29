@@ -377,14 +377,6 @@ public class TreeView extends JPanel {
 	 * @return the requirement
 	 */
 	public Requirement lookUpRequirement(int id) {
-		Requirement[] reqs = treeModel.getRequirements(); 
-		for (int i = 0; i < reqs.length; i++) {
-			if (!(reqs[i].checkFake())) {
-				if (reqs[i].getId() == id) {
-					return reqs[i];
-				}
-			}
-		}
-		return null;
+		return treeModel.lookUpRequirement(id);
 	}
 }

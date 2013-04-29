@@ -113,6 +113,7 @@ public class RequirementListPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((RequirementTableModel) table.getModel()).clearChangeVisualsDisregard();
+				setButtonsForNoChanges();
 			}
 		});
 		
@@ -376,6 +377,7 @@ public class RequirementListPanel extends JPanel{
 		refreshButton.setVisible(true);
 		updateButton.setVisible(false);
 		cancelButton.setVisible(false);
+		updateLabelError.setVisible(false);
 		this.updateLabel.setText("");
 		hideUpdateSuccessfully();
 	}

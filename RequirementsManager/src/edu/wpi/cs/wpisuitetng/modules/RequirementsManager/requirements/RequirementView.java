@@ -363,7 +363,12 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 					mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
 				}
 			} else {
-				mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+				if(requirement.getParentRequirementId() != -1 && parentRequirement.getStatus().equals(RequirementStatus.COMPLETE)){
+					if (!requirementStatusValues[i].equals("OPEN")) {
+						mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
+					}
+				} else
+					mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
 			}
 		}
 

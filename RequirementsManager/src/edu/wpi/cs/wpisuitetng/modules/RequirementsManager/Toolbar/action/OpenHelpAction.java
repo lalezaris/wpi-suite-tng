@@ -15,7 +15,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.Toolbar.action;
 
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;

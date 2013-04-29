@@ -145,8 +145,6 @@ public class MainTabController {
 			reqViewHashMap.put(requirementId, Rview);
 			reqViewList.add(Rview);
 
-
-
 			tab.setComponent(Rview);
 			Rview.requestFocus();
 			return tab;
@@ -249,10 +247,10 @@ public class MainTabController {
 	}
 
 	/**
-	 * Check edit requirement tab.
+	 * Check if a requirement is already opened in a tab.
 	 *
-	 * @param requirement the requirement
-	 * @return true, if successful
+	 * @param requirement the requirement to be checked
+	 * @return true, if opened
 	 */
 	public boolean checkEditRequirementTab(final Requirement requirement) {
 		if(reqViewHashMap.containsKey(requirement.getId())) {
@@ -406,6 +404,24 @@ public class MainTabController {
 			view.requestFocus();
 
 			return tab;
+		}
+	}
+	
+	/**
+	 * Check if an iteration tab is opened.
+	 *
+	 * @param iteration the iteration to be checked
+	 * @return true, if opened
+	 */
+	public boolean checkIterationTab(Iteration iteration) {
+		String iterationTitle = iteration.getIterationName();
+		int iterationId = iteration.getId();
+		int checkTabIndex = view.indexOfTab("Iteration #" + iterationId + " - " + iterationTitle);
+		if(checkTabIndex != -1){
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 

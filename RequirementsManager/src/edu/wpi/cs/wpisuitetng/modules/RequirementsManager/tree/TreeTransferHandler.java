@@ -387,10 +387,10 @@ class TreeTransferHandler extends TransferHandler {
 								+ ": Already a child of the target!");
 						return false;
 					}
-					// Do not allow a drop on itself
-					if (req.getId() == requirement.getId()) {
-						TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
-								+ ": Cannot drop on itself!");
+					// Do not allow a drop if the requirement is open
+					if (MainTabController.getController().checkEditRequirementTab(req)) {
+						TreeView.getInstance().setStatus("Requirement " + ttarget.toString()
+								+ ": Please close the tab before drop on the requirement!");
 						return false;
 					}
 				}
@@ -399,11 +399,18 @@ class TreeTransferHandler extends TransferHandler {
 						TreeView.getInstance().setStatus("Cannot drag from Deleted to an Iteration!");
 						return false;
 					}
+					// Do not allow a drop if the iteration is open
+					Iteration it = (Iteration)ttarget.getUserObject();
+					if (MainTabController.getController().checkIterationTab(it)) {
+						TreeView.getInstance().setStatus(ttarget.toString()
+								+ ": Please close the tab before drop on the iteration!");
+						return false;
+					}
 					if (requirement.getParentRequirementId() != -1) {
 						if (TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId()) != null) {
 							Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
 							if (parent.getIterationId() != 0) {
-								if (((Iteration)ttarget.getUserObject()).getEndDate().
+								if (it.getEndDate().
 										after(parent.getIteration().getEndDate())) {
 									TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 											+ ": Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");

@@ -14,7 +14,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -85,7 +84,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 
 	private JTextField containsField;
 	private JCheckBox hideBox;
-
+	
 	//State Variables
 	private boolean changed;
 	private boolean hidden;
@@ -257,11 +256,12 @@ public class TasksView extends RequirementTab implements FocusListener{
 		//panels
 		featurePanel = new JPanel();
 		tempPanel = new JPanel();
-
+		JLabel createLabel = new JLabel("Create a new Task: ", JLabel.TRAILING);
 		JLabel containsLabel = new JLabel("Filter by names containing: ", JLabel.TRAILING);
 		containsField = new JTextField(20);
 		containsField.setMinimumSize(getPreferredSize());
 		containsField.setMaximumSize(getPreferredSize());
+		containsField.setToolTipText("This search is case-sensitive");
 		hideBox = new JCheckBox("Hide Closed and Accepted");
 
 		//Set boxes
@@ -295,7 +295,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 		cTemp.gridy = 2;
 		cTemp.weightx = 0.5;
 		cTemp.weighty = 0.5;
-		cTemp.insets = new Insets(5,10,5,0); //top,left,bottom,right
+		cTemp.insets = new Insets(5,8,5,0); //top,left,bottom,right
 		tempPanel.add(hideBox, cTemp);
 		
 		tempPanel.setMinimumSize(getPreferredSize());
@@ -316,15 +316,23 @@ public class TasksView extends RequirementTab implements FocusListener{
 		cFeat.weighty = 0.5;
 		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
 		featurePanel.add(tempPanel, cFeat);
-
-		cFeat.anchor = GridBagConstraints.LINE_START; 
+		
+		cFeat.anchor = GridBagConstraints.LINE_START;
 		cFeat.gridx = 0;
 		cFeat.gridy = 1;
 		cFeat.weightx = 0.5;
 		cFeat.weighty = 0.5;
-		cFeat.insets = new Insets(5,0,5,0); //top,left,bottom,right
+		cFeat.insets = new Insets(5,5,0,0); //top,left,bottom,right
+		featurePanel.add(createLabel, cFeat);
 
+		cFeat.anchor = GridBagConstraints.LINE_START; 
+		cFeat.gridx = 0;
+		cFeat.gridy = 2;
+		cFeat.weightx = 0.5;
+		cFeat.weighty = 0.5;
+		cFeat.insets = new Insets(5,5,5,0); //top,left,bottom,right
 		featurePanel.add(newTaskPanel, cFeat);//Put each one in the overallPanel to display them all at once.
+		
 		featScrollPane = new JScrollPane(featurePanel); 
 		return featScrollPane;
 	}

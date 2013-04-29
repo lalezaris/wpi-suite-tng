@@ -69,6 +69,7 @@ public class RemoveAssigneeController implements ActionListener {
 			view.setAssigneeList(assignedUserAL);
 			view.updateNotAssigned();
 			view.setButtonPressed(true);
+			view.refreshAllBackgrounds();
 		}
 	}
 }

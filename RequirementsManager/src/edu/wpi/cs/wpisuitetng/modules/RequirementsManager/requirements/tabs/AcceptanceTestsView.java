@@ -289,6 +289,7 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		overall.gridy = 0;
 		overall.gridwidth = 1;
 		panelOverall.add(Ptop, overall);
+		
 		overall.gridy = 1;
 		panelOverall.add(Pbot, overall);
 
@@ -298,6 +299,8 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		all.weighty = 0.5;
 		all.gridx = 0;
 		all.gridy = 0;
+		
+		panelOverall.setMinimumSize(getPreferredSize());
 		this.add(panelOverall, all);
 
 

@@ -178,6 +178,7 @@ public class AssigneeView extends RequirementTab{
 		leftPanel.setAlignmentX(CENTER_ALIGNMENT);
 
 		this.add(rightPanel);
+		this.setMinimumSize(getPreferredSize());
 	}
 
 	/**

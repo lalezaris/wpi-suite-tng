@@ -126,7 +126,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			RequirementTableModel tableModel = (RequirementTableModel) table.getModel();
 			CellLocation cell = new CellLocation(row, col);
 			if (tableModel.changedCells.contains(cell)){
-				//cell = tableModel.changedCells.get(tableModel.changedCells.indexOf(cell));
 
 				for (int i = 0 ; i < tableModel.changedCells.size(); i ++)
 					if (tableModel.changedCells.get(i).equals(cell))
@@ -283,7 +282,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		};
 		data.set(row, r);
 		requirements.set(row, req);
-		//this.unSavedRequirements.set(row, r.clone());
 	}
 
 	/**
@@ -404,21 +402,18 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (title.equals("Parent ID")) {
 
 			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
-				//panel.setBackgroundRowColumn(row,col);
 				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setId(Integer.parseInt((String)value));
 		}
 		if (title.equals("Name")) {
 			if(!((String)value).equals(requirements.get(row).getTitle())){
-				//panel.setBackgroundRowColumn(row,col);
 				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setTitle((String)value);
 		}
 		if (title.equals("Description")) {
 			if(!((String)value).equals(requirements.get(row).getDescription())){
-				//panel.setBackgroundRowColumn(row,col);
 				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setDescription((String)value);
@@ -429,7 +424,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			boolean isValid = true;
 			boolean isChange = false;
 
-			//if(!((RequirementStatus)value).equals(this.getChangedValue(row, col))){
 			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
 				isChange = true;
 
@@ -445,14 +439,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		if (title.equals("Priority")) {
 			if(((RequirementPriority)value).compareTo(requirements.get(row).getPriority()) != 0){
-				//panel.setBackgroundRowColumn(row,col);
 				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setPriority((RequirementPriority)value);
 		}
 		if (title.equals("Estimate")) {
 			if(Integer.parseInt((String)value) != requirements.get(row).getEstimateEffort()){
-				//panel.setBackgroundRowColumn(row, col);
 				this.setChangedCell(true,row, col, true, changeMessage);
 			}
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
@@ -462,7 +454,6 @@ public class RequirementTableModel extends AbstractTableModel {
 			boolean isValid = true;
 			boolean isChange = false;
 
-			//if(!((Iteration)value).equals(this.getChangedValue(row, col))){
 			if(((Iteration)value).compareTo(requirements.get(row).getIteration()) != 0){
 
 
@@ -492,7 +483,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		element[col] = value;
 		data.set(row, element);
 		fireTableCellUpdated(row, col); 
-		//isChange = true;
 		panel.hideUpdateSuccessfully();
 		this.logChangeErrors(row);
 		
@@ -644,7 +634,6 @@ public class RequirementTableModel extends AbstractTableModel {
 				cell.setMessage(msg);
 				model.panel.repaint();
 			} else{
-				//model.setChangedCell(true, row, col, true, msg);
 			}
 		}
 

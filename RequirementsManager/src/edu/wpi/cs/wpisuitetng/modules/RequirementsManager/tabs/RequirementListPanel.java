@@ -83,7 +83,6 @@ public class RequirementListPanel extends JPanel{
 	private Tab containingTab;
 
 	private FilterController filterController;
-	/*TODO eventually, refactor this out into a model*/
 	private Requirement[] content, filteredContent;
 	private JLabel updateLabel, updateLabelError;
 	
@@ -154,7 +153,6 @@ public class RequirementListPanel extends JPanel{
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(10,10,10,0); //top,left,bottom,right
 		panel.add(filterController.getPanel(), c);
-		//panel.validate();
 
 		buttonPanel = new JPanel();
 		buttonPanel.add(refreshButton);

@@ -43,14 +43,14 @@ public class IterationPanelTest {
 	 */
 	@Before 
 	public void setup(){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 		parent = new IterationView(new Iteration(), Mode.CREATE, null);
 		iteration1 = new Iteration();
 		iteration1.setId(1);
 		iteration1.setIterationName("1");
 		try {
-			iteration1.setStartDate(dateFormat.parse("01-04-2013"));
-			iteration1.setEndDate(dateFormat.parse("03-04-2013"));
+			iteration1.setStartDate(dateFormat.parse("MON, Apr 01, 2013"));
+			iteration1.setEndDate(dateFormat.parse("WED, Apr 03, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -59,8 +59,8 @@ public class IterationPanelTest {
 		iteration2.setId(2);
 		iteration2.setIterationName("2");
 		try {
-			iteration2.setStartDate(dateFormat.parse("04-04-2013"));
-			iteration2.setEndDate(dateFormat.parse("06-04-2013"));
+			iteration2.setStartDate(dateFormat.parse("THU, Apr 04, 2013"));
+			iteration2.setEndDate(dateFormat.parse("SAT, Apr 06, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -69,8 +69,8 @@ public class IterationPanelTest {
 		iteration3.setId(3);
 		iteration3.setIterationName("3");
 		try {
-			iteration3.setStartDate(dateFormat.parse("07-04-2013"));
-			iteration3.setEndDate(dateFormat.parse("09-04-2013"));
+			iteration3.setStartDate(dateFormat.parse("SUN, Apr 07, 2013"));
+			iteration3.setEndDate(dateFormat.parse("TUE, Apr 09, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -79,8 +79,8 @@ public class IterationPanelTest {
 		iteration4.setId(4);
 		iteration4.setIterationName("4");
 		try {
-			iteration4.setStartDate(dateFormat.parse("15-04-2013"));
-			iteration4.setEndDate(dateFormat.parse("17-04-2013"));
+			iteration4.setStartDate(dateFormat.parse("MON, Apr 15, 2013"));
+			iteration4.setEndDate(dateFormat.parse("WED, Apr 17, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -89,8 +89,8 @@ public class IterationPanelTest {
 		iteration5.setId(5);
 		iteration5.setIterationName("5");
 		try {
-			iteration5.setStartDate(dateFormat.parse("20-04-2013"));
-			iteration5.setEndDate(dateFormat.parse("23-04-2013"));
+			iteration5.setStartDate(dateFormat.parse("SAT, Apr 20, 2013"));
+			iteration5.setEndDate(dateFormat.parse("TUE, Apr 23, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -103,109 +103,93 @@ public class IterationPanelTest {
 		iterationsArray[4] = iteration5;
 	}
 	
-	/**
-	 * TODO: Remove the @Ignore below for the final deliverable
-	 */
-	@Ignore("Causes Jenkins to complain because of a java.awt.HeadlessException")
 	@Test
 	public void testRequiredFields(){
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("10-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("WED, Apr 10, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(0,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("10-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("WED, Apr 10, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(1,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
 		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(1,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("10-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("WED, Apr 10, 2013");
 		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("");
 		
 		assertEquals(1,parent.checkRequiredFields(iterationsArray));
 		
 	}
 	
-	/**
-	 * TODO: Remove the @Ignore below for the final deliverable
-	 */
-	@Ignore("Causes Jenkins to complain because of a java.awt.HeadlessException")	
 	@Test
 	public void testStartEndDateErrors(){
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("12-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("10-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("FRI, Apr 12, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("WED, Apr 10, 2013");
 		
 		assertEquals(2,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("10-05-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("FRI, May 10, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(2,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("12-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("FRI, Apr 12, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(0,parent.checkRequiredFields(iterationsArray));
 		
 	}
 	
-	/**
-	 * TODO: Remove the @Ignore below for the final deliverable
-	 */
-	@Ignore("Causes Jenkins to complain because of a java.awt.HeadlessException")	
 	@Test
 	public void testOverLappingAndDuplicate(){
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("09-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("TUE, Apr 09, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(0,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("1");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("09-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("TUE, Apr 09, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(3,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("10-03-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("12-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("SUN, Mar 10, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("FRI, Apr 12, 2013");
 		
 		assertEquals(4,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("12-04-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("16-04-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("FRI, Apr 12, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("TUE, Apr 16, 2013");
 		
 		assertEquals(4,parent.checkRequiredFields(iterationsArray));
 		
 		((IterationPanel) (parent.getIterationPanel())).txtIterationName.setText("6");
-		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("12-03-2013");
-		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("16-05-2013");
+		((IterationPanel) (parent.getIterationPanel())).txtStartDate.setText("THU, Mar 12, 2013");
+		((IterationPanel) (parent.getIterationPanel())).txtEndDate.setText("THU, May 16, 2013");
 		
 		assertEquals(4,parent.checkRequiredFields(iterationsArray));
 		
 	}
 	
-	/**
-	 * TODO: Remove the @Ignore below for the final deliverable
-	 */
-	@Ignore("Causes Jenkins to complain because of a java.awt.HeadlessException")
 	@Test
 	public void testEditingPanel(){
 		
@@ -214,32 +198,27 @@ public class IterationPanelTest {
 		assertEquals(view.getIterationModel().getEditedModel(),view.getIterationModel().getUneditedModel());
 	}
 	
-	/**
-	 * TODO: Remove the @Ignore below for the final deliverable
-	 */
-	@Ignore("Causes Jenkins to complain because of a java.awt.HeadlessException")
 	@Test
 	public void testIterationCreate(){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 
 		Iteration test = new Iteration();
 		IterationView view = new IterationView(new Iteration(), Mode.CREATE, null);
 		
 		test.setIterationName("test");
 		try {
-			test.setStartDate(dateFormat.parse("01-04-2013"));
-			test.setEndDate(dateFormat.parse("03-04-2013"));
+			test.setStartDate(dateFormat.parse("MON, Apr 01, 2013"));
+			test.setEndDate(dateFormat.parse("WED, Apr 03, 2013"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
 		
 		((IterationPanel) (view.getIterationPanel())).txtIterationName.setText("test");
-		((IterationPanel) (view.getIterationPanel())).txtStartDate.setText("01-04-2013");
-		((IterationPanel) (view.getIterationPanel())).txtEndDate.setText("03-04-2013");
+		((IterationPanel) (view.getIterationPanel())).txtStartDate.setText("MON, Apr 01, 2013");
+		((IterationPanel) (view.getIterationPanel())).txtEndDate.setText("WED, Apr 03, 2013");
 		
 		assertEquals(test.getIterationName(),view.getIterationModel().getEditedModel().getIterationName());
 		assertEquals(test.getStartDate(),view.getIterationModel().getEditedModel().getStartDate());
 		assertEquals(test.getEndDate(),view.getIterationModel().getEditedModel().getEndDate());
 	}
-
 }

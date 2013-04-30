@@ -112,24 +112,31 @@ public class IterationView extends JPanel {
 			//Set the divider location to account for the moving of the buttons with the date format
 			mainPanel.getSplitPane().setDividerLocation(mainPanel.getSplitPane().getPreferredSize().width + 6);
 		}
-		if(iteration.getName().equals(Iteration.getBacklog().getName())){
-			mainPanel.getBtnSaveIteration().setEnabled(false);
-			mainPanel.getBtnSaveIteration().setVisible(false);
-			mainPanel.getBtnCancelIteration().setEnabled(false);
-			mainPanel.getBtnCancelIteration().setVisible(false);
-			mainPanel.getTxtEndDate().setVisible(false);
-			mainPanel.getTxtStartDate().setVisible(false);
-			mainPanel.getLblStartDate().setVisible(false);
-			mainPanel.getLblEndDate().setVisible(false);
-			mainPanel.getSelectEndDate().setEnabled(false);
-			mainPanel.getSelectEndDate().setVisible(false);
-			mainPanel.getSelectStartDate().setEnabled(false);
-			mainPanel.getSelectStartDate().setVisible(false);
-			mainPanel.getTxtIterationName().setEnabled(false);
-			mainPanel.getTxtIterationName().setBackground(this.getBackground());
-			mainPanel.getTxtIterationName().setDisabledTextColor(Color.BLACK);
+		try{
+			String itName = iteration.getName();
+			if(itName.equals(Iteration.getBacklog().getName())){
+				mainPanel.getBtnSaveIteration().setEnabled(false);
+				mainPanel.getBtnSaveIteration().setVisible(false);
+				mainPanel.getBtnCancelIteration().setEnabled(false);
+				mainPanel.getBtnCancelIteration().setVisible(false);
+				mainPanel.getTxtEndDate().setVisible(false);
+				mainPanel.getTxtStartDate().setVisible(false);
+				mainPanel.getLblStartDate().setVisible(false);
+				mainPanel.getLblEndDate().setVisible(false);
+				mainPanel.getSelectEndDate().setEnabled(false);
+				mainPanel.getSelectEndDate().setVisible(false);
+				mainPanel.getSelectStartDate().setEnabled(false);
+				mainPanel.getSelectStartDate().setVisible(false);
+				mainPanel.getTxtIterationName().setEnabled(false);
+				mainPanel.getTxtIterationName().setBackground(this.getBackground());
+				mainPanel.getTxtIterationName().setDisabledTextColor(Color.BLACK);
+			}
 		}
-		
+		catch(NullPointerException e){
+
+		}
+
+
 	}
 
 	/**

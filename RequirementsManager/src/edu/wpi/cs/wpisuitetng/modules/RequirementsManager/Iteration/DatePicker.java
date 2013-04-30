@@ -30,6 +30,8 @@ import javax.swing.JPanel;
  * Used in IterationPanel as a date selector component.
  * 
  * @author Tushar Narayan
+ * 
+ * @version April 29, 2013
  *
  * Adapted from: http://sourceforge.net/projects/jdatepicker/
  */

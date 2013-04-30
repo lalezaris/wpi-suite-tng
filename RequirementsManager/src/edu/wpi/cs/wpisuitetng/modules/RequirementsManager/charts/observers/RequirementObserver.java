@@ -26,6 +26,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * about Requirement information as the Requirement is constructed.
  * 
  * @author Evan Polekoff
+ * 
+ * @version April 29, 2013
  */
 public class RequirementObserver implements RequestObserver{
 
@@ -61,13 +63,11 @@ public class RequirementObserver implements RequestObserver{
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
-	public void responseError(IRequest iReq) {		
-	}
+	public void responseError(IRequest iReq) {}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
-	public void fail(IRequest iReq, Exception exception) {		
-	}
+	public void fail(IRequest iReq, Exception exception) {}
 }

@@ -97,7 +97,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 						//child Requirements: we need to update their parent Requirement
 						RequirementView parentView = view.getParentView();
 						if(parentView != null){
-							RequirementPanel parentPanel = (RequirementPanel) parentView.getRequirementPanel();
+							RequirementPanel parentPanel = parentView.getRequirementPanel();
 							parentPanel.setDeleteEnabled(false);
 
 							/*next get the UNEDITED model and save that to Database with the child
@@ -111,7 +111,7 @@ public class CreateRequirementRequestObserver implements RequestObserver {
 									uneditedParent.getId(), 
 									uneditedParent.getTitle(), 
 									uneditedParent.getDescription(), 
-									uneditedParent.getCreator());//uneditedParent;
+									uneditedParent.getCreator());
 							uneditedParentWithChild.setType(uneditedParent.getType());
 							uneditedParentWithChild.setReleaseNumber(uneditedParent.getReleaseNumber());
 							uneditedParentWithChild.setIterationId(uneditedParent.getIterationId());

@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 

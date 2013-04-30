@@ -180,9 +180,9 @@ public class RequirementStore implements EntityManager<Requirement>{
 		if (!HChange.getChange().equals("")){
 			serverReq.addHistoricalChange(HChange);
 		}
-		
+
 		//update the Notes List
-		serverReq.updateNotes(req.getNotes());	
+		serverReq.updateNotes(req.getNotes());
 
 		//update Acceptance Tests List
 		serverReq.updateAcceptanceTests(req.getAcceptanceTests());
@@ -198,7 +198,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 			throw new WPISuiteException();
 		}
 
-		return serverReq;		
+		return serverReq;
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 		try {
 			oldRequirements = db.retrieve(Requirement.class, "id", req.getId(), s.getProject());
 		} catch (WPISuiteException e) {
-			System.out.println("Server side not around.");
+			System.out.println("Server did not repond.");
 		}
 		//Set the serverReq to be the passed in Requirement
 		Requirement serverReq = req;
@@ -230,11 +230,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 		if (foundServerReq && serverReq.getParentRequirementId() != req.getParentRequirementId()){
 			//The parent has changed, which means add the total estimate to the new parent, and take it away from the old parent.
 			if (req.getParentRequirementId() != -1){
-				oldRequirements = null;		
+				oldRequirements = null;	
 				try {
 					oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
-					System.out.println("No Parent");
+					System.out.println("No parent requirement.");
 				}
 				Requirement parent = null;
 				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
@@ -243,18 +243,18 @@ public class RequirementStore implements EntityManager<Requirement>{
 				if (parent!=null){
 
 					setTotalEstimate(parent, req.getTotalEstimateEffort(), s);
-				} else System.out.println("No Parent");
+				} else System.out.println("No parent requirement.");
 
 			}
 
 			//notify old parent
 			//If has parent...
 			if (serverReq.getParentRequirementId() != -1){
-				oldRequirements = null;		
+				oldRequirements = null;	
 				try {
 					oldRequirements = db.retrieve(Requirement.class, "id", serverReq.getParentRequirementId(), s.getProject());
 				} catch (WPISuiteException e) {
-					System.out.println("No Parent");
+					System.out.println("No parent requirement");
 				}
 				Requirement parent = null;
 				if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
@@ -263,7 +263,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 				if (parent!=null){
 
 					setTotalEstimate(parent, -req.getTotalEstimateEffort(), s);
-				} else System.out.println("No Parent");
+				} else System.out.println("No parent requirement");
 
 			}
 
@@ -292,11 +292,11 @@ public class RequirementStore implements EntityManager<Requirement>{
 
 		//If has parent...
 		if (serverReq.getParentRequirementId() != -1){
-			oldRequirements = null;		
+			oldRequirements = null;	
 			try {
 				oldRequirements = db.retrieve(Requirement.class, "id", req.getParentRequirementId(), s.getProject());
 			} catch (WPISuiteException e) {
-				System.out.println("No Parent");
+				System.out.println("No parent requirement");
 			}
 			Requirement parent = null;
 			if(oldRequirements != null && oldRequirements.size() >= 1 && oldRequirements.get(0) != null) {
@@ -304,7 +304,7 @@ public class RequirementStore implements EntityManager<Requirement>{
 			}
 			if (parent!=null){
 				setTotalEstimate(parent, passOn, s);
-			} else System.out.println("No Parent");
+			} else System.out.println("No parent requirement");
 
 		}
 	}

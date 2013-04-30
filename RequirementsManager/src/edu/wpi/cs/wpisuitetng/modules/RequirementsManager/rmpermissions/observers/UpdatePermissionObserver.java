@@ -69,10 +69,7 @@ public class UpdatePermissionObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Per response error");
-		System.out.println(
-				"Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage()); 
-
-
+		System.out.println("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage()); 
 	}
 
 	/**

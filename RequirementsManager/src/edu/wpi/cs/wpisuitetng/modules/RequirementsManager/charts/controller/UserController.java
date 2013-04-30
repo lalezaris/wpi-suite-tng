@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * 
  * @author Ned Shelton
  *
+ * @version April 29, 2013
  */
 public class UserController {
 	BarPieChartView view;

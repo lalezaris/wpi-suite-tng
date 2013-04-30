@@ -23,6 +23,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
 /**
  * Characteristic Listener for charts.
  * @author Evan Polekoff
+ * 
+ * @version April 15, 2013
  *
  */
 public class CharacteristicListener implements ActionListener{

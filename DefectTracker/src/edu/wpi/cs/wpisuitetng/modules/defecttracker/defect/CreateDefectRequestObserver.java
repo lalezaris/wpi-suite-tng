@@ -49,8 +49,8 @@ public class CreateDefectRequestObserver implements RequestObserver {
 
 
 		// print the body
-		System.out.println("Received response: " + response.getBody()); //TODO change this to logger
-
+		System.out.println("Received response: " + response.getBody());
+		
 		if (response.getStatusCode() == 201) {
 			// parse the defect from the body
 			final Defect defect = Defect.fromJSON(response.getBody());

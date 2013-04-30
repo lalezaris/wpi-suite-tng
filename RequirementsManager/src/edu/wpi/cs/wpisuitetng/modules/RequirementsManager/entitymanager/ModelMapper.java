@@ -75,13 +75,13 @@ public class ModelMapper {
 				Object destinationValue);
 	}
 	
-	/*
+	/**
 	 * @param methodName
 	 * @return field name from given accessor name ("getBlahField" -> "blahField")
 	 */
 	private static String accessorNameToFieldName(String methodName) {
 		methodName = methodName.substring(3); // cut out "get" or "set"
-		return methodName.substring(0, 1).toLowerCase() + methodName.substring(1); // BlahField -> blahField
+		return methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
 	}
 	
 	/**

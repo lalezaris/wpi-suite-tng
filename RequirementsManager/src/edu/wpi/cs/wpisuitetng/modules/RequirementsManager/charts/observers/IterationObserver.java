@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * 
  * @author Evan Polekoff
  * 
+ * @version April 29, 2013
  */
 public class IterationObserver implements RequestObserver{
 
@@ -74,6 +75,5 @@ public class IterationObserver implements RequestObserver{
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
 	 */
 	@Override
-	public void fail(IRequest iReq, Exception exception) {		
-	}
+	public void fail(IRequest iReq, Exception exception) {}
 }

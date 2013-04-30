@@ -103,7 +103,7 @@ public class UpdateAllPermissionsController extends AbstractAction {
 		//and saves the permission
 		for (int i = 0 ; i < permModel.getPermissions().length ; i ++){
 			for (int j = 0 ; j < selected.size() ; j ++){
-				if ( ((String)selected.get(j)).equals(permModel.getPermissions()[i].getUsername()) && permModel.getPermissions()[i].getPermissions() != level){
+				if ( (selected.get(j)).equals(permModel.getPermissions()[i].getUsername()) && permModel.getPermissions()[i].getPermissions() != level){
 
 					String me = ConfigManager.getConfig().getUserName();
 					Date now = new Date();

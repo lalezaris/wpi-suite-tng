@@ -103,7 +103,6 @@ public class Attachment extends AbstractModel{
         byte[] retVal = new byte[length];
 
         while ((numRead = inStream.read(retVal, offset, length)) > 0) {
-                System.out.println("NumRead: " + numRead);
                 offset += numRead;
                 length -= numRead;
         }
@@ -121,7 +120,7 @@ public class Attachment extends AbstractModel{
 				try {
 					File OF = file;
 					FileOutputStream out = new FileOutputStream(OF);
-					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
+					byte[] contents = Base64.decodeBase64(this.getFileContents());
 
 					out.write(contents, 0, contents.length);
 					out.close();

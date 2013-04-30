@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 import java.io.File;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveAttachmentRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;

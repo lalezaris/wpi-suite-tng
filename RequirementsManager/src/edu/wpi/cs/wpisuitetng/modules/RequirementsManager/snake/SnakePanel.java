@@ -12,25 +12,21 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  * The Class SnakePanel.
  */
+@SuppressWarnings("serial")
 public class SnakePanel extends JPanel{
 
 	int gridSize = 15;

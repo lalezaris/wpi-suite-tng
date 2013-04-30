@@ -24,6 +24,8 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * Controller to retrieve requirements into the chart.
  * 
  * @author Ned Shelton
+ * 
+ * @version April 29, 2013
  *
  */
 public class AllRequirementController {

@@ -24,6 +24,7 @@ import org.jfree.chart.plot.PiePlot3D;
  * 
  * @author Evan Polekoff
  * 
+ * @version April 29, 2013 
  */
 @SuppressWarnings("serial")
 public class PieRotator extends Timer implements ActionListener{

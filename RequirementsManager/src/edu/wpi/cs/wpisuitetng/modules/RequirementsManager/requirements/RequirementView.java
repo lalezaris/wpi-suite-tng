@@ -116,7 +116,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 
 		containingTab.setIcon(new ImageIcon());
 		if(editMode == Mode.CREATE) {
-			containingTab.setTitle("Create Requirement"); //Math.random()
+			containingTab.setTitle("Create Requirement");
 			containingTab.setToolTipText("Create a new requirement");
 		} else if (editMode == Mode.CHILD){
 			setChildModeDescriptors(requirement);
@@ -357,7 +357,7 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			requirementStatusValues[i] = RequirementStatusLists.getList(this.getReqModel().getRequirement())[i];
 			if(!requirement.getStatus().equals(RequirementStatus.COMPLETE)){
 				if (requirementStatusValues[i].equals("COMPLETE")) {
-					if (requirement.canBeCompleted() == true) {
+					if (requirement.canBeCompleted()) {
 						mainPanel.getCmbStatus().addItem(requirementStatusValues[i]);
 					}
 				} else {

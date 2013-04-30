@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -24,15 +23,12 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
@@ -69,7 +65,7 @@ public class SaveRequirementController {
 	 * Save the view's Requirement model to the server (asynchronous).
 	 */
 	public void save() {
-		final RequirementPanel panel = (RequirementPanel) getView().getRequirementPanel();
+		final RequirementPanel panel = getView().getRequirementPanel();
 		final RequestObserver requestObserver = (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? new CreateRequirementRequestObserver(getView()) : new UpdateRequirementRequestObserver(getView());
 		Request request;
 		request = Network.getInstance().makeRequest("requirementsmanager/requirement", (panel.getEditMode() == Mode.CREATE || panel.getEditMode() == Mode.CHILD) ? HttpMethod.PUT : HttpMethod.POST);
@@ -86,7 +82,7 @@ public class SaveRequirementController {
 				panel.getTasksView().closeIfClosed(panel.getEditedModel().getStatus());//Close all tasks if the requirement was closed.
 				panel.getTasksView().getNewTaskPanel().getSaveButton().doClick(); // save the new task
 
-				if((!((RequirementPanel) view.getRequirementPanel()).getEditedModel().isTopLevelRequirement()) && (view != null)) {
+				if((!(view.getRequirementPanel()).getEditedModel().isTopLevelRequirement()) && (view != null)) {
 					boolean saveFlag = false;
 					Requirement parent = view.getParentRequirement(); //the parent of the current requirement
 					RequirementView currentView = view; //the view of the current requirement
@@ -100,7 +96,7 @@ public class SaveRequirementController {
 							currentView.getParentView().getReqModel().getRequirement().addCompletedChild();
 							
 							if (!(currentView.getParentView() == null)) {
-								if (parent.canBeCompleted() == true) {
+								if (parent.canBeCompleted()) {
 									RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
 									
 									if (parent.getStatus() == RequirementStatus.INPROGRESS) {
@@ -115,7 +111,7 @@ public class SaveRequirementController {
 						parent.removeCompletedChild();
 						
 						if (!(currentView.getParentView() == null)) {
-							if (parent.canBeCompleted() == false) {
+							if (!parent.canBeCompleted()) {
 								RequirementPanel parentPanel = currentView.getParentView().getRequirementPanel();
 								int delete = -1;
 								
@@ -154,17 +150,6 @@ public class SaveRequirementController {
 		view.getTab().getView().removeTabAt(this.getView().getTab().getThisIndex());
 		}
 	}
-
-
-	private void updateViewEstimates(RequirementView view){
-		if (view.getParentRequirement() != null){
-			if (view.getParentView() != null){
-				int something = view.getParentView().getReqModel().getRequirement().getTotalEstimateEffort();
-				view.getParentView().getRequirementPanel().getTxtTotalEstimate().setText(""+something);
-			}
-		}
-	}
-
 
 	/**
 	 * A function to printout all of the issues in a pop up message

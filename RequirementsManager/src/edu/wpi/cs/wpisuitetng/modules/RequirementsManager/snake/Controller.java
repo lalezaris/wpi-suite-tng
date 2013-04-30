@@ -197,7 +197,7 @@ public class Controller {
 		 *
 		 * @param snake the snake
 		 */
-		public KeyInput(Snake snake){
+		private KeyInput(Snake snake){
 			this.snake = snake;
 		}
 		
@@ -261,7 +261,7 @@ public class Controller {
 		 * @param snake the snake
 		 * @param panel the panel
 		 */
-		public MoveTask(Snake snake, SnakePanel panel){
+		private MoveTask(Snake snake, SnakePanel panel){
 			this.snake = snake;
 			this.panel = panel;
 			

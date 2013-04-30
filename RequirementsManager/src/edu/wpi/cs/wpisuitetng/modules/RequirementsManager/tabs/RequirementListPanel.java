@@ -278,7 +278,6 @@ public class RequirementListPanel extends JPanel{
 		table.updateUI();
 		filterController.setFilteredInTable();
 	}
-
 	
 	/**
 	 * Filter requirements.
@@ -287,10 +286,6 @@ public class RequirementListPanel extends JPanel{
 	 */
 	public void filterRequirements(Requirement[] requirements){
 		filteredContent = requirements;
-		
-
-
-		
 		clearList();
 		RequirementTableModel model = ((RequirementTableModel) table.getModel());
 		model.clearRequirements();
@@ -359,9 +354,9 @@ public class RequirementListPanel extends JPanel{
 			updateLabel.setText("Click cancel to discard changes.");
 		} else updateLabel.setText("Click update or cancel to save or discard changes.");
 		
-		if (getModel().getChangedLocations().size() == 0)
+		if (getModel().getChangedLocations().size() == 0){
 			updateLabel.setText("");
-		
+		}
 	}
 	
 	/**
@@ -392,9 +387,7 @@ public class RequirementListPanel extends JPanel{
 	/**
 	 * Hide the message of update successfully.
 	 */
-	public void hideUpdateSuccessfully() {
-		//updateLabel.setText("Press the Update button to save changes");
-	}
+	public void hideUpdateSuccessfully() {}
 
 	/**
 	 * Gets table.

@@ -40,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.action.Re
  */
 public class Iteration extends AbstractModel implements Comparable<Iteration> {
 
-	private static Iteration backlog;
+	private static Iteration backlog = null;
 	private String iterationName;
 	private Date startDate, endDate;
 	private List<Integer> requirements;

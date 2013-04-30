@@ -126,7 +126,6 @@ public class FilterPanel extends JPanel{
 		c.gridy = 0;
 		c.weightx = .5;
 		c.weighty = 0.5;
-		//c.gridwidth = 1;
 		c.gridheight =1;
 		c.insets = new Insets(0,5,0,0);
 		buttonPanel.add(disableButton, c);
@@ -245,7 +244,6 @@ public class FilterPanel extends JPanel{
 		
 		rules.get(0).addListeners();
 		rules.get(0).checkForNullRule();
-		//this.rules.get(0).getPossibleValues().setSelectedIndex(1);
 		
 		
 		this.setAlignmentX(0);
@@ -263,8 +261,6 @@ public class FilterPanel extends JPanel{
 						&& p.isShowing())
 				{
 					triggerTableUpdate();
-					//scrollPane.setPreferredSize(new Dimension((int)view.listPanel.getPreferredSize().getWidth(), 150));
-					//scrollPane.revalidate();
 				}
 
 			}
@@ -311,7 +307,6 @@ public class FilterPanel extends JPanel{
 		c.weighty = 0;
 
 		c.insets = new Insets(5, 5, 0, 0);
-		//view.getModel().getFilter().addRule(rule.extractRule());
 		ruleHolderPanel.add(rule,c);
 		ruleHolderPanel.revalidate();
 		ruleHolderPanel.revalidate();
@@ -444,7 +439,7 @@ public class FilterPanel extends JPanel{
 		view.getModel().setModelFromPanel(this);
 		ruleHolderPanel.setPreferredSize(new Dimension(
 				(int) ruleHolderPanel.getPreferredSize().getWidth(),
-				(int) (ruleHolderPanel.getComponentCount()  * ySize)));
+				ruleHolderPanel.getComponentCount()  * ySize));
 		setFilterDescText();
 		ruleHolderPanel.revalidate();
 		this.revalidate();

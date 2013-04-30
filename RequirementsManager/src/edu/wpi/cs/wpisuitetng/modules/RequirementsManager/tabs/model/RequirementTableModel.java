@@ -43,7 +43,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 
@@ -488,10 +487,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		panel.getFilterController().setEditable(!this.getIsChange());
 		panel.setButtonsForChanges();
-
-		if (DEBUG) {
-			printDebugData();
-		}
 	}
 
 
@@ -897,16 +892,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Prints the debug data.
-	 */
-	private void printDebugData() {
-		int numRows = getRowCount();
-		int numCols = getColumnCount();
-
-
 	}
 
 	/**

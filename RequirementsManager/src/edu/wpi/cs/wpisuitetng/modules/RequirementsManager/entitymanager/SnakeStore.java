@@ -16,14 +16,11 @@ import java.util.List;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
-import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake.SnakeModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -32,7 +29,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Stores the snake highscore in the database.
  * Adapted from defect tracker.
  * 
- * @author SNAKE MAN!!!
+ * @author Chris Hanna
+ * 
+ * @version April 29, 2013
  *
  */
 public class SnakeStore implements EntityManager<SnakeModel> {
@@ -61,8 +60,8 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 */
 	@Override
 	public SnakeModel makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
-		final SnakeModel newModel = SnakeModel.fromJSON(content);	
+			throws WPISuiteException {
+		final SnakeModel newModel = SnakeModel.fromJSON(content);
 		newModel.setId(1);
 		
 		List<Model> models = db.retrieve(SnakeModel.class, "id", newModel.getId(), s.getProject());
@@ -126,7 +125,7 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public SnakeModel[] getAll(Session s) throws WPISuiteException {
+	public SnakeModel[] getAll(Session s){
 		return db.retrieveAll(new SnakeModel(), s.getProject()).toArray(new SnakeModel[0]);
 	}
 
@@ -170,7 +169,7 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	@Override
-	public void save(Session s, SnakeModel model) throws WPISuiteException {
+	public void save(Session s, SnakeModel model){
 		db.save(model, s.getProject());
 	}
 
@@ -205,8 +204,7 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+	public String advancedGet(Session s, String[] args){
 		return null;
 	}
 
@@ -239,8 +237,7 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+	public String advancedPut(Session s, String[] args, String content){
 		return null;
 	}
 
@@ -248,8 +245,7 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	public String advancedPost(Session s, String string, String content){
 		return null;
 	}
 }

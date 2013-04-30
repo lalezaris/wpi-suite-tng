@@ -95,7 +95,6 @@ public class UpdateAllRequirementsController {
 					if (r != null && issues.size() == 0){
 						if (!reqs.contains(r)){
 							reqs.add(r);
-							//reqsRow.add(cells.get(i).getRow());
 						}
 					}
 				}
@@ -111,7 +110,6 @@ public class UpdateAllRequirementsController {
 						}
 					}
 				} else{
-					//reqsRow.add(cells.get(i).getRow());
 				}
 			}
 
@@ -130,16 +128,8 @@ public class UpdateAllRequirementsController {
 				table.updateRow(row, reqs.get(i));
 			}
 			panel.updateUI();
-			//Requirement[] reqArray = new Requirement[reqs.size()];
-			//for (int i = 0 ; i < reqArray.length; i ++)
-			//reqArray[i] = reqs.get(i);
-			//panel.addRequirements(reqArray);
 
 			((RequirementTableModel) panel.getTable().getModel()).clearChangeVisuals();
-			//panel.getTable().updateUI();
-			//((RequirementTableModel) panel.getTable().getModel()).clear();
-			//((RequirementTableModel) panel.getTable().getModel()).clearRequirements();
-
 
 			if (issues.size() == 0){ //THERE WERE NO ISSUES. SO STUFF ACTUALLY SAVED
 				panel.getModel().setIsChange(false);
@@ -149,8 +139,6 @@ public class UpdateAllRequirementsController {
 			}
 
 		}
-		//this.panel.updateUI();
-
 	}
 
 	/**

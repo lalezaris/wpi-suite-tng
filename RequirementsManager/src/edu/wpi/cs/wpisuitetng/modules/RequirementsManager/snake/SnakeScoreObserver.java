@@ -48,7 +48,6 @@ public class SnakeScoreObserver implements RequestObserver {
 		
 		GsonBuilder builder = new GsonBuilder();
 		SnakeModel model = builder.create().fromJson(response.getBody(), SnakeModel.class);
-		//this.panel.setAllusers(users);
 		controller.gotHighScore(model);
 
 	}
@@ -67,7 +66,6 @@ public class SnakeScoreObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
 
 	}
 

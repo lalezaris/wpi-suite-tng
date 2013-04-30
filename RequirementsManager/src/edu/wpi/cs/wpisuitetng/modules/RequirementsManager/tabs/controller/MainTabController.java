@@ -140,7 +140,6 @@ public class MainTabController {
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
 			if(reqViewHashMap.containsKey(requirementId)){
 				reqViewHashMap.remove(requirementId);
-				//reqViewList.remove(Rview);
 			}
 			reqViewHashMap.put(requirementId, Rview);
 			reqViewList.remove(Rview);

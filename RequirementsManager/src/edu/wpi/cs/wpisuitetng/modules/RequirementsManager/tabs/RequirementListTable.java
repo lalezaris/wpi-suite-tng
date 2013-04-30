@@ -49,7 +49,6 @@ public class RequirementListTable extends JTable {
 	 * @param panel the panel
 	 */
 	public RequirementListTable(RequirementListPanel panel) {
-//		super();
 		this.panel = panel;
 	}
 
@@ -57,7 +56,6 @@ public class RequirementListTable extends JTable {
 	 * 
 	 */
 	public RequirementListTable() {
-//		super();
 	}
 
 	/**
@@ -118,7 +116,6 @@ public class RequirementListTable extends JTable {
 	@Override
 	public TableCellEditor getCellEditor(int row, int col) {
 
-		//RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
 		Object currentID = panel.getModel().getUnsavedRequirements().get(row)[0];
 		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		Object parent = panel.getModel().getUnsavedRequirements().get(row)[8];
@@ -154,7 +151,7 @@ public class RequirementListTable extends JTable {
 		
 		Requirement r = null;
 		RequirementStatus s = (RequirementStatus) panel.getModel().getUnsavedRequirements().get(row)[3];
-		RequirementStatus status = s;//panel.getModel().getUnsavedRequirements().get(row).getStatus();
+		RequirementStatus status = s;
 		if (col == 3) //STATUS 
 		{
 			JComboBox<RequirementStatus> comboBox = new JComboBox<RequirementStatus>();
@@ -192,12 +189,10 @@ public class RequirementListTable extends JTable {
 		} else if (col == 4) //PRIORITY
 		{
 			JComboBox<RequirementPriority> comboBox = new JComboBox<RequirementPriority>();
-			//if (status == RequirementStatus.DELETED) {
 				comboBox.addItem(RequirementPriority.LOW);
 				comboBox.addItem(RequirementPriority.MEDIUM);
 				comboBox.addItem(RequirementPriority.HIGH);
 				comboBox.addItem(RequirementPriority.BLANK);
-			//}
 			return new DefaultCellEditor(comboBox);
 		} else if (col == 6) {
 			JComboBox<Iteration> comboBox = new JComboBox<Iteration>();
@@ -218,13 +213,6 @@ public class RequirementListTable extends JTable {
 	 * @return iterations after check
 	 */
 	private Iteration[] checkIterations(Iteration[] iterations, Iteration reqIteration, Integer parentId, String esti) {
-//		Date currentDate = new Date();
-//		for (int i = 0; i < iterations.length; i++) {
-//			if (iterations[i].getEndDate().after(currentDate)) {
-//				iterations[i].setInList(true);
-//			}
-//		}
-//		return iterations;
 		if(!esti.equals("0")){
 			Calendar cStart = Calendar.getInstance();
 			Calendar cEnd = Calendar.getInstance();

@@ -48,8 +48,8 @@ public class Controller {
 		this.panel.addKeyListener(new KeyInput(this.snake));
 		panel.setSpots(snake.getSpots());
 		
-		xMax = 31;//panel.getWidth() / panel.gridSize;
-		yMax = 27;//panel.getHeight() / panel.gridSize;
+		xMax = 31;
+		yMax = 27;
 		
 		
 		for (int x = 0; x <= xMax; x ++){
@@ -66,8 +66,6 @@ public class Controller {
 		
 		moveTimer = new Timer();
 		moveTimer.schedule(new MoveTask(snake, panel), 1000,100);
-		
-		//spawnFood(null);
 		
 		updateHighScore(0,"Unknown");
 		
@@ -212,7 +210,6 @@ public class Controller {
 			//38 = up
 			//39 = right
 			//40 = down
-			//(e.getKeyChar());
 			
 			if (e.getKeyChar() == ' '){
 				if(!gameRunning)
@@ -246,8 +243,6 @@ public class Controller {
 		 */
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}

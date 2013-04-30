@@ -167,7 +167,7 @@ public class Requirement extends AbstractModel{
 			public boolean add(Integer i){
 				return super.add(i);
 			}
-		});;
+		});
 		childrenCompleted = 0;
 	}
 	
@@ -191,7 +191,7 @@ public class Requirement extends AbstractModel{
 	 * @return true, if fake
 	 */
 	public boolean checkFake() {
-		if (this.getDescription() == "" || this.getDescription() == null) {
+		if (this.getDescription().equals("") || this.getDescription() == null) {
 			return true;
 		}
 		else return false;
@@ -878,7 +878,7 @@ public class Requirement extends AbstractModel{
 	 * @param attachedFileIds the attachedFileId to set
 	 */
 	public void setAttachedFileId(ArrayList<Integer> attachedFileIds) {
-		if(attachedFileIdStr == null || attachedFileIdStr == "null") {
+		if(attachedFileIdStr == null || attachedFileIdStr.equals("null")) {
 			attachedFileIdStr = "";
 		}
 		for(Integer s : attachedFileIds){

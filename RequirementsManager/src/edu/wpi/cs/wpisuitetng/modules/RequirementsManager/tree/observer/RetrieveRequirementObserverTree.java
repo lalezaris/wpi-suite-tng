@@ -18,11 +18,12 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * Observer to retrieve requirements tree
- * 
+ * Observer to retrieve requirements tree.
+ *
+ * @param <T> the generic type
  * @author Chris Hanna
- * 
  * @version March 28, 2013
  */
 
@@ -38,9 +39,11 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 	public RetrieveRequirementObserverTree(RetrieveRequirementControllerTree<T> controller){
 		this.controller = controller;
 	}
-	/** 
-	 * Response to a request 
-	 * @param iReq IRequest to respond to 
+	
+	/**
+	 * Response to a request.
+	 *
+	 * @param iReq IRequest to respond to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
@@ -67,8 +70,9 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 		}
 	}
 
-	/** 
-	 * Responds to an error
+	/**
+	 * Responds to an error.
+	 *
 	 * @param iReq IRequest to respond with an error to
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
@@ -77,8 +81,9 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 		//controller.errorRetrievingRequirement("Received " + iReq.getResponse().getStatusCode() + " error from server: " + iReq.getResponse().getStatusMessage());
 	}
 
-	/** 
-	 * Responds to a failure
+	/**
+	 * Responds to a failure.
+	 *
 	 * @param iReq IRequest to respond to a failure
 	 * @param exception exception causing the failure
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)

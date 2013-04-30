@@ -411,8 +411,7 @@ class TreeTransferHandler extends TransferHandler {
 						if (TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId()) != null) {
 							Requirement parent = TreeView.getInstance().lookUpRequirement(requirement.getParentRequirementId());
 							if (parent.getIterationId() != 0) {
-								if (it.getEndDate().
-										after(parent.getIteration().getEndDate())) {
+								if (it.getEndDate().after(parent.getIteration().getEndDate())) {
 									TreeView.getInstance().setStatus("Requirement " + requirement.getTitle() + " "
 											+ ": Can't not be dragged to an Iteration whose end date is after its parent requirement's iteration end date!");
 									return false;

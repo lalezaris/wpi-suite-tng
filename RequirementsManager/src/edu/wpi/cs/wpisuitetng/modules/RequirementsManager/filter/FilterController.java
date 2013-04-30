@@ -88,10 +88,10 @@ public class FilterController{
 	/**
 	 * set if the filters are editable
 	 * 
-	 * @param editable. The desired state.
+	 * @param editable The desired state.
 	 */
 	public void setEditable(boolean editable){
-		this.panel.setEditable(editable);
+		panel.setEditable(editable);
 	}
 
 	/**

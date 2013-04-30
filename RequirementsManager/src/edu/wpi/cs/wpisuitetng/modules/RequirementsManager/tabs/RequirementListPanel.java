@@ -358,11 +358,11 @@ public class RequirementListPanel extends JPanel{
 		if (invalidChanges){
 			updateButton.setEnabled(false);
 			updateButton.setVisible(false);
-			this.updateLabel.setText("Click cancel to discard changes.");
-		} else this.updateLabel.setText("Click update or cancel to save or discard changes.");
+			updateLabel.setText("Click cancel to discard changes.");
+		} else updateLabel.setText("Click update or cancel to save or discard changes.");
 		
 		if (getModel().getChangedLocations().size() == 0)
-			this.updateLabel.setText("");
+			updateLabel.setText("");
 		
 	}
 	
@@ -378,7 +378,7 @@ public class RequirementListPanel extends JPanel{
 		updateButton.setVisible(false);
 		cancelButton.setVisible(false);
 		updateLabelError.setVisible(false);
-		this.updateLabel.setText("");
+		updateLabel.setText("");
 		hideUpdateSuccessfully();
 	}
 	

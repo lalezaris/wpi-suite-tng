@@ -152,7 +152,7 @@ public class TreeView extends JPanel {
 	 * @param newText the new status
 	 */
 	void setStatus(String newText) {
-		if (status.getText() != newText) {
+		if (!status.getText().equals(newText)) {
 			status.setText(newText);
 		}
 	}

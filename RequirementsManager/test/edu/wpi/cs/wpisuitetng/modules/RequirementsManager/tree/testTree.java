@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Sam Abradi
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree;
 
 import static org.junit.Assert.*;
@@ -13,6 +25,9 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 
+/**
+ * The Class testTree.
+ */
 public class testTree {
 	Requirement r;
 	ReqTreeNode rtn;
@@ -20,7 +35,7 @@ public class testTree {
 	TreeView tv;
 	
 	/**
-	 * setup the variable for this test
+	 * setup the variable for this test.
 	 */
 	@Before
 	public void setup(){
@@ -33,7 +48,7 @@ public class testTree {
 	}
 	
 	/**
-	 * test the ReqTreeNode class
+	 * test the ReqTreeNode class.
 	 */
 	@Test
 	public void testReqTreeNote(){
@@ -45,7 +60,7 @@ public class testTree {
 	}
 	
 	/**
-	 * test the ReqTreeModel class
+	 * test the ReqTreeModel class.
 	 */
 	@Test
 	public void testReqTreeModel(){
@@ -60,7 +75,7 @@ public class testTree {
 	}
 	
 	/**
-	 * test the TreeView class
+	 * test the TreeView class.
 	 */
 	@Test
 	public void testTreeView(){

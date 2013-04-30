@@ -33,6 +33,9 @@ import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;
 public class RequirementListPanelTest {
 	RequirementListPanel panel;
 	
+	/**
+	 * Sets up the test.
+	 */
 	@Before
 	public void setUp() {
 		Network.initNetwork(new MockNetwork());
@@ -46,11 +49,17 @@ public class RequirementListPanelTest {
 		panel.addRequirements(reqs1);
 	}
 	
+	/**
+	 * Tests that the panel is not null
+	 */
 	@Test
 	public void panelNotNullTest() {
 		assertNotNull(panel);
 	}
 	
+	/**
+	 * Tests the button panel.
+	 */
 	@Test
 	public void buttonPanelTest() {
 		JPanel buttonPanel = panel.getButtonPanel();
@@ -58,6 +67,9 @@ public class RequirementListPanelTest {
 		assertEquals(5, buttonPanel.getComponentCount());
 	}
 	
+	/**
+	 * Tests adding a requirement.
+	 */
 	@Test
 	public void addRequirementsTest() {
 		assertEquals(4, panel.getModel().getRequirements().size());

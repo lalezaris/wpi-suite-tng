@@ -605,7 +605,7 @@ public class TasksView extends RequirementTab implements FocusListener{
 	 * Refresh backgrounds.
 	 */
 	public void refreshBackgrounds() {
-		this.parent.getReqModel().updateBackgrounds();
+		parent.getReqModel().updateBackgrounds();
 	}
 
 	/* (non-Javadoc)

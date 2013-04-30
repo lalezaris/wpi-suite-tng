@@ -356,17 +356,17 @@ public class FilterPanel extends JPanel{
 	/**
 	 * Make the panel be editable or not.
 	 * 
-	 * @param editable. The desired state
+	 * @param editable The desired state
 	 */
 	public void setEditable(boolean editable){
 		
-		this.filterDesc.setVisible(editable);
-		this.filterErrDesc.setVisible(!editable);
+		filterDesc.setVisible(editable);
+		filterErrDesc.setVisible(!editable);
 		
-		this.addButton.setEnabled(editable);
-		this.removeButton.setEnabled(editable);
-		this.disableButton.setEnabled(editable);
-		this.enableButton.setEnabled(editable);
+		addButton.setEnabled(editable);
+		removeButton.setEnabled(editable);
+		disableButton.setEnabled(editable);
+		enableButton.setEnabled(editable);
 		for (int i = 0 ; i < rules.size() ; i ++){
 			rules.get(i).test = false;
 			rules.get(i).getEnabledBox().setEnabled(editable);

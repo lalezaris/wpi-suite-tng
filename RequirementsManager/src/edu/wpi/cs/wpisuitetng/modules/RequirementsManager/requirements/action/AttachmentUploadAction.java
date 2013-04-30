@@ -26,17 +26,28 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Apr 21, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AttachmentUploadAction extends AbstractAction{
 
 	AttachmentController controller;
+	
+	/**
+	 * Instantiates a new attachment upload action.
+	 *
+	 * @param controller the controller
+	 * @param name the name
+	 */
 	public AttachmentUploadAction(AttachmentController controller, String name){
 		super(name);
 		this.controller = controller;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.uploadClicked();
+		controller.uploadClicked();
 		
 	}
 

@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Sam Abradi
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models;
 
 import java.io.File;
@@ -20,45 +32,69 @@ import com.google.gson.GsonBuilder;
 
 import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 
+/**
+ * A class used contain files, along with their names and a reference to the 
+ * Requirement that they are attached to. the contents are Base64 encoded.
+ * 
+ * @author Sam Abradi
+ */
 public class Attachment extends AbstractModel{
 	private String fileContents;
 	private String fileName;
 	private int id;
 	private int ownerId;
 	
+	/**
+	 * Instantiates a new empty attachment.
+	 */
 	public Attachment(){
 		id = -1;
 	}
+	
+	/**
+	 * Instantiates a new attachment.
+	 *
+	 * @param file the file to be attached
+	 * @param ownerId the owner id
+	 */
 	public Attachment(File file,int ownerId){
 		this.setFileName(file.getName());
 		id = -1;
 		this.ownerId = ownerId;
 	}
 	
-	//loads fileContents from the file
+	
+	/**
+	 * loads fileContents from the file
+	 *
+	 * @param file the file
+	 */
 	public void loadFile(File file){
-		//TODO actually load the contents into fileContents when this is called
 		try {
 			FileInputStream in = new FileInputStream(file);
 			int i=0;
 			int buffer;
 			byte[] contents = new byte[(int) file.length()];
 			
-			//while((buffer = (byte) in.read())!=-1)if(buffer!=-1)contents[i++]=(byte) buffer;
 			contents = readFile(file);
 			
-			in.close();//new String(Base64.encodeBase64
+			in.close();
 			this.setFileContents(Base64.encodeBase64String(contents));
-			//this.fileContents = new String(Base64.encodeBase64(contents));
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Read file.
+	 *
+	 * @param file the file to read from
+	 * @return the byte array of file contents.
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public byte[] readFile(File file) throws IOException {
         final InputStream inStream = new FileInputStream(file);
         int offset = 0;
@@ -76,37 +112,40 @@ public class Attachment extends AbstractModel{
         return retVal;
 }
 	
+	/**
+	 * Save file.
+	 *
+	 * @param file the file pointer to save
+	 */
 	public void saveFile(File file){
 		//TODO actually load the contents into fileContents when this is called
 				try {
 					File OF = file;//new File(file.getName());
 					FileOutputStream out = new FileOutputStream(OF);
-					int i=0;
 					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
 
 					out.write(contents, 0, contents.length);
-					out.close();//new String(Base64.encodeBase64
-//					this.setFileContents(Base64.encodeBase64String(contents));
-					//this.fileContents = new String(Base64.encodeBase64(contents));
-					
+					out.close();
 				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -160,68 +199,90 @@ public class Attachment extends AbstractModel{
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param i the new id
+	 */
 	public void setId(int i) {
-		this.id = i;
+		id = i;
 		
 	}
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Gets the contents of this attachment. Encoded into a string using base64.
+	 * 
 	 * @return the fileContents
 	 */
 	public String getFileContents() {
 		return fileContents;
 	}
+	
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param fileContents: the fileContents to set
+	 * Sets the contents of this attachment. Encoded into a string using base64.
+	 *
+	 * @param fileContents the new file contents
 	 */
 	public void setFileContents(String fileContents) {
 		this.fileContents = fileContents;
 	}
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
+	 * Returns the file's name.
 	 * @return the fileName
 	 */
 	public String getFileName() {
 		return fileName;
 	}
+	
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param fileName: the fileName to set
+	 * Sets the file's name.
+	 *
+	 * @param fileName the new file name
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	
+	/**
+	 * Gets the attachment id.
+	 *
+	 * @return the attachment's id
+	 */
 	public int getId(){
-		return this.id;
+		return id;
 	}
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @return the ownerId
+	 * Gets the owner's ID
+	 * @return the owner's ID
 	 */
 	public int getOwnerId() {
 		return ownerId;
 	}
+	
 	/**
-	 * Enter description here.
-	 * Make sure the method's name starts with get (delete this statement)
-	 * @param ownerId: the ownerId to set
+	 * Sets the owner's ID
+	 *
+	 * @param ownerId the new owner id
 	 */
 	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
 	}
+	
+	/**
+	 * Takes a ArrayList<Integer> to make sure that there are now adjacent duplicates.
+	 * Removes adjacent duplicates if there are any.s
+	 *
+	 * @param in the array list to check for adjacent duplicates.
+	 * @return the modified array list
+	 */
 	public static ArrayList<Integer> trimList (ArrayList<Integer> in){
 
 		for(int i = 0; i<in.size()-1; i++){

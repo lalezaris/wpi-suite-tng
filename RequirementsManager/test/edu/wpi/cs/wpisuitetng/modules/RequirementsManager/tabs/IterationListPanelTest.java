@@ -39,6 +39,9 @@ public class IterationListPanelTest {
 	SimpleDateFormat tableDateFormat = new SimpleDateFormat("EEE, MMM dd, yyyy");
 	Date date1, date2, date3, date4;
 	
+	/**
+	 * Sets up the tests.
+	 */
 	@Before
 	public void setUp() {
 		Network.initNetwork(new MockNetwork());
@@ -60,11 +63,17 @@ public class IterationListPanelTest {
 		panel.addIterations(ites);
 	}
 	
+	/**
+	 * Tests if panel is not null test.
+	 */
 	@Test
 	public void panelNotNullTest() {
 		assertNotNull(panel);
 	}
 	
+	/**
+	 * Tests adding iterations.
+	 */
 	@Test
 	public void addIterationsTest() {
 		assertEquals(2, ((IterationTableModel)panel.getTable().getModel()).getData().size());

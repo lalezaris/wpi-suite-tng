@@ -26,18 +26,29 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controlle
  * @version Apr 21, 2013
  *
  */
+@SuppressWarnings("serial")
 public class AttachmentAddAction extends AbstractAction{
 
 	
 	AttachmentController controller;
+	
+	/**
+	 * Instantiates a new attachment add action.
+	 *
+	 * @param controller the controller
+	 * @param name the name
+	 */
 	public AttachmentAddAction(AttachmentController controller, String name){
 		super(name);
 		this.controller = controller;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.controller.addClicked();
+		controller.addClicked();
 	}
 
 }

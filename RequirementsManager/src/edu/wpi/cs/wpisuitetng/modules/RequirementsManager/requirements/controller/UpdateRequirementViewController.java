@@ -37,6 +37,9 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class UpdateRequirementViewController {
 
 	
+	/**
+	 * Update all open requirement views.
+	 */
 	public static void updateAllOpenRequirementViews(){
 
 		for (int i = 0 ; i < MainTabController.getController().getReqViewList().size() ;i ++){
@@ -51,11 +54,11 @@ public class UpdateRequirementViewController {
 	/**
 	 * Make an updateReqViewController
 	 * 
-	 * @param view
+	 * @param view the parent RequirementView.
 	 */
 	public UpdateRequirementViewController(RequirementView view){
 		this.view = view;
-		this.mode = view.getMode();
+		mode = view.getMode();
 	}
 	
 	
@@ -66,13 +69,19 @@ public class UpdateRequirementViewController {
 	private void retrieve() {
 		UpdateRequirementViewObserver observer = new UpdateRequirementViewObserver(this);
 		Request request;
-		request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + this.view.getReqModel().getRequirement().getId(), HttpMethod.GET);
+		request = Network.getInstance().makeRequest("requirementsmanager/requirement/" + view.getReqModel().getRequirement().getId(), HttpMethod.GET);
 		request.addObserver(observer);
 		request.send();
 	}
 	
+	/**
+	 * Receives the updated server requirement and 
+	 * updates it within the requirement view.
+	 *
+	 * @param req the req
+	 */
 	public void receive(Requirement req){
-		this.view.getReqModel().update(req, this.mode);
+		view.getReqModel().update(req, mode);
 	}
 	
 }

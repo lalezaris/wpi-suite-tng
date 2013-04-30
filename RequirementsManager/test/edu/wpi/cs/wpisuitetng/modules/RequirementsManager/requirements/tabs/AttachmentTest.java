@@ -1,3 +1,15 @@
+/**************************************************
+ * This file was developed for CS3733: Software Engineering
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ *
+ * Contributors:
+ * Sam Abradi
+ **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import static org.junit.Assert.*;
@@ -13,11 +25,20 @@ import org.junit.*;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 
+/**
+ * The Class AttachmentTest tests attachements.
+ * 
+ * @author Sam Abradi
+ */
 public class AttachmentTest {
 	Attachment a = null;
 	Attachment b = null;
 	byte[] barray = new byte[4096];
 	FileOutputStream out = null;
+	
+	/**
+	 * Setup the tests.
+	 */
 	@Before
 	public void setup(){
 		for(int i = 0; i<4096; i++){
@@ -39,6 +60,9 @@ public class AttachmentTest {
 	}
 
 
+	/**
+	 * Test encoding.
+	 */
 	@Test
 	public void testEncoding() {
 		FileInputStream in = null;
@@ -66,6 +90,9 @@ public class AttachmentTest {
 		assertArrayEquals(Base64.decodeBase64(testAttachment.getFileContents()), fileRead);
 	}
 	
+	/**
+	 * Test loading and saving a file.
+	 */
 	@Test
 	public void testLoadSaveFile() {
 		a.loadFile(new File("testFile"));
@@ -80,6 +107,10 @@ public class AttachmentTest {
 		a.delete();
 
 	}
+	
+	/**
+	 * Test json functionality.
+	 */
 	@Test
 	public void testJSON(){
 		a.setId(5);

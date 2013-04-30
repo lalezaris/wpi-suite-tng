@@ -322,9 +322,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			requirements.get(i).setIteration( (Iteration) r[6]); //iteration
 		}	
 		this.clearChangeVisualsDisregard();
-		this.isChange = false;
-		this.panel.setButtonsForNoChanges();
-		this.panel.getFilterController().setEditable(!this.getIsChange());
+		isChange = false;
+		panel.setButtonsForNoChanges();
+		panel.getFilterController().setEditable(!this.getIsChange());
 	}
 	
 	/**
@@ -495,8 +495,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		panel.hideUpdateSuccessfully();
 		this.logChangeErrors(row);
 		
-		this.panel.getFilterController().setEditable(!this.getIsChange());
-		this.panel.setButtonsForChanges();
+		panel.getFilterController().setEditable(!this.getIsChange());
+		panel.setButtonsForChanges();
 		if (DEBUG) {
 			printDebugData();
 		}

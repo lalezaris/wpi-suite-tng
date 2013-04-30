@@ -199,7 +199,8 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		}
 		catch (NumberFormatException e){
 			mainPanel.getLblActualError().setVisible(true);
-			actual = -1; }
+			actual = -1; 
+		}
 		if (estimate == -1 && actual == -1){
 			return 4;
 		} else if (estimate == -1)
@@ -379,7 +380,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 		mainPanel.getAssigneeView().setAssigneeList(this.getReqModel().getRequirement().getAssignee());
 		mainPanel.getAssigneeView().setLists();
 		mainPanel.getAttachmentsView().setAttachmentsList(new ArrayList<Object>());
-		//TODO change the 'Object' to 'Attachment'
 
 		//Set the list of acceptance tests in the views.
 		ArrayList<AcceptanceTest> acceptanceTestList = new ArrayList<AcceptanceTest>();
@@ -427,8 +427,6 @@ public class RequirementView extends JPanel implements IToolbarGroupProvider {
 			mainPanel.getCmbStatus().setEnabled(false);
 			mainPanel.getTxtActual().setEnabled(false);
 		}
-
-
 		setUpPermissions(pLevel);
 	}
 

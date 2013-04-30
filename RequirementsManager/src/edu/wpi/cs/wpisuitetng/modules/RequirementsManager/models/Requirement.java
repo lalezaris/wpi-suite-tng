@@ -807,8 +807,6 @@ public class Requirement extends AbstractModel{
 	 * @param attachmentsList the updated attachments list
 	 */
 	public void updateAttachments(List<Object> attachmentsList) {
-		// TODO change 'Obeject' to 'Attachment'
-		// TODO actually update the attachments.....
 	}
 
 	/**
@@ -831,7 +829,6 @@ public class Requirement extends AbstractModel{
 			ret.add(str);
 		}
 		return ret;
-		//return attachedFileName;
 	}
 
 	/**
@@ -889,9 +886,7 @@ public class Requirement extends AbstractModel{
 	 * @return the totalEstimateEffort
 	 */
 	public int getTotalEstimateEffort() {
-		//if(totalEstimateEffort != 0)
 			return totalEstimateEffort;
-	//	else return getEstimateEffort();
 	}
 
 	/**
@@ -926,10 +921,16 @@ public class Requirement extends AbstractModel{
 		childrenCompleted--;
 	}
 	
+	/**
+	 * @return the number of children completed
+	 */
 	public int getCompletedChildren() {
 		return childrenCompleted;
 	}
 	
+	/**
+	 * @param childrenCompleted set the number of children complete
+	 */
 	public void setCompletedChildren(int childrenCompleted) {
 		this.childrenCompleted = childrenCompleted;
 	}

@@ -110,7 +110,6 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 		try {
 			models = db.retrieve(SnakeModel.class, "id", intId, s.getProject()).toArray(new SnakeModel[0]);
 		} catch (WPISuiteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(models.length < 1 || models[0] == null) {
@@ -155,15 +154,11 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 		// copy values to old iteration and fill in our changeset appropriately
 		updateMapper.map(it, serverIt);
 
-		//serverIt.setIterationId(it.getId());
-		
 		//apply the changes
 		if(!db.save(serverIt, s.getProject())) {
 			throw new WPISuiteException();
 		}
 		
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
 		return serverIt;
 	}
 
@@ -236,7 +231,6 @@ public class SnakeStore implements EntityManager<SnakeModel> {
 	 */
 	@Override
 	public int Count() {
-		// TODO: there must be a faster way to do this with db4o
 		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new SnakeModel()).size();
 	}

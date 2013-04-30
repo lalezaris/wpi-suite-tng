@@ -72,8 +72,8 @@ public class RequirementModel {
 		panel.getLblTotalEstimate().setVisible(panel.getParent().getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
 		panel.getTxtTotalEstimate().setVisible(panel.getParent().getReqModel().getRequirement().getChildRequirementIds().size() > 0);	
 
-		
-		
+
+
 		for (int i = 0; i < panel.getCmbType().getItemCount(); i++) {
 			if (requirement.getType().toString().equals(panel.getCmbType().getItemAt(i).toString())) {
 				panel.getCmbType().setSelectedIndex(i);
@@ -148,7 +148,6 @@ public class RequirementModel {
 			view.getRequirementPanel().getTxtTotalEstimate().setVisible(true);
 		}
 		view.getRequirementPanel().getDependenciesView().updateChildrenList(requirement.getChildRequirementIds());
-//		setUpPanel(editMode);
 
 	}
 
@@ -220,7 +219,6 @@ public class RequirementModel {
 			return true;
 		}
 
-		//TODO: come back to this
 		//compare sub-requirements 
 		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
 			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
@@ -253,7 +251,7 @@ public class RequirementModel {
 		if(oldR.getAcceptanceTests().size() != view.getRequirementPanel().getAcceptanceTestsView().getList().size()){
 			return true;
 		}
-		
+
 		if(view.getRequirementPanel().getTasksView().isChanged()){
 			return true;
 		}
@@ -264,7 +262,6 @@ public class RequirementModel {
 	/**
 	 * Checks to see if any changes have been made to fields.
 	 * Set background that are changed
-	 * TODO: make individual flags for each, to be able to reset when field goes white again
 	 * @return true if changes has been made otherwise false
 	 */
 	public boolean updateBackgrounds(){
@@ -372,27 +369,9 @@ public class RequirementModel {
 			flag = true;
 		}
 
-		/*if (!oldR.getAssignee().equals(newR.getAssignee())){//if old and new are not the same
-			view.getRequirementPanel().getAv().setBackgroundColors(MainView.getChangedColor());
-			flag = true;
-		}*/
 		else
 			if(view.getRequirementPanel().getAssigneeView().getBackgroundColor().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getAssigneeView().setBackgroundColors(Color.WHITE);
-		/*
-		//TODO: come back to this
-		//compare sub-requirements 
-		for (int i = 0; i < oldR.getChildRequirementIds().size(); i++){
-			if (!newR.getChildRequirementIds().contains(oldR.getChildRequirementIds().get(i))){
-				return true;
-			}
-		}
-		for (int i = 0; i < newR.getChildRequirementIds().size(); i++){
-			if (!oldR.getChildRequirementIds().contains(newR.getChildRequirementIds().get(i))){
-				return true;
-			}
-		}
-		 */
 
 		//compare notes lists
 		if (notesDifference != 0){//if old and new are not the same
@@ -456,8 +435,8 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getAcceptanceTestsView().getListDisplay().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getAcceptanceTestsView().setListDisplayBackground(MainView.getChangedColor());
-		
-		
+
+
 		//Tasks
 		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getText().equals("") && !view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getText().equals(null)) {
 			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().setBackground(MainView.getChangedColor());
@@ -466,7 +445,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtName().setBackground(Color.WHITE);
-		
+
 		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().getText().equals("") && !view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().equals(null)) {
 			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().setBackground(MainView.getChangedColor());
 			flag = true;
@@ -474,7 +453,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtDescription().setBackground(Color.WHITE);
-		
+
 		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().getSelectedItem().equals("")) {
 			view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().setBackground(MainView.getChangedColor());
 			flag = true;
@@ -482,7 +461,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbAssignee().setBackground(Color.WHITE);
-		
+
 		if(!view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().getText().equals("0")) {
 			view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().setBackground(MainView.getChangedColor());
 			flag = true;
@@ -490,7 +469,7 @@ public class RequirementModel {
 		else
 			if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().getBackground().equals(MainView.getChangedColor()))
 				view.getRequirementPanel().getTasksView().getNewTaskPanel().getTxtEffort().setBackground(Color.WHITE);
-		
+
 		if(view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().getSelectedIndex() != 0) {
 			view.getRequirementPanel().getTasksView().getNewTaskPanel().getCmbStatus().setBackground(MainView.getChangedColor());
 			flag = true;
@@ -511,7 +490,7 @@ public class RequirementModel {
 	public Requirement getRequirement() {
 		return requirement;
 	}
-	
+
 	/**
 	 * Gets unedited requirement
 	 * 
@@ -520,7 +499,7 @@ public class RequirementModel {
 	public Requirement getUneditedRequirement() {
 		return uneditedRequirement;
 	}
-	
+
 	/**
 	 * @param uneditedRequirement: the uneditedRequirement to set
 	 */
@@ -536,14 +515,5 @@ public class RequirementModel {
 	public void setRequirement(Requirement req) {
 		requirement = req;
 	}
-
-	/**
-	 * Changes the Unedited Requirement to know the knew txt estimate when adding the child's estimate to the parent's estimate.
-	 *
-	 * @param estimateEffort the new txt estimate of unedited requirement
-	 */
-//	public void setTxtEstimateOfUneditedRequirement(int estimateEffort) {
-//		this.uneditedRequirement.setEstimateEffort(estimateEffort);
-//	}
 
 }

@@ -67,7 +67,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	public Attachment makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 		final Attachment newAttachment = Attachment.fromJSON(content);	//still need to get fromJSON working, then this will work
-		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newAttachment.setId(Count() + 1);
 		
 		System.out.println("FILE NAME " +newAttachment.getFileName() + "ownerid " + newAttachment.getOwnerId());
@@ -78,13 +77,11 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 		
-		//serverReq.getAttachedFileId().add(newAttachment.getId());
 		ArrayList<Integer> fileId = new ArrayList<Integer>();//serverReq.getAttachedFileId();
 		fileId.add(newAttachment.getId());
 		serverReq.setAttachedFileId(fileId);
 		
 		
-		//serverReq.getAttachedFileNames().add(newAttachment.getFileName());
 		ArrayList<String> fileNames = serverReq.getAttachedFileNames();
 		fileNames.add(newAttachment.getFileName());
 		serverReq.setAttachedFileName(fileNames);
@@ -94,15 +91,11 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		HChange.setChange("<p>added file: " + newAttachment.getFileName() + "</p>");
 		serverReq.addHistoricalChange(HChange);
 		
-		//db.save(serverReq.getAttachedFileId());
-		//db.save(serverReq.getAttachedFileNames());
 		if(!db.save(serverReq, s.getProject())) {
 			System.out.println("there was an error while updating a requirement with the new attachment");
 			throw new WPISuiteException();
 		}
 		
-//		db.save(serverReq.getAttachedFileId());
-//		db.save(serverReq.getAttachedFileName());
 		
 		if(!db.save(newAttachment, s.getProject())) {
 			throw new WPISuiteException();
@@ -132,7 +125,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		try {
 			attachments = db.retrieve(Attachment.class, "id", intId, s.getProject()).toArray(new Attachment[0]);
 		} catch (WPISuiteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(attachments.length < 1 || attachments[0] == null) {
@@ -184,8 +176,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 			throw new WPISuiteException();
 		}
 		
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
 		return serverAt;
 	}
 
@@ -206,7 +196,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 */
 	@Override
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -216,7 +205,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	@Override
 	public String advancedGet(Session s, String[] args)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -225,7 +213,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -244,7 +231,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	@Override
 	public String advancedPut(Session s, String[] args, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -254,7 +240,6 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	@Override
 	public String advancedPost(Session s, String string, String content)
 			throws WPISuiteException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

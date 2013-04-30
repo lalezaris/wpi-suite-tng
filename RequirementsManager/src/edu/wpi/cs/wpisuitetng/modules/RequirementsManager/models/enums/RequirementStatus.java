@@ -32,6 +32,4 @@ public enum RequirementStatus {
 	OPEN,	// requirement is ready to be worked on but is not assigned to an iteration yet.
 	COMPLETE,   // a finished requirement but not tested
 	DELETED		// requirement has been deleted from the list.
-
-
 }

@@ -118,9 +118,8 @@ public class Attachment extends AbstractModel{
 	 * @param file the file pointer to save
 	 */
 	public void saveFile(File file){
-		//TODO actually load the contents into fileContents when this is called
 				try {
-					File OF = file;//new File(file.getName());
+					File OF = file;
 					FileOutputStream out = new FileOutputStream(OF);
 					byte[] contents = Base64.decodeBase64(this.getFileContents());//new byte[(int) file.length() +1];
 
@@ -204,7 +203,6 @@ public class Attachment extends AbstractModel{
 	 */
 	@Override
 	public Boolean identify(Object o) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

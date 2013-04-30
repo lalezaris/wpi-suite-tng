@@ -66,7 +66,6 @@ public class IterationStore implements EntityManager<Iteration> {
 	public Iteration makeEntity(Session s, String content)
 			throws WPISuiteException {
 		final Iteration newIteration = Iteration.fromJSON(content);	//still need to get fromJSON working, then this will work
-		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newIteration.setId(Count() + 1);
 		if(!db.save(newIteration, s.getProject())) {
 			throw new WPISuiteException();
@@ -145,8 +144,6 @@ public class IterationStore implements EntityManager<Iteration> {
 			throw new WPISuiteException();
 		}
 
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
 		return serverIt;
 	}
 
@@ -222,8 +219,6 @@ public class IterationStore implements EntityManager<Iteration> {
 	 */
 	@Override
 	public int Count() {
-		// TODO: there must be a faster way to do this with db4o
-		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new Iteration()).size();
 	}
 

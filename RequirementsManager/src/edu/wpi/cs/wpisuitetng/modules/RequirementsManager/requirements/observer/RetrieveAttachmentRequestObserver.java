@@ -61,7 +61,6 @@ public class RetrieveAttachmentRequestObserver implements RequestObserver  {
 					attachment[0].saveFile(controller.getFile());
 				}
 				else {
-					//controller.errorRetrievingRequirement("No requirement received.");
 				}
 		
 	}
@@ -71,7 +70,6 @@ public class RetrieveAttachmentRequestObserver implements RequestObserver  {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-
 		
 	}
 
@@ -80,7 +78,6 @@ public class RetrieveAttachmentRequestObserver implements RequestObserver  {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-
 		
 	}
 	

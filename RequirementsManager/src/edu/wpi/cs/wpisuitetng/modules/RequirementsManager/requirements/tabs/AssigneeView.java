@@ -102,10 +102,7 @@ public class AssigneeView extends RequirementTab{
 		buttonPanel.setLayout(new GridLayout(2,1,0,5));
 
 		btnAdd = new JButton("ADD");
-		//btnAdd.addFocusListener(this);
-
 		btnRemove = new JButton("REMOVE");
-		//btnRemove.addFocusListener(this);
 
 		buttonPanel.add(btnAdd);
 		buttonPanel.add(btnRemove);

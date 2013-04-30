@@ -12,14 +12,9 @@
 **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Set;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.RetrieveRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementViewObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;

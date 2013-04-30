@@ -21,7 +21,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -37,7 +36,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPa
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveIterationController;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tree.controller.SaveRequirementController;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 /**
  * Handles Drag and Drop for TreeView.

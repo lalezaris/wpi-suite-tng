@@ -26,10 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 

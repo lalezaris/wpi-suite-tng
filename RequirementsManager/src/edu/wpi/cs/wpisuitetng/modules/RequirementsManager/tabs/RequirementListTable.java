@@ -14,7 +14,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -27,7 +26,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.IterationStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementPriority;

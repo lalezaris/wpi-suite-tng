@@ -43,7 +43,6 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.rmpermissions.observers.CurrentUserPermissions;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListPanel;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.RequirementListView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.view.MainView;
 
 

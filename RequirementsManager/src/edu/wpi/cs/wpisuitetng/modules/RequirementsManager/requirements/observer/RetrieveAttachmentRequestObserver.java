@@ -12,10 +12,7 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer;
 
-import java.io.File;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller.RetrieveAttachmentController;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

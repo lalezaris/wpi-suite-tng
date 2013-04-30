@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controll
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -24,15 +23,12 @@ import javax.swing.JOptionPane;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.RequirementValidator;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.ValidationIssue;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.IntegerField;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.RequirementStatus;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementModel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementPanel.Mode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.UpdateRequirementRequestObserver;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;

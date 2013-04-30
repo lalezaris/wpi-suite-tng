@@ -15,8 +15,6 @@
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 /**

@@ -12,12 +12,9 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.controller;
 
-import java.util.ArrayList;
-
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Attachment;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Requirement;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.RequirementView;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.CreateRequirementRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.observer.SaveAttachmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.requirements.tabs.AttachmentsView;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTabController;

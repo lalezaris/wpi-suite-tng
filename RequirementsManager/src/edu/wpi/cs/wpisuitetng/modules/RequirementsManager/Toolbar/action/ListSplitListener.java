@@ -44,7 +44,6 @@ public class ListSplitListener implements SplitButtonActionListener {
 	 */
 	@Override
 	public void buttonClicked(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		controller.addListRequirementTab();
 	}
 
@@ -53,7 +52,6 @@ public class ListSplitListener implements SplitButtonActionListener {
 	 */
 	@Override
 	public void splitButtonClicked(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 	

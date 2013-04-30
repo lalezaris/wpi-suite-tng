@@ -144,7 +144,7 @@ public class ToolbarPanel extends DefaultToolbarView {
 		editUserPermissions.setVisible(false);
 
 		//construct the user permission label
-		viewUserName = new JLabel("");//new JLabel("User: " + userName);
+		viewUserName = new JLabel("");
 		viewUserPermission = new JLabel("Permission Level: \n" + CurrentUserPermissions.getCurrentUserPermission().toString());
 
 		//Create split button

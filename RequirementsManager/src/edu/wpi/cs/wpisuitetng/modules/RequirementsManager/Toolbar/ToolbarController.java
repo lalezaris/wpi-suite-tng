@@ -68,7 +68,6 @@ public class ToolbarController extends DefaultToolbarController implements Chang
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// TODO: there has to be a cleaner way to do this
 		if(e.getSource() instanceof MainTabView) {
 			MainTabView view = (MainTabView) e.getSource();
 			Component selectedComponent = view.getSelectedComponent();

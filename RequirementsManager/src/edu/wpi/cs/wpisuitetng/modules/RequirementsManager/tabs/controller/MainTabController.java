@@ -518,7 +518,7 @@ public class MainTabController {
 	/**
 	 * Gets the reqViewList
 	 * 
-	 * @return
+	 * @return the reqViewList
 	 */
 	public ArrayList<RequirementView> getReqViewList(){
 		return reqViewList;

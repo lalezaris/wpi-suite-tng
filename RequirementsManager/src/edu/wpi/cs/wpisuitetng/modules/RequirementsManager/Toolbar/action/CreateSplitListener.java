@@ -46,7 +46,6 @@ public class CreateSplitListener implements SplitButtonActionListener {
 	 */
 	@Override
 	public void buttonClicked(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 		if (CurrentUserPermissions.doesUserHavePermissionLocal(RMPermissionsLevel.ADMIN)){
 			controller.addCreateRequirementTab();
 		}
@@ -58,7 +57,6 @@ public class CreateSplitListener implements SplitButtonActionListener {
 	 */
 	@Override
 	public void splitButtonClicked(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 

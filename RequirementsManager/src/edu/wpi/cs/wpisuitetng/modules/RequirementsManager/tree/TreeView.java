@@ -180,7 +180,6 @@ public class TreeView extends JPanel {
 		status.setWrapStyleWord(true);
 
 		// Creates refresh button located at the bottom of the screen
-		// TODO eventually get rid of this so it refreshes automatically
 		refreshButton = new JButton("Refresh Tree");
 		refreshButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

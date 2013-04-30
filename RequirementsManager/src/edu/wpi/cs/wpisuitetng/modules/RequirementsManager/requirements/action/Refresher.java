@@ -219,7 +219,7 @@ public class Refresher {
 	/**
 	 * Get the tree model
 	 * 
-	 * @return
+	 * @return the tree model
 	 */
 	public ReqTreeModel getTreeModel(){
 		return tree;

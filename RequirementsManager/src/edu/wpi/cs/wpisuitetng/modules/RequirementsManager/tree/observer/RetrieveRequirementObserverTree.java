@@ -18,7 +18,6 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-// TODO: Auto-generated Javadoc
 /**
  * Observer to retrieve requirements tree.
  *

@@ -105,20 +105,6 @@ public class RequirementStoreTest {
 		manager.makeEntity(defaultSession, rB.toJSON());
 		manager.makeEntity(defaultSession, rC.toJSON());
 		manager.makeEntity(defaultSession, rD.toJSON());
-		/*
-		User admin = new User("admin", "admin", "password", 5);
-		admin.setRole(Role.ADMIN);
-		testProject = new Project("test", "1");
-		ssid = "local";
-		adminSession = new Session(admin, testProject, ssid);
-		
-		db = new MockData(new HashSet<Object>());
-		//db.save(existingDefect, testProject);
-		//db.save(existingUser);
-		//db.save(otherDefect, otherProject);
-		db.save(admin);
-		reqStore = new RequirementStore(db);
-		*/
 	}
 	
 	/**
@@ -234,7 +220,7 @@ public class RequirementStoreTest {
 		
 		System.out.println("count: " + count);
 		
-		assertEquals(5, count); //count returns one more than it should. TODO
+		assertEquals(5, count); //count returns one more than it should.
 		
 		manager.deleteAll(adminSession);
 		

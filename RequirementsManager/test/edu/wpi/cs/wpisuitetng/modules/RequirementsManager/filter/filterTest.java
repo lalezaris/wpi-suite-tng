@@ -88,7 +88,6 @@ public class filterTest {
 		try {
 			output = filter.getFilteredObjects(input);
 		} catch (RuleTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -100,7 +99,6 @@ public class filterTest {
 		try {
 			output = filter.getFilteredObjects(input);
 		} catch (RuleTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(3, output.length);

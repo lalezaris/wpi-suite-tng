@@ -69,7 +69,6 @@ public class AssigneeViewTest {
 		asn = new ArrayList<String>();
 	}
 	
-	//TODO: figure out how to test these
 	/**
 	 * Test set list.
 	 */

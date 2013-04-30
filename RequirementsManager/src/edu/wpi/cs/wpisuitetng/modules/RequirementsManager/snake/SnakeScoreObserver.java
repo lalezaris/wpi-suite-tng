@@ -57,7 +57,6 @@ public class SnakeScoreObserver implements RequestObserver {
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -69,14 +69,12 @@ public class AttachmentTest {
 		try {
 			in = new FileInputStream("testFile");
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		byte[] fileRead = new byte[(int) barray.length];
 		try {
 			in.read(fileRead, 0, fileRead.length);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

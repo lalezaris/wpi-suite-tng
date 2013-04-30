@@ -81,7 +81,6 @@ public class IterationStoreTest {
 		newIt.setId(6);
 		
 		db = new MockData(new HashSet<Object>());
-		//db.save(existingReq, testProject);
 		db.save(existingUser);
 		db.save(otherIt, otherProject);
 		db.save(admin);
@@ -211,7 +210,7 @@ public class IterationStoreTest {
 		
 		System.out.println("count: " + count);
 		
-		assertEquals(5, count); //count returns one more than it should. TODO
+		assertEquals(5, count); 
 		
 		manager.deleteAll(adminSession);
 		

@@ -89,7 +89,5 @@ public class RetrieveRequirementObserverTree<T> implements RequestObserver{
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO deal with exception
-		//controller.errorRetrievingRequirement("Unable to complete request: " + exception.getMessage());
 	}
 }

@@ -74,7 +74,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 
 		newUserPermission.setId(Count() + 1);
 
-		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		if(!db.save(newUserPermission, s.getProject())) {
 			throw new WPISuiteException();
 		}
@@ -210,7 +209,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 */
 	@Override
 	public boolean deleteEntity(Session s, String username) throws WPISuiteException {
-		//TODO: check this function
 		ensureRole(s, Role.ADMIN);
 		return (db.delete(getEntity(s, username)[0]) != null) ? true : false;
 	}

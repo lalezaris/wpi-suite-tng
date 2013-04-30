@@ -77,13 +77,10 @@ public class MockData implements Data {
 							rv.add((Model) obj);
 						}
 					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (InvocationTargetException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -114,7 +111,6 @@ public class MockData implements Data {
 	@Override
 	public void update(Class arg0, String arg1, Object arg2, String arg3,
 			Object arg4) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -122,7 +118,6 @@ public class MockData implements Data {
 	@Override
 	public List<Model> andRetrieve(Class arg0, String[] arg1, List<Object> arg2)
 			throws IllegalArgumentException{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -131,7 +126,6 @@ public class MockData implements Data {
 	public List<Model> complexRetrieve(Class arg0, String[] arg1,
 			List<Object> arg2, Class arg3, String[] arg4, List<Object> arg5)
 			throws IllegalArgumentException{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -145,7 +139,6 @@ public class MockData implements Data {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Model> orRetrieve(Class arg0, String[] arg1, List<Object> arg2){
-		// TODO Auto-generated method stub
 		return null;
 	}
 

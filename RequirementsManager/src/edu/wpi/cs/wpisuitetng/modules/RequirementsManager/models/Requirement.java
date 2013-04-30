@@ -49,7 +49,7 @@ public class Requirement extends AbstractModel{
 	private String title;
 	private RequirementType type;
 	private String releaseNumber;
-	private int iterationId = 0; //TODO: refactor to improve implementation
+	private int iterationId = 0; 
 	private Iteration iteration; 
 	private String description;
 	private RequirementStatus status;
@@ -690,7 +690,7 @@ public class Requirement extends AbstractModel{
 	@Override
 	public String toJSON() {
 
-		iteration = null; //TODO: less hacking
+		iteration = null; 
 
 		String json;
 		Gson gson = new Gson();

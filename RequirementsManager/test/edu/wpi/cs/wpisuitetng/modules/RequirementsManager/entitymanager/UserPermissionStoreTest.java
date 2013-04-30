@@ -197,7 +197,7 @@ public class UserPermissionStoreTest {
 		
 		System.out.println("count: " + count);
 		
-		assertEquals(6, count); //count returns one more than it should. TODO
+		assertEquals(6, count); //count returns one more than it should. 
 		
 		manager.deleteAll(adminSession);
 		

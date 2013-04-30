@@ -136,7 +136,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	/** TasksView for updating tasks **/
 	private TasksView tasksView;
 
-	// TODO finish implementing assigneeView
 	private AssigneeView assigneeView;
 
 	/** Attachments view for adding files to a requirement*/
@@ -874,8 +873,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 
 	/**
 	 * Returns the model object represented by this view's fields.
-	 * 
-	 * TODO: Do some basic input verification
 	 * 
 	 * @return the model represented by this view
 	 */

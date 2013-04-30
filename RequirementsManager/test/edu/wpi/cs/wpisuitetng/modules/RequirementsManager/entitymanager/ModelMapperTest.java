@@ -110,15 +110,5 @@ public class ModelMapperTest {
 			}
 		};
 		
-		//TODO Need to complete after the iteration be completed.
-		
-//		mapper.map(a, b, callback);
-//		// not an exhaustive list
-//		assertTrue(callback.receivedNames.containsAll(Arrays.asList("id", "title", "lastModifiedDate")));
-//		// make sure mapper honored callback return value - again, not exhaustive
-//		assertEquals(-1, b.getId());
-//		assertNull(b.getTitle());
-//		assertNull(b.getDescription());
-//		assertNull(b.getCreator());
 	}
 }

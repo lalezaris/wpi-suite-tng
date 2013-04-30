@@ -301,7 +301,7 @@ public class RequirementListPanel extends JPanel{
 	}
 
 	/**
-	 * Demand a refresh command. TODO: This may be deprecated... Please hold.
+	 * Refresh
 	 */
 	public void refreshList() {
 		retrieveController.refreshData();

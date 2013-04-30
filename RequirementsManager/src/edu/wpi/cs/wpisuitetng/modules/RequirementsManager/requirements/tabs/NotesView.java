@@ -242,7 +242,7 @@ public class NotesView extends RequirementTab implements FocusListener {
 	 * @return note the new note object converted from the string
 	 */
 	public Note stringToNote(String s){
-		Note note = new Note(s, ConfigManager.getConfig().getUserName()); //TODO: Pull user info
+		Note note = new Note(s, ConfigManager.getConfig().getUserName()); 
 		return note;
 	}
 

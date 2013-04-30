@@ -172,14 +172,22 @@ public class ReqTreeModel extends DefaultTreeModel {
 				}
 			}
 		}
-
+		DefaultMutableTreeNode backlog = null;
 		for (int r = 0; r < iterations.length; r++) {
-			root.add(iterationNodes.get(r));
+			if(!(iterations[r].toString().contains("Backlog"))){
+				root.add(iterationNodes.get(r));
+			}
+			else{
+				backlog = iterationNodes.get(r);
+			}
 		}
 		DefaultMutableTreeNode deleted = new DefaultMutableTreeNode("Deleted");
 		for (int r = 0 ; r < requirements.length ; r ++){
 			if (requirements[r].getStatus() == RequirementStatus.DELETED)
 				deleted.add(new DefaultMutableTreeNode(requirements[r]));
+		}
+		if(backlog != null){
+			root.add(backlog);
 		}
 		root.add(deleted);
 		if (reqs != null){
@@ -202,6 +210,41 @@ public class ReqTreeModel extends DefaultTreeModel {
 	 */
 	public void addIterations(Iteration[] iterations) {
 		this.iterations = iterations;
+		if(requirements == null){
+			fillTree2();
+		}
+	}
+	
+	public void fillTree2(){
+		this.iterations = Refresher.getInstance().getInstantIterations();
+		root.removeAllChildren();
+		
+		this.reload();
+		
+		LinkedList<DefaultMutableTreeNode> iterationNodes = new LinkedList<DefaultMutableTreeNode>();
+		
+		for(int r = 0; r < iterations.length; r++){
+			//initialize all new iteration nodes
+			Arrays.sort(iterations);
+			iterationNodes.add(new DefaultMutableTreeNode(iterations[r]));
+		}
+		
+		DefaultMutableTreeNode backlog = null;
+		for(int r = 0; r < iterations.length; r++){
+			if(!(iterations[r].toString().contains("Backlog"))){
+				root.add(iterationNodes.get(r));
+			}
+			else{
+				backlog = iterationNodes.get(r);
+			}
+		}
+		if(backlog != null){
+			root.add(backlog);
+		}
+		
+		DefaultMutableTreeNode deleted = new DefaultMutableTreeNode("Deleted");
+		root.add(deleted);
+		TreeView.expandAll();
 	}
 
 	/**

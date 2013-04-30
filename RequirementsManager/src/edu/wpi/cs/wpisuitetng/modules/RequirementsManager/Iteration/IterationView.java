@@ -112,7 +112,7 @@ public class IterationView extends JPanel {
 			//Set the divider location to account for the moving of the buttons with the date format
 			mainPanel.getSplitPane().setDividerLocation(mainPanel.getSplitPane().getPreferredSize().width + 6);
 		}
-		if(iteration.compareTo(Iteration.getBacklog()) == 0){
+		if(iteration.getName().equals(Iteration.getBacklog().getName())){
 			mainPanel.getBtnSaveIteration().setEnabled(false);
 			mainPanel.getBtnSaveIteration().setVisible(false);
 			mainPanel.getBtnCancelIteration().setEnabled(false);

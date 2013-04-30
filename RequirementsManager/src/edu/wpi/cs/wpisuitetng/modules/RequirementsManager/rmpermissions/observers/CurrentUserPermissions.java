@@ -94,9 +94,8 @@ public class CurrentUserPermissions implements RequestObserver{
 	}
 
 	/**
-	 * Set the coreUser than will be considered the current user.
-	 * It is recommended that this only be called internally. If you would like to be a jerk,
-	 * and mess up the project, then this would be the function to call
+	 * Set the coreUser that will be considered the current user.
+	 * It is recommended that this only be called internally. Calling it externally can break the project.
 	 *
 	 * @param currentUser the current user
 	 * @param allUsers the all users

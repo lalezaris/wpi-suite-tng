@@ -34,19 +34,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class HistoricalChange extends AbstractModel{
 
-	/** The date. */
 	private Date date; //date of change
 
-	/** The change. */
 	private String change; //human readable set of changes: "this was changed to that"
 
-	/** The id of changed object. */
 	private int idOfChangedObject; //id of the object that has been changed
 
-	/** The id. */
 	private int id; //id of this change object (for database)
 
-	/** The user. */
 	private User user; //User that made this change
 
 

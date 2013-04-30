@@ -25,7 +25,6 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @author Chris Hanna
  *
  * @version Apr 17, 2013
- *
  */
 public class RetrieveAllUsersController {
 
@@ -33,17 +32,13 @@ public class RetrieveAllUsersController {
 	/**
 	 * Create a controller to request a list of users
 	 * @param controller the controller
-	 * 
 	 */
 	public RetrieveAllUsersController(FilterController controller) {
 		this.controller = controller;
 	}
 
 	/**
-
 	 * Send a request for the list of users
-	 * 
-
 	 */
 	public void retrieve(){
 		Request request = Network.getInstance().makeRequest("core/user", HttpMethod.GET);
@@ -52,11 +47,9 @@ public class RetrieveAllUsersController {
 	}
 
 	/**
-
 	 * Run when the observer gets the list of users
 	 * 
 	 * @param users
-
 	 */
 	public void response(User[] users){
 		controller.setUsers(users);

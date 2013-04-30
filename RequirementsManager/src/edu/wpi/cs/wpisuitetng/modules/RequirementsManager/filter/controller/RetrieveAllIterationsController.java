@@ -34,7 +34,7 @@ public class RetrieveAllIterationsController {
 	/**
 	 * create a controller that requests a list of iterations
 	 * 
-	 * @param controller THIS IS DUMB.
+	 * @param controller
 	 */
 	public RetrieveAllIterationsController(FilterController controller) {
 		this.controller = controller;
@@ -42,7 +42,6 @@ public class RetrieveAllIterationsController {
 	}
 
 	/**
-
 	 * send out a request for all the iterations
 	 * 
 	 */
@@ -53,7 +52,6 @@ public class RetrieveAllIterationsController {
 	}
 
 	/**
-
 	 * Gets the response from the controller and sets the iterations.
 	 *
 	 * @param iterations the iterations to retrieve

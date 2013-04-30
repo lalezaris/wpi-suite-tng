@@ -79,7 +79,6 @@ public class RetrieveIterationRequestObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO deal with exception
 		controller.errorRetrievingIteration("Unable to complete request: " + exception.getMessage());
 	}
 }

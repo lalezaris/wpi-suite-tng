@@ -73,7 +73,6 @@ public class Rule implements IFilterRule{
 			else if (compareMode == RuleComparisonMode.EQUALSLESS)
 				return (target.compareTo(source) >= 0);
 			else if (compareMode == RuleComparisonMode.CONTAINS){
-				//TODO: better implementation
 				if (target instanceof String && source instanceof String){
 					String sTarget = (String)target;
 					String sSource = (String)source;

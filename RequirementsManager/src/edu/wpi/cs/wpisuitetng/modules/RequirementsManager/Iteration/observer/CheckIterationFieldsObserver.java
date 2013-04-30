@@ -77,7 +77,6 @@ public class CheckIterationFieldsObserver implements RequestObserver {
 	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO deal with exception
 		controller.getView().errorReceivingIterations("Unable to complete request: " + exception.getMessage());
 	}
 

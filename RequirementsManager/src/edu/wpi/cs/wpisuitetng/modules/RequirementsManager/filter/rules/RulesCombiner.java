@@ -20,7 +20,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
  * @version Apr 16, 2013
  *
  */
-public enum RulesCombinor {
+public enum RulesCombiner {
 	MUST,
 	ANY
 }

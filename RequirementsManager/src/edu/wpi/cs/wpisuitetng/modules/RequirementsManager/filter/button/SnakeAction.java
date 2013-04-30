@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
  * The Class SnakeAction.
  * @author Chrissy Hanna-Boo-Boo
  */
+@SuppressWarnings("serial")
 public class SnakeAction extends AbstractAction{
 
 	/**
@@ -32,7 +33,7 @@ public class SnakeAction extends AbstractAction{
 		super("Om Nom Nom");
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override

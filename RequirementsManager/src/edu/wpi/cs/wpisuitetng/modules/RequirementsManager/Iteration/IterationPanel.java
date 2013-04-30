@@ -715,7 +715,6 @@ public class IterationPanel extends JPanel implements FocusListener {
 	 * Sends filter server request
 	 */
 	public void sendFilterServerRequest(){
-		//reqListPanel.getFilterController().sendServerRequests();
 	}
 
 	/**

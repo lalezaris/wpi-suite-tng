@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules;
 
 import java.util.List;
 
-// TODO: Auto-generated Javadoc
 /**
  * Compares objects for filters.
  *

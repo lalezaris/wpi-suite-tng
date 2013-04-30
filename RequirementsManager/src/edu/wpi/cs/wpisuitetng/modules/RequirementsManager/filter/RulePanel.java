@@ -40,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.FilterTab
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.Rule;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleComparisonMode;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RuleEditableType;
-import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RulesCombinor;
+import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.filter.rules.RulesCombiner;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
@@ -60,7 +60,7 @@ public class RulePanel extends JPanel{
 	private JComboBox<String> field;
 	private JComboBox<RuleComparisonMode> compareMode;
 	private JComboBox possibleValues;
-	private JComboBox<RulesCombinor> andOrBox;
+	private JComboBox<RulesCombiner> andOrBox;
 	private JTextField possibleValuesText;
 	private JCheckBox enabledBox;
 	private FilterPanel filterPanel;
@@ -87,9 +87,9 @@ public class RulePanel extends JPanel{
 		compareMode = new JComboBox<RuleComparisonMode>();
 		possibleValues = new JComboBox();
 		possibleValuesText = new JTextField(12);
-		andOrBox = new JComboBox<RulesCombinor>();
-		andOrBox.addItem(RulesCombinor.MUST);
-		andOrBox.addItem(RulesCombinor.ANY);
+		andOrBox = new JComboBox<RulesCombiner>();
+		andOrBox.addItem(RulesCombiner.MUST);
+		andOrBox.addItem(RulesCombiner.ANY);
 
 		this.setLayout(new GridBagLayout());
 		constraint = new GridBagConstraints();
@@ -121,7 +121,6 @@ public class RulePanel extends JPanel{
 		constraint.weightx = 0;
 
 		this.add(enabledBox, constraint);
-		//this.add(andOrBox); //TODO Maybe add this back in if we can get everything else working
 		this.add(title, constraint);
 		this.add(field, constraint);
 		this.add(compareMode, constraint);
@@ -153,12 +152,6 @@ public class RulePanel extends JPanel{
 			possibleValuesText.setEnabled(false);
 			possibleValuesText.setDisabledTextColor(Color.BLACK);
 		}
-		
-//		this.enabledBox.setEnabled(true);
-//		if (this.field.getSelectedItem().equals(" ")){
-//			backColor = new Color(208, 208, 208);
-//			this.enabledBox.setEnabled(false);
-//		}
 
 		for (int i = 0 ; i < this.getComponentCount(); i ++){
 			this.getComponent(i).setBackground(backColor);
@@ -448,13 +441,10 @@ public class RulePanel extends JPanel{
 			backColor = new Color(208,255,208);
 		else backColor = new Color(255,208,208);
 		
-//		this.enabledBox.setEnabled(true);
 		if (field.getSelectedItem().equals(" ")){
 			backColor = new Color(238, 238, 238);	
 			System.out.println("grey");
 			test = false;
-//			this.enabledBox.setEnabled(false);
-//			this.enabledBox.setSelected(false);
 			test = true;
 		}
 		
@@ -625,7 +615,7 @@ public class RulePanel extends JPanel{
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());
 		}
-		boolean isAnd = ((RulesCombinor)andOrBox.getSelectedItem()) == RulesCombinor.MUST;
+		boolean isAnd = ((RulesCombiner)andOrBox.getSelectedItem()) == RulesCombiner.MUST;
 		r.setIsAnd( isAnd);
 
 		r.setEnabled(enabled);

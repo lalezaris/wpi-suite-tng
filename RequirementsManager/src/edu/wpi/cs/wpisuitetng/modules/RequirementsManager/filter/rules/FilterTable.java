@@ -78,6 +78,7 @@ public class FilterTable{
 		"iteration",
 		"user"
 	};
+	
 	/**
 	 * The order of this array MUST match the order of the reqTargetNames array
 	 */

@@ -217,15 +217,6 @@ public class IterationView extends JPanel {
 	}
 
 	/**
-	 * This function will be used in future iterations.
-	 * 
-	 * @param iterations Iterations to be added.
-	 */
-	public void addIterations(Iteration[] iterations){
-		//TODO: so far just a dummy class, but this will be where you get the array of iterations and put do with it what you will
-	}
-
-	/**
 	 * @return the iterationModel
 	 */
 	public IterationModel getIterationModel() {

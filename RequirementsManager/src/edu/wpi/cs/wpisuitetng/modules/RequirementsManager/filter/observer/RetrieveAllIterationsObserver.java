@@ -34,11 +34,9 @@ public class RetrieveAllIterationsObserver implements RequestObserver{
 	RetrieveAllIterationsController controller;
 
 	/**
-
 	 * Constructor for a RetrieveAllIterationsObserver.
 	 *
 	 * @param controller the controller
-
 	 */
 	public RetrieveAllIterationsObserver(RetrieveAllIterationsController controller) {
 		this.controller = controller;

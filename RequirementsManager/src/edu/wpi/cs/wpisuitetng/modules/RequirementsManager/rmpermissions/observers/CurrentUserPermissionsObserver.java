@@ -54,7 +54,6 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 				break;
 			}
 		}
-		//TODO FIX THE FOLLOWING CODE - CHECK WITH CASOLA
 		for (int i=0; i<users.length;i++){
 			if(   users[i].getProject() != null  && ConfigManager.getConfig().getProjectName().equals(users[i].getProject().getName()))
 			{
@@ -64,17 +63,22 @@ public class CurrentUserPermissionsObserver implements RequestObserver{
 		User[] projUserArray = new User[projectUsers.size()];
 		for(int i=0;i<projUserArray.length;i++)
 			projUserArray[i] = projectUsers.get(i);
-		//TODO FIX ABOVE CODE - GETPROJECT RETURNS NULL
 		CurrentUserPermissions.setUsers(user, users);
 
 	}
 
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.out.println("Failed to retrieve current user permissions3");
 
 	}
 
+	/**
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.out.println("Failed to retrieve current user permissions4");

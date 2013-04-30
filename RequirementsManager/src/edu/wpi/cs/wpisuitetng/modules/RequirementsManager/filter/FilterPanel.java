@@ -34,7 +34,6 @@ import javax.swing.border.Border;
 import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.Iteration;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-// TODO: Auto-generated Javadoc
 /**
  * Panel for filters.
  *
@@ -54,6 +53,7 @@ public class FilterPanel extends JPanel{
 	private final JPanel ruleHolderPanel, mainPanel, alwaysOnPanel;
 	private String[] removeFields;
 	private final JLabel filterDesc, filterErrDesc;
+	@SuppressWarnings("unused")
 	private int ruleCount = 0, ruleInc = 0;
 	private JLabel dingus = new JLabel(" ");
 	

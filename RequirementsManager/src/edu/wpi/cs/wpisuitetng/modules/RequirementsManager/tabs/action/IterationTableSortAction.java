@@ -44,7 +44,7 @@ public class IterationTableSortAction extends MouseAdapter {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
-		((IterationTableSortController) itsController).sortTable(e.getPoint());
+		(itsController).sortTable(e.getPoint());
 	}
 
 }

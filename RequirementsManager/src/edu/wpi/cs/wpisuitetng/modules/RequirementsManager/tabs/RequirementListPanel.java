@@ -392,9 +392,7 @@ public class RequirementListPanel extends JPanel{
 	/**
 	 * Hide the message of update successfully.
 	 */
-	public void hideUpdateSuccessfully() {
-		//updateLabel.setText("Press the Update button to save changes");
-	}
+	public void hideUpdateSuccessfully() {}
 
 	/**
 	 * Gets table.

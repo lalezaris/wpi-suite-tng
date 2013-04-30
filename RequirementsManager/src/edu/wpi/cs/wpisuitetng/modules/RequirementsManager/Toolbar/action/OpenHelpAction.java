@@ -40,7 +40,6 @@ public class OpenHelpAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 			URL url = ConfigManager.getConfig().getCoreUrl();
-			System.out.println("URL: " + url.toString());
 			String urlString = url.toString();
 			urlString = urlString.substring(0, urlString.length() - 3) + "UserManual.pdf";
 			try {

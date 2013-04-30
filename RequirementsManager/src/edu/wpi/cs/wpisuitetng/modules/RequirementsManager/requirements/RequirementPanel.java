@@ -1230,22 +1230,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 	}
 
 	/**
-	 * Get all elements in the model.
-	 * 
-	 * @param model
-	 *            The model to get elements from
-	 * @return A list of elements
-	 */
-	@SuppressWarnings("unused")
-	private List<String> getAllElementsInModel(DefaultListModel model) {
-		List<String> modelElements = new ArrayList<String>();
-		for (int i = 0; i < model.getSize(); i++) {
-			modelElements.add((String) model.getElementAt(i));
-		}
-		return modelElements;
-	}
-
-	/**
 	 * Gets the save requirement bottom.
 	 *
 	 * @return the saveRequirementButton

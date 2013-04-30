@@ -149,11 +149,11 @@ public class ClosableTabComponent extends JPanel implements ActionListener {
 								JOptionPane.YES_NO_OPTION);
 						if (buttons == JOptionPane.YES_OPTION) {
 							tabbedPane.remove(index);
-							((RequirementTableModel) iPanel.getModel()).clearChangeVisualsDisregard();
+							(iPanel.getModel()).clearChangeVisualsDisregard();
 						}
 					} else {
 						tabbedPane.remove(index);
-						((RequirementTableModel) iPanel.getModel()).clearChangeVisualsDisregard();
+						(iPanel.getModel()).clearChangeVisualsDisregard();
 					}
 				} else{
 					tabbedPane.remove(index);

@@ -488,10 +488,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		panel.getFilterController().setEditable(!this.getIsChange());
 		panel.setButtonsForChanges();
-
-		if (DEBUG) {
-			printDebugData();
-		}
 	}
 
 
@@ -897,16 +893,6 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Prints the debug data.
-	 */
-	private void printDebugData() {
-		int numRows = getRowCount();
-		int numCols = getColumnCount();
-
-
 	}
 
 	/**

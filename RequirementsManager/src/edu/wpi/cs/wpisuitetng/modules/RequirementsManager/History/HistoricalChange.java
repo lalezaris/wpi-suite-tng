@@ -168,7 +168,7 @@ public class HistoricalChange extends AbstractModel{
 			if(oldIterationId == 0)
 				oldIteration = "Backlog";
 			if(newIterationId == 0)
-				newIteration = "Backlog";		
+				newIteration = "Backlog";
 			change += "<p> "+"Iteration changed from ID: " + oldIteration + " to " + newIteration + ".</p>";
 		}
 

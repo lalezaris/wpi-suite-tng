@@ -45,7 +45,7 @@ public class RequirementTabsView extends JTabbedPane {
 		for(RequirementTab t: tabs){
 			
 			if(t == null){
-				System.out.println("#"+i+" was friggin null");
+				System.out.println("#"+i+" was null");
 			}
 			i++;
 			addTab(t.getTabTitle(), t.getImageIcon(), t, t.getTooltipText());

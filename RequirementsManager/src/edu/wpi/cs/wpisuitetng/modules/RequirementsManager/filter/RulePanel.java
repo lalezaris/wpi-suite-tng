@@ -181,7 +181,7 @@ public class RulePanel extends JPanel{
 				test = true;
 				filterPanel.triggerTableUpdate();
 
-			}	
+			}
 		};
 
 		ItemListener l2 = new ItemListener(){
@@ -329,7 +329,6 @@ public class RulePanel extends JPanel{
 			});
 			possibleValuesText.setText("0");
 			possibleValuesText.repaint();
-			//}
 			if (possibleValuesTextIndex ==-1)
 				this.add(possibleValuesText, constraint);
 			if (possibleValuesIndex != -1)
@@ -436,14 +435,12 @@ public class RulePanel extends JPanel{
 	protected void checkForNullRule(){
 		
 		Color backColor = Color.white;
-		System.out.println("checking for null rule");
 		if (enabled)
 			backColor = new Color(208,255,208);
 		else backColor = new Color(255,208,208);
 		
 		if (field.getSelectedItem().equals(" ")){
-			backColor = new Color(238, 238, 238);	
-			System.out.println("grey");
+			backColor = new Color(238, 238, 238);
 			test = false;
 			test = true;
 		}
@@ -482,7 +479,7 @@ public class RulePanel extends JPanel{
 	public RuleComparisonMode[] getValidComparisonModes(){
 		RuleComparisonMode[] output = null;
 
-		String fieldName = (String)field.getItemAt(field.getSelectedIndex());
+		String fieldName = field.getItemAt(field.getSelectedIndex());
 		RuleEditableType fieldType = null;
 		for (int i = 0 ; i < FilterTable.getRequirementTargets().length; i++){
 			if (fieldName.equals(FilterTable.getRequirementTargets()[i])){
@@ -611,7 +608,7 @@ public class RulePanel extends JPanel{
 						(String)field.getSelectedItem());
 			}
 		} else{
-			r = new Rule((Comparable)possibleValuesText.getText(),
+			r = new Rule(possibleValuesText.getText(),
 					(RuleComparisonMode)compareMode.getSelectedItem(),
 					(String)field.getSelectedItem());
 		}

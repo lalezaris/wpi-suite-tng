@@ -56,7 +56,6 @@ public class HistoryView extends RequirementTab {
 		list = new JList(listModel);
 		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		list.setLayoutOrientation(JList.VERTICAL);
-//		list.setFixedCellWidth(500);
 
 		list.setCellRenderer(new HistoryViewCellRenderer(350));
 		listScrollPane = new JScrollPane(list);

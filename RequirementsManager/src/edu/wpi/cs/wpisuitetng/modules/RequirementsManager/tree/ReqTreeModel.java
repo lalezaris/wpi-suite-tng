@@ -215,8 +215,11 @@ public class ReqTreeModel extends DefaultTreeModel {
 		}
 	}
 	
+	/**
+	 * Add iterations to tree when no requirements exist
+	 */
 	public void fillTree2(){
-		this.iterations = Refresher.getInstance().getInstantIterations();
+		iterations = Refresher.getInstance().getInstantIterations();
 		root.removeAllChildren();
 		
 		this.reload();

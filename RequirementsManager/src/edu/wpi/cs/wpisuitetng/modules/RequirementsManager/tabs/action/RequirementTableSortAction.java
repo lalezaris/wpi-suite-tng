@@ -42,7 +42,7 @@ public class RequirementTableSortAction extends MouseAdapter {
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
-		((RequirementTableSortController) rtsController).sortTable(e.getPoint());
+		(rtsController).sortTable(e.getPoint());
 	}
 
 }

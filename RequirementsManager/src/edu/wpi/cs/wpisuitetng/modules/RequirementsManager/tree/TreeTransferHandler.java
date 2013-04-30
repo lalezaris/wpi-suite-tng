@@ -143,7 +143,7 @@ class TreeTransferHandler extends TransferHandler {
 		DefaultMutableTreeNode parent =  
 				(DefaultMutableTreeNode)dest.getLastPathComponent();  
 		// Send changes to database
-		Object destObject = ((DefaultMutableTreeNode)parent).getUserObject();
+		Object destObject = (parent).getUserObject();
 		List<Requirement> r = new ArrayList<Requirement>(); // List of requirements to be saved
 		for(int i = 0; i < nodes.length; i++) {
 			r.add((Requirement)((DefaultMutableTreeNode)(nodes[i].getUserObject())).getUserObject());
@@ -203,36 +203,7 @@ class TreeTransferHandler extends TransferHandler {
 			}
 		} else if (destObject.toString().contains("Deleted")){
 			TreeView.getInstance().setStatus("Can't delete a requirement using drag and drop!");
-			// Show a dialog
-//			int n = JOptionPane.showConfirmDialog(
-//					MainView.getInstance(), "Cannot delete through drag and drop.",
-//					"Deletion Error",
-//					JOptionPane.ERROR_MESSAGE, JOptionPane.WARNING_MESSAGE);
-//			if (n == JOptionPane.YES_OPTION) {
-//				for(int i = 0; i < nodes.length; i++) {
-//					Requirement req = checkFake(r.get(i));
-//					// Save the changed parent
-//					if (req.getParentRequirementId() != -1){
-//						Requirement req2 = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
-//						req2.setTotalEstimateEffort(req2.getTotalEstimateEffort() - req.getTotalEstimateEffort());
-//						req2.removeChildRequirement(req.getId());
-//						controller = new SaveRequirementController(req2);
-//						controller.save();
-//					}
-//					// Change the requirement
-//					req.setParentRequirementId(-1);
-//					req.setStatus(RequirementStatus.DELETED);
-//					req.setIterationId(0);
-//					// Save the changed requirement
-//					controller = new SaveRequirementController(req);
-//					controller.save();
-//				}
-//			} else if (n == JOptionPane.NO_OPTION) {
-//				TreeView.getInstance().setStatus("Cancelled deletion.");
-//			} else {
-//				TreeView.getInstance().setStatus("Closed dialog.");
-//			}
-		}
+			}
 		else {
 			TreeView.getInstance().setStatus("The drop destination is not recognizable!");
 		}
@@ -466,7 +437,7 @@ class TreeTransferHandler extends TransferHandler {
 	 * The Class NodesTransferable is used to store the data to be transfered.
 	 * 
 	 */
-	public class NodesTransferable implements Transferable {  
+	private class NodesTransferable implements Transferable {  
 		DefaultMutableTreeNode[] nodes;  
 
 		/**

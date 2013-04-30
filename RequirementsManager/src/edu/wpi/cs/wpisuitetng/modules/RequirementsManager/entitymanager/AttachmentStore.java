@@ -12,7 +12,6 @@
  **************************************************/
 package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.entitymanager;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,19 +64,17 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 */
 	@Override
 	public Attachment makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws WPISuiteException {
 		final Attachment newAttachment = Attachment.fromJSON(content);	//still need to get fromJSON working, then this will work
 		newAttachment.setId(Count() + 1);
-		
-		System.out.println("FILE NAME " +newAttachment.getFileName() + "ownerid " + newAttachment.getOwnerId());
-		
+				
 		List<Model> oldRequirements = db.retrieve(Requirement.class, "id", newAttachment.getOwnerId(), s.getProject());
 		if(oldRequirements.size() < 1 || oldRequirements.get(0) == null) {
 			throw new WPISuiteException("ID not found");
 		}
 		Requirement serverReq = (Requirement) oldRequirements.get(0);
 		
-		ArrayList<Integer> fileId = new ArrayList<Integer>();//serverReq.getAttachedFileId();
+		ArrayList<Integer> fileId = new ArrayList<Integer>();
 		fileId.add(newAttachment.getId());
 		serverReq.setAttachedFileId(fileId);
 		
@@ -92,7 +89,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 		serverReq.addHistoricalChange(HChange);
 		
 		if(!db.save(serverReq, s.getProject())) {
-			System.out.println("there was an error while updating a requirement with the new attachment");
+			System.out.println("There was an error while updating the requirement with the new attachment.");
 			throw new WPISuiteException();
 		}
 		
@@ -116,7 +113,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 */
 	@Override
 	public Attachment[] getEntity(Session s, String id)
-			throws NotFoundException, WPISuiteException {
+			throws NotFoundException{
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
 			throw new NotFoundException();
@@ -195,7 +192,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	@Override
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+	public boolean deleteEntity(Session s, String id){
 		return false;
 	}
 
@@ -203,8 +200,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	@Override
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+	public String advancedGet(Session s, String[] args){
 		return null;
 	}
 
@@ -212,7 +208,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	@Override
-	public void deleteAll(Session s) throws WPISuiteException {
+	public void deleteAll(Session s){
 		
 	}
 
@@ -220,7 +216,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	@Override
-	public int Count() throws WPISuiteException {
+	public int Count(){
 		// so this might run into huge issues with large files, if it does, we need to change the way everything does indexing into the DB, which will be /fun/
 		return db.retrieveAll(new Attachment()).size();
 	}
@@ -229,8 +225,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	@Override
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+	public String advancedPut(Session s, String[] args, String content){
 		return null;
 	}
 
@@ -238,8 +233,7 @@ public class AttachmentStore implements EntityManager<Attachment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	public String advancedPost(Session s, String string, String content){
 		return null;
 	}
 

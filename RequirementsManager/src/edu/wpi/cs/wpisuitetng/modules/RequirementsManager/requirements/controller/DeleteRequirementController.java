@@ -60,7 +60,7 @@ public class DeleteRequirementController {
 	 * Save the view's Iteration model to the server (asynchronous).
 	 */
 	public void delete() {
-		final RequirementPanel panel = (RequirementPanel) view.getRequirementPanel();
+		final RequirementPanel panel = view.getRequirementPanel();
 		Requirement delRequirement = panel.getEditedModel();
 		
 		if (!(view.getParentRequirement() == null)) {

@@ -73,7 +73,7 @@ public class TextAreaUpdateListener implements ItemListener {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
 
 		// Compare base to the component's text to determine whether or not to highlight the field.
-		if (base.equals((String) component.getSelectedText())) {
+		if (base.equals(component.getSelectedText())) {
 			component.setBackground(Color.WHITE);
 			component.setBorder(defaultBorder);
 		}

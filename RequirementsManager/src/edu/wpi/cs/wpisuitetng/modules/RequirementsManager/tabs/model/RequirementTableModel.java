@@ -82,7 +82,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		this.panel = panel;
 		isChange = false;
 	}
-	
+
 	/**
 	 * Gets column count.
 	 *
@@ -105,48 +105,48 @@ public class RequirementTableModel extends AbstractTableModel {
 		return data.size();
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * The Class ChangedCellRenderer.
 	 */
 	public class ChangedCellRenderer extends DefaultTableCellRenderer {
-		  
-  		/* (non-Javadoc)
-  		 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-  		 */
-  		@Override
-		  public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
 
-		    //Cells are by default rendered as a JLabel.
-		    JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+		/* (non-Javadoc)
+		 * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+		 */
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
 
-		    //Get the status for the current row.
-		    RequirementTableModel tableModel = (RequirementTableModel) table.getModel();
-		    CellLocation cell = new CellLocation(row, col);
-		    if (tableModel.changedCells.contains(cell)){
-		    	//cell = tableModel.changedCells.get(tableModel.changedCells.indexOf(cell));
-		    	
-		    	for (int i = 0 ; i < tableModel.changedCells.size(); i ++)
-		    		if (tableModel.changedCells.get(i).equals(cell))
-		    		{
-		    			cell = tableModel.changedCells.get(i);
-		    			break;
-		    		}
-		    	l.setToolTipText(cell.getMessage());
-		    	
-		    	if (cell.isValid())
-		    		l.setBackground(MainView.getChangedValidColor());
-		    	else l.setBackground(MainView.getChangedInvalidColor());
-		    } else l.setBackground(Color.white);
+			//Cells are by default rendered as a JLabel.
+			JLabel l = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
 
-		  //Return the JLabel which renders the cell.
-		  return l;
+			//Get the status for the current row.
+			RequirementTableModel tableModel = (RequirementTableModel) table.getModel();
+			CellLocation cell = new CellLocation(row, col);
+			if (tableModel.changedCells.contains(cell)){
+				//cell = tableModel.changedCells.get(tableModel.changedCells.indexOf(cell));
+
+				for (int i = 0 ; i < tableModel.changedCells.size(); i ++)
+					if (tableModel.changedCells.get(i).equals(cell))
+					{
+						cell = tableModel.changedCells.get(i);
+						break;
+					}
+				l.setToolTipText(cell.getMessage());
+
+				if (cell.isValid())
+					l.setBackground(MainView.getChangedColor());
+				else l.setBackground(MainView.getChangedInvalidColor());
+			} else l.setBackground(Color.white);
+
+			//Return the JLabel which renders the cell.
+			return l;
 
 		}
 	}
-	
+
 	/**
 	 * Sets column widths.
 	 * 
@@ -158,7 +158,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			TableColumn column = table.getColumnModel().getColumn(i);
 
 			table.getColumnModel().getColumn(i).setCellRenderer(new ChangedCellRenderer());
-			
+
 			if (i == 0) {
 				column.setPreferredWidth(30); //ID
 			} else if (i == 1) {
@@ -234,7 +234,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		} else
 			return "null";
 	}
-	
+
 	/**
 	 * Adds a row to a requirement.
 	 * 
@@ -243,7 +243,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public void addRow(Requirement req){
 		String ass = req.getAssignee().toString();
 		ass = ass.substring(1,ass.length()-1);
-		
+
 		Object[] r = {
 				req.getId() ,
 				req.getTitle() ,
@@ -255,7 +255,7 @@ public class RequirementTableModel extends AbstractTableModel {
 				ass,
 				req.getParentRequirementId() == -1 ? "" : req.getParentRequirementId()
 		};
-		
+
 		addRow(r);
 		requirements.add(req);
 		unSavedRequirements.add(r.clone());
@@ -285,7 +285,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		requirements.set(row, req);
 		//this.unSavedRequirements.set(row, r.clone());
 	}
-	
+
 	/**
 	 * Removes row.
 	 * 
@@ -305,7 +305,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		unSavedRequirements.clear();
 	}
 
-	
+
 	/**
 	 * Cancel changes.
 	 */
@@ -326,7 +326,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		panel.setButtonsForNoChanges();
 		panel.getFilterController().setEditable(!this.getIsChange());
 	}
-	
+
 	/**
 	 * Gets row ID.
 	 * 
@@ -400,7 +400,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (!checkInput(value, temp, title)) {
 			return;
 		}
-		
+
 		if (title.equals("Parent ID")) {
 
 			if(Integer.parseInt((String)value) != requirements.get(row).getId()){
@@ -424,18 +424,18 @@ public class RequirementTableModel extends AbstractTableModel {
 			requirements.get(row).setDescription((String)value);
 		}
 		if (title.equals("Status")) {
-			
-			
+
+
 			boolean isValid = true;
 			boolean isChange = false;
-			
+
 			//if(!((RequirementStatus)value).equals(this.getChangedValue(row, col))){
 			if(((RequirementStatus)value).compareTo(requirements.get(row).getStatus()) != 0){
 				isChange = true;
 
 			}
-			
-			
+
+
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setStatus((RequirementStatus)value);
 			if (((RequirementStatus)value).equals(RequirementStatus.OPEN) &&
@@ -458,35 +458,36 @@ public class RequirementTableModel extends AbstractTableModel {
 			requirements.get(row).setEstimateEffort(Integer.parseInt((String)value));
 		}	
 		if (title.equals("Iteration")) {
-			
+
 			boolean isValid = true;
 			boolean isChange = false;
-			
+
 			//if(!((Iteration)value).equals(this.getChangedValue(row, col))){
 			if(((Iteration)value).compareTo(requirements.get(row).getIteration()) != 0){
-				
-				
+
+
 				isChange = true;
 			}
-			
-			
+
+
 			this.setChangedCell(isChange,row, col, isValid, changeMessage);
 			requirements.get(row).setIteration((Iteration)value);
 			requirements.get(row).setIterationId(((Iteration)value).getId());
-			
+
 			if (((Iteration)value).equals(Iteration.getBacklog()) &&
-					requirements.get(row).getStatus() != RequirementStatus.OPEN) {
+					requirements.get(row).getStatus() != RequirementStatus.OPEN
+					) {
 				setValueAt(RequirementStatus.OPEN, row, 3);
 			}
-			
+
 			if (((Iteration)value) != Iteration.getBacklog() &&
 					requirements.get(row).getStatus() != RequirementStatus.INPROGRESS) {
 				setValueAt(RequirementStatus.INPROGRESS, row, 3);
 			}
 		}
 
-		
-		
+
+
 		Object[] element = data.get(row);
 		element[col] = value;
 		data.set(row, element);
@@ -497,12 +498,13 @@ public class RequirementTableModel extends AbstractTableModel {
 		
 		panel.getFilterController().setEditable(!this.getIsChange());
 		panel.setButtonsForChanges();
+
 		if (DEBUG) {
 			printDebugData();
 		}
 	}
 
-	
+
 	/**
 	 * Log change errors.
 	 *
@@ -510,40 +512,47 @@ public class RequirementTableModel extends AbstractTableModel {
 	 */
 	public void logChangeErrors(int row){
 		//move through the given row, and log problems...
-		
+
 		int titleCol = 1;
 		int descCol = 2;
 		int statusCol = 3; 
 		int iterationCol = 6;
-		
+
 		//check for bugs, or check for good things!
 		/* Rule One
 		 * A status of open MUST mean that the iteration is backlog
 		 */
 		RequirementStatus status = (RequirementStatus)this.getChangedValue(row, statusCol);
 		Iteration iter = (Iteration)this.getChangedValue(row, iterationCol);
-		
+
 		CellLocation statusChange = this.lookUpChange(row, statusCol);
 		CellLocation iterChange = this.lookUpChange(row, iterationCol);
-		if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
-			if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
-				this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
-				this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");
-			} else{ //ALL IS WELL!!!
-				CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
-				CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
+
+		if (status != RequirementStatus.DELETED){
+			if (status == RequirementStatus.OPEN || status == RequirementStatus.NEW){
+				if (iter.getId() != Iteration.getBacklog().getId()){ //ERROR!!!
+					this.setChangedCell(true, row, statusCol, false, "An Open requirement must be in the Iteration Backlog.");
+					this.setChangedCell(true, row, iterationCol, false, "An Open requirement must be in the Iteration Backlog.");
+				} else{ //ALL IS WELL!!!
+					CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
+					CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
+				}
+			} else{
+				if (iter.getId() == Iteration.getBacklog().getId()){ //ERROR!!!
+
+					this.setChangedCell(true, row, statusCol, false, "A requirement in Iteration Backlog must be Open.");
+					this.setChangedCell(true, row, iterationCol, false, "A requirement in Iteration Backlog must be Open.");
+
+				} else{ //ALL IS WELL!!!
+					CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
+					CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
+				}
 			}
 		} else{
-			if (iter.getId() == Iteration.getBacklog().getId()){ //ERROR!!!
-				this.setChangedCell(true, row, statusCol, false, "A requirement in Iteration Backlog must be Open.");
-				this.setChangedCell(true, row, iterationCol, false, "A requirement in Iteration Backlog must be Open.");
-			} else{ //ALL IS WELL!!!
-				CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
-				CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
-			}
+			CellLocation.setChangeValid(statusChange,row, statusCol, CellLocation.getValidTooltip(), this);
+			CellLocation.setChangeValid(iterChange,row,iterationCol, CellLocation.getValidTooltip(), this);
 		}
-		
-		
+
 		/* Rule Two
 		 * Title can never be blank
 		 */
@@ -552,8 +561,8 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (title == null || title.equals("")){ // PROBLEMO
 			this.setChangedCell(true, row, titleCol, false, "Title cannot be blank");
 		} else CellLocation.setChangeValid(titleChange, row, titleCol, CellLocation.getValidTooltip(), this);
-		
-		
+
+
 		/* Rule Three
 		 * Description can never be blank
 		 */
@@ -562,12 +571,12 @@ public class RequirementTableModel extends AbstractTableModel {
 		if (description == null || description.equals("")){ // PROBLEMO
 			this.setChangedCell(true, row, descCol, false, "Description cannot be blank");
 		} else CellLocation.setChangeValid(descriptionChange, row, descCol, CellLocation.getValidTooltip(), this);
-		
-		
-		
+
+
+
 	}
-	
-	
+
+
 	/**
 	 * Find the change by row and column.
 	 *
@@ -583,7 +592,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the object of change at a table location. If the cell has NOT been changed, then
 	 * this will return the value in the Requirement that is represented in that location.
@@ -598,19 +607,19 @@ public class RequirementTableModel extends AbstractTableModel {
 			return this.getValueAt(row, col);
 		} else{
 			if (row > -1 && row < unSavedRequirements.size()
-				&& col > -1 && col < unSavedRequirements.get(row).length){
+					&& col > -1 && col < unSavedRequirements.get(row).length){
 				return unSavedRequirements.get(row)[col];
 			}
 			return "null";
 		}
-			
+
 	}
-	
+
 	/**
 	 * The Class CellLocation.
 	 */
 	public static class CellLocation{
-		
+
 		/**
 		 * Gets the valid default tooltip string.
 		 *
@@ -619,7 +628,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		public static String getValidTooltip(){
 			return "Click 'Update' to save all changes.";
 		}
-		
+
 		/**
 		 * Sets the the cell to be valid and updates its tooltip.
 		 *
@@ -638,13 +647,13 @@ public class RequirementTableModel extends AbstractTableModel {
 				//model.setChangedCell(true, row, col, true, msg);
 			}
 		}
-		
+
 		private int row, col;
 		private boolean isValid;
 		private String message;
-		
-		
-		
+
+
+
 		/**
 		 * Instantiates a new cell location.
 		 *
@@ -657,9 +666,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			isValid = false;
 			message = "";
 		}
-		
-		
-		
+
+
+
 		/**
 		 * Gets the isValid.
 		 *
@@ -669,7 +678,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			return isValid;
 		}
 
-		
+
 		/**
 		 * Gets the message.
 		 *
@@ -709,7 +718,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		public int getRow() {
 			return row;
 		}
-		
+
 		/**
 		 * Gets the col.
 		 *
@@ -718,7 +727,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		public int getCol() {
 			return col;
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
@@ -731,7 +740,7 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 			return false;
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see java.lang.Object#hashCode()
 		 */
@@ -739,7 +748,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		public int hashCode(){
 			return (1*row) + (3*col);
 		}
-		
+
 		/**
 		 * Sets the row.
 		 *
@@ -747,10 +756,10 @@ public class RequirementTableModel extends AbstractTableModel {
 		 */
 		public void setRow(int i) {
 			row = i;
-			
+
 		}
-		
-		
+
+
 		/**
 		 * Updates the position of the requirement in the table model.
 		 *
@@ -769,18 +778,18 @@ public class RequirementTableModel extends AbstractTableModel {
 					newRow = i;
 				}
 			}
-			
+
 			row = newRow;
-			
+
 		}
-		
-		
+
+
 	}
-	
+
 	private HashMap<Integer, CellLocation> cellDifferenceTable = new HashMap<Integer, CellLocation>();
-	
+
 	private ArrayList<CellLocation> changedCells = new ArrayList<CellLocation>();
-	
+
 	/**
 	 * Log a change on the table.
 	 *
@@ -806,9 +815,9 @@ public class RequirementTableModel extends AbstractTableModel {
 			}
 		}
 		panel.repaint();
-	
+
 	}
-		
+
 	/**
 	 * Display a reckless disregard for colors while clearing colors. Just Get rid of ALL the colors!
 	 * 
@@ -817,17 +826,17 @@ public class RequirementTableModel extends AbstractTableModel {
 		changedCells.clear();
 		panel.repaint();
 	}
-	
+
 	/**
 	 * Clear the change colors that are green!.
 	 */
 	public void clearChangeVisuals(){
-		
+
 		ArrayList<CellLocation> remove = new ArrayList<CellLocation>();
 		ArrayList<CellLocation> all = new ArrayList<CellLocation>();
 		for (int i = 0 ; i < changedCells.size(); i ++)
 			all.add(changedCells.get(i));
-		
+
 		for (int i = 0 ; i < changedCells.size(); i ++){
 			if (!changedCells.get(i).isValid()){
 				if (!remove.contains(changedCells.get(i))){
@@ -841,15 +850,15 @@ public class RequirementTableModel extends AbstractTableModel {
 				}
 			}
 		}
-		
+
 		for (int i = 0 ; i < all.size(); i ++){
 			if (!remove.contains(all.get(i)))
 				changedCells.remove(all.get(i));
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * Gets the changed locations.
 	 *
@@ -858,7 +867,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public ArrayList<CellLocation> getChangedLocations(){
 		return changedCells;
 	}
-	
+
 	/**
 	 * Method to check if the input value is legal.
 	 *
@@ -871,7 +880,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		JFrame frame = new JFrame();
 		int IDNumber;
 		int estimate;
-		
+
 		if (title.equals("Parent ID")) {
 			try {
 				IDNumber = Integer.parseInt((String)value);
@@ -927,7 +936,7 @@ public class RequirementTableModel extends AbstractTableModel {
 	public List<Requirement> getRequirements() {
 		return requirements;
 	}
-	
+
 	/**
 	 * Gets the unsaved requirements.
 	 *
@@ -969,7 +978,7 @@ public class RequirementTableModel extends AbstractTableModel {
 		if(!(this.getValueAt(1,col) instanceof Comparable)){//can't sort if this column has no notion of an order
 			return;
 		}
-		
+
 		//IF changes, disable sorts
 		if (panel != null && panel.getTable().isEditing())
 			return;
@@ -1001,26 +1010,26 @@ public class RequirementTableModel extends AbstractTableModel {
 		}
 
 		cellDifferenceTable.clear();
-		
+
 		for(int i = 0 ; i < changedCells.size() ; i ++){
 			int r = changedCells.get(i).getRow();
 			Integer reqId = (Integer)data.get(r)[0];
 			cellDifferenceTable.put(reqId, changedCells.get(i));
 		}
-		
+
 		//Sort data
 		Arrays.sort(dataArray , comparator);
 		data = new ArrayList<Object[]>(Arrays.asList(dataArray));
-	
+
 		for (int i = 0 ; i < data.size(); i ++){
 			if (cellDifferenceTable.get(data.get(i)[0])!=null){
 				cellDifferenceTable.get(data.get(i)[0]).setRow(i);
 			}
 		}
-		
+
 		if(panel != null)
 			panel.repaint();
-		
+
 		for(int j=0; j < dataArray.length; j++){//8 is the Parent column
 			if(dataArray[j][8].equals(-1)){
 				dataArray[j][8] = "";

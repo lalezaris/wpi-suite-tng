@@ -119,6 +119,7 @@ public class RequirementListTable extends JTable {
 	public TableCellEditor getCellEditor(int row, int col) {
 
 		//RequirementStatus status = panel.getModel().getRequirements().get(row).getStatus();
+		Object currentID = panel.getModel().getUnsavedRequirements().get(row)[0];
 		Iteration[] iterations = Refresher.getInstance().getInstantIterations();
 		Object parent = panel.getModel().getUnsavedRequirements().get(row)[8];
 		Object estimate = getValueAt(row,5);
@@ -129,9 +130,27 @@ public class RequirementListTable extends JTable {
 			esti = (String)estimate;
 		if(parent instanceof String){
 			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), -1, esti);
+			parent = -1;
 		} else
 			iterations = checkIterations(iterations,(Iteration) this.getValueAt(row, 6), (Integer) parent, esti);
-
+		RequirementStatus parentComplete = RequirementStatus.NEW;
+		if((Integer)parent != 0){
+			for(int i = 0; i < this.getRowCount();i++){
+				if(parent.equals(panel.getModel().getUnsavedRequirements().get(i)[0])){
+					parentComplete = (RequirementStatus) panel.getModel().getUnsavedRequirements().get(i)[3]; 
+				}
+			}
+		}
+		
+		boolean isAllChildrenComplete = true;
+		for(int i = 0; i < this.getRowCount();i++){
+			if(currentID.equals(panel.getModel().getUnsavedRequirements().get(i)[8])){
+				if(panel.getModel().getUnsavedRequirements().get(i)[3] != RequirementStatus.COMPLETE){
+					isAllChildrenComplete = false;
+					break;
+				}
+			}
+		}
 		
 		Requirement r = null;
 		RequirementStatus s = (RequirementStatus) panel.getModel().getUnsavedRequirements().get(row)[3];
@@ -142,23 +161,28 @@ public class RequirementListTable extends JTable {
 			if (status == RequirementStatus.NEW) {
 				comboBox.addItem(RequirementStatus.NEW);
 				comboBox.addItem(RequirementStatus.INPROGRESS);
-				comboBox.addItem(RequirementStatus.DELETED);
 			}
 			if (status == RequirementStatus.OPEN) {
 				comboBox.addItem(RequirementStatus.OPEN);
 				comboBox.addItem(RequirementStatus.INPROGRESS);
-				comboBox.addItem(RequirementStatus.DELETED);
 			}
 			if (status == RequirementStatus.INPROGRESS) {
-				comboBox.addItem(RequirementStatus.OPEN);
-				comboBox.addItem(RequirementStatus.INPROGRESS);
-				comboBox.addItem(RequirementStatus.COMPLETE);
-				comboBox.addItem(RequirementStatus.DELETED);
+				if(isAllChildrenComplete){
+					comboBox.addItem(RequirementStatus.OPEN);
+					comboBox.addItem(RequirementStatus.INPROGRESS);
+					comboBox.addItem(RequirementStatus.COMPLETE);
+				} else {
+					comboBox.addItem(RequirementStatus.OPEN);
+					comboBox.addItem(RequirementStatus.INPROGRESS);
+				}
 			}
 			if (status == RequirementStatus.COMPLETE) {
-				comboBox.addItem(RequirementStatus.OPEN);
-				comboBox.addItem(RequirementStatus.COMPLETE);
-				comboBox.addItem(RequirementStatus.DELETED);
+				if((Integer)parent != -1 && parentComplete == RequirementStatus.COMPLETE){
+					comboBox.addItem(RequirementStatus.COMPLETE);
+				} else {
+					comboBox.addItem(RequirementStatus.OPEN);
+					comboBox.addItem(RequirementStatus.COMPLETE);
+				}
 			}
 			if (status == RequirementStatus.DELETED) {
 				comboBox.addItem(RequirementStatus.OPEN);

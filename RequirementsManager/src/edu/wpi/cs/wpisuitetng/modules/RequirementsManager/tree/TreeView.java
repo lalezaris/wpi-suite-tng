@@ -99,7 +99,7 @@ public class TreeView extends JPanel {
 					}  else	if (req.getParentRequirementId() != -1) {
 						if (lookUpRequirement(req.getParentRequirementId()).getIterationId() != req.getIterationId()) {
 							return "Requirement " + req.getTitle() + "'s parent is in " 
-						+ lookUpRequirement(req.getParentRequirementId()).getIteration().toString();
+						+ lookUpRequirement(req.getParentRequirementId()).getIterationId();
 						}
 					} else
 						return "Requirement " + req.getTitle();
@@ -155,6 +155,7 @@ public class TreeView extends JPanel {
 		if (!status.getText().equals(newText)) {
 			status.setText(newText);
 		}
+		status.repaint();
 	}
 
 	/** Clear the text displayed at the bottom of TreeView. */

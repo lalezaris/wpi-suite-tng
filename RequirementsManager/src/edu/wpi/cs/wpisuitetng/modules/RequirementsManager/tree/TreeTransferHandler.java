@@ -202,35 +202,36 @@ class TreeTransferHandler extends TransferHandler {
 				controller.save();
 			}
 		} else if (destObject.toString().contains("Deleted")){
+			TreeView.getInstance().setStatus("Can't delete a requirement using drag and drop!");
 			// Show a dialog
-			int n = JOptionPane.showConfirmDialog(
-					MainView.getInstance(), "Are you sure you want to delete it?",
-					"Deletion Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (n == JOptionPane.YES_OPTION) {
-				for(int i = 0; i < nodes.length; i++) {
-					Requirement req = checkFake(r.get(i));
-					// Save the changed parent
-					if (req.getParentRequirementId() != -1){
-						Requirement req2 = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
-						req2.setTotalEstimateEffort(req2.getTotalEstimateEffort() - req.getTotalEstimateEffort());
-						req2.removeChildRequirement(req.getId());
-						controller = new SaveRequirementController(req2);
-						controller.save();
-					}
-					// Change the requirement
-					req.setParentRequirementId(-1);
-					req.setStatus(RequirementStatus.DELETED);
-					req.setIterationId(0);
-					// Save the changed requirement
-					controller = new SaveRequirementController(req);
-					controller.save();
-				}
-			} else if (n == JOptionPane.NO_OPTION) {
-				TreeView.getInstance().setStatus("Cancelled deletion.");
-			} else {
-				TreeView.getInstance().setStatus("Closed dialog.");
-			}
+//			int n = JOptionPane.showConfirmDialog(
+//					MainView.getInstance(), "Cannot delete through drag and drop.",
+//					"Deletion Error",
+//					JOptionPane.ERROR_MESSAGE, JOptionPane.WARNING_MESSAGE);
+//			if (n == JOptionPane.YES_OPTION) {
+//				for(int i = 0; i < nodes.length; i++) {
+//					Requirement req = checkFake(r.get(i));
+//					// Save the changed parent
+//					if (req.getParentRequirementId() != -1){
+//						Requirement req2 = TreeView.getInstance().lookUpRequirement(req.getParentRequirementId());
+//						req2.setTotalEstimateEffort(req2.getTotalEstimateEffort() - req.getTotalEstimateEffort());
+//						req2.removeChildRequirement(req.getId());
+//						controller = new SaveRequirementController(req2);
+//						controller.save();
+//					}
+//					// Change the requirement
+//					req.setParentRequirementId(-1);
+//					req.setStatus(RequirementStatus.DELETED);
+//					req.setIterationId(0);
+//					// Save the changed requirement
+//					controller = new SaveRequirementController(req);
+//					controller.save();
+//				}
+//			} else if (n == JOptionPane.NO_OPTION) {
+//				TreeView.getInstance().setStatus("Cancelled deletion.");
+//			} else {
+//				TreeView.getInstance().setStatus("Closed dialog.");
+//			}
 		}
 		else {
 			TreeView.getInstance().setStatus("The drop destination is not recognizable!");
@@ -278,7 +279,7 @@ class TreeTransferHandler extends TransferHandler {
 	public boolean canImport(TransferHandler.TransferSupport support) {
 		pLevel = CurrentUserPermissions.getCurrentUserPermission();
 		if (pLevel == RMPermissionsLevel.NONE) {
-			TreeView.getInstance().setStatus("Can't do drag and drop as a None user!");
+			TreeView.getInstance().setStatus("Can't drag and drop as a user with NONE permissions!");
 			return false;
 		}
 		if (MainTabController.getController().getCurrentComponent() != null) {
@@ -307,14 +308,14 @@ class TreeTransferHandler extends TransferHandler {
 		int[] selRows = tree.getSelectionRows();  
 		for(int i = 0; i < selRows.length; i++) {  
 			if(selRows[i] == dropRow) { 
-				TreeView.getInstance().setStatus("Can't drop on the drag source selections!");
+				TreeView.getInstance().setStatus("Can't drop on the source!");
 				return false;  
 			}
 		} 
 		// Do not allow a drop on a past Iteration
 		TreePath ddest = dl.getPath();
 		DefaultMutableTreeNode ttarget = null;
-		if (ddest.getLastPathComponent() != null) {
+		if (ddest != null && ddest.getLastPathComponent() != null) {
 			ttarget =  
 					(DefaultMutableTreeNode)ddest.getLastPathComponent();
 		}
@@ -330,6 +331,10 @@ class TreeTransferHandler extends TransferHandler {
 				TreeView.getInstance().setStatus("Can't drop on a past iteration!");
 				return false;
 			}
+		}
+		if(ttarget.getUserObject().toString().contains("Deleted")){
+			TreeView.getInstance().setStatus("Can't delete via drag and drop!");
+			return false;
 		}
 		// Do not allow a drop on the root
 		if (ttarget.isRoot()) {
@@ -360,7 +365,7 @@ class TreeTransferHandler extends TransferHandler {
 				TreeNode parentNode = aNode;
 				while (parentNode.getParent() != null) {
 					if (parentNode.getParent().equals(ttarget)) {
-						TreeView.getInstance().setStatus("Can't drop on its parent!");
+						TreeView.getInstance().setStatus("Can't drop a requirement on its parent!");
 						return false;
 					} else {
 						parentNode = parentNode.getParent();
@@ -375,7 +380,7 @@ class TreeTransferHandler extends TransferHandler {
 					TreeNode childNode = ttarget;
 					while (childNode.getParent() != null) {
 						if (childNode.getParent().equals(aNode)) {
-							TreeView.getInstance().setStatus("Can't drop on the its children!");
+							TreeView.getInstance().setStatus("Can't drop a requirement on its children!");
 							return false;
 						} else {
 							childNode = childNode.getParent();
@@ -395,6 +400,7 @@ class TreeTransferHandler extends TransferHandler {
 						return false;
 					}
 				}
+				
 				if (ttarget.getUserObject().toString().contains("Iteration")) {
 					if (requirement.getStatus() == RequirementStatus.DELETED) {
 						TreeView.getInstance().setStatus("Cannot drag from Deleted to an Iteration!");

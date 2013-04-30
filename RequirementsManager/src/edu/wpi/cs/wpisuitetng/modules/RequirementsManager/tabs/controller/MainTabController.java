@@ -140,9 +140,10 @@ public class MainTabController {
 			RequirementView Rview = new RequirementView(requirement, mode, tab);
 			if(reqViewHashMap.containsKey(requirementId)){
 				reqViewHashMap.remove(requirementId);
-				reqViewList.remove(Rview);
+				//reqViewList.remove(Rview);
 			}
 			reqViewHashMap.put(requirementId, Rview);
+			reqViewList.remove(Rview);
 			reqViewList.add(Rview);
 
 			tab.setComponent(Rview);
@@ -253,13 +254,19 @@ public class MainTabController {
 	 * @return true, if opened
 	 */
 	public boolean checkEditRequirementTab(final Requirement requirement) {
+		String requirementTitle = requirement.getTitle();
+		int requirementId = requirement.getId();
+		int checkTabIndex = view.indexOfTab("#" + requirementId + ": " + requirementTitle.substring(0, Math.min(10, requirementTitle.length())));
+		if(checkTabIndex == -1){
+			return false;
+		} 
 		if(reqViewHashMap.containsKey(requirement.getId())) {
 			if (getReqViewList().contains(reqViewHashMap.get(requirement.getId()))) {
 				return true;
 			} else {
 				return false;
 			}
-		}
+		} 
 		return false;
 	}
 
@@ -517,5 +524,12 @@ public class MainTabController {
 		return reqViewList;
 	}
 
-
+	/**
+	 * Gets the view
+	 * @return the view
+	 */
+	public MainTabView getView() {
+		return view;
+	}
+	
 }

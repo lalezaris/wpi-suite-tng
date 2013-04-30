@@ -29,7 +29,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Stores the snake highscore in the database.
  * Adapted from defect tracker.
  * 
- * @author SNAKE MAN!!!
+ * @author Chris Hanna
+ * 
+ * @version April 29, 2013
  *
  */
 public class SnakeStore implements EntityManager<SnakeModel> {

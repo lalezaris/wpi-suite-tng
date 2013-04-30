@@ -28,6 +28,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * about Requirement information as the Requirement is constructed.
  * 
  * @author Evan Polekoff
+ * 
+ * @version April 29, 2013
  */
 public class AllRequirementObserver implements RequestObserver{
 

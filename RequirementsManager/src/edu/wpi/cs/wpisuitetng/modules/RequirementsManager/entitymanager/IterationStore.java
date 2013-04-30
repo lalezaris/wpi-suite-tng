@@ -33,6 +33,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * Adapted from defect tracker.
  * 
  * @author Sam Abradi
+ * 
+ * @version April 29, 2013
  *
  */
 public class IterationStore implements EntityManager<Iteration> {

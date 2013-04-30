@@ -21,7 +21,10 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.tabs.controller.MainTa
 
 /**
  * The Class SnakeAction.
- * @author Chrissy Hanna-Boo-Boo
+ * 
+ * @author Chris Hanna
+ * 
+ * @version April 29, 2013
  */
 @SuppressWarnings("serial")
 public class SnakeAction extends AbstractAction{

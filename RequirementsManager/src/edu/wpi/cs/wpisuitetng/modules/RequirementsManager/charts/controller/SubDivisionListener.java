@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  * 
  * @author Evan Polekoff
  *
+ * @version April 29, 2013
  */
 public class SubDivisionListener implements ActionListener{
 

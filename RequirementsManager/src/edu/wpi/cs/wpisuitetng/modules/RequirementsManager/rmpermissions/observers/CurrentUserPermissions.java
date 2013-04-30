@@ -33,17 +33,17 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * Current User Permissions.
  *
- * @author Chirs Hanna
+ * @author Chris Hanna
  * @version Apr 5, 2013
  */
 public class CurrentUserPermissions implements RequestObserver{
 
 	private static ArrayList<IOnPermissionUpdate> roList = new ArrayList<IOnPermissionUpdate>();
 	private static boolean gotPermissions = false;
-	private static User coreUser;
-	private static User[] allCoreUsers;
-	private static UserPermission user;
-	private static CurrentUserPermissions instance;
+	private static User coreUser = null;
+	private static User[] allCoreUsers = null;
+	private static UserPermission user = null;
+	private static CurrentUserPermissions instance = null;
 
 	/**
 	 * Gets the single instance of CurrentUserPermissions.

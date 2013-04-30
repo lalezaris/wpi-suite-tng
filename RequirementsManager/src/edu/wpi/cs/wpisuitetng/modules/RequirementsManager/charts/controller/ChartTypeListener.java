@@ -24,6 +24,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.BarPieChartView
  * Chart type listener for charts.
  * 
  * @author Evan Polekoff
+ * 
+ * @version April 29, 2013
  *
  */
 public class ChartTypeListener implements ActionListener{

@@ -22,10 +22,9 @@ public class Food {
 
 	public static ArrayList<Food> all = new ArrayList<Food>();
 	
-	
-	public Spot spot;
-	public int score;
-	public Color color;
+	protected Spot spot;
+	protected int score;
+	protected Color color;
 	
 	/**
 	 * Instantiates a new food.

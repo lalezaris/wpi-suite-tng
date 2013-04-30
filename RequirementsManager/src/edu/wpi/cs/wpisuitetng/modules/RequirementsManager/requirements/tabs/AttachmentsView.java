@@ -184,7 +184,7 @@ public class AttachmentsView extends RequirementTab{
 		 *
 		 * @param f the file to be displayed.
 		 */
-		public SelectedPanel(File f){
+		private SelectedPanel(File f){
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("Remove");
@@ -210,7 +210,7 @@ public class AttachmentsView extends RequirementTab{
 		
 		private JLabel text;
 		private JButton delete;
-		public JButton download;
+		private JButton download;
 		private File file;
 		
 		/**
@@ -218,7 +218,7 @@ public class AttachmentsView extends RequirementTab{
 		 *
 		 * @param f the file that is attached.
 		 */
-		public AttachedPanel(File f){
+		private AttachedPanel(File f){
 			file = f;
 			text = new JLabel(f.getName());
 			delete = new JButton("delete");

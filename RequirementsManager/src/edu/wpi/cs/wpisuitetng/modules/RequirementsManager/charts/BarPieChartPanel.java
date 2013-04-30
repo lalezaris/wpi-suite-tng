@@ -37,6 +37,8 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.charts.controller.PieR
  *
  * @author Evan Polekoff
  * @author Ned Shelton
+ * 
+ * @version April 15, 2013
  */
 @SuppressWarnings({"serial", "rawtypes"})
 public class BarPieChartPanel extends JPanel {

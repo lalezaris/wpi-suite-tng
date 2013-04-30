@@ -16,14 +16,18 @@ import java.util.ArrayList;
 
 /**
  * The Class Wall.
+ * 
+ * @author Chris Hanna
+ * 
+ * @version April 29, 2013
  */
 public class Wall {
 
 	public static ArrayList<Wall> all = new ArrayList<Wall>();
 	
 	
-	public Spot spot;
-	public int score;
+	protected Spot spot;
+	protected int score;
 	
 	/**
 	 * Instantiates a new wall.

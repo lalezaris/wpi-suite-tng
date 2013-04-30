@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * 
  * @author Evan Polekoff
  * 
+ * @version April 29, 2013
  */
 public class IterationObserver implements RequestObserver{
 

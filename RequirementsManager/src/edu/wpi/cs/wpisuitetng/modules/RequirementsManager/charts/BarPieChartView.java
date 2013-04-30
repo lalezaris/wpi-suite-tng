@@ -53,6 +53,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Evan Polekoff
  * @author Ned Shelton
  * @author Chris Hanna
+ * 
+ * @version April 15, 2013
  */
 
 @SuppressWarnings({"rawtypes", "serial"})

@@ -17,7 +17,7 @@ package edu.wpi.cs.wpisuitetng.modules.RequirementsManager.snake;
  */
 public class Spot {
 
-	public int x, y;
+	protected int x, y;
 	
 	/**
 	 * Instantiates a new spot.

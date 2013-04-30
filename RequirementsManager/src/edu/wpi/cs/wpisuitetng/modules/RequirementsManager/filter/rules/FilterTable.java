@@ -27,7 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.RequirementsManager.models.enums.Requireme
  */
 public class FilterTable{
 
-	private static FilterTable table;
+	private static FilterTable table = null;
 
 	/**
 	 * Gets the single instance of FilterTable.

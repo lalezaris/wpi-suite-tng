@@ -26,6 +26,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * about User information as the User is constructed.
  * 
  * @author Evan Polekoff
+ * 
+ * @version April 29, 2013
  */
 public class UserObserver implements RequestObserver{
 

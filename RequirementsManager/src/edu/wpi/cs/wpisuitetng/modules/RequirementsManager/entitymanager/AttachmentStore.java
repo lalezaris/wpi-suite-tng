@@ -32,6 +32,11 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * The Class AttachmentStore stores attachment data.
+ * 
+ * @author Sam Abradi
+ * @author Mike Perrone
+ * 
+ * @version April 29, 2013
  */
 public class AttachmentStore implements EntityManager<Attachment> {
 	Data db;

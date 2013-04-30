@@ -40,7 +40,7 @@ public class MainView extends JPanel {
 	TreeView treeView;
 	Refresher refresher;
 	MainTabView view;
-	private static MainView instance;
+	private static MainView instance = null;
 
 	private static Color changedColor = new Color(255,255,150);
 	private static Color changedValidColor = new Color(150,255,150);

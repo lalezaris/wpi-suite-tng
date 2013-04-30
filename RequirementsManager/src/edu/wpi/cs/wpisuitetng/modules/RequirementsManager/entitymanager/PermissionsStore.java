@@ -169,8 +169,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 			throw new WPISuiteException();
 		}
 
-		//TODO modify this function to use validators and make sure not to update if no 
-		//changes have been made.
 
 		return serverPer;
 	}
@@ -234,7 +232,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 */
 	@Override
 	public void deleteAll(Session s) throws WPISuiteException {
-		//TODO: check this function
 		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new UserPermission(), s.getProject());
 	}
@@ -247,8 +244,6 @@ public class PermissionsStore implements EntityManager<UserPermission> {
 	 */
 	@Override
 	public int Count() {
-		// TODO: there must be a faster way to do this with db4o
-		// note that this is not project-specific - ids are unique across projects
 		return db.retrieveAll(new UserPermission()).size();
 	}
 

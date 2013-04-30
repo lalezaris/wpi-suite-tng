@@ -75,10 +75,8 @@ public class HistoryView extends RequirementTab {
 			if(!listModel.contains(historyAL.get(i))){
 				listModel.add(0, historyAL.get(i));}
 		}
-		//redisplay();
 		repaint();
 		revalidate();
-		//redisplay();
 	}
 
 	/**

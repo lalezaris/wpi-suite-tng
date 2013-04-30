@@ -96,8 +96,6 @@ public class NotesView extends RequirementTab implements FocusListener {
 		//create a new constrain variable
 		GridBagConstraints c = new GridBagConstraints();
 
-		//TODO: Set borders
-
 		/* begin panel styling */
 		txtNotes = new JTextArea(4, 40);
 		txtNotes.addFocusListener(this);
@@ -109,7 +107,6 @@ public class NotesView extends RequirementTab implements FocusListener {
 		JLabel lblNotesSaved = new JLabel("Saved Notes:", LABEL_ALIGNMENT);
 
 		addNote = new JButton("Add Note");
-		//addNote.addActionListener(new AddNoteController(this));
 
 		c.anchor = GridBagConstraints.LINE_START;
 		c.weightx = 0.5;

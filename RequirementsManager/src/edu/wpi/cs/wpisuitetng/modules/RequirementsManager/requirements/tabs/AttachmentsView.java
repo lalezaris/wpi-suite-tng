@@ -162,10 +162,7 @@ public class AttachmentsView extends RequirementTab{
 
 		ArrayList<String> attachmentNames = requirement.getAttachedFileNames();
 		ArrayList<Integer> attachmentIDs = requirement.getAttachedFileId();
-		System.out.println("attachmentIDs : "+attachmentIDs);
-		System.out.println("attachmentNames : "+attachmentNames);
 		
-//		attachmentIDs = Attachment.trimList(attachmentIDs);
 		
 		for(int i = 0; i < attachmentIDs.size() && i<attachmentNames.size(); i++){
 			this.addFileToAttached(new File(attachmentIDs.get(i)+"/"+attachmentNames.get(i)));
@@ -305,8 +302,6 @@ public class AttachmentsView extends RequirementTab{
 	}
 
 	public List<Object> getAttachmentsList() {
-		// TODO actually return the attachments list
-		// TODO change 'Object' to 'Attachment'
 		return null;
 	}
 	
@@ -316,8 +311,6 @@ public class AttachmentsView extends RequirementTab{
 	 * @param l the new attachments list
 	 */
 	public void setAttachmentsList(List<Object> l) {
-		// TODO actually save the attachments list
-		// TODO change 'Object' to 'Attachment'
 	}
 	
 	/**
@@ -420,7 +413,6 @@ public class AttachmentsView extends RequirementTab{
 	 * @param ap 
 	 */
 	private void removeFileFromAttached(AttachedPanel ap){
-		//TODO: hook this up with mister abradi's server stuff
 	}
 	
 	private void removeFileFromSelected(SelectedPanel sp){

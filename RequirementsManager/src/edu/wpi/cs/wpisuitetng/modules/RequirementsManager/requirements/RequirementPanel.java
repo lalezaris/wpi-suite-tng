@@ -358,9 +358,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		txtTitle.addKeyListener(new SaveListener());
 		txtDescription.addKeyListener(new SaveListener());
 
-		/** Status Listener */
-		// cmbStatus.addActionListener(new StatusListener());
-
 		// set maximum widths of components so they are not stretched
 		txtTitle.setMaximumSize(txtTitle.getPreferredSize());
 		cmbStatus.setMaximumSize(cmbStatus.getPreferredSize());
@@ -537,7 +534,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		lblTotalEstimate.setVisible(parent.getReqModel().getRequirement()
 				.getChildRequirementIds().size() > 0);
 
-		// cThree.fill = GridBagConstraints.HORIZONTAL;
 		cThree.weightx = 0.5;
 		cThree.weighty = 0.5;
 		cThree.gridx = 1;
@@ -675,7 +671,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		leftPaneltop.add(panelOverall, cPaneTop);
 
 		JScrollPane scrollPaneLeft = new JScrollPane(leftPaneltop);
-		// JScrollPane scrollPaneTabs = new JScrollPane(panelTabs);
 		splitPaneLeft = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				scrollPaneLeft, panelButtons);
 		splitPaneLeft.setEnabled(true);
@@ -842,11 +837,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		cmbStatus.setEnabled(enabled);
 		cmbPriority.setEnabled(enabled);
 
-		// if
-		// (this.parent.getReqModel().getRequirement().getChildRequirementIds().isEmpty())
-		// {
-		// txtEstimate.setEnabled(enabled);
-		// }
 	}
 
 	/**
@@ -953,7 +943,6 @@ public class RequirementPanel extends JPanel implements FocusListener {
 		return panelButtons;
 	}
 
-	// TODO: class exists in action package, refactor
 	/**
 	 * The listener interface for receiving iteration events. The class that is
 	 * interested in processing a iteration event implements this interface, and

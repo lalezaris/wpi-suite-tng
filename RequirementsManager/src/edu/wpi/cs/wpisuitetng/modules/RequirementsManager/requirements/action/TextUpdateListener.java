@@ -88,8 +88,6 @@ public class TextUpdateListener implements KeyListener {
 	public void checkIfUpdated() {
 		String base = ""; // the String value of the field in the panel's Requirement model that corresponds to the component
 
-		// TODO: Need getModel() method in RequirementPanel
-
 		// Get the base String to compare to the text of the JTextComponent
 		try {
 			// Get the field from the Requirement model that corresponds with the name of component.

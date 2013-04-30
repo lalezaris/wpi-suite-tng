@@ -50,13 +50,5 @@ public class RequirementTabsView extends JTabbedPane {
 			i++;
 			addTab(t.getTabTitle(), t.getImageIcon(), t, t.getTooltipText());
 		}
-/*
-		addTab("Notes", new ImageIcon(), nv, "Add and modify notes");
-		addTab("History", new ImageIcon(), hv, "View history of changes");
-		JScrollPane scrollPaneAssigneeView = new JScrollPane(av);
-		addTab("Assigned To", new ImageIcon(), scrollPaneAssigneeView, "Add and modify assignees");
-		JScrollPane scrollPaneAcceptanceTestView = new JScrollPane(atv);
-		addTab("Acceptance Tests", new ImageIcon(), scrollPaneAcceptanceTestView, "Add and modify acceptance tests");
-*/
 	}
 }

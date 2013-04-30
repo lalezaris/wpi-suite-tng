@@ -79,7 +79,6 @@ public class ParentAndChildrenView extends RequirementTab{
 		parentID = 0;
 		//Use a grid bag layout manager
 		layout = new GridBagLayout();
-//		layout.columnWeights = new double[]{.2, .8};
 		this.setLayout(layout);
 		parentRequirementView = parent;
 		// Add all components to this panel
@@ -116,7 +115,6 @@ public class ParentAndChildrenView extends RequirementTab{
 		JPanel panelTwo = new JPanel();
 		panelTwo.setLayout(new GridBagLayout());
 		GridBagConstraints cTwo = new GridBagConstraints();
-		//TODO: Set borders if we decide to do this across sub-tabs
 
 		/* begin panel styling */
 		cTwo.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -135,9 +133,6 @@ public class ParentAndChildrenView extends RequirementTab{
 		cTwo.gridx = 1;
 		cTwo.gridy = 0;
 		cTwo.gridwidth = 1;
-//		txtParent.setForeground(Color.BLACK);
-//		txtParent.setEnabled(false);
-//		txtParent.setOpaque(true);
 		panelTwo.add(txtParent,cTwo);
 		
 		cOne.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -156,10 +151,6 @@ public class ParentAndChildrenView extends RequirementTab{
 		cOne.gridx = 0;
 		cOne.gridy = 2;
 		cOne.gridwidth = 1;
-//		txtChildren.setForeground(txtParent.getForeground());
-//		txtChildren.setEnabled(false);
-//		txtChildren.setForeground(txtParent.getForeground());
-//		txtChildren.setOpaque(true);
 		panelOne.add(txtChildren,cOne);
 		
 		JPanel panelOverall = new JPanel();

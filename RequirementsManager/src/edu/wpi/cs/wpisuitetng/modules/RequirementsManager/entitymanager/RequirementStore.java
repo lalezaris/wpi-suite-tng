@@ -74,7 +74,6 @@ public class RequirementStore implements EntityManager<Requirement>{
 		int parent;
 		final Requirement newRequirement = Requirement.fromJSON(content);	//still need to get fromJSON working, then this will work
 
-		// TODO: increment properly, ensure uniqueness using ID generator.  This is a gross hack.
 		newRequirement.setId(Count() + 1);
 
 		HistoricalChange HChange = new HistoricalChange(new Date(), newRequirement.getId(), newRequirement.getId(), (User) db.retrieve(User.class, "username", s.getUsername()).get(0));

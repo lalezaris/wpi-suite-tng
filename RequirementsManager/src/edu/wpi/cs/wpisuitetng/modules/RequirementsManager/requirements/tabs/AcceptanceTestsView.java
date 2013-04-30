@@ -120,7 +120,6 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		lblTitleError = new JLabel("ERROR: Must have a title", JLabel.TRAILING);
 		lblBodyError = new JLabel("ERROR: Must have a body", JLabel.TRAILING);
 
-		//TODO: Set borders
 
 		/* begin panel styling */
 		if(pLevel != RMPermissionsLevel.NONE){
@@ -642,10 +641,8 @@ public class AcceptanceTestsView extends RequirementTab implements FocusListener
 		public void keyReleased(KeyEvent e) {
 			if (hasTitle(txtTitle.getText())){
 				saveTest.setEnabled(true);
-				//editTest.setEnabled(true);
 			}else{
 				saveTest.setEnabled(true);
-				//editTest.setEnabled(false);
 			}
 		}
 	}
